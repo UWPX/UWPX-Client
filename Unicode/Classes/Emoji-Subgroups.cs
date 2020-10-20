@@ -97,6 +97,9 @@
             public static readonly string ZODIAC = "zodiac";
             public static readonly string AV_SYMBOL = "av-symbol";
             public static readonly string GENDER = "gender";
+            public static readonly string MATH = "math";
+            public static readonly string PUNCTUATION = "punctuation";
+            public static readonly string CURRENCY = "currency";
             public static readonly string OTHER_SYMBOL = "other-symbol";
             public static readonly string KEYCAP = "keycap";
             public static readonly string ALPHANUM = "alphanum";

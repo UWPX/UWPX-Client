@@ -13979,6 +13979,84 @@ namespace NeoSmart.Unicode
             sortOrder: 1316
         );
 
+        /* 🥷 */
+        public static readonly SingleEmoji Ninja_E13_0 = new SingleEmoji(
+            sequence: new UnicodeSequence(new int[] { 0x1f977 }),
+            name: "ninja",
+            searchTerms: new string[] { "ninja" },
+            skinTones: SingleEmoji.NoSkinTones,
+            eNumber: 13.0,
+            group: Group.PEOPLE_AND_BODY,
+            subgroup: Subgroups.PERSON_ROLE,
+            hasGlyph: false,
+            sortOrder: 1318
+        );
+
+        /* 🥷🏻 */
+        public static readonly SingleEmoji NinjaLightSkinTone_E13_0 = new SingleEmoji(
+            sequence: new UnicodeSequence(new int[] { 0x1f977, 0x1f3fb }),
+            name: "ninja: light skin tone",
+            searchTerms: new string[] { "ninja", "light", "skin", "tone" },
+            skinTones: new Codepoint[] { SkinTones.Light },
+            eNumber: 13.0,
+            group: Group.PEOPLE_AND_BODY,
+            subgroup: Subgroups.PERSON_ROLE,
+            hasGlyph: false,
+            sortOrder: 1319
+        );
+
+        /* 🥷🏼 */
+        public static readonly SingleEmoji NinjaMediumLightSkinTone_E13_0 = new SingleEmoji(
+            sequence: new UnicodeSequence(new int[] { 0x1f977, 0x1f3fc }),
+            name: "ninja: medium-light skin tone",
+            searchTerms: new string[] { "ninja", "medium", "light", "skin", "tone" },
+            skinTones: new Codepoint[] { SkinTones.MediumLight },
+            eNumber: 13.0,
+            group: Group.PEOPLE_AND_BODY,
+            subgroup: Subgroups.PERSON_ROLE,
+            hasGlyph: false,
+            sortOrder: 1320
+        );
+
+        /* 🥷🏽 */
+        public static readonly SingleEmoji NinjaMediumSkinTone_E13_0 = new SingleEmoji(
+            sequence: new UnicodeSequence(new int[] { 0x1f977, 0x1f3fd }),
+            name: "ninja: medium skin tone",
+            searchTerms: new string[] { "ninja", "medium", "skin", "tone" },
+            skinTones: new Codepoint[] { SkinTones.Medium },
+            eNumber: 13.0,
+            group: Group.PEOPLE_AND_BODY,
+            subgroup: Subgroups.PERSON_ROLE,
+            hasGlyph: false,
+            sortOrder: 1321
+        );
+
+        /* 🥷🏾 */
+        public static readonly SingleEmoji NinjaMediumDarkSkinTone_E13_0 = new SingleEmoji(
+            sequence: new UnicodeSequence(new int[] { 0x1f977, 0x1f3fe }),
+            name: "ninja: medium-dark skin tone",
+            searchTerms: new string[] { "ninja", "medium", "dark", "skin", "tone" },
+            skinTones: new Codepoint[] { SkinTones.MediumDark },
+            eNumber: 13.0,
+            group: Group.PEOPLE_AND_BODY,
+            subgroup: Subgroups.PERSON_ROLE,
+            hasGlyph: false,
+            sortOrder: 1322
+        );
+
+        /* 🥷🏿 */
+        public static readonly SingleEmoji NinjaDarkSkinTone_E13_0 = new SingleEmoji(
+            sequence: new UnicodeSequence(new int[] { 0x1f977, 0x1f3ff }),
+            name: "ninja: dark skin tone",
+            searchTerms: new string[] { "ninja", "dark", "skin", "tone" },
+            skinTones: new Codepoint[] { SkinTones.Dark },
+            eNumber: 13.0,
+            group: Group.PEOPLE_AND_BODY,
+            subgroup: Subgroups.PERSON_ROLE,
+            hasGlyph: false,
+            sortOrder: 1323
+        );
+
         /* 👷 */
         public static readonly SingleEmoji ConstructionWorker_E0_6 = new SingleEmoji(
             sequence: new UnicodeSequence(new int[] { 0x1f477 }),
@@ -13989,7 +14067,7 @@ namespace NeoSmart.Unicode
             group: Group.PEOPLE_AND_BODY,
             subgroup: Subgroups.PERSON_ROLE,
             hasGlyph: true,
-            sortOrder: 1318
+            sortOrder: 1324
         );
 
         /* 👷🏻 */
@@ -14002,7 +14080,7 @@ namespace NeoSmart.Unicode
             group: Group.PEOPLE_AND_BODY,
             subgroup: Subgroups.PERSON_ROLE,
             hasGlyph: true,
-            sortOrder: 1319
+            sortOrder: 1325
         );
 
         /* 👷🏼 */
@@ -14015,7 +14093,7 @@ namespace NeoSmart.Unicode
             group: Group.PEOPLE_AND_BODY,
             subgroup: Subgroups.PERSON_ROLE,
             hasGlyph: true,
-            sortOrder: 1320
+            sortOrder: 1326
         );
 
         /* 👷🏽 */
@@ -14028,7 +14106,7 @@ namespace NeoSmart.Unicode
             group: Group.PEOPLE_AND_BODY,
             subgroup: Subgroups.PERSON_ROLE,
             hasGlyph: true,
-            sortOrder: 1321
+            sortOrder: 1327
         );
 
         /* 👷🏾 */
@@ -14041,7 +14119,7 @@ namespace NeoSmart.Unicode
             group: Group.PEOPLE_AND_BODY,
             subgroup: Subgroups.PERSON_ROLE,
             hasGlyph: true,
-            sortOrder: 1322
+            sortOrder: 1328
         );
 
         /* 👷🏿 */
@@ -14054,7 +14132,7 @@ namespace NeoSmart.Unicode
             group: Group.PEOPLE_AND_BODY,
             subgroup: Subgroups.PERSON_ROLE,
             hasGlyph: true,
-            sortOrder: 1323
+            sortOrder: 1329
         );
 
         /* 👷‍♂️ */
@@ -14067,7 +14145,7 @@ namespace NeoSmart.Unicode
             group: Group.PEOPLE_AND_BODY,
             subgroup: Subgroups.PERSON_ROLE,
             hasGlyph: true,
-            sortOrder: 1324
+            sortOrder: 1330
         );
 
         /* 👷🏻‍♂️ */
@@ -14080,7 +14158,7 @@ namespace NeoSmart.Unicode
             group: Group.PEOPLE_AND_BODY,
             subgroup: Subgroups.PERSON_ROLE,
             hasGlyph: true,
-            sortOrder: 1326
+            sortOrder: 1332
         );
 
         /* 👷🏼‍♂️ */
@@ -14093,7 +14171,7 @@ namespace NeoSmart.Unicode
             group: Group.PEOPLE_AND_BODY,
             subgroup: Subgroups.PERSON_ROLE,
             hasGlyph: true,
-            sortOrder: 1328
+            sortOrder: 1334
         );
 
         /* 👷🏽‍♂️ */
@@ -14106,7 +14184,7 @@ namespace NeoSmart.Unicode
             group: Group.PEOPLE_AND_BODY,
             subgroup: Subgroups.PERSON_ROLE,
             hasGlyph: true,
-            sortOrder: 1330
+            sortOrder: 1336
         );
 
         /* 👷🏾‍♂️ */
@@ -14119,7 +14197,7 @@ namespace NeoSmart.Unicode
             group: Group.PEOPLE_AND_BODY,
             subgroup: Subgroups.PERSON_ROLE,
             hasGlyph: true,
-            sortOrder: 1332
+            sortOrder: 1338
         );
 
         /* 👷🏿‍♂️ */
@@ -14132,7 +14210,7 @@ namespace NeoSmart.Unicode
             group: Group.PEOPLE_AND_BODY,
             subgroup: Subgroups.PERSON_ROLE,
             hasGlyph: true,
-            sortOrder: 1334
+            sortOrder: 1340
         );
 
         /* 👷‍♀️ */
@@ -14145,7 +14223,7 @@ namespace NeoSmart.Unicode
             group: Group.PEOPLE_AND_BODY,
             subgroup: Subgroups.PERSON_ROLE,
             hasGlyph: true,
-            sortOrder: 1336
+            sortOrder: 1342
         );
 
         /* 👷🏻‍♀️ */
@@ -14158,7 +14236,7 @@ namespace NeoSmart.Unicode
             group: Group.PEOPLE_AND_BODY,
             subgroup: Subgroups.PERSON_ROLE,
             hasGlyph: true,
-            sortOrder: 1338
+            sortOrder: 1344
         );
 
         /* 👷🏼‍♀️ */
@@ -14171,7 +14249,7 @@ namespace NeoSmart.Unicode
             group: Group.PEOPLE_AND_BODY,
             subgroup: Subgroups.PERSON_ROLE,
             hasGlyph: true,
-            sortOrder: 1340
+            sortOrder: 1346
         );
 
         /* 👷🏽‍♀️ */
@@ -14184,7 +14262,7 @@ namespace NeoSmart.Unicode
             group: Group.PEOPLE_AND_BODY,
             subgroup: Subgroups.PERSON_ROLE,
             hasGlyph: true,
-            sortOrder: 1342
+            sortOrder: 1348
         );
 
         /* 👷🏾‍♀️ */
@@ -14197,7 +14275,7 @@ namespace NeoSmart.Unicode
             group: Group.PEOPLE_AND_BODY,
             subgroup: Subgroups.PERSON_ROLE,
             hasGlyph: true,
-            sortOrder: 1344
+            sortOrder: 1350
         );
 
         /* 👷🏿‍♀️ */
@@ -14210,7 +14288,7 @@ namespace NeoSmart.Unicode
             group: Group.PEOPLE_AND_BODY,
             subgroup: Subgroups.PERSON_ROLE,
             hasGlyph: true,
-            sortOrder: 1346
+            sortOrder: 1352
         );
 
         /* 🤴 */
@@ -14223,7 +14301,7 @@ namespace NeoSmart.Unicode
             group: Group.PEOPLE_AND_BODY,
             subgroup: Subgroups.PERSON_ROLE,
             hasGlyph: true,
-            sortOrder: 1348
+            sortOrder: 1354
         );
 
         /* 🤴🏻 */
@@ -14236,7 +14314,7 @@ namespace NeoSmart.Unicode
             group: Group.PEOPLE_AND_BODY,
             subgroup: Subgroups.PERSON_ROLE,
             hasGlyph: true,
-            sortOrder: 1349
+            sortOrder: 1355
         );
 
         /* 🤴🏼 */
@@ -14249,7 +14327,7 @@ namespace NeoSmart.Unicode
             group: Group.PEOPLE_AND_BODY,
             subgroup: Subgroups.PERSON_ROLE,
             hasGlyph: true,
-            sortOrder: 1350
+            sortOrder: 1356
         );
 
         /* 🤴🏽 */
@@ -14262,7 +14340,7 @@ namespace NeoSmart.Unicode
             group: Group.PEOPLE_AND_BODY,
             subgroup: Subgroups.PERSON_ROLE,
             hasGlyph: true,
-            sortOrder: 1351
+            sortOrder: 1357
         );
 
         /* 🤴🏾 */
@@ -14275,7 +14353,7 @@ namespace NeoSmart.Unicode
             group: Group.PEOPLE_AND_BODY,
             subgroup: Subgroups.PERSON_ROLE,
             hasGlyph: true,
-            sortOrder: 1352
+            sortOrder: 1358
         );
 
         /* 🤴🏿 */
@@ -14288,7 +14366,7 @@ namespace NeoSmart.Unicode
             group: Group.PEOPLE_AND_BODY,
             subgroup: Subgroups.PERSON_ROLE,
             hasGlyph: true,
-            sortOrder: 1353
+            sortOrder: 1359
         );
 
         /* 👸 */
@@ -14301,7 +14379,7 @@ namespace NeoSmart.Unicode
             group: Group.PEOPLE_AND_BODY,
             subgroup: Subgroups.PERSON_ROLE,
             hasGlyph: true,
-            sortOrder: 1354
+            sortOrder: 1360
         );
 
         /* 👸🏻 */
@@ -14314,7 +14392,7 @@ namespace NeoSmart.Unicode
             group: Group.PEOPLE_AND_BODY,
             subgroup: Subgroups.PERSON_ROLE,
             hasGlyph: true,
-            sortOrder: 1355
+            sortOrder: 1361
         );
 
         /* 👸🏼 */
@@ -14327,7 +14405,7 @@ namespace NeoSmart.Unicode
             group: Group.PEOPLE_AND_BODY,
             subgroup: Subgroups.PERSON_ROLE,
             hasGlyph: true,
-            sortOrder: 1356
+            sortOrder: 1362
         );
 
         /* 👸🏽 */
@@ -14340,7 +14418,7 @@ namespace NeoSmart.Unicode
             group: Group.PEOPLE_AND_BODY,
             subgroup: Subgroups.PERSON_ROLE,
             hasGlyph: true,
-            sortOrder: 1357
+            sortOrder: 1363
         );
 
         /* 👸🏾 */
@@ -14353,7 +14431,7 @@ namespace NeoSmart.Unicode
             group: Group.PEOPLE_AND_BODY,
             subgroup: Subgroups.PERSON_ROLE,
             hasGlyph: true,
-            sortOrder: 1358
+            sortOrder: 1364
         );
 
         /* 👸🏿 */
@@ -14366,7 +14444,7 @@ namespace NeoSmart.Unicode
             group: Group.PEOPLE_AND_BODY,
             subgroup: Subgroups.PERSON_ROLE,
             hasGlyph: true,
-            sortOrder: 1359
+            sortOrder: 1365
         );
 
         /* 👳 */
@@ -14379,7 +14457,7 @@ namespace NeoSmart.Unicode
             group: Group.PEOPLE_AND_BODY,
             subgroup: Subgroups.PERSON_ROLE,
             hasGlyph: true,
-            sortOrder: 1360
+            sortOrder: 1366
         );
 
         /* 👳🏻 */
@@ -14392,7 +14470,7 @@ namespace NeoSmart.Unicode
             group: Group.PEOPLE_AND_BODY,
             subgroup: Subgroups.PERSON_ROLE,
             hasGlyph: true,
-            sortOrder: 1361
+            sortOrder: 1367
         );
 
         /* 👳🏼 */
@@ -14405,7 +14483,7 @@ namespace NeoSmart.Unicode
             group: Group.PEOPLE_AND_BODY,
             subgroup: Subgroups.PERSON_ROLE,
             hasGlyph: true,
-            sortOrder: 1362
+            sortOrder: 1368
         );
 
         /* 👳🏽 */
@@ -14418,7 +14496,7 @@ namespace NeoSmart.Unicode
             group: Group.PEOPLE_AND_BODY,
             subgroup: Subgroups.PERSON_ROLE,
             hasGlyph: true,
-            sortOrder: 1363
+            sortOrder: 1369
         );
 
         /* 👳🏾 */
@@ -14431,7 +14509,7 @@ namespace NeoSmart.Unicode
             group: Group.PEOPLE_AND_BODY,
             subgroup: Subgroups.PERSON_ROLE,
             hasGlyph: true,
-            sortOrder: 1364
+            sortOrder: 1370
         );
 
         /* 👳🏿 */
@@ -14444,7 +14522,7 @@ namespace NeoSmart.Unicode
             group: Group.PEOPLE_AND_BODY,
             subgroup: Subgroups.PERSON_ROLE,
             hasGlyph: true,
-            sortOrder: 1365
+            sortOrder: 1371
         );
 
         /* 👳‍♂️ */
@@ -14457,7 +14535,7 @@ namespace NeoSmart.Unicode
             group: Group.PEOPLE_AND_BODY,
             subgroup: Subgroups.PERSON_ROLE,
             hasGlyph: true,
-            sortOrder: 1366
+            sortOrder: 1372
         );
 
         /* 👳🏻‍♂️ */
@@ -14470,7 +14548,7 @@ namespace NeoSmart.Unicode
             group: Group.PEOPLE_AND_BODY,
             subgroup: Subgroups.PERSON_ROLE,
             hasGlyph: true,
-            sortOrder: 1368
+            sortOrder: 1374
         );
 
         /* 👳🏼‍♂️ */
@@ -14483,7 +14561,7 @@ namespace NeoSmart.Unicode
             group: Group.PEOPLE_AND_BODY,
             subgroup: Subgroups.PERSON_ROLE,
             hasGlyph: true,
-            sortOrder: 1370
+            sortOrder: 1376
         );
 
         /* 👳🏽‍♂️ */
@@ -14496,7 +14574,7 @@ namespace NeoSmart.Unicode
             group: Group.PEOPLE_AND_BODY,
             subgroup: Subgroups.PERSON_ROLE,
             hasGlyph: true,
-            sortOrder: 1372
+            sortOrder: 1378
         );
 
         /* 👳🏾‍♂️ */
@@ -14509,7 +14587,7 @@ namespace NeoSmart.Unicode
             group: Group.PEOPLE_AND_BODY,
             subgroup: Subgroups.PERSON_ROLE,
             hasGlyph: true,
-            sortOrder: 1374
+            sortOrder: 1380
         );
 
         /* 👳🏿‍♂️ */
@@ -14522,7 +14600,7 @@ namespace NeoSmart.Unicode
             group: Group.PEOPLE_AND_BODY,
             subgroup: Subgroups.PERSON_ROLE,
             hasGlyph: true,
-            sortOrder: 1376
+            sortOrder: 1382
         );
 
         /* 👳‍♀️ */
@@ -14535,7 +14613,7 @@ namespace NeoSmart.Unicode
             group: Group.PEOPLE_AND_BODY,
             subgroup: Subgroups.PERSON_ROLE,
             hasGlyph: true,
-            sortOrder: 1378
+            sortOrder: 1384
         );
 
         /* 👳🏻‍♀️ */
@@ -14548,7 +14626,7 @@ namespace NeoSmart.Unicode
             group: Group.PEOPLE_AND_BODY,
             subgroup: Subgroups.PERSON_ROLE,
             hasGlyph: true,
-            sortOrder: 1380
+            sortOrder: 1386
         );
 
         /* 👳🏼‍♀️ */
@@ -14561,7 +14639,7 @@ namespace NeoSmart.Unicode
             group: Group.PEOPLE_AND_BODY,
             subgroup: Subgroups.PERSON_ROLE,
             hasGlyph: true,
-            sortOrder: 1382
+            sortOrder: 1388
         );
 
         /* 👳🏽‍♀️ */
@@ -14574,7 +14652,7 @@ namespace NeoSmart.Unicode
             group: Group.PEOPLE_AND_BODY,
             subgroup: Subgroups.PERSON_ROLE,
             hasGlyph: true,
-            sortOrder: 1384
+            sortOrder: 1390
         );
 
         /* 👳🏾‍♀️ */
@@ -14587,7 +14665,7 @@ namespace NeoSmart.Unicode
             group: Group.PEOPLE_AND_BODY,
             subgroup: Subgroups.PERSON_ROLE,
             hasGlyph: true,
-            sortOrder: 1386
+            sortOrder: 1392
         );
 
         /* 👳🏿‍♀️ */
@@ -14600,85 +14678,85 @@ namespace NeoSmart.Unicode
             group: Group.PEOPLE_AND_BODY,
             subgroup: Subgroups.PERSON_ROLE,
             hasGlyph: true,
-            sortOrder: 1388
+            sortOrder: 1394
         );
 
         /* 👲 */
-        public static readonly SingleEmoji ManSkullcap_E0_6 = new SingleEmoji(
+        public static readonly SingleEmoji PersonSkullcap_E0_6 = new SingleEmoji(
             sequence: new UnicodeSequence(new int[] { 0x1f472 }),
-            name: "man with skullcap",
-            searchTerms: new string[] { "man", "skullcap" },
+            name: "person with skullcap",
+            searchTerms: new string[] { "person", "skullcap" },
             skinTones: SingleEmoji.NoSkinTones,
             eNumber: 0.6,
             group: Group.PEOPLE_AND_BODY,
             subgroup: Subgroups.PERSON_ROLE,
             hasGlyph: true,
-            sortOrder: 1390
+            sortOrder: 1396
         );
 
         /* 👲🏻 */
-        public static readonly SingleEmoji ManSkullcapLightSkinTone_E1_0 = new SingleEmoji(
+        public static readonly SingleEmoji PersonSkullcapLightSkinTone_E1_0 = new SingleEmoji(
             sequence: new UnicodeSequence(new int[] { 0x1f472, 0x1f3fb }),
-            name: "man with skullcap: light skin tone",
-            searchTerms: new string[] { "man", "skullcap", "light", "skin", "tone" },
+            name: "person with skullcap: light skin tone",
+            searchTerms: new string[] { "person", "skullcap", "light", "skin", "tone" },
             skinTones: new Codepoint[] { SkinTones.Light },
             eNumber: 1.0,
             group: Group.PEOPLE_AND_BODY,
             subgroup: Subgroups.PERSON_ROLE,
             hasGlyph: true,
-            sortOrder: 1391
+            sortOrder: 1397
         );
 
         /* 👲🏼 */
-        public static readonly SingleEmoji ManSkullcapMediumLightSkinTone_E1_0 = new SingleEmoji(
+        public static readonly SingleEmoji PersonSkullcapMediumLightSkinTone_E1_0 = new SingleEmoji(
             sequence: new UnicodeSequence(new int[] { 0x1f472, 0x1f3fc }),
-            name: "man with skullcap: medium-light skin tone",
-            searchTerms: new string[] { "man", "skullcap", "medium", "light", "skin", "tone" },
+            name: "person with skullcap: medium-light skin tone",
+            searchTerms: new string[] { "person", "skullcap", "medium", "light", "skin", "tone" },
             skinTones: new Codepoint[] { SkinTones.MediumLight },
             eNumber: 1.0,
             group: Group.PEOPLE_AND_BODY,
             subgroup: Subgroups.PERSON_ROLE,
             hasGlyph: true,
-            sortOrder: 1392
+            sortOrder: 1398
         );
 
         /* 👲🏽 */
-        public static readonly SingleEmoji ManSkullcapMediumSkinTone_E1_0 = new SingleEmoji(
+        public static readonly SingleEmoji PersonSkullcapMediumSkinTone_E1_0 = new SingleEmoji(
             sequence: new UnicodeSequence(new int[] { 0x1f472, 0x1f3fd }),
-            name: "man with skullcap: medium skin tone",
-            searchTerms: new string[] { "man", "skullcap", "medium", "skin", "tone" },
+            name: "person with skullcap: medium skin tone",
+            searchTerms: new string[] { "person", "skullcap", "medium", "skin", "tone" },
             skinTones: new Codepoint[] { SkinTones.Medium },
             eNumber: 1.0,
             group: Group.PEOPLE_AND_BODY,
             subgroup: Subgroups.PERSON_ROLE,
             hasGlyph: true,
-            sortOrder: 1393
+            sortOrder: 1399
         );
 
         /* 👲🏾 */
-        public static readonly SingleEmoji ManSkullcapMediumDarkSkinTone_E1_0 = new SingleEmoji(
+        public static readonly SingleEmoji PersonSkullcapMediumDarkSkinTone_E1_0 = new SingleEmoji(
             sequence: new UnicodeSequence(new int[] { 0x1f472, 0x1f3fe }),
-            name: "man with skullcap: medium-dark skin tone",
-            searchTerms: new string[] { "man", "skullcap", "medium", "dark", "skin", "tone" },
+            name: "person with skullcap: medium-dark skin tone",
+            searchTerms: new string[] { "person", "skullcap", "medium", "dark", "skin", "tone" },
             skinTones: new Codepoint[] { SkinTones.MediumDark },
             eNumber: 1.0,
             group: Group.PEOPLE_AND_BODY,
             subgroup: Subgroups.PERSON_ROLE,
             hasGlyph: true,
-            sortOrder: 1394
+            sortOrder: 1400
         );
 
         /* 👲🏿 */
-        public static readonly SingleEmoji ManSkullcapDarkSkinTone_E1_0 = new SingleEmoji(
+        public static readonly SingleEmoji PersonSkullcapDarkSkinTone_E1_0 = new SingleEmoji(
             sequence: new UnicodeSequence(new int[] { 0x1f472, 0x1f3ff }),
-            name: "man with skullcap: dark skin tone",
-            searchTerms: new string[] { "man", "skullcap", "dark", "skin", "tone" },
+            name: "person with skullcap: dark skin tone",
+            searchTerms: new string[] { "person", "skullcap", "dark", "skin", "tone" },
             skinTones: new Codepoint[] { SkinTones.Dark },
             eNumber: 1.0,
             group: Group.PEOPLE_AND_BODY,
             subgroup: Subgroups.PERSON_ROLE,
             hasGlyph: true,
-            sortOrder: 1395
+            sortOrder: 1401
         );
 
         /* 🧕 */
@@ -14691,7 +14769,7 @@ namespace NeoSmart.Unicode
             group: Group.PEOPLE_AND_BODY,
             subgroup: Subgroups.PERSON_ROLE,
             hasGlyph: true,
-            sortOrder: 1396
+            sortOrder: 1402
         );
 
         /* 🧕🏻 */
@@ -14704,7 +14782,7 @@ namespace NeoSmart.Unicode
             group: Group.PEOPLE_AND_BODY,
             subgroup: Subgroups.PERSON_ROLE,
             hasGlyph: true,
-            sortOrder: 1397
+            sortOrder: 1403
         );
 
         /* 🧕🏼 */
@@ -14717,7 +14795,7 @@ namespace NeoSmart.Unicode
             group: Group.PEOPLE_AND_BODY,
             subgroup: Subgroups.PERSON_ROLE,
             hasGlyph: true,
-            sortOrder: 1398
+            sortOrder: 1404
         );
 
         /* 🧕🏽 */
@@ -14730,7 +14808,7 @@ namespace NeoSmart.Unicode
             group: Group.PEOPLE_AND_BODY,
             subgroup: Subgroups.PERSON_ROLE,
             hasGlyph: true,
-            sortOrder: 1399
+            sortOrder: 1405
         );
 
         /* 🧕🏾 */
@@ -14743,7 +14821,7 @@ namespace NeoSmart.Unicode
             group: Group.PEOPLE_AND_BODY,
             subgroup: Subgroups.PERSON_ROLE,
             hasGlyph: true,
-            sortOrder: 1400
+            sortOrder: 1406
         );
 
         /* 🧕🏿 */
@@ -14756,85 +14834,85 @@ namespace NeoSmart.Unicode
             group: Group.PEOPLE_AND_BODY,
             subgroup: Subgroups.PERSON_ROLE,
             hasGlyph: true,
-            sortOrder: 1401
+            sortOrder: 1407
         );
 
         /* 🤵 */
-        public static readonly SingleEmoji ManTuxedo_E3_0 = new SingleEmoji(
+        public static readonly SingleEmoji PersonTuxedo_E3_0 = new SingleEmoji(
             sequence: new UnicodeSequence(new int[] { 0x1f935 }),
-            name: "man in tuxedo",
-            searchTerms: new string[] { "man", "tuxedo" },
+            name: "person in tuxedo",
+            searchTerms: new string[] { "person", "tuxedo" },
             skinTones: SingleEmoji.NoSkinTones,
             eNumber: 3.0,
             group: Group.PEOPLE_AND_BODY,
             subgroup: Subgroups.PERSON_ROLE,
             hasGlyph: true,
-            sortOrder: 1402
+            sortOrder: 1408
         );
 
         /* 🤵🏻 */
-        public static readonly SingleEmoji ManTuxedoLightSkinTone_E3_0 = new SingleEmoji(
+        public static readonly SingleEmoji PersonTuxedoLightSkinTone_E3_0 = new SingleEmoji(
             sequence: new UnicodeSequence(new int[] { 0x1f935, 0x1f3fb }),
-            name: "man in tuxedo: light skin tone",
-            searchTerms: new string[] { "man", "tuxedo", "light", "skin", "tone" },
+            name: "person in tuxedo: light skin tone",
+            searchTerms: new string[] { "person", "tuxedo", "light", "skin", "tone" },
             skinTones: new Codepoint[] { SkinTones.Light },
             eNumber: 3.0,
             group: Group.PEOPLE_AND_BODY,
             subgroup: Subgroups.PERSON_ROLE,
             hasGlyph: true,
-            sortOrder: 1403
+            sortOrder: 1409
         );
 
         /* 🤵🏼 */
-        public static readonly SingleEmoji ManTuxedoMediumLightSkinTone_E3_0 = new SingleEmoji(
+        public static readonly SingleEmoji PersonTuxedoMediumLightSkinTone_E3_0 = new SingleEmoji(
             sequence: new UnicodeSequence(new int[] { 0x1f935, 0x1f3fc }),
-            name: "man in tuxedo: medium-light skin tone",
-            searchTerms: new string[] { "man", "tuxedo", "medium", "light", "skin", "tone" },
+            name: "person in tuxedo: medium-light skin tone",
+            searchTerms: new string[] { "person", "tuxedo", "medium", "light", "skin", "tone" },
             skinTones: new Codepoint[] { SkinTones.MediumLight },
             eNumber: 3.0,
             group: Group.PEOPLE_AND_BODY,
             subgroup: Subgroups.PERSON_ROLE,
             hasGlyph: true,
-            sortOrder: 1404
+            sortOrder: 1410
         );
 
         /* 🤵🏽 */
-        public static readonly SingleEmoji ManTuxedoMediumSkinTone_E3_0 = new SingleEmoji(
+        public static readonly SingleEmoji PersonTuxedoMediumSkinTone_E3_0 = new SingleEmoji(
             sequence: new UnicodeSequence(new int[] { 0x1f935, 0x1f3fd }),
-            name: "man in tuxedo: medium skin tone",
-            searchTerms: new string[] { "man", "tuxedo", "medium", "skin", "tone" },
+            name: "person in tuxedo: medium skin tone",
+            searchTerms: new string[] { "person", "tuxedo", "medium", "skin", "tone" },
             skinTones: new Codepoint[] { SkinTones.Medium },
             eNumber: 3.0,
             group: Group.PEOPLE_AND_BODY,
             subgroup: Subgroups.PERSON_ROLE,
             hasGlyph: true,
-            sortOrder: 1405
+            sortOrder: 1411
         );
 
         /* 🤵🏾 */
-        public static readonly SingleEmoji ManTuxedoMediumDarkSkinTone_E3_0 = new SingleEmoji(
+        public static readonly SingleEmoji PersonTuxedoMediumDarkSkinTone_E3_0 = new SingleEmoji(
             sequence: new UnicodeSequence(new int[] { 0x1f935, 0x1f3fe }),
-            name: "man in tuxedo: medium-dark skin tone",
-            searchTerms: new string[] { "man", "tuxedo", "medium", "dark", "skin", "tone" },
+            name: "person in tuxedo: medium-dark skin tone",
+            searchTerms: new string[] { "person", "tuxedo", "medium", "dark", "skin", "tone" },
             skinTones: new Codepoint[] { SkinTones.MediumDark },
             eNumber: 3.0,
             group: Group.PEOPLE_AND_BODY,
             subgroup: Subgroups.PERSON_ROLE,
             hasGlyph: true,
-            sortOrder: 1406
+            sortOrder: 1412
         );
 
         /* 🤵🏿 */
-        public static readonly SingleEmoji ManTuxedoDarkSkinTone_E3_0 = new SingleEmoji(
+        public static readonly SingleEmoji PersonTuxedoDarkSkinTone_E3_0 = new SingleEmoji(
             sequence: new UnicodeSequence(new int[] { 0x1f935, 0x1f3ff }),
-            name: "man in tuxedo: dark skin tone",
-            searchTerms: new string[] { "man", "tuxedo", "dark", "skin", "tone" },
+            name: "person in tuxedo: dark skin tone",
+            searchTerms: new string[] { "person", "tuxedo", "dark", "skin", "tone" },
             skinTones: new Codepoint[] { SkinTones.Dark },
             eNumber: 3.0,
             group: Group.PEOPLE_AND_BODY,
             subgroup: Subgroups.PERSON_ROLE,
             hasGlyph: true,
-            sortOrder: 1407
+            sortOrder: 1413
         );
 
         /* 🤵‍♂️ */
@@ -14847,7 +14925,7 @@ namespace NeoSmart.Unicode
             group: Group.PEOPLE_AND_BODY,
             subgroup: Subgroups.PERSON_ROLE,
             hasGlyph: false,
-            sortOrder: 1408
+            sortOrder: 1414
         );
 
         /* 🤵🏻‍♂️ */
@@ -14860,7 +14938,7 @@ namespace NeoSmart.Unicode
             group: Group.PEOPLE_AND_BODY,
             subgroup: Subgroups.PERSON_ROLE,
             hasGlyph: false,
-            sortOrder: 1410
+            sortOrder: 1416
         );
 
         /* 🤵🏼‍♂️ */
@@ -14873,7 +14951,7 @@ namespace NeoSmart.Unicode
             group: Group.PEOPLE_AND_BODY,
             subgroup: Subgroups.PERSON_ROLE,
             hasGlyph: false,
-            sortOrder: 1412
+            sortOrder: 1418
         );
 
         /* 🤵🏽‍♂️ */
@@ -14886,7 +14964,7 @@ namespace NeoSmart.Unicode
             group: Group.PEOPLE_AND_BODY,
             subgroup: Subgroups.PERSON_ROLE,
             hasGlyph: false,
-            sortOrder: 1414
+            sortOrder: 1420
         );
 
         /* 🤵🏾‍♂️ */
@@ -14899,7 +14977,7 @@ namespace NeoSmart.Unicode
             group: Group.PEOPLE_AND_BODY,
             subgroup: Subgroups.PERSON_ROLE,
             hasGlyph: false,
-            sortOrder: 1416
+            sortOrder: 1422
         );
 
         /* 🤵🏿‍♂️ */
@@ -14912,7 +14990,7 @@ namespace NeoSmart.Unicode
             group: Group.PEOPLE_AND_BODY,
             subgroup: Subgroups.PERSON_ROLE,
             hasGlyph: false,
-            sortOrder: 1418
+            sortOrder: 1424
         );
 
         /* 🤵‍♀️ */
@@ -14925,7 +15003,7 @@ namespace NeoSmart.Unicode
             group: Group.PEOPLE_AND_BODY,
             subgroup: Subgroups.PERSON_ROLE,
             hasGlyph: false,
-            sortOrder: 1420
+            sortOrder: 1426
         );
 
         /* 🤵🏻‍♀️ */
@@ -14938,7 +15016,7 @@ namespace NeoSmart.Unicode
             group: Group.PEOPLE_AND_BODY,
             subgroup: Subgroups.PERSON_ROLE,
             hasGlyph: false,
-            sortOrder: 1422
+            sortOrder: 1428
         );
 
         /* 🤵🏼‍♀️ */
@@ -14951,7 +15029,7 @@ namespace NeoSmart.Unicode
             group: Group.PEOPLE_AND_BODY,
             subgroup: Subgroups.PERSON_ROLE,
             hasGlyph: false,
-            sortOrder: 1424
+            sortOrder: 1430
         );
 
         /* 🤵🏽‍♀️ */
@@ -14964,7 +15042,7 @@ namespace NeoSmart.Unicode
             group: Group.PEOPLE_AND_BODY,
             subgroup: Subgroups.PERSON_ROLE,
             hasGlyph: false,
-            sortOrder: 1426
+            sortOrder: 1432
         );
 
         /* 🤵🏾‍♀️ */
@@ -14977,7 +15055,7 @@ namespace NeoSmart.Unicode
             group: Group.PEOPLE_AND_BODY,
             subgroup: Subgroups.PERSON_ROLE,
             hasGlyph: false,
-            sortOrder: 1428
+            sortOrder: 1434
         );
 
         /* 🤵🏿‍♀️ */
@@ -14990,85 +15068,85 @@ namespace NeoSmart.Unicode
             group: Group.PEOPLE_AND_BODY,
             subgroup: Subgroups.PERSON_ROLE,
             hasGlyph: false,
-            sortOrder: 1430
+            sortOrder: 1436
         );
 
         /* 👰 */
-        public static readonly SingleEmoji BrideVeil_E0_6 = new SingleEmoji(
+        public static readonly SingleEmoji PersonVeil_E0_6 = new SingleEmoji(
             sequence: new UnicodeSequence(new int[] { 0x1f470 }),
-            name: "bride with veil",
-            searchTerms: new string[] { "bride", "veil" },
+            name: "person with veil",
+            searchTerms: new string[] { "person", "veil" },
             skinTones: SingleEmoji.NoSkinTones,
             eNumber: 0.6,
             group: Group.PEOPLE_AND_BODY,
             subgroup: Subgroups.PERSON_ROLE,
             hasGlyph: true,
-            sortOrder: 1432
+            sortOrder: 1438
         );
 
         /* 👰🏻 */
-        public static readonly SingleEmoji BrideVeilLightSkinTone_E1_0 = new SingleEmoji(
+        public static readonly SingleEmoji PersonVeilLightSkinTone_E1_0 = new SingleEmoji(
             sequence: new UnicodeSequence(new int[] { 0x1f470, 0x1f3fb }),
-            name: "bride with veil: light skin tone",
-            searchTerms: new string[] { "bride", "veil", "light", "skin", "tone" },
+            name: "person with veil: light skin tone",
+            searchTerms: new string[] { "person", "veil", "light", "skin", "tone" },
             skinTones: new Codepoint[] { SkinTones.Light },
             eNumber: 1.0,
             group: Group.PEOPLE_AND_BODY,
             subgroup: Subgroups.PERSON_ROLE,
             hasGlyph: true,
-            sortOrder: 1433
+            sortOrder: 1439
         );
 
         /* 👰🏼 */
-        public static readonly SingleEmoji BrideVeilMediumLightSkinTone_E1_0 = new SingleEmoji(
+        public static readonly SingleEmoji PersonVeilMediumLightSkinTone_E1_0 = new SingleEmoji(
             sequence: new UnicodeSequence(new int[] { 0x1f470, 0x1f3fc }),
-            name: "bride with veil: medium-light skin tone",
-            searchTerms: new string[] { "bride", "veil", "medium", "light", "skin", "tone" },
+            name: "person with veil: medium-light skin tone",
+            searchTerms: new string[] { "person", "veil", "medium", "light", "skin", "tone" },
             skinTones: new Codepoint[] { SkinTones.MediumLight },
             eNumber: 1.0,
             group: Group.PEOPLE_AND_BODY,
             subgroup: Subgroups.PERSON_ROLE,
             hasGlyph: true,
-            sortOrder: 1434
+            sortOrder: 1440
         );
 
         /* 👰🏽 */
-        public static readonly SingleEmoji BrideVeilMediumSkinTone_E1_0 = new SingleEmoji(
+        public static readonly SingleEmoji PersonVeilMediumSkinTone_E1_0 = new SingleEmoji(
             sequence: new UnicodeSequence(new int[] { 0x1f470, 0x1f3fd }),
-            name: "bride with veil: medium skin tone",
-            searchTerms: new string[] { "bride", "veil", "medium", "skin", "tone" },
+            name: "person with veil: medium skin tone",
+            searchTerms: new string[] { "person", "veil", "medium", "skin", "tone" },
             skinTones: new Codepoint[] { SkinTones.Medium },
             eNumber: 1.0,
             group: Group.PEOPLE_AND_BODY,
             subgroup: Subgroups.PERSON_ROLE,
             hasGlyph: true,
-            sortOrder: 1435
+            sortOrder: 1441
         );
 
         /* 👰🏾 */
-        public static readonly SingleEmoji BrideVeilMediumDarkSkinTone_E1_0 = new SingleEmoji(
+        public static readonly SingleEmoji PersonVeilMediumDarkSkinTone_E1_0 = new SingleEmoji(
             sequence: new UnicodeSequence(new int[] { 0x1f470, 0x1f3fe }),
-            name: "bride with veil: medium-dark skin tone",
-            searchTerms: new string[] { "bride", "veil", "medium", "dark", "skin", "tone" },
+            name: "person with veil: medium-dark skin tone",
+            searchTerms: new string[] { "person", "veil", "medium", "dark", "skin", "tone" },
             skinTones: new Codepoint[] { SkinTones.MediumDark },
             eNumber: 1.0,
             group: Group.PEOPLE_AND_BODY,
             subgroup: Subgroups.PERSON_ROLE,
             hasGlyph: true,
-            sortOrder: 1436
+            sortOrder: 1442
         );
 
         /* 👰🏿 */
-        public static readonly SingleEmoji BrideVeilDarkSkinTone_E1_0 = new SingleEmoji(
+        public static readonly SingleEmoji PersonVeilDarkSkinTone_E1_0 = new SingleEmoji(
             sequence: new UnicodeSequence(new int[] { 0x1f470, 0x1f3ff }),
-            name: "bride with veil: dark skin tone",
-            searchTerms: new string[] { "bride", "veil", "dark", "skin", "tone" },
+            name: "person with veil: dark skin tone",
+            searchTerms: new string[] { "person", "veil", "dark", "skin", "tone" },
             skinTones: new Codepoint[] { SkinTones.Dark },
             eNumber: 1.0,
             group: Group.PEOPLE_AND_BODY,
             subgroup: Subgroups.PERSON_ROLE,
             hasGlyph: true,
-            sortOrder: 1437
+            sortOrder: 1443
         );
 
         /* 👰‍♂️ */
@@ -15081,7 +15159,7 @@ namespace NeoSmart.Unicode
             group: Group.PEOPLE_AND_BODY,
             subgroup: Subgroups.PERSON_ROLE,
             hasGlyph: false,
-            sortOrder: 1438
+            sortOrder: 1444
         );
 
         /* 👰🏻‍♂️ */
@@ -15094,7 +15172,7 @@ namespace NeoSmart.Unicode
             group: Group.PEOPLE_AND_BODY,
             subgroup: Subgroups.PERSON_ROLE,
             hasGlyph: false,
-            sortOrder: 1440
+            sortOrder: 1446
         );
 
         /* 👰🏼‍♂️ */
@@ -15107,7 +15185,7 @@ namespace NeoSmart.Unicode
             group: Group.PEOPLE_AND_BODY,
             subgroup: Subgroups.PERSON_ROLE,
             hasGlyph: false,
-            sortOrder: 1442
+            sortOrder: 1448
         );
 
         /* 👰🏽‍♂️ */
@@ -15120,7 +15198,7 @@ namespace NeoSmart.Unicode
             group: Group.PEOPLE_AND_BODY,
             subgroup: Subgroups.PERSON_ROLE,
             hasGlyph: false,
-            sortOrder: 1444
+            sortOrder: 1450
         );
 
         /* 👰🏾‍♂️ */
@@ -15133,7 +15211,7 @@ namespace NeoSmart.Unicode
             group: Group.PEOPLE_AND_BODY,
             subgroup: Subgroups.PERSON_ROLE,
             hasGlyph: false,
-            sortOrder: 1446
+            sortOrder: 1452
         );
 
         /* 👰🏿‍♂️ */
@@ -15146,7 +15224,7 @@ namespace NeoSmart.Unicode
             group: Group.PEOPLE_AND_BODY,
             subgroup: Subgroups.PERSON_ROLE,
             hasGlyph: false,
-            sortOrder: 1448
+            sortOrder: 1454
         );
 
         /* 👰‍♀️ */
@@ -15159,7 +15237,7 @@ namespace NeoSmart.Unicode
             group: Group.PEOPLE_AND_BODY,
             subgroup: Subgroups.PERSON_ROLE,
             hasGlyph: false,
-            sortOrder: 1450
+            sortOrder: 1456
         );
 
         /* 👰🏻‍♀️ */
@@ -15172,7 +15250,7 @@ namespace NeoSmart.Unicode
             group: Group.PEOPLE_AND_BODY,
             subgroup: Subgroups.PERSON_ROLE,
             hasGlyph: false,
-            sortOrder: 1452
+            sortOrder: 1458
         );
 
         /* 👰🏼‍♀️ */
@@ -15185,7 +15263,7 @@ namespace NeoSmart.Unicode
             group: Group.PEOPLE_AND_BODY,
             subgroup: Subgroups.PERSON_ROLE,
             hasGlyph: false,
-            sortOrder: 1454
+            sortOrder: 1460
         );
 
         /* 👰🏽‍♀️ */
@@ -15198,7 +15276,7 @@ namespace NeoSmart.Unicode
             group: Group.PEOPLE_AND_BODY,
             subgroup: Subgroups.PERSON_ROLE,
             hasGlyph: false,
-            sortOrder: 1456
+            sortOrder: 1462
         );
 
         /* 👰🏾‍♀️ */
@@ -15211,7 +15289,7 @@ namespace NeoSmart.Unicode
             group: Group.PEOPLE_AND_BODY,
             subgroup: Subgroups.PERSON_ROLE,
             hasGlyph: false,
-            sortOrder: 1458
+            sortOrder: 1464
         );
 
         /* 👰🏿‍♀️ */
@@ -15224,7 +15302,7 @@ namespace NeoSmart.Unicode
             group: Group.PEOPLE_AND_BODY,
             subgroup: Subgroups.PERSON_ROLE,
             hasGlyph: false,
-            sortOrder: 1460
+            sortOrder: 1466
         );
 
         /* 🤰 */
@@ -15237,7 +15315,7 @@ namespace NeoSmart.Unicode
             group: Group.PEOPLE_AND_BODY,
             subgroup: Subgroups.PERSON_ROLE,
             hasGlyph: true,
-            sortOrder: 1462
+            sortOrder: 1468
         );
 
         /* 🤰🏻 */
@@ -15250,7 +15328,7 @@ namespace NeoSmart.Unicode
             group: Group.PEOPLE_AND_BODY,
             subgroup: Subgroups.PERSON_ROLE,
             hasGlyph: true,
-            sortOrder: 1463
+            sortOrder: 1469
         );
 
         /* 🤰🏼 */
@@ -15263,7 +15341,7 @@ namespace NeoSmart.Unicode
             group: Group.PEOPLE_AND_BODY,
             subgroup: Subgroups.PERSON_ROLE,
             hasGlyph: true,
-            sortOrder: 1464
+            sortOrder: 1470
         );
 
         /* 🤰🏽 */
@@ -15276,7 +15354,7 @@ namespace NeoSmart.Unicode
             group: Group.PEOPLE_AND_BODY,
             subgroup: Subgroups.PERSON_ROLE,
             hasGlyph: true,
-            sortOrder: 1465
+            sortOrder: 1471
         );
 
         /* 🤰🏾 */
@@ -15289,7 +15367,7 @@ namespace NeoSmart.Unicode
             group: Group.PEOPLE_AND_BODY,
             subgroup: Subgroups.PERSON_ROLE,
             hasGlyph: true,
-            sortOrder: 1466
+            sortOrder: 1472
         );
 
         /* 🤰🏿 */
@@ -15302,7 +15380,7 @@ namespace NeoSmart.Unicode
             group: Group.PEOPLE_AND_BODY,
             subgroup: Subgroups.PERSON_ROLE,
             hasGlyph: true,
-            sortOrder: 1467
+            sortOrder: 1473
         );
 
         /* 🤱 */
@@ -15315,7 +15393,7 @@ namespace NeoSmart.Unicode
             group: Group.PEOPLE_AND_BODY,
             subgroup: Subgroups.PERSON_ROLE,
             hasGlyph: true,
-            sortOrder: 1468
+            sortOrder: 1474
         );
 
         /* 🤱🏻 */
@@ -15328,7 +15406,7 @@ namespace NeoSmart.Unicode
             group: Group.PEOPLE_AND_BODY,
             subgroup: Subgroups.PERSON_ROLE,
             hasGlyph: true,
-            sortOrder: 1469
+            sortOrder: 1475
         );
 
         /* 🤱🏼 */
@@ -15341,7 +15419,7 @@ namespace NeoSmart.Unicode
             group: Group.PEOPLE_AND_BODY,
             subgroup: Subgroups.PERSON_ROLE,
             hasGlyph: true,
-            sortOrder: 1470
+            sortOrder: 1476
         );
 
         /* 🤱🏽 */
@@ -15354,7 +15432,7 @@ namespace NeoSmart.Unicode
             group: Group.PEOPLE_AND_BODY,
             subgroup: Subgroups.PERSON_ROLE,
             hasGlyph: true,
-            sortOrder: 1471
+            sortOrder: 1477
         );
 
         /* 🤱🏾 */
@@ -15367,7 +15445,7 @@ namespace NeoSmart.Unicode
             group: Group.PEOPLE_AND_BODY,
             subgroup: Subgroups.PERSON_ROLE,
             hasGlyph: true,
-            sortOrder: 1472
+            sortOrder: 1478
         );
 
         /* 🤱🏿 */
@@ -15380,7 +15458,7 @@ namespace NeoSmart.Unicode
             group: Group.PEOPLE_AND_BODY,
             subgroup: Subgroups.PERSON_ROLE,
             hasGlyph: true,
-            sortOrder: 1473
+            sortOrder: 1479
         );
 
         /* 👩‍🍼 */
@@ -15393,7 +15471,7 @@ namespace NeoSmart.Unicode
             group: Group.PEOPLE_AND_BODY,
             subgroup: Subgroups.PERSON_ROLE,
             hasGlyph: false,
-            sortOrder: 1474
+            sortOrder: 1480
         );
 
         /* 👩🏻‍🍼 */
@@ -15406,7 +15484,7 @@ namespace NeoSmart.Unicode
             group: Group.PEOPLE_AND_BODY,
             subgroup: Subgroups.PERSON_ROLE,
             hasGlyph: false,
-            sortOrder: 1475
+            sortOrder: 1481
         );
 
         /* 👩🏼‍🍼 */
@@ -15419,7 +15497,7 @@ namespace NeoSmart.Unicode
             group: Group.PEOPLE_AND_BODY,
             subgroup: Subgroups.PERSON_ROLE,
             hasGlyph: false,
-            sortOrder: 1476
+            sortOrder: 1482
         );
 
         /* 👩🏽‍🍼 */
@@ -15432,7 +15510,7 @@ namespace NeoSmart.Unicode
             group: Group.PEOPLE_AND_BODY,
             subgroup: Subgroups.PERSON_ROLE,
             hasGlyph: false,
-            sortOrder: 1477
+            sortOrder: 1483
         );
 
         /* 👩🏾‍🍼 */
@@ -15445,7 +15523,7 @@ namespace NeoSmart.Unicode
             group: Group.PEOPLE_AND_BODY,
             subgroup: Subgroups.PERSON_ROLE,
             hasGlyph: false,
-            sortOrder: 1478
+            sortOrder: 1484
         );
 
         /* 👩🏿‍🍼 */
@@ -15458,7 +15536,7 @@ namespace NeoSmart.Unicode
             group: Group.PEOPLE_AND_BODY,
             subgroup: Subgroups.PERSON_ROLE,
             hasGlyph: false,
-            sortOrder: 1479
+            sortOrder: 1485
         );
 
         /* 👨‍🍼 */
@@ -15471,7 +15549,7 @@ namespace NeoSmart.Unicode
             group: Group.PEOPLE_AND_BODY,
             subgroup: Subgroups.PERSON_ROLE,
             hasGlyph: false,
-            sortOrder: 1480
+            sortOrder: 1486
         );
 
         /* 👨🏻‍🍼 */
@@ -15484,7 +15562,7 @@ namespace NeoSmart.Unicode
             group: Group.PEOPLE_AND_BODY,
             subgroup: Subgroups.PERSON_ROLE,
             hasGlyph: false,
-            sortOrder: 1481
+            sortOrder: 1487
         );
 
         /* 👨🏼‍🍼 */
@@ -15497,7 +15575,7 @@ namespace NeoSmart.Unicode
             group: Group.PEOPLE_AND_BODY,
             subgroup: Subgroups.PERSON_ROLE,
             hasGlyph: false,
-            sortOrder: 1482
+            sortOrder: 1488
         );
 
         /* 👨🏽‍🍼 */
@@ -15510,7 +15588,7 @@ namespace NeoSmart.Unicode
             group: Group.PEOPLE_AND_BODY,
             subgroup: Subgroups.PERSON_ROLE,
             hasGlyph: false,
-            sortOrder: 1483
+            sortOrder: 1489
         );
 
         /* 👨🏾‍🍼 */
@@ -15523,7 +15601,7 @@ namespace NeoSmart.Unicode
             group: Group.PEOPLE_AND_BODY,
             subgroup: Subgroups.PERSON_ROLE,
             hasGlyph: false,
-            sortOrder: 1484
+            sortOrder: 1490
         );
 
         /* 👨🏿‍🍼 */
@@ -15536,7 +15614,7 @@ namespace NeoSmart.Unicode
             group: Group.PEOPLE_AND_BODY,
             subgroup: Subgroups.PERSON_ROLE,
             hasGlyph: false,
-            sortOrder: 1485
+            sortOrder: 1491
         );
 
         /* 🧑‍🍼 */
@@ -15549,7 +15627,7 @@ namespace NeoSmart.Unicode
             group: Group.PEOPLE_AND_BODY,
             subgroup: Subgroups.PERSON_ROLE,
             hasGlyph: false,
-            sortOrder: 1486
+            sortOrder: 1492
         );
 
         /* 🧑🏻‍🍼 */
@@ -15562,7 +15640,7 @@ namespace NeoSmart.Unicode
             group: Group.PEOPLE_AND_BODY,
             subgroup: Subgroups.PERSON_ROLE,
             hasGlyph: false,
-            sortOrder: 1487
+            sortOrder: 1493
         );
 
         /* 🧑🏼‍🍼 */
@@ -15575,7 +15653,7 @@ namespace NeoSmart.Unicode
             group: Group.PEOPLE_AND_BODY,
             subgroup: Subgroups.PERSON_ROLE,
             hasGlyph: false,
-            sortOrder: 1488
+            sortOrder: 1494
         );
 
         /* 🧑🏽‍🍼 */
@@ -15588,7 +15666,7 @@ namespace NeoSmart.Unicode
             group: Group.PEOPLE_AND_BODY,
             subgroup: Subgroups.PERSON_ROLE,
             hasGlyph: false,
-            sortOrder: 1489
+            sortOrder: 1495
         );
 
         /* 🧑🏾‍🍼 */
@@ -15601,7 +15679,7 @@ namespace NeoSmart.Unicode
             group: Group.PEOPLE_AND_BODY,
             subgroup: Subgroups.PERSON_ROLE,
             hasGlyph: false,
-            sortOrder: 1490
+            sortOrder: 1496
         );
 
         /* 🧑🏿‍🍼 */
@@ -15614,7 +15692,7 @@ namespace NeoSmart.Unicode
             group: Group.PEOPLE_AND_BODY,
             subgroup: Subgroups.PERSON_ROLE,
             hasGlyph: false,
-            sortOrder: 1491
+            sortOrder: 1497
         );
 
         /* 👼 */
@@ -15627,7 +15705,7 @@ namespace NeoSmart.Unicode
             group: Group.PEOPLE_AND_BODY,
             subgroup: Subgroups.PERSON_FANTASY,
             hasGlyph: true,
-            sortOrder: 1492
+            sortOrder: 1498
         );
 
         /* 👼🏻 */
@@ -15640,7 +15718,7 @@ namespace NeoSmart.Unicode
             group: Group.PEOPLE_AND_BODY,
             subgroup: Subgroups.PERSON_FANTASY,
             hasGlyph: true,
-            sortOrder: 1493
+            sortOrder: 1499
         );
 
         /* 👼🏼 */
@@ -15653,7 +15731,7 @@ namespace NeoSmart.Unicode
             group: Group.PEOPLE_AND_BODY,
             subgroup: Subgroups.PERSON_FANTASY,
             hasGlyph: true,
-            sortOrder: 1494
+            sortOrder: 1500
         );
 
         /* 👼🏽 */
@@ -15666,7 +15744,7 @@ namespace NeoSmart.Unicode
             group: Group.PEOPLE_AND_BODY,
             subgroup: Subgroups.PERSON_FANTASY,
             hasGlyph: true,
-            sortOrder: 1495
+            sortOrder: 1501
         );
 
         /* 👼🏾 */
@@ -15679,7 +15757,7 @@ namespace NeoSmart.Unicode
             group: Group.PEOPLE_AND_BODY,
             subgroup: Subgroups.PERSON_FANTASY,
             hasGlyph: true,
-            sortOrder: 1496
+            sortOrder: 1502
         );
 
         /* 👼🏿 */
@@ -15692,7 +15770,7 @@ namespace NeoSmart.Unicode
             group: Group.PEOPLE_AND_BODY,
             subgroup: Subgroups.PERSON_FANTASY,
             hasGlyph: true,
-            sortOrder: 1497
+            sortOrder: 1503
         );
 
         /* 🎅 */
@@ -15705,7 +15783,7 @@ namespace NeoSmart.Unicode
             group: Group.PEOPLE_AND_BODY,
             subgroup: Subgroups.PERSON_FANTASY,
             hasGlyph: true,
-            sortOrder: 1498
+            sortOrder: 1504
         );
 
         /* 🎅🏻 */
@@ -15718,7 +15796,7 @@ namespace NeoSmart.Unicode
             group: Group.PEOPLE_AND_BODY,
             subgroup: Subgroups.PERSON_FANTASY,
             hasGlyph: true,
-            sortOrder: 1499
+            sortOrder: 1505
         );
 
         /* 🎅🏼 */
@@ -15731,7 +15809,7 @@ namespace NeoSmart.Unicode
             group: Group.PEOPLE_AND_BODY,
             subgroup: Subgroups.PERSON_FANTASY,
             hasGlyph: true,
-            sortOrder: 1500
+            sortOrder: 1506
         );
 
         /* 🎅🏽 */
@@ -15744,7 +15822,7 @@ namespace NeoSmart.Unicode
             group: Group.PEOPLE_AND_BODY,
             subgroup: Subgroups.PERSON_FANTASY,
             hasGlyph: true,
-            sortOrder: 1501
+            sortOrder: 1507
         );
 
         /* 🎅🏾 */
@@ -15757,7 +15835,7 @@ namespace NeoSmart.Unicode
             group: Group.PEOPLE_AND_BODY,
             subgroup: Subgroups.PERSON_FANTASY,
             hasGlyph: true,
-            sortOrder: 1502
+            sortOrder: 1508
         );
 
         /* 🎅🏿 */
@@ -15770,7 +15848,7 @@ namespace NeoSmart.Unicode
             group: Group.PEOPLE_AND_BODY,
             subgroup: Subgroups.PERSON_FANTASY,
             hasGlyph: true,
-            sortOrder: 1503
+            sortOrder: 1509
         );
 
         /* 🤶 */
@@ -15783,7 +15861,7 @@ namespace NeoSmart.Unicode
             group: Group.PEOPLE_AND_BODY,
             subgroup: Subgroups.PERSON_FANTASY,
             hasGlyph: true,
-            sortOrder: 1504
+            sortOrder: 1510
         );
 
         /* 🤶🏻 */
@@ -15796,7 +15874,7 @@ namespace NeoSmart.Unicode
             group: Group.PEOPLE_AND_BODY,
             subgroup: Subgroups.PERSON_FANTASY,
             hasGlyph: true,
-            sortOrder: 1505
+            sortOrder: 1511
         );
 
         /* 🤶🏼 */
@@ -15809,7 +15887,7 @@ namespace NeoSmart.Unicode
             group: Group.PEOPLE_AND_BODY,
             subgroup: Subgroups.PERSON_FANTASY,
             hasGlyph: true,
-            sortOrder: 1506
+            sortOrder: 1512
         );
 
         /* 🤶🏽 */
@@ -15822,7 +15900,7 @@ namespace NeoSmart.Unicode
             group: Group.PEOPLE_AND_BODY,
             subgroup: Subgroups.PERSON_FANTASY,
             hasGlyph: true,
-            sortOrder: 1507
+            sortOrder: 1513
         );
 
         /* 🤶🏾 */
@@ -15835,7 +15913,7 @@ namespace NeoSmart.Unicode
             group: Group.PEOPLE_AND_BODY,
             subgroup: Subgroups.PERSON_FANTASY,
             hasGlyph: true,
-            sortOrder: 1508
+            sortOrder: 1514
         );
 
         /* 🤶🏿 */
@@ -15848,7 +15926,7 @@ namespace NeoSmart.Unicode
             group: Group.PEOPLE_AND_BODY,
             subgroup: Subgroups.PERSON_FANTASY,
             hasGlyph: true,
-            sortOrder: 1509
+            sortOrder: 1515
         );
 
         /* 🧑‍🎄 */
@@ -15861,7 +15939,7 @@ namespace NeoSmart.Unicode
             group: Group.PEOPLE_AND_BODY,
             subgroup: Subgroups.PERSON_FANTASY,
             hasGlyph: false,
-            sortOrder: 1510
+            sortOrder: 1516
         );
 
         /* 🧑🏻‍🎄 */
@@ -15874,7 +15952,7 @@ namespace NeoSmart.Unicode
             group: Group.PEOPLE_AND_BODY,
             subgroup: Subgroups.PERSON_FANTASY,
             hasGlyph: false,
-            sortOrder: 1511
+            sortOrder: 1517
         );
 
         /* 🧑🏼‍🎄 */
@@ -15887,7 +15965,7 @@ namespace NeoSmart.Unicode
             group: Group.PEOPLE_AND_BODY,
             subgroup: Subgroups.PERSON_FANTASY,
             hasGlyph: false,
-            sortOrder: 1512
+            sortOrder: 1518
         );
 
         /* 🧑🏽‍🎄 */
@@ -15900,7 +15978,7 @@ namespace NeoSmart.Unicode
             group: Group.PEOPLE_AND_BODY,
             subgroup: Subgroups.PERSON_FANTASY,
             hasGlyph: false,
-            sortOrder: 1513
+            sortOrder: 1519
         );
 
         /* 🧑🏾‍🎄 */
@@ -15913,7 +15991,7 @@ namespace NeoSmart.Unicode
             group: Group.PEOPLE_AND_BODY,
             subgroup: Subgroups.PERSON_FANTASY,
             hasGlyph: false,
-            sortOrder: 1514
+            sortOrder: 1520
         );
 
         /* 🧑🏿‍🎄 */
@@ -15926,7 +16004,7 @@ namespace NeoSmart.Unicode
             group: Group.PEOPLE_AND_BODY,
             subgroup: Subgroups.PERSON_FANTASY,
             hasGlyph: false,
-            sortOrder: 1515
+            sortOrder: 1521
         );
 
         /* 🦸 */
@@ -15939,7 +16017,7 @@ namespace NeoSmart.Unicode
             group: Group.PEOPLE_AND_BODY,
             subgroup: Subgroups.PERSON_FANTASY,
             hasGlyph: true,
-            sortOrder: 1516
+            sortOrder: 1522
         );
 
         /* 🦸🏻 */
@@ -15952,7 +16030,7 @@ namespace NeoSmart.Unicode
             group: Group.PEOPLE_AND_BODY,
             subgroup: Subgroups.PERSON_FANTASY,
             hasGlyph: true,
-            sortOrder: 1517
+            sortOrder: 1523
         );
 
         /* 🦸🏼 */
@@ -15965,7 +16043,7 @@ namespace NeoSmart.Unicode
             group: Group.PEOPLE_AND_BODY,
             subgroup: Subgroups.PERSON_FANTASY,
             hasGlyph: true,
-            sortOrder: 1518
+            sortOrder: 1524
         );
 
         /* 🦸🏽 */
@@ -15978,7 +16056,7 @@ namespace NeoSmart.Unicode
             group: Group.PEOPLE_AND_BODY,
             subgroup: Subgroups.PERSON_FANTASY,
             hasGlyph: true,
-            sortOrder: 1519
+            sortOrder: 1525
         );
 
         /* 🦸🏾 */
@@ -15991,7 +16069,7 @@ namespace NeoSmart.Unicode
             group: Group.PEOPLE_AND_BODY,
             subgroup: Subgroups.PERSON_FANTASY,
             hasGlyph: true,
-            sortOrder: 1520
+            sortOrder: 1526
         );
 
         /* 🦸🏿 */
@@ -16004,7 +16082,7 @@ namespace NeoSmart.Unicode
             group: Group.PEOPLE_AND_BODY,
             subgroup: Subgroups.PERSON_FANTASY,
             hasGlyph: true,
-            sortOrder: 1521
+            sortOrder: 1527
         );
 
         /* 🦸‍♂️ */
@@ -16017,7 +16095,7 @@ namespace NeoSmart.Unicode
             group: Group.PEOPLE_AND_BODY,
             subgroup: Subgroups.PERSON_FANTASY,
             hasGlyph: true,
-            sortOrder: 1522
+            sortOrder: 1528
         );
 
         /* 🦸🏻‍♂️ */
@@ -16030,7 +16108,7 @@ namespace NeoSmart.Unicode
             group: Group.PEOPLE_AND_BODY,
             subgroup: Subgroups.PERSON_FANTASY,
             hasGlyph: true,
-            sortOrder: 1524
+            sortOrder: 1530
         );
 
         /* 🦸🏼‍♂️ */
@@ -16043,7 +16121,7 @@ namespace NeoSmart.Unicode
             group: Group.PEOPLE_AND_BODY,
             subgroup: Subgroups.PERSON_FANTASY,
             hasGlyph: true,
-            sortOrder: 1526
+            sortOrder: 1532
         );
 
         /* 🦸🏽‍♂️ */
@@ -16056,7 +16134,7 @@ namespace NeoSmart.Unicode
             group: Group.PEOPLE_AND_BODY,
             subgroup: Subgroups.PERSON_FANTASY,
             hasGlyph: true,
-            sortOrder: 1528
+            sortOrder: 1534
         );
 
         /* 🦸🏾‍♂️ */
@@ -16069,7 +16147,7 @@ namespace NeoSmart.Unicode
             group: Group.PEOPLE_AND_BODY,
             subgroup: Subgroups.PERSON_FANTASY,
             hasGlyph: true,
-            sortOrder: 1530
+            sortOrder: 1536
         );
 
         /* 🦸🏿‍♂️ */
@@ -16082,7 +16160,7 @@ namespace NeoSmart.Unicode
             group: Group.PEOPLE_AND_BODY,
             subgroup: Subgroups.PERSON_FANTASY,
             hasGlyph: true,
-            sortOrder: 1532
+            sortOrder: 1538
         );
 
         /* 🦸‍♀️ */
@@ -16095,7 +16173,7 @@ namespace NeoSmart.Unicode
             group: Group.PEOPLE_AND_BODY,
             subgroup: Subgroups.PERSON_FANTASY,
             hasGlyph: true,
-            sortOrder: 1534
+            sortOrder: 1540
         );
 
         /* 🦸🏻‍♀️ */
@@ -16108,7 +16186,7 @@ namespace NeoSmart.Unicode
             group: Group.PEOPLE_AND_BODY,
             subgroup: Subgroups.PERSON_FANTASY,
             hasGlyph: true,
-            sortOrder: 1536
+            sortOrder: 1542
         );
 
         /* 🦸🏼‍♀️ */
@@ -16121,7 +16199,7 @@ namespace NeoSmart.Unicode
             group: Group.PEOPLE_AND_BODY,
             subgroup: Subgroups.PERSON_FANTASY,
             hasGlyph: true,
-            sortOrder: 1538
+            sortOrder: 1544
         );
 
         /* 🦸🏽‍♀️ */
@@ -16134,7 +16212,7 @@ namespace NeoSmart.Unicode
             group: Group.PEOPLE_AND_BODY,
             subgroup: Subgroups.PERSON_FANTASY,
             hasGlyph: true,
-            sortOrder: 1540
+            sortOrder: 1546
         );
 
         /* 🦸🏾‍♀️ */
@@ -16147,7 +16225,7 @@ namespace NeoSmart.Unicode
             group: Group.PEOPLE_AND_BODY,
             subgroup: Subgroups.PERSON_FANTASY,
             hasGlyph: true,
-            sortOrder: 1542
+            sortOrder: 1548
         );
 
         /* 🦸🏿‍♀️ */
@@ -16160,7 +16238,7 @@ namespace NeoSmart.Unicode
             group: Group.PEOPLE_AND_BODY,
             subgroup: Subgroups.PERSON_FANTASY,
             hasGlyph: true,
-            sortOrder: 1544
+            sortOrder: 1550
         );
 
         /* 🦹 */
@@ -16173,7 +16251,7 @@ namespace NeoSmart.Unicode
             group: Group.PEOPLE_AND_BODY,
             subgroup: Subgroups.PERSON_FANTASY,
             hasGlyph: true,
-            sortOrder: 1546
+            sortOrder: 1552
         );
 
         /* 🦹🏻 */
@@ -16186,7 +16264,7 @@ namespace NeoSmart.Unicode
             group: Group.PEOPLE_AND_BODY,
             subgroup: Subgroups.PERSON_FANTASY,
             hasGlyph: true,
-            sortOrder: 1547
+            sortOrder: 1553
         );
 
         /* 🦹🏼 */
@@ -16199,7 +16277,7 @@ namespace NeoSmart.Unicode
             group: Group.PEOPLE_AND_BODY,
             subgroup: Subgroups.PERSON_FANTASY,
             hasGlyph: true,
-            sortOrder: 1548
+            sortOrder: 1554
         );
 
         /* 🦹🏽 */
@@ -16212,7 +16290,7 @@ namespace NeoSmart.Unicode
             group: Group.PEOPLE_AND_BODY,
             subgroup: Subgroups.PERSON_FANTASY,
             hasGlyph: true,
-            sortOrder: 1549
+            sortOrder: 1555
         );
 
         /* 🦹🏾 */
@@ -16225,7 +16303,7 @@ namespace NeoSmart.Unicode
             group: Group.PEOPLE_AND_BODY,
             subgroup: Subgroups.PERSON_FANTASY,
             hasGlyph: true,
-            sortOrder: 1550
+            sortOrder: 1556
         );
 
         /* 🦹🏿 */
@@ -16238,7 +16316,7 @@ namespace NeoSmart.Unicode
             group: Group.PEOPLE_AND_BODY,
             subgroup: Subgroups.PERSON_FANTASY,
             hasGlyph: true,
-            sortOrder: 1551
+            sortOrder: 1557
         );
 
         /* 🦹‍♂️ */
@@ -16251,7 +16329,7 @@ namespace NeoSmart.Unicode
             group: Group.PEOPLE_AND_BODY,
             subgroup: Subgroups.PERSON_FANTASY,
             hasGlyph: true,
-            sortOrder: 1552
+            sortOrder: 1558
         );
 
         /* 🦹🏻‍♂️ */
@@ -16264,7 +16342,7 @@ namespace NeoSmart.Unicode
             group: Group.PEOPLE_AND_BODY,
             subgroup: Subgroups.PERSON_FANTASY,
             hasGlyph: true,
-            sortOrder: 1554
+            sortOrder: 1560
         );
 
         /* 🦹🏼‍♂️ */
@@ -16277,7 +16355,7 @@ namespace NeoSmart.Unicode
             group: Group.PEOPLE_AND_BODY,
             subgroup: Subgroups.PERSON_FANTASY,
             hasGlyph: true,
-            sortOrder: 1556
+            sortOrder: 1562
         );
 
         /* 🦹🏽‍♂️ */
@@ -16290,7 +16368,7 @@ namespace NeoSmart.Unicode
             group: Group.PEOPLE_AND_BODY,
             subgroup: Subgroups.PERSON_FANTASY,
             hasGlyph: true,
-            sortOrder: 1558
+            sortOrder: 1564
         );
 
         /* 🦹🏾‍♂️ */
@@ -16303,7 +16381,7 @@ namespace NeoSmart.Unicode
             group: Group.PEOPLE_AND_BODY,
             subgroup: Subgroups.PERSON_FANTASY,
             hasGlyph: true,
-            sortOrder: 1560
+            sortOrder: 1566
         );
 
         /* 🦹🏿‍♂️ */
@@ -16316,7 +16394,7 @@ namespace NeoSmart.Unicode
             group: Group.PEOPLE_AND_BODY,
             subgroup: Subgroups.PERSON_FANTASY,
             hasGlyph: true,
-            sortOrder: 1562
+            sortOrder: 1568
         );
 
         /* 🦹‍♀️ */
@@ -16329,7 +16407,7 @@ namespace NeoSmart.Unicode
             group: Group.PEOPLE_AND_BODY,
             subgroup: Subgroups.PERSON_FANTASY,
             hasGlyph: true,
-            sortOrder: 1564
+            sortOrder: 1570
         );
 
         /* 🦹🏻‍♀️ */
@@ -16342,7 +16420,7 @@ namespace NeoSmart.Unicode
             group: Group.PEOPLE_AND_BODY,
             subgroup: Subgroups.PERSON_FANTASY,
             hasGlyph: true,
-            sortOrder: 1566
+            sortOrder: 1572
         );
 
         /* 🦹🏼‍♀️ */
@@ -16355,7 +16433,7 @@ namespace NeoSmart.Unicode
             group: Group.PEOPLE_AND_BODY,
             subgroup: Subgroups.PERSON_FANTASY,
             hasGlyph: true,
-            sortOrder: 1568
+            sortOrder: 1574
         );
 
         /* 🦹🏽‍♀️ */
@@ -16368,7 +16446,7 @@ namespace NeoSmart.Unicode
             group: Group.PEOPLE_AND_BODY,
             subgroup: Subgroups.PERSON_FANTASY,
             hasGlyph: true,
-            sortOrder: 1570
+            sortOrder: 1576
         );
 
         /* 🦹🏾‍♀️ */
@@ -16381,7 +16459,7 @@ namespace NeoSmart.Unicode
             group: Group.PEOPLE_AND_BODY,
             subgroup: Subgroups.PERSON_FANTASY,
             hasGlyph: true,
-            sortOrder: 1572
+            sortOrder: 1578
         );
 
         /* 🦹🏿‍♀️ */
@@ -16394,7 +16472,7 @@ namespace NeoSmart.Unicode
             group: Group.PEOPLE_AND_BODY,
             subgroup: Subgroups.PERSON_FANTASY,
             hasGlyph: true,
-            sortOrder: 1574
+            sortOrder: 1580
         );
 
         /* 🧙 */
@@ -16407,7 +16485,7 @@ namespace NeoSmart.Unicode
             group: Group.PEOPLE_AND_BODY,
             subgroup: Subgroups.PERSON_FANTASY,
             hasGlyph: true,
-            sortOrder: 1576
+            sortOrder: 1582
         );
 
         /* 🧙🏻 */
@@ -16420,7 +16498,7 @@ namespace NeoSmart.Unicode
             group: Group.PEOPLE_AND_BODY,
             subgroup: Subgroups.PERSON_FANTASY,
             hasGlyph: true,
-            sortOrder: 1577
+            sortOrder: 1583
         );
 
         /* 🧙🏼 */
@@ -16433,7 +16511,7 @@ namespace NeoSmart.Unicode
             group: Group.PEOPLE_AND_BODY,
             subgroup: Subgroups.PERSON_FANTASY,
             hasGlyph: true,
-            sortOrder: 1578
+            sortOrder: 1584
         );
 
         /* 🧙🏽 */
@@ -16446,7 +16524,7 @@ namespace NeoSmart.Unicode
             group: Group.PEOPLE_AND_BODY,
             subgroup: Subgroups.PERSON_FANTASY,
             hasGlyph: true,
-            sortOrder: 1579
+            sortOrder: 1585
         );
 
         /* 🧙🏾 */
@@ -16459,7 +16537,7 @@ namespace NeoSmart.Unicode
             group: Group.PEOPLE_AND_BODY,
             subgroup: Subgroups.PERSON_FANTASY,
             hasGlyph: true,
-            sortOrder: 1580
+            sortOrder: 1586
         );
 
         /* 🧙🏿 */
@@ -16472,7 +16550,7 @@ namespace NeoSmart.Unicode
             group: Group.PEOPLE_AND_BODY,
             subgroup: Subgroups.PERSON_FANTASY,
             hasGlyph: true,
-            sortOrder: 1581
+            sortOrder: 1587
         );
 
         /* 🧙‍♂️ */
@@ -16485,7 +16563,7 @@ namespace NeoSmart.Unicode
             group: Group.PEOPLE_AND_BODY,
             subgroup: Subgroups.PERSON_FANTASY,
             hasGlyph: true,
-            sortOrder: 1582
+            sortOrder: 1588
         );
 
         /* 🧙🏻‍♂️ */
@@ -16498,7 +16576,7 @@ namespace NeoSmart.Unicode
             group: Group.PEOPLE_AND_BODY,
             subgroup: Subgroups.PERSON_FANTASY,
             hasGlyph: true,
-            sortOrder: 1584
+            sortOrder: 1590
         );
 
         /* 🧙🏼‍♂️ */
@@ -16511,7 +16589,7 @@ namespace NeoSmart.Unicode
             group: Group.PEOPLE_AND_BODY,
             subgroup: Subgroups.PERSON_FANTASY,
             hasGlyph: true,
-            sortOrder: 1586
+            sortOrder: 1592
         );
 
         /* 🧙🏽‍♂️ */
@@ -16524,7 +16602,7 @@ namespace NeoSmart.Unicode
             group: Group.PEOPLE_AND_BODY,
             subgroup: Subgroups.PERSON_FANTASY,
             hasGlyph: true,
-            sortOrder: 1588
+            sortOrder: 1594
         );
 
         /* 🧙🏾‍♂️ */
@@ -16537,7 +16615,7 @@ namespace NeoSmart.Unicode
             group: Group.PEOPLE_AND_BODY,
             subgroup: Subgroups.PERSON_FANTASY,
             hasGlyph: true,
-            sortOrder: 1590
+            sortOrder: 1596
         );
 
         /* 🧙🏿‍♂️ */
@@ -16550,7 +16628,7 @@ namespace NeoSmart.Unicode
             group: Group.PEOPLE_AND_BODY,
             subgroup: Subgroups.PERSON_FANTASY,
             hasGlyph: true,
-            sortOrder: 1592
+            sortOrder: 1598
         );
 
         /* 🧙‍♀️ */
@@ -16563,7 +16641,7 @@ namespace NeoSmart.Unicode
             group: Group.PEOPLE_AND_BODY,
             subgroup: Subgroups.PERSON_FANTASY,
             hasGlyph: true,
-            sortOrder: 1594
+            sortOrder: 1600
         );
 
         /* 🧙🏻‍♀️ */
@@ -16576,7 +16654,7 @@ namespace NeoSmart.Unicode
             group: Group.PEOPLE_AND_BODY,
             subgroup: Subgroups.PERSON_FANTASY,
             hasGlyph: true,
-            sortOrder: 1596
+            sortOrder: 1602
         );
 
         /* 🧙🏼‍♀️ */
@@ -16589,7 +16667,7 @@ namespace NeoSmart.Unicode
             group: Group.PEOPLE_AND_BODY,
             subgroup: Subgroups.PERSON_FANTASY,
             hasGlyph: true,
-            sortOrder: 1598
+            sortOrder: 1604
         );
 
         /* 🧙🏽‍♀️ */
@@ -16602,7 +16680,7 @@ namespace NeoSmart.Unicode
             group: Group.PEOPLE_AND_BODY,
             subgroup: Subgroups.PERSON_FANTASY,
             hasGlyph: true,
-            sortOrder: 1600
+            sortOrder: 1606
         );
 
         /* 🧙🏾‍♀️ */
@@ -16615,7 +16693,7 @@ namespace NeoSmart.Unicode
             group: Group.PEOPLE_AND_BODY,
             subgroup: Subgroups.PERSON_FANTASY,
             hasGlyph: true,
-            sortOrder: 1602
+            sortOrder: 1608
         );
 
         /* 🧙🏿‍♀️ */
@@ -16628,7 +16706,7 @@ namespace NeoSmart.Unicode
             group: Group.PEOPLE_AND_BODY,
             subgroup: Subgroups.PERSON_FANTASY,
             hasGlyph: true,
-            sortOrder: 1604
+            sortOrder: 1610
         );
 
         /* 🧚 */
@@ -16641,7 +16719,7 @@ namespace NeoSmart.Unicode
             group: Group.PEOPLE_AND_BODY,
             subgroup: Subgroups.PERSON_FANTASY,
             hasGlyph: true,
-            sortOrder: 1606
+            sortOrder: 1612
         );
 
         /* 🧚🏻 */
@@ -16654,7 +16732,7 @@ namespace NeoSmart.Unicode
             group: Group.PEOPLE_AND_BODY,
             subgroup: Subgroups.PERSON_FANTASY,
             hasGlyph: true,
-            sortOrder: 1607
+            sortOrder: 1613
         );
 
         /* 🧚🏼 */
@@ -16667,7 +16745,7 @@ namespace NeoSmart.Unicode
             group: Group.PEOPLE_AND_BODY,
             subgroup: Subgroups.PERSON_FANTASY,
             hasGlyph: true,
-            sortOrder: 1608
+            sortOrder: 1614
         );
 
         /* 🧚🏽 */
@@ -16680,7 +16758,7 @@ namespace NeoSmart.Unicode
             group: Group.PEOPLE_AND_BODY,
             subgroup: Subgroups.PERSON_FANTASY,
             hasGlyph: true,
-            sortOrder: 1609
+            sortOrder: 1615
         );
 
         /* 🧚🏾 */
@@ -16693,7 +16771,7 @@ namespace NeoSmart.Unicode
             group: Group.PEOPLE_AND_BODY,
             subgroup: Subgroups.PERSON_FANTASY,
             hasGlyph: true,
-            sortOrder: 1610
+            sortOrder: 1616
         );
 
         /* 🧚🏿 */
@@ -16706,7 +16784,7 @@ namespace NeoSmart.Unicode
             group: Group.PEOPLE_AND_BODY,
             subgroup: Subgroups.PERSON_FANTASY,
             hasGlyph: true,
-            sortOrder: 1611
+            sortOrder: 1617
         );
 
         /* 🧚‍♂️ */
@@ -16719,7 +16797,7 @@ namespace NeoSmart.Unicode
             group: Group.PEOPLE_AND_BODY,
             subgroup: Subgroups.PERSON_FANTASY,
             hasGlyph: true,
-            sortOrder: 1612
+            sortOrder: 1618
         );
 
         /* 🧚🏻‍♂️ */
@@ -16732,7 +16810,7 @@ namespace NeoSmart.Unicode
             group: Group.PEOPLE_AND_BODY,
             subgroup: Subgroups.PERSON_FANTASY,
             hasGlyph: true,
-            sortOrder: 1614
+            sortOrder: 1620
         );
 
         /* 🧚🏼‍♂️ */
@@ -16745,7 +16823,7 @@ namespace NeoSmart.Unicode
             group: Group.PEOPLE_AND_BODY,
             subgroup: Subgroups.PERSON_FANTASY,
             hasGlyph: true,
-            sortOrder: 1616
+            sortOrder: 1622
         );
 
         /* 🧚🏽‍♂️ */
@@ -16758,7 +16836,7 @@ namespace NeoSmart.Unicode
             group: Group.PEOPLE_AND_BODY,
             subgroup: Subgroups.PERSON_FANTASY,
             hasGlyph: true,
-            sortOrder: 1618
+            sortOrder: 1624
         );
 
         /* 🧚🏾‍♂️ */
@@ -16771,7 +16849,7 @@ namespace NeoSmart.Unicode
             group: Group.PEOPLE_AND_BODY,
             subgroup: Subgroups.PERSON_FANTASY,
             hasGlyph: true,
-            sortOrder: 1620
+            sortOrder: 1626
         );
 
         /* 🧚🏿‍♂️ */
@@ -16784,7 +16862,7 @@ namespace NeoSmart.Unicode
             group: Group.PEOPLE_AND_BODY,
             subgroup: Subgroups.PERSON_FANTASY,
             hasGlyph: true,
-            sortOrder: 1622
+            sortOrder: 1628
         );
 
         /* 🧚‍♀️ */
@@ -16797,7 +16875,7 @@ namespace NeoSmart.Unicode
             group: Group.PEOPLE_AND_BODY,
             subgroup: Subgroups.PERSON_FANTASY,
             hasGlyph: true,
-            sortOrder: 1624
+            sortOrder: 1630
         );
 
         /* 🧚🏻‍♀️ */
@@ -16810,7 +16888,7 @@ namespace NeoSmart.Unicode
             group: Group.PEOPLE_AND_BODY,
             subgroup: Subgroups.PERSON_FANTASY,
             hasGlyph: true,
-            sortOrder: 1626
+            sortOrder: 1632
         );
 
         /* 🧚🏼‍♀️ */
@@ -16823,7 +16901,7 @@ namespace NeoSmart.Unicode
             group: Group.PEOPLE_AND_BODY,
             subgroup: Subgroups.PERSON_FANTASY,
             hasGlyph: true,
-            sortOrder: 1628
+            sortOrder: 1634
         );
 
         /* 🧚🏽‍♀️ */
@@ -16836,7 +16914,7 @@ namespace NeoSmart.Unicode
             group: Group.PEOPLE_AND_BODY,
             subgroup: Subgroups.PERSON_FANTASY,
             hasGlyph: true,
-            sortOrder: 1630
+            sortOrder: 1636
         );
 
         /* 🧚🏾‍♀️ */
@@ -16849,7 +16927,7 @@ namespace NeoSmart.Unicode
             group: Group.PEOPLE_AND_BODY,
             subgroup: Subgroups.PERSON_FANTASY,
             hasGlyph: true,
-            sortOrder: 1632
+            sortOrder: 1638
         );
 
         /* 🧚🏿‍♀️ */
@@ -16862,7 +16940,7 @@ namespace NeoSmart.Unicode
             group: Group.PEOPLE_AND_BODY,
             subgroup: Subgroups.PERSON_FANTASY,
             hasGlyph: true,
-            sortOrder: 1634
+            sortOrder: 1640
         );
 
         /* 🧛 */
@@ -16875,7 +16953,7 @@ namespace NeoSmart.Unicode
             group: Group.PEOPLE_AND_BODY,
             subgroup: Subgroups.PERSON_FANTASY,
             hasGlyph: true,
-            sortOrder: 1636
+            sortOrder: 1642
         );
 
         /* 🧛🏻 */
@@ -16888,7 +16966,7 @@ namespace NeoSmart.Unicode
             group: Group.PEOPLE_AND_BODY,
             subgroup: Subgroups.PERSON_FANTASY,
             hasGlyph: true,
-            sortOrder: 1637
+            sortOrder: 1643
         );
 
         /* 🧛🏼 */
@@ -16901,7 +16979,7 @@ namespace NeoSmart.Unicode
             group: Group.PEOPLE_AND_BODY,
             subgroup: Subgroups.PERSON_FANTASY,
             hasGlyph: true,
-            sortOrder: 1638
+            sortOrder: 1644
         );
 
         /* 🧛🏽 */
@@ -16914,7 +16992,7 @@ namespace NeoSmart.Unicode
             group: Group.PEOPLE_AND_BODY,
             subgroup: Subgroups.PERSON_FANTASY,
             hasGlyph: true,
-            sortOrder: 1639
+            sortOrder: 1645
         );
 
         /* 🧛🏾 */
@@ -16927,7 +17005,7 @@ namespace NeoSmart.Unicode
             group: Group.PEOPLE_AND_BODY,
             subgroup: Subgroups.PERSON_FANTASY,
             hasGlyph: true,
-            sortOrder: 1640
+            sortOrder: 1646
         );
 
         /* 🧛🏿 */
@@ -16940,7 +17018,7 @@ namespace NeoSmart.Unicode
             group: Group.PEOPLE_AND_BODY,
             subgroup: Subgroups.PERSON_FANTASY,
             hasGlyph: true,
-            sortOrder: 1641
+            sortOrder: 1647
         );
 
         /* 🧛‍♂️ */
@@ -16953,7 +17031,7 @@ namespace NeoSmart.Unicode
             group: Group.PEOPLE_AND_BODY,
             subgroup: Subgroups.PERSON_FANTASY,
             hasGlyph: true,
-            sortOrder: 1642
+            sortOrder: 1648
         );
 
         /* 🧛🏻‍♂️ */
@@ -16966,7 +17044,7 @@ namespace NeoSmart.Unicode
             group: Group.PEOPLE_AND_BODY,
             subgroup: Subgroups.PERSON_FANTASY,
             hasGlyph: true,
-            sortOrder: 1644
+            sortOrder: 1650
         );
 
         /* 🧛🏼‍♂️ */
@@ -16979,7 +17057,7 @@ namespace NeoSmart.Unicode
             group: Group.PEOPLE_AND_BODY,
             subgroup: Subgroups.PERSON_FANTASY,
             hasGlyph: true,
-            sortOrder: 1646
+            sortOrder: 1652
         );
 
         /* 🧛🏽‍♂️ */
@@ -16992,7 +17070,7 @@ namespace NeoSmart.Unicode
             group: Group.PEOPLE_AND_BODY,
             subgroup: Subgroups.PERSON_FANTASY,
             hasGlyph: true,
-            sortOrder: 1648
+            sortOrder: 1654
         );
 
         /* 🧛🏾‍♂️ */
@@ -17005,7 +17083,7 @@ namespace NeoSmart.Unicode
             group: Group.PEOPLE_AND_BODY,
             subgroup: Subgroups.PERSON_FANTASY,
             hasGlyph: true,
-            sortOrder: 1650
+            sortOrder: 1656
         );
 
         /* 🧛🏿‍♂️ */
@@ -17018,7 +17096,7 @@ namespace NeoSmart.Unicode
             group: Group.PEOPLE_AND_BODY,
             subgroup: Subgroups.PERSON_FANTASY,
             hasGlyph: true,
-            sortOrder: 1652
+            sortOrder: 1658
         );
 
         /* 🧛‍♀️ */
@@ -17031,7 +17109,7 @@ namespace NeoSmart.Unicode
             group: Group.PEOPLE_AND_BODY,
             subgroup: Subgroups.PERSON_FANTASY,
             hasGlyph: true,
-            sortOrder: 1654
+            sortOrder: 1660
         );
 
         /* 🧛🏻‍♀️ */
@@ -17044,7 +17122,7 @@ namespace NeoSmart.Unicode
             group: Group.PEOPLE_AND_BODY,
             subgroup: Subgroups.PERSON_FANTASY,
             hasGlyph: true,
-            sortOrder: 1656
+            sortOrder: 1662
         );
 
         /* 🧛🏼‍♀️ */
@@ -17057,7 +17135,7 @@ namespace NeoSmart.Unicode
             group: Group.PEOPLE_AND_BODY,
             subgroup: Subgroups.PERSON_FANTASY,
             hasGlyph: true,
-            sortOrder: 1658
+            sortOrder: 1664
         );
 
         /* 🧛🏽‍♀️ */
@@ -17070,7 +17148,7 @@ namespace NeoSmart.Unicode
             group: Group.PEOPLE_AND_BODY,
             subgroup: Subgroups.PERSON_FANTASY,
             hasGlyph: true,
-            sortOrder: 1660
+            sortOrder: 1666
         );
 
         /* 🧛🏾‍♀️ */
@@ -17083,7 +17161,7 @@ namespace NeoSmart.Unicode
             group: Group.PEOPLE_AND_BODY,
             subgroup: Subgroups.PERSON_FANTASY,
             hasGlyph: true,
-            sortOrder: 1662
+            sortOrder: 1668
         );
 
         /* 🧛🏿‍♀️ */
@@ -17096,7 +17174,7 @@ namespace NeoSmart.Unicode
             group: Group.PEOPLE_AND_BODY,
             subgroup: Subgroups.PERSON_FANTASY,
             hasGlyph: true,
-            sortOrder: 1664
+            sortOrder: 1670
         );
 
         /* 🧜 */
@@ -17109,7 +17187,7 @@ namespace NeoSmart.Unicode
             group: Group.PEOPLE_AND_BODY,
             subgroup: Subgroups.PERSON_FANTASY,
             hasGlyph: true,
-            sortOrder: 1666
+            sortOrder: 1672
         );
 
         /* 🧜🏻 */
@@ -17122,7 +17200,7 @@ namespace NeoSmart.Unicode
             group: Group.PEOPLE_AND_BODY,
             subgroup: Subgroups.PERSON_FANTASY,
             hasGlyph: true,
-            sortOrder: 1667
+            sortOrder: 1673
         );
 
         /* 🧜🏼 */
@@ -17135,7 +17213,7 @@ namespace NeoSmart.Unicode
             group: Group.PEOPLE_AND_BODY,
             subgroup: Subgroups.PERSON_FANTASY,
             hasGlyph: true,
-            sortOrder: 1668
+            sortOrder: 1674
         );
 
         /* 🧜🏽 */
@@ -17148,7 +17226,7 @@ namespace NeoSmart.Unicode
             group: Group.PEOPLE_AND_BODY,
             subgroup: Subgroups.PERSON_FANTASY,
             hasGlyph: true,
-            sortOrder: 1669
+            sortOrder: 1675
         );
 
         /* 🧜🏾 */
@@ -17161,7 +17239,7 @@ namespace NeoSmart.Unicode
             group: Group.PEOPLE_AND_BODY,
             subgroup: Subgroups.PERSON_FANTASY,
             hasGlyph: true,
-            sortOrder: 1670
+            sortOrder: 1676
         );
 
         /* 🧜🏿 */
@@ -17174,7 +17252,7 @@ namespace NeoSmart.Unicode
             group: Group.PEOPLE_AND_BODY,
             subgroup: Subgroups.PERSON_FANTASY,
             hasGlyph: true,
-            sortOrder: 1671
+            sortOrder: 1677
         );
 
         /* 🧜‍♂️ */
@@ -17187,7 +17265,7 @@ namespace NeoSmart.Unicode
             group: Group.PEOPLE_AND_BODY,
             subgroup: Subgroups.PERSON_FANTASY,
             hasGlyph: true,
-            sortOrder: 1672
+            sortOrder: 1678
         );
 
         /* 🧜🏻‍♂️ */
@@ -17200,7 +17278,7 @@ namespace NeoSmart.Unicode
             group: Group.PEOPLE_AND_BODY,
             subgroup: Subgroups.PERSON_FANTASY,
             hasGlyph: true,
-            sortOrder: 1674
+            sortOrder: 1680
         );
 
         /* 🧜🏼‍♂️ */
@@ -17213,7 +17291,7 @@ namespace NeoSmart.Unicode
             group: Group.PEOPLE_AND_BODY,
             subgroup: Subgroups.PERSON_FANTASY,
             hasGlyph: true,
-            sortOrder: 1676
+            sortOrder: 1682
         );
 
         /* 🧜🏽‍♂️ */
@@ -17226,7 +17304,7 @@ namespace NeoSmart.Unicode
             group: Group.PEOPLE_AND_BODY,
             subgroup: Subgroups.PERSON_FANTASY,
             hasGlyph: true,
-            sortOrder: 1678
+            sortOrder: 1684
         );
 
         /* 🧜🏾‍♂️ */
@@ -17239,7 +17317,7 @@ namespace NeoSmart.Unicode
             group: Group.PEOPLE_AND_BODY,
             subgroup: Subgroups.PERSON_FANTASY,
             hasGlyph: true,
-            sortOrder: 1680
+            sortOrder: 1686
         );
 
         /* 🧜🏿‍♂️ */
@@ -17252,7 +17330,7 @@ namespace NeoSmart.Unicode
             group: Group.PEOPLE_AND_BODY,
             subgroup: Subgroups.PERSON_FANTASY,
             hasGlyph: true,
-            sortOrder: 1682
+            sortOrder: 1688
         );
 
         /* 🧜‍♀️ */
@@ -17265,7 +17343,7 @@ namespace NeoSmart.Unicode
             group: Group.PEOPLE_AND_BODY,
             subgroup: Subgroups.PERSON_FANTASY,
             hasGlyph: true,
-            sortOrder: 1684
+            sortOrder: 1690
         );
 
         /* 🧜🏻‍♀️ */
@@ -17278,7 +17356,7 @@ namespace NeoSmart.Unicode
             group: Group.PEOPLE_AND_BODY,
             subgroup: Subgroups.PERSON_FANTASY,
             hasGlyph: true,
-            sortOrder: 1686
+            sortOrder: 1692
         );
 
         /* 🧜🏼‍♀️ */
@@ -17291,7 +17369,7 @@ namespace NeoSmart.Unicode
             group: Group.PEOPLE_AND_BODY,
             subgroup: Subgroups.PERSON_FANTASY,
             hasGlyph: true,
-            sortOrder: 1688
+            sortOrder: 1694
         );
 
         /* 🧜🏽‍♀️ */
@@ -17304,7 +17382,7 @@ namespace NeoSmart.Unicode
             group: Group.PEOPLE_AND_BODY,
             subgroup: Subgroups.PERSON_FANTASY,
             hasGlyph: true,
-            sortOrder: 1690
+            sortOrder: 1696
         );
 
         /* 🧜🏾‍♀️ */
@@ -17317,7 +17395,7 @@ namespace NeoSmart.Unicode
             group: Group.PEOPLE_AND_BODY,
             subgroup: Subgroups.PERSON_FANTASY,
             hasGlyph: true,
-            sortOrder: 1692
+            sortOrder: 1698
         );
 
         /* 🧜🏿‍♀️ */
@@ -17330,7 +17408,7 @@ namespace NeoSmart.Unicode
             group: Group.PEOPLE_AND_BODY,
             subgroup: Subgroups.PERSON_FANTASY,
             hasGlyph: true,
-            sortOrder: 1694
+            sortOrder: 1700
         );
 
         /* 🧝 */
@@ -17343,7 +17421,7 @@ namespace NeoSmart.Unicode
             group: Group.PEOPLE_AND_BODY,
             subgroup: Subgroups.PERSON_FANTASY,
             hasGlyph: true,
-            sortOrder: 1696
+            sortOrder: 1702
         );
 
         /* 🧝🏻 */
@@ -17356,7 +17434,7 @@ namespace NeoSmart.Unicode
             group: Group.PEOPLE_AND_BODY,
             subgroup: Subgroups.PERSON_FANTASY,
             hasGlyph: true,
-            sortOrder: 1697
+            sortOrder: 1703
         );
 
         /* 🧝🏼 */
@@ -17369,7 +17447,7 @@ namespace NeoSmart.Unicode
             group: Group.PEOPLE_AND_BODY,
             subgroup: Subgroups.PERSON_FANTASY,
             hasGlyph: true,
-            sortOrder: 1698
+            sortOrder: 1704
         );
 
         /* 🧝🏽 */
@@ -17382,7 +17460,7 @@ namespace NeoSmart.Unicode
             group: Group.PEOPLE_AND_BODY,
             subgroup: Subgroups.PERSON_FANTASY,
             hasGlyph: true,
-            sortOrder: 1699
+            sortOrder: 1705
         );
 
         /* 🧝🏾 */
@@ -17395,7 +17473,7 @@ namespace NeoSmart.Unicode
             group: Group.PEOPLE_AND_BODY,
             subgroup: Subgroups.PERSON_FANTASY,
             hasGlyph: true,
-            sortOrder: 1700
+            sortOrder: 1706
         );
 
         /* 🧝🏿 */
@@ -17408,7 +17486,7 @@ namespace NeoSmart.Unicode
             group: Group.PEOPLE_AND_BODY,
             subgroup: Subgroups.PERSON_FANTASY,
             hasGlyph: true,
-            sortOrder: 1701
+            sortOrder: 1707
         );
 
         /* 🧝‍♂️ */
@@ -17421,7 +17499,7 @@ namespace NeoSmart.Unicode
             group: Group.PEOPLE_AND_BODY,
             subgroup: Subgroups.PERSON_FANTASY,
             hasGlyph: true,
-            sortOrder: 1702
+            sortOrder: 1708
         );
 
         /* 🧝🏻‍♂️ */
@@ -17434,7 +17512,7 @@ namespace NeoSmart.Unicode
             group: Group.PEOPLE_AND_BODY,
             subgroup: Subgroups.PERSON_FANTASY,
             hasGlyph: true,
-            sortOrder: 1704
+            sortOrder: 1710
         );
 
         /* 🧝🏼‍♂️ */
@@ -17447,7 +17525,7 @@ namespace NeoSmart.Unicode
             group: Group.PEOPLE_AND_BODY,
             subgroup: Subgroups.PERSON_FANTASY,
             hasGlyph: true,
-            sortOrder: 1706
+            sortOrder: 1712
         );
 
         /* 🧝🏽‍♂️ */
@@ -17460,7 +17538,7 @@ namespace NeoSmart.Unicode
             group: Group.PEOPLE_AND_BODY,
             subgroup: Subgroups.PERSON_FANTASY,
             hasGlyph: true,
-            sortOrder: 1708
+            sortOrder: 1714
         );
 
         /* 🧝🏾‍♂️ */
@@ -17473,7 +17551,7 @@ namespace NeoSmart.Unicode
             group: Group.PEOPLE_AND_BODY,
             subgroup: Subgroups.PERSON_FANTASY,
             hasGlyph: true,
-            sortOrder: 1710
+            sortOrder: 1716
         );
 
         /* 🧝🏿‍♂️ */
@@ -17486,7 +17564,7 @@ namespace NeoSmart.Unicode
             group: Group.PEOPLE_AND_BODY,
             subgroup: Subgroups.PERSON_FANTASY,
             hasGlyph: true,
-            sortOrder: 1712
+            sortOrder: 1718
         );
 
         /* 🧝‍♀️ */
@@ -17499,7 +17577,7 @@ namespace NeoSmart.Unicode
             group: Group.PEOPLE_AND_BODY,
             subgroup: Subgroups.PERSON_FANTASY,
             hasGlyph: true,
-            sortOrder: 1714
+            sortOrder: 1720
         );
 
         /* 🧝🏻‍♀️ */
@@ -17512,7 +17590,7 @@ namespace NeoSmart.Unicode
             group: Group.PEOPLE_AND_BODY,
             subgroup: Subgroups.PERSON_FANTASY,
             hasGlyph: true,
-            sortOrder: 1716
+            sortOrder: 1722
         );
 
         /* 🧝🏼‍♀️ */
@@ -17525,7 +17603,7 @@ namespace NeoSmart.Unicode
             group: Group.PEOPLE_AND_BODY,
             subgroup: Subgroups.PERSON_FANTASY,
             hasGlyph: true,
-            sortOrder: 1718
+            sortOrder: 1724
         );
 
         /* 🧝🏽‍♀️ */
@@ -17538,7 +17616,7 @@ namespace NeoSmart.Unicode
             group: Group.PEOPLE_AND_BODY,
             subgroup: Subgroups.PERSON_FANTASY,
             hasGlyph: true,
-            sortOrder: 1720
+            sortOrder: 1726
         );
 
         /* 🧝🏾‍♀️ */
@@ -17551,7 +17629,7 @@ namespace NeoSmart.Unicode
             group: Group.PEOPLE_AND_BODY,
             subgroup: Subgroups.PERSON_FANTASY,
             hasGlyph: true,
-            sortOrder: 1722
+            sortOrder: 1728
         );
 
         /* 🧝🏿‍♀️ */
@@ -17564,7 +17642,7 @@ namespace NeoSmart.Unicode
             group: Group.PEOPLE_AND_BODY,
             subgroup: Subgroups.PERSON_FANTASY,
             hasGlyph: true,
-            sortOrder: 1724
+            sortOrder: 1730
         );
 
         /* 🧞 */
@@ -17577,7 +17655,7 @@ namespace NeoSmart.Unicode
             group: Group.PEOPLE_AND_BODY,
             subgroup: Subgroups.PERSON_FANTASY,
             hasGlyph: true,
-            sortOrder: 1726
+            sortOrder: 1732
         );
 
         /* 🧞‍♂️ */
@@ -17590,7 +17668,7 @@ namespace NeoSmart.Unicode
             group: Group.PEOPLE_AND_BODY,
             subgroup: Subgroups.PERSON_FANTASY,
             hasGlyph: true,
-            sortOrder: 1727
+            sortOrder: 1733
         );
 
         /* 🧞‍♀️ */
@@ -17603,7 +17681,7 @@ namespace NeoSmart.Unicode
             group: Group.PEOPLE_AND_BODY,
             subgroup: Subgroups.PERSON_FANTASY,
             hasGlyph: true,
-            sortOrder: 1729
+            sortOrder: 1735
         );
 
         /* 🧟 */
@@ -17616,7 +17694,7 @@ namespace NeoSmart.Unicode
             group: Group.PEOPLE_AND_BODY,
             subgroup: Subgroups.PERSON_FANTASY,
             hasGlyph: true,
-            sortOrder: 1731
+            sortOrder: 1737
         );
 
         /* 🧟‍♂️ */
@@ -17629,7 +17707,7 @@ namespace NeoSmart.Unicode
             group: Group.PEOPLE_AND_BODY,
             subgroup: Subgroups.PERSON_FANTASY,
             hasGlyph: true,
-            sortOrder: 1732
+            sortOrder: 1738
         );
 
         /* 🧟‍♀️ */
@@ -17642,7 +17720,7 @@ namespace NeoSmart.Unicode
             group: Group.PEOPLE_AND_BODY,
             subgroup: Subgroups.PERSON_FANTASY,
             hasGlyph: true,
-            sortOrder: 1734
+            sortOrder: 1740
         );
 
         /* 💆 */
@@ -17655,7 +17733,7 @@ namespace NeoSmart.Unicode
             group: Group.PEOPLE_AND_BODY,
             subgroup: Subgroups.PERSON_ACTIVITY,
             hasGlyph: true,
-            sortOrder: 1736
+            sortOrder: 1742
         );
 
         /* 💆🏻 */
@@ -17668,7 +17746,7 @@ namespace NeoSmart.Unicode
             group: Group.PEOPLE_AND_BODY,
             subgroup: Subgroups.PERSON_ACTIVITY,
             hasGlyph: true,
-            sortOrder: 1737
+            sortOrder: 1743
         );
 
         /* 💆🏼 */
@@ -17681,7 +17759,7 @@ namespace NeoSmart.Unicode
             group: Group.PEOPLE_AND_BODY,
             subgroup: Subgroups.PERSON_ACTIVITY,
             hasGlyph: true,
-            sortOrder: 1738
+            sortOrder: 1744
         );
 
         /* 💆🏽 */
@@ -17694,7 +17772,7 @@ namespace NeoSmart.Unicode
             group: Group.PEOPLE_AND_BODY,
             subgroup: Subgroups.PERSON_ACTIVITY,
             hasGlyph: true,
-            sortOrder: 1739
+            sortOrder: 1745
         );
 
         /* 💆🏾 */
@@ -17707,7 +17785,7 @@ namespace NeoSmart.Unicode
             group: Group.PEOPLE_AND_BODY,
             subgroup: Subgroups.PERSON_ACTIVITY,
             hasGlyph: true,
-            sortOrder: 1740
+            sortOrder: 1746
         );
 
         /* 💆🏿 */
@@ -17720,7 +17798,7 @@ namespace NeoSmart.Unicode
             group: Group.PEOPLE_AND_BODY,
             subgroup: Subgroups.PERSON_ACTIVITY,
             hasGlyph: true,
-            sortOrder: 1741
+            sortOrder: 1747
         );
 
         /* 💆‍♂️ */
@@ -17733,7 +17811,7 @@ namespace NeoSmart.Unicode
             group: Group.PEOPLE_AND_BODY,
             subgroup: Subgroups.PERSON_ACTIVITY,
             hasGlyph: true,
-            sortOrder: 1742
+            sortOrder: 1748
         );
 
         /* 💆🏻‍♂️ */
@@ -17746,7 +17824,7 @@ namespace NeoSmart.Unicode
             group: Group.PEOPLE_AND_BODY,
             subgroup: Subgroups.PERSON_ACTIVITY,
             hasGlyph: true,
-            sortOrder: 1744
+            sortOrder: 1750
         );
 
         /* 💆🏼‍♂️ */
@@ -17759,7 +17837,7 @@ namespace NeoSmart.Unicode
             group: Group.PEOPLE_AND_BODY,
             subgroup: Subgroups.PERSON_ACTIVITY,
             hasGlyph: true,
-            sortOrder: 1746
+            sortOrder: 1752
         );
 
         /* 💆🏽‍♂️ */
@@ -17772,7 +17850,7 @@ namespace NeoSmart.Unicode
             group: Group.PEOPLE_AND_BODY,
             subgroup: Subgroups.PERSON_ACTIVITY,
             hasGlyph: true,
-            sortOrder: 1748
+            sortOrder: 1754
         );
 
         /* 💆🏾‍♂️ */
@@ -17785,7 +17863,7 @@ namespace NeoSmart.Unicode
             group: Group.PEOPLE_AND_BODY,
             subgroup: Subgroups.PERSON_ACTIVITY,
             hasGlyph: true,
-            sortOrder: 1750
+            sortOrder: 1756
         );
 
         /* 💆🏿‍♂️ */
@@ -17798,7 +17876,7 @@ namespace NeoSmart.Unicode
             group: Group.PEOPLE_AND_BODY,
             subgroup: Subgroups.PERSON_ACTIVITY,
             hasGlyph: true,
-            sortOrder: 1752
+            sortOrder: 1758
         );
 
         /* 💆‍♀️ */
@@ -17811,7 +17889,7 @@ namespace NeoSmart.Unicode
             group: Group.PEOPLE_AND_BODY,
             subgroup: Subgroups.PERSON_ACTIVITY,
             hasGlyph: true,
-            sortOrder: 1754
+            sortOrder: 1760
         );
 
         /* 💆🏻‍♀️ */
@@ -17824,7 +17902,7 @@ namespace NeoSmart.Unicode
             group: Group.PEOPLE_AND_BODY,
             subgroup: Subgroups.PERSON_ACTIVITY,
             hasGlyph: true,
-            sortOrder: 1756
+            sortOrder: 1762
         );
 
         /* 💆🏼‍♀️ */
@@ -17837,7 +17915,7 @@ namespace NeoSmart.Unicode
             group: Group.PEOPLE_AND_BODY,
             subgroup: Subgroups.PERSON_ACTIVITY,
             hasGlyph: true,
-            sortOrder: 1758
+            sortOrder: 1764
         );
 
         /* 💆🏽‍♀️ */
@@ -17850,7 +17928,7 @@ namespace NeoSmart.Unicode
             group: Group.PEOPLE_AND_BODY,
             subgroup: Subgroups.PERSON_ACTIVITY,
             hasGlyph: true,
-            sortOrder: 1760
+            sortOrder: 1766
         );
 
         /* 💆🏾‍♀️ */
@@ -17863,7 +17941,7 @@ namespace NeoSmart.Unicode
             group: Group.PEOPLE_AND_BODY,
             subgroup: Subgroups.PERSON_ACTIVITY,
             hasGlyph: true,
-            sortOrder: 1762
+            sortOrder: 1768
         );
 
         /* 💆🏿‍♀️ */
@@ -17876,7 +17954,7 @@ namespace NeoSmart.Unicode
             group: Group.PEOPLE_AND_BODY,
             subgroup: Subgroups.PERSON_ACTIVITY,
             hasGlyph: true,
-            sortOrder: 1764
+            sortOrder: 1770
         );
 
         /* 💇 */
@@ -17889,7 +17967,7 @@ namespace NeoSmart.Unicode
             group: Group.PEOPLE_AND_BODY,
             subgroup: Subgroups.PERSON_ACTIVITY,
             hasGlyph: true,
-            sortOrder: 1766
+            sortOrder: 1772
         );
 
         /* 💇🏻 */
@@ -17902,7 +17980,7 @@ namespace NeoSmart.Unicode
             group: Group.PEOPLE_AND_BODY,
             subgroup: Subgroups.PERSON_ACTIVITY,
             hasGlyph: true,
-            sortOrder: 1767
+            sortOrder: 1773
         );
 
         /* 💇🏼 */
@@ -17915,7 +17993,7 @@ namespace NeoSmart.Unicode
             group: Group.PEOPLE_AND_BODY,
             subgroup: Subgroups.PERSON_ACTIVITY,
             hasGlyph: true,
-            sortOrder: 1768
+            sortOrder: 1774
         );
 
         /* 💇🏽 */
@@ -17928,7 +18006,7 @@ namespace NeoSmart.Unicode
             group: Group.PEOPLE_AND_BODY,
             subgroup: Subgroups.PERSON_ACTIVITY,
             hasGlyph: true,
-            sortOrder: 1769
+            sortOrder: 1775
         );
 
         /* 💇🏾 */
@@ -17941,7 +18019,7 @@ namespace NeoSmart.Unicode
             group: Group.PEOPLE_AND_BODY,
             subgroup: Subgroups.PERSON_ACTIVITY,
             hasGlyph: true,
-            sortOrder: 1770
+            sortOrder: 1776
         );
 
         /* 💇🏿 */
@@ -17954,7 +18032,7 @@ namespace NeoSmart.Unicode
             group: Group.PEOPLE_AND_BODY,
             subgroup: Subgroups.PERSON_ACTIVITY,
             hasGlyph: true,
-            sortOrder: 1771
+            sortOrder: 1777
         );
 
         /* 💇‍♂️ */
@@ -17967,7 +18045,7 @@ namespace NeoSmart.Unicode
             group: Group.PEOPLE_AND_BODY,
             subgroup: Subgroups.PERSON_ACTIVITY,
             hasGlyph: true,
-            sortOrder: 1772
+            sortOrder: 1778
         );
 
         /* 💇🏻‍♂️ */
@@ -17980,7 +18058,7 @@ namespace NeoSmart.Unicode
             group: Group.PEOPLE_AND_BODY,
             subgroup: Subgroups.PERSON_ACTIVITY,
             hasGlyph: true,
-            sortOrder: 1774
+            sortOrder: 1780
         );
 
         /* 💇🏼‍♂️ */
@@ -17993,7 +18071,7 @@ namespace NeoSmart.Unicode
             group: Group.PEOPLE_AND_BODY,
             subgroup: Subgroups.PERSON_ACTIVITY,
             hasGlyph: true,
-            sortOrder: 1776
+            sortOrder: 1782
         );
 
         /* 💇🏽‍♂️ */
@@ -18006,7 +18084,7 @@ namespace NeoSmart.Unicode
             group: Group.PEOPLE_AND_BODY,
             subgroup: Subgroups.PERSON_ACTIVITY,
             hasGlyph: true,
-            sortOrder: 1778
+            sortOrder: 1784
         );
 
         /* 💇🏾‍♂️ */
@@ -18019,7 +18097,7 @@ namespace NeoSmart.Unicode
             group: Group.PEOPLE_AND_BODY,
             subgroup: Subgroups.PERSON_ACTIVITY,
             hasGlyph: true,
-            sortOrder: 1780
+            sortOrder: 1786
         );
 
         /* 💇🏿‍♂️ */
@@ -18032,7 +18110,7 @@ namespace NeoSmart.Unicode
             group: Group.PEOPLE_AND_BODY,
             subgroup: Subgroups.PERSON_ACTIVITY,
             hasGlyph: true,
-            sortOrder: 1782
+            sortOrder: 1788
         );
 
         /* 💇‍♀️ */
@@ -18045,7 +18123,7 @@ namespace NeoSmart.Unicode
             group: Group.PEOPLE_AND_BODY,
             subgroup: Subgroups.PERSON_ACTIVITY,
             hasGlyph: true,
-            sortOrder: 1784
+            sortOrder: 1790
         );
 
         /* 💇🏻‍♀️ */
@@ -18058,7 +18136,7 @@ namespace NeoSmart.Unicode
             group: Group.PEOPLE_AND_BODY,
             subgroup: Subgroups.PERSON_ACTIVITY,
             hasGlyph: true,
-            sortOrder: 1786
+            sortOrder: 1792
         );
 
         /* 💇🏼‍♀️ */
@@ -18071,7 +18149,7 @@ namespace NeoSmart.Unicode
             group: Group.PEOPLE_AND_BODY,
             subgroup: Subgroups.PERSON_ACTIVITY,
             hasGlyph: true,
-            sortOrder: 1788
+            sortOrder: 1794
         );
 
         /* 💇🏽‍♀️ */
@@ -18084,7 +18162,7 @@ namespace NeoSmart.Unicode
             group: Group.PEOPLE_AND_BODY,
             subgroup: Subgroups.PERSON_ACTIVITY,
             hasGlyph: true,
-            sortOrder: 1790
+            sortOrder: 1796
         );
 
         /* 💇🏾‍♀️ */
@@ -18097,7 +18175,7 @@ namespace NeoSmart.Unicode
             group: Group.PEOPLE_AND_BODY,
             subgroup: Subgroups.PERSON_ACTIVITY,
             hasGlyph: true,
-            sortOrder: 1792
+            sortOrder: 1798
         );
 
         /* 💇🏿‍♀️ */
@@ -18110,7 +18188,7 @@ namespace NeoSmart.Unicode
             group: Group.PEOPLE_AND_BODY,
             subgroup: Subgroups.PERSON_ACTIVITY,
             hasGlyph: true,
-            sortOrder: 1794
+            sortOrder: 1800
         );
 
         /* 🚶 */
@@ -18123,7 +18201,7 @@ namespace NeoSmart.Unicode
             group: Group.PEOPLE_AND_BODY,
             subgroup: Subgroups.PERSON_ACTIVITY,
             hasGlyph: true,
-            sortOrder: 1796
+            sortOrder: 1802
         );
 
         /* 🚶🏻 */
@@ -18136,7 +18214,7 @@ namespace NeoSmart.Unicode
             group: Group.PEOPLE_AND_BODY,
             subgroup: Subgroups.PERSON_ACTIVITY,
             hasGlyph: true,
-            sortOrder: 1797
+            sortOrder: 1803
         );
 
         /* 🚶🏼 */
@@ -18149,7 +18227,7 @@ namespace NeoSmart.Unicode
             group: Group.PEOPLE_AND_BODY,
             subgroup: Subgroups.PERSON_ACTIVITY,
             hasGlyph: true,
-            sortOrder: 1798
+            sortOrder: 1804
         );
 
         /* 🚶🏽 */
@@ -18162,7 +18240,7 @@ namespace NeoSmart.Unicode
             group: Group.PEOPLE_AND_BODY,
             subgroup: Subgroups.PERSON_ACTIVITY,
             hasGlyph: true,
-            sortOrder: 1799
+            sortOrder: 1805
         );
 
         /* 🚶🏾 */
@@ -18175,7 +18253,7 @@ namespace NeoSmart.Unicode
             group: Group.PEOPLE_AND_BODY,
             subgroup: Subgroups.PERSON_ACTIVITY,
             hasGlyph: true,
-            sortOrder: 1800
+            sortOrder: 1806
         );
 
         /* 🚶🏿 */
@@ -18188,7 +18266,7 @@ namespace NeoSmart.Unicode
             group: Group.PEOPLE_AND_BODY,
             subgroup: Subgroups.PERSON_ACTIVITY,
             hasGlyph: true,
-            sortOrder: 1801
+            sortOrder: 1807
         );
 
         /* 🚶‍♂️ */
@@ -18201,7 +18279,7 @@ namespace NeoSmart.Unicode
             group: Group.PEOPLE_AND_BODY,
             subgroup: Subgroups.PERSON_ACTIVITY,
             hasGlyph: true,
-            sortOrder: 1802
+            sortOrder: 1808
         );
 
         /* 🚶🏻‍♂️ */
@@ -18214,7 +18292,7 @@ namespace NeoSmart.Unicode
             group: Group.PEOPLE_AND_BODY,
             subgroup: Subgroups.PERSON_ACTIVITY,
             hasGlyph: true,
-            sortOrder: 1804
+            sortOrder: 1810
         );
 
         /* 🚶🏼‍♂️ */
@@ -18227,7 +18305,7 @@ namespace NeoSmart.Unicode
             group: Group.PEOPLE_AND_BODY,
             subgroup: Subgroups.PERSON_ACTIVITY,
             hasGlyph: true,
-            sortOrder: 1806
+            sortOrder: 1812
         );
 
         /* 🚶🏽‍♂️ */
@@ -18240,7 +18318,7 @@ namespace NeoSmart.Unicode
             group: Group.PEOPLE_AND_BODY,
             subgroup: Subgroups.PERSON_ACTIVITY,
             hasGlyph: true,
-            sortOrder: 1808
+            sortOrder: 1814
         );
 
         /* 🚶🏾‍♂️ */
@@ -18253,7 +18331,7 @@ namespace NeoSmart.Unicode
             group: Group.PEOPLE_AND_BODY,
             subgroup: Subgroups.PERSON_ACTIVITY,
             hasGlyph: true,
-            sortOrder: 1810
+            sortOrder: 1816
         );
 
         /* 🚶🏿‍♂️ */
@@ -18266,7 +18344,7 @@ namespace NeoSmart.Unicode
             group: Group.PEOPLE_AND_BODY,
             subgroup: Subgroups.PERSON_ACTIVITY,
             hasGlyph: true,
-            sortOrder: 1812
+            sortOrder: 1818
         );
 
         /* 🚶‍♀️ */
@@ -18279,7 +18357,7 @@ namespace NeoSmart.Unicode
             group: Group.PEOPLE_AND_BODY,
             subgroup: Subgroups.PERSON_ACTIVITY,
             hasGlyph: true,
-            sortOrder: 1814
+            sortOrder: 1820
         );
 
         /* 🚶🏻‍♀️ */
@@ -18292,7 +18370,7 @@ namespace NeoSmart.Unicode
             group: Group.PEOPLE_AND_BODY,
             subgroup: Subgroups.PERSON_ACTIVITY,
             hasGlyph: true,
-            sortOrder: 1816
+            sortOrder: 1822
         );
 
         /* 🚶🏼‍♀️ */
@@ -18305,7 +18383,7 @@ namespace NeoSmart.Unicode
             group: Group.PEOPLE_AND_BODY,
             subgroup: Subgroups.PERSON_ACTIVITY,
             hasGlyph: true,
-            sortOrder: 1818
+            sortOrder: 1824
         );
 
         /* 🚶🏽‍♀️ */
@@ -18318,7 +18396,7 @@ namespace NeoSmart.Unicode
             group: Group.PEOPLE_AND_BODY,
             subgroup: Subgroups.PERSON_ACTIVITY,
             hasGlyph: true,
-            sortOrder: 1820
+            sortOrder: 1826
         );
 
         /* 🚶🏾‍♀️ */
@@ -18331,7 +18409,7 @@ namespace NeoSmart.Unicode
             group: Group.PEOPLE_AND_BODY,
             subgroup: Subgroups.PERSON_ACTIVITY,
             hasGlyph: true,
-            sortOrder: 1822
+            sortOrder: 1828
         );
 
         /* 🚶🏿‍♀️ */
@@ -18344,7 +18422,7 @@ namespace NeoSmart.Unicode
             group: Group.PEOPLE_AND_BODY,
             subgroup: Subgroups.PERSON_ACTIVITY,
             hasGlyph: true,
-            sortOrder: 1824
+            sortOrder: 1830
         );
 
         /* 🧍 */
@@ -18357,7 +18435,7 @@ namespace NeoSmart.Unicode
             group: Group.PEOPLE_AND_BODY,
             subgroup: Subgroups.PERSON_ACTIVITY,
             hasGlyph: true,
-            sortOrder: 1826
+            sortOrder: 1832
         );
 
         /* 🧍🏻 */
@@ -18370,7 +18448,7 @@ namespace NeoSmart.Unicode
             group: Group.PEOPLE_AND_BODY,
             subgroup: Subgroups.PERSON_ACTIVITY,
             hasGlyph: true,
-            sortOrder: 1827
+            sortOrder: 1833
         );
 
         /* 🧍🏼 */
@@ -18383,7 +18461,7 @@ namespace NeoSmart.Unicode
             group: Group.PEOPLE_AND_BODY,
             subgroup: Subgroups.PERSON_ACTIVITY,
             hasGlyph: true,
-            sortOrder: 1828
+            sortOrder: 1834
         );
 
         /* 🧍🏽 */
@@ -18396,7 +18474,7 @@ namespace NeoSmart.Unicode
             group: Group.PEOPLE_AND_BODY,
             subgroup: Subgroups.PERSON_ACTIVITY,
             hasGlyph: true,
-            sortOrder: 1829
+            sortOrder: 1835
         );
 
         /* 🧍🏾 */
@@ -18409,7 +18487,7 @@ namespace NeoSmart.Unicode
             group: Group.PEOPLE_AND_BODY,
             subgroup: Subgroups.PERSON_ACTIVITY,
             hasGlyph: true,
-            sortOrder: 1830
+            sortOrder: 1836
         );
 
         /* 🧍🏿 */
@@ -18422,7 +18500,7 @@ namespace NeoSmart.Unicode
             group: Group.PEOPLE_AND_BODY,
             subgroup: Subgroups.PERSON_ACTIVITY,
             hasGlyph: true,
-            sortOrder: 1831
+            sortOrder: 1837
         );
 
         /* 🧍‍♂️ */
@@ -18435,7 +18513,7 @@ namespace NeoSmart.Unicode
             group: Group.PEOPLE_AND_BODY,
             subgroup: Subgroups.PERSON_ACTIVITY,
             hasGlyph: true,
-            sortOrder: 1832
+            sortOrder: 1838
         );
 
         /* 🧍🏻‍♂️ */
@@ -18448,7 +18526,7 @@ namespace NeoSmart.Unicode
             group: Group.PEOPLE_AND_BODY,
             subgroup: Subgroups.PERSON_ACTIVITY,
             hasGlyph: true,
-            sortOrder: 1834
+            sortOrder: 1840
         );
 
         /* 🧍🏼‍♂️ */
@@ -18461,7 +18539,7 @@ namespace NeoSmart.Unicode
             group: Group.PEOPLE_AND_BODY,
             subgroup: Subgroups.PERSON_ACTIVITY,
             hasGlyph: true,
-            sortOrder: 1836
+            sortOrder: 1842
         );
 
         /* 🧍🏽‍♂️ */
@@ -18474,7 +18552,7 @@ namespace NeoSmart.Unicode
             group: Group.PEOPLE_AND_BODY,
             subgroup: Subgroups.PERSON_ACTIVITY,
             hasGlyph: true,
-            sortOrder: 1838
+            sortOrder: 1844
         );
 
         /* 🧍🏾‍♂️ */
@@ -18487,7 +18565,7 @@ namespace NeoSmart.Unicode
             group: Group.PEOPLE_AND_BODY,
             subgroup: Subgroups.PERSON_ACTIVITY,
             hasGlyph: true,
-            sortOrder: 1840
+            sortOrder: 1846
         );
 
         /* 🧍🏿‍♂️ */
@@ -18500,7 +18578,7 @@ namespace NeoSmart.Unicode
             group: Group.PEOPLE_AND_BODY,
             subgroup: Subgroups.PERSON_ACTIVITY,
             hasGlyph: true,
-            sortOrder: 1842
+            sortOrder: 1848
         );
 
         /* 🧍‍♀️ */
@@ -18513,7 +18591,7 @@ namespace NeoSmart.Unicode
             group: Group.PEOPLE_AND_BODY,
             subgroup: Subgroups.PERSON_ACTIVITY,
             hasGlyph: true,
-            sortOrder: 1844
+            sortOrder: 1850
         );
 
         /* 🧍🏻‍♀️ */
@@ -18526,7 +18604,7 @@ namespace NeoSmart.Unicode
             group: Group.PEOPLE_AND_BODY,
             subgroup: Subgroups.PERSON_ACTIVITY,
             hasGlyph: true,
-            sortOrder: 1846
+            sortOrder: 1852
         );
 
         /* 🧍🏼‍♀️ */
@@ -18539,7 +18617,7 @@ namespace NeoSmart.Unicode
             group: Group.PEOPLE_AND_BODY,
             subgroup: Subgroups.PERSON_ACTIVITY,
             hasGlyph: true,
-            sortOrder: 1848
+            sortOrder: 1854
         );
 
         /* 🧍🏽‍♀️ */
@@ -18552,7 +18630,7 @@ namespace NeoSmart.Unicode
             group: Group.PEOPLE_AND_BODY,
             subgroup: Subgroups.PERSON_ACTIVITY,
             hasGlyph: true,
-            sortOrder: 1850
+            sortOrder: 1856
         );
 
         /* 🧍🏾‍♀️ */
@@ -18565,7 +18643,7 @@ namespace NeoSmart.Unicode
             group: Group.PEOPLE_AND_BODY,
             subgroup: Subgroups.PERSON_ACTIVITY,
             hasGlyph: true,
-            sortOrder: 1852
+            sortOrder: 1858
         );
 
         /* 🧍🏿‍♀️ */
@@ -18578,7 +18656,7 @@ namespace NeoSmart.Unicode
             group: Group.PEOPLE_AND_BODY,
             subgroup: Subgroups.PERSON_ACTIVITY,
             hasGlyph: true,
-            sortOrder: 1854
+            sortOrder: 1860
         );
 
         /* 🧎 */
@@ -18591,7 +18669,7 @@ namespace NeoSmart.Unicode
             group: Group.PEOPLE_AND_BODY,
             subgroup: Subgroups.PERSON_ACTIVITY,
             hasGlyph: true,
-            sortOrder: 1856
+            sortOrder: 1862
         );
 
         /* 🧎🏻 */
@@ -18604,7 +18682,7 @@ namespace NeoSmart.Unicode
             group: Group.PEOPLE_AND_BODY,
             subgroup: Subgroups.PERSON_ACTIVITY,
             hasGlyph: true,
-            sortOrder: 1857
+            sortOrder: 1863
         );
 
         /* 🧎🏼 */
@@ -18617,7 +18695,7 @@ namespace NeoSmart.Unicode
             group: Group.PEOPLE_AND_BODY,
             subgroup: Subgroups.PERSON_ACTIVITY,
             hasGlyph: true,
-            sortOrder: 1858
+            sortOrder: 1864
         );
 
         /* 🧎🏽 */
@@ -18630,7 +18708,7 @@ namespace NeoSmart.Unicode
             group: Group.PEOPLE_AND_BODY,
             subgroup: Subgroups.PERSON_ACTIVITY,
             hasGlyph: true,
-            sortOrder: 1859
+            sortOrder: 1865
         );
 
         /* 🧎🏾 */
@@ -18643,7 +18721,7 @@ namespace NeoSmart.Unicode
             group: Group.PEOPLE_AND_BODY,
             subgroup: Subgroups.PERSON_ACTIVITY,
             hasGlyph: true,
-            sortOrder: 1860
+            sortOrder: 1866
         );
 
         /* 🧎🏿 */
@@ -18656,7 +18734,7 @@ namespace NeoSmart.Unicode
             group: Group.PEOPLE_AND_BODY,
             subgroup: Subgroups.PERSON_ACTIVITY,
             hasGlyph: true,
-            sortOrder: 1861
+            sortOrder: 1867
         );
 
         /* 🧎‍♂️ */
@@ -18669,7 +18747,7 @@ namespace NeoSmart.Unicode
             group: Group.PEOPLE_AND_BODY,
             subgroup: Subgroups.PERSON_ACTIVITY,
             hasGlyph: true,
-            sortOrder: 1862
+            sortOrder: 1868
         );
 
         /* 🧎🏻‍♂️ */
@@ -18682,7 +18760,7 @@ namespace NeoSmart.Unicode
             group: Group.PEOPLE_AND_BODY,
             subgroup: Subgroups.PERSON_ACTIVITY,
             hasGlyph: true,
-            sortOrder: 1864
+            sortOrder: 1870
         );
 
         /* 🧎🏼‍♂️ */
@@ -18695,7 +18773,7 @@ namespace NeoSmart.Unicode
             group: Group.PEOPLE_AND_BODY,
             subgroup: Subgroups.PERSON_ACTIVITY,
             hasGlyph: true,
-            sortOrder: 1866
+            sortOrder: 1872
         );
 
         /* 🧎🏽‍♂️ */
@@ -18708,7 +18786,7 @@ namespace NeoSmart.Unicode
             group: Group.PEOPLE_AND_BODY,
             subgroup: Subgroups.PERSON_ACTIVITY,
             hasGlyph: true,
-            sortOrder: 1868
+            sortOrder: 1874
         );
 
         /* 🧎🏾‍♂️ */
@@ -18721,7 +18799,7 @@ namespace NeoSmart.Unicode
             group: Group.PEOPLE_AND_BODY,
             subgroup: Subgroups.PERSON_ACTIVITY,
             hasGlyph: true,
-            sortOrder: 1870
+            sortOrder: 1876
         );
 
         /* 🧎🏿‍♂️ */
@@ -18734,7 +18812,7 @@ namespace NeoSmart.Unicode
             group: Group.PEOPLE_AND_BODY,
             subgroup: Subgroups.PERSON_ACTIVITY,
             hasGlyph: true,
-            sortOrder: 1872
+            sortOrder: 1878
         );
 
         /* 🧎‍♀️ */
@@ -18747,7 +18825,7 @@ namespace NeoSmart.Unicode
             group: Group.PEOPLE_AND_BODY,
             subgroup: Subgroups.PERSON_ACTIVITY,
             hasGlyph: true,
-            sortOrder: 1874
+            sortOrder: 1880
         );
 
         /* 🧎🏻‍♀️ */
@@ -18760,7 +18838,7 @@ namespace NeoSmart.Unicode
             group: Group.PEOPLE_AND_BODY,
             subgroup: Subgroups.PERSON_ACTIVITY,
             hasGlyph: true,
-            sortOrder: 1876
+            sortOrder: 1882
         );
 
         /* 🧎🏼‍♀️ */
@@ -18773,7 +18851,7 @@ namespace NeoSmart.Unicode
             group: Group.PEOPLE_AND_BODY,
             subgroup: Subgroups.PERSON_ACTIVITY,
             hasGlyph: true,
-            sortOrder: 1878
+            sortOrder: 1884
         );
 
         /* 🧎🏽‍♀️ */
@@ -18786,7 +18864,7 @@ namespace NeoSmart.Unicode
             group: Group.PEOPLE_AND_BODY,
             subgroup: Subgroups.PERSON_ACTIVITY,
             hasGlyph: true,
-            sortOrder: 1880
+            sortOrder: 1886
         );
 
         /* 🧎🏾‍♀️ */
@@ -18799,7 +18877,7 @@ namespace NeoSmart.Unicode
             group: Group.PEOPLE_AND_BODY,
             subgroup: Subgroups.PERSON_ACTIVITY,
             hasGlyph: true,
-            sortOrder: 1882
+            sortOrder: 1888
         );
 
         /* 🧎🏿‍♀️ */
@@ -18812,170 +18890,92 @@ namespace NeoSmart.Unicode
             group: Group.PEOPLE_AND_BODY,
             subgroup: Subgroups.PERSON_ACTIVITY,
             hasGlyph: true,
-            sortOrder: 1884
-        );
-
-        /* 🧑‍🦯 */
-        public static readonly SingleEmoji PersonProbingCane_E12_1 = new SingleEmoji(
-            sequence: new UnicodeSequence(new int[] { 0x1f9d1, 0x200d, 0x1f9af }),
-            name: "person with probing cane",
-            searchTerms: new string[] { "person", "probing", "cane" },
-            skinTones: SingleEmoji.NoSkinTones,
-            eNumber: 12.1,
-            group: Group.PEOPLE_AND_BODY,
-            subgroup: Subgroups.PERSON_ACTIVITY,
-            hasGlyph: false,
-            sortOrder: 1886
-        );
-
-        /* 🧑🏻‍🦯 */
-        public static readonly SingleEmoji PersonProbingCaneLightSkinTone_E12_1 = new SingleEmoji(
-            sequence: new UnicodeSequence(new int[] { 0x1f9d1, 0x1f3fb, 0x200d, 0x1f9af }),
-            name: "person with probing cane: light skin tone",
-            searchTerms: new string[] { "person", "probing", "cane", "light", "skin", "tone" },
-            skinTones: new Codepoint[] { SkinTones.Light },
-            eNumber: 12.1,
-            group: Group.PEOPLE_AND_BODY,
-            subgroup: Subgroups.PERSON_ACTIVITY,
-            hasGlyph: false,
-            sortOrder: 1887
-        );
-
-        /* 🧑🏼‍🦯 */
-        public static readonly SingleEmoji PersonProbingCaneMediumLightSkinTone_E12_1 = new SingleEmoji(
-            sequence: new UnicodeSequence(new int[] { 0x1f9d1, 0x1f3fc, 0x200d, 0x1f9af }),
-            name: "person with probing cane: medium-light skin tone",
-            searchTerms: new string[] { "person", "probing", "cane", "medium", "light", "skin", "tone" },
-            skinTones: new Codepoint[] { SkinTones.MediumLight },
-            eNumber: 12.1,
-            group: Group.PEOPLE_AND_BODY,
-            subgroup: Subgroups.PERSON_ACTIVITY,
-            hasGlyph: false,
-            sortOrder: 1888
-        );
-
-        /* 🧑🏽‍🦯 */
-        public static readonly SingleEmoji PersonProbingCaneMediumSkinTone_E12_1 = new SingleEmoji(
-            sequence: new UnicodeSequence(new int[] { 0x1f9d1, 0x1f3fd, 0x200d, 0x1f9af }),
-            name: "person with probing cane: medium skin tone",
-            searchTerms: new string[] { "person", "probing", "cane", "medium", "skin", "tone" },
-            skinTones: new Codepoint[] { SkinTones.Medium },
-            eNumber: 12.1,
-            group: Group.PEOPLE_AND_BODY,
-            subgroup: Subgroups.PERSON_ACTIVITY,
-            hasGlyph: false,
-            sortOrder: 1889
-        );
-
-        /* 🧑🏾‍🦯 */
-        public static readonly SingleEmoji PersonProbingCaneMediumDarkSkinTone_E12_1 = new SingleEmoji(
-            sequence: new UnicodeSequence(new int[] { 0x1f9d1, 0x1f3fe, 0x200d, 0x1f9af }),
-            name: "person with probing cane: medium-dark skin tone",
-            searchTerms: new string[] { "person", "probing", "cane", "medium", "dark", "skin", "tone" },
-            skinTones: new Codepoint[] { SkinTones.MediumDark },
-            eNumber: 12.1,
-            group: Group.PEOPLE_AND_BODY,
-            subgroup: Subgroups.PERSON_ACTIVITY,
-            hasGlyph: false,
             sortOrder: 1890
         );
 
+        /* 🧑‍🦯 */
+        public static readonly SingleEmoji PersonWhiteCane_E12_1 = new SingleEmoji(
+            sequence: new UnicodeSequence(new int[] { 0x1f9d1, 0x200d, 0x1f9af }),
+            name: "person with white cane",
+            searchTerms: new string[] { "person", "white", "cane" },
+            skinTones: SingleEmoji.NoSkinTones,
+            eNumber: 12.1,
+            group: Group.PEOPLE_AND_BODY,
+            subgroup: Subgroups.PERSON_ACTIVITY,
+            hasGlyph: false,
+            sortOrder: 1892
+        );
+
+        /* 🧑🏻‍🦯 */
+        public static readonly SingleEmoji PersonWhiteCaneLightSkinTone_E12_1 = new SingleEmoji(
+            sequence: new UnicodeSequence(new int[] { 0x1f9d1, 0x1f3fb, 0x200d, 0x1f9af }),
+            name: "person with white cane: light skin tone",
+            searchTerms: new string[] { "person", "white", "cane", "light", "skin", "tone" },
+            skinTones: new Codepoint[] { SkinTones.Light },
+            eNumber: 12.1,
+            group: Group.PEOPLE_AND_BODY,
+            subgroup: Subgroups.PERSON_ACTIVITY,
+            hasGlyph: false,
+            sortOrder: 1893
+        );
+
+        /* 🧑🏼‍🦯 */
+        public static readonly SingleEmoji PersonWhiteCaneMediumLightSkinTone_E12_1 = new SingleEmoji(
+            sequence: new UnicodeSequence(new int[] { 0x1f9d1, 0x1f3fc, 0x200d, 0x1f9af }),
+            name: "person with white cane: medium-light skin tone",
+            searchTerms: new string[] { "person", "white", "cane", "medium", "light", "skin", "tone" },
+            skinTones: new Codepoint[] { SkinTones.MediumLight },
+            eNumber: 12.1,
+            group: Group.PEOPLE_AND_BODY,
+            subgroup: Subgroups.PERSON_ACTIVITY,
+            hasGlyph: false,
+            sortOrder: 1894
+        );
+
+        /* 🧑🏽‍🦯 */
+        public static readonly SingleEmoji PersonWhiteCaneMediumSkinTone_E12_1 = new SingleEmoji(
+            sequence: new UnicodeSequence(new int[] { 0x1f9d1, 0x1f3fd, 0x200d, 0x1f9af }),
+            name: "person with white cane: medium skin tone",
+            searchTerms: new string[] { "person", "white", "cane", "medium", "skin", "tone" },
+            skinTones: new Codepoint[] { SkinTones.Medium },
+            eNumber: 12.1,
+            group: Group.PEOPLE_AND_BODY,
+            subgroup: Subgroups.PERSON_ACTIVITY,
+            hasGlyph: false,
+            sortOrder: 1895
+        );
+
+        /* 🧑🏾‍🦯 */
+        public static readonly SingleEmoji PersonWhiteCaneMediumDarkSkinTone_E12_1 = new SingleEmoji(
+            sequence: new UnicodeSequence(new int[] { 0x1f9d1, 0x1f3fe, 0x200d, 0x1f9af }),
+            name: "person with white cane: medium-dark skin tone",
+            searchTerms: new string[] { "person", "white", "cane", "medium", "dark", "skin", "tone" },
+            skinTones: new Codepoint[] { SkinTones.MediumDark },
+            eNumber: 12.1,
+            group: Group.PEOPLE_AND_BODY,
+            subgroup: Subgroups.PERSON_ACTIVITY,
+            hasGlyph: false,
+            sortOrder: 1896
+        );
+
         /* 🧑🏿‍🦯 */
-        public static readonly SingleEmoji PersonProbingCaneDarkSkinTone_E12_1 = new SingleEmoji(
+        public static readonly SingleEmoji PersonWhiteCaneDarkSkinTone_E12_1 = new SingleEmoji(
             sequence: new UnicodeSequence(new int[] { 0x1f9d1, 0x1f3ff, 0x200d, 0x1f9af }),
-            name: "person with probing cane: dark skin tone",
-            searchTerms: new string[] { "person", "probing", "cane", "dark", "skin", "tone" },
+            name: "person with white cane: dark skin tone",
+            searchTerms: new string[] { "person", "white", "cane", "dark", "skin", "tone" },
             skinTones: new Codepoint[] { SkinTones.Dark },
             eNumber: 12.1,
             group: Group.PEOPLE_AND_BODY,
             subgroup: Subgroups.PERSON_ACTIVITY,
             hasGlyph: false,
-            sortOrder: 1891
-        );
-
-        /* 👨‍🦯 */
-        public static readonly SingleEmoji ManProbingCane_E12_0 = new SingleEmoji(
-            sequence: new UnicodeSequence(new int[] { 0x1f468, 0x200d, 0x1f9af }),
-            name: "man with probing cane",
-            searchTerms: new string[] { "man", "probing", "cane" },
-            skinTones: SingleEmoji.NoSkinTones,
-            eNumber: 12.0,
-            group: Group.PEOPLE_AND_BODY,
-            subgroup: Subgroups.PERSON_ACTIVITY,
-            hasGlyph: true,
-            sortOrder: 1892
-        );
-
-        /* 👨🏻‍🦯 */
-        public static readonly SingleEmoji ManProbingCaneLightSkinTone_E12_0 = new SingleEmoji(
-            sequence: new UnicodeSequence(new int[] { 0x1f468, 0x1f3fb, 0x200d, 0x1f9af }),
-            name: "man with probing cane: light skin tone",
-            searchTerms: new string[] { "man", "probing", "cane", "light", "skin", "tone" },
-            skinTones: new Codepoint[] { SkinTones.Light },
-            eNumber: 12.0,
-            group: Group.PEOPLE_AND_BODY,
-            subgroup: Subgroups.PERSON_ACTIVITY,
-            hasGlyph: true,
-            sortOrder: 1893
-        );
-
-        /* 👨🏼‍🦯 */
-        public static readonly SingleEmoji ManProbingCaneMediumLightSkinTone_E12_0 = new SingleEmoji(
-            sequence: new UnicodeSequence(new int[] { 0x1f468, 0x1f3fc, 0x200d, 0x1f9af }),
-            name: "man with probing cane: medium-light skin tone",
-            searchTerms: new string[] { "man", "probing", "cane", "medium", "light", "skin", "tone" },
-            skinTones: new Codepoint[] { SkinTones.MediumLight },
-            eNumber: 12.0,
-            group: Group.PEOPLE_AND_BODY,
-            subgroup: Subgroups.PERSON_ACTIVITY,
-            hasGlyph: true,
-            sortOrder: 1894
-        );
-
-        /* 👨🏽‍🦯 */
-        public static readonly SingleEmoji ManProbingCaneMediumSkinTone_E12_0 = new SingleEmoji(
-            sequence: new UnicodeSequence(new int[] { 0x1f468, 0x1f3fd, 0x200d, 0x1f9af }),
-            name: "man with probing cane: medium skin tone",
-            searchTerms: new string[] { "man", "probing", "cane", "medium", "skin", "tone" },
-            skinTones: new Codepoint[] { SkinTones.Medium },
-            eNumber: 12.0,
-            group: Group.PEOPLE_AND_BODY,
-            subgroup: Subgroups.PERSON_ACTIVITY,
-            hasGlyph: true,
-            sortOrder: 1895
-        );
-
-        /* 👨🏾‍🦯 */
-        public static readonly SingleEmoji ManProbingCaneMediumDarkSkinTone_E12_0 = new SingleEmoji(
-            sequence: new UnicodeSequence(new int[] { 0x1f468, 0x1f3fe, 0x200d, 0x1f9af }),
-            name: "man with probing cane: medium-dark skin tone",
-            searchTerms: new string[] { "man", "probing", "cane", "medium", "dark", "skin", "tone" },
-            skinTones: new Codepoint[] { SkinTones.MediumDark },
-            eNumber: 12.0,
-            group: Group.PEOPLE_AND_BODY,
-            subgroup: Subgroups.PERSON_ACTIVITY,
-            hasGlyph: true,
-            sortOrder: 1896
-        );
-
-        /* 👨🏿‍🦯 */
-        public static readonly SingleEmoji ManProbingCaneDarkSkinTone_E12_0 = new SingleEmoji(
-            sequence: new UnicodeSequence(new int[] { 0x1f468, 0x1f3ff, 0x200d, 0x1f9af }),
-            name: "man with probing cane: dark skin tone",
-            searchTerms: new string[] { "man", "probing", "cane", "dark", "skin", "tone" },
-            skinTones: new Codepoint[] { SkinTones.Dark },
-            eNumber: 12.0,
-            group: Group.PEOPLE_AND_BODY,
-            subgroup: Subgroups.PERSON_ACTIVITY,
-            hasGlyph: true,
             sortOrder: 1897
         );
 
-        /* 👩‍🦯 */
-        public static readonly SingleEmoji WomanProbingCane_E12_0 = new SingleEmoji(
-            sequence: new UnicodeSequence(new int[] { 0x1f469, 0x200d, 0x1f9af }),
-            name: "woman with probing cane",
-            searchTerms: new string[] { "woman", "probing", "cane" },
+        /* 👨‍🦯 */
+        public static readonly SingleEmoji ManWhiteCane_E12_0 = new SingleEmoji(
+            sequence: new UnicodeSequence(new int[] { 0x1f468, 0x200d, 0x1f9af }),
+            name: "man with white cane",
+            searchTerms: new string[] { "man", "white", "cane" },
             skinTones: SingleEmoji.NoSkinTones,
             eNumber: 12.0,
             group: Group.PEOPLE_AND_BODY,
@@ -18984,11 +18984,11 @@ namespace NeoSmart.Unicode
             sortOrder: 1898
         );
 
-        /* 👩🏻‍🦯 */
-        public static readonly SingleEmoji WomanProbingCaneLightSkinTone_E12_0 = new SingleEmoji(
-            sequence: new UnicodeSequence(new int[] { 0x1f469, 0x1f3fb, 0x200d, 0x1f9af }),
-            name: "woman with probing cane: light skin tone",
-            searchTerms: new string[] { "woman", "probing", "cane", "light", "skin", "tone" },
+        /* 👨🏻‍🦯 */
+        public static readonly SingleEmoji ManWhiteCaneLightSkinTone_E12_0 = new SingleEmoji(
+            sequence: new UnicodeSequence(new int[] { 0x1f468, 0x1f3fb, 0x200d, 0x1f9af }),
+            name: "man with white cane: light skin tone",
+            searchTerms: new string[] { "man", "white", "cane", "light", "skin", "tone" },
             skinTones: new Codepoint[] { SkinTones.Light },
             eNumber: 12.0,
             group: Group.PEOPLE_AND_BODY,
@@ -18997,11 +18997,11 @@ namespace NeoSmart.Unicode
             sortOrder: 1899
         );
 
-        /* 👩🏼‍🦯 */
-        public static readonly SingleEmoji WomanProbingCaneMediumLightSkinTone_E12_0 = new SingleEmoji(
-            sequence: new UnicodeSequence(new int[] { 0x1f469, 0x1f3fc, 0x200d, 0x1f9af }),
-            name: "woman with probing cane: medium-light skin tone",
-            searchTerms: new string[] { "woman", "probing", "cane", "medium", "light", "skin", "tone" },
+        /* 👨🏼‍🦯 */
+        public static readonly SingleEmoji ManWhiteCaneMediumLightSkinTone_E12_0 = new SingleEmoji(
+            sequence: new UnicodeSequence(new int[] { 0x1f468, 0x1f3fc, 0x200d, 0x1f9af }),
+            name: "man with white cane: medium-light skin tone",
+            searchTerms: new string[] { "man", "white", "cane", "medium", "light", "skin", "tone" },
             skinTones: new Codepoint[] { SkinTones.MediumLight },
             eNumber: 12.0,
             group: Group.PEOPLE_AND_BODY,
@@ -19010,11 +19010,11 @@ namespace NeoSmart.Unicode
             sortOrder: 1900
         );
 
-        /* 👩🏽‍🦯 */
-        public static readonly SingleEmoji WomanProbingCaneMediumSkinTone_E12_0 = new SingleEmoji(
-            sequence: new UnicodeSequence(new int[] { 0x1f469, 0x1f3fd, 0x200d, 0x1f9af }),
-            name: "woman with probing cane: medium skin tone",
-            searchTerms: new string[] { "woman", "probing", "cane", "medium", "skin", "tone" },
+        /* 👨🏽‍🦯 */
+        public static readonly SingleEmoji ManWhiteCaneMediumSkinTone_E12_0 = new SingleEmoji(
+            sequence: new UnicodeSequence(new int[] { 0x1f468, 0x1f3fd, 0x200d, 0x1f9af }),
+            name: "man with white cane: medium skin tone",
+            searchTerms: new string[] { "man", "white", "cane", "medium", "skin", "tone" },
             skinTones: new Codepoint[] { SkinTones.Medium },
             eNumber: 12.0,
             group: Group.PEOPLE_AND_BODY,
@@ -19023,11 +19023,11 @@ namespace NeoSmart.Unicode
             sortOrder: 1901
         );
 
-        /* 👩🏾‍🦯 */
-        public static readonly SingleEmoji WomanProbingCaneMediumDarkSkinTone_E12_0 = new SingleEmoji(
-            sequence: new UnicodeSequence(new int[] { 0x1f469, 0x1f3fe, 0x200d, 0x1f9af }),
-            name: "woman with probing cane: medium-dark skin tone",
-            searchTerms: new string[] { "woman", "probing", "cane", "medium", "dark", "skin", "tone" },
+        /* 👨🏾‍🦯 */
+        public static readonly SingleEmoji ManWhiteCaneMediumDarkSkinTone_E12_0 = new SingleEmoji(
+            sequence: new UnicodeSequence(new int[] { 0x1f468, 0x1f3fe, 0x200d, 0x1f9af }),
+            name: "man with white cane: medium-dark skin tone",
+            searchTerms: new string[] { "man", "white", "cane", "medium", "dark", "skin", "tone" },
             skinTones: new Codepoint[] { SkinTones.MediumDark },
             eNumber: 12.0,
             group: Group.PEOPLE_AND_BODY,
@@ -19036,17 +19036,95 @@ namespace NeoSmart.Unicode
             sortOrder: 1902
         );
 
-        /* 👩🏿‍🦯 */
-        public static readonly SingleEmoji WomanProbingCaneDarkSkinTone_E12_0 = new SingleEmoji(
-            sequence: new UnicodeSequence(new int[] { 0x1f469, 0x1f3ff, 0x200d, 0x1f9af }),
-            name: "woman with probing cane: dark skin tone",
-            searchTerms: new string[] { "woman", "probing", "cane", "dark", "skin", "tone" },
+        /* 👨🏿‍🦯 */
+        public static readonly SingleEmoji ManWhiteCaneDarkSkinTone_E12_0 = new SingleEmoji(
+            sequence: new UnicodeSequence(new int[] { 0x1f468, 0x1f3ff, 0x200d, 0x1f9af }),
+            name: "man with white cane: dark skin tone",
+            searchTerms: new string[] { "man", "white", "cane", "dark", "skin", "tone" },
             skinTones: new Codepoint[] { SkinTones.Dark },
             eNumber: 12.0,
             group: Group.PEOPLE_AND_BODY,
             subgroup: Subgroups.PERSON_ACTIVITY,
             hasGlyph: true,
             sortOrder: 1903
+        );
+
+        /* 👩‍🦯 */
+        public static readonly SingleEmoji WomanWhiteCane_E12_0 = new SingleEmoji(
+            sequence: new UnicodeSequence(new int[] { 0x1f469, 0x200d, 0x1f9af }),
+            name: "woman with white cane",
+            searchTerms: new string[] { "woman", "white", "cane" },
+            skinTones: SingleEmoji.NoSkinTones,
+            eNumber: 12.0,
+            group: Group.PEOPLE_AND_BODY,
+            subgroup: Subgroups.PERSON_ACTIVITY,
+            hasGlyph: true,
+            sortOrder: 1904
+        );
+
+        /* 👩🏻‍🦯 */
+        public static readonly SingleEmoji WomanWhiteCaneLightSkinTone_E12_0 = new SingleEmoji(
+            sequence: new UnicodeSequence(new int[] { 0x1f469, 0x1f3fb, 0x200d, 0x1f9af }),
+            name: "woman with white cane: light skin tone",
+            searchTerms: new string[] { "woman", "white", "cane", "light", "skin", "tone" },
+            skinTones: new Codepoint[] { SkinTones.Light },
+            eNumber: 12.0,
+            group: Group.PEOPLE_AND_BODY,
+            subgroup: Subgroups.PERSON_ACTIVITY,
+            hasGlyph: true,
+            sortOrder: 1905
+        );
+
+        /* 👩🏼‍🦯 */
+        public static readonly SingleEmoji WomanWhiteCaneMediumLightSkinTone_E12_0 = new SingleEmoji(
+            sequence: new UnicodeSequence(new int[] { 0x1f469, 0x1f3fc, 0x200d, 0x1f9af }),
+            name: "woman with white cane: medium-light skin tone",
+            searchTerms: new string[] { "woman", "white", "cane", "medium", "light", "skin", "tone" },
+            skinTones: new Codepoint[] { SkinTones.MediumLight },
+            eNumber: 12.0,
+            group: Group.PEOPLE_AND_BODY,
+            subgroup: Subgroups.PERSON_ACTIVITY,
+            hasGlyph: true,
+            sortOrder: 1906
+        );
+
+        /* 👩🏽‍🦯 */
+        public static readonly SingleEmoji WomanWhiteCaneMediumSkinTone_E12_0 = new SingleEmoji(
+            sequence: new UnicodeSequence(new int[] { 0x1f469, 0x1f3fd, 0x200d, 0x1f9af }),
+            name: "woman with white cane: medium skin tone",
+            searchTerms: new string[] { "woman", "white", "cane", "medium", "skin", "tone" },
+            skinTones: new Codepoint[] { SkinTones.Medium },
+            eNumber: 12.0,
+            group: Group.PEOPLE_AND_BODY,
+            subgroup: Subgroups.PERSON_ACTIVITY,
+            hasGlyph: true,
+            sortOrder: 1907
+        );
+
+        /* 👩🏾‍🦯 */
+        public static readonly SingleEmoji WomanWhiteCaneMediumDarkSkinTone_E12_0 = new SingleEmoji(
+            sequence: new UnicodeSequence(new int[] { 0x1f469, 0x1f3fe, 0x200d, 0x1f9af }),
+            name: "woman with white cane: medium-dark skin tone",
+            searchTerms: new string[] { "woman", "white", "cane", "medium", "dark", "skin", "tone" },
+            skinTones: new Codepoint[] { SkinTones.MediumDark },
+            eNumber: 12.0,
+            group: Group.PEOPLE_AND_BODY,
+            subgroup: Subgroups.PERSON_ACTIVITY,
+            hasGlyph: true,
+            sortOrder: 1908
+        );
+
+        /* 👩🏿‍🦯 */
+        public static readonly SingleEmoji WomanWhiteCaneDarkSkinTone_E12_0 = new SingleEmoji(
+            sequence: new UnicodeSequence(new int[] { 0x1f469, 0x1f3ff, 0x200d, 0x1f9af }),
+            name: "woman with white cane: dark skin tone",
+            searchTerms: new string[] { "woman", "white", "cane", "dark", "skin", "tone" },
+            skinTones: new Codepoint[] { SkinTones.Dark },
+            eNumber: 12.0,
+            group: Group.PEOPLE_AND_BODY,
+            subgroup: Subgroups.PERSON_ACTIVITY,
+            hasGlyph: true,
+            sortOrder: 1909
         );
 
         /* 🧑‍🦼 */
@@ -19059,7 +19137,7 @@ namespace NeoSmart.Unicode
             group: Group.PEOPLE_AND_BODY,
             subgroup: Subgroups.PERSON_ACTIVITY,
             hasGlyph: false,
-            sortOrder: 1904
+            sortOrder: 1910
         );
 
         /* 🧑🏻‍🦼 */
@@ -19072,7 +19150,7 @@ namespace NeoSmart.Unicode
             group: Group.PEOPLE_AND_BODY,
             subgroup: Subgroups.PERSON_ACTIVITY,
             hasGlyph: false,
-            sortOrder: 1905
+            sortOrder: 1911
         );
 
         /* 🧑🏼‍🦼 */
@@ -19085,7 +19163,7 @@ namespace NeoSmart.Unicode
             group: Group.PEOPLE_AND_BODY,
             subgroup: Subgroups.PERSON_ACTIVITY,
             hasGlyph: false,
-            sortOrder: 1906
+            sortOrder: 1912
         );
 
         /* 🧑🏽‍🦼 */
@@ -19098,7 +19176,7 @@ namespace NeoSmart.Unicode
             group: Group.PEOPLE_AND_BODY,
             subgroup: Subgroups.PERSON_ACTIVITY,
             hasGlyph: false,
-            sortOrder: 1907
+            sortOrder: 1913
         );
 
         /* 🧑🏾‍🦼 */
@@ -19111,7 +19189,7 @@ namespace NeoSmart.Unicode
             group: Group.PEOPLE_AND_BODY,
             subgroup: Subgroups.PERSON_ACTIVITY,
             hasGlyph: false,
-            sortOrder: 1908
+            sortOrder: 1914
         );
 
         /* 🧑🏿‍🦼 */
@@ -19124,7 +19202,7 @@ namespace NeoSmart.Unicode
             group: Group.PEOPLE_AND_BODY,
             subgroup: Subgroups.PERSON_ACTIVITY,
             hasGlyph: false,
-            sortOrder: 1909
+            sortOrder: 1915
         );
 
         /* 👨‍🦼 */
@@ -19137,7 +19215,7 @@ namespace NeoSmart.Unicode
             group: Group.PEOPLE_AND_BODY,
             subgroup: Subgroups.PERSON_ACTIVITY,
             hasGlyph: true,
-            sortOrder: 1910
+            sortOrder: 1916
         );
 
         /* 👨🏻‍🦼 */
@@ -19150,7 +19228,7 @@ namespace NeoSmart.Unicode
             group: Group.PEOPLE_AND_BODY,
             subgroup: Subgroups.PERSON_ACTIVITY,
             hasGlyph: true,
-            sortOrder: 1911
+            sortOrder: 1917
         );
 
         /* 👨🏼‍🦼 */
@@ -19163,7 +19241,7 @@ namespace NeoSmart.Unicode
             group: Group.PEOPLE_AND_BODY,
             subgroup: Subgroups.PERSON_ACTIVITY,
             hasGlyph: true,
-            sortOrder: 1912
+            sortOrder: 1918
         );
 
         /* 👨🏽‍🦼 */
@@ -19176,7 +19254,7 @@ namespace NeoSmart.Unicode
             group: Group.PEOPLE_AND_BODY,
             subgroup: Subgroups.PERSON_ACTIVITY,
             hasGlyph: true,
-            sortOrder: 1913
+            sortOrder: 1919
         );
 
         /* 👨🏾‍🦼 */
@@ -19189,7 +19267,7 @@ namespace NeoSmart.Unicode
             group: Group.PEOPLE_AND_BODY,
             subgroup: Subgroups.PERSON_ACTIVITY,
             hasGlyph: true,
-            sortOrder: 1914
+            sortOrder: 1920
         );
 
         /* 👨🏿‍🦼 */
@@ -19202,7 +19280,7 @@ namespace NeoSmart.Unicode
             group: Group.PEOPLE_AND_BODY,
             subgroup: Subgroups.PERSON_ACTIVITY,
             hasGlyph: true,
-            sortOrder: 1915
+            sortOrder: 1921
         );
 
         /* 👩‍🦼 */
@@ -19215,7 +19293,7 @@ namespace NeoSmart.Unicode
             group: Group.PEOPLE_AND_BODY,
             subgroup: Subgroups.PERSON_ACTIVITY,
             hasGlyph: true,
-            sortOrder: 1916
+            sortOrder: 1922
         );
 
         /* 👩🏻‍🦼 */
@@ -19228,7 +19306,7 @@ namespace NeoSmart.Unicode
             group: Group.PEOPLE_AND_BODY,
             subgroup: Subgroups.PERSON_ACTIVITY,
             hasGlyph: true,
-            sortOrder: 1917
+            sortOrder: 1923
         );
 
         /* 👩🏼‍🦼 */
@@ -19241,7 +19319,7 @@ namespace NeoSmart.Unicode
             group: Group.PEOPLE_AND_BODY,
             subgroup: Subgroups.PERSON_ACTIVITY,
             hasGlyph: true,
-            sortOrder: 1918
+            sortOrder: 1924
         );
 
         /* 👩🏽‍🦼 */
@@ -19254,7 +19332,7 @@ namespace NeoSmart.Unicode
             group: Group.PEOPLE_AND_BODY,
             subgroup: Subgroups.PERSON_ACTIVITY,
             hasGlyph: true,
-            sortOrder: 1919
+            sortOrder: 1925
         );
 
         /* 👩🏾‍🦼 */
@@ -19267,7 +19345,7 @@ namespace NeoSmart.Unicode
             group: Group.PEOPLE_AND_BODY,
             subgroup: Subgroups.PERSON_ACTIVITY,
             hasGlyph: true,
-            sortOrder: 1920
+            sortOrder: 1926
         );
 
         /* 👩🏿‍🦼 */
@@ -19280,7 +19358,7 @@ namespace NeoSmart.Unicode
             group: Group.PEOPLE_AND_BODY,
             subgroup: Subgroups.PERSON_ACTIVITY,
             hasGlyph: true,
-            sortOrder: 1921
+            sortOrder: 1927
         );
 
         /* 🧑‍🦽 */
@@ -19293,7 +19371,7 @@ namespace NeoSmart.Unicode
             group: Group.PEOPLE_AND_BODY,
             subgroup: Subgroups.PERSON_ACTIVITY,
             hasGlyph: false,
-            sortOrder: 1922
+            sortOrder: 1928
         );
 
         /* 🧑🏻‍🦽 */
@@ -19306,7 +19384,7 @@ namespace NeoSmart.Unicode
             group: Group.PEOPLE_AND_BODY,
             subgroup: Subgroups.PERSON_ACTIVITY,
             hasGlyph: false,
-            sortOrder: 1923
+            sortOrder: 1929
         );
 
         /* 🧑🏼‍🦽 */
@@ -19319,7 +19397,7 @@ namespace NeoSmart.Unicode
             group: Group.PEOPLE_AND_BODY,
             subgroup: Subgroups.PERSON_ACTIVITY,
             hasGlyph: false,
-            sortOrder: 1924
+            sortOrder: 1930
         );
 
         /* 🧑🏽‍🦽 */
@@ -19332,7 +19410,7 @@ namespace NeoSmart.Unicode
             group: Group.PEOPLE_AND_BODY,
             subgroup: Subgroups.PERSON_ACTIVITY,
             hasGlyph: false,
-            sortOrder: 1925
+            sortOrder: 1931
         );
 
         /* 🧑🏾‍🦽 */
@@ -19345,7 +19423,7 @@ namespace NeoSmart.Unicode
             group: Group.PEOPLE_AND_BODY,
             subgroup: Subgroups.PERSON_ACTIVITY,
             hasGlyph: false,
-            sortOrder: 1926
+            sortOrder: 1932
         );
 
         /* 🧑🏿‍🦽 */
@@ -19358,7 +19436,7 @@ namespace NeoSmart.Unicode
             group: Group.PEOPLE_AND_BODY,
             subgroup: Subgroups.PERSON_ACTIVITY,
             hasGlyph: false,
-            sortOrder: 1927
+            sortOrder: 1933
         );
 
         /* 👨‍🦽 */
@@ -19371,7 +19449,7 @@ namespace NeoSmart.Unicode
             group: Group.PEOPLE_AND_BODY,
             subgroup: Subgroups.PERSON_ACTIVITY,
             hasGlyph: true,
-            sortOrder: 1928
+            sortOrder: 1934
         );
 
         /* 👨🏻‍🦽 */
@@ -19384,7 +19462,7 @@ namespace NeoSmart.Unicode
             group: Group.PEOPLE_AND_BODY,
             subgroup: Subgroups.PERSON_ACTIVITY,
             hasGlyph: true,
-            sortOrder: 1929
+            sortOrder: 1935
         );
 
         /* 👨🏼‍🦽 */
@@ -19397,7 +19475,7 @@ namespace NeoSmart.Unicode
             group: Group.PEOPLE_AND_BODY,
             subgroup: Subgroups.PERSON_ACTIVITY,
             hasGlyph: true,
-            sortOrder: 1930
+            sortOrder: 1936
         );
 
         /* 👨🏽‍🦽 */
@@ -19410,7 +19488,7 @@ namespace NeoSmart.Unicode
             group: Group.PEOPLE_AND_BODY,
             subgroup: Subgroups.PERSON_ACTIVITY,
             hasGlyph: true,
-            sortOrder: 1931
+            sortOrder: 1937
         );
 
         /* 👨🏾‍🦽 */
@@ -19423,7 +19501,7 @@ namespace NeoSmart.Unicode
             group: Group.PEOPLE_AND_BODY,
             subgroup: Subgroups.PERSON_ACTIVITY,
             hasGlyph: true,
-            sortOrder: 1932
+            sortOrder: 1938
         );
 
         /* 👨🏿‍🦽 */
@@ -19436,7 +19514,7 @@ namespace NeoSmart.Unicode
             group: Group.PEOPLE_AND_BODY,
             subgroup: Subgroups.PERSON_ACTIVITY,
             hasGlyph: true,
-            sortOrder: 1933
+            sortOrder: 1939
         );
 
         /* 👩‍🦽 */
@@ -19449,7 +19527,7 @@ namespace NeoSmart.Unicode
             group: Group.PEOPLE_AND_BODY,
             subgroup: Subgroups.PERSON_ACTIVITY,
             hasGlyph: true,
-            sortOrder: 1934
+            sortOrder: 1940
         );
 
         /* 👩🏻‍🦽 */
@@ -19462,7 +19540,7 @@ namespace NeoSmart.Unicode
             group: Group.PEOPLE_AND_BODY,
             subgroup: Subgroups.PERSON_ACTIVITY,
             hasGlyph: true,
-            sortOrder: 1935
+            sortOrder: 1941
         );
 
         /* 👩🏼‍🦽 */
@@ -19475,7 +19553,7 @@ namespace NeoSmart.Unicode
             group: Group.PEOPLE_AND_BODY,
             subgroup: Subgroups.PERSON_ACTIVITY,
             hasGlyph: true,
-            sortOrder: 1936
+            sortOrder: 1942
         );
 
         /* 👩🏽‍🦽 */
@@ -19488,7 +19566,7 @@ namespace NeoSmart.Unicode
             group: Group.PEOPLE_AND_BODY,
             subgroup: Subgroups.PERSON_ACTIVITY,
             hasGlyph: true,
-            sortOrder: 1937
+            sortOrder: 1943
         );
 
         /* 👩🏾‍🦽 */
@@ -19501,7 +19579,7 @@ namespace NeoSmart.Unicode
             group: Group.PEOPLE_AND_BODY,
             subgroup: Subgroups.PERSON_ACTIVITY,
             hasGlyph: true,
-            sortOrder: 1938
+            sortOrder: 1944
         );
 
         /* 👩🏿‍🦽 */
@@ -19514,7 +19592,7 @@ namespace NeoSmart.Unicode
             group: Group.PEOPLE_AND_BODY,
             subgroup: Subgroups.PERSON_ACTIVITY,
             hasGlyph: true,
-            sortOrder: 1939
+            sortOrder: 1945
         );
 
         /* 🏃 */
@@ -19527,7 +19605,7 @@ namespace NeoSmart.Unicode
             group: Group.PEOPLE_AND_BODY,
             subgroup: Subgroups.PERSON_ACTIVITY,
             hasGlyph: true,
-            sortOrder: 1940
+            sortOrder: 1946
         );
 
         /* 🏃🏻 */
@@ -19540,7 +19618,7 @@ namespace NeoSmart.Unicode
             group: Group.PEOPLE_AND_BODY,
             subgroup: Subgroups.PERSON_ACTIVITY,
             hasGlyph: true,
-            sortOrder: 1941
+            sortOrder: 1947
         );
 
         /* 🏃🏼 */
@@ -19553,7 +19631,7 @@ namespace NeoSmart.Unicode
             group: Group.PEOPLE_AND_BODY,
             subgroup: Subgroups.PERSON_ACTIVITY,
             hasGlyph: true,
-            sortOrder: 1942
+            sortOrder: 1948
         );
 
         /* 🏃🏽 */
@@ -19566,7 +19644,7 @@ namespace NeoSmart.Unicode
             group: Group.PEOPLE_AND_BODY,
             subgroup: Subgroups.PERSON_ACTIVITY,
             hasGlyph: true,
-            sortOrder: 1943
+            sortOrder: 1949
         );
 
         /* 🏃🏾 */
@@ -19579,7 +19657,7 @@ namespace NeoSmart.Unicode
             group: Group.PEOPLE_AND_BODY,
             subgroup: Subgroups.PERSON_ACTIVITY,
             hasGlyph: true,
-            sortOrder: 1944
+            sortOrder: 1950
         );
 
         /* 🏃🏿 */
@@ -19592,7 +19670,7 @@ namespace NeoSmart.Unicode
             group: Group.PEOPLE_AND_BODY,
             subgroup: Subgroups.PERSON_ACTIVITY,
             hasGlyph: true,
-            sortOrder: 1945
+            sortOrder: 1951
         );
 
         /* 🏃‍♂️ */
@@ -19605,7 +19683,7 @@ namespace NeoSmart.Unicode
             group: Group.PEOPLE_AND_BODY,
             subgroup: Subgroups.PERSON_ACTIVITY,
             hasGlyph: true,
-            sortOrder: 1946
+            sortOrder: 1952
         );
 
         /* 🏃🏻‍♂️ */
@@ -19618,7 +19696,7 @@ namespace NeoSmart.Unicode
             group: Group.PEOPLE_AND_BODY,
             subgroup: Subgroups.PERSON_ACTIVITY,
             hasGlyph: true,
-            sortOrder: 1948
+            sortOrder: 1954
         );
 
         /* 🏃🏼‍♂️ */
@@ -19631,7 +19709,7 @@ namespace NeoSmart.Unicode
             group: Group.PEOPLE_AND_BODY,
             subgroup: Subgroups.PERSON_ACTIVITY,
             hasGlyph: true,
-            sortOrder: 1950
+            sortOrder: 1956
         );
 
         /* 🏃🏽‍♂️ */
@@ -19644,7 +19722,7 @@ namespace NeoSmart.Unicode
             group: Group.PEOPLE_AND_BODY,
             subgroup: Subgroups.PERSON_ACTIVITY,
             hasGlyph: true,
-            sortOrder: 1952
+            sortOrder: 1958
         );
 
         /* 🏃🏾‍♂️ */
@@ -19657,7 +19735,7 @@ namespace NeoSmart.Unicode
             group: Group.PEOPLE_AND_BODY,
             subgroup: Subgroups.PERSON_ACTIVITY,
             hasGlyph: true,
-            sortOrder: 1954
+            sortOrder: 1960
         );
 
         /* 🏃🏿‍♂️ */
@@ -19670,7 +19748,7 @@ namespace NeoSmart.Unicode
             group: Group.PEOPLE_AND_BODY,
             subgroup: Subgroups.PERSON_ACTIVITY,
             hasGlyph: true,
-            sortOrder: 1956
+            sortOrder: 1962
         );
 
         /* 🏃‍♀️ */
@@ -19683,7 +19761,7 @@ namespace NeoSmart.Unicode
             group: Group.PEOPLE_AND_BODY,
             subgroup: Subgroups.PERSON_ACTIVITY,
             hasGlyph: true,
-            sortOrder: 1958
+            sortOrder: 1964
         );
 
         /* 🏃🏻‍♀️ */
@@ -19696,7 +19774,7 @@ namespace NeoSmart.Unicode
             group: Group.PEOPLE_AND_BODY,
             subgroup: Subgroups.PERSON_ACTIVITY,
             hasGlyph: true,
-            sortOrder: 1960
+            sortOrder: 1966
         );
 
         /* 🏃🏼‍♀️ */
@@ -19709,7 +19787,7 @@ namespace NeoSmart.Unicode
             group: Group.PEOPLE_AND_BODY,
             subgroup: Subgroups.PERSON_ACTIVITY,
             hasGlyph: true,
-            sortOrder: 1962
+            sortOrder: 1968
         );
 
         /* 🏃🏽‍♀️ */
@@ -19722,7 +19800,7 @@ namespace NeoSmart.Unicode
             group: Group.PEOPLE_AND_BODY,
             subgroup: Subgroups.PERSON_ACTIVITY,
             hasGlyph: true,
-            sortOrder: 1964
+            sortOrder: 1970
         );
 
         /* 🏃🏾‍♀️ */
@@ -19735,7 +19813,7 @@ namespace NeoSmart.Unicode
             group: Group.PEOPLE_AND_BODY,
             subgroup: Subgroups.PERSON_ACTIVITY,
             hasGlyph: true,
-            sortOrder: 1966
+            sortOrder: 1972
         );
 
         /* 🏃🏿‍♀️ */
@@ -19748,7 +19826,7 @@ namespace NeoSmart.Unicode
             group: Group.PEOPLE_AND_BODY,
             subgroup: Subgroups.PERSON_ACTIVITY,
             hasGlyph: true,
-            sortOrder: 1968
+            sortOrder: 1974
         );
 
         /* 💃 */
@@ -19761,7 +19839,7 @@ namespace NeoSmart.Unicode
             group: Group.PEOPLE_AND_BODY,
             subgroup: Subgroups.PERSON_ACTIVITY,
             hasGlyph: true,
-            sortOrder: 1970
+            sortOrder: 1976
         );
 
         /* 💃🏻 */
@@ -19774,7 +19852,7 @@ namespace NeoSmart.Unicode
             group: Group.PEOPLE_AND_BODY,
             subgroup: Subgroups.PERSON_ACTIVITY,
             hasGlyph: true,
-            sortOrder: 1971
+            sortOrder: 1977
         );
 
         /* 💃🏼 */
@@ -19787,7 +19865,7 @@ namespace NeoSmart.Unicode
             group: Group.PEOPLE_AND_BODY,
             subgroup: Subgroups.PERSON_ACTIVITY,
             hasGlyph: true,
-            sortOrder: 1972
+            sortOrder: 1978
         );
 
         /* 💃🏽 */
@@ -19800,7 +19878,7 @@ namespace NeoSmart.Unicode
             group: Group.PEOPLE_AND_BODY,
             subgroup: Subgroups.PERSON_ACTIVITY,
             hasGlyph: true,
-            sortOrder: 1973
+            sortOrder: 1979
         );
 
         /* 💃🏾 */
@@ -19813,7 +19891,7 @@ namespace NeoSmart.Unicode
             group: Group.PEOPLE_AND_BODY,
             subgroup: Subgroups.PERSON_ACTIVITY,
             hasGlyph: true,
-            sortOrder: 1974
+            sortOrder: 1980
         );
 
         /* 💃🏿 */
@@ -19826,7 +19904,7 @@ namespace NeoSmart.Unicode
             group: Group.PEOPLE_AND_BODY,
             subgroup: Subgroups.PERSON_ACTIVITY,
             hasGlyph: true,
-            sortOrder: 1975
+            sortOrder: 1981
         );
 
         /* 🕺 */
@@ -19839,7 +19917,7 @@ namespace NeoSmart.Unicode
             group: Group.PEOPLE_AND_BODY,
             subgroup: Subgroups.PERSON_ACTIVITY,
             hasGlyph: true,
-            sortOrder: 1976
+            sortOrder: 1982
         );
 
         /* 🕺🏻 */
@@ -19852,7 +19930,7 @@ namespace NeoSmart.Unicode
             group: Group.PEOPLE_AND_BODY,
             subgroup: Subgroups.PERSON_ACTIVITY,
             hasGlyph: true,
-            sortOrder: 1977
+            sortOrder: 1983
         );
 
         /* 🕺🏼 */
@@ -19865,7 +19943,7 @@ namespace NeoSmart.Unicode
             group: Group.PEOPLE_AND_BODY,
             subgroup: Subgroups.PERSON_ACTIVITY,
             hasGlyph: true,
-            sortOrder: 1978
+            sortOrder: 1984
         );
 
         /* 🕺🏽 */
@@ -19878,7 +19956,7 @@ namespace NeoSmart.Unicode
             group: Group.PEOPLE_AND_BODY,
             subgroup: Subgroups.PERSON_ACTIVITY,
             hasGlyph: true,
-            sortOrder: 1979
+            sortOrder: 1985
         );
 
         /* 🕺🏾 */
@@ -19891,7 +19969,7 @@ namespace NeoSmart.Unicode
             group: Group.PEOPLE_AND_BODY,
             subgroup: Subgroups.PERSON_ACTIVITY,
             hasGlyph: true,
-            sortOrder: 1980
+            sortOrder: 1986
         );
 
         /* 🕺🏿 */
@@ -19904,85 +19982,85 @@ namespace NeoSmart.Unicode
             group: Group.PEOPLE_AND_BODY,
             subgroup: Subgroups.PERSON_ACTIVITY,
             hasGlyph: true,
-            sortOrder: 1981
+            sortOrder: 1987
         );
 
         /* 🕴️ */
-        public static readonly SingleEmoji ManSuitLevitating_E0_7 = new SingleEmoji(
+        public static readonly SingleEmoji PersonSuitLevitating_E0_7 = new SingleEmoji(
             sequence: new UnicodeSequence(new int[] { 0x1f574, 0xfe0f }),
-            name: "man in suit levitating",
-            searchTerms: new string[] { "man", "suit", "levitating" },
+            name: "person in suit levitating",
+            searchTerms: new string[] { "person", "suit", "levitating" },
             skinTones: SingleEmoji.NoSkinTones,
             eNumber: 0.7,
             group: Group.PEOPLE_AND_BODY,
             subgroup: Subgroups.PERSON_ACTIVITY,
             hasGlyph: true,
-            sortOrder: 1982
+            sortOrder: 1988
         );
 
         /* 🕴🏻 */
-        public static readonly SingleEmoji ManSuitLevitatingLightSkinTone_E4_0 = new SingleEmoji(
+        public static readonly SingleEmoji PersonSuitLevitatingLightSkinTone_E4_0 = new SingleEmoji(
             sequence: new UnicodeSequence(new int[] { 0x1f574, 0x1f3fb }),
-            name: "man in suit levitating: light skin tone",
-            searchTerms: new string[] { "man", "suit", "levitating", "light", "skin", "tone" },
+            name: "person in suit levitating: light skin tone",
+            searchTerms: new string[] { "person", "suit", "levitating", "light", "skin", "tone" },
             skinTones: new Codepoint[] { SkinTones.Light },
             eNumber: 4.0,
             group: Group.PEOPLE_AND_BODY,
             subgroup: Subgroups.PERSON_ACTIVITY,
             hasGlyph: true,
-            sortOrder: 1984
+            sortOrder: 1990
         );
 
         /* 🕴🏼 */
-        public static readonly SingleEmoji ManSuitLevitatingMediumLightSkinTone_E4_0 = new SingleEmoji(
+        public static readonly SingleEmoji PersonSuitLevitatingMediumLightSkinTone_E4_0 = new SingleEmoji(
             sequence: new UnicodeSequence(new int[] { 0x1f574, 0x1f3fc }),
-            name: "man in suit levitating: medium-light skin tone",
-            searchTerms: new string[] { "man", "suit", "levitating", "medium", "light", "skin", "tone" },
+            name: "person in suit levitating: medium-light skin tone",
+            searchTerms: new string[] { "person", "suit", "levitating", "medium", "light", "skin", "tone" },
             skinTones: new Codepoint[] { SkinTones.MediumLight },
             eNumber: 4.0,
             group: Group.PEOPLE_AND_BODY,
             subgroup: Subgroups.PERSON_ACTIVITY,
             hasGlyph: true,
-            sortOrder: 1985
+            sortOrder: 1991
         );
 
         /* 🕴🏽 */
-        public static readonly SingleEmoji ManSuitLevitatingMediumSkinTone_E4_0 = new SingleEmoji(
+        public static readonly SingleEmoji PersonSuitLevitatingMediumSkinTone_E4_0 = new SingleEmoji(
             sequence: new UnicodeSequence(new int[] { 0x1f574, 0x1f3fd }),
-            name: "man in suit levitating: medium skin tone",
-            searchTerms: new string[] { "man", "suit", "levitating", "medium", "skin", "tone" },
+            name: "person in suit levitating: medium skin tone",
+            searchTerms: new string[] { "person", "suit", "levitating", "medium", "skin", "tone" },
             skinTones: new Codepoint[] { SkinTones.Medium },
             eNumber: 4.0,
             group: Group.PEOPLE_AND_BODY,
             subgroup: Subgroups.PERSON_ACTIVITY,
             hasGlyph: true,
-            sortOrder: 1986
+            sortOrder: 1992
         );
 
         /* 🕴🏾 */
-        public static readonly SingleEmoji ManSuitLevitatingMediumDarkSkinTone_E4_0 = new SingleEmoji(
+        public static readonly SingleEmoji PersonSuitLevitatingMediumDarkSkinTone_E4_0 = new SingleEmoji(
             sequence: new UnicodeSequence(new int[] { 0x1f574, 0x1f3fe }),
-            name: "man in suit levitating: medium-dark skin tone",
-            searchTerms: new string[] { "man", "suit", "levitating", "medium", "dark", "skin", "tone" },
+            name: "person in suit levitating: medium-dark skin tone",
+            searchTerms: new string[] { "person", "suit", "levitating", "medium", "dark", "skin", "tone" },
             skinTones: new Codepoint[] { SkinTones.MediumDark },
             eNumber: 4.0,
             group: Group.PEOPLE_AND_BODY,
             subgroup: Subgroups.PERSON_ACTIVITY,
             hasGlyph: true,
-            sortOrder: 1987
+            sortOrder: 1993
         );
 
         /* 🕴🏿 */
-        public static readonly SingleEmoji ManSuitLevitatingDarkSkinTone_E4_0 = new SingleEmoji(
+        public static readonly SingleEmoji PersonSuitLevitatingDarkSkinTone_E4_0 = new SingleEmoji(
             sequence: new UnicodeSequence(new int[] { 0x1f574, 0x1f3ff }),
-            name: "man in suit levitating: dark skin tone",
-            searchTerms: new string[] { "man", "suit", "levitating", "dark", "skin", "tone" },
+            name: "person in suit levitating: dark skin tone",
+            searchTerms: new string[] { "person", "suit", "levitating", "dark", "skin", "tone" },
             skinTones: new Codepoint[] { SkinTones.Dark },
             eNumber: 4.0,
             group: Group.PEOPLE_AND_BODY,
             subgroup: Subgroups.PERSON_ACTIVITY,
             hasGlyph: true,
-            sortOrder: 1988
+            sortOrder: 1994
         );
 
         /* 👯 */
@@ -19995,7 +20073,7 @@ namespace NeoSmart.Unicode
             group: Group.PEOPLE_AND_BODY,
             subgroup: Subgroups.PERSON_ACTIVITY,
             hasGlyph: true,
-            sortOrder: 1989
+            sortOrder: 1995
         );
 
         /* 👯‍♂️ */
@@ -20008,7 +20086,7 @@ namespace NeoSmart.Unicode
             group: Group.PEOPLE_AND_BODY,
             subgroup: Subgroups.PERSON_ACTIVITY,
             hasGlyph: true,
-            sortOrder: 1990
+            sortOrder: 1996
         );
 
         /* 👯‍♀️ */
@@ -20021,7 +20099,7 @@ namespace NeoSmart.Unicode
             group: Group.PEOPLE_AND_BODY,
             subgroup: Subgroups.PERSON_ACTIVITY,
             hasGlyph: true,
-            sortOrder: 1992
+            sortOrder: 1998
         );
 
         /* 🧖 */
@@ -20034,7 +20112,7 @@ namespace NeoSmart.Unicode
             group: Group.PEOPLE_AND_BODY,
             subgroup: Subgroups.PERSON_ACTIVITY,
             hasGlyph: true,
-            sortOrder: 1994
+            sortOrder: 2000
         );
 
         /* 🧖🏻 */
@@ -20047,7 +20125,7 @@ namespace NeoSmart.Unicode
             group: Group.PEOPLE_AND_BODY,
             subgroup: Subgroups.PERSON_ACTIVITY,
             hasGlyph: true,
-            sortOrder: 1995
+            sortOrder: 2001
         );
 
         /* 🧖🏼 */
@@ -20060,7 +20138,7 @@ namespace NeoSmart.Unicode
             group: Group.PEOPLE_AND_BODY,
             subgroup: Subgroups.PERSON_ACTIVITY,
             hasGlyph: true,
-            sortOrder: 1996
+            sortOrder: 2002
         );
 
         /* 🧖🏽 */
@@ -20073,7 +20151,7 @@ namespace NeoSmart.Unicode
             group: Group.PEOPLE_AND_BODY,
             subgroup: Subgroups.PERSON_ACTIVITY,
             hasGlyph: true,
-            sortOrder: 1997
+            sortOrder: 2003
         );
 
         /* 🧖🏾 */
@@ -20086,7 +20164,7 @@ namespace NeoSmart.Unicode
             group: Group.PEOPLE_AND_BODY,
             subgroup: Subgroups.PERSON_ACTIVITY,
             hasGlyph: true,
-            sortOrder: 1998
+            sortOrder: 2004
         );
 
         /* 🧖🏿 */
@@ -20099,7 +20177,7 @@ namespace NeoSmart.Unicode
             group: Group.PEOPLE_AND_BODY,
             subgroup: Subgroups.PERSON_ACTIVITY,
             hasGlyph: true,
-            sortOrder: 1999
+            sortOrder: 2005
         );
 
         /* 🧖‍♂️ */
@@ -20112,7 +20190,7 @@ namespace NeoSmart.Unicode
             group: Group.PEOPLE_AND_BODY,
             subgroup: Subgroups.PERSON_ACTIVITY,
             hasGlyph: true,
-            sortOrder: 2000
+            sortOrder: 2006
         );
 
         /* 🧖🏻‍♂️ */
@@ -20125,7 +20203,7 @@ namespace NeoSmart.Unicode
             group: Group.PEOPLE_AND_BODY,
             subgroup: Subgroups.PERSON_ACTIVITY,
             hasGlyph: true,
-            sortOrder: 2002
+            sortOrder: 2008
         );
 
         /* 🧖🏼‍♂️ */
@@ -20138,7 +20216,7 @@ namespace NeoSmart.Unicode
             group: Group.PEOPLE_AND_BODY,
             subgroup: Subgroups.PERSON_ACTIVITY,
             hasGlyph: true,
-            sortOrder: 2004
+            sortOrder: 2010
         );
 
         /* 🧖🏽‍♂️ */
@@ -20151,7 +20229,7 @@ namespace NeoSmart.Unicode
             group: Group.PEOPLE_AND_BODY,
             subgroup: Subgroups.PERSON_ACTIVITY,
             hasGlyph: true,
-            sortOrder: 2006
+            sortOrder: 2012
         );
 
         /* 🧖🏾‍♂️ */
@@ -20164,7 +20242,7 @@ namespace NeoSmart.Unicode
             group: Group.PEOPLE_AND_BODY,
             subgroup: Subgroups.PERSON_ACTIVITY,
             hasGlyph: true,
-            sortOrder: 2008
+            sortOrder: 2014
         );
 
         /* 🧖🏿‍♂️ */
@@ -20177,7 +20255,7 @@ namespace NeoSmart.Unicode
             group: Group.PEOPLE_AND_BODY,
             subgroup: Subgroups.PERSON_ACTIVITY,
             hasGlyph: true,
-            sortOrder: 2010
+            sortOrder: 2016
         );
 
         /* 🧖‍♀️ */
@@ -20190,7 +20268,7 @@ namespace NeoSmart.Unicode
             group: Group.PEOPLE_AND_BODY,
             subgroup: Subgroups.PERSON_ACTIVITY,
             hasGlyph: true,
-            sortOrder: 2012
+            sortOrder: 2018
         );
 
         /* 🧖🏻‍♀️ */
@@ -20203,7 +20281,7 @@ namespace NeoSmart.Unicode
             group: Group.PEOPLE_AND_BODY,
             subgroup: Subgroups.PERSON_ACTIVITY,
             hasGlyph: true,
-            sortOrder: 2014
+            sortOrder: 2020
         );
 
         /* 🧖🏼‍♀️ */
@@ -20216,7 +20294,7 @@ namespace NeoSmart.Unicode
             group: Group.PEOPLE_AND_BODY,
             subgroup: Subgroups.PERSON_ACTIVITY,
             hasGlyph: true,
-            sortOrder: 2016
+            sortOrder: 2022
         );
 
         /* 🧖🏽‍♀️ */
@@ -20229,7 +20307,7 @@ namespace NeoSmart.Unicode
             group: Group.PEOPLE_AND_BODY,
             subgroup: Subgroups.PERSON_ACTIVITY,
             hasGlyph: true,
-            sortOrder: 2018
+            sortOrder: 2024
         );
 
         /* 🧖🏾‍♀️ */
@@ -20242,7 +20320,7 @@ namespace NeoSmart.Unicode
             group: Group.PEOPLE_AND_BODY,
             subgroup: Subgroups.PERSON_ACTIVITY,
             hasGlyph: true,
-            sortOrder: 2020
+            sortOrder: 2026
         );
 
         /* 🧖🏿‍♀️ */
@@ -20255,7 +20333,7 @@ namespace NeoSmart.Unicode
             group: Group.PEOPLE_AND_BODY,
             subgroup: Subgroups.PERSON_ACTIVITY,
             hasGlyph: true,
-            sortOrder: 2022
+            sortOrder: 2028
         );
 
         /* 🧗 */
@@ -20268,7 +20346,7 @@ namespace NeoSmart.Unicode
             group: Group.PEOPLE_AND_BODY,
             subgroup: Subgroups.PERSON_ACTIVITY,
             hasGlyph: true,
-            sortOrder: 2024
+            sortOrder: 2030
         );
 
         /* 🧗🏻 */
@@ -20281,7 +20359,7 @@ namespace NeoSmart.Unicode
             group: Group.PEOPLE_AND_BODY,
             subgroup: Subgroups.PERSON_ACTIVITY,
             hasGlyph: true,
-            sortOrder: 2025
+            sortOrder: 2031
         );
 
         /* 🧗🏼 */
@@ -20294,7 +20372,7 @@ namespace NeoSmart.Unicode
             group: Group.PEOPLE_AND_BODY,
             subgroup: Subgroups.PERSON_ACTIVITY,
             hasGlyph: true,
-            sortOrder: 2026
+            sortOrder: 2032
         );
 
         /* 🧗🏽 */
@@ -20307,7 +20385,7 @@ namespace NeoSmart.Unicode
             group: Group.PEOPLE_AND_BODY,
             subgroup: Subgroups.PERSON_ACTIVITY,
             hasGlyph: true,
-            sortOrder: 2027
+            sortOrder: 2033
         );
 
         /* 🧗🏾 */
@@ -20320,7 +20398,7 @@ namespace NeoSmart.Unicode
             group: Group.PEOPLE_AND_BODY,
             subgroup: Subgroups.PERSON_ACTIVITY,
             hasGlyph: true,
-            sortOrder: 2028
+            sortOrder: 2034
         );
 
         /* 🧗🏿 */
@@ -20333,7 +20411,7 @@ namespace NeoSmart.Unicode
             group: Group.PEOPLE_AND_BODY,
             subgroup: Subgroups.PERSON_ACTIVITY,
             hasGlyph: true,
-            sortOrder: 2029
+            sortOrder: 2035
         );
 
         /* 🧗‍♂️ */
@@ -20346,7 +20424,7 @@ namespace NeoSmart.Unicode
             group: Group.PEOPLE_AND_BODY,
             subgroup: Subgroups.PERSON_ACTIVITY,
             hasGlyph: true,
-            sortOrder: 2030
+            sortOrder: 2036
         );
 
         /* 🧗🏻‍♂️ */
@@ -20359,7 +20437,7 @@ namespace NeoSmart.Unicode
             group: Group.PEOPLE_AND_BODY,
             subgroup: Subgroups.PERSON_ACTIVITY,
             hasGlyph: true,
-            sortOrder: 2032
+            sortOrder: 2038
         );
 
         /* 🧗🏼‍♂️ */
@@ -20372,7 +20450,7 @@ namespace NeoSmart.Unicode
             group: Group.PEOPLE_AND_BODY,
             subgroup: Subgroups.PERSON_ACTIVITY,
             hasGlyph: true,
-            sortOrder: 2034
+            sortOrder: 2040
         );
 
         /* 🧗🏽‍♂️ */
@@ -20385,7 +20463,7 @@ namespace NeoSmart.Unicode
             group: Group.PEOPLE_AND_BODY,
             subgroup: Subgroups.PERSON_ACTIVITY,
             hasGlyph: true,
-            sortOrder: 2036
+            sortOrder: 2042
         );
 
         /* 🧗🏾‍♂️ */
@@ -20398,7 +20476,7 @@ namespace NeoSmart.Unicode
             group: Group.PEOPLE_AND_BODY,
             subgroup: Subgroups.PERSON_ACTIVITY,
             hasGlyph: true,
-            sortOrder: 2038
+            sortOrder: 2044
         );
 
         /* 🧗🏿‍♂️ */
@@ -20411,7 +20489,7 @@ namespace NeoSmart.Unicode
             group: Group.PEOPLE_AND_BODY,
             subgroup: Subgroups.PERSON_ACTIVITY,
             hasGlyph: true,
-            sortOrder: 2040
+            sortOrder: 2046
         );
 
         /* 🧗‍♀️ */
@@ -20424,7 +20502,7 @@ namespace NeoSmart.Unicode
             group: Group.PEOPLE_AND_BODY,
             subgroup: Subgroups.PERSON_ACTIVITY,
             hasGlyph: true,
-            sortOrder: 2042
+            sortOrder: 2048
         );
 
         /* 🧗🏻‍♀️ */
@@ -20437,7 +20515,7 @@ namespace NeoSmart.Unicode
             group: Group.PEOPLE_AND_BODY,
             subgroup: Subgroups.PERSON_ACTIVITY,
             hasGlyph: true,
-            sortOrder: 2044
+            sortOrder: 2050
         );
 
         /* 🧗🏼‍♀️ */
@@ -20450,7 +20528,7 @@ namespace NeoSmart.Unicode
             group: Group.PEOPLE_AND_BODY,
             subgroup: Subgroups.PERSON_ACTIVITY,
             hasGlyph: true,
-            sortOrder: 2046
+            sortOrder: 2052
         );
 
         /* 🧗🏽‍♀️ */
@@ -20463,7 +20541,7 @@ namespace NeoSmart.Unicode
             group: Group.PEOPLE_AND_BODY,
             subgroup: Subgroups.PERSON_ACTIVITY,
             hasGlyph: true,
-            sortOrder: 2048
+            sortOrder: 2054
         );
 
         /* 🧗🏾‍♀️ */
@@ -20476,7 +20554,7 @@ namespace NeoSmart.Unicode
             group: Group.PEOPLE_AND_BODY,
             subgroup: Subgroups.PERSON_ACTIVITY,
             hasGlyph: true,
-            sortOrder: 2050
+            sortOrder: 2056
         );
 
         /* 🧗🏿‍♀️ */
@@ -20489,20 +20567,7 @@ namespace NeoSmart.Unicode
             group: Group.PEOPLE_AND_BODY,
             subgroup: Subgroups.PERSON_ACTIVITY,
             hasGlyph: true,
-            sortOrder: 2052
-        );
-
-        /* 🥷 */
-        public static readonly SingleEmoji Ninja_E13_0 = new SingleEmoji(
-            sequence: new UnicodeSequence(new int[] { 0x1f977 }),
-            name: "ninja",
-            searchTerms: new string[] { "ninja" },
-            skinTones: SingleEmoji.NoSkinTones,
-            eNumber: 13.0,
-            group: Group.PEOPLE_AND_BODY,
-            subgroup: Subgroups.PERSON_ACTIVITY,
-            hasGlyph: false,
-            sortOrder: 2054
+            sortOrder: 2058
         );
 
         /* 🤺 */
@@ -20515,7 +20580,7 @@ namespace NeoSmart.Unicode
             group: Group.PEOPLE_AND_BODY,
             subgroup: Subgroups.PERSON_SPORT,
             hasGlyph: true,
-            sortOrder: 2055
+            sortOrder: 2060
         );
 
         /* 🏇 */
@@ -20528,7 +20593,7 @@ namespace NeoSmart.Unicode
             group: Group.PEOPLE_AND_BODY,
             subgroup: Subgroups.PERSON_SPORT,
             hasGlyph: true,
-            sortOrder: 2056
+            sortOrder: 2061
         );
 
         /* 🏇🏻 */
@@ -20541,7 +20606,7 @@ namespace NeoSmart.Unicode
             group: Group.PEOPLE_AND_BODY,
             subgroup: Subgroups.PERSON_SPORT,
             hasGlyph: true,
-            sortOrder: 2057
+            sortOrder: 2062
         );
 
         /* 🏇🏼 */
@@ -20554,7 +20619,7 @@ namespace NeoSmart.Unicode
             group: Group.PEOPLE_AND_BODY,
             subgroup: Subgroups.PERSON_SPORT,
             hasGlyph: true,
-            sortOrder: 2058
+            sortOrder: 2063
         );
 
         /* 🏇🏽 */
@@ -20567,7 +20632,7 @@ namespace NeoSmart.Unicode
             group: Group.PEOPLE_AND_BODY,
             subgroup: Subgroups.PERSON_SPORT,
             hasGlyph: true,
-            sortOrder: 2059
+            sortOrder: 2064
         );
 
         /* 🏇🏾 */
@@ -20580,7 +20645,7 @@ namespace NeoSmart.Unicode
             group: Group.PEOPLE_AND_BODY,
             subgroup: Subgroups.PERSON_SPORT,
             hasGlyph: true,
-            sortOrder: 2060
+            sortOrder: 2065
         );
 
         /* 🏇🏿 */
@@ -20593,7 +20658,7 @@ namespace NeoSmart.Unicode
             group: Group.PEOPLE_AND_BODY,
             subgroup: Subgroups.PERSON_SPORT,
             hasGlyph: true,
-            sortOrder: 2061
+            sortOrder: 2066
         );
 
         /* ⛷️ */
@@ -20606,7 +20671,7 @@ namespace NeoSmart.Unicode
             group: Group.PEOPLE_AND_BODY,
             subgroup: Subgroups.PERSON_SPORT,
             hasGlyph: true,
-            sortOrder: 2062
+            sortOrder: 2067
         );
 
         /* 🏂 */
@@ -20619,7 +20684,7 @@ namespace NeoSmart.Unicode
             group: Group.PEOPLE_AND_BODY,
             subgroup: Subgroups.PERSON_SPORT,
             hasGlyph: true,
-            sortOrder: 2064
+            sortOrder: 2069
         );
 
         /* 🏂🏻 */
@@ -20632,7 +20697,7 @@ namespace NeoSmart.Unicode
             group: Group.PEOPLE_AND_BODY,
             subgroup: Subgroups.PERSON_SPORT,
             hasGlyph: true,
-            sortOrder: 2065
+            sortOrder: 2070
         );
 
         /* 🏂🏼 */
@@ -20645,7 +20710,7 @@ namespace NeoSmart.Unicode
             group: Group.PEOPLE_AND_BODY,
             subgroup: Subgroups.PERSON_SPORT,
             hasGlyph: true,
-            sortOrder: 2066
+            sortOrder: 2071
         );
 
         /* 🏂🏽 */
@@ -20658,7 +20723,7 @@ namespace NeoSmart.Unicode
             group: Group.PEOPLE_AND_BODY,
             subgroup: Subgroups.PERSON_SPORT,
             hasGlyph: true,
-            sortOrder: 2067
+            sortOrder: 2072
         );
 
         /* 🏂🏾 */
@@ -20671,7 +20736,7 @@ namespace NeoSmart.Unicode
             group: Group.PEOPLE_AND_BODY,
             subgroup: Subgroups.PERSON_SPORT,
             hasGlyph: true,
-            sortOrder: 2068
+            sortOrder: 2073
         );
 
         /* 🏂🏿 */
@@ -20684,7 +20749,7 @@ namespace NeoSmart.Unicode
             group: Group.PEOPLE_AND_BODY,
             subgroup: Subgroups.PERSON_SPORT,
             hasGlyph: true,
-            sortOrder: 2069
+            sortOrder: 2074
         );
 
         /* 🏌️ */
@@ -20697,7 +20762,7 @@ namespace NeoSmart.Unicode
             group: Group.PEOPLE_AND_BODY,
             subgroup: Subgroups.PERSON_SPORT,
             hasGlyph: true,
-            sortOrder: 2070
+            sortOrder: 2075
         );
 
         /* 🏌🏻 */
@@ -20710,7 +20775,7 @@ namespace NeoSmart.Unicode
             group: Group.PEOPLE_AND_BODY,
             subgroup: Subgroups.PERSON_SPORT,
             hasGlyph: true,
-            sortOrder: 2072
+            sortOrder: 2077
         );
 
         /* 🏌🏼 */
@@ -20723,7 +20788,7 @@ namespace NeoSmart.Unicode
             group: Group.PEOPLE_AND_BODY,
             subgroup: Subgroups.PERSON_SPORT,
             hasGlyph: true,
-            sortOrder: 2073
+            sortOrder: 2078
         );
 
         /* 🏌🏽 */
@@ -20736,7 +20801,7 @@ namespace NeoSmart.Unicode
             group: Group.PEOPLE_AND_BODY,
             subgroup: Subgroups.PERSON_SPORT,
             hasGlyph: true,
-            sortOrder: 2074
+            sortOrder: 2079
         );
 
         /* 🏌🏾 */
@@ -20749,7 +20814,7 @@ namespace NeoSmart.Unicode
             group: Group.PEOPLE_AND_BODY,
             subgroup: Subgroups.PERSON_SPORT,
             hasGlyph: true,
-            sortOrder: 2075
+            sortOrder: 2080
         );
 
         /* 🏌🏿 */
@@ -20762,7 +20827,7 @@ namespace NeoSmart.Unicode
             group: Group.PEOPLE_AND_BODY,
             subgroup: Subgroups.PERSON_SPORT,
             hasGlyph: true,
-            sortOrder: 2076
+            sortOrder: 2081
         );
 
         /* 🏌️‍♂️ */
@@ -20775,7 +20840,7 @@ namespace NeoSmart.Unicode
             group: Group.PEOPLE_AND_BODY,
             subgroup: Subgroups.PERSON_SPORT,
             hasGlyph: true,
-            sortOrder: 2077
+            sortOrder: 2082
         );
 
         /* 🏌🏻‍♂️ */
@@ -20788,7 +20853,7 @@ namespace NeoSmart.Unicode
             group: Group.PEOPLE_AND_BODY,
             subgroup: Subgroups.PERSON_SPORT,
             hasGlyph: true,
-            sortOrder: 2081
+            sortOrder: 2086
         );
 
         /* 🏌🏼‍♂️ */
@@ -20801,7 +20866,7 @@ namespace NeoSmart.Unicode
             group: Group.PEOPLE_AND_BODY,
             subgroup: Subgroups.PERSON_SPORT,
             hasGlyph: true,
-            sortOrder: 2083
+            sortOrder: 2088
         );
 
         /* 🏌🏽‍♂️ */
@@ -20814,7 +20879,7 @@ namespace NeoSmart.Unicode
             group: Group.PEOPLE_AND_BODY,
             subgroup: Subgroups.PERSON_SPORT,
             hasGlyph: true,
-            sortOrder: 2085
+            sortOrder: 2090
         );
 
         /* 🏌🏾‍♂️ */
@@ -20827,7 +20892,7 @@ namespace NeoSmart.Unicode
             group: Group.PEOPLE_AND_BODY,
             subgroup: Subgroups.PERSON_SPORT,
             hasGlyph: true,
-            sortOrder: 2087
+            sortOrder: 2092
         );
 
         /* 🏌🏿‍♂️ */
@@ -20840,7 +20905,7 @@ namespace NeoSmart.Unicode
             group: Group.PEOPLE_AND_BODY,
             subgroup: Subgroups.PERSON_SPORT,
             hasGlyph: true,
-            sortOrder: 2089
+            sortOrder: 2094
         );
 
         /* 🏌️‍♀️ */
@@ -20853,7 +20918,7 @@ namespace NeoSmart.Unicode
             group: Group.PEOPLE_AND_BODY,
             subgroup: Subgroups.PERSON_SPORT,
             hasGlyph: true,
-            sortOrder: 2091
+            sortOrder: 2096
         );
 
         /* 🏌🏻‍♀️ */
@@ -20866,7 +20931,7 @@ namespace NeoSmart.Unicode
             group: Group.PEOPLE_AND_BODY,
             subgroup: Subgroups.PERSON_SPORT,
             hasGlyph: true,
-            sortOrder: 2095
+            sortOrder: 2100
         );
 
         /* 🏌🏼‍♀️ */
@@ -20879,7 +20944,7 @@ namespace NeoSmart.Unicode
             group: Group.PEOPLE_AND_BODY,
             subgroup: Subgroups.PERSON_SPORT,
             hasGlyph: true,
-            sortOrder: 2097
+            sortOrder: 2102
         );
 
         /* 🏌🏽‍♀️ */
@@ -20892,7 +20957,7 @@ namespace NeoSmart.Unicode
             group: Group.PEOPLE_AND_BODY,
             subgroup: Subgroups.PERSON_SPORT,
             hasGlyph: true,
-            sortOrder: 2099
+            sortOrder: 2104
         );
 
         /* 🏌🏾‍♀️ */
@@ -20905,7 +20970,7 @@ namespace NeoSmart.Unicode
             group: Group.PEOPLE_AND_BODY,
             subgroup: Subgroups.PERSON_SPORT,
             hasGlyph: true,
-            sortOrder: 2101
+            sortOrder: 2106
         );
 
         /* 🏌🏿‍♀️ */
@@ -20918,7 +20983,7 @@ namespace NeoSmart.Unicode
             group: Group.PEOPLE_AND_BODY,
             subgroup: Subgroups.PERSON_SPORT,
             hasGlyph: true,
-            sortOrder: 2103
+            sortOrder: 2108
         );
 
         /* 🏄 */
@@ -20931,7 +20996,7 @@ namespace NeoSmart.Unicode
             group: Group.PEOPLE_AND_BODY,
             subgroup: Subgroups.PERSON_SPORT,
             hasGlyph: true,
-            sortOrder: 2105
+            sortOrder: 2110
         );
 
         /* 🏄🏻 */
@@ -20944,7 +21009,7 @@ namespace NeoSmart.Unicode
             group: Group.PEOPLE_AND_BODY,
             subgroup: Subgroups.PERSON_SPORT,
             hasGlyph: true,
-            sortOrder: 2106
+            sortOrder: 2111
         );
 
         /* 🏄🏼 */
@@ -20957,7 +21022,7 @@ namespace NeoSmart.Unicode
             group: Group.PEOPLE_AND_BODY,
             subgroup: Subgroups.PERSON_SPORT,
             hasGlyph: true,
-            sortOrder: 2107
+            sortOrder: 2112
         );
 
         /* 🏄🏽 */
@@ -20970,7 +21035,7 @@ namespace NeoSmart.Unicode
             group: Group.PEOPLE_AND_BODY,
             subgroup: Subgroups.PERSON_SPORT,
             hasGlyph: true,
-            sortOrder: 2108
+            sortOrder: 2113
         );
 
         /* 🏄🏾 */
@@ -20983,7 +21048,7 @@ namespace NeoSmart.Unicode
             group: Group.PEOPLE_AND_BODY,
             subgroup: Subgroups.PERSON_SPORT,
             hasGlyph: true,
-            sortOrder: 2109
+            sortOrder: 2114
         );
 
         /* 🏄🏿 */
@@ -20996,7 +21061,7 @@ namespace NeoSmart.Unicode
             group: Group.PEOPLE_AND_BODY,
             subgroup: Subgroups.PERSON_SPORT,
             hasGlyph: true,
-            sortOrder: 2110
+            sortOrder: 2115
         );
 
         /* 🏄‍♂️ */
@@ -21009,7 +21074,7 @@ namespace NeoSmart.Unicode
             group: Group.PEOPLE_AND_BODY,
             subgroup: Subgroups.PERSON_SPORT,
             hasGlyph: true,
-            sortOrder: 2111
+            sortOrder: 2116
         );
 
         /* 🏄🏻‍♂️ */
@@ -21022,7 +21087,7 @@ namespace NeoSmart.Unicode
             group: Group.PEOPLE_AND_BODY,
             subgroup: Subgroups.PERSON_SPORT,
             hasGlyph: true,
-            sortOrder: 2113
+            sortOrder: 2118
         );
 
         /* 🏄🏼‍♂️ */
@@ -21035,7 +21100,7 @@ namespace NeoSmart.Unicode
             group: Group.PEOPLE_AND_BODY,
             subgroup: Subgroups.PERSON_SPORT,
             hasGlyph: true,
-            sortOrder: 2115
+            sortOrder: 2120
         );
 
         /* 🏄🏽‍♂️ */
@@ -21048,7 +21113,7 @@ namespace NeoSmart.Unicode
             group: Group.PEOPLE_AND_BODY,
             subgroup: Subgroups.PERSON_SPORT,
             hasGlyph: true,
-            sortOrder: 2117
+            sortOrder: 2122
         );
 
         /* 🏄🏾‍♂️ */
@@ -21061,7 +21126,7 @@ namespace NeoSmart.Unicode
             group: Group.PEOPLE_AND_BODY,
             subgroup: Subgroups.PERSON_SPORT,
             hasGlyph: true,
-            sortOrder: 2119
+            sortOrder: 2124
         );
 
         /* 🏄🏿‍♂️ */
@@ -21074,7 +21139,7 @@ namespace NeoSmart.Unicode
             group: Group.PEOPLE_AND_BODY,
             subgroup: Subgroups.PERSON_SPORT,
             hasGlyph: true,
-            sortOrder: 2121
+            sortOrder: 2126
         );
 
         /* 🏄‍♀️ */
@@ -21087,7 +21152,7 @@ namespace NeoSmart.Unicode
             group: Group.PEOPLE_AND_BODY,
             subgroup: Subgroups.PERSON_SPORT,
             hasGlyph: true,
-            sortOrder: 2123
+            sortOrder: 2128
         );
 
         /* 🏄🏻‍♀️ */
@@ -21100,7 +21165,7 @@ namespace NeoSmart.Unicode
             group: Group.PEOPLE_AND_BODY,
             subgroup: Subgroups.PERSON_SPORT,
             hasGlyph: true,
-            sortOrder: 2125
+            sortOrder: 2130
         );
 
         /* 🏄🏼‍♀️ */
@@ -21113,7 +21178,7 @@ namespace NeoSmart.Unicode
             group: Group.PEOPLE_AND_BODY,
             subgroup: Subgroups.PERSON_SPORT,
             hasGlyph: true,
-            sortOrder: 2127
+            sortOrder: 2132
         );
 
         /* 🏄🏽‍♀️ */
@@ -21126,7 +21191,7 @@ namespace NeoSmart.Unicode
             group: Group.PEOPLE_AND_BODY,
             subgroup: Subgroups.PERSON_SPORT,
             hasGlyph: true,
-            sortOrder: 2129
+            sortOrder: 2134
         );
 
         /* 🏄🏾‍♀️ */
@@ -21139,7 +21204,7 @@ namespace NeoSmart.Unicode
             group: Group.PEOPLE_AND_BODY,
             subgroup: Subgroups.PERSON_SPORT,
             hasGlyph: true,
-            sortOrder: 2131
+            sortOrder: 2136
         );
 
         /* 🏄🏿‍♀️ */
@@ -21152,7 +21217,7 @@ namespace NeoSmart.Unicode
             group: Group.PEOPLE_AND_BODY,
             subgroup: Subgroups.PERSON_SPORT,
             hasGlyph: true,
-            sortOrder: 2133
+            sortOrder: 2138
         );
 
         /* 🚣 */
@@ -21165,7 +21230,7 @@ namespace NeoSmart.Unicode
             group: Group.PEOPLE_AND_BODY,
             subgroup: Subgroups.PERSON_SPORT,
             hasGlyph: true,
-            sortOrder: 2135
+            sortOrder: 2140
         );
 
         /* 🚣🏻 */
@@ -21178,7 +21243,7 @@ namespace NeoSmart.Unicode
             group: Group.PEOPLE_AND_BODY,
             subgroup: Subgroups.PERSON_SPORT,
             hasGlyph: true,
-            sortOrder: 2136
+            sortOrder: 2141
         );
 
         /* 🚣🏼 */
@@ -21191,7 +21256,7 @@ namespace NeoSmart.Unicode
             group: Group.PEOPLE_AND_BODY,
             subgroup: Subgroups.PERSON_SPORT,
             hasGlyph: true,
-            sortOrder: 2137
+            sortOrder: 2142
         );
 
         /* 🚣🏽 */
@@ -21204,7 +21269,7 @@ namespace NeoSmart.Unicode
             group: Group.PEOPLE_AND_BODY,
             subgroup: Subgroups.PERSON_SPORT,
             hasGlyph: true,
-            sortOrder: 2138
+            sortOrder: 2143
         );
 
         /* 🚣🏾 */
@@ -21217,7 +21282,7 @@ namespace NeoSmart.Unicode
             group: Group.PEOPLE_AND_BODY,
             subgroup: Subgroups.PERSON_SPORT,
             hasGlyph: true,
-            sortOrder: 2139
+            sortOrder: 2144
         );
 
         /* 🚣🏿 */
@@ -21230,7 +21295,7 @@ namespace NeoSmart.Unicode
             group: Group.PEOPLE_AND_BODY,
             subgroup: Subgroups.PERSON_SPORT,
             hasGlyph: true,
-            sortOrder: 2140
+            sortOrder: 2145
         );
 
         /* 🚣‍♂️ */
@@ -21243,7 +21308,7 @@ namespace NeoSmart.Unicode
             group: Group.PEOPLE_AND_BODY,
             subgroup: Subgroups.PERSON_SPORT,
             hasGlyph: true,
-            sortOrder: 2141
+            sortOrder: 2146
         );
 
         /* 🚣🏻‍♂️ */
@@ -21256,7 +21321,7 @@ namespace NeoSmart.Unicode
             group: Group.PEOPLE_AND_BODY,
             subgroup: Subgroups.PERSON_SPORT,
             hasGlyph: true,
-            sortOrder: 2143
+            sortOrder: 2148
         );
 
         /* 🚣🏼‍♂️ */
@@ -21269,7 +21334,7 @@ namespace NeoSmart.Unicode
             group: Group.PEOPLE_AND_BODY,
             subgroup: Subgroups.PERSON_SPORT,
             hasGlyph: true,
-            sortOrder: 2145
+            sortOrder: 2150
         );
 
         /* 🚣🏽‍♂️ */
@@ -21282,7 +21347,7 @@ namespace NeoSmart.Unicode
             group: Group.PEOPLE_AND_BODY,
             subgroup: Subgroups.PERSON_SPORT,
             hasGlyph: true,
-            sortOrder: 2147
+            sortOrder: 2152
         );
 
         /* 🚣🏾‍♂️ */
@@ -21295,7 +21360,7 @@ namespace NeoSmart.Unicode
             group: Group.PEOPLE_AND_BODY,
             subgroup: Subgroups.PERSON_SPORT,
             hasGlyph: true,
-            sortOrder: 2149
+            sortOrder: 2154
         );
 
         /* 🚣🏿‍♂️ */
@@ -21308,7 +21373,7 @@ namespace NeoSmart.Unicode
             group: Group.PEOPLE_AND_BODY,
             subgroup: Subgroups.PERSON_SPORT,
             hasGlyph: true,
-            sortOrder: 2151
+            sortOrder: 2156
         );
 
         /* 🚣‍♀️ */
@@ -21321,7 +21386,7 @@ namespace NeoSmart.Unicode
             group: Group.PEOPLE_AND_BODY,
             subgroup: Subgroups.PERSON_SPORT,
             hasGlyph: true,
-            sortOrder: 2153
+            sortOrder: 2158
         );
 
         /* 🚣🏻‍♀️ */
@@ -21334,7 +21399,7 @@ namespace NeoSmart.Unicode
             group: Group.PEOPLE_AND_BODY,
             subgroup: Subgroups.PERSON_SPORT,
             hasGlyph: true,
-            sortOrder: 2155
+            sortOrder: 2160
         );
 
         /* 🚣🏼‍♀️ */
@@ -21347,7 +21412,7 @@ namespace NeoSmart.Unicode
             group: Group.PEOPLE_AND_BODY,
             subgroup: Subgroups.PERSON_SPORT,
             hasGlyph: true,
-            sortOrder: 2157
+            sortOrder: 2162
         );
 
         /* 🚣🏽‍♀️ */
@@ -21360,7 +21425,7 @@ namespace NeoSmart.Unicode
             group: Group.PEOPLE_AND_BODY,
             subgroup: Subgroups.PERSON_SPORT,
             hasGlyph: true,
-            sortOrder: 2159
+            sortOrder: 2164
         );
 
         /* 🚣🏾‍♀️ */
@@ -21373,7 +21438,7 @@ namespace NeoSmart.Unicode
             group: Group.PEOPLE_AND_BODY,
             subgroup: Subgroups.PERSON_SPORT,
             hasGlyph: true,
-            sortOrder: 2161
+            sortOrder: 2166
         );
 
         /* 🚣🏿‍♀️ */
@@ -21386,7 +21451,7 @@ namespace NeoSmart.Unicode
             group: Group.PEOPLE_AND_BODY,
             subgroup: Subgroups.PERSON_SPORT,
             hasGlyph: true,
-            sortOrder: 2163
+            sortOrder: 2168
         );
 
         /* 🏊 */
@@ -21399,7 +21464,7 @@ namespace NeoSmart.Unicode
             group: Group.PEOPLE_AND_BODY,
             subgroup: Subgroups.PERSON_SPORT,
             hasGlyph: true,
-            sortOrder: 2165
+            sortOrder: 2170
         );
 
         /* 🏊🏻 */
@@ -21412,7 +21477,7 @@ namespace NeoSmart.Unicode
             group: Group.PEOPLE_AND_BODY,
             subgroup: Subgroups.PERSON_SPORT,
             hasGlyph: true,
-            sortOrder: 2166
+            sortOrder: 2171
         );
 
         /* 🏊🏼 */
@@ -21425,7 +21490,7 @@ namespace NeoSmart.Unicode
             group: Group.PEOPLE_AND_BODY,
             subgroup: Subgroups.PERSON_SPORT,
             hasGlyph: true,
-            sortOrder: 2167
+            sortOrder: 2172
         );
 
         /* 🏊🏽 */
@@ -21438,7 +21503,7 @@ namespace NeoSmart.Unicode
             group: Group.PEOPLE_AND_BODY,
             subgroup: Subgroups.PERSON_SPORT,
             hasGlyph: true,
-            sortOrder: 2168
+            sortOrder: 2173
         );
 
         /* 🏊🏾 */
@@ -21451,7 +21516,7 @@ namespace NeoSmart.Unicode
             group: Group.PEOPLE_AND_BODY,
             subgroup: Subgroups.PERSON_SPORT,
             hasGlyph: true,
-            sortOrder: 2169
+            sortOrder: 2174
         );
 
         /* 🏊🏿 */
@@ -21464,7 +21529,7 @@ namespace NeoSmart.Unicode
             group: Group.PEOPLE_AND_BODY,
             subgroup: Subgroups.PERSON_SPORT,
             hasGlyph: true,
-            sortOrder: 2170
+            sortOrder: 2175
         );
 
         /* 🏊‍♂️ */
@@ -21477,7 +21542,7 @@ namespace NeoSmart.Unicode
             group: Group.PEOPLE_AND_BODY,
             subgroup: Subgroups.PERSON_SPORT,
             hasGlyph: true,
-            sortOrder: 2171
+            sortOrder: 2176
         );
 
         /* 🏊🏻‍♂️ */
@@ -21490,7 +21555,7 @@ namespace NeoSmart.Unicode
             group: Group.PEOPLE_AND_BODY,
             subgroup: Subgroups.PERSON_SPORT,
             hasGlyph: true,
-            sortOrder: 2173
+            sortOrder: 2178
         );
 
         /* 🏊🏼‍♂️ */
@@ -21503,7 +21568,7 @@ namespace NeoSmart.Unicode
             group: Group.PEOPLE_AND_BODY,
             subgroup: Subgroups.PERSON_SPORT,
             hasGlyph: true,
-            sortOrder: 2175
+            sortOrder: 2180
         );
 
         /* 🏊🏽‍♂️ */
@@ -21516,7 +21581,7 @@ namespace NeoSmart.Unicode
             group: Group.PEOPLE_AND_BODY,
             subgroup: Subgroups.PERSON_SPORT,
             hasGlyph: true,
-            sortOrder: 2177
+            sortOrder: 2182
         );
 
         /* 🏊🏾‍♂️ */
@@ -21529,7 +21594,7 @@ namespace NeoSmart.Unicode
             group: Group.PEOPLE_AND_BODY,
             subgroup: Subgroups.PERSON_SPORT,
             hasGlyph: true,
-            sortOrder: 2179
+            sortOrder: 2184
         );
 
         /* 🏊🏿‍♂️ */
@@ -21542,7 +21607,7 @@ namespace NeoSmart.Unicode
             group: Group.PEOPLE_AND_BODY,
             subgroup: Subgroups.PERSON_SPORT,
             hasGlyph: true,
-            sortOrder: 2181
+            sortOrder: 2186
         );
 
         /* 🏊‍♀️ */
@@ -21555,7 +21620,7 @@ namespace NeoSmart.Unicode
             group: Group.PEOPLE_AND_BODY,
             subgroup: Subgroups.PERSON_SPORT,
             hasGlyph: true,
-            sortOrder: 2183
+            sortOrder: 2188
         );
 
         /* 🏊🏻‍♀️ */
@@ -21568,7 +21633,7 @@ namespace NeoSmart.Unicode
             group: Group.PEOPLE_AND_BODY,
             subgroup: Subgroups.PERSON_SPORT,
             hasGlyph: true,
-            sortOrder: 2185
+            sortOrder: 2190
         );
 
         /* 🏊🏼‍♀️ */
@@ -21581,7 +21646,7 @@ namespace NeoSmart.Unicode
             group: Group.PEOPLE_AND_BODY,
             subgroup: Subgroups.PERSON_SPORT,
             hasGlyph: true,
-            sortOrder: 2187
+            sortOrder: 2192
         );
 
         /* 🏊🏽‍♀️ */
@@ -21594,7 +21659,7 @@ namespace NeoSmart.Unicode
             group: Group.PEOPLE_AND_BODY,
             subgroup: Subgroups.PERSON_SPORT,
             hasGlyph: true,
-            sortOrder: 2189
+            sortOrder: 2194
         );
 
         /* 🏊🏾‍♀️ */
@@ -21607,7 +21672,7 @@ namespace NeoSmart.Unicode
             group: Group.PEOPLE_AND_BODY,
             subgroup: Subgroups.PERSON_SPORT,
             hasGlyph: true,
-            sortOrder: 2191
+            sortOrder: 2196
         );
 
         /* 🏊🏿‍♀️ */
@@ -21620,7 +21685,7 @@ namespace NeoSmart.Unicode
             group: Group.PEOPLE_AND_BODY,
             subgroup: Subgroups.PERSON_SPORT,
             hasGlyph: true,
-            sortOrder: 2193
+            sortOrder: 2198
         );
 
         /* ⛹️ */
@@ -21633,7 +21698,7 @@ namespace NeoSmart.Unicode
             group: Group.PEOPLE_AND_BODY,
             subgroup: Subgroups.PERSON_SPORT,
             hasGlyph: true,
-            sortOrder: 2195
+            sortOrder: 2200
         );
 
         /* ⛹🏻 */
@@ -21646,7 +21711,7 @@ namespace NeoSmart.Unicode
             group: Group.PEOPLE_AND_BODY,
             subgroup: Subgroups.PERSON_SPORT,
             hasGlyph: true,
-            sortOrder: 2197
+            sortOrder: 2202
         );
 
         /* ⛹🏼 */
@@ -21659,7 +21724,7 @@ namespace NeoSmart.Unicode
             group: Group.PEOPLE_AND_BODY,
             subgroup: Subgroups.PERSON_SPORT,
             hasGlyph: true,
-            sortOrder: 2198
+            sortOrder: 2203
         );
 
         /* ⛹🏽 */
@@ -21672,7 +21737,7 @@ namespace NeoSmart.Unicode
             group: Group.PEOPLE_AND_BODY,
             subgroup: Subgroups.PERSON_SPORT,
             hasGlyph: true,
-            sortOrder: 2199
+            sortOrder: 2204
         );
 
         /* ⛹🏾 */
@@ -21685,7 +21750,7 @@ namespace NeoSmart.Unicode
             group: Group.PEOPLE_AND_BODY,
             subgroup: Subgroups.PERSON_SPORT,
             hasGlyph: true,
-            sortOrder: 2200
+            sortOrder: 2205
         );
 
         /* ⛹🏿 */
@@ -21698,7 +21763,7 @@ namespace NeoSmart.Unicode
             group: Group.PEOPLE_AND_BODY,
             subgroup: Subgroups.PERSON_SPORT,
             hasGlyph: true,
-            sortOrder: 2201
+            sortOrder: 2206
         );
 
         /* ⛹️‍♂️ */
@@ -21711,7 +21776,7 @@ namespace NeoSmart.Unicode
             group: Group.PEOPLE_AND_BODY,
             subgroup: Subgroups.PERSON_SPORT,
             hasGlyph: true,
-            sortOrder: 2202
+            sortOrder: 2207
         );
 
         /* ⛹🏻‍♂️ */
@@ -21724,7 +21789,7 @@ namespace NeoSmart.Unicode
             group: Group.PEOPLE_AND_BODY,
             subgroup: Subgroups.PERSON_SPORT,
             hasGlyph: true,
-            sortOrder: 2206
+            sortOrder: 2211
         );
 
         /* ⛹🏼‍♂️ */
@@ -21737,7 +21802,7 @@ namespace NeoSmart.Unicode
             group: Group.PEOPLE_AND_BODY,
             subgroup: Subgroups.PERSON_SPORT,
             hasGlyph: true,
-            sortOrder: 2208
+            sortOrder: 2213
         );
 
         /* ⛹🏽‍♂️ */
@@ -21750,7 +21815,7 @@ namespace NeoSmart.Unicode
             group: Group.PEOPLE_AND_BODY,
             subgroup: Subgroups.PERSON_SPORT,
             hasGlyph: true,
-            sortOrder: 2210
+            sortOrder: 2215
         );
 
         /* ⛹🏾‍♂️ */
@@ -21763,7 +21828,7 @@ namespace NeoSmart.Unicode
             group: Group.PEOPLE_AND_BODY,
             subgroup: Subgroups.PERSON_SPORT,
             hasGlyph: true,
-            sortOrder: 2212
+            sortOrder: 2217
         );
 
         /* ⛹🏿‍♂️ */
@@ -21776,7 +21841,7 @@ namespace NeoSmart.Unicode
             group: Group.PEOPLE_AND_BODY,
             subgroup: Subgroups.PERSON_SPORT,
             hasGlyph: true,
-            sortOrder: 2214
+            sortOrder: 2219
         );
 
         /* ⛹️‍♀️ */
@@ -21789,7 +21854,7 @@ namespace NeoSmart.Unicode
             group: Group.PEOPLE_AND_BODY,
             subgroup: Subgroups.PERSON_SPORT,
             hasGlyph: true,
-            sortOrder: 2216
+            sortOrder: 2221
         );
 
         /* ⛹🏻‍♀️ */
@@ -21802,7 +21867,7 @@ namespace NeoSmart.Unicode
             group: Group.PEOPLE_AND_BODY,
             subgroup: Subgroups.PERSON_SPORT,
             hasGlyph: true,
-            sortOrder: 2220
+            sortOrder: 2225
         );
 
         /* ⛹🏼‍♀️ */
@@ -21815,7 +21880,7 @@ namespace NeoSmart.Unicode
             group: Group.PEOPLE_AND_BODY,
             subgroup: Subgroups.PERSON_SPORT,
             hasGlyph: true,
-            sortOrder: 2222
+            sortOrder: 2227
         );
 
         /* ⛹🏽‍♀️ */
@@ -21828,7 +21893,7 @@ namespace NeoSmart.Unicode
             group: Group.PEOPLE_AND_BODY,
             subgroup: Subgroups.PERSON_SPORT,
             hasGlyph: true,
-            sortOrder: 2224
+            sortOrder: 2229
         );
 
         /* ⛹🏾‍♀️ */
@@ -21841,7 +21906,7 @@ namespace NeoSmart.Unicode
             group: Group.PEOPLE_AND_BODY,
             subgroup: Subgroups.PERSON_SPORT,
             hasGlyph: true,
-            sortOrder: 2226
+            sortOrder: 2231
         );
 
         /* ⛹🏿‍♀️ */
@@ -21854,7 +21919,7 @@ namespace NeoSmart.Unicode
             group: Group.PEOPLE_AND_BODY,
             subgroup: Subgroups.PERSON_SPORT,
             hasGlyph: true,
-            sortOrder: 2228
+            sortOrder: 2233
         );
 
         /* 🏋️ */
@@ -21867,7 +21932,7 @@ namespace NeoSmart.Unicode
             group: Group.PEOPLE_AND_BODY,
             subgroup: Subgroups.PERSON_SPORT,
             hasGlyph: true,
-            sortOrder: 2230
+            sortOrder: 2235
         );
 
         /* 🏋🏻 */
@@ -21880,7 +21945,7 @@ namespace NeoSmart.Unicode
             group: Group.PEOPLE_AND_BODY,
             subgroup: Subgroups.PERSON_SPORT,
             hasGlyph: true,
-            sortOrder: 2232
+            sortOrder: 2237
         );
 
         /* 🏋🏼 */
@@ -21893,7 +21958,7 @@ namespace NeoSmart.Unicode
             group: Group.PEOPLE_AND_BODY,
             subgroup: Subgroups.PERSON_SPORT,
             hasGlyph: true,
-            sortOrder: 2233
+            sortOrder: 2238
         );
 
         /* 🏋🏽 */
@@ -21906,7 +21971,7 @@ namespace NeoSmart.Unicode
             group: Group.PEOPLE_AND_BODY,
             subgroup: Subgroups.PERSON_SPORT,
             hasGlyph: true,
-            sortOrder: 2234
+            sortOrder: 2239
         );
 
         /* 🏋🏾 */
@@ -21919,7 +21984,7 @@ namespace NeoSmart.Unicode
             group: Group.PEOPLE_AND_BODY,
             subgroup: Subgroups.PERSON_SPORT,
             hasGlyph: true,
-            sortOrder: 2235
+            sortOrder: 2240
         );
 
         /* 🏋🏿 */
@@ -21932,7 +21997,7 @@ namespace NeoSmart.Unicode
             group: Group.PEOPLE_AND_BODY,
             subgroup: Subgroups.PERSON_SPORT,
             hasGlyph: true,
-            sortOrder: 2236
+            sortOrder: 2241
         );
 
         /* 🏋️‍♂️ */
@@ -21945,7 +22010,7 @@ namespace NeoSmart.Unicode
             group: Group.PEOPLE_AND_BODY,
             subgroup: Subgroups.PERSON_SPORT,
             hasGlyph: true,
-            sortOrder: 2237
+            sortOrder: 2242
         );
 
         /* 🏋🏻‍♂️ */
@@ -21958,7 +22023,7 @@ namespace NeoSmart.Unicode
             group: Group.PEOPLE_AND_BODY,
             subgroup: Subgroups.PERSON_SPORT,
             hasGlyph: true,
-            sortOrder: 2241
+            sortOrder: 2246
         );
 
         /* 🏋🏼‍♂️ */
@@ -21971,7 +22036,7 @@ namespace NeoSmart.Unicode
             group: Group.PEOPLE_AND_BODY,
             subgroup: Subgroups.PERSON_SPORT,
             hasGlyph: true,
-            sortOrder: 2243
+            sortOrder: 2248
         );
 
         /* 🏋🏽‍♂️ */
@@ -21984,7 +22049,7 @@ namespace NeoSmart.Unicode
             group: Group.PEOPLE_AND_BODY,
             subgroup: Subgroups.PERSON_SPORT,
             hasGlyph: true,
-            sortOrder: 2245
+            sortOrder: 2250
         );
 
         /* 🏋🏾‍♂️ */
@@ -21997,7 +22062,7 @@ namespace NeoSmart.Unicode
             group: Group.PEOPLE_AND_BODY,
             subgroup: Subgroups.PERSON_SPORT,
             hasGlyph: true,
-            sortOrder: 2247
+            sortOrder: 2252
         );
 
         /* 🏋🏿‍♂️ */
@@ -22010,7 +22075,7 @@ namespace NeoSmart.Unicode
             group: Group.PEOPLE_AND_BODY,
             subgroup: Subgroups.PERSON_SPORT,
             hasGlyph: true,
-            sortOrder: 2249
+            sortOrder: 2254
         );
 
         /* 🏋️‍♀️ */
@@ -22023,7 +22088,7 @@ namespace NeoSmart.Unicode
             group: Group.PEOPLE_AND_BODY,
             subgroup: Subgroups.PERSON_SPORT,
             hasGlyph: true,
-            sortOrder: 2251
+            sortOrder: 2256
         );
 
         /* 🏋🏻‍♀️ */
@@ -22036,7 +22101,7 @@ namespace NeoSmart.Unicode
             group: Group.PEOPLE_AND_BODY,
             subgroup: Subgroups.PERSON_SPORT,
             hasGlyph: true,
-            sortOrder: 2255
+            sortOrder: 2260
         );
 
         /* 🏋🏼‍♀️ */
@@ -22049,7 +22114,7 @@ namespace NeoSmart.Unicode
             group: Group.PEOPLE_AND_BODY,
             subgroup: Subgroups.PERSON_SPORT,
             hasGlyph: true,
-            sortOrder: 2257
+            sortOrder: 2262
         );
 
         /* 🏋🏽‍♀️ */
@@ -22062,7 +22127,7 @@ namespace NeoSmart.Unicode
             group: Group.PEOPLE_AND_BODY,
             subgroup: Subgroups.PERSON_SPORT,
             hasGlyph: true,
-            sortOrder: 2259
+            sortOrder: 2264
         );
 
         /* 🏋🏾‍♀️ */
@@ -22075,7 +22140,7 @@ namespace NeoSmart.Unicode
             group: Group.PEOPLE_AND_BODY,
             subgroup: Subgroups.PERSON_SPORT,
             hasGlyph: true,
-            sortOrder: 2261
+            sortOrder: 2266
         );
 
         /* 🏋🏿‍♀️ */
@@ -22088,7 +22153,7 @@ namespace NeoSmart.Unicode
             group: Group.PEOPLE_AND_BODY,
             subgroup: Subgroups.PERSON_SPORT,
             hasGlyph: true,
-            sortOrder: 2263
+            sortOrder: 2268
         );
 
         /* 🚴 */
@@ -22101,7 +22166,7 @@ namespace NeoSmart.Unicode
             group: Group.PEOPLE_AND_BODY,
             subgroup: Subgroups.PERSON_SPORT,
             hasGlyph: true,
-            sortOrder: 2265
+            sortOrder: 2270
         );
 
         /* 🚴🏻 */
@@ -22114,7 +22179,7 @@ namespace NeoSmart.Unicode
             group: Group.PEOPLE_AND_BODY,
             subgroup: Subgroups.PERSON_SPORT,
             hasGlyph: true,
-            sortOrder: 2266
+            sortOrder: 2271
         );
 
         /* 🚴🏼 */
@@ -22127,7 +22192,7 @@ namespace NeoSmart.Unicode
             group: Group.PEOPLE_AND_BODY,
             subgroup: Subgroups.PERSON_SPORT,
             hasGlyph: true,
-            sortOrder: 2267
+            sortOrder: 2272
         );
 
         /* 🚴🏽 */
@@ -22140,7 +22205,7 @@ namespace NeoSmart.Unicode
             group: Group.PEOPLE_AND_BODY,
             subgroup: Subgroups.PERSON_SPORT,
             hasGlyph: true,
-            sortOrder: 2268
+            sortOrder: 2273
         );
 
         /* 🚴🏾 */
@@ -22153,7 +22218,7 @@ namespace NeoSmart.Unicode
             group: Group.PEOPLE_AND_BODY,
             subgroup: Subgroups.PERSON_SPORT,
             hasGlyph: true,
-            sortOrder: 2269
+            sortOrder: 2274
         );
 
         /* 🚴🏿 */
@@ -22166,7 +22231,7 @@ namespace NeoSmart.Unicode
             group: Group.PEOPLE_AND_BODY,
             subgroup: Subgroups.PERSON_SPORT,
             hasGlyph: true,
-            sortOrder: 2270
+            sortOrder: 2275
         );
 
         /* 🚴‍♂️ */
@@ -22179,7 +22244,7 @@ namespace NeoSmart.Unicode
             group: Group.PEOPLE_AND_BODY,
             subgroup: Subgroups.PERSON_SPORT,
             hasGlyph: true,
-            sortOrder: 2271
+            sortOrder: 2276
         );
 
         /* 🚴🏻‍♂️ */
@@ -22192,7 +22257,7 @@ namespace NeoSmart.Unicode
             group: Group.PEOPLE_AND_BODY,
             subgroup: Subgroups.PERSON_SPORT,
             hasGlyph: true,
-            sortOrder: 2273
+            sortOrder: 2278
         );
 
         /* 🚴🏼‍♂️ */
@@ -22205,7 +22270,7 @@ namespace NeoSmart.Unicode
             group: Group.PEOPLE_AND_BODY,
             subgroup: Subgroups.PERSON_SPORT,
             hasGlyph: true,
-            sortOrder: 2275
+            sortOrder: 2280
         );
 
         /* 🚴🏽‍♂️ */
@@ -22218,7 +22283,7 @@ namespace NeoSmart.Unicode
             group: Group.PEOPLE_AND_BODY,
             subgroup: Subgroups.PERSON_SPORT,
             hasGlyph: true,
-            sortOrder: 2277
+            sortOrder: 2282
         );
 
         /* 🚴🏾‍♂️ */
@@ -22231,7 +22296,7 @@ namespace NeoSmart.Unicode
             group: Group.PEOPLE_AND_BODY,
             subgroup: Subgroups.PERSON_SPORT,
             hasGlyph: true,
-            sortOrder: 2279
+            sortOrder: 2284
         );
 
         /* 🚴🏿‍♂️ */
@@ -22244,7 +22309,7 @@ namespace NeoSmart.Unicode
             group: Group.PEOPLE_AND_BODY,
             subgroup: Subgroups.PERSON_SPORT,
             hasGlyph: true,
-            sortOrder: 2281
+            sortOrder: 2286
         );
 
         /* 🚴‍♀️ */
@@ -22257,7 +22322,7 @@ namespace NeoSmart.Unicode
             group: Group.PEOPLE_AND_BODY,
             subgroup: Subgroups.PERSON_SPORT,
             hasGlyph: true,
-            sortOrder: 2283
+            sortOrder: 2288
         );
 
         /* 🚴🏻‍♀️ */
@@ -22270,7 +22335,7 @@ namespace NeoSmart.Unicode
             group: Group.PEOPLE_AND_BODY,
             subgroup: Subgroups.PERSON_SPORT,
             hasGlyph: true,
-            sortOrder: 2285
+            sortOrder: 2290
         );
 
         /* 🚴🏼‍♀️ */
@@ -22283,7 +22348,7 @@ namespace NeoSmart.Unicode
             group: Group.PEOPLE_AND_BODY,
             subgroup: Subgroups.PERSON_SPORT,
             hasGlyph: true,
-            sortOrder: 2287
+            sortOrder: 2292
         );
 
         /* 🚴🏽‍♀️ */
@@ -22296,7 +22361,7 @@ namespace NeoSmart.Unicode
             group: Group.PEOPLE_AND_BODY,
             subgroup: Subgroups.PERSON_SPORT,
             hasGlyph: true,
-            sortOrder: 2289
+            sortOrder: 2294
         );
 
         /* 🚴🏾‍♀️ */
@@ -22309,7 +22374,7 @@ namespace NeoSmart.Unicode
             group: Group.PEOPLE_AND_BODY,
             subgroup: Subgroups.PERSON_SPORT,
             hasGlyph: true,
-            sortOrder: 2291
+            sortOrder: 2296
         );
 
         /* 🚴🏿‍♀️ */
@@ -22322,7 +22387,7 @@ namespace NeoSmart.Unicode
             group: Group.PEOPLE_AND_BODY,
             subgroup: Subgroups.PERSON_SPORT,
             hasGlyph: true,
-            sortOrder: 2293
+            sortOrder: 2298
         );
 
         /* 🚵 */
@@ -22335,7 +22400,7 @@ namespace NeoSmart.Unicode
             group: Group.PEOPLE_AND_BODY,
             subgroup: Subgroups.PERSON_SPORT,
             hasGlyph: true,
-            sortOrder: 2295
+            sortOrder: 2300
         );
 
         /* 🚵🏻 */
@@ -22348,7 +22413,7 @@ namespace NeoSmart.Unicode
             group: Group.PEOPLE_AND_BODY,
             subgroup: Subgroups.PERSON_SPORT,
             hasGlyph: true,
-            sortOrder: 2296
+            sortOrder: 2301
         );
 
         /* 🚵🏼 */
@@ -22361,7 +22426,7 @@ namespace NeoSmart.Unicode
             group: Group.PEOPLE_AND_BODY,
             subgroup: Subgroups.PERSON_SPORT,
             hasGlyph: true,
-            sortOrder: 2297
+            sortOrder: 2302
         );
 
         /* 🚵🏽 */
@@ -22374,7 +22439,7 @@ namespace NeoSmart.Unicode
             group: Group.PEOPLE_AND_BODY,
             subgroup: Subgroups.PERSON_SPORT,
             hasGlyph: true,
-            sortOrder: 2298
+            sortOrder: 2303
         );
 
         /* 🚵🏾 */
@@ -22387,7 +22452,7 @@ namespace NeoSmart.Unicode
             group: Group.PEOPLE_AND_BODY,
             subgroup: Subgroups.PERSON_SPORT,
             hasGlyph: true,
-            sortOrder: 2299
+            sortOrder: 2304
         );
 
         /* 🚵🏿 */
@@ -22400,7 +22465,7 @@ namespace NeoSmart.Unicode
             group: Group.PEOPLE_AND_BODY,
             subgroup: Subgroups.PERSON_SPORT,
             hasGlyph: true,
-            sortOrder: 2300
+            sortOrder: 2305
         );
 
         /* 🚵‍♂️ */
@@ -22413,7 +22478,7 @@ namespace NeoSmart.Unicode
             group: Group.PEOPLE_AND_BODY,
             subgroup: Subgroups.PERSON_SPORT,
             hasGlyph: true,
-            sortOrder: 2301
+            sortOrder: 2306
         );
 
         /* 🚵🏻‍♂️ */
@@ -22426,7 +22491,7 @@ namespace NeoSmart.Unicode
             group: Group.PEOPLE_AND_BODY,
             subgroup: Subgroups.PERSON_SPORT,
             hasGlyph: true,
-            sortOrder: 2303
+            sortOrder: 2308
         );
 
         /* 🚵🏼‍♂️ */
@@ -22439,7 +22504,7 @@ namespace NeoSmart.Unicode
             group: Group.PEOPLE_AND_BODY,
             subgroup: Subgroups.PERSON_SPORT,
             hasGlyph: true,
-            sortOrder: 2305
+            sortOrder: 2310
         );
 
         /* 🚵🏽‍♂️ */
@@ -22452,7 +22517,7 @@ namespace NeoSmart.Unicode
             group: Group.PEOPLE_AND_BODY,
             subgroup: Subgroups.PERSON_SPORT,
             hasGlyph: true,
-            sortOrder: 2307
+            sortOrder: 2312
         );
 
         /* 🚵🏾‍♂️ */
@@ -22465,7 +22530,7 @@ namespace NeoSmart.Unicode
             group: Group.PEOPLE_AND_BODY,
             subgroup: Subgroups.PERSON_SPORT,
             hasGlyph: true,
-            sortOrder: 2309
+            sortOrder: 2314
         );
 
         /* 🚵🏿‍♂️ */
@@ -22478,7 +22543,7 @@ namespace NeoSmart.Unicode
             group: Group.PEOPLE_AND_BODY,
             subgroup: Subgroups.PERSON_SPORT,
             hasGlyph: true,
-            sortOrder: 2311
+            sortOrder: 2316
         );
 
         /* 🚵‍♀️ */
@@ -22491,7 +22556,7 @@ namespace NeoSmart.Unicode
             group: Group.PEOPLE_AND_BODY,
             subgroup: Subgroups.PERSON_SPORT,
             hasGlyph: true,
-            sortOrder: 2313
+            sortOrder: 2318
         );
 
         /* 🚵🏻‍♀️ */
@@ -22504,7 +22569,7 @@ namespace NeoSmart.Unicode
             group: Group.PEOPLE_AND_BODY,
             subgroup: Subgroups.PERSON_SPORT,
             hasGlyph: true,
-            sortOrder: 2315
+            sortOrder: 2320
         );
 
         /* 🚵🏼‍♀️ */
@@ -22517,7 +22582,7 @@ namespace NeoSmart.Unicode
             group: Group.PEOPLE_AND_BODY,
             subgroup: Subgroups.PERSON_SPORT,
             hasGlyph: true,
-            sortOrder: 2317
+            sortOrder: 2322
         );
 
         /* 🚵🏽‍♀️ */
@@ -22530,7 +22595,7 @@ namespace NeoSmart.Unicode
             group: Group.PEOPLE_AND_BODY,
             subgroup: Subgroups.PERSON_SPORT,
             hasGlyph: true,
-            sortOrder: 2319
+            sortOrder: 2324
         );
 
         /* 🚵🏾‍♀️ */
@@ -22543,7 +22608,7 @@ namespace NeoSmart.Unicode
             group: Group.PEOPLE_AND_BODY,
             subgroup: Subgroups.PERSON_SPORT,
             hasGlyph: true,
-            sortOrder: 2321
+            sortOrder: 2326
         );
 
         /* 🚵🏿‍♀️ */
@@ -22556,7 +22621,7 @@ namespace NeoSmart.Unicode
             group: Group.PEOPLE_AND_BODY,
             subgroup: Subgroups.PERSON_SPORT,
             hasGlyph: true,
-            sortOrder: 2323
+            sortOrder: 2328
         );
 
         /* 🤸 */
@@ -22569,7 +22634,7 @@ namespace NeoSmart.Unicode
             group: Group.PEOPLE_AND_BODY,
             subgroup: Subgroups.PERSON_SPORT,
             hasGlyph: true,
-            sortOrder: 2325
+            sortOrder: 2330
         );
 
         /* 🤸🏻 */
@@ -22582,7 +22647,7 @@ namespace NeoSmart.Unicode
             group: Group.PEOPLE_AND_BODY,
             subgroup: Subgroups.PERSON_SPORT,
             hasGlyph: true,
-            sortOrder: 2326
+            sortOrder: 2331
         );
 
         /* 🤸🏼 */
@@ -22595,7 +22660,7 @@ namespace NeoSmart.Unicode
             group: Group.PEOPLE_AND_BODY,
             subgroup: Subgroups.PERSON_SPORT,
             hasGlyph: true,
-            sortOrder: 2327
+            sortOrder: 2332
         );
 
         /* 🤸🏽 */
@@ -22608,7 +22673,7 @@ namespace NeoSmart.Unicode
             group: Group.PEOPLE_AND_BODY,
             subgroup: Subgroups.PERSON_SPORT,
             hasGlyph: true,
-            sortOrder: 2328
+            sortOrder: 2333
         );
 
         /* 🤸🏾 */
@@ -22621,7 +22686,7 @@ namespace NeoSmart.Unicode
             group: Group.PEOPLE_AND_BODY,
             subgroup: Subgroups.PERSON_SPORT,
             hasGlyph: true,
-            sortOrder: 2329
+            sortOrder: 2334
         );
 
         /* 🤸🏿 */
@@ -22634,7 +22699,7 @@ namespace NeoSmart.Unicode
             group: Group.PEOPLE_AND_BODY,
             subgroup: Subgroups.PERSON_SPORT,
             hasGlyph: true,
-            sortOrder: 2330
+            sortOrder: 2335
         );
 
         /* 🤸‍♂️ */
@@ -22647,7 +22712,7 @@ namespace NeoSmart.Unicode
             group: Group.PEOPLE_AND_BODY,
             subgroup: Subgroups.PERSON_SPORT,
             hasGlyph: true,
-            sortOrder: 2331
+            sortOrder: 2336
         );
 
         /* 🤸🏻‍♂️ */
@@ -22660,7 +22725,7 @@ namespace NeoSmart.Unicode
             group: Group.PEOPLE_AND_BODY,
             subgroup: Subgroups.PERSON_SPORT,
             hasGlyph: true,
-            sortOrder: 2333
+            sortOrder: 2338
         );
 
         /* 🤸🏼‍♂️ */
@@ -22673,7 +22738,7 @@ namespace NeoSmart.Unicode
             group: Group.PEOPLE_AND_BODY,
             subgroup: Subgroups.PERSON_SPORT,
             hasGlyph: true,
-            sortOrder: 2335
+            sortOrder: 2340
         );
 
         /* 🤸🏽‍♂️ */
@@ -22686,7 +22751,7 @@ namespace NeoSmart.Unicode
             group: Group.PEOPLE_AND_BODY,
             subgroup: Subgroups.PERSON_SPORT,
             hasGlyph: true,
-            sortOrder: 2337
+            sortOrder: 2342
         );
 
         /* 🤸🏾‍♂️ */
@@ -22699,7 +22764,7 @@ namespace NeoSmart.Unicode
             group: Group.PEOPLE_AND_BODY,
             subgroup: Subgroups.PERSON_SPORT,
             hasGlyph: true,
-            sortOrder: 2339
+            sortOrder: 2344
         );
 
         /* 🤸🏿‍♂️ */
@@ -22712,7 +22777,7 @@ namespace NeoSmart.Unicode
             group: Group.PEOPLE_AND_BODY,
             subgroup: Subgroups.PERSON_SPORT,
             hasGlyph: true,
-            sortOrder: 2341
+            sortOrder: 2346
         );
 
         /* 🤸‍♀️ */
@@ -22725,7 +22790,7 @@ namespace NeoSmart.Unicode
             group: Group.PEOPLE_AND_BODY,
             subgroup: Subgroups.PERSON_SPORT,
             hasGlyph: true,
-            sortOrder: 2343
+            sortOrder: 2348
         );
 
         /* 🤸🏻‍♀️ */
@@ -22738,7 +22803,7 @@ namespace NeoSmart.Unicode
             group: Group.PEOPLE_AND_BODY,
             subgroup: Subgroups.PERSON_SPORT,
             hasGlyph: true,
-            sortOrder: 2345
+            sortOrder: 2350
         );
 
         /* 🤸🏼‍♀️ */
@@ -22751,7 +22816,7 @@ namespace NeoSmart.Unicode
             group: Group.PEOPLE_AND_BODY,
             subgroup: Subgroups.PERSON_SPORT,
             hasGlyph: true,
-            sortOrder: 2347
+            sortOrder: 2352
         );
 
         /* 🤸🏽‍♀️ */
@@ -22764,7 +22829,7 @@ namespace NeoSmart.Unicode
             group: Group.PEOPLE_AND_BODY,
             subgroup: Subgroups.PERSON_SPORT,
             hasGlyph: true,
-            sortOrder: 2349
+            sortOrder: 2354
         );
 
         /* 🤸🏾‍♀️ */
@@ -22777,7 +22842,7 @@ namespace NeoSmart.Unicode
             group: Group.PEOPLE_AND_BODY,
             subgroup: Subgroups.PERSON_SPORT,
             hasGlyph: true,
-            sortOrder: 2351
+            sortOrder: 2356
         );
 
         /* 🤸🏿‍♀️ */
@@ -22790,7 +22855,7 @@ namespace NeoSmart.Unicode
             group: Group.PEOPLE_AND_BODY,
             subgroup: Subgroups.PERSON_SPORT,
             hasGlyph: true,
-            sortOrder: 2353
+            sortOrder: 2358
         );
 
         /* 🤼 */
@@ -22803,7 +22868,7 @@ namespace NeoSmart.Unicode
             group: Group.PEOPLE_AND_BODY,
             subgroup: Subgroups.PERSON_SPORT,
             hasGlyph: true,
-            sortOrder: 2355
+            sortOrder: 2360
         );
 
         /* 🤼‍♂️ */
@@ -22816,7 +22881,7 @@ namespace NeoSmart.Unicode
             group: Group.PEOPLE_AND_BODY,
             subgroup: Subgroups.PERSON_SPORT,
             hasGlyph: true,
-            sortOrder: 2356
+            sortOrder: 2361
         );
 
         /* 🤼‍♀️ */
@@ -22829,7 +22894,7 @@ namespace NeoSmart.Unicode
             group: Group.PEOPLE_AND_BODY,
             subgroup: Subgroups.PERSON_SPORT,
             hasGlyph: true,
-            sortOrder: 2358
+            sortOrder: 2363
         );
 
         /* 🤽 */
@@ -22842,7 +22907,7 @@ namespace NeoSmart.Unicode
             group: Group.PEOPLE_AND_BODY,
             subgroup: Subgroups.PERSON_SPORT,
             hasGlyph: true,
-            sortOrder: 2360
+            sortOrder: 2365
         );
 
         /* 🤽🏻 */
@@ -22855,7 +22920,7 @@ namespace NeoSmart.Unicode
             group: Group.PEOPLE_AND_BODY,
             subgroup: Subgroups.PERSON_SPORT,
             hasGlyph: true,
-            sortOrder: 2361
+            sortOrder: 2366
         );
 
         /* 🤽🏼 */
@@ -22868,7 +22933,7 @@ namespace NeoSmart.Unicode
             group: Group.PEOPLE_AND_BODY,
             subgroup: Subgroups.PERSON_SPORT,
             hasGlyph: true,
-            sortOrder: 2362
+            sortOrder: 2367
         );
 
         /* 🤽🏽 */
@@ -22881,7 +22946,7 @@ namespace NeoSmart.Unicode
             group: Group.PEOPLE_AND_BODY,
             subgroup: Subgroups.PERSON_SPORT,
             hasGlyph: true,
-            sortOrder: 2363
+            sortOrder: 2368
         );
 
         /* 🤽🏾 */
@@ -22894,7 +22959,7 @@ namespace NeoSmart.Unicode
             group: Group.PEOPLE_AND_BODY,
             subgroup: Subgroups.PERSON_SPORT,
             hasGlyph: true,
-            sortOrder: 2364
+            sortOrder: 2369
         );
 
         /* 🤽🏿 */
@@ -22907,7 +22972,7 @@ namespace NeoSmart.Unicode
             group: Group.PEOPLE_AND_BODY,
             subgroup: Subgroups.PERSON_SPORT,
             hasGlyph: true,
-            sortOrder: 2365
+            sortOrder: 2370
         );
 
         /* 🤽‍♂️ */
@@ -22920,7 +22985,7 @@ namespace NeoSmart.Unicode
             group: Group.PEOPLE_AND_BODY,
             subgroup: Subgroups.PERSON_SPORT,
             hasGlyph: true,
-            sortOrder: 2366
+            sortOrder: 2371
         );
 
         /* 🤽🏻‍♂️ */
@@ -22933,7 +22998,7 @@ namespace NeoSmart.Unicode
             group: Group.PEOPLE_AND_BODY,
             subgroup: Subgroups.PERSON_SPORT,
             hasGlyph: true,
-            sortOrder: 2368
+            sortOrder: 2373
         );
 
         /* 🤽🏼‍♂️ */
@@ -22946,7 +23011,7 @@ namespace NeoSmart.Unicode
             group: Group.PEOPLE_AND_BODY,
             subgroup: Subgroups.PERSON_SPORT,
             hasGlyph: true,
-            sortOrder: 2370
+            sortOrder: 2375
         );
 
         /* 🤽🏽‍♂️ */
@@ -22959,7 +23024,7 @@ namespace NeoSmart.Unicode
             group: Group.PEOPLE_AND_BODY,
             subgroup: Subgroups.PERSON_SPORT,
             hasGlyph: true,
-            sortOrder: 2372
+            sortOrder: 2377
         );
 
         /* 🤽🏾‍♂️ */
@@ -22972,7 +23037,7 @@ namespace NeoSmart.Unicode
             group: Group.PEOPLE_AND_BODY,
             subgroup: Subgroups.PERSON_SPORT,
             hasGlyph: true,
-            sortOrder: 2374
+            sortOrder: 2379
         );
 
         /* 🤽🏿‍♂️ */
@@ -22985,7 +23050,7 @@ namespace NeoSmart.Unicode
             group: Group.PEOPLE_AND_BODY,
             subgroup: Subgroups.PERSON_SPORT,
             hasGlyph: true,
-            sortOrder: 2376
+            sortOrder: 2381
         );
 
         /* 🤽‍♀️ */
@@ -22998,7 +23063,7 @@ namespace NeoSmart.Unicode
             group: Group.PEOPLE_AND_BODY,
             subgroup: Subgroups.PERSON_SPORT,
             hasGlyph: true,
-            sortOrder: 2378
+            sortOrder: 2383
         );
 
         /* 🤽🏻‍♀️ */
@@ -23011,7 +23076,7 @@ namespace NeoSmart.Unicode
             group: Group.PEOPLE_AND_BODY,
             subgroup: Subgroups.PERSON_SPORT,
             hasGlyph: true,
-            sortOrder: 2380
+            sortOrder: 2385
         );
 
         /* 🤽🏼‍♀️ */
@@ -23024,7 +23089,7 @@ namespace NeoSmart.Unicode
             group: Group.PEOPLE_AND_BODY,
             subgroup: Subgroups.PERSON_SPORT,
             hasGlyph: true,
-            sortOrder: 2382
+            sortOrder: 2387
         );
 
         /* 🤽🏽‍♀️ */
@@ -23037,7 +23102,7 @@ namespace NeoSmart.Unicode
             group: Group.PEOPLE_AND_BODY,
             subgroup: Subgroups.PERSON_SPORT,
             hasGlyph: true,
-            sortOrder: 2384
+            sortOrder: 2389
         );
 
         /* 🤽🏾‍♀️ */
@@ -23050,7 +23115,7 @@ namespace NeoSmart.Unicode
             group: Group.PEOPLE_AND_BODY,
             subgroup: Subgroups.PERSON_SPORT,
             hasGlyph: true,
-            sortOrder: 2386
+            sortOrder: 2391
         );
 
         /* 🤽🏿‍♀️ */
@@ -23063,7 +23128,7 @@ namespace NeoSmart.Unicode
             group: Group.PEOPLE_AND_BODY,
             subgroup: Subgroups.PERSON_SPORT,
             hasGlyph: true,
-            sortOrder: 2388
+            sortOrder: 2393
         );
 
         /* 🤾 */
@@ -23076,7 +23141,7 @@ namespace NeoSmart.Unicode
             group: Group.PEOPLE_AND_BODY,
             subgroup: Subgroups.PERSON_SPORT,
             hasGlyph: true,
-            sortOrder: 2390
+            sortOrder: 2395
         );
 
         /* 🤾🏻 */
@@ -23089,7 +23154,7 @@ namespace NeoSmart.Unicode
             group: Group.PEOPLE_AND_BODY,
             subgroup: Subgroups.PERSON_SPORT,
             hasGlyph: true,
-            sortOrder: 2391
+            sortOrder: 2396
         );
 
         /* 🤾🏼 */
@@ -23102,7 +23167,7 @@ namespace NeoSmart.Unicode
             group: Group.PEOPLE_AND_BODY,
             subgroup: Subgroups.PERSON_SPORT,
             hasGlyph: true,
-            sortOrder: 2392
+            sortOrder: 2397
         );
 
         /* 🤾🏽 */
@@ -23115,7 +23180,7 @@ namespace NeoSmart.Unicode
             group: Group.PEOPLE_AND_BODY,
             subgroup: Subgroups.PERSON_SPORT,
             hasGlyph: true,
-            sortOrder: 2393
+            sortOrder: 2398
         );
 
         /* 🤾🏾 */
@@ -23128,7 +23193,7 @@ namespace NeoSmart.Unicode
             group: Group.PEOPLE_AND_BODY,
             subgroup: Subgroups.PERSON_SPORT,
             hasGlyph: true,
-            sortOrder: 2394
+            sortOrder: 2399
         );
 
         /* 🤾🏿 */
@@ -23141,7 +23206,7 @@ namespace NeoSmart.Unicode
             group: Group.PEOPLE_AND_BODY,
             subgroup: Subgroups.PERSON_SPORT,
             hasGlyph: true,
-            sortOrder: 2395
+            sortOrder: 2400
         );
 
         /* 🤾‍♂️ */
@@ -23154,7 +23219,7 @@ namespace NeoSmart.Unicode
             group: Group.PEOPLE_AND_BODY,
             subgroup: Subgroups.PERSON_SPORT,
             hasGlyph: true,
-            sortOrder: 2396
+            sortOrder: 2401
         );
 
         /* 🤾🏻‍♂️ */
@@ -23167,7 +23232,7 @@ namespace NeoSmart.Unicode
             group: Group.PEOPLE_AND_BODY,
             subgroup: Subgroups.PERSON_SPORT,
             hasGlyph: true,
-            sortOrder: 2398
+            sortOrder: 2403
         );
 
         /* 🤾🏼‍♂️ */
@@ -23180,7 +23245,7 @@ namespace NeoSmart.Unicode
             group: Group.PEOPLE_AND_BODY,
             subgroup: Subgroups.PERSON_SPORT,
             hasGlyph: true,
-            sortOrder: 2400
+            sortOrder: 2405
         );
 
         /* 🤾🏽‍♂️ */
@@ -23193,7 +23258,7 @@ namespace NeoSmart.Unicode
             group: Group.PEOPLE_AND_BODY,
             subgroup: Subgroups.PERSON_SPORT,
             hasGlyph: true,
-            sortOrder: 2402
+            sortOrder: 2407
         );
 
         /* 🤾🏾‍♂️ */
@@ -23206,7 +23271,7 @@ namespace NeoSmart.Unicode
             group: Group.PEOPLE_AND_BODY,
             subgroup: Subgroups.PERSON_SPORT,
             hasGlyph: true,
-            sortOrder: 2404
+            sortOrder: 2409
         );
 
         /* 🤾🏿‍♂️ */
@@ -23219,7 +23284,7 @@ namespace NeoSmart.Unicode
             group: Group.PEOPLE_AND_BODY,
             subgroup: Subgroups.PERSON_SPORT,
             hasGlyph: true,
-            sortOrder: 2406
+            sortOrder: 2411
         );
 
         /* 🤾‍♀️ */
@@ -23232,7 +23297,7 @@ namespace NeoSmart.Unicode
             group: Group.PEOPLE_AND_BODY,
             subgroup: Subgroups.PERSON_SPORT,
             hasGlyph: true,
-            sortOrder: 2408
+            sortOrder: 2413
         );
 
         /* 🤾🏻‍♀️ */
@@ -23245,7 +23310,7 @@ namespace NeoSmart.Unicode
             group: Group.PEOPLE_AND_BODY,
             subgroup: Subgroups.PERSON_SPORT,
             hasGlyph: true,
-            sortOrder: 2410
+            sortOrder: 2415
         );
 
         /* 🤾🏼‍♀️ */
@@ -23258,7 +23323,7 @@ namespace NeoSmart.Unicode
             group: Group.PEOPLE_AND_BODY,
             subgroup: Subgroups.PERSON_SPORT,
             hasGlyph: true,
-            sortOrder: 2412
+            sortOrder: 2417
         );
 
         /* 🤾🏽‍♀️ */
@@ -23271,7 +23336,7 @@ namespace NeoSmart.Unicode
             group: Group.PEOPLE_AND_BODY,
             subgroup: Subgroups.PERSON_SPORT,
             hasGlyph: true,
-            sortOrder: 2414
+            sortOrder: 2419
         );
 
         /* 🤾🏾‍♀️ */
@@ -23284,7 +23349,7 @@ namespace NeoSmart.Unicode
             group: Group.PEOPLE_AND_BODY,
             subgroup: Subgroups.PERSON_SPORT,
             hasGlyph: true,
-            sortOrder: 2416
+            sortOrder: 2421
         );
 
         /* 🤾🏿‍♀️ */
@@ -23297,7 +23362,7 @@ namespace NeoSmart.Unicode
             group: Group.PEOPLE_AND_BODY,
             subgroup: Subgroups.PERSON_SPORT,
             hasGlyph: true,
-            sortOrder: 2418
+            sortOrder: 2423
         );
 
         /* 🤹 */
@@ -23310,7 +23375,7 @@ namespace NeoSmart.Unicode
             group: Group.PEOPLE_AND_BODY,
             subgroup: Subgroups.PERSON_SPORT,
             hasGlyph: true,
-            sortOrder: 2420
+            sortOrder: 2425
         );
 
         /* 🤹🏻 */
@@ -23323,7 +23388,7 @@ namespace NeoSmart.Unicode
             group: Group.PEOPLE_AND_BODY,
             subgroup: Subgroups.PERSON_SPORT,
             hasGlyph: true,
-            sortOrder: 2421
+            sortOrder: 2426
         );
 
         /* 🤹🏼 */
@@ -23336,7 +23401,7 @@ namespace NeoSmart.Unicode
             group: Group.PEOPLE_AND_BODY,
             subgroup: Subgroups.PERSON_SPORT,
             hasGlyph: true,
-            sortOrder: 2422
+            sortOrder: 2427
         );
 
         /* 🤹🏽 */
@@ -23349,7 +23414,7 @@ namespace NeoSmart.Unicode
             group: Group.PEOPLE_AND_BODY,
             subgroup: Subgroups.PERSON_SPORT,
             hasGlyph: true,
-            sortOrder: 2423
+            sortOrder: 2428
         );
 
         /* 🤹🏾 */
@@ -23362,7 +23427,7 @@ namespace NeoSmart.Unicode
             group: Group.PEOPLE_AND_BODY,
             subgroup: Subgroups.PERSON_SPORT,
             hasGlyph: true,
-            sortOrder: 2424
+            sortOrder: 2429
         );
 
         /* 🤹🏿 */
@@ -23375,7 +23440,7 @@ namespace NeoSmart.Unicode
             group: Group.PEOPLE_AND_BODY,
             subgroup: Subgroups.PERSON_SPORT,
             hasGlyph: true,
-            sortOrder: 2425
+            sortOrder: 2430
         );
 
         /* 🤹‍♂️ */
@@ -23388,7 +23453,7 @@ namespace NeoSmart.Unicode
             group: Group.PEOPLE_AND_BODY,
             subgroup: Subgroups.PERSON_SPORT,
             hasGlyph: true,
-            sortOrder: 2426
+            sortOrder: 2431
         );
 
         /* 🤹🏻‍♂️ */
@@ -23401,7 +23466,7 @@ namespace NeoSmart.Unicode
             group: Group.PEOPLE_AND_BODY,
             subgroup: Subgroups.PERSON_SPORT,
             hasGlyph: true,
-            sortOrder: 2428
+            sortOrder: 2433
         );
 
         /* 🤹🏼‍♂️ */
@@ -23414,7 +23479,7 @@ namespace NeoSmart.Unicode
             group: Group.PEOPLE_AND_BODY,
             subgroup: Subgroups.PERSON_SPORT,
             hasGlyph: true,
-            sortOrder: 2430
+            sortOrder: 2435
         );
 
         /* 🤹🏽‍♂️ */
@@ -23427,7 +23492,7 @@ namespace NeoSmart.Unicode
             group: Group.PEOPLE_AND_BODY,
             subgroup: Subgroups.PERSON_SPORT,
             hasGlyph: true,
-            sortOrder: 2432
+            sortOrder: 2437
         );
 
         /* 🤹🏾‍♂️ */
@@ -23440,7 +23505,7 @@ namespace NeoSmart.Unicode
             group: Group.PEOPLE_AND_BODY,
             subgroup: Subgroups.PERSON_SPORT,
             hasGlyph: true,
-            sortOrder: 2434
+            sortOrder: 2439
         );
 
         /* 🤹🏿‍♂️ */
@@ -23453,7 +23518,7 @@ namespace NeoSmart.Unicode
             group: Group.PEOPLE_AND_BODY,
             subgroup: Subgroups.PERSON_SPORT,
             hasGlyph: true,
-            sortOrder: 2436
+            sortOrder: 2441
         );
 
         /* 🤹‍♀️ */
@@ -23466,7 +23531,7 @@ namespace NeoSmart.Unicode
             group: Group.PEOPLE_AND_BODY,
             subgroup: Subgroups.PERSON_SPORT,
             hasGlyph: true,
-            sortOrder: 2438
+            sortOrder: 2443
         );
 
         /* 🤹🏻‍♀️ */
@@ -23479,7 +23544,7 @@ namespace NeoSmart.Unicode
             group: Group.PEOPLE_AND_BODY,
             subgroup: Subgroups.PERSON_SPORT,
             hasGlyph: true,
-            sortOrder: 2440
+            sortOrder: 2445
         );
 
         /* 🤹🏼‍♀️ */
@@ -23492,7 +23557,7 @@ namespace NeoSmart.Unicode
             group: Group.PEOPLE_AND_BODY,
             subgroup: Subgroups.PERSON_SPORT,
             hasGlyph: true,
-            sortOrder: 2442
+            sortOrder: 2447
         );
 
         /* 🤹🏽‍♀️ */
@@ -23505,7 +23570,7 @@ namespace NeoSmart.Unicode
             group: Group.PEOPLE_AND_BODY,
             subgroup: Subgroups.PERSON_SPORT,
             hasGlyph: true,
-            sortOrder: 2444
+            sortOrder: 2449
         );
 
         /* 🤹🏾‍♀️ */
@@ -23518,7 +23583,7 @@ namespace NeoSmart.Unicode
             group: Group.PEOPLE_AND_BODY,
             subgroup: Subgroups.PERSON_SPORT,
             hasGlyph: true,
-            sortOrder: 2446
+            sortOrder: 2451
         );
 
         /* 🤹🏿‍♀️ */
@@ -23531,7 +23596,7 @@ namespace NeoSmart.Unicode
             group: Group.PEOPLE_AND_BODY,
             subgroup: Subgroups.PERSON_SPORT,
             hasGlyph: true,
-            sortOrder: 2448
+            sortOrder: 2453
         );
 
         /* 🧘 */
@@ -23544,7 +23609,7 @@ namespace NeoSmart.Unicode
             group: Group.PEOPLE_AND_BODY,
             subgroup: Subgroups.PERSON_RESTING,
             hasGlyph: true,
-            sortOrder: 2450
+            sortOrder: 2455
         );
 
         /* 🧘🏻 */
@@ -23557,7 +23622,7 @@ namespace NeoSmart.Unicode
             group: Group.PEOPLE_AND_BODY,
             subgroup: Subgroups.PERSON_RESTING,
             hasGlyph: true,
-            sortOrder: 2451
+            sortOrder: 2456
         );
 
         /* 🧘🏼 */
@@ -23570,7 +23635,7 @@ namespace NeoSmart.Unicode
             group: Group.PEOPLE_AND_BODY,
             subgroup: Subgroups.PERSON_RESTING,
             hasGlyph: true,
-            sortOrder: 2452
+            sortOrder: 2457
         );
 
         /* 🧘🏽 */
@@ -23583,7 +23648,7 @@ namespace NeoSmart.Unicode
             group: Group.PEOPLE_AND_BODY,
             subgroup: Subgroups.PERSON_RESTING,
             hasGlyph: true,
-            sortOrder: 2453
+            sortOrder: 2458
         );
 
         /* 🧘🏾 */
@@ -23596,7 +23661,7 @@ namespace NeoSmart.Unicode
             group: Group.PEOPLE_AND_BODY,
             subgroup: Subgroups.PERSON_RESTING,
             hasGlyph: true,
-            sortOrder: 2454
+            sortOrder: 2459
         );
 
         /* 🧘🏿 */
@@ -23609,7 +23674,7 @@ namespace NeoSmart.Unicode
             group: Group.PEOPLE_AND_BODY,
             subgroup: Subgroups.PERSON_RESTING,
             hasGlyph: true,
-            sortOrder: 2455
+            sortOrder: 2460
         );
 
         /* 🧘‍♂️ */
@@ -23622,7 +23687,7 @@ namespace NeoSmart.Unicode
             group: Group.PEOPLE_AND_BODY,
             subgroup: Subgroups.PERSON_RESTING,
             hasGlyph: true,
-            sortOrder: 2456
+            sortOrder: 2461
         );
 
         /* 🧘🏻‍♂️ */
@@ -23635,7 +23700,7 @@ namespace NeoSmart.Unicode
             group: Group.PEOPLE_AND_BODY,
             subgroup: Subgroups.PERSON_RESTING,
             hasGlyph: true,
-            sortOrder: 2458
+            sortOrder: 2463
         );
 
         /* 🧘🏼‍♂️ */
@@ -23648,7 +23713,7 @@ namespace NeoSmart.Unicode
             group: Group.PEOPLE_AND_BODY,
             subgroup: Subgroups.PERSON_RESTING,
             hasGlyph: true,
-            sortOrder: 2460
+            sortOrder: 2465
         );
 
         /* 🧘🏽‍♂️ */
@@ -23661,7 +23726,7 @@ namespace NeoSmart.Unicode
             group: Group.PEOPLE_AND_BODY,
             subgroup: Subgroups.PERSON_RESTING,
             hasGlyph: true,
-            sortOrder: 2462
+            sortOrder: 2467
         );
 
         /* 🧘🏾‍♂️ */
@@ -23674,7 +23739,7 @@ namespace NeoSmart.Unicode
             group: Group.PEOPLE_AND_BODY,
             subgroup: Subgroups.PERSON_RESTING,
             hasGlyph: true,
-            sortOrder: 2464
+            sortOrder: 2469
         );
 
         /* 🧘🏿‍♂️ */
@@ -23687,7 +23752,7 @@ namespace NeoSmart.Unicode
             group: Group.PEOPLE_AND_BODY,
             subgroup: Subgroups.PERSON_RESTING,
             hasGlyph: true,
-            sortOrder: 2466
+            sortOrder: 2471
         );
 
         /* 🧘‍♀️ */
@@ -23700,7 +23765,7 @@ namespace NeoSmart.Unicode
             group: Group.PEOPLE_AND_BODY,
             subgroup: Subgroups.PERSON_RESTING,
             hasGlyph: true,
-            sortOrder: 2468
+            sortOrder: 2473
         );
 
         /* 🧘🏻‍♀️ */
@@ -23713,7 +23778,7 @@ namespace NeoSmart.Unicode
             group: Group.PEOPLE_AND_BODY,
             subgroup: Subgroups.PERSON_RESTING,
             hasGlyph: true,
-            sortOrder: 2470
+            sortOrder: 2475
         );
 
         /* 🧘🏼‍♀️ */
@@ -23726,7 +23791,7 @@ namespace NeoSmart.Unicode
             group: Group.PEOPLE_AND_BODY,
             subgroup: Subgroups.PERSON_RESTING,
             hasGlyph: true,
-            sortOrder: 2472
+            sortOrder: 2477
         );
 
         /* 🧘🏽‍♀️ */
@@ -23739,7 +23804,7 @@ namespace NeoSmart.Unicode
             group: Group.PEOPLE_AND_BODY,
             subgroup: Subgroups.PERSON_RESTING,
             hasGlyph: true,
-            sortOrder: 2474
+            sortOrder: 2479
         );
 
         /* 🧘🏾‍♀️ */
@@ -23752,7 +23817,7 @@ namespace NeoSmart.Unicode
             group: Group.PEOPLE_AND_BODY,
             subgroup: Subgroups.PERSON_RESTING,
             hasGlyph: true,
-            sortOrder: 2476
+            sortOrder: 2481
         );
 
         /* 🧘🏿‍♀️ */
@@ -23765,7 +23830,7 @@ namespace NeoSmart.Unicode
             group: Group.PEOPLE_AND_BODY,
             subgroup: Subgroups.PERSON_RESTING,
             hasGlyph: true,
-            sortOrder: 2478
+            sortOrder: 2483
         );
 
         /* 🛀 */
@@ -23778,7 +23843,7 @@ namespace NeoSmart.Unicode
             group: Group.PEOPLE_AND_BODY,
             subgroup: Subgroups.PERSON_RESTING,
             hasGlyph: true,
-            sortOrder: 2480
+            sortOrder: 2485
         );
 
         /* 🛀🏻 */
@@ -23791,7 +23856,7 @@ namespace NeoSmart.Unicode
             group: Group.PEOPLE_AND_BODY,
             subgroup: Subgroups.PERSON_RESTING,
             hasGlyph: true,
-            sortOrder: 2481
+            sortOrder: 2486
         );
 
         /* 🛀🏼 */
@@ -23804,7 +23869,7 @@ namespace NeoSmart.Unicode
             group: Group.PEOPLE_AND_BODY,
             subgroup: Subgroups.PERSON_RESTING,
             hasGlyph: true,
-            sortOrder: 2482
+            sortOrder: 2487
         );
 
         /* 🛀🏽 */
@@ -23817,7 +23882,7 @@ namespace NeoSmart.Unicode
             group: Group.PEOPLE_AND_BODY,
             subgroup: Subgroups.PERSON_RESTING,
             hasGlyph: true,
-            sortOrder: 2483
+            sortOrder: 2488
         );
 
         /* 🛀🏾 */
@@ -23830,7 +23895,7 @@ namespace NeoSmart.Unicode
             group: Group.PEOPLE_AND_BODY,
             subgroup: Subgroups.PERSON_RESTING,
             hasGlyph: true,
-            sortOrder: 2484
+            sortOrder: 2489
         );
 
         /* 🛀🏿 */
@@ -23843,7 +23908,7 @@ namespace NeoSmart.Unicode
             group: Group.PEOPLE_AND_BODY,
             subgroup: Subgroups.PERSON_RESTING,
             hasGlyph: true,
-            sortOrder: 2485
+            sortOrder: 2490
         );
 
         /* 🛌 */
@@ -23856,7 +23921,7 @@ namespace NeoSmart.Unicode
             group: Group.PEOPLE_AND_BODY,
             subgroup: Subgroups.PERSON_RESTING,
             hasGlyph: true,
-            sortOrder: 2486
+            sortOrder: 2491
         );
 
         /* 🛌🏻 */
@@ -23869,7 +23934,7 @@ namespace NeoSmart.Unicode
             group: Group.PEOPLE_AND_BODY,
             subgroup: Subgroups.PERSON_RESTING,
             hasGlyph: true,
-            sortOrder: 2487
+            sortOrder: 2492
         );
 
         /* 🛌🏼 */
@@ -23882,7 +23947,7 @@ namespace NeoSmart.Unicode
             group: Group.PEOPLE_AND_BODY,
             subgroup: Subgroups.PERSON_RESTING,
             hasGlyph: true,
-            sortOrder: 2488
+            sortOrder: 2493
         );
 
         /* 🛌🏽 */
@@ -23895,7 +23960,7 @@ namespace NeoSmart.Unicode
             group: Group.PEOPLE_AND_BODY,
             subgroup: Subgroups.PERSON_RESTING,
             hasGlyph: true,
-            sortOrder: 2489
+            sortOrder: 2494
         );
 
         /* 🛌🏾 */
@@ -23908,7 +23973,7 @@ namespace NeoSmart.Unicode
             group: Group.PEOPLE_AND_BODY,
             subgroup: Subgroups.PERSON_RESTING,
             hasGlyph: true,
-            sortOrder: 2490
+            sortOrder: 2495
         );
 
         /* 🛌🏿 */
@@ -23921,7 +23986,7 @@ namespace NeoSmart.Unicode
             group: Group.PEOPLE_AND_BODY,
             subgroup: Subgroups.PERSON_RESTING,
             hasGlyph: true,
-            sortOrder: 2491
+            sortOrder: 2496
         );
 
         /* 🧑‍🤝‍🧑 */
@@ -23934,7 +23999,7 @@ namespace NeoSmart.Unicode
             group: Group.PEOPLE_AND_BODY,
             subgroup: Subgroups.FAMILY,
             hasGlyph: true,
-            sortOrder: 2492
+            sortOrder: 2497
         );
 
         /* 🧑🏻‍🤝‍🧑🏻 */
@@ -23947,7 +24012,7 @@ namespace NeoSmart.Unicode
             group: Group.PEOPLE_AND_BODY,
             subgroup: Subgroups.FAMILY,
             hasGlyph: true,
-            sortOrder: 2493
+            sortOrder: 2498
         );
 
         /* 🧑🏻‍🤝‍🧑🏼 */
@@ -23960,7 +24025,7 @@ namespace NeoSmart.Unicode
             group: Group.PEOPLE_AND_BODY,
             subgroup: Subgroups.FAMILY,
             hasGlyph: true,
-            sortOrder: 2494
+            sortOrder: 2499
         );
 
         /* 🧑🏻‍🤝‍🧑🏽 */
@@ -23973,7 +24038,7 @@ namespace NeoSmart.Unicode
             group: Group.PEOPLE_AND_BODY,
             subgroup: Subgroups.FAMILY,
             hasGlyph: true,
-            sortOrder: 2495
+            sortOrder: 2500
         );
 
         /* 🧑🏻‍🤝‍🧑🏾 */
@@ -23986,7 +24051,7 @@ namespace NeoSmart.Unicode
             group: Group.PEOPLE_AND_BODY,
             subgroup: Subgroups.FAMILY,
             hasGlyph: true,
-            sortOrder: 2496
+            sortOrder: 2501
         );
 
         /* 🧑🏻‍🤝‍🧑🏿 */
@@ -23999,7 +24064,7 @@ namespace NeoSmart.Unicode
             group: Group.PEOPLE_AND_BODY,
             subgroup: Subgroups.FAMILY,
             hasGlyph: true,
-            sortOrder: 2497
+            sortOrder: 2502
         );
 
         /* 🧑🏼‍🤝‍🧑🏻 */
@@ -24012,7 +24077,7 @@ namespace NeoSmart.Unicode
             group: Group.PEOPLE_AND_BODY,
             subgroup: Subgroups.FAMILY,
             hasGlyph: true,
-            sortOrder: 2498
+            sortOrder: 2503
         );
 
         /* 🧑🏼‍🤝‍🧑🏼 */
@@ -24025,7 +24090,7 @@ namespace NeoSmart.Unicode
             group: Group.PEOPLE_AND_BODY,
             subgroup: Subgroups.FAMILY,
             hasGlyph: true,
-            sortOrder: 2499
+            sortOrder: 2504
         );
 
         /* 🧑🏼‍🤝‍🧑🏽 */
@@ -24038,7 +24103,7 @@ namespace NeoSmart.Unicode
             group: Group.PEOPLE_AND_BODY,
             subgroup: Subgroups.FAMILY,
             hasGlyph: true,
-            sortOrder: 2500
+            sortOrder: 2505
         );
 
         /* 🧑🏼‍🤝‍🧑🏾 */
@@ -24051,7 +24116,7 @@ namespace NeoSmart.Unicode
             group: Group.PEOPLE_AND_BODY,
             subgroup: Subgroups.FAMILY,
             hasGlyph: true,
-            sortOrder: 2501
+            sortOrder: 2506
         );
 
         /* 🧑🏼‍🤝‍🧑🏿 */
@@ -24064,7 +24129,7 @@ namespace NeoSmart.Unicode
             group: Group.PEOPLE_AND_BODY,
             subgroup: Subgroups.FAMILY,
             hasGlyph: true,
-            sortOrder: 2502
+            sortOrder: 2507
         );
 
         /* 🧑🏽‍🤝‍🧑🏻 */
@@ -24077,7 +24142,7 @@ namespace NeoSmart.Unicode
             group: Group.PEOPLE_AND_BODY,
             subgroup: Subgroups.FAMILY,
             hasGlyph: true,
-            sortOrder: 2503
+            sortOrder: 2508
         );
 
         /* 🧑🏽‍🤝‍🧑🏼 */
@@ -24090,7 +24155,7 @@ namespace NeoSmart.Unicode
             group: Group.PEOPLE_AND_BODY,
             subgroup: Subgroups.FAMILY,
             hasGlyph: true,
-            sortOrder: 2504
+            sortOrder: 2509
         );
 
         /* 🧑🏽‍🤝‍🧑🏽 */
@@ -24103,7 +24168,7 @@ namespace NeoSmart.Unicode
             group: Group.PEOPLE_AND_BODY,
             subgroup: Subgroups.FAMILY,
             hasGlyph: true,
-            sortOrder: 2505
+            sortOrder: 2510
         );
 
         /* 🧑🏽‍🤝‍🧑🏾 */
@@ -24116,7 +24181,7 @@ namespace NeoSmart.Unicode
             group: Group.PEOPLE_AND_BODY,
             subgroup: Subgroups.FAMILY,
             hasGlyph: true,
-            sortOrder: 2506
+            sortOrder: 2511
         );
 
         /* 🧑🏽‍🤝‍🧑🏿 */
@@ -24129,7 +24194,7 @@ namespace NeoSmart.Unicode
             group: Group.PEOPLE_AND_BODY,
             subgroup: Subgroups.FAMILY,
             hasGlyph: true,
-            sortOrder: 2507
+            sortOrder: 2512
         );
 
         /* 🧑🏾‍🤝‍🧑🏻 */
@@ -24142,7 +24207,7 @@ namespace NeoSmart.Unicode
             group: Group.PEOPLE_AND_BODY,
             subgroup: Subgroups.FAMILY,
             hasGlyph: true,
-            sortOrder: 2508
+            sortOrder: 2513
         );
 
         /* 🧑🏾‍🤝‍🧑🏼 */
@@ -24155,7 +24220,7 @@ namespace NeoSmart.Unicode
             group: Group.PEOPLE_AND_BODY,
             subgroup: Subgroups.FAMILY,
             hasGlyph: true,
-            sortOrder: 2509
+            sortOrder: 2514
         );
 
         /* 🧑🏾‍🤝‍🧑🏽 */
@@ -24168,7 +24233,7 @@ namespace NeoSmart.Unicode
             group: Group.PEOPLE_AND_BODY,
             subgroup: Subgroups.FAMILY,
             hasGlyph: true,
-            sortOrder: 2510
+            sortOrder: 2515
         );
 
         /* 🧑🏾‍🤝‍🧑🏾 */
@@ -24181,7 +24246,7 @@ namespace NeoSmart.Unicode
             group: Group.PEOPLE_AND_BODY,
             subgroup: Subgroups.FAMILY,
             hasGlyph: true,
-            sortOrder: 2511
+            sortOrder: 2516
         );
 
         /* 🧑🏾‍🤝‍🧑🏿 */
@@ -24194,7 +24259,7 @@ namespace NeoSmart.Unicode
             group: Group.PEOPLE_AND_BODY,
             subgroup: Subgroups.FAMILY,
             hasGlyph: true,
-            sortOrder: 2512
+            sortOrder: 2517
         );
 
         /* 🧑🏿‍🤝‍🧑🏻 */
@@ -24207,7 +24272,7 @@ namespace NeoSmart.Unicode
             group: Group.PEOPLE_AND_BODY,
             subgroup: Subgroups.FAMILY,
             hasGlyph: true,
-            sortOrder: 2513
+            sortOrder: 2518
         );
 
         /* 🧑🏿‍🤝‍🧑🏼 */
@@ -24220,7 +24285,7 @@ namespace NeoSmart.Unicode
             group: Group.PEOPLE_AND_BODY,
             subgroup: Subgroups.FAMILY,
             hasGlyph: true,
-            sortOrder: 2514
+            sortOrder: 2519
         );
 
         /* 🧑🏿‍🤝‍🧑🏽 */
@@ -24233,7 +24298,7 @@ namespace NeoSmart.Unicode
             group: Group.PEOPLE_AND_BODY,
             subgroup: Subgroups.FAMILY,
             hasGlyph: true,
-            sortOrder: 2515
+            sortOrder: 2520
         );
 
         /* 🧑🏿‍🤝‍🧑🏾 */
@@ -24246,7 +24311,7 @@ namespace NeoSmart.Unicode
             group: Group.PEOPLE_AND_BODY,
             subgroup: Subgroups.FAMILY,
             hasGlyph: true,
-            sortOrder: 2516
+            sortOrder: 2521
         );
 
         /* 🧑🏿‍🤝‍🧑🏿 */
@@ -24259,7 +24324,7 @@ namespace NeoSmart.Unicode
             group: Group.PEOPLE_AND_BODY,
             subgroup: Subgroups.FAMILY,
             hasGlyph: true,
-            sortOrder: 2517
+            sortOrder: 2522
         );
 
         /* 👭 */
@@ -24272,7 +24337,7 @@ namespace NeoSmart.Unicode
             group: Group.PEOPLE_AND_BODY,
             subgroup: Subgroups.FAMILY,
             hasGlyph: true,
-            sortOrder: 2518
+            sortOrder: 2523
         );
 
         /* 👭🏻 */
@@ -24285,7 +24350,7 @@ namespace NeoSmart.Unicode
             group: Group.PEOPLE_AND_BODY,
             subgroup: Subgroups.FAMILY,
             hasGlyph: true,
-            sortOrder: 2519
+            sortOrder: 2524
         );
 
         /* 👩🏻‍🤝‍👩🏼 */
@@ -24298,7 +24363,7 @@ namespace NeoSmart.Unicode
             group: Group.PEOPLE_AND_BODY,
             subgroup: Subgroups.FAMILY,
             hasGlyph: true,
-            sortOrder: 2520
+            sortOrder: 2525
         );
 
         /* 👩🏻‍🤝‍👩🏽 */
@@ -24311,7 +24376,7 @@ namespace NeoSmart.Unicode
             group: Group.PEOPLE_AND_BODY,
             subgroup: Subgroups.FAMILY,
             hasGlyph: true,
-            sortOrder: 2521
+            sortOrder: 2526
         );
 
         /* 👩🏻‍🤝‍👩🏾 */
@@ -24324,7 +24389,7 @@ namespace NeoSmart.Unicode
             group: Group.PEOPLE_AND_BODY,
             subgroup: Subgroups.FAMILY,
             hasGlyph: true,
-            sortOrder: 2522
+            sortOrder: 2527
         );
 
         /* 👩🏻‍🤝‍👩🏿 */
@@ -24337,7 +24402,7 @@ namespace NeoSmart.Unicode
             group: Group.PEOPLE_AND_BODY,
             subgroup: Subgroups.FAMILY,
             hasGlyph: true,
-            sortOrder: 2523
+            sortOrder: 2528
         );
 
         /* 👩🏼‍🤝‍👩🏻 */
@@ -24350,7 +24415,7 @@ namespace NeoSmart.Unicode
             group: Group.PEOPLE_AND_BODY,
             subgroup: Subgroups.FAMILY,
             hasGlyph: true,
-            sortOrder: 2524
+            sortOrder: 2529
         );
 
         /* 👭🏼 */
@@ -24363,7 +24428,7 @@ namespace NeoSmart.Unicode
             group: Group.PEOPLE_AND_BODY,
             subgroup: Subgroups.FAMILY,
             hasGlyph: true,
-            sortOrder: 2525
+            sortOrder: 2530
         );
 
         /* 👩🏼‍🤝‍👩🏽 */
@@ -24376,7 +24441,7 @@ namespace NeoSmart.Unicode
             group: Group.PEOPLE_AND_BODY,
             subgroup: Subgroups.FAMILY,
             hasGlyph: true,
-            sortOrder: 2526
+            sortOrder: 2531
         );
 
         /* 👩🏼‍🤝‍👩🏾 */
@@ -24389,7 +24454,7 @@ namespace NeoSmart.Unicode
             group: Group.PEOPLE_AND_BODY,
             subgroup: Subgroups.FAMILY,
             hasGlyph: true,
-            sortOrder: 2527
+            sortOrder: 2532
         );
 
         /* 👩🏼‍🤝‍👩🏿 */
@@ -24402,7 +24467,7 @@ namespace NeoSmart.Unicode
             group: Group.PEOPLE_AND_BODY,
             subgroup: Subgroups.FAMILY,
             hasGlyph: true,
-            sortOrder: 2528
+            sortOrder: 2533
         );
 
         /* 👩🏽‍🤝‍👩🏻 */
@@ -24415,7 +24480,7 @@ namespace NeoSmart.Unicode
             group: Group.PEOPLE_AND_BODY,
             subgroup: Subgroups.FAMILY,
             hasGlyph: true,
-            sortOrder: 2529
+            sortOrder: 2534
         );
 
         /* 👩🏽‍🤝‍👩🏼 */
@@ -24428,7 +24493,7 @@ namespace NeoSmart.Unicode
             group: Group.PEOPLE_AND_BODY,
             subgroup: Subgroups.FAMILY,
             hasGlyph: true,
-            sortOrder: 2530
+            sortOrder: 2535
         );
 
         /* 👭🏽 */
@@ -24441,7 +24506,7 @@ namespace NeoSmart.Unicode
             group: Group.PEOPLE_AND_BODY,
             subgroup: Subgroups.FAMILY,
             hasGlyph: true,
-            sortOrder: 2531
+            sortOrder: 2536
         );
 
         /* 👩🏽‍🤝‍👩🏾 */
@@ -24454,7 +24519,7 @@ namespace NeoSmart.Unicode
             group: Group.PEOPLE_AND_BODY,
             subgroup: Subgroups.FAMILY,
             hasGlyph: true,
-            sortOrder: 2532
+            sortOrder: 2537
         );
 
         /* 👩🏽‍🤝‍👩🏿 */
@@ -24467,7 +24532,7 @@ namespace NeoSmart.Unicode
             group: Group.PEOPLE_AND_BODY,
             subgroup: Subgroups.FAMILY,
             hasGlyph: true,
-            sortOrder: 2533
+            sortOrder: 2538
         );
 
         /* 👩🏾‍🤝‍👩🏻 */
@@ -24480,7 +24545,7 @@ namespace NeoSmart.Unicode
             group: Group.PEOPLE_AND_BODY,
             subgroup: Subgroups.FAMILY,
             hasGlyph: true,
-            sortOrder: 2534
+            sortOrder: 2539
         );
 
         /* 👩🏾‍🤝‍👩🏼 */
@@ -24493,7 +24558,7 @@ namespace NeoSmart.Unicode
             group: Group.PEOPLE_AND_BODY,
             subgroup: Subgroups.FAMILY,
             hasGlyph: true,
-            sortOrder: 2535
+            sortOrder: 2540
         );
 
         /* 👩🏾‍🤝‍👩🏽 */
@@ -24506,7 +24571,7 @@ namespace NeoSmart.Unicode
             group: Group.PEOPLE_AND_BODY,
             subgroup: Subgroups.FAMILY,
             hasGlyph: true,
-            sortOrder: 2536
+            sortOrder: 2541
         );
 
         /* 👭🏾 */
@@ -24519,7 +24584,7 @@ namespace NeoSmart.Unicode
             group: Group.PEOPLE_AND_BODY,
             subgroup: Subgroups.FAMILY,
             hasGlyph: true,
-            sortOrder: 2537
+            sortOrder: 2542
         );
 
         /* 👩🏾‍🤝‍👩🏿 */
@@ -24532,7 +24597,7 @@ namespace NeoSmart.Unicode
             group: Group.PEOPLE_AND_BODY,
             subgroup: Subgroups.FAMILY,
             hasGlyph: true,
-            sortOrder: 2538
+            sortOrder: 2543
         );
 
         /* 👩🏿‍🤝‍👩🏻 */
@@ -24545,7 +24610,7 @@ namespace NeoSmart.Unicode
             group: Group.PEOPLE_AND_BODY,
             subgroup: Subgroups.FAMILY,
             hasGlyph: true,
-            sortOrder: 2539
+            sortOrder: 2544
         );
 
         /* 👩🏿‍🤝‍👩🏼 */
@@ -24558,7 +24623,7 @@ namespace NeoSmart.Unicode
             group: Group.PEOPLE_AND_BODY,
             subgroup: Subgroups.FAMILY,
             hasGlyph: true,
-            sortOrder: 2540
+            sortOrder: 2545
         );
 
         /* 👩🏿‍🤝‍👩🏽 */
@@ -24571,7 +24636,7 @@ namespace NeoSmart.Unicode
             group: Group.PEOPLE_AND_BODY,
             subgroup: Subgroups.FAMILY,
             hasGlyph: true,
-            sortOrder: 2541
+            sortOrder: 2546
         );
 
         /* 👩🏿‍🤝‍👩🏾 */
@@ -24584,7 +24649,7 @@ namespace NeoSmart.Unicode
             group: Group.PEOPLE_AND_BODY,
             subgroup: Subgroups.FAMILY,
             hasGlyph: true,
-            sortOrder: 2542
+            sortOrder: 2547
         );
 
         /* 👭🏿 */
@@ -24597,7 +24662,7 @@ namespace NeoSmart.Unicode
             group: Group.PEOPLE_AND_BODY,
             subgroup: Subgroups.FAMILY,
             hasGlyph: true,
-            sortOrder: 2543
+            sortOrder: 2548
         );
 
         /* 👫 */
@@ -24610,7 +24675,7 @@ namespace NeoSmart.Unicode
             group: Group.PEOPLE_AND_BODY,
             subgroup: Subgroups.FAMILY,
             hasGlyph: true,
-            sortOrder: 2544
+            sortOrder: 2549
         );
 
         /* 👫🏻 */
@@ -24623,7 +24688,7 @@ namespace NeoSmart.Unicode
             group: Group.PEOPLE_AND_BODY,
             subgroup: Subgroups.FAMILY,
             hasGlyph: true,
-            sortOrder: 2545
+            sortOrder: 2550
         );
 
         /* 👩🏻‍🤝‍👨🏼 */
@@ -24636,7 +24701,7 @@ namespace NeoSmart.Unicode
             group: Group.PEOPLE_AND_BODY,
             subgroup: Subgroups.FAMILY,
             hasGlyph: true,
-            sortOrder: 2546
+            sortOrder: 2551
         );
 
         /* 👩🏻‍🤝‍👨🏽 */
@@ -24649,7 +24714,7 @@ namespace NeoSmart.Unicode
             group: Group.PEOPLE_AND_BODY,
             subgroup: Subgroups.FAMILY,
             hasGlyph: true,
-            sortOrder: 2547
+            sortOrder: 2552
         );
 
         /* 👩🏻‍🤝‍👨🏾 */
@@ -24662,7 +24727,7 @@ namespace NeoSmart.Unicode
             group: Group.PEOPLE_AND_BODY,
             subgroup: Subgroups.FAMILY,
             hasGlyph: true,
-            sortOrder: 2548
+            sortOrder: 2553
         );
 
         /* 👩🏻‍🤝‍👨🏿 */
@@ -24675,7 +24740,7 @@ namespace NeoSmart.Unicode
             group: Group.PEOPLE_AND_BODY,
             subgroup: Subgroups.FAMILY,
             hasGlyph: true,
-            sortOrder: 2549
+            sortOrder: 2554
         );
 
         /* 👩🏼‍🤝‍👨🏻 */
@@ -24688,7 +24753,7 @@ namespace NeoSmart.Unicode
             group: Group.PEOPLE_AND_BODY,
             subgroup: Subgroups.FAMILY,
             hasGlyph: true,
-            sortOrder: 2550
+            sortOrder: 2555
         );
 
         /* 👫🏼 */
@@ -24701,7 +24766,7 @@ namespace NeoSmart.Unicode
             group: Group.PEOPLE_AND_BODY,
             subgroup: Subgroups.FAMILY,
             hasGlyph: true,
-            sortOrder: 2551
+            sortOrder: 2556
         );
 
         /* 👩🏼‍🤝‍👨🏽 */
@@ -24714,7 +24779,7 @@ namespace NeoSmart.Unicode
             group: Group.PEOPLE_AND_BODY,
             subgroup: Subgroups.FAMILY,
             hasGlyph: true,
-            sortOrder: 2552
+            sortOrder: 2557
         );
 
         /* 👩🏼‍🤝‍👨🏾 */
@@ -24727,7 +24792,7 @@ namespace NeoSmart.Unicode
             group: Group.PEOPLE_AND_BODY,
             subgroup: Subgroups.FAMILY,
             hasGlyph: true,
-            sortOrder: 2553
+            sortOrder: 2558
         );
 
         /* 👩🏼‍🤝‍👨🏿 */
@@ -24740,7 +24805,7 @@ namespace NeoSmart.Unicode
             group: Group.PEOPLE_AND_BODY,
             subgroup: Subgroups.FAMILY,
             hasGlyph: true,
-            sortOrder: 2554
+            sortOrder: 2559
         );
 
         /* 👩🏽‍🤝‍👨🏻 */
@@ -24753,7 +24818,7 @@ namespace NeoSmart.Unicode
             group: Group.PEOPLE_AND_BODY,
             subgroup: Subgroups.FAMILY,
             hasGlyph: true,
-            sortOrder: 2555
+            sortOrder: 2560
         );
 
         /* 👩🏽‍🤝‍👨🏼 */
@@ -24766,7 +24831,7 @@ namespace NeoSmart.Unicode
             group: Group.PEOPLE_AND_BODY,
             subgroup: Subgroups.FAMILY,
             hasGlyph: true,
-            sortOrder: 2556
+            sortOrder: 2561
         );
 
         /* 👫🏽 */
@@ -24779,7 +24844,7 @@ namespace NeoSmart.Unicode
             group: Group.PEOPLE_AND_BODY,
             subgroup: Subgroups.FAMILY,
             hasGlyph: true,
-            sortOrder: 2557
+            sortOrder: 2562
         );
 
         /* 👩🏽‍🤝‍👨🏾 */
@@ -24792,7 +24857,7 @@ namespace NeoSmart.Unicode
             group: Group.PEOPLE_AND_BODY,
             subgroup: Subgroups.FAMILY,
             hasGlyph: true,
-            sortOrder: 2558
+            sortOrder: 2563
         );
 
         /* 👩🏽‍🤝‍👨🏿 */
@@ -24805,7 +24870,7 @@ namespace NeoSmart.Unicode
             group: Group.PEOPLE_AND_BODY,
             subgroup: Subgroups.FAMILY,
             hasGlyph: true,
-            sortOrder: 2559
+            sortOrder: 2564
         );
 
         /* 👩🏾‍🤝‍👨🏻 */
@@ -24818,7 +24883,7 @@ namespace NeoSmart.Unicode
             group: Group.PEOPLE_AND_BODY,
             subgroup: Subgroups.FAMILY,
             hasGlyph: true,
-            sortOrder: 2560
+            sortOrder: 2565
         );
 
         /* 👩🏾‍🤝‍👨🏼 */
@@ -24831,7 +24896,7 @@ namespace NeoSmart.Unicode
             group: Group.PEOPLE_AND_BODY,
             subgroup: Subgroups.FAMILY,
             hasGlyph: true,
-            sortOrder: 2561
+            sortOrder: 2566
         );
 
         /* 👩🏾‍🤝‍👨🏽 */
@@ -24844,7 +24909,7 @@ namespace NeoSmart.Unicode
             group: Group.PEOPLE_AND_BODY,
             subgroup: Subgroups.FAMILY,
             hasGlyph: true,
-            sortOrder: 2562
+            sortOrder: 2567
         );
 
         /* 👫🏾 */
@@ -24857,7 +24922,7 @@ namespace NeoSmart.Unicode
             group: Group.PEOPLE_AND_BODY,
             subgroup: Subgroups.FAMILY,
             hasGlyph: true,
-            sortOrder: 2563
+            sortOrder: 2568
         );
 
         /* 👩🏾‍🤝‍👨🏿 */
@@ -24870,7 +24935,7 @@ namespace NeoSmart.Unicode
             group: Group.PEOPLE_AND_BODY,
             subgroup: Subgroups.FAMILY,
             hasGlyph: true,
-            sortOrder: 2564
+            sortOrder: 2569
         );
 
         /* 👩🏿‍🤝‍👨🏻 */
@@ -24883,7 +24948,7 @@ namespace NeoSmart.Unicode
             group: Group.PEOPLE_AND_BODY,
             subgroup: Subgroups.FAMILY,
             hasGlyph: true,
-            sortOrder: 2565
+            sortOrder: 2570
         );
 
         /* 👩🏿‍🤝‍👨🏼 */
@@ -24896,7 +24961,7 @@ namespace NeoSmart.Unicode
             group: Group.PEOPLE_AND_BODY,
             subgroup: Subgroups.FAMILY,
             hasGlyph: true,
-            sortOrder: 2566
+            sortOrder: 2571
         );
 
         /* 👩🏿‍🤝‍👨🏽 */
@@ -24909,7 +24974,7 @@ namespace NeoSmart.Unicode
             group: Group.PEOPLE_AND_BODY,
             subgroup: Subgroups.FAMILY,
             hasGlyph: true,
-            sortOrder: 2567
+            sortOrder: 2572
         );
 
         /* 👩🏿‍🤝‍👨🏾 */
@@ -24922,7 +24987,7 @@ namespace NeoSmart.Unicode
             group: Group.PEOPLE_AND_BODY,
             subgroup: Subgroups.FAMILY,
             hasGlyph: true,
-            sortOrder: 2568
+            sortOrder: 2573
         );
 
         /* 👫🏿 */
@@ -24935,7 +25000,7 @@ namespace NeoSmart.Unicode
             group: Group.PEOPLE_AND_BODY,
             subgroup: Subgroups.FAMILY,
             hasGlyph: true,
-            sortOrder: 2569
+            sortOrder: 2574
         );
 
         /* 👬 */
@@ -24948,7 +25013,7 @@ namespace NeoSmart.Unicode
             group: Group.PEOPLE_AND_BODY,
             subgroup: Subgroups.FAMILY,
             hasGlyph: true,
-            sortOrder: 2570
+            sortOrder: 2575
         );
 
         /* 👬🏻 */
@@ -24961,7 +25026,7 @@ namespace NeoSmart.Unicode
             group: Group.PEOPLE_AND_BODY,
             subgroup: Subgroups.FAMILY,
             hasGlyph: true,
-            sortOrder: 2571
+            sortOrder: 2576
         );
 
         /* 👨🏻‍🤝‍👨🏼 */
@@ -24974,7 +25039,7 @@ namespace NeoSmart.Unicode
             group: Group.PEOPLE_AND_BODY,
             subgroup: Subgroups.FAMILY,
             hasGlyph: true,
-            sortOrder: 2572
+            sortOrder: 2577
         );
 
         /* 👨🏻‍🤝‍👨🏽 */
@@ -24987,7 +25052,7 @@ namespace NeoSmart.Unicode
             group: Group.PEOPLE_AND_BODY,
             subgroup: Subgroups.FAMILY,
             hasGlyph: true,
-            sortOrder: 2573
+            sortOrder: 2578
         );
 
         /* 👨🏻‍🤝‍👨🏾 */
@@ -25000,7 +25065,7 @@ namespace NeoSmart.Unicode
             group: Group.PEOPLE_AND_BODY,
             subgroup: Subgroups.FAMILY,
             hasGlyph: true,
-            sortOrder: 2574
+            sortOrder: 2579
         );
 
         /* 👨🏻‍🤝‍👨🏿 */
@@ -25013,7 +25078,7 @@ namespace NeoSmart.Unicode
             group: Group.PEOPLE_AND_BODY,
             subgroup: Subgroups.FAMILY,
             hasGlyph: true,
-            sortOrder: 2575
+            sortOrder: 2580
         );
 
         /* 👨🏼‍🤝‍👨🏻 */
@@ -25026,7 +25091,7 @@ namespace NeoSmart.Unicode
             group: Group.PEOPLE_AND_BODY,
             subgroup: Subgroups.FAMILY,
             hasGlyph: true,
-            sortOrder: 2576
+            sortOrder: 2581
         );
 
         /* 👬🏼 */
@@ -25039,7 +25104,7 @@ namespace NeoSmart.Unicode
             group: Group.PEOPLE_AND_BODY,
             subgroup: Subgroups.FAMILY,
             hasGlyph: true,
-            sortOrder: 2577
+            sortOrder: 2582
         );
 
         /* 👨🏼‍🤝‍👨🏽 */
@@ -25052,7 +25117,7 @@ namespace NeoSmart.Unicode
             group: Group.PEOPLE_AND_BODY,
             subgroup: Subgroups.FAMILY,
             hasGlyph: true,
-            sortOrder: 2578
+            sortOrder: 2583
         );
 
         /* 👨🏼‍🤝‍👨🏾 */
@@ -25065,7 +25130,7 @@ namespace NeoSmart.Unicode
             group: Group.PEOPLE_AND_BODY,
             subgroup: Subgroups.FAMILY,
             hasGlyph: true,
-            sortOrder: 2579
+            sortOrder: 2584
         );
 
         /* 👨🏼‍🤝‍👨🏿 */
@@ -25078,7 +25143,7 @@ namespace NeoSmart.Unicode
             group: Group.PEOPLE_AND_BODY,
             subgroup: Subgroups.FAMILY,
             hasGlyph: true,
-            sortOrder: 2580
+            sortOrder: 2585
         );
 
         /* 👨🏽‍🤝‍👨🏻 */
@@ -25091,7 +25156,7 @@ namespace NeoSmart.Unicode
             group: Group.PEOPLE_AND_BODY,
             subgroup: Subgroups.FAMILY,
             hasGlyph: true,
-            sortOrder: 2581
+            sortOrder: 2586
         );
 
         /* 👨🏽‍🤝‍👨🏼 */
@@ -25104,7 +25169,7 @@ namespace NeoSmart.Unicode
             group: Group.PEOPLE_AND_BODY,
             subgroup: Subgroups.FAMILY,
             hasGlyph: true,
-            sortOrder: 2582
+            sortOrder: 2587
         );
 
         /* 👬🏽 */
@@ -25117,7 +25182,7 @@ namespace NeoSmart.Unicode
             group: Group.PEOPLE_AND_BODY,
             subgroup: Subgroups.FAMILY,
             hasGlyph: true,
-            sortOrder: 2583
+            sortOrder: 2588
         );
 
         /* 👨🏽‍🤝‍👨🏾 */
@@ -25130,7 +25195,7 @@ namespace NeoSmart.Unicode
             group: Group.PEOPLE_AND_BODY,
             subgroup: Subgroups.FAMILY,
             hasGlyph: true,
-            sortOrder: 2584
+            sortOrder: 2589
         );
 
         /* 👨🏽‍🤝‍👨🏿 */
@@ -25143,7 +25208,7 @@ namespace NeoSmart.Unicode
             group: Group.PEOPLE_AND_BODY,
             subgroup: Subgroups.FAMILY,
             hasGlyph: true,
-            sortOrder: 2585
+            sortOrder: 2590
         );
 
         /* 👨🏾‍🤝‍👨🏻 */
@@ -25156,7 +25221,7 @@ namespace NeoSmart.Unicode
             group: Group.PEOPLE_AND_BODY,
             subgroup: Subgroups.FAMILY,
             hasGlyph: true,
-            sortOrder: 2586
+            sortOrder: 2591
         );
 
         /* 👨🏾‍🤝‍👨🏼 */
@@ -25169,7 +25234,7 @@ namespace NeoSmart.Unicode
             group: Group.PEOPLE_AND_BODY,
             subgroup: Subgroups.FAMILY,
             hasGlyph: true,
-            sortOrder: 2587
+            sortOrder: 2592
         );
 
         /* 👨🏾‍🤝‍👨🏽 */
@@ -25182,7 +25247,7 @@ namespace NeoSmart.Unicode
             group: Group.PEOPLE_AND_BODY,
             subgroup: Subgroups.FAMILY,
             hasGlyph: true,
-            sortOrder: 2588
+            sortOrder: 2593
         );
 
         /* 👬🏾 */
@@ -25195,7 +25260,7 @@ namespace NeoSmart.Unicode
             group: Group.PEOPLE_AND_BODY,
             subgroup: Subgroups.FAMILY,
             hasGlyph: true,
-            sortOrder: 2589
+            sortOrder: 2594
         );
 
         /* 👨🏾‍🤝‍👨🏿 */
@@ -25208,7 +25273,7 @@ namespace NeoSmart.Unicode
             group: Group.PEOPLE_AND_BODY,
             subgroup: Subgroups.FAMILY,
             hasGlyph: true,
-            sortOrder: 2590
+            sortOrder: 2595
         );
 
         /* 👨🏿‍🤝‍👨🏻 */
@@ -25221,7 +25286,7 @@ namespace NeoSmart.Unicode
             group: Group.PEOPLE_AND_BODY,
             subgroup: Subgroups.FAMILY,
             hasGlyph: true,
-            sortOrder: 2591
+            sortOrder: 2596
         );
 
         /* 👨🏿‍🤝‍👨🏼 */
@@ -25234,7 +25299,7 @@ namespace NeoSmart.Unicode
             group: Group.PEOPLE_AND_BODY,
             subgroup: Subgroups.FAMILY,
             hasGlyph: true,
-            sortOrder: 2592
+            sortOrder: 2597
         );
 
         /* 👨🏿‍🤝‍👨🏽 */
@@ -25247,7 +25312,7 @@ namespace NeoSmart.Unicode
             group: Group.PEOPLE_AND_BODY,
             subgroup: Subgroups.FAMILY,
             hasGlyph: true,
-            sortOrder: 2593
+            sortOrder: 2598
         );
 
         /* 👨🏿‍🤝‍👨🏾 */
@@ -25260,7 +25325,7 @@ namespace NeoSmart.Unicode
             group: Group.PEOPLE_AND_BODY,
             subgroup: Subgroups.FAMILY,
             hasGlyph: true,
-            sortOrder: 2594
+            sortOrder: 2599
         );
 
         /* 👬🏿 */
@@ -25273,7 +25338,7 @@ namespace NeoSmart.Unicode
             group: Group.PEOPLE_AND_BODY,
             subgroup: Subgroups.FAMILY,
             hasGlyph: true,
-            sortOrder: 2595
+            sortOrder: 2600
         );
 
         /* 💏 */
@@ -25286,7 +25351,7 @@ namespace NeoSmart.Unicode
             group: Group.PEOPLE_AND_BODY,
             subgroup: Subgroups.FAMILY,
             hasGlyph: true,
-            sortOrder: 2596
+            sortOrder: 2601
         );
 
         /* 👩‍❤️‍💋‍👨 */
@@ -25299,7 +25364,7 @@ namespace NeoSmart.Unicode
             group: Group.PEOPLE_AND_BODY,
             subgroup: Subgroups.FAMILY,
             hasGlyph: false,
-            sortOrder: 2597
+            sortOrder: 2602
         );
 
         /* 👨‍❤️‍💋‍👨 */
@@ -25312,7 +25377,7 @@ namespace NeoSmart.Unicode
             group: Group.PEOPLE_AND_BODY,
             subgroup: Subgroups.FAMILY,
             hasGlyph: false,
-            sortOrder: 2599
+            sortOrder: 2604
         );
 
         /* 👩‍❤️‍💋‍👩 */
@@ -25325,7 +25390,7 @@ namespace NeoSmart.Unicode
             group: Group.PEOPLE_AND_BODY,
             subgroup: Subgroups.FAMILY,
             hasGlyph: false,
-            sortOrder: 2601
+            sortOrder: 2606
         );
 
         /* 💑 */
@@ -25338,7 +25403,7 @@ namespace NeoSmart.Unicode
             group: Group.PEOPLE_AND_BODY,
             subgroup: Subgroups.FAMILY,
             hasGlyph: true,
-            sortOrder: 2603
+            sortOrder: 2608
         );
 
         /* 👩‍❤️‍👨 */
@@ -25351,7 +25416,7 @@ namespace NeoSmart.Unicode
             group: Group.PEOPLE_AND_BODY,
             subgroup: Subgroups.FAMILY,
             hasGlyph: false,
-            sortOrder: 2604
+            sortOrder: 2609
         );
 
         /* 👨‍❤️‍👨 */
@@ -25364,7 +25429,7 @@ namespace NeoSmart.Unicode
             group: Group.PEOPLE_AND_BODY,
             subgroup: Subgroups.FAMILY,
             hasGlyph: false,
-            sortOrder: 2606
+            sortOrder: 2611
         );
 
         /* 👩‍❤️‍👩 */
@@ -25377,7 +25442,7 @@ namespace NeoSmart.Unicode
             group: Group.PEOPLE_AND_BODY,
             subgroup: Subgroups.FAMILY,
             hasGlyph: false,
-            sortOrder: 2608
+            sortOrder: 2613
         );
 
         /* 👪 */
@@ -25390,7 +25455,7 @@ namespace NeoSmart.Unicode
             group: Group.PEOPLE_AND_BODY,
             subgroup: Subgroups.FAMILY,
             hasGlyph: true,
-            sortOrder: 2610
+            sortOrder: 2615
         );
 
         /* 👨‍👩‍👦 */
@@ -25403,7 +25468,7 @@ namespace NeoSmart.Unicode
             group: Group.PEOPLE_AND_BODY,
             subgroup: Subgroups.FAMILY,
             hasGlyph: true,
-            sortOrder: 2611
+            sortOrder: 2616
         );
 
         /* 👨‍👩‍👧 */
@@ -25416,7 +25481,7 @@ namespace NeoSmart.Unicode
             group: Group.PEOPLE_AND_BODY,
             subgroup: Subgroups.FAMILY,
             hasGlyph: true,
-            sortOrder: 2612
+            sortOrder: 2617
         );
 
         /* 👨‍👩‍👧‍👦 */
@@ -25429,7 +25494,7 @@ namespace NeoSmart.Unicode
             group: Group.PEOPLE_AND_BODY,
             subgroup: Subgroups.FAMILY,
             hasGlyph: true,
-            sortOrder: 2613
+            sortOrder: 2618
         );
 
         /* 👨‍👩‍👦‍👦 */
@@ -25442,7 +25507,7 @@ namespace NeoSmart.Unicode
             group: Group.PEOPLE_AND_BODY,
             subgroup: Subgroups.FAMILY,
             hasGlyph: true,
-            sortOrder: 2614
+            sortOrder: 2619
         );
 
         /* 👨‍👩‍👧‍👧 */
@@ -25455,7 +25520,7 @@ namespace NeoSmart.Unicode
             group: Group.PEOPLE_AND_BODY,
             subgroup: Subgroups.FAMILY,
             hasGlyph: true,
-            sortOrder: 2615
+            sortOrder: 2620
         );
 
         /* 👨‍👨‍👦 */
@@ -25468,7 +25533,7 @@ namespace NeoSmart.Unicode
             group: Group.PEOPLE_AND_BODY,
             subgroup: Subgroups.FAMILY,
             hasGlyph: true,
-            sortOrder: 2616
+            sortOrder: 2621
         );
 
         /* 👨‍👨‍👧 */
@@ -25481,7 +25546,7 @@ namespace NeoSmart.Unicode
             group: Group.PEOPLE_AND_BODY,
             subgroup: Subgroups.FAMILY,
             hasGlyph: true,
-            sortOrder: 2617
+            sortOrder: 2622
         );
 
         /* 👨‍👨‍👧‍👦 */
@@ -25494,7 +25559,7 @@ namespace NeoSmart.Unicode
             group: Group.PEOPLE_AND_BODY,
             subgroup: Subgroups.FAMILY,
             hasGlyph: true,
-            sortOrder: 2618
+            sortOrder: 2623
         );
 
         /* 👨‍👨‍👦‍👦 */
@@ -25507,7 +25572,7 @@ namespace NeoSmart.Unicode
             group: Group.PEOPLE_AND_BODY,
             subgroup: Subgroups.FAMILY,
             hasGlyph: true,
-            sortOrder: 2619
+            sortOrder: 2624
         );
 
         /* 👨‍👨‍👧‍👧 */
@@ -25520,7 +25585,7 @@ namespace NeoSmart.Unicode
             group: Group.PEOPLE_AND_BODY,
             subgroup: Subgroups.FAMILY,
             hasGlyph: true,
-            sortOrder: 2620
+            sortOrder: 2625
         );
 
         /* 👩‍👩‍👦 */
@@ -25533,7 +25598,7 @@ namespace NeoSmart.Unicode
             group: Group.PEOPLE_AND_BODY,
             subgroup: Subgroups.FAMILY,
             hasGlyph: true,
-            sortOrder: 2621
+            sortOrder: 2626
         );
 
         /* 👩‍👩‍👧 */
@@ -25546,7 +25611,7 @@ namespace NeoSmart.Unicode
             group: Group.PEOPLE_AND_BODY,
             subgroup: Subgroups.FAMILY,
             hasGlyph: true,
-            sortOrder: 2622
+            sortOrder: 2627
         );
 
         /* 👩‍👩‍👧‍👦 */
@@ -25559,7 +25624,7 @@ namespace NeoSmart.Unicode
             group: Group.PEOPLE_AND_BODY,
             subgroup: Subgroups.FAMILY,
             hasGlyph: true,
-            sortOrder: 2623
+            sortOrder: 2628
         );
 
         /* 👩‍👩‍👦‍👦 */
@@ -25572,7 +25637,7 @@ namespace NeoSmart.Unicode
             group: Group.PEOPLE_AND_BODY,
             subgroup: Subgroups.FAMILY,
             hasGlyph: true,
-            sortOrder: 2624
+            sortOrder: 2629
         );
 
         /* 👩‍👩‍👧‍👧 */
@@ -25585,7 +25650,7 @@ namespace NeoSmart.Unicode
             group: Group.PEOPLE_AND_BODY,
             subgroup: Subgroups.FAMILY,
             hasGlyph: true,
-            sortOrder: 2625
+            sortOrder: 2630
         );
 
         /* 👨‍👦 */
@@ -25598,7 +25663,7 @@ namespace NeoSmart.Unicode
             group: Group.PEOPLE_AND_BODY,
             subgroup: Subgroups.FAMILY,
             hasGlyph: true,
-            sortOrder: 2626
+            sortOrder: 2631
         );
 
         /* 👨‍👦‍👦 */
@@ -25611,7 +25676,7 @@ namespace NeoSmart.Unicode
             group: Group.PEOPLE_AND_BODY,
             subgroup: Subgroups.FAMILY,
             hasGlyph: true,
-            sortOrder: 2627
+            sortOrder: 2632
         );
 
         /* 👨‍👧 */
@@ -25624,7 +25689,7 @@ namespace NeoSmart.Unicode
             group: Group.PEOPLE_AND_BODY,
             subgroup: Subgroups.FAMILY,
             hasGlyph: true,
-            sortOrder: 2628
+            sortOrder: 2633
         );
 
         /* 👨‍👧‍👦 */
@@ -25637,7 +25702,7 @@ namespace NeoSmart.Unicode
             group: Group.PEOPLE_AND_BODY,
             subgroup: Subgroups.FAMILY,
             hasGlyph: true,
-            sortOrder: 2629
+            sortOrder: 2634
         );
 
         /* 👨‍👧‍👧 */
@@ -25650,7 +25715,7 @@ namespace NeoSmart.Unicode
             group: Group.PEOPLE_AND_BODY,
             subgroup: Subgroups.FAMILY,
             hasGlyph: true,
-            sortOrder: 2630
+            sortOrder: 2635
         );
 
         /* 👩‍👦 */
@@ -25663,7 +25728,7 @@ namespace NeoSmart.Unicode
             group: Group.PEOPLE_AND_BODY,
             subgroup: Subgroups.FAMILY,
             hasGlyph: true,
-            sortOrder: 2631
+            sortOrder: 2636
         );
 
         /* 👩‍👦‍👦 */
@@ -25676,7 +25741,7 @@ namespace NeoSmart.Unicode
             group: Group.PEOPLE_AND_BODY,
             subgroup: Subgroups.FAMILY,
             hasGlyph: true,
-            sortOrder: 2632
+            sortOrder: 2637
         );
 
         /* 👩‍👧 */
@@ -25689,7 +25754,7 @@ namespace NeoSmart.Unicode
             group: Group.PEOPLE_AND_BODY,
             subgroup: Subgroups.FAMILY,
             hasGlyph: true,
-            sortOrder: 2633
+            sortOrder: 2638
         );
 
         /* 👩‍👧‍👦 */
@@ -25702,7 +25767,7 @@ namespace NeoSmart.Unicode
             group: Group.PEOPLE_AND_BODY,
             subgroup: Subgroups.FAMILY,
             hasGlyph: true,
-            sortOrder: 2634
+            sortOrder: 2639
         );
 
         /* 👩‍👧‍👧 */
@@ -25715,7 +25780,7 @@ namespace NeoSmart.Unicode
             group: Group.PEOPLE_AND_BODY,
             subgroup: Subgroups.FAMILY,
             hasGlyph: true,
-            sortOrder: 2635
+            sortOrder: 2640
         );
 
         /* 🗣️ */
@@ -25728,7 +25793,7 @@ namespace NeoSmart.Unicode
             group: Group.PEOPLE_AND_BODY,
             subgroup: Subgroups.PERSON_SYMBOL,
             hasGlyph: true,
-            sortOrder: 2636
+            sortOrder: 2641
         );
 
         /* 👤 */
@@ -25741,7 +25806,7 @@ namespace NeoSmart.Unicode
             group: Group.PEOPLE_AND_BODY,
             subgroup: Subgroups.PERSON_SYMBOL,
             hasGlyph: true,
-            sortOrder: 2638
+            sortOrder: 2643
         );
 
         /* 👥 */
@@ -25754,7 +25819,7 @@ namespace NeoSmart.Unicode
             group: Group.PEOPLE_AND_BODY,
             subgroup: Subgroups.PERSON_SYMBOL,
             hasGlyph: true,
-            sortOrder: 2639
+            sortOrder: 2644
         );
 
         /* 🫂 */
@@ -25767,7 +25832,7 @@ namespace NeoSmart.Unicode
             group: Group.PEOPLE_AND_BODY,
             subgroup: Subgroups.PERSON_SYMBOL,
             hasGlyph: false,
-            sortOrder: 2640
+            sortOrder: 2645
         );
 
         /* 👣 */
@@ -25780,7 +25845,7 @@ namespace NeoSmart.Unicode
             group: Group.PEOPLE_AND_BODY,
             subgroup: Subgroups.PERSON_SYMBOL,
             hasGlyph: true,
-            sortOrder: 2641
+            sortOrder: 2646
         );
 
         /* 🏻 */
@@ -25793,7 +25858,7 @@ namespace NeoSmart.Unicode
             group: Group.COMPONENT,
             subgroup: Subgroups.SKIN_TONE,
             hasGlyph: true,
-            sortOrder: 2642
+            sortOrder: 2647
         );
 
         /* 🏼 */
@@ -25806,7 +25871,7 @@ namespace NeoSmart.Unicode
             group: Group.COMPONENT,
             subgroup: Subgroups.SKIN_TONE,
             hasGlyph: true,
-            sortOrder: 2643
+            sortOrder: 2648
         );
 
         /* 🏽 */
@@ -25819,7 +25884,7 @@ namespace NeoSmart.Unicode
             group: Group.COMPONENT,
             subgroup: Subgroups.SKIN_TONE,
             hasGlyph: true,
-            sortOrder: 2644
+            sortOrder: 2649
         );
 
         /* 🏾 */
@@ -25832,7 +25897,7 @@ namespace NeoSmart.Unicode
             group: Group.COMPONENT,
             subgroup: Subgroups.SKIN_TONE,
             hasGlyph: true,
-            sortOrder: 2645
+            sortOrder: 2650
         );
 
         /* 🏿 */
@@ -25845,7 +25910,7 @@ namespace NeoSmart.Unicode
             group: Group.COMPONENT,
             subgroup: Subgroups.SKIN_TONE,
             hasGlyph: true,
-            sortOrder: 2646
+            sortOrder: 2651
         );
 
         /* 🦰 */
@@ -25858,7 +25923,7 @@ namespace NeoSmart.Unicode
             group: Group.COMPONENT,
             subgroup: Subgroups.HAIR_STYLE,
             hasGlyph: true,
-            sortOrder: 2647
+            sortOrder: 2652
         );
 
         /* 🦱 */
@@ -25871,7 +25936,7 @@ namespace NeoSmart.Unicode
             group: Group.COMPONENT,
             subgroup: Subgroups.HAIR_STYLE,
             hasGlyph: true,
-            sortOrder: 2648
+            sortOrder: 2653
         );
 
         /* 🦳 */
@@ -25884,7 +25949,7 @@ namespace NeoSmart.Unicode
             group: Group.COMPONENT,
             subgroup: Subgroups.HAIR_STYLE,
             hasGlyph: true,
-            sortOrder: 2649
+            sortOrder: 2654
         );
 
         /* 🦲 */
@@ -25897,7 +25962,7 @@ namespace NeoSmart.Unicode
             group: Group.COMPONENT,
             subgroup: Subgroups.HAIR_STYLE,
             hasGlyph: true,
-            sortOrder: 2650
+            sortOrder: 2655
         );
 
         /* 🐱‍👤 */
@@ -25910,7 +25975,7 @@ namespace NeoSmart.Unicode
             group: Group.ANIMALS_AND_NATURE,
             subgroup: Subgroups.WINDOWS_NINJA_CAT,
             hasGlyph: true,
-            sortOrder: 2651
+            sortOrder: 2656
         );
 
         /* 🐱‍👓 */
@@ -25923,7 +25988,7 @@ namespace NeoSmart.Unicode
             group: Group.ANIMALS_AND_NATURE,
             subgroup: Subgroups.WINDOWS_NINJA_CAT,
             hasGlyph: true,
-            sortOrder: 2652
+            sortOrder: 2657
         );
 
         /* 🐱‍💻 */
@@ -25936,7 +26001,7 @@ namespace NeoSmart.Unicode
             group: Group.ANIMALS_AND_NATURE,
             subgroup: Subgroups.WINDOWS_NINJA_CAT,
             hasGlyph: true,
-            sortOrder: 2653
+            sortOrder: 2658
         );
 
         /* 🐱‍🐉 */
@@ -25949,7 +26014,7 @@ namespace NeoSmart.Unicode
             group: Group.ANIMALS_AND_NATURE,
             subgroup: Subgroups.WINDOWS_NINJA_CAT,
             hasGlyph: true,
-            sortOrder: 2654
+            sortOrder: 2659
         );
 
         /* 🐱‍🏍 */
@@ -25962,7 +26027,7 @@ namespace NeoSmart.Unicode
             group: Group.ANIMALS_AND_NATURE,
             subgroup: Subgroups.WINDOWS_NINJA_CAT,
             hasGlyph: true,
-            sortOrder: 2655
+            sortOrder: 2660
         );
 
         /* 🐱‍🚀 */
@@ -25975,7 +26040,7 @@ namespace NeoSmart.Unicode
             group: Group.ANIMALS_AND_NATURE,
             subgroup: Subgroups.WINDOWS_NINJA_CAT,
             hasGlyph: true,
-            sortOrder: 2656
+            sortOrder: 2661
         );
 
         /* 🐵 */
@@ -25988,7 +26053,7 @@ namespace NeoSmart.Unicode
             group: Group.ANIMALS_AND_NATURE,
             subgroup: Subgroups.ANIMAL_MAMMAL,
             hasGlyph: true,
-            sortOrder: 2657
+            sortOrder: 2662
         );
 
         /* 🐒 */
@@ -26001,7 +26066,7 @@ namespace NeoSmart.Unicode
             group: Group.ANIMALS_AND_NATURE,
             subgroup: Subgroups.ANIMAL_MAMMAL,
             hasGlyph: true,
-            sortOrder: 2658
+            sortOrder: 2663
         );
 
         /* 🦍 */
@@ -26014,7 +26079,7 @@ namespace NeoSmart.Unicode
             group: Group.ANIMALS_AND_NATURE,
             subgroup: Subgroups.ANIMAL_MAMMAL,
             hasGlyph: true,
-            sortOrder: 2659
+            sortOrder: 2664
         );
 
         /* 🦧 */
@@ -26027,7 +26092,7 @@ namespace NeoSmart.Unicode
             group: Group.ANIMALS_AND_NATURE,
             subgroup: Subgroups.ANIMAL_MAMMAL,
             hasGlyph: true,
-            sortOrder: 2660
+            sortOrder: 2665
         );
 
         /* 🐶 */
@@ -26040,7 +26105,7 @@ namespace NeoSmart.Unicode
             group: Group.ANIMALS_AND_NATURE,
             subgroup: Subgroups.ANIMAL_MAMMAL,
             hasGlyph: true,
-            sortOrder: 2661
+            sortOrder: 2666
         );
 
         /* 🐕 */
@@ -26053,7 +26118,7 @@ namespace NeoSmart.Unicode
             group: Group.ANIMALS_AND_NATURE,
             subgroup: Subgroups.ANIMAL_MAMMAL,
             hasGlyph: true,
-            sortOrder: 2662
+            sortOrder: 2667
         );
 
         /* 🦮 */
@@ -26066,7 +26131,7 @@ namespace NeoSmart.Unicode
             group: Group.ANIMALS_AND_NATURE,
             subgroup: Subgroups.ANIMAL_MAMMAL,
             hasGlyph: true,
-            sortOrder: 2663
+            sortOrder: 2668
         );
 
         /* 🐕‍🦺 */
@@ -26079,7 +26144,7 @@ namespace NeoSmart.Unicode
             group: Group.ANIMALS_AND_NATURE,
             subgroup: Subgroups.ANIMAL_MAMMAL,
             hasGlyph: true,
-            sortOrder: 2664
+            sortOrder: 2669
         );
 
         /* 🐩 */
@@ -26092,7 +26157,7 @@ namespace NeoSmart.Unicode
             group: Group.ANIMALS_AND_NATURE,
             subgroup: Subgroups.ANIMAL_MAMMAL,
             hasGlyph: true,
-            sortOrder: 2665
+            sortOrder: 2670
         );
 
         /* 🐺 */
@@ -26105,7 +26170,7 @@ namespace NeoSmart.Unicode
             group: Group.ANIMALS_AND_NATURE,
             subgroup: Subgroups.ANIMAL_MAMMAL,
             hasGlyph: true,
-            sortOrder: 2666
+            sortOrder: 2671
         );
 
         /* 🦊 */
@@ -26118,7 +26183,7 @@ namespace NeoSmart.Unicode
             group: Group.ANIMALS_AND_NATURE,
             subgroup: Subgroups.ANIMAL_MAMMAL,
             hasGlyph: true,
-            sortOrder: 2667
+            sortOrder: 2672
         );
 
         /* 🦝 */
@@ -26131,7 +26196,7 @@ namespace NeoSmart.Unicode
             group: Group.ANIMALS_AND_NATURE,
             subgroup: Subgroups.ANIMAL_MAMMAL,
             hasGlyph: true,
-            sortOrder: 2668
+            sortOrder: 2673
         );
 
         /* 🐱 */
@@ -26144,7 +26209,7 @@ namespace NeoSmart.Unicode
             group: Group.ANIMALS_AND_NATURE,
             subgroup: Subgroups.ANIMAL_MAMMAL,
             hasGlyph: true,
-            sortOrder: 2669
+            sortOrder: 2674
         );
 
         /* 🐈 */
@@ -26157,7 +26222,7 @@ namespace NeoSmart.Unicode
             group: Group.ANIMALS_AND_NATURE,
             subgroup: Subgroups.ANIMAL_MAMMAL,
             hasGlyph: true,
-            sortOrder: 2670
+            sortOrder: 2675
         );
 
         /* 🐈‍⬛ */
@@ -26170,7 +26235,7 @@ namespace NeoSmart.Unicode
             group: Group.ANIMALS_AND_NATURE,
             subgroup: Subgroups.ANIMAL_MAMMAL,
             hasGlyph: false,
-            sortOrder: 2671
+            sortOrder: 2676
         );
 
         /* 🦁 */
@@ -26183,7 +26248,7 @@ namespace NeoSmart.Unicode
             group: Group.ANIMALS_AND_NATURE,
             subgroup: Subgroups.ANIMAL_MAMMAL,
             hasGlyph: true,
-            sortOrder: 2672
+            sortOrder: 2677
         );
 
         /* 🐯 */
@@ -26196,7 +26261,7 @@ namespace NeoSmart.Unicode
             group: Group.ANIMALS_AND_NATURE,
             subgroup: Subgroups.ANIMAL_MAMMAL,
             hasGlyph: true,
-            sortOrder: 2673
+            sortOrder: 2678
         );
 
         /* 🐅 */
@@ -26209,7 +26274,7 @@ namespace NeoSmart.Unicode
             group: Group.ANIMALS_AND_NATURE,
             subgroup: Subgroups.ANIMAL_MAMMAL,
             hasGlyph: true,
-            sortOrder: 2674
+            sortOrder: 2679
         );
 
         /* 🐆 */
@@ -26222,7 +26287,7 @@ namespace NeoSmart.Unicode
             group: Group.ANIMALS_AND_NATURE,
             subgroup: Subgroups.ANIMAL_MAMMAL,
             hasGlyph: true,
-            sortOrder: 2675
+            sortOrder: 2680
         );
 
         /* 🐴 */
@@ -26235,7 +26300,7 @@ namespace NeoSmart.Unicode
             group: Group.ANIMALS_AND_NATURE,
             subgroup: Subgroups.ANIMAL_MAMMAL,
             hasGlyph: true,
-            sortOrder: 2676
+            sortOrder: 2681
         );
 
         /* 🐎 */
@@ -26248,7 +26313,7 @@ namespace NeoSmart.Unicode
             group: Group.ANIMALS_AND_NATURE,
             subgroup: Subgroups.ANIMAL_MAMMAL,
             hasGlyph: true,
-            sortOrder: 2677
+            sortOrder: 2682
         );
 
         /* 🦄 */
@@ -26261,7 +26326,7 @@ namespace NeoSmart.Unicode
             group: Group.ANIMALS_AND_NATURE,
             subgroup: Subgroups.ANIMAL_MAMMAL,
             hasGlyph: true,
-            sortOrder: 2678
+            sortOrder: 2683
         );
 
         /* 🦓 */
@@ -26274,7 +26339,7 @@ namespace NeoSmart.Unicode
             group: Group.ANIMALS_AND_NATURE,
             subgroup: Subgroups.ANIMAL_MAMMAL,
             hasGlyph: true,
-            sortOrder: 2679
+            sortOrder: 2684
         );
 
         /* 🦌 */
@@ -26287,7 +26352,7 @@ namespace NeoSmart.Unicode
             group: Group.ANIMALS_AND_NATURE,
             subgroup: Subgroups.ANIMAL_MAMMAL,
             hasGlyph: true,
-            sortOrder: 2680
+            sortOrder: 2685
         );
 
         /* 🦬 */
@@ -26300,7 +26365,7 @@ namespace NeoSmart.Unicode
             group: Group.ANIMALS_AND_NATURE,
             subgroup: Subgroups.ANIMAL_MAMMAL,
             hasGlyph: false,
-            sortOrder: 2681
+            sortOrder: 2686
         );
 
         /* 🐮 */
@@ -26313,7 +26378,7 @@ namespace NeoSmart.Unicode
             group: Group.ANIMALS_AND_NATURE,
             subgroup: Subgroups.ANIMAL_MAMMAL,
             hasGlyph: true,
-            sortOrder: 2682
+            sortOrder: 2687
         );
 
         /* 🐂 */
@@ -26326,7 +26391,7 @@ namespace NeoSmart.Unicode
             group: Group.ANIMALS_AND_NATURE,
             subgroup: Subgroups.ANIMAL_MAMMAL,
             hasGlyph: true,
-            sortOrder: 2683
+            sortOrder: 2688
         );
 
         /* 🐃 */
@@ -26339,7 +26404,7 @@ namespace NeoSmart.Unicode
             group: Group.ANIMALS_AND_NATURE,
             subgroup: Subgroups.ANIMAL_MAMMAL,
             hasGlyph: true,
-            sortOrder: 2684
+            sortOrder: 2689
         );
 
         /* 🐄 */
@@ -26352,7 +26417,7 @@ namespace NeoSmart.Unicode
             group: Group.ANIMALS_AND_NATURE,
             subgroup: Subgroups.ANIMAL_MAMMAL,
             hasGlyph: true,
-            sortOrder: 2685
+            sortOrder: 2690
         );
 
         /* 🐷 */
@@ -26365,7 +26430,7 @@ namespace NeoSmart.Unicode
             group: Group.ANIMALS_AND_NATURE,
             subgroup: Subgroups.ANIMAL_MAMMAL,
             hasGlyph: true,
-            sortOrder: 2686
+            sortOrder: 2691
         );
 
         /* 🐖 */
@@ -26378,7 +26443,7 @@ namespace NeoSmart.Unicode
             group: Group.ANIMALS_AND_NATURE,
             subgroup: Subgroups.ANIMAL_MAMMAL,
             hasGlyph: true,
-            sortOrder: 2687
+            sortOrder: 2692
         );
 
         /* 🐗 */
@@ -26391,7 +26456,7 @@ namespace NeoSmart.Unicode
             group: Group.ANIMALS_AND_NATURE,
             subgroup: Subgroups.ANIMAL_MAMMAL,
             hasGlyph: true,
-            sortOrder: 2688
+            sortOrder: 2693
         );
 
         /* 🐽 */
@@ -26404,7 +26469,7 @@ namespace NeoSmart.Unicode
             group: Group.ANIMALS_AND_NATURE,
             subgroup: Subgroups.ANIMAL_MAMMAL,
             hasGlyph: true,
-            sortOrder: 2689
+            sortOrder: 2694
         );
 
         /* 🐏 */
@@ -26417,7 +26482,7 @@ namespace NeoSmart.Unicode
             group: Group.ANIMALS_AND_NATURE,
             subgroup: Subgroups.ANIMAL_MAMMAL,
             hasGlyph: true,
-            sortOrder: 2690
+            sortOrder: 2695
         );
 
         /* 🐑 */
@@ -26430,7 +26495,7 @@ namespace NeoSmart.Unicode
             group: Group.ANIMALS_AND_NATURE,
             subgroup: Subgroups.ANIMAL_MAMMAL,
             hasGlyph: true,
-            sortOrder: 2691
+            sortOrder: 2696
         );
 
         /* 🐐 */
@@ -26443,7 +26508,7 @@ namespace NeoSmart.Unicode
             group: Group.ANIMALS_AND_NATURE,
             subgroup: Subgroups.ANIMAL_MAMMAL,
             hasGlyph: true,
-            sortOrder: 2692
+            sortOrder: 2697
         );
 
         /* 🐪 */
@@ -26456,7 +26521,7 @@ namespace NeoSmart.Unicode
             group: Group.ANIMALS_AND_NATURE,
             subgroup: Subgroups.ANIMAL_MAMMAL,
             hasGlyph: true,
-            sortOrder: 2693
+            sortOrder: 2698
         );
 
         /* 🐫 */
@@ -26469,7 +26534,7 @@ namespace NeoSmart.Unicode
             group: Group.ANIMALS_AND_NATURE,
             subgroup: Subgroups.ANIMAL_MAMMAL,
             hasGlyph: true,
-            sortOrder: 2694
+            sortOrder: 2699
         );
 
         /* 🦙 */
@@ -26482,7 +26547,7 @@ namespace NeoSmart.Unicode
             group: Group.ANIMALS_AND_NATURE,
             subgroup: Subgroups.ANIMAL_MAMMAL,
             hasGlyph: true,
-            sortOrder: 2695
+            sortOrder: 2700
         );
 
         /* 🦒 */
@@ -26495,7 +26560,7 @@ namespace NeoSmart.Unicode
             group: Group.ANIMALS_AND_NATURE,
             subgroup: Subgroups.ANIMAL_MAMMAL,
             hasGlyph: true,
-            sortOrder: 2696
+            sortOrder: 2701
         );
 
         /* 🐘 */
@@ -26508,7 +26573,7 @@ namespace NeoSmart.Unicode
             group: Group.ANIMALS_AND_NATURE,
             subgroup: Subgroups.ANIMAL_MAMMAL,
             hasGlyph: true,
-            sortOrder: 2697
+            sortOrder: 2702
         );
 
         /* 🦣 */
@@ -26521,7 +26586,7 @@ namespace NeoSmart.Unicode
             group: Group.ANIMALS_AND_NATURE,
             subgroup: Subgroups.ANIMAL_MAMMAL,
             hasGlyph: false,
-            sortOrder: 2698
+            sortOrder: 2703
         );
 
         /* 🦏 */
@@ -26534,7 +26599,7 @@ namespace NeoSmart.Unicode
             group: Group.ANIMALS_AND_NATURE,
             subgroup: Subgroups.ANIMAL_MAMMAL,
             hasGlyph: true,
-            sortOrder: 2699
+            sortOrder: 2704
         );
 
         /* 🦛 */
@@ -26547,7 +26612,7 @@ namespace NeoSmart.Unicode
             group: Group.ANIMALS_AND_NATURE,
             subgroup: Subgroups.ANIMAL_MAMMAL,
             hasGlyph: true,
-            sortOrder: 2700
+            sortOrder: 2705
         );
 
         /* 🐭 */
@@ -26560,7 +26625,7 @@ namespace NeoSmart.Unicode
             group: Group.ANIMALS_AND_NATURE,
             subgroup: Subgroups.ANIMAL_MAMMAL,
             hasGlyph: true,
-            sortOrder: 2701
+            sortOrder: 2706
         );
 
         /* 🐁 */
@@ -26573,7 +26638,7 @@ namespace NeoSmart.Unicode
             group: Group.ANIMALS_AND_NATURE,
             subgroup: Subgroups.ANIMAL_MAMMAL,
             hasGlyph: true,
-            sortOrder: 2702
+            sortOrder: 2707
         );
 
         /* 🐀 */
@@ -26586,7 +26651,7 @@ namespace NeoSmart.Unicode
             group: Group.ANIMALS_AND_NATURE,
             subgroup: Subgroups.ANIMAL_MAMMAL,
             hasGlyph: true,
-            sortOrder: 2703
+            sortOrder: 2708
         );
 
         /* 🐹 */
@@ -26599,7 +26664,7 @@ namespace NeoSmart.Unicode
             group: Group.ANIMALS_AND_NATURE,
             subgroup: Subgroups.ANIMAL_MAMMAL,
             hasGlyph: true,
-            sortOrder: 2704
+            sortOrder: 2709
         );
 
         /* 🐰 */
@@ -26612,7 +26677,7 @@ namespace NeoSmart.Unicode
             group: Group.ANIMALS_AND_NATURE,
             subgroup: Subgroups.ANIMAL_MAMMAL,
             hasGlyph: true,
-            sortOrder: 2705
+            sortOrder: 2710
         );
 
         /* 🐇 */
@@ -26625,7 +26690,7 @@ namespace NeoSmart.Unicode
             group: Group.ANIMALS_AND_NATURE,
             subgroup: Subgroups.ANIMAL_MAMMAL,
             hasGlyph: true,
-            sortOrder: 2706
+            sortOrder: 2711
         );
 
         /* 🐿️ */
@@ -26638,7 +26703,7 @@ namespace NeoSmart.Unicode
             group: Group.ANIMALS_AND_NATURE,
             subgroup: Subgroups.ANIMAL_MAMMAL,
             hasGlyph: true,
-            sortOrder: 2707
+            sortOrder: 2712
         );
 
         /* 🦫 */
@@ -26651,7 +26716,7 @@ namespace NeoSmart.Unicode
             group: Group.ANIMALS_AND_NATURE,
             subgroup: Subgroups.ANIMAL_MAMMAL,
             hasGlyph: false,
-            sortOrder: 2709
+            sortOrder: 2714
         );
 
         /* 🦔 */
@@ -26664,7 +26729,7 @@ namespace NeoSmart.Unicode
             group: Group.ANIMALS_AND_NATURE,
             subgroup: Subgroups.ANIMAL_MAMMAL,
             hasGlyph: true,
-            sortOrder: 2710
+            sortOrder: 2715
         );
 
         /* 🦇 */
@@ -26677,7 +26742,7 @@ namespace NeoSmart.Unicode
             group: Group.ANIMALS_AND_NATURE,
             subgroup: Subgroups.ANIMAL_MAMMAL,
             hasGlyph: true,
-            sortOrder: 2711
+            sortOrder: 2716
         );
 
         /* 🐻 */
@@ -26690,7 +26755,7 @@ namespace NeoSmart.Unicode
             group: Group.ANIMALS_AND_NATURE,
             subgroup: Subgroups.ANIMAL_MAMMAL,
             hasGlyph: true,
-            sortOrder: 2712
+            sortOrder: 2717
         );
 
         /* 🐻‍❄️ */
@@ -26703,7 +26768,7 @@ namespace NeoSmart.Unicode
             group: Group.ANIMALS_AND_NATURE,
             subgroup: Subgroups.ANIMAL_MAMMAL,
             hasGlyph: false,
-            sortOrder: 2713
+            sortOrder: 2718
         );
 
         /* 🐨 */
@@ -26716,7 +26781,7 @@ namespace NeoSmart.Unicode
             group: Group.ANIMALS_AND_NATURE,
             subgroup: Subgroups.ANIMAL_MAMMAL,
             hasGlyph: true,
-            sortOrder: 2715
+            sortOrder: 2720
         );
 
         /* 🐼 */
@@ -26729,7 +26794,7 @@ namespace NeoSmart.Unicode
             group: Group.ANIMALS_AND_NATURE,
             subgroup: Subgroups.ANIMAL_MAMMAL,
             hasGlyph: true,
-            sortOrder: 2716
+            sortOrder: 2721
         );
 
         /* 🦥 */
@@ -26742,7 +26807,7 @@ namespace NeoSmart.Unicode
             group: Group.ANIMALS_AND_NATURE,
             subgroup: Subgroups.ANIMAL_MAMMAL,
             hasGlyph: true,
-            sortOrder: 2717
+            sortOrder: 2722
         );
 
         /* 🦦 */
@@ -26755,7 +26820,7 @@ namespace NeoSmart.Unicode
             group: Group.ANIMALS_AND_NATURE,
             subgroup: Subgroups.ANIMAL_MAMMAL,
             hasGlyph: true,
-            sortOrder: 2718
+            sortOrder: 2723
         );
 
         /* 🦨 */
@@ -26768,7 +26833,7 @@ namespace NeoSmart.Unicode
             group: Group.ANIMALS_AND_NATURE,
             subgroup: Subgroups.ANIMAL_MAMMAL,
             hasGlyph: true,
-            sortOrder: 2719
+            sortOrder: 2724
         );
 
         /* 🦘 */
@@ -26781,7 +26846,7 @@ namespace NeoSmart.Unicode
             group: Group.ANIMALS_AND_NATURE,
             subgroup: Subgroups.ANIMAL_MAMMAL,
             hasGlyph: true,
-            sortOrder: 2720
+            sortOrder: 2725
         );
 
         /* 🦡 */
@@ -26794,7 +26859,7 @@ namespace NeoSmart.Unicode
             group: Group.ANIMALS_AND_NATURE,
             subgroup: Subgroups.ANIMAL_MAMMAL,
             hasGlyph: true,
-            sortOrder: 2721
+            sortOrder: 2726
         );
 
         /* 🐾 */
@@ -26807,7 +26872,7 @@ namespace NeoSmart.Unicode
             group: Group.ANIMALS_AND_NATURE,
             subgroup: Subgroups.ANIMAL_MAMMAL,
             hasGlyph: true,
-            sortOrder: 2722
+            sortOrder: 2727
         );
 
         /* 🦃 */
@@ -26820,7 +26885,7 @@ namespace NeoSmart.Unicode
             group: Group.ANIMALS_AND_NATURE,
             subgroup: Subgroups.ANIMAL_BIRD,
             hasGlyph: true,
-            sortOrder: 2723
+            sortOrder: 2728
         );
 
         /* 🐔 */
@@ -26833,7 +26898,7 @@ namespace NeoSmart.Unicode
             group: Group.ANIMALS_AND_NATURE,
             subgroup: Subgroups.ANIMAL_BIRD,
             hasGlyph: true,
-            sortOrder: 2724
+            sortOrder: 2729
         );
 
         /* 🐓 */
@@ -26846,7 +26911,7 @@ namespace NeoSmart.Unicode
             group: Group.ANIMALS_AND_NATURE,
             subgroup: Subgroups.ANIMAL_BIRD,
             hasGlyph: true,
-            sortOrder: 2725
+            sortOrder: 2730
         );
 
         /* 🐣 */
@@ -26859,7 +26924,7 @@ namespace NeoSmart.Unicode
             group: Group.ANIMALS_AND_NATURE,
             subgroup: Subgroups.ANIMAL_BIRD,
             hasGlyph: true,
-            sortOrder: 2726
+            sortOrder: 2731
         );
 
         /* 🐤 */
@@ -26872,7 +26937,7 @@ namespace NeoSmart.Unicode
             group: Group.ANIMALS_AND_NATURE,
             subgroup: Subgroups.ANIMAL_BIRD,
             hasGlyph: true,
-            sortOrder: 2727
+            sortOrder: 2732
         );
 
         /* 🐥 */
@@ -26885,7 +26950,7 @@ namespace NeoSmart.Unicode
             group: Group.ANIMALS_AND_NATURE,
             subgroup: Subgroups.ANIMAL_BIRD,
             hasGlyph: true,
-            sortOrder: 2728
+            sortOrder: 2733
         );
 
         /* 🐦 */
@@ -26898,7 +26963,7 @@ namespace NeoSmart.Unicode
             group: Group.ANIMALS_AND_NATURE,
             subgroup: Subgroups.ANIMAL_BIRD,
             hasGlyph: true,
-            sortOrder: 2729
+            sortOrder: 2734
         );
 
         /* 🐧 */
@@ -26911,7 +26976,7 @@ namespace NeoSmart.Unicode
             group: Group.ANIMALS_AND_NATURE,
             subgroup: Subgroups.ANIMAL_BIRD,
             hasGlyph: true,
-            sortOrder: 2730
+            sortOrder: 2735
         );
 
         /* 🕊️ */
@@ -26924,7 +26989,7 @@ namespace NeoSmart.Unicode
             group: Group.ANIMALS_AND_NATURE,
             subgroup: Subgroups.ANIMAL_BIRD,
             hasGlyph: true,
-            sortOrder: 2731
+            sortOrder: 2736
         );
 
         /* 🦅 */
@@ -26937,7 +27002,7 @@ namespace NeoSmart.Unicode
             group: Group.ANIMALS_AND_NATURE,
             subgroup: Subgroups.ANIMAL_BIRD,
             hasGlyph: true,
-            sortOrder: 2733
+            sortOrder: 2738
         );
 
         /* 🦆 */
@@ -26950,7 +27015,7 @@ namespace NeoSmart.Unicode
             group: Group.ANIMALS_AND_NATURE,
             subgroup: Subgroups.ANIMAL_BIRD,
             hasGlyph: true,
-            sortOrder: 2734
+            sortOrder: 2739
         );
 
         /* 🦢 */
@@ -26963,7 +27028,7 @@ namespace NeoSmart.Unicode
             group: Group.ANIMALS_AND_NATURE,
             subgroup: Subgroups.ANIMAL_BIRD,
             hasGlyph: true,
-            sortOrder: 2735
+            sortOrder: 2740
         );
 
         /* 🦉 */
@@ -26976,7 +27041,7 @@ namespace NeoSmart.Unicode
             group: Group.ANIMALS_AND_NATURE,
             subgroup: Subgroups.ANIMAL_BIRD,
             hasGlyph: true,
-            sortOrder: 2736
+            sortOrder: 2741
         );
 
         /* 🦤 */
@@ -26989,7 +27054,7 @@ namespace NeoSmart.Unicode
             group: Group.ANIMALS_AND_NATURE,
             subgroup: Subgroups.ANIMAL_BIRD,
             hasGlyph: false,
-            sortOrder: 2737
+            sortOrder: 2742
         );
 
         /* 🪶 */
@@ -27002,7 +27067,7 @@ namespace NeoSmart.Unicode
             group: Group.ANIMALS_AND_NATURE,
             subgroup: Subgroups.ANIMAL_BIRD,
             hasGlyph: false,
-            sortOrder: 2738
+            sortOrder: 2743
         );
 
         /* 🦩 */
@@ -27015,7 +27080,7 @@ namespace NeoSmart.Unicode
             group: Group.ANIMALS_AND_NATURE,
             subgroup: Subgroups.ANIMAL_BIRD,
             hasGlyph: true,
-            sortOrder: 2739
+            sortOrder: 2744
         );
 
         /* 🦚 */
@@ -27028,7 +27093,7 @@ namespace NeoSmart.Unicode
             group: Group.ANIMALS_AND_NATURE,
             subgroup: Subgroups.ANIMAL_BIRD,
             hasGlyph: true,
-            sortOrder: 2740
+            sortOrder: 2745
         );
 
         /* 🦜 */
@@ -27041,7 +27106,7 @@ namespace NeoSmart.Unicode
             group: Group.ANIMALS_AND_NATURE,
             subgroup: Subgroups.ANIMAL_BIRD,
             hasGlyph: true,
-            sortOrder: 2741
+            sortOrder: 2746
         );
 
         /* 🐸 */
@@ -27054,7 +27119,7 @@ namespace NeoSmart.Unicode
             group: Group.ANIMALS_AND_NATURE,
             subgroup: Subgroups.ANIMAL_AMPHIBIAN,
             hasGlyph: true,
-            sortOrder: 2742
+            sortOrder: 2747
         );
 
         /* 🐊 */
@@ -27067,7 +27132,7 @@ namespace NeoSmart.Unicode
             group: Group.ANIMALS_AND_NATURE,
             subgroup: Subgroups.ANIMAL_REPTILE,
             hasGlyph: true,
-            sortOrder: 2743
+            sortOrder: 2748
         );
 
         /* 🐢 */
@@ -27080,7 +27145,7 @@ namespace NeoSmart.Unicode
             group: Group.ANIMALS_AND_NATURE,
             subgroup: Subgroups.ANIMAL_REPTILE,
             hasGlyph: true,
-            sortOrder: 2744
+            sortOrder: 2749
         );
 
         /* 🦎 */
@@ -27093,7 +27158,7 @@ namespace NeoSmart.Unicode
             group: Group.ANIMALS_AND_NATURE,
             subgroup: Subgroups.ANIMAL_REPTILE,
             hasGlyph: true,
-            sortOrder: 2745
+            sortOrder: 2750
         );
 
         /* 🐍 */
@@ -27106,7 +27171,7 @@ namespace NeoSmart.Unicode
             group: Group.ANIMALS_AND_NATURE,
             subgroup: Subgroups.ANIMAL_REPTILE,
             hasGlyph: true,
-            sortOrder: 2746
+            sortOrder: 2751
         );
 
         /* 🐲 */
@@ -27119,7 +27184,7 @@ namespace NeoSmart.Unicode
             group: Group.ANIMALS_AND_NATURE,
             subgroup: Subgroups.ANIMAL_REPTILE,
             hasGlyph: true,
-            sortOrder: 2747
+            sortOrder: 2752
         );
 
         /* 🐉 */
@@ -27132,7 +27197,7 @@ namespace NeoSmart.Unicode
             group: Group.ANIMALS_AND_NATURE,
             subgroup: Subgroups.ANIMAL_REPTILE,
             hasGlyph: true,
-            sortOrder: 2748
+            sortOrder: 2753
         );
 
         /* 🦕 */
@@ -27145,7 +27210,7 @@ namespace NeoSmart.Unicode
             group: Group.ANIMALS_AND_NATURE,
             subgroup: Subgroups.ANIMAL_REPTILE,
             hasGlyph: true,
-            sortOrder: 2749
+            sortOrder: 2754
         );
 
         /* 🦖 */
@@ -27158,7 +27223,7 @@ namespace NeoSmart.Unicode
             group: Group.ANIMALS_AND_NATURE,
             subgroup: Subgroups.ANIMAL_REPTILE,
             hasGlyph: true,
-            sortOrder: 2750
+            sortOrder: 2755
         );
 
         /* 🐳 */
@@ -27171,7 +27236,7 @@ namespace NeoSmart.Unicode
             group: Group.ANIMALS_AND_NATURE,
             subgroup: Subgroups.ANIMAL_MARINE,
             hasGlyph: true,
-            sortOrder: 2751
+            sortOrder: 2756
         );
 
         /* 🐋 */
@@ -27184,7 +27249,7 @@ namespace NeoSmart.Unicode
             group: Group.ANIMALS_AND_NATURE,
             subgroup: Subgroups.ANIMAL_MARINE,
             hasGlyph: true,
-            sortOrder: 2752
+            sortOrder: 2757
         );
 
         /* 🐬 */
@@ -27197,7 +27262,7 @@ namespace NeoSmart.Unicode
             group: Group.ANIMALS_AND_NATURE,
             subgroup: Subgroups.ANIMAL_MARINE,
             hasGlyph: true,
-            sortOrder: 2753
+            sortOrder: 2758
         );
 
         /* 🦭 */
@@ -27210,7 +27275,7 @@ namespace NeoSmart.Unicode
             group: Group.ANIMALS_AND_NATURE,
             subgroup: Subgroups.ANIMAL_MARINE,
             hasGlyph: false,
-            sortOrder: 2754
+            sortOrder: 2759
         );
 
         /* 🐟 */
@@ -27223,7 +27288,7 @@ namespace NeoSmart.Unicode
             group: Group.ANIMALS_AND_NATURE,
             subgroup: Subgroups.ANIMAL_MARINE,
             hasGlyph: true,
-            sortOrder: 2755
+            sortOrder: 2760
         );
 
         /* 🐠 */
@@ -27236,7 +27301,7 @@ namespace NeoSmart.Unicode
             group: Group.ANIMALS_AND_NATURE,
             subgroup: Subgroups.ANIMAL_MARINE,
             hasGlyph: true,
-            sortOrder: 2756
+            sortOrder: 2761
         );
 
         /* 🐡 */
@@ -27249,7 +27314,7 @@ namespace NeoSmart.Unicode
             group: Group.ANIMALS_AND_NATURE,
             subgroup: Subgroups.ANIMAL_MARINE,
             hasGlyph: true,
-            sortOrder: 2757
+            sortOrder: 2762
         );
 
         /* 🦈 */
@@ -27262,7 +27327,7 @@ namespace NeoSmart.Unicode
             group: Group.ANIMALS_AND_NATURE,
             subgroup: Subgroups.ANIMAL_MARINE,
             hasGlyph: true,
-            sortOrder: 2758
+            sortOrder: 2763
         );
 
         /* 🐙 */
@@ -27275,7 +27340,7 @@ namespace NeoSmart.Unicode
             group: Group.ANIMALS_AND_NATURE,
             subgroup: Subgroups.ANIMAL_MARINE,
             hasGlyph: true,
-            sortOrder: 2759
+            sortOrder: 2764
         );
 
         /* 🐚 */
@@ -27288,7 +27353,7 @@ namespace NeoSmart.Unicode
             group: Group.ANIMALS_AND_NATURE,
             subgroup: Subgroups.ANIMAL_MARINE,
             hasGlyph: true,
-            sortOrder: 2760
+            sortOrder: 2765
         );
 
         /* 🐌 */
@@ -27301,7 +27366,7 @@ namespace NeoSmart.Unicode
             group: Group.ANIMALS_AND_NATURE,
             subgroup: Subgroups.ANIMAL_BUG,
             hasGlyph: true,
-            sortOrder: 2761
+            sortOrder: 2766
         );
 
         /* 🦋 */
@@ -27314,7 +27379,7 @@ namespace NeoSmart.Unicode
             group: Group.ANIMALS_AND_NATURE,
             subgroup: Subgroups.ANIMAL_BUG,
             hasGlyph: true,
-            sortOrder: 2762
+            sortOrder: 2767
         );
 
         /* 🐛 */
@@ -27327,7 +27392,7 @@ namespace NeoSmart.Unicode
             group: Group.ANIMALS_AND_NATURE,
             subgroup: Subgroups.ANIMAL_BUG,
             hasGlyph: true,
-            sortOrder: 2763
+            sortOrder: 2768
         );
 
         /* 🐜 */
@@ -27340,7 +27405,7 @@ namespace NeoSmart.Unicode
             group: Group.ANIMALS_AND_NATURE,
             subgroup: Subgroups.ANIMAL_BUG,
             hasGlyph: true,
-            sortOrder: 2764
+            sortOrder: 2769
         );
 
         /* 🐝 */
@@ -27353,7 +27418,7 @@ namespace NeoSmart.Unicode
             group: Group.ANIMALS_AND_NATURE,
             subgroup: Subgroups.ANIMAL_BUG,
             hasGlyph: true,
-            sortOrder: 2765
+            sortOrder: 2770
         );
 
         /* 🪲 */
@@ -27366,7 +27431,7 @@ namespace NeoSmart.Unicode
             group: Group.ANIMALS_AND_NATURE,
             subgroup: Subgroups.ANIMAL_BUG,
             hasGlyph: false,
-            sortOrder: 2766
+            sortOrder: 2771
         );
 
         /* 🐞 */
@@ -27379,7 +27444,7 @@ namespace NeoSmart.Unicode
             group: Group.ANIMALS_AND_NATURE,
             subgroup: Subgroups.ANIMAL_BUG,
             hasGlyph: true,
-            sortOrder: 2767
+            sortOrder: 2772
         );
 
         /* 🦗 */
@@ -27392,7 +27457,7 @@ namespace NeoSmart.Unicode
             group: Group.ANIMALS_AND_NATURE,
             subgroup: Subgroups.ANIMAL_BUG,
             hasGlyph: true,
-            sortOrder: 2768
+            sortOrder: 2773
         );
 
         /* 🪳 */
@@ -27405,7 +27470,7 @@ namespace NeoSmart.Unicode
             group: Group.ANIMALS_AND_NATURE,
             subgroup: Subgroups.ANIMAL_BUG,
             hasGlyph: false,
-            sortOrder: 2769
+            sortOrder: 2774
         );
 
         /* 🕷️ */
@@ -27418,7 +27483,7 @@ namespace NeoSmart.Unicode
             group: Group.ANIMALS_AND_NATURE,
             subgroup: Subgroups.ANIMAL_BUG,
             hasGlyph: true,
-            sortOrder: 2770
+            sortOrder: 2775
         );
 
         /* 🕸️ */
@@ -27431,7 +27496,7 @@ namespace NeoSmart.Unicode
             group: Group.ANIMALS_AND_NATURE,
             subgroup: Subgroups.ANIMAL_BUG,
             hasGlyph: true,
-            sortOrder: 2772
+            sortOrder: 2777
         );
 
         /* 🦂 */
@@ -27444,7 +27509,7 @@ namespace NeoSmart.Unicode
             group: Group.ANIMALS_AND_NATURE,
             subgroup: Subgroups.ANIMAL_BUG,
             hasGlyph: true,
-            sortOrder: 2774
+            sortOrder: 2779
         );
 
         /* 🦟 */
@@ -27457,7 +27522,7 @@ namespace NeoSmart.Unicode
             group: Group.ANIMALS_AND_NATURE,
             subgroup: Subgroups.ANIMAL_BUG,
             hasGlyph: true,
-            sortOrder: 2775
+            sortOrder: 2780
         );
 
         /* 🪰 */
@@ -27470,7 +27535,7 @@ namespace NeoSmart.Unicode
             group: Group.ANIMALS_AND_NATURE,
             subgroup: Subgroups.ANIMAL_BUG,
             hasGlyph: false,
-            sortOrder: 2776
+            sortOrder: 2781
         );
 
         /* 🪱 */
@@ -27483,7 +27548,7 @@ namespace NeoSmart.Unicode
             group: Group.ANIMALS_AND_NATURE,
             subgroup: Subgroups.ANIMAL_BUG,
             hasGlyph: false,
-            sortOrder: 2777
+            sortOrder: 2782
         );
 
         /* 🦠 */
@@ -27496,7 +27561,7 @@ namespace NeoSmart.Unicode
             group: Group.ANIMALS_AND_NATURE,
             subgroup: Subgroups.ANIMAL_BUG,
             hasGlyph: true,
-            sortOrder: 2778
+            sortOrder: 2783
         );
 
         /* 💐 */
@@ -27509,7 +27574,7 @@ namespace NeoSmart.Unicode
             group: Group.ANIMALS_AND_NATURE,
             subgroup: Subgroups.PLANT_FLOWER,
             hasGlyph: true,
-            sortOrder: 2779
+            sortOrder: 2784
         );
 
         /* 🌸 */
@@ -27522,7 +27587,7 @@ namespace NeoSmart.Unicode
             group: Group.ANIMALS_AND_NATURE,
             subgroup: Subgroups.PLANT_FLOWER,
             hasGlyph: true,
-            sortOrder: 2780
+            sortOrder: 2785
         );
 
         /* 💮 */
@@ -27535,7 +27600,7 @@ namespace NeoSmart.Unicode
             group: Group.ANIMALS_AND_NATURE,
             subgroup: Subgroups.PLANT_FLOWER,
             hasGlyph: true,
-            sortOrder: 2781
+            sortOrder: 2786
         );
 
         /* 🏵️ */
@@ -27548,7 +27613,7 @@ namespace NeoSmart.Unicode
             group: Group.ANIMALS_AND_NATURE,
             subgroup: Subgroups.PLANT_FLOWER,
             hasGlyph: true,
-            sortOrder: 2782
+            sortOrder: 2787
         );
 
         /* 🌹 */
@@ -27561,7 +27626,7 @@ namespace NeoSmart.Unicode
             group: Group.ANIMALS_AND_NATURE,
             subgroup: Subgroups.PLANT_FLOWER,
             hasGlyph: true,
-            sortOrder: 2784
+            sortOrder: 2789
         );
 
         /* 🥀 */
@@ -27574,7 +27639,7 @@ namespace NeoSmart.Unicode
             group: Group.ANIMALS_AND_NATURE,
             subgroup: Subgroups.PLANT_FLOWER,
             hasGlyph: true,
-            sortOrder: 2785
+            sortOrder: 2790
         );
 
         /* 🌺 */
@@ -27587,7 +27652,7 @@ namespace NeoSmart.Unicode
             group: Group.ANIMALS_AND_NATURE,
             subgroup: Subgroups.PLANT_FLOWER,
             hasGlyph: true,
-            sortOrder: 2786
+            sortOrder: 2791
         );
 
         /* 🌻 */
@@ -27600,7 +27665,7 @@ namespace NeoSmart.Unicode
             group: Group.ANIMALS_AND_NATURE,
             subgroup: Subgroups.PLANT_FLOWER,
             hasGlyph: true,
-            sortOrder: 2787
+            sortOrder: 2792
         );
 
         /* 🌼 */
@@ -27613,7 +27678,7 @@ namespace NeoSmart.Unicode
             group: Group.ANIMALS_AND_NATURE,
             subgroup: Subgroups.PLANT_FLOWER,
             hasGlyph: true,
-            sortOrder: 2788
+            sortOrder: 2793
         );
 
         /* 🌷 */
@@ -27626,7 +27691,7 @@ namespace NeoSmart.Unicode
             group: Group.ANIMALS_AND_NATURE,
             subgroup: Subgroups.PLANT_FLOWER,
             hasGlyph: true,
-            sortOrder: 2789
+            sortOrder: 2794
         );
 
         /* 🌱 */
@@ -27639,7 +27704,7 @@ namespace NeoSmart.Unicode
             group: Group.ANIMALS_AND_NATURE,
             subgroup: Subgroups.PLANT_OTHER,
             hasGlyph: true,
-            sortOrder: 2790
+            sortOrder: 2795
         );
 
         /* 🪴 */
@@ -27652,7 +27717,7 @@ namespace NeoSmart.Unicode
             group: Group.ANIMALS_AND_NATURE,
             subgroup: Subgroups.PLANT_OTHER,
             hasGlyph: false,
-            sortOrder: 2791
+            sortOrder: 2796
         );
 
         /* 🌲 */
@@ -27665,7 +27730,7 @@ namespace NeoSmart.Unicode
             group: Group.ANIMALS_AND_NATURE,
             subgroup: Subgroups.PLANT_OTHER,
             hasGlyph: true,
-            sortOrder: 2792
+            sortOrder: 2797
         );
 
         /* 🌳 */
@@ -27678,7 +27743,7 @@ namespace NeoSmart.Unicode
             group: Group.ANIMALS_AND_NATURE,
             subgroup: Subgroups.PLANT_OTHER,
             hasGlyph: true,
-            sortOrder: 2793
+            sortOrder: 2798
         );
 
         /* 🌴 */
@@ -27691,7 +27756,7 @@ namespace NeoSmart.Unicode
             group: Group.ANIMALS_AND_NATURE,
             subgroup: Subgroups.PLANT_OTHER,
             hasGlyph: true,
-            sortOrder: 2794
+            sortOrder: 2799
         );
 
         /* 🌵 */
@@ -27704,7 +27769,7 @@ namespace NeoSmart.Unicode
             group: Group.ANIMALS_AND_NATURE,
             subgroup: Subgroups.PLANT_OTHER,
             hasGlyph: true,
-            sortOrder: 2795
+            sortOrder: 2800
         );
 
         /* 🌾 */
@@ -27717,7 +27782,7 @@ namespace NeoSmart.Unicode
             group: Group.ANIMALS_AND_NATURE,
             subgroup: Subgroups.PLANT_OTHER,
             hasGlyph: true,
-            sortOrder: 2796
+            sortOrder: 2801
         );
 
         /* 🌿 */
@@ -27730,7 +27795,7 @@ namespace NeoSmart.Unicode
             group: Group.ANIMALS_AND_NATURE,
             subgroup: Subgroups.PLANT_OTHER,
             hasGlyph: true,
-            sortOrder: 2797
+            sortOrder: 2802
         );
 
         /* ☘️ */
@@ -27743,7 +27808,7 @@ namespace NeoSmart.Unicode
             group: Group.ANIMALS_AND_NATURE,
             subgroup: Subgroups.PLANT_OTHER,
             hasGlyph: true,
-            sortOrder: 2798
+            sortOrder: 2803
         );
 
         /* 🍀 */
@@ -27756,7 +27821,7 @@ namespace NeoSmart.Unicode
             group: Group.ANIMALS_AND_NATURE,
             subgroup: Subgroups.PLANT_OTHER,
             hasGlyph: true,
-            sortOrder: 2800
+            sortOrder: 2805
         );
 
         /* 🍁 */
@@ -27769,7 +27834,7 @@ namespace NeoSmart.Unicode
             group: Group.ANIMALS_AND_NATURE,
             subgroup: Subgroups.PLANT_OTHER,
             hasGlyph: true,
-            sortOrder: 2801
+            sortOrder: 2806
         );
 
         /* 🍂 */
@@ -27782,7 +27847,7 @@ namespace NeoSmart.Unicode
             group: Group.ANIMALS_AND_NATURE,
             subgroup: Subgroups.PLANT_OTHER,
             hasGlyph: true,
-            sortOrder: 2802
+            sortOrder: 2807
         );
 
         /* 🍃 */
@@ -27795,7 +27860,7 @@ namespace NeoSmart.Unicode
             group: Group.ANIMALS_AND_NATURE,
             subgroup: Subgroups.PLANT_OTHER,
             hasGlyph: true,
-            sortOrder: 2803
+            sortOrder: 2808
         );
 
         /* 🍇 */
@@ -27808,7 +27873,7 @@ namespace NeoSmart.Unicode
             group: Group.FOOD_AND_DRINK,
             subgroup: Subgroups.FOOD_FRUIT,
             hasGlyph: true,
-            sortOrder: 2804
+            sortOrder: 2809
         );
 
         /* 🍈 */
@@ -27821,7 +27886,7 @@ namespace NeoSmart.Unicode
             group: Group.FOOD_AND_DRINK,
             subgroup: Subgroups.FOOD_FRUIT,
             hasGlyph: true,
-            sortOrder: 2805
+            sortOrder: 2810
         );
 
         /* 🍉 */
@@ -27834,7 +27899,7 @@ namespace NeoSmart.Unicode
             group: Group.FOOD_AND_DRINK,
             subgroup: Subgroups.FOOD_FRUIT,
             hasGlyph: true,
-            sortOrder: 2806
+            sortOrder: 2811
         );
 
         /* 🍊 */
@@ -27847,7 +27912,7 @@ namespace NeoSmart.Unicode
             group: Group.FOOD_AND_DRINK,
             subgroup: Subgroups.FOOD_FRUIT,
             hasGlyph: true,
-            sortOrder: 2807
+            sortOrder: 2812
         );
 
         /* 🍋 */
@@ -27860,7 +27925,7 @@ namespace NeoSmart.Unicode
             group: Group.FOOD_AND_DRINK,
             subgroup: Subgroups.FOOD_FRUIT,
             hasGlyph: true,
-            sortOrder: 2808
+            sortOrder: 2813
         );
 
         /* 🍌 */
@@ -27873,7 +27938,7 @@ namespace NeoSmart.Unicode
             group: Group.FOOD_AND_DRINK,
             subgroup: Subgroups.FOOD_FRUIT,
             hasGlyph: true,
-            sortOrder: 2809
+            sortOrder: 2814
         );
 
         /* 🍍 */
@@ -27886,7 +27951,7 @@ namespace NeoSmart.Unicode
             group: Group.FOOD_AND_DRINK,
             subgroup: Subgroups.FOOD_FRUIT,
             hasGlyph: true,
-            sortOrder: 2810
+            sortOrder: 2815
         );
 
         /* 🥭 */
@@ -27899,7 +27964,7 @@ namespace NeoSmart.Unicode
             group: Group.FOOD_AND_DRINK,
             subgroup: Subgroups.FOOD_FRUIT,
             hasGlyph: true,
-            sortOrder: 2811
+            sortOrder: 2816
         );
 
         /* 🍎 */
@@ -27912,7 +27977,7 @@ namespace NeoSmart.Unicode
             group: Group.FOOD_AND_DRINK,
             subgroup: Subgroups.FOOD_FRUIT,
             hasGlyph: true,
-            sortOrder: 2812
+            sortOrder: 2817
         );
 
         /* 🍏 */
@@ -27925,7 +27990,7 @@ namespace NeoSmart.Unicode
             group: Group.FOOD_AND_DRINK,
             subgroup: Subgroups.FOOD_FRUIT,
             hasGlyph: true,
-            sortOrder: 2813
+            sortOrder: 2818
         );
 
         /* 🍐 */
@@ -27938,7 +28003,7 @@ namespace NeoSmart.Unicode
             group: Group.FOOD_AND_DRINK,
             subgroup: Subgroups.FOOD_FRUIT,
             hasGlyph: true,
-            sortOrder: 2814
+            sortOrder: 2819
         );
 
         /* 🍑 */
@@ -27951,7 +28016,7 @@ namespace NeoSmart.Unicode
             group: Group.FOOD_AND_DRINK,
             subgroup: Subgroups.FOOD_FRUIT,
             hasGlyph: true,
-            sortOrder: 2815
+            sortOrder: 2820
         );
 
         /* 🍒 */
@@ -27964,7 +28029,7 @@ namespace NeoSmart.Unicode
             group: Group.FOOD_AND_DRINK,
             subgroup: Subgroups.FOOD_FRUIT,
             hasGlyph: true,
-            sortOrder: 2816
+            sortOrder: 2821
         );
 
         /* 🍓 */
@@ -27977,7 +28042,7 @@ namespace NeoSmart.Unicode
             group: Group.FOOD_AND_DRINK,
             subgroup: Subgroups.FOOD_FRUIT,
             hasGlyph: true,
-            sortOrder: 2817
+            sortOrder: 2822
         );
 
         /* 🫐 */
@@ -27990,7 +28055,7 @@ namespace NeoSmart.Unicode
             group: Group.FOOD_AND_DRINK,
             subgroup: Subgroups.FOOD_FRUIT,
             hasGlyph: false,
-            sortOrder: 2818
+            sortOrder: 2823
         );
 
         /* 🥝 */
@@ -28003,7 +28068,7 @@ namespace NeoSmart.Unicode
             group: Group.FOOD_AND_DRINK,
             subgroup: Subgroups.FOOD_FRUIT,
             hasGlyph: true,
-            sortOrder: 2819
+            sortOrder: 2824
         );
 
         /* 🍅 */
@@ -28016,7 +28081,7 @@ namespace NeoSmart.Unicode
             group: Group.FOOD_AND_DRINK,
             subgroup: Subgroups.FOOD_FRUIT,
             hasGlyph: true,
-            sortOrder: 2820
+            sortOrder: 2825
         );
 
         /* 🫒 */
@@ -28029,7 +28094,7 @@ namespace NeoSmart.Unicode
             group: Group.FOOD_AND_DRINK,
             subgroup: Subgroups.FOOD_FRUIT,
             hasGlyph: false,
-            sortOrder: 2821
+            sortOrder: 2826
         );
 
         /* 🥥 */
@@ -28042,7 +28107,7 @@ namespace NeoSmart.Unicode
             group: Group.FOOD_AND_DRINK,
             subgroup: Subgroups.FOOD_FRUIT,
             hasGlyph: true,
-            sortOrder: 2822
+            sortOrder: 2827
         );
 
         /* 🥑 */
@@ -28055,7 +28120,7 @@ namespace NeoSmart.Unicode
             group: Group.FOOD_AND_DRINK,
             subgroup: Subgroups.FOOD_VEGETABLE,
             hasGlyph: true,
-            sortOrder: 2823
+            sortOrder: 2828
         );
 
         /* 🍆 */
@@ -28068,7 +28133,7 @@ namespace NeoSmart.Unicode
             group: Group.FOOD_AND_DRINK,
             subgroup: Subgroups.FOOD_VEGETABLE,
             hasGlyph: true,
-            sortOrder: 2824
+            sortOrder: 2829
         );
 
         /* 🥔 */
@@ -28081,7 +28146,7 @@ namespace NeoSmart.Unicode
             group: Group.FOOD_AND_DRINK,
             subgroup: Subgroups.FOOD_VEGETABLE,
             hasGlyph: true,
-            sortOrder: 2825
+            sortOrder: 2830
         );
 
         /* 🥕 */
@@ -28094,7 +28159,7 @@ namespace NeoSmart.Unicode
             group: Group.FOOD_AND_DRINK,
             subgroup: Subgroups.FOOD_VEGETABLE,
             hasGlyph: true,
-            sortOrder: 2826
+            sortOrder: 2831
         );
 
         /* 🌽 */
@@ -28107,7 +28172,7 @@ namespace NeoSmart.Unicode
             group: Group.FOOD_AND_DRINK,
             subgroup: Subgroups.FOOD_VEGETABLE,
             hasGlyph: true,
-            sortOrder: 2827
+            sortOrder: 2832
         );
 
         /* 🌶️ */
@@ -28120,7 +28185,7 @@ namespace NeoSmart.Unicode
             group: Group.FOOD_AND_DRINK,
             subgroup: Subgroups.FOOD_VEGETABLE,
             hasGlyph: true,
-            sortOrder: 2828
+            sortOrder: 2833
         );
 
         /* 🫑 */
@@ -28133,7 +28198,7 @@ namespace NeoSmart.Unicode
             group: Group.FOOD_AND_DRINK,
             subgroup: Subgroups.FOOD_VEGETABLE,
             hasGlyph: false,
-            sortOrder: 2830
+            sortOrder: 2835
         );
 
         /* 🥒 */
@@ -28146,7 +28211,7 @@ namespace NeoSmart.Unicode
             group: Group.FOOD_AND_DRINK,
             subgroup: Subgroups.FOOD_VEGETABLE,
             hasGlyph: true,
-            sortOrder: 2831
+            sortOrder: 2836
         );
 
         /* 🥬 */
@@ -28159,7 +28224,7 @@ namespace NeoSmart.Unicode
             group: Group.FOOD_AND_DRINK,
             subgroup: Subgroups.FOOD_VEGETABLE,
             hasGlyph: true,
-            sortOrder: 2832
+            sortOrder: 2837
         );
 
         /* 🥦 */
@@ -28172,7 +28237,7 @@ namespace NeoSmart.Unicode
             group: Group.FOOD_AND_DRINK,
             subgroup: Subgroups.FOOD_VEGETABLE,
             hasGlyph: true,
-            sortOrder: 2833
+            sortOrder: 2838
         );
 
         /* 🧄 */
@@ -28185,7 +28250,7 @@ namespace NeoSmart.Unicode
             group: Group.FOOD_AND_DRINK,
             subgroup: Subgroups.FOOD_VEGETABLE,
             hasGlyph: true,
-            sortOrder: 2834
+            sortOrder: 2839
         );
 
         /* 🧅 */
@@ -28198,7 +28263,7 @@ namespace NeoSmart.Unicode
             group: Group.FOOD_AND_DRINK,
             subgroup: Subgroups.FOOD_VEGETABLE,
             hasGlyph: true,
-            sortOrder: 2835
+            sortOrder: 2840
         );
 
         /* 🍄 */
@@ -28211,7 +28276,7 @@ namespace NeoSmart.Unicode
             group: Group.FOOD_AND_DRINK,
             subgroup: Subgroups.FOOD_VEGETABLE,
             hasGlyph: true,
-            sortOrder: 2836
+            sortOrder: 2841
         );
 
         /* 🥜 */
@@ -28224,7 +28289,7 @@ namespace NeoSmart.Unicode
             group: Group.FOOD_AND_DRINK,
             subgroup: Subgroups.FOOD_VEGETABLE,
             hasGlyph: true,
-            sortOrder: 2837
+            sortOrder: 2842
         );
 
         /* 🌰 */
@@ -28237,7 +28302,7 @@ namespace NeoSmart.Unicode
             group: Group.FOOD_AND_DRINK,
             subgroup: Subgroups.FOOD_VEGETABLE,
             hasGlyph: true,
-            sortOrder: 2838
+            sortOrder: 2843
         );
 
         /* 🍞 */
@@ -28250,7 +28315,7 @@ namespace NeoSmart.Unicode
             group: Group.FOOD_AND_DRINK,
             subgroup: Subgroups.FOOD_PREPARED,
             hasGlyph: true,
-            sortOrder: 2839
+            sortOrder: 2844
         );
 
         /* 🥐 */
@@ -28263,7 +28328,7 @@ namespace NeoSmart.Unicode
             group: Group.FOOD_AND_DRINK,
             subgroup: Subgroups.FOOD_PREPARED,
             hasGlyph: true,
-            sortOrder: 2840
+            sortOrder: 2845
         );
 
         /* 🥖 */
@@ -28276,7 +28341,7 @@ namespace NeoSmart.Unicode
             group: Group.FOOD_AND_DRINK,
             subgroup: Subgroups.FOOD_PREPARED,
             hasGlyph: true,
-            sortOrder: 2841
+            sortOrder: 2846
         );
 
         /* 🫓 */
@@ -28289,7 +28354,7 @@ namespace NeoSmart.Unicode
             group: Group.FOOD_AND_DRINK,
             subgroup: Subgroups.FOOD_PREPARED,
             hasGlyph: false,
-            sortOrder: 2842
+            sortOrder: 2847
         );
 
         /* 🥨 */
@@ -28302,7 +28367,7 @@ namespace NeoSmart.Unicode
             group: Group.FOOD_AND_DRINK,
             subgroup: Subgroups.FOOD_PREPARED,
             hasGlyph: true,
-            sortOrder: 2843
+            sortOrder: 2848
         );
 
         /* 🥯 */
@@ -28315,7 +28380,7 @@ namespace NeoSmart.Unicode
             group: Group.FOOD_AND_DRINK,
             subgroup: Subgroups.FOOD_PREPARED,
             hasGlyph: true,
-            sortOrder: 2844
+            sortOrder: 2849
         );
 
         /* 🥞 */
@@ -28328,7 +28393,7 @@ namespace NeoSmart.Unicode
             group: Group.FOOD_AND_DRINK,
             subgroup: Subgroups.FOOD_PREPARED,
             hasGlyph: true,
-            sortOrder: 2845
+            sortOrder: 2850
         );
 
         /* 🧇 */
@@ -28341,7 +28406,7 @@ namespace NeoSmart.Unicode
             group: Group.FOOD_AND_DRINK,
             subgroup: Subgroups.FOOD_PREPARED,
             hasGlyph: true,
-            sortOrder: 2846
+            sortOrder: 2851
         );
 
         /* 🧀 */
@@ -28354,7 +28419,7 @@ namespace NeoSmart.Unicode
             group: Group.FOOD_AND_DRINK,
             subgroup: Subgroups.FOOD_PREPARED,
             hasGlyph: true,
-            sortOrder: 2847
+            sortOrder: 2852
         );
 
         /* 🍖 */
@@ -28367,7 +28432,7 @@ namespace NeoSmart.Unicode
             group: Group.FOOD_AND_DRINK,
             subgroup: Subgroups.FOOD_PREPARED,
             hasGlyph: true,
-            sortOrder: 2848
+            sortOrder: 2853
         );
 
         /* 🍗 */
@@ -28380,7 +28445,7 @@ namespace NeoSmart.Unicode
             group: Group.FOOD_AND_DRINK,
             subgroup: Subgroups.FOOD_PREPARED,
             hasGlyph: true,
-            sortOrder: 2849
+            sortOrder: 2854
         );
 
         /* 🥩 */
@@ -28393,7 +28458,7 @@ namespace NeoSmart.Unicode
             group: Group.FOOD_AND_DRINK,
             subgroup: Subgroups.FOOD_PREPARED,
             hasGlyph: true,
-            sortOrder: 2850
+            sortOrder: 2855
         );
 
         /* 🥓 */
@@ -28406,7 +28471,7 @@ namespace NeoSmart.Unicode
             group: Group.FOOD_AND_DRINK,
             subgroup: Subgroups.FOOD_PREPARED,
             hasGlyph: true,
-            sortOrder: 2851
+            sortOrder: 2856
         );
 
         /* 🍔 */
@@ -28419,7 +28484,7 @@ namespace NeoSmart.Unicode
             group: Group.FOOD_AND_DRINK,
             subgroup: Subgroups.FOOD_PREPARED,
             hasGlyph: true,
-            sortOrder: 2852
+            sortOrder: 2857
         );
 
         /* 🍟 */
@@ -28432,7 +28497,7 @@ namespace NeoSmart.Unicode
             group: Group.FOOD_AND_DRINK,
             subgroup: Subgroups.FOOD_PREPARED,
             hasGlyph: true,
-            sortOrder: 2853
+            sortOrder: 2858
         );
 
         /* 🍕 */
@@ -28445,7 +28510,7 @@ namespace NeoSmart.Unicode
             group: Group.FOOD_AND_DRINK,
             subgroup: Subgroups.FOOD_PREPARED,
             hasGlyph: true,
-            sortOrder: 2854
+            sortOrder: 2859
         );
 
         /* 🌭 */
@@ -28458,7 +28523,7 @@ namespace NeoSmart.Unicode
             group: Group.FOOD_AND_DRINK,
             subgroup: Subgroups.FOOD_PREPARED,
             hasGlyph: true,
-            sortOrder: 2855
+            sortOrder: 2860
         );
 
         /* 🥪 */
@@ -28471,7 +28536,7 @@ namespace NeoSmart.Unicode
             group: Group.FOOD_AND_DRINK,
             subgroup: Subgroups.FOOD_PREPARED,
             hasGlyph: true,
-            sortOrder: 2856
+            sortOrder: 2861
         );
 
         /* 🌮 */
@@ -28484,7 +28549,7 @@ namespace NeoSmart.Unicode
             group: Group.FOOD_AND_DRINK,
             subgroup: Subgroups.FOOD_PREPARED,
             hasGlyph: true,
-            sortOrder: 2857
+            sortOrder: 2862
         );
 
         /* 🌯 */
@@ -28497,7 +28562,7 @@ namespace NeoSmart.Unicode
             group: Group.FOOD_AND_DRINK,
             subgroup: Subgroups.FOOD_PREPARED,
             hasGlyph: true,
-            sortOrder: 2858
+            sortOrder: 2863
         );
 
         /* 🫔 */
@@ -28510,7 +28575,7 @@ namespace NeoSmart.Unicode
             group: Group.FOOD_AND_DRINK,
             subgroup: Subgroups.FOOD_PREPARED,
             hasGlyph: false,
-            sortOrder: 2859
+            sortOrder: 2864
         );
 
         /* 🥙 */
@@ -28523,7 +28588,7 @@ namespace NeoSmart.Unicode
             group: Group.FOOD_AND_DRINK,
             subgroup: Subgroups.FOOD_PREPARED,
             hasGlyph: true,
-            sortOrder: 2860
+            sortOrder: 2865
         );
 
         /* 🧆 */
@@ -28536,7 +28601,7 @@ namespace NeoSmart.Unicode
             group: Group.FOOD_AND_DRINK,
             subgroup: Subgroups.FOOD_PREPARED,
             hasGlyph: true,
-            sortOrder: 2861
+            sortOrder: 2866
         );
 
         /* 🥚 */
@@ -28549,7 +28614,7 @@ namespace NeoSmart.Unicode
             group: Group.FOOD_AND_DRINK,
             subgroup: Subgroups.FOOD_PREPARED,
             hasGlyph: true,
-            sortOrder: 2862
+            sortOrder: 2867
         );
 
         /* 🍳 */
@@ -28562,7 +28627,7 @@ namespace NeoSmart.Unicode
             group: Group.FOOD_AND_DRINK,
             subgroup: Subgroups.FOOD_PREPARED,
             hasGlyph: true,
-            sortOrder: 2863
+            sortOrder: 2868
         );
 
         /* 🥘 */
@@ -28575,7 +28640,7 @@ namespace NeoSmart.Unicode
             group: Group.FOOD_AND_DRINK,
             subgroup: Subgroups.FOOD_PREPARED,
             hasGlyph: true,
-            sortOrder: 2864
+            sortOrder: 2869
         );
 
         /* 🍲 */
@@ -28588,7 +28653,7 @@ namespace NeoSmart.Unicode
             group: Group.FOOD_AND_DRINK,
             subgroup: Subgroups.FOOD_PREPARED,
             hasGlyph: true,
-            sortOrder: 2865
+            sortOrder: 2870
         );
 
         /* 🫕 */
@@ -28601,7 +28666,7 @@ namespace NeoSmart.Unicode
             group: Group.FOOD_AND_DRINK,
             subgroup: Subgroups.FOOD_PREPARED,
             hasGlyph: false,
-            sortOrder: 2866
+            sortOrder: 2871
         );
 
         /* 🥣 */
@@ -28614,7 +28679,7 @@ namespace NeoSmart.Unicode
             group: Group.FOOD_AND_DRINK,
             subgroup: Subgroups.FOOD_PREPARED,
             hasGlyph: true,
-            sortOrder: 2867
+            sortOrder: 2872
         );
 
         /* 🥗 */
@@ -28627,7 +28692,7 @@ namespace NeoSmart.Unicode
             group: Group.FOOD_AND_DRINK,
             subgroup: Subgroups.FOOD_PREPARED,
             hasGlyph: true,
-            sortOrder: 2868
+            sortOrder: 2873
         );
 
         /* 🍿 */
@@ -28640,7 +28705,7 @@ namespace NeoSmart.Unicode
             group: Group.FOOD_AND_DRINK,
             subgroup: Subgroups.FOOD_PREPARED,
             hasGlyph: true,
-            sortOrder: 2869
+            sortOrder: 2874
         );
 
         /* 🧈 */
@@ -28653,7 +28718,7 @@ namespace NeoSmart.Unicode
             group: Group.FOOD_AND_DRINK,
             subgroup: Subgroups.FOOD_PREPARED,
             hasGlyph: true,
-            sortOrder: 2870
+            sortOrder: 2875
         );
 
         /* 🧂 */
@@ -28666,7 +28731,7 @@ namespace NeoSmart.Unicode
             group: Group.FOOD_AND_DRINK,
             subgroup: Subgroups.FOOD_PREPARED,
             hasGlyph: true,
-            sortOrder: 2871
+            sortOrder: 2876
         );
 
         /* 🥫 */
@@ -28679,7 +28744,7 @@ namespace NeoSmart.Unicode
             group: Group.FOOD_AND_DRINK,
             subgroup: Subgroups.FOOD_PREPARED,
             hasGlyph: true,
-            sortOrder: 2872
+            sortOrder: 2877
         );
 
         /* 🍱 */
@@ -28692,7 +28757,7 @@ namespace NeoSmart.Unicode
             group: Group.FOOD_AND_DRINK,
             subgroup: Subgroups.FOOD_ASIAN,
             hasGlyph: true,
-            sortOrder: 2873
+            sortOrder: 2878
         );
 
         /* 🍘 */
@@ -28705,7 +28770,7 @@ namespace NeoSmart.Unicode
             group: Group.FOOD_AND_DRINK,
             subgroup: Subgroups.FOOD_ASIAN,
             hasGlyph: true,
-            sortOrder: 2874
+            sortOrder: 2879
         );
 
         /* 🍙 */
@@ -28718,7 +28783,7 @@ namespace NeoSmart.Unicode
             group: Group.FOOD_AND_DRINK,
             subgroup: Subgroups.FOOD_ASIAN,
             hasGlyph: true,
-            sortOrder: 2875
+            sortOrder: 2880
         );
 
         /* 🍚 */
@@ -28731,7 +28796,7 @@ namespace NeoSmart.Unicode
             group: Group.FOOD_AND_DRINK,
             subgroup: Subgroups.FOOD_ASIAN,
             hasGlyph: true,
-            sortOrder: 2876
+            sortOrder: 2881
         );
 
         /* 🍛 */
@@ -28744,7 +28809,7 @@ namespace NeoSmart.Unicode
             group: Group.FOOD_AND_DRINK,
             subgroup: Subgroups.FOOD_ASIAN,
             hasGlyph: true,
-            sortOrder: 2877
+            sortOrder: 2882
         );
 
         /* 🍜 */
@@ -28757,7 +28822,7 @@ namespace NeoSmart.Unicode
             group: Group.FOOD_AND_DRINK,
             subgroup: Subgroups.FOOD_ASIAN,
             hasGlyph: true,
-            sortOrder: 2878
+            sortOrder: 2883
         );
 
         /* 🍝 */
@@ -28770,7 +28835,7 @@ namespace NeoSmart.Unicode
             group: Group.FOOD_AND_DRINK,
             subgroup: Subgroups.FOOD_ASIAN,
             hasGlyph: true,
-            sortOrder: 2879
+            sortOrder: 2884
         );
 
         /* 🍠 */
@@ -28783,7 +28848,7 @@ namespace NeoSmart.Unicode
             group: Group.FOOD_AND_DRINK,
             subgroup: Subgroups.FOOD_ASIAN,
             hasGlyph: true,
-            sortOrder: 2880
+            sortOrder: 2885
         );
 
         /* 🍢 */
@@ -28796,7 +28861,7 @@ namespace NeoSmart.Unicode
             group: Group.FOOD_AND_DRINK,
             subgroup: Subgroups.FOOD_ASIAN,
             hasGlyph: true,
-            sortOrder: 2881
+            sortOrder: 2886
         );
 
         /* 🍣 */
@@ -28809,7 +28874,7 @@ namespace NeoSmart.Unicode
             group: Group.FOOD_AND_DRINK,
             subgroup: Subgroups.FOOD_ASIAN,
             hasGlyph: true,
-            sortOrder: 2882
+            sortOrder: 2887
         );
 
         /* 🍤 */
@@ -28822,7 +28887,7 @@ namespace NeoSmart.Unicode
             group: Group.FOOD_AND_DRINK,
             subgroup: Subgroups.FOOD_ASIAN,
             hasGlyph: true,
-            sortOrder: 2883
+            sortOrder: 2888
         );
 
         /* 🍥 */
@@ -28835,7 +28900,7 @@ namespace NeoSmart.Unicode
             group: Group.FOOD_AND_DRINK,
             subgroup: Subgroups.FOOD_ASIAN,
             hasGlyph: true,
-            sortOrder: 2884
+            sortOrder: 2889
         );
 
         /* 🥮 */
@@ -28848,7 +28913,7 @@ namespace NeoSmart.Unicode
             group: Group.FOOD_AND_DRINK,
             subgroup: Subgroups.FOOD_ASIAN,
             hasGlyph: true,
-            sortOrder: 2885
+            sortOrder: 2890
         );
 
         /* 🍡 */
@@ -28861,7 +28926,7 @@ namespace NeoSmart.Unicode
             group: Group.FOOD_AND_DRINK,
             subgroup: Subgroups.FOOD_ASIAN,
             hasGlyph: true,
-            sortOrder: 2886
+            sortOrder: 2891
         );
 
         /* 🥟 */
@@ -28874,7 +28939,7 @@ namespace NeoSmart.Unicode
             group: Group.FOOD_AND_DRINK,
             subgroup: Subgroups.FOOD_ASIAN,
             hasGlyph: true,
-            sortOrder: 2887
+            sortOrder: 2892
         );
 
         /* 🥠 */
@@ -28887,7 +28952,7 @@ namespace NeoSmart.Unicode
             group: Group.FOOD_AND_DRINK,
             subgroup: Subgroups.FOOD_ASIAN,
             hasGlyph: true,
-            sortOrder: 2888
+            sortOrder: 2893
         );
 
         /* 🥡 */
@@ -28900,7 +28965,7 @@ namespace NeoSmart.Unicode
             group: Group.FOOD_AND_DRINK,
             subgroup: Subgroups.FOOD_ASIAN,
             hasGlyph: true,
-            sortOrder: 2889
+            sortOrder: 2894
         );
 
         /* 🦀 */
@@ -28913,7 +28978,7 @@ namespace NeoSmart.Unicode
             group: Group.FOOD_AND_DRINK,
             subgroup: Subgroups.FOOD_MARINE,
             hasGlyph: true,
-            sortOrder: 2890
+            sortOrder: 2895
         );
 
         /* 🦞 */
@@ -28926,7 +28991,7 @@ namespace NeoSmart.Unicode
             group: Group.FOOD_AND_DRINK,
             subgroup: Subgroups.FOOD_MARINE,
             hasGlyph: true,
-            sortOrder: 2891
+            sortOrder: 2896
         );
 
         /* 🦐 */
@@ -28939,7 +29004,7 @@ namespace NeoSmart.Unicode
             group: Group.FOOD_AND_DRINK,
             subgroup: Subgroups.FOOD_MARINE,
             hasGlyph: true,
-            sortOrder: 2892
+            sortOrder: 2897
         );
 
         /* 🦑 */
@@ -28952,7 +29017,7 @@ namespace NeoSmart.Unicode
             group: Group.FOOD_AND_DRINK,
             subgroup: Subgroups.FOOD_MARINE,
             hasGlyph: true,
-            sortOrder: 2893
+            sortOrder: 2898
         );
 
         /* 🦪 */
@@ -28965,7 +29030,7 @@ namespace NeoSmart.Unicode
             group: Group.FOOD_AND_DRINK,
             subgroup: Subgroups.FOOD_MARINE,
             hasGlyph: true,
-            sortOrder: 2894
+            sortOrder: 2899
         );
 
         /* 🍦 */
@@ -28978,7 +29043,7 @@ namespace NeoSmart.Unicode
             group: Group.FOOD_AND_DRINK,
             subgroup: Subgroups.FOOD_SWEET,
             hasGlyph: true,
-            sortOrder: 2895
+            sortOrder: 2900
         );
 
         /* 🍧 */
@@ -28991,7 +29056,7 @@ namespace NeoSmart.Unicode
             group: Group.FOOD_AND_DRINK,
             subgroup: Subgroups.FOOD_SWEET,
             hasGlyph: true,
-            sortOrder: 2896
+            sortOrder: 2901
         );
 
         /* 🍨 */
@@ -29004,7 +29069,7 @@ namespace NeoSmart.Unicode
             group: Group.FOOD_AND_DRINK,
             subgroup: Subgroups.FOOD_SWEET,
             hasGlyph: true,
-            sortOrder: 2897
+            sortOrder: 2902
         );
 
         /* 🍩 */
@@ -29017,7 +29082,7 @@ namespace NeoSmart.Unicode
             group: Group.FOOD_AND_DRINK,
             subgroup: Subgroups.FOOD_SWEET,
             hasGlyph: true,
-            sortOrder: 2898
+            sortOrder: 2903
         );
 
         /* 🍪 */
@@ -29030,7 +29095,7 @@ namespace NeoSmart.Unicode
             group: Group.FOOD_AND_DRINK,
             subgroup: Subgroups.FOOD_SWEET,
             hasGlyph: true,
-            sortOrder: 2899
+            sortOrder: 2904
         );
 
         /* 🎂 */
@@ -29043,7 +29108,7 @@ namespace NeoSmart.Unicode
             group: Group.FOOD_AND_DRINK,
             subgroup: Subgroups.FOOD_SWEET,
             hasGlyph: true,
-            sortOrder: 2900
+            sortOrder: 2905
         );
 
         /* 🍰 */
@@ -29056,7 +29121,7 @@ namespace NeoSmart.Unicode
             group: Group.FOOD_AND_DRINK,
             subgroup: Subgroups.FOOD_SWEET,
             hasGlyph: true,
-            sortOrder: 2901
+            sortOrder: 2906
         );
 
         /* 🧁 */
@@ -29069,7 +29134,7 @@ namespace NeoSmart.Unicode
             group: Group.FOOD_AND_DRINK,
             subgroup: Subgroups.FOOD_SWEET,
             hasGlyph: true,
-            sortOrder: 2902
+            sortOrder: 2907
         );
 
         /* 🥧 */
@@ -29082,7 +29147,7 @@ namespace NeoSmart.Unicode
             group: Group.FOOD_AND_DRINK,
             subgroup: Subgroups.FOOD_SWEET,
             hasGlyph: true,
-            sortOrder: 2903
+            sortOrder: 2908
         );
 
         /* 🍫 */
@@ -29095,7 +29160,7 @@ namespace NeoSmart.Unicode
             group: Group.FOOD_AND_DRINK,
             subgroup: Subgroups.FOOD_SWEET,
             hasGlyph: true,
-            sortOrder: 2904
+            sortOrder: 2909
         );
 
         /* 🍬 */
@@ -29108,7 +29173,7 @@ namespace NeoSmart.Unicode
             group: Group.FOOD_AND_DRINK,
             subgroup: Subgroups.FOOD_SWEET,
             hasGlyph: true,
-            sortOrder: 2905
+            sortOrder: 2910
         );
 
         /* 🍭 */
@@ -29121,7 +29186,7 @@ namespace NeoSmart.Unicode
             group: Group.FOOD_AND_DRINK,
             subgroup: Subgroups.FOOD_SWEET,
             hasGlyph: true,
-            sortOrder: 2906
+            sortOrder: 2911
         );
 
         /* 🍮 */
@@ -29134,7 +29199,7 @@ namespace NeoSmart.Unicode
             group: Group.FOOD_AND_DRINK,
             subgroup: Subgroups.FOOD_SWEET,
             hasGlyph: true,
-            sortOrder: 2907
+            sortOrder: 2912
         );
 
         /* 🍯 */
@@ -29147,7 +29212,7 @@ namespace NeoSmart.Unicode
             group: Group.FOOD_AND_DRINK,
             subgroup: Subgroups.FOOD_SWEET,
             hasGlyph: true,
-            sortOrder: 2908
+            sortOrder: 2913
         );
 
         /* 🍼 */
@@ -29160,7 +29225,7 @@ namespace NeoSmart.Unicode
             group: Group.FOOD_AND_DRINK,
             subgroup: Subgroups.DRINK,
             hasGlyph: true,
-            sortOrder: 2909
+            sortOrder: 2914
         );
 
         /* 🥛 */
@@ -29173,7 +29238,7 @@ namespace NeoSmart.Unicode
             group: Group.FOOD_AND_DRINK,
             subgroup: Subgroups.DRINK,
             hasGlyph: true,
-            sortOrder: 2910
+            sortOrder: 2915
         );
 
         /* ☕ */
@@ -29186,7 +29251,7 @@ namespace NeoSmart.Unicode
             group: Group.FOOD_AND_DRINK,
             subgroup: Subgroups.DRINK,
             hasGlyph: true,
-            sortOrder: 2911
+            sortOrder: 2916
         );
 
         /* 🫖 */
@@ -29199,7 +29264,7 @@ namespace NeoSmart.Unicode
             group: Group.FOOD_AND_DRINK,
             subgroup: Subgroups.DRINK,
             hasGlyph: false,
-            sortOrder: 2912
+            sortOrder: 2917
         );
 
         /* 🍵 */
@@ -29212,7 +29277,7 @@ namespace NeoSmart.Unicode
             group: Group.FOOD_AND_DRINK,
             subgroup: Subgroups.DRINK,
             hasGlyph: true,
-            sortOrder: 2913
+            sortOrder: 2918
         );
 
         /* 🍶 */
@@ -29225,7 +29290,7 @@ namespace NeoSmart.Unicode
             group: Group.FOOD_AND_DRINK,
             subgroup: Subgroups.DRINK,
             hasGlyph: true,
-            sortOrder: 2914
+            sortOrder: 2919
         );
 
         /* 🍾 */
@@ -29238,7 +29303,7 @@ namespace NeoSmart.Unicode
             group: Group.FOOD_AND_DRINK,
             subgroup: Subgroups.DRINK,
             hasGlyph: true,
-            sortOrder: 2915
+            sortOrder: 2920
         );
 
         /* 🍷 */
@@ -29251,7 +29316,7 @@ namespace NeoSmart.Unicode
             group: Group.FOOD_AND_DRINK,
             subgroup: Subgroups.DRINK,
             hasGlyph: true,
-            sortOrder: 2916
+            sortOrder: 2921
         );
 
         /* 🍸 */
@@ -29264,7 +29329,7 @@ namespace NeoSmart.Unicode
             group: Group.FOOD_AND_DRINK,
             subgroup: Subgroups.DRINK,
             hasGlyph: true,
-            sortOrder: 2917
+            sortOrder: 2922
         );
 
         /* 🍹 */
@@ -29277,7 +29342,7 @@ namespace NeoSmart.Unicode
             group: Group.FOOD_AND_DRINK,
             subgroup: Subgroups.DRINK,
             hasGlyph: true,
-            sortOrder: 2918
+            sortOrder: 2923
         );
 
         /* 🍺 */
@@ -29290,7 +29355,7 @@ namespace NeoSmart.Unicode
             group: Group.FOOD_AND_DRINK,
             subgroup: Subgroups.DRINK,
             hasGlyph: true,
-            sortOrder: 2919
+            sortOrder: 2924
         );
 
         /* 🍻 */
@@ -29303,7 +29368,7 @@ namespace NeoSmart.Unicode
             group: Group.FOOD_AND_DRINK,
             subgroup: Subgroups.DRINK,
             hasGlyph: true,
-            sortOrder: 2920
+            sortOrder: 2925
         );
 
         /* 🥂 */
@@ -29316,7 +29381,7 @@ namespace NeoSmart.Unicode
             group: Group.FOOD_AND_DRINK,
             subgroup: Subgroups.DRINK,
             hasGlyph: true,
-            sortOrder: 2921
+            sortOrder: 2926
         );
 
         /* 🥃 */
@@ -29329,7 +29394,7 @@ namespace NeoSmart.Unicode
             group: Group.FOOD_AND_DRINK,
             subgroup: Subgroups.DRINK,
             hasGlyph: true,
-            sortOrder: 2922
+            sortOrder: 2927
         );
 
         /* 🥤 */
@@ -29342,7 +29407,7 @@ namespace NeoSmart.Unicode
             group: Group.FOOD_AND_DRINK,
             subgroup: Subgroups.DRINK,
             hasGlyph: true,
-            sortOrder: 2923
+            sortOrder: 2928
         );
 
         /* 🧋 */
@@ -29355,7 +29420,7 @@ namespace NeoSmart.Unicode
             group: Group.FOOD_AND_DRINK,
             subgroup: Subgroups.DRINK,
             hasGlyph: false,
-            sortOrder: 2924
+            sortOrder: 2929
         );
 
         /* 🧃 */
@@ -29368,7 +29433,7 @@ namespace NeoSmart.Unicode
             group: Group.FOOD_AND_DRINK,
             subgroup: Subgroups.DRINK,
             hasGlyph: true,
-            sortOrder: 2925
+            sortOrder: 2930
         );
 
         /* 🧉 */
@@ -29381,7 +29446,7 @@ namespace NeoSmart.Unicode
             group: Group.FOOD_AND_DRINK,
             subgroup: Subgroups.DRINK,
             hasGlyph: true,
-            sortOrder: 2926
+            sortOrder: 2931
         );
 
         /* 🧊 */
@@ -29394,7 +29459,7 @@ namespace NeoSmart.Unicode
             group: Group.FOOD_AND_DRINK,
             subgroup: Subgroups.DRINK,
             hasGlyph: true,
-            sortOrder: 2927
+            sortOrder: 2932
         );
 
         /* 🥢 */
@@ -29407,7 +29472,7 @@ namespace NeoSmart.Unicode
             group: Group.FOOD_AND_DRINK,
             subgroup: Subgroups.DISHWARE,
             hasGlyph: true,
-            sortOrder: 2928
+            sortOrder: 2933
         );
 
         /* 🍽️ */
@@ -29420,7 +29485,7 @@ namespace NeoSmart.Unicode
             group: Group.FOOD_AND_DRINK,
             subgroup: Subgroups.DISHWARE,
             hasGlyph: true,
-            sortOrder: 2929
+            sortOrder: 2934
         );
 
         /* 🍴 */
@@ -29433,7 +29498,7 @@ namespace NeoSmart.Unicode
             group: Group.FOOD_AND_DRINK,
             subgroup: Subgroups.DISHWARE,
             hasGlyph: true,
-            sortOrder: 2931
+            sortOrder: 2936
         );
 
         /* 🥄 */
@@ -29446,7 +29511,7 @@ namespace NeoSmart.Unicode
             group: Group.FOOD_AND_DRINK,
             subgroup: Subgroups.DISHWARE,
             hasGlyph: true,
-            sortOrder: 2932
+            sortOrder: 2937
         );
 
         /* 🔪 */
@@ -29459,7 +29524,7 @@ namespace NeoSmart.Unicode
             group: Group.FOOD_AND_DRINK,
             subgroup: Subgroups.DISHWARE,
             hasGlyph: true,
-            sortOrder: 2933
+            sortOrder: 2938
         );
 
         /* 🏺 */
@@ -29472,7 +29537,7 @@ namespace NeoSmart.Unicode
             group: Group.FOOD_AND_DRINK,
             subgroup: Subgroups.DISHWARE,
             hasGlyph: true,
-            sortOrder: 2934
+            sortOrder: 2939
         );
 
         /* 🌍 */
@@ -29485,7 +29550,7 @@ namespace NeoSmart.Unicode
             group: Group.TRAVEL_AND_PLACES,
             subgroup: Subgroups.PLACE_MAP,
             hasGlyph: true,
-            sortOrder: 2935
+            sortOrder: 2940
         );
 
         /* 🌎 */
@@ -29498,7 +29563,7 @@ namespace NeoSmart.Unicode
             group: Group.TRAVEL_AND_PLACES,
             subgroup: Subgroups.PLACE_MAP,
             hasGlyph: true,
-            sortOrder: 2936
+            sortOrder: 2941
         );
 
         /* 🌏 */
@@ -29511,7 +29576,7 @@ namespace NeoSmart.Unicode
             group: Group.TRAVEL_AND_PLACES,
             subgroup: Subgroups.PLACE_MAP,
             hasGlyph: true,
-            sortOrder: 2937
+            sortOrder: 2942
         );
 
         /* 🌐 */
@@ -29524,7 +29589,7 @@ namespace NeoSmart.Unicode
             group: Group.TRAVEL_AND_PLACES,
             subgroup: Subgroups.PLACE_MAP,
             hasGlyph: true,
-            sortOrder: 2938
+            sortOrder: 2943
         );
 
         /* 🗺️ */
@@ -29537,7 +29602,7 @@ namespace NeoSmart.Unicode
             group: Group.TRAVEL_AND_PLACES,
             subgroup: Subgroups.PLACE_MAP,
             hasGlyph: true,
-            sortOrder: 2939
+            sortOrder: 2944
         );
 
         /* 🗾 */
@@ -29550,7 +29615,7 @@ namespace NeoSmart.Unicode
             group: Group.TRAVEL_AND_PLACES,
             subgroup: Subgroups.PLACE_MAP,
             hasGlyph: true,
-            sortOrder: 2941
+            sortOrder: 2946
         );
 
         /* 🧭 */
@@ -29563,7 +29628,7 @@ namespace NeoSmart.Unicode
             group: Group.TRAVEL_AND_PLACES,
             subgroup: Subgroups.PLACE_MAP,
             hasGlyph: true,
-            sortOrder: 2942
+            sortOrder: 2947
         );
 
         /* 🏔️ */
@@ -29576,7 +29641,7 @@ namespace NeoSmart.Unicode
             group: Group.TRAVEL_AND_PLACES,
             subgroup: Subgroups.PLACE_GEOGRAPHIC,
             hasGlyph: true,
-            sortOrder: 2943
+            sortOrder: 2948
         );
 
         /* ⛰️ */
@@ -29589,7 +29654,7 @@ namespace NeoSmart.Unicode
             group: Group.TRAVEL_AND_PLACES,
             subgroup: Subgroups.PLACE_GEOGRAPHIC,
             hasGlyph: true,
-            sortOrder: 2945
+            sortOrder: 2950
         );
 
         /* 🌋 */
@@ -29602,7 +29667,7 @@ namespace NeoSmart.Unicode
             group: Group.TRAVEL_AND_PLACES,
             subgroup: Subgroups.PLACE_GEOGRAPHIC,
             hasGlyph: true,
-            sortOrder: 2947
+            sortOrder: 2952
         );
 
         /* 🗻 */
@@ -29615,7 +29680,7 @@ namespace NeoSmart.Unicode
             group: Group.TRAVEL_AND_PLACES,
             subgroup: Subgroups.PLACE_GEOGRAPHIC,
             hasGlyph: true,
-            sortOrder: 2948
+            sortOrder: 2953
         );
 
         /* 🏕️ */
@@ -29628,7 +29693,7 @@ namespace NeoSmart.Unicode
             group: Group.TRAVEL_AND_PLACES,
             subgroup: Subgroups.PLACE_GEOGRAPHIC,
             hasGlyph: true,
-            sortOrder: 2949
+            sortOrder: 2954
         );
 
         /* 🏖️ */
@@ -29641,7 +29706,7 @@ namespace NeoSmart.Unicode
             group: Group.TRAVEL_AND_PLACES,
             subgroup: Subgroups.PLACE_GEOGRAPHIC,
             hasGlyph: true,
-            sortOrder: 2951
+            sortOrder: 2956
         );
 
         /* 🏜️ */
@@ -29654,7 +29719,7 @@ namespace NeoSmart.Unicode
             group: Group.TRAVEL_AND_PLACES,
             subgroup: Subgroups.PLACE_GEOGRAPHIC,
             hasGlyph: true,
-            sortOrder: 2953
+            sortOrder: 2958
         );
 
         /* 🏝️ */
@@ -29667,7 +29732,7 @@ namespace NeoSmart.Unicode
             group: Group.TRAVEL_AND_PLACES,
             subgroup: Subgroups.PLACE_GEOGRAPHIC,
             hasGlyph: true,
-            sortOrder: 2955
+            sortOrder: 2960
         );
 
         /* 🏞️ */
@@ -29680,7 +29745,7 @@ namespace NeoSmart.Unicode
             group: Group.TRAVEL_AND_PLACES,
             subgroup: Subgroups.PLACE_GEOGRAPHIC,
             hasGlyph: true,
-            sortOrder: 2957
+            sortOrder: 2962
         );
 
         /* 🏟️ */
@@ -29693,7 +29758,7 @@ namespace NeoSmart.Unicode
             group: Group.TRAVEL_AND_PLACES,
             subgroup: Subgroups.PLACE_BUILDING,
             hasGlyph: true,
-            sortOrder: 2959
+            sortOrder: 2964
         );
 
         /* 🏛️ */
@@ -29706,7 +29771,7 @@ namespace NeoSmart.Unicode
             group: Group.TRAVEL_AND_PLACES,
             subgroup: Subgroups.PLACE_BUILDING,
             hasGlyph: true,
-            sortOrder: 2961
+            sortOrder: 2966
         );
 
         /* 🏗️ */
@@ -29719,7 +29784,7 @@ namespace NeoSmart.Unicode
             group: Group.TRAVEL_AND_PLACES,
             subgroup: Subgroups.PLACE_BUILDING,
             hasGlyph: true,
-            sortOrder: 2963
+            sortOrder: 2968
         );
 
         /* 🧱 */
@@ -29732,7 +29797,7 @@ namespace NeoSmart.Unicode
             group: Group.TRAVEL_AND_PLACES,
             subgroup: Subgroups.PLACE_BUILDING,
             hasGlyph: true,
-            sortOrder: 2965
+            sortOrder: 2970
         );
 
         /* 🪨 */
@@ -29745,7 +29810,7 @@ namespace NeoSmart.Unicode
             group: Group.TRAVEL_AND_PLACES,
             subgroup: Subgroups.PLACE_BUILDING,
             hasGlyph: false,
-            sortOrder: 2966
+            sortOrder: 2971
         );
 
         /* 🪵 */
@@ -29758,7 +29823,7 @@ namespace NeoSmart.Unicode
             group: Group.TRAVEL_AND_PLACES,
             subgroup: Subgroups.PLACE_BUILDING,
             hasGlyph: false,
-            sortOrder: 2967
+            sortOrder: 2972
         );
 
         /* 🛖 */
@@ -29771,7 +29836,7 @@ namespace NeoSmart.Unicode
             group: Group.TRAVEL_AND_PLACES,
             subgroup: Subgroups.PLACE_BUILDING,
             hasGlyph: false,
-            sortOrder: 2968
+            sortOrder: 2973
         );
 
         /* 🏘️ */
@@ -29784,7 +29849,7 @@ namespace NeoSmart.Unicode
             group: Group.TRAVEL_AND_PLACES,
             subgroup: Subgroups.PLACE_BUILDING,
             hasGlyph: true,
-            sortOrder: 2969
+            sortOrder: 2974
         );
 
         /* 🏚️ */
@@ -29797,7 +29862,7 @@ namespace NeoSmart.Unicode
             group: Group.TRAVEL_AND_PLACES,
             subgroup: Subgroups.PLACE_BUILDING,
             hasGlyph: true,
-            sortOrder: 2971
+            sortOrder: 2976
         );
 
         /* 🏠 */
@@ -29810,7 +29875,7 @@ namespace NeoSmart.Unicode
             group: Group.TRAVEL_AND_PLACES,
             subgroup: Subgroups.PLACE_BUILDING,
             hasGlyph: true,
-            sortOrder: 2973
+            sortOrder: 2978
         );
 
         /* 🏡 */
@@ -29823,7 +29888,7 @@ namespace NeoSmart.Unicode
             group: Group.TRAVEL_AND_PLACES,
             subgroup: Subgroups.PLACE_BUILDING,
             hasGlyph: true,
-            sortOrder: 2974
+            sortOrder: 2979
         );
 
         /* 🏢 */
@@ -29836,7 +29901,7 @@ namespace NeoSmart.Unicode
             group: Group.TRAVEL_AND_PLACES,
             subgroup: Subgroups.PLACE_BUILDING,
             hasGlyph: true,
-            sortOrder: 2975
+            sortOrder: 2980
         );
 
         /* 🏣 */
@@ -29849,7 +29914,7 @@ namespace NeoSmart.Unicode
             group: Group.TRAVEL_AND_PLACES,
             subgroup: Subgroups.PLACE_BUILDING,
             hasGlyph: true,
-            sortOrder: 2976
+            sortOrder: 2981
         );
 
         /* 🏤 */
@@ -29862,7 +29927,7 @@ namespace NeoSmart.Unicode
             group: Group.TRAVEL_AND_PLACES,
             subgroup: Subgroups.PLACE_BUILDING,
             hasGlyph: true,
-            sortOrder: 2977
+            sortOrder: 2982
         );
 
         /* 🏥 */
@@ -29875,7 +29940,7 @@ namespace NeoSmart.Unicode
             group: Group.TRAVEL_AND_PLACES,
             subgroup: Subgroups.PLACE_BUILDING,
             hasGlyph: true,
-            sortOrder: 2978
+            sortOrder: 2983
         );
 
         /* 🏦 */
@@ -29888,7 +29953,7 @@ namespace NeoSmart.Unicode
             group: Group.TRAVEL_AND_PLACES,
             subgroup: Subgroups.PLACE_BUILDING,
             hasGlyph: true,
-            sortOrder: 2979
+            sortOrder: 2984
         );
 
         /* 🏨 */
@@ -29901,7 +29966,7 @@ namespace NeoSmart.Unicode
             group: Group.TRAVEL_AND_PLACES,
             subgroup: Subgroups.PLACE_BUILDING,
             hasGlyph: true,
-            sortOrder: 2980
+            sortOrder: 2985
         );
 
         /* 🏩 */
@@ -29914,7 +29979,7 @@ namespace NeoSmart.Unicode
             group: Group.TRAVEL_AND_PLACES,
             subgroup: Subgroups.PLACE_BUILDING,
             hasGlyph: true,
-            sortOrder: 2981
+            sortOrder: 2986
         );
 
         /* 🏪 */
@@ -29927,7 +29992,7 @@ namespace NeoSmart.Unicode
             group: Group.TRAVEL_AND_PLACES,
             subgroup: Subgroups.PLACE_BUILDING,
             hasGlyph: true,
-            sortOrder: 2982
+            sortOrder: 2987
         );
 
         /* 🏫 */
@@ -29940,7 +30005,7 @@ namespace NeoSmart.Unicode
             group: Group.TRAVEL_AND_PLACES,
             subgroup: Subgroups.PLACE_BUILDING,
             hasGlyph: true,
-            sortOrder: 2983
+            sortOrder: 2988
         );
 
         /* 🏬 */
@@ -29953,7 +30018,7 @@ namespace NeoSmart.Unicode
             group: Group.TRAVEL_AND_PLACES,
             subgroup: Subgroups.PLACE_BUILDING,
             hasGlyph: true,
-            sortOrder: 2984
+            sortOrder: 2989
         );
 
         /* 🏭 */
@@ -29966,7 +30031,7 @@ namespace NeoSmart.Unicode
             group: Group.TRAVEL_AND_PLACES,
             subgroup: Subgroups.PLACE_BUILDING,
             hasGlyph: true,
-            sortOrder: 2985
+            sortOrder: 2990
         );
 
         /* 🏯 */
@@ -29979,7 +30044,7 @@ namespace NeoSmart.Unicode
             group: Group.TRAVEL_AND_PLACES,
             subgroup: Subgroups.PLACE_BUILDING,
             hasGlyph: true,
-            sortOrder: 2986
+            sortOrder: 2991
         );
 
         /* 🏰 */
@@ -29992,7 +30057,7 @@ namespace NeoSmart.Unicode
             group: Group.TRAVEL_AND_PLACES,
             subgroup: Subgroups.PLACE_BUILDING,
             hasGlyph: true,
-            sortOrder: 2987
+            sortOrder: 2992
         );
 
         /* 💒 */
@@ -30005,7 +30070,7 @@ namespace NeoSmart.Unicode
             group: Group.TRAVEL_AND_PLACES,
             subgroup: Subgroups.PLACE_BUILDING,
             hasGlyph: true,
-            sortOrder: 2988
+            sortOrder: 2993
         );
 
         /* 🗼 */
@@ -30018,7 +30083,7 @@ namespace NeoSmart.Unicode
             group: Group.TRAVEL_AND_PLACES,
             subgroup: Subgroups.PLACE_BUILDING,
             hasGlyph: true,
-            sortOrder: 2989
+            sortOrder: 2994
         );
 
         /* 🗽 */
@@ -30031,7 +30096,7 @@ namespace NeoSmart.Unicode
             group: Group.TRAVEL_AND_PLACES,
             subgroup: Subgroups.PLACE_BUILDING,
             hasGlyph: true,
-            sortOrder: 2990
+            sortOrder: 2995
         );
 
         /* ⛪ */
@@ -30044,7 +30109,7 @@ namespace NeoSmart.Unicode
             group: Group.TRAVEL_AND_PLACES,
             subgroup: Subgroups.PLACE_RELIGIOUS,
             hasGlyph: true,
-            sortOrder: 2991
+            sortOrder: 2996
         );
 
         /* 🕌 */
@@ -30057,7 +30122,7 @@ namespace NeoSmart.Unicode
             group: Group.TRAVEL_AND_PLACES,
             subgroup: Subgroups.PLACE_RELIGIOUS,
             hasGlyph: true,
-            sortOrder: 2992
+            sortOrder: 2997
         );
 
         /* 🛕 */
@@ -30070,7 +30135,7 @@ namespace NeoSmart.Unicode
             group: Group.TRAVEL_AND_PLACES,
             subgroup: Subgroups.PLACE_RELIGIOUS,
             hasGlyph: true,
-            sortOrder: 2993
+            sortOrder: 2998
         );
 
         /* 🕍 */
@@ -30083,7 +30148,7 @@ namespace NeoSmart.Unicode
             group: Group.TRAVEL_AND_PLACES,
             subgroup: Subgroups.PLACE_RELIGIOUS,
             hasGlyph: true,
-            sortOrder: 2994
+            sortOrder: 2999
         );
 
         /* ⛩️ */
@@ -30096,7 +30161,7 @@ namespace NeoSmart.Unicode
             group: Group.TRAVEL_AND_PLACES,
             subgroup: Subgroups.PLACE_RELIGIOUS,
             hasGlyph: true,
-            sortOrder: 2995
+            sortOrder: 3000
         );
 
         /* 🕋 */
@@ -30109,7 +30174,7 @@ namespace NeoSmart.Unicode
             group: Group.TRAVEL_AND_PLACES,
             subgroup: Subgroups.PLACE_RELIGIOUS,
             hasGlyph: true,
-            sortOrder: 2997
+            sortOrder: 3002
         );
 
         /* ⛲ */
@@ -30122,7 +30187,7 @@ namespace NeoSmart.Unicode
             group: Group.TRAVEL_AND_PLACES,
             subgroup: Subgroups.PLACE_OTHER,
             hasGlyph: true,
-            sortOrder: 2998
+            sortOrder: 3003
         );
 
         /* ⛺ */
@@ -30135,7 +30200,7 @@ namespace NeoSmart.Unicode
             group: Group.TRAVEL_AND_PLACES,
             subgroup: Subgroups.PLACE_OTHER,
             hasGlyph: true,
-            sortOrder: 2999
+            sortOrder: 3004
         );
 
         /* 🌁 */
@@ -30148,7 +30213,7 @@ namespace NeoSmart.Unicode
             group: Group.TRAVEL_AND_PLACES,
             subgroup: Subgroups.PLACE_OTHER,
             hasGlyph: true,
-            sortOrder: 3000
+            sortOrder: 3005
         );
 
         /* 🌃 */
@@ -30161,7 +30226,7 @@ namespace NeoSmart.Unicode
             group: Group.TRAVEL_AND_PLACES,
             subgroup: Subgroups.PLACE_OTHER,
             hasGlyph: true,
-            sortOrder: 3001
+            sortOrder: 3006
         );
 
         /* 🏙️ */
@@ -30174,7 +30239,7 @@ namespace NeoSmart.Unicode
             group: Group.TRAVEL_AND_PLACES,
             subgroup: Subgroups.PLACE_OTHER,
             hasGlyph: true,
-            sortOrder: 3002
+            sortOrder: 3007
         );
 
         /* 🌄 */
@@ -30187,7 +30252,7 @@ namespace NeoSmart.Unicode
             group: Group.TRAVEL_AND_PLACES,
             subgroup: Subgroups.PLACE_OTHER,
             hasGlyph: true,
-            sortOrder: 3004
+            sortOrder: 3009
         );
 
         /* 🌅 */
@@ -30200,7 +30265,7 @@ namespace NeoSmart.Unicode
             group: Group.TRAVEL_AND_PLACES,
             subgroup: Subgroups.PLACE_OTHER,
             hasGlyph: true,
-            sortOrder: 3005
+            sortOrder: 3010
         );
 
         /* 🌆 */
@@ -30213,7 +30278,7 @@ namespace NeoSmart.Unicode
             group: Group.TRAVEL_AND_PLACES,
             subgroup: Subgroups.PLACE_OTHER,
             hasGlyph: true,
-            sortOrder: 3006
+            sortOrder: 3011
         );
 
         /* 🌇 */
@@ -30226,7 +30291,7 @@ namespace NeoSmart.Unicode
             group: Group.TRAVEL_AND_PLACES,
             subgroup: Subgroups.PLACE_OTHER,
             hasGlyph: true,
-            sortOrder: 3007
+            sortOrder: 3012
         );
 
         /* 🌉 */
@@ -30239,7 +30304,7 @@ namespace NeoSmart.Unicode
             group: Group.TRAVEL_AND_PLACES,
             subgroup: Subgroups.PLACE_OTHER,
             hasGlyph: true,
-            sortOrder: 3008
+            sortOrder: 3013
         );
 
         /* ♨️ */
@@ -30252,7 +30317,7 @@ namespace NeoSmart.Unicode
             group: Group.TRAVEL_AND_PLACES,
             subgroup: Subgroups.PLACE_OTHER,
             hasGlyph: true,
-            sortOrder: 3009
+            sortOrder: 3014
         );
 
         /* 🎠 */
@@ -30265,7 +30330,7 @@ namespace NeoSmart.Unicode
             group: Group.TRAVEL_AND_PLACES,
             subgroup: Subgroups.PLACE_OTHER,
             hasGlyph: true,
-            sortOrder: 3011
+            sortOrder: 3016
         );
 
         /* 🎡 */
@@ -30278,7 +30343,7 @@ namespace NeoSmart.Unicode
             group: Group.TRAVEL_AND_PLACES,
             subgroup: Subgroups.PLACE_OTHER,
             hasGlyph: true,
-            sortOrder: 3012
+            sortOrder: 3017
         );
 
         /* 🎢 */
@@ -30291,7 +30356,7 @@ namespace NeoSmart.Unicode
             group: Group.TRAVEL_AND_PLACES,
             subgroup: Subgroups.PLACE_OTHER,
             hasGlyph: true,
-            sortOrder: 3013
+            sortOrder: 3018
         );
 
         /* 💈 */
@@ -30304,7 +30369,7 @@ namespace NeoSmart.Unicode
             group: Group.TRAVEL_AND_PLACES,
             subgroup: Subgroups.PLACE_OTHER,
             hasGlyph: true,
-            sortOrder: 3014
+            sortOrder: 3019
         );
 
         /* 🎪 */
@@ -30317,7 +30382,7 @@ namespace NeoSmart.Unicode
             group: Group.TRAVEL_AND_PLACES,
             subgroup: Subgroups.PLACE_OTHER,
             hasGlyph: true,
-            sortOrder: 3015
+            sortOrder: 3020
         );
 
         /* 🚂 */
@@ -30330,7 +30395,7 @@ namespace NeoSmart.Unicode
             group: Group.TRAVEL_AND_PLACES,
             subgroup: Subgroups.TRANSPORT_GROUND,
             hasGlyph: true,
-            sortOrder: 3016
+            sortOrder: 3021
         );
 
         /* 🚃 */
@@ -30343,7 +30408,7 @@ namespace NeoSmart.Unicode
             group: Group.TRAVEL_AND_PLACES,
             subgroup: Subgroups.TRANSPORT_GROUND,
             hasGlyph: true,
-            sortOrder: 3017
+            sortOrder: 3022
         );
 
         /* 🚄 */
@@ -30356,7 +30421,7 @@ namespace NeoSmart.Unicode
             group: Group.TRAVEL_AND_PLACES,
             subgroup: Subgroups.TRANSPORT_GROUND,
             hasGlyph: true,
-            sortOrder: 3018
+            sortOrder: 3023
         );
 
         /* 🚅 */
@@ -30369,7 +30434,7 @@ namespace NeoSmart.Unicode
             group: Group.TRAVEL_AND_PLACES,
             subgroup: Subgroups.TRANSPORT_GROUND,
             hasGlyph: true,
-            sortOrder: 3019
+            sortOrder: 3024
         );
 
         /* 🚆 */
@@ -30382,7 +30447,7 @@ namespace NeoSmart.Unicode
             group: Group.TRAVEL_AND_PLACES,
             subgroup: Subgroups.TRANSPORT_GROUND,
             hasGlyph: true,
-            sortOrder: 3020
+            sortOrder: 3025
         );
 
         /* 🚇 */
@@ -30395,7 +30460,7 @@ namespace NeoSmart.Unicode
             group: Group.TRAVEL_AND_PLACES,
             subgroup: Subgroups.TRANSPORT_GROUND,
             hasGlyph: true,
-            sortOrder: 3021
+            sortOrder: 3026
         );
 
         /* 🚈 */
@@ -30408,7 +30473,7 @@ namespace NeoSmart.Unicode
             group: Group.TRAVEL_AND_PLACES,
             subgroup: Subgroups.TRANSPORT_GROUND,
             hasGlyph: true,
-            sortOrder: 3022
+            sortOrder: 3027
         );
 
         /* 🚉 */
@@ -30421,7 +30486,7 @@ namespace NeoSmart.Unicode
             group: Group.TRAVEL_AND_PLACES,
             subgroup: Subgroups.TRANSPORT_GROUND,
             hasGlyph: true,
-            sortOrder: 3023
+            sortOrder: 3028
         );
 
         /* 🚊 */
@@ -30434,7 +30499,7 @@ namespace NeoSmart.Unicode
             group: Group.TRAVEL_AND_PLACES,
             subgroup: Subgroups.TRANSPORT_GROUND,
             hasGlyph: true,
-            sortOrder: 3024
+            sortOrder: 3029
         );
 
         /* 🚝 */
@@ -30447,7 +30512,7 @@ namespace NeoSmart.Unicode
             group: Group.TRAVEL_AND_PLACES,
             subgroup: Subgroups.TRANSPORT_GROUND,
             hasGlyph: true,
-            sortOrder: 3025
+            sortOrder: 3030
         );
 
         /* 🚞 */
@@ -30460,7 +30525,7 @@ namespace NeoSmart.Unicode
             group: Group.TRAVEL_AND_PLACES,
             subgroup: Subgroups.TRANSPORT_GROUND,
             hasGlyph: true,
-            sortOrder: 3026
+            sortOrder: 3031
         );
 
         /* 🚋 */
@@ -30473,7 +30538,7 @@ namespace NeoSmart.Unicode
             group: Group.TRAVEL_AND_PLACES,
             subgroup: Subgroups.TRANSPORT_GROUND,
             hasGlyph: true,
-            sortOrder: 3027
+            sortOrder: 3032
         );
 
         /* 🚌 */
@@ -30486,7 +30551,7 @@ namespace NeoSmart.Unicode
             group: Group.TRAVEL_AND_PLACES,
             subgroup: Subgroups.TRANSPORT_GROUND,
             hasGlyph: true,
-            sortOrder: 3028
+            sortOrder: 3033
         );
 
         /* 🚍 */
@@ -30499,7 +30564,7 @@ namespace NeoSmart.Unicode
             group: Group.TRAVEL_AND_PLACES,
             subgroup: Subgroups.TRANSPORT_GROUND,
             hasGlyph: true,
-            sortOrder: 3029
+            sortOrder: 3034
         );
 
         /* 🚎 */
@@ -30512,7 +30577,7 @@ namespace NeoSmart.Unicode
             group: Group.TRAVEL_AND_PLACES,
             subgroup: Subgroups.TRANSPORT_GROUND,
             hasGlyph: true,
-            sortOrder: 3030
+            sortOrder: 3035
         );
 
         /* 🚐 */
@@ -30525,7 +30590,7 @@ namespace NeoSmart.Unicode
             group: Group.TRAVEL_AND_PLACES,
             subgroup: Subgroups.TRANSPORT_GROUND,
             hasGlyph: true,
-            sortOrder: 3031
+            sortOrder: 3036
         );
 
         /* 🚑 */
@@ -30538,7 +30603,7 @@ namespace NeoSmart.Unicode
             group: Group.TRAVEL_AND_PLACES,
             subgroup: Subgroups.TRANSPORT_GROUND,
             hasGlyph: true,
-            sortOrder: 3032
+            sortOrder: 3037
         );
 
         /* 🚒 */
@@ -30551,7 +30616,7 @@ namespace NeoSmart.Unicode
             group: Group.TRAVEL_AND_PLACES,
             subgroup: Subgroups.TRANSPORT_GROUND,
             hasGlyph: true,
-            sortOrder: 3033
+            sortOrder: 3038
         );
 
         /* 🚓 */
@@ -30564,7 +30629,7 @@ namespace NeoSmart.Unicode
             group: Group.TRAVEL_AND_PLACES,
             subgroup: Subgroups.TRANSPORT_GROUND,
             hasGlyph: true,
-            sortOrder: 3034
+            sortOrder: 3039
         );
 
         /* 🚔 */
@@ -30577,7 +30642,7 @@ namespace NeoSmart.Unicode
             group: Group.TRAVEL_AND_PLACES,
             subgroup: Subgroups.TRANSPORT_GROUND,
             hasGlyph: true,
-            sortOrder: 3035
+            sortOrder: 3040
         );
 
         /* 🚕 */
@@ -30590,7 +30655,7 @@ namespace NeoSmart.Unicode
             group: Group.TRAVEL_AND_PLACES,
             subgroup: Subgroups.TRANSPORT_GROUND,
             hasGlyph: true,
-            sortOrder: 3036
+            sortOrder: 3041
         );
 
         /* 🚖 */
@@ -30603,7 +30668,7 @@ namespace NeoSmart.Unicode
             group: Group.TRAVEL_AND_PLACES,
             subgroup: Subgroups.TRANSPORT_GROUND,
             hasGlyph: true,
-            sortOrder: 3037
+            sortOrder: 3042
         );
 
         /* 🚗 */
@@ -30616,7 +30681,7 @@ namespace NeoSmart.Unicode
             group: Group.TRAVEL_AND_PLACES,
             subgroup: Subgroups.TRANSPORT_GROUND,
             hasGlyph: true,
-            sortOrder: 3038
+            sortOrder: 3043
         );
 
         /* 🚘 */
@@ -30629,7 +30694,7 @@ namespace NeoSmart.Unicode
             group: Group.TRAVEL_AND_PLACES,
             subgroup: Subgroups.TRANSPORT_GROUND,
             hasGlyph: true,
-            sortOrder: 3039
+            sortOrder: 3044
         );
 
         /* 🚙 */
@@ -30642,7 +30707,7 @@ namespace NeoSmart.Unicode
             group: Group.TRAVEL_AND_PLACES,
             subgroup: Subgroups.TRANSPORT_GROUND,
             hasGlyph: true,
-            sortOrder: 3040
+            sortOrder: 3045
         );
 
         /* 🛻 */
@@ -30655,7 +30720,7 @@ namespace NeoSmart.Unicode
             group: Group.TRAVEL_AND_PLACES,
             subgroup: Subgroups.TRANSPORT_GROUND,
             hasGlyph: false,
-            sortOrder: 3041
+            sortOrder: 3046
         );
 
         /* 🚚 */
@@ -30668,7 +30733,7 @@ namespace NeoSmart.Unicode
             group: Group.TRAVEL_AND_PLACES,
             subgroup: Subgroups.TRANSPORT_GROUND,
             hasGlyph: true,
-            sortOrder: 3042
+            sortOrder: 3047
         );
 
         /* 🚛 */
@@ -30681,7 +30746,7 @@ namespace NeoSmart.Unicode
             group: Group.TRAVEL_AND_PLACES,
             subgroup: Subgroups.TRANSPORT_GROUND,
             hasGlyph: true,
-            sortOrder: 3043
+            sortOrder: 3048
         );
 
         /* 🚜 */
@@ -30694,7 +30759,7 @@ namespace NeoSmart.Unicode
             group: Group.TRAVEL_AND_PLACES,
             subgroup: Subgroups.TRANSPORT_GROUND,
             hasGlyph: true,
-            sortOrder: 3044
+            sortOrder: 3049
         );
 
         /* 🏎️ */
@@ -30707,7 +30772,7 @@ namespace NeoSmart.Unicode
             group: Group.TRAVEL_AND_PLACES,
             subgroup: Subgroups.TRANSPORT_GROUND,
             hasGlyph: true,
-            sortOrder: 3045
+            sortOrder: 3050
         );
 
         /* 🏍️ */
@@ -30720,7 +30785,7 @@ namespace NeoSmart.Unicode
             group: Group.TRAVEL_AND_PLACES,
             subgroup: Subgroups.TRANSPORT_GROUND,
             hasGlyph: true,
-            sortOrder: 3047
+            sortOrder: 3052
         );
 
         /* 🛵 */
@@ -30733,7 +30798,7 @@ namespace NeoSmart.Unicode
             group: Group.TRAVEL_AND_PLACES,
             subgroup: Subgroups.TRANSPORT_GROUND,
             hasGlyph: true,
-            sortOrder: 3049
+            sortOrder: 3054
         );
 
         /* 🦽 */
@@ -30746,7 +30811,7 @@ namespace NeoSmart.Unicode
             group: Group.TRAVEL_AND_PLACES,
             subgroup: Subgroups.TRANSPORT_GROUND,
             hasGlyph: true,
-            sortOrder: 3050
+            sortOrder: 3055
         );
 
         /* 🦼 */
@@ -30759,7 +30824,7 @@ namespace NeoSmart.Unicode
             group: Group.TRAVEL_AND_PLACES,
             subgroup: Subgroups.TRANSPORT_GROUND,
             hasGlyph: true,
-            sortOrder: 3051
+            sortOrder: 3056
         );
 
         /* 🛺 */
@@ -30772,7 +30837,7 @@ namespace NeoSmart.Unicode
             group: Group.TRAVEL_AND_PLACES,
             subgroup: Subgroups.TRANSPORT_GROUND,
             hasGlyph: true,
-            sortOrder: 3052
+            sortOrder: 3057
         );
 
         /* 🚲 */
@@ -30785,7 +30850,7 @@ namespace NeoSmart.Unicode
             group: Group.TRAVEL_AND_PLACES,
             subgroup: Subgroups.TRANSPORT_GROUND,
             hasGlyph: true,
-            sortOrder: 3053
+            sortOrder: 3058
         );
 
         /* 🛴 */
@@ -30798,7 +30863,7 @@ namespace NeoSmart.Unicode
             group: Group.TRAVEL_AND_PLACES,
             subgroup: Subgroups.TRANSPORT_GROUND,
             hasGlyph: true,
-            sortOrder: 3054
+            sortOrder: 3059
         );
 
         /* 🛹 */
@@ -30811,7 +30876,7 @@ namespace NeoSmart.Unicode
             group: Group.TRAVEL_AND_PLACES,
             subgroup: Subgroups.TRANSPORT_GROUND,
             hasGlyph: true,
-            sortOrder: 3055
+            sortOrder: 3060
         );
 
         /* 🛼 */
@@ -30824,7 +30889,7 @@ namespace NeoSmart.Unicode
             group: Group.TRAVEL_AND_PLACES,
             subgroup: Subgroups.TRANSPORT_GROUND,
             hasGlyph: false,
-            sortOrder: 3056
+            sortOrder: 3061
         );
 
         /* 🚏 */
@@ -30837,7 +30902,7 @@ namespace NeoSmart.Unicode
             group: Group.TRAVEL_AND_PLACES,
             subgroup: Subgroups.TRANSPORT_GROUND,
             hasGlyph: true,
-            sortOrder: 3057
+            sortOrder: 3062
         );
 
         /* 🛣️ */
@@ -30850,7 +30915,7 @@ namespace NeoSmart.Unicode
             group: Group.TRAVEL_AND_PLACES,
             subgroup: Subgroups.TRANSPORT_GROUND,
             hasGlyph: true,
-            sortOrder: 3058
+            sortOrder: 3063
         );
 
         /* 🛤️ */
@@ -30863,7 +30928,7 @@ namespace NeoSmart.Unicode
             group: Group.TRAVEL_AND_PLACES,
             subgroup: Subgroups.TRANSPORT_GROUND,
             hasGlyph: true,
-            sortOrder: 3060
+            sortOrder: 3065
         );
 
         /* 🛢️ */
@@ -30876,7 +30941,7 @@ namespace NeoSmart.Unicode
             group: Group.TRAVEL_AND_PLACES,
             subgroup: Subgroups.TRANSPORT_GROUND,
             hasGlyph: true,
-            sortOrder: 3062
+            sortOrder: 3067
         );
 
         /* ⛽ */
@@ -30889,7 +30954,7 @@ namespace NeoSmart.Unicode
             group: Group.TRAVEL_AND_PLACES,
             subgroup: Subgroups.TRANSPORT_GROUND,
             hasGlyph: true,
-            sortOrder: 3064
+            sortOrder: 3069
         );
 
         /* 🚨 */
@@ -30902,7 +30967,7 @@ namespace NeoSmart.Unicode
             group: Group.TRAVEL_AND_PLACES,
             subgroup: Subgroups.TRANSPORT_GROUND,
             hasGlyph: true,
-            sortOrder: 3065
+            sortOrder: 3070
         );
 
         /* 🚥 */
@@ -30915,7 +30980,7 @@ namespace NeoSmart.Unicode
             group: Group.TRAVEL_AND_PLACES,
             subgroup: Subgroups.TRANSPORT_GROUND,
             hasGlyph: true,
-            sortOrder: 3066
+            sortOrder: 3071
         );
 
         /* 🚦 */
@@ -30928,7 +30993,7 @@ namespace NeoSmart.Unicode
             group: Group.TRAVEL_AND_PLACES,
             subgroup: Subgroups.TRANSPORT_GROUND,
             hasGlyph: true,
-            sortOrder: 3067
+            sortOrder: 3072
         );
 
         /* 🛑 */
@@ -30941,7 +31006,7 @@ namespace NeoSmart.Unicode
             group: Group.TRAVEL_AND_PLACES,
             subgroup: Subgroups.TRANSPORT_GROUND,
             hasGlyph: true,
-            sortOrder: 3068
+            sortOrder: 3073
         );
 
         /* 🚧 */
@@ -30954,7 +31019,7 @@ namespace NeoSmart.Unicode
             group: Group.TRAVEL_AND_PLACES,
             subgroup: Subgroups.TRANSPORT_GROUND,
             hasGlyph: true,
-            sortOrder: 3069
+            sortOrder: 3074
         );
 
         /* ⚓ */
@@ -30967,7 +31032,7 @@ namespace NeoSmart.Unicode
             group: Group.TRAVEL_AND_PLACES,
             subgroup: Subgroups.TRANSPORT_WATER,
             hasGlyph: true,
-            sortOrder: 3070
+            sortOrder: 3075
         );
 
         /* ⛵ */
@@ -30980,7 +31045,7 @@ namespace NeoSmart.Unicode
             group: Group.TRAVEL_AND_PLACES,
             subgroup: Subgroups.TRANSPORT_WATER,
             hasGlyph: true,
-            sortOrder: 3071
+            sortOrder: 3076
         );
 
         /* 🛶 */
@@ -30993,7 +31058,7 @@ namespace NeoSmart.Unicode
             group: Group.TRAVEL_AND_PLACES,
             subgroup: Subgroups.TRANSPORT_WATER,
             hasGlyph: true,
-            sortOrder: 3072
+            sortOrder: 3077
         );
 
         /* 🚤 */
@@ -31006,7 +31071,7 @@ namespace NeoSmart.Unicode
             group: Group.TRAVEL_AND_PLACES,
             subgroup: Subgroups.TRANSPORT_WATER,
             hasGlyph: true,
-            sortOrder: 3073
+            sortOrder: 3078
         );
 
         /* 🛳️ */
@@ -31019,7 +31084,7 @@ namespace NeoSmart.Unicode
             group: Group.TRAVEL_AND_PLACES,
             subgroup: Subgroups.TRANSPORT_WATER,
             hasGlyph: true,
-            sortOrder: 3074
+            sortOrder: 3079
         );
 
         /* ⛴️ */
@@ -31032,7 +31097,7 @@ namespace NeoSmart.Unicode
             group: Group.TRAVEL_AND_PLACES,
             subgroup: Subgroups.TRANSPORT_WATER,
             hasGlyph: true,
-            sortOrder: 3076
+            sortOrder: 3081
         );
 
         /* 🛥️ */
@@ -31045,7 +31110,7 @@ namespace NeoSmart.Unicode
             group: Group.TRAVEL_AND_PLACES,
             subgroup: Subgroups.TRANSPORT_WATER,
             hasGlyph: true,
-            sortOrder: 3078
+            sortOrder: 3083
         );
 
         /* 🚢 */
@@ -31058,7 +31123,7 @@ namespace NeoSmart.Unicode
             group: Group.TRAVEL_AND_PLACES,
             subgroup: Subgroups.TRANSPORT_WATER,
             hasGlyph: true,
-            sortOrder: 3080
+            sortOrder: 3085
         );
 
         /* ✈️ */
@@ -31071,7 +31136,7 @@ namespace NeoSmart.Unicode
             group: Group.TRAVEL_AND_PLACES,
             subgroup: Subgroups.TRANSPORT_AIR,
             hasGlyph: true,
-            sortOrder: 3081
+            sortOrder: 3086
         );
 
         /* 🛩️ */
@@ -31084,7 +31149,7 @@ namespace NeoSmart.Unicode
             group: Group.TRAVEL_AND_PLACES,
             subgroup: Subgroups.TRANSPORT_AIR,
             hasGlyph: true,
-            sortOrder: 3083
+            sortOrder: 3088
         );
 
         /* 🛫 */
@@ -31097,7 +31162,7 @@ namespace NeoSmart.Unicode
             group: Group.TRAVEL_AND_PLACES,
             subgroup: Subgroups.TRANSPORT_AIR,
             hasGlyph: true,
-            sortOrder: 3085
+            sortOrder: 3090
         );
 
         /* 🛬 */
@@ -31110,7 +31175,7 @@ namespace NeoSmart.Unicode
             group: Group.TRAVEL_AND_PLACES,
             subgroup: Subgroups.TRANSPORT_AIR,
             hasGlyph: true,
-            sortOrder: 3086
+            sortOrder: 3091
         );
 
         /* 🪂 */
@@ -31123,7 +31188,7 @@ namespace NeoSmart.Unicode
             group: Group.TRAVEL_AND_PLACES,
             subgroup: Subgroups.TRANSPORT_AIR,
             hasGlyph: true,
-            sortOrder: 3087
+            sortOrder: 3092
         );
 
         /* 💺 */
@@ -31136,7 +31201,7 @@ namespace NeoSmart.Unicode
             group: Group.TRAVEL_AND_PLACES,
             subgroup: Subgroups.TRANSPORT_AIR,
             hasGlyph: true,
-            sortOrder: 3088
+            sortOrder: 3093
         );
 
         /* 🚁 */
@@ -31149,7 +31214,7 @@ namespace NeoSmart.Unicode
             group: Group.TRAVEL_AND_PLACES,
             subgroup: Subgroups.TRANSPORT_AIR,
             hasGlyph: true,
-            sortOrder: 3089
+            sortOrder: 3094
         );
 
         /* 🚟 */
@@ -31162,7 +31227,7 @@ namespace NeoSmart.Unicode
             group: Group.TRAVEL_AND_PLACES,
             subgroup: Subgroups.TRANSPORT_AIR,
             hasGlyph: true,
-            sortOrder: 3090
+            sortOrder: 3095
         );
 
         /* 🚠 */
@@ -31175,7 +31240,7 @@ namespace NeoSmart.Unicode
             group: Group.TRAVEL_AND_PLACES,
             subgroup: Subgroups.TRANSPORT_AIR,
             hasGlyph: true,
-            sortOrder: 3091
+            sortOrder: 3096
         );
 
         /* 🚡 */
@@ -31188,7 +31253,7 @@ namespace NeoSmart.Unicode
             group: Group.TRAVEL_AND_PLACES,
             subgroup: Subgroups.TRANSPORT_AIR,
             hasGlyph: true,
-            sortOrder: 3092
+            sortOrder: 3097
         );
 
         /* 🛰️ */
@@ -31201,7 +31266,7 @@ namespace NeoSmart.Unicode
             group: Group.TRAVEL_AND_PLACES,
             subgroup: Subgroups.TRANSPORT_AIR,
             hasGlyph: true,
-            sortOrder: 3093
+            sortOrder: 3098
         );
 
         /* 🚀 */
@@ -31214,7 +31279,7 @@ namespace NeoSmart.Unicode
             group: Group.TRAVEL_AND_PLACES,
             subgroup: Subgroups.TRANSPORT_AIR,
             hasGlyph: true,
-            sortOrder: 3095
+            sortOrder: 3100
         );
 
         /* 🛸 */
@@ -31227,7 +31292,7 @@ namespace NeoSmart.Unicode
             group: Group.TRAVEL_AND_PLACES,
             subgroup: Subgroups.TRANSPORT_AIR,
             hasGlyph: true,
-            sortOrder: 3096
+            sortOrder: 3101
         );
 
         /* 🛎️ */
@@ -31240,7 +31305,7 @@ namespace NeoSmart.Unicode
             group: Group.TRAVEL_AND_PLACES,
             subgroup: Subgroups.HOTEL,
             hasGlyph: true,
-            sortOrder: 3097
+            sortOrder: 3102
         );
 
         /* 🧳 */
@@ -31253,7 +31318,7 @@ namespace NeoSmart.Unicode
             group: Group.TRAVEL_AND_PLACES,
             subgroup: Subgroups.HOTEL,
             hasGlyph: true,
-            sortOrder: 3099
+            sortOrder: 3104
         );
 
         /* ⌛ */
@@ -31266,7 +31331,7 @@ namespace NeoSmart.Unicode
             group: Group.TRAVEL_AND_PLACES,
             subgroup: Subgroups.TIME,
             hasGlyph: true,
-            sortOrder: 3100
+            sortOrder: 3105
         );
 
         /* ⏳ */
@@ -31279,7 +31344,7 @@ namespace NeoSmart.Unicode
             group: Group.TRAVEL_AND_PLACES,
             subgroup: Subgroups.TIME,
             hasGlyph: true,
-            sortOrder: 3101
+            sortOrder: 3106
         );
 
         /* ⌚ */
@@ -31292,7 +31357,7 @@ namespace NeoSmart.Unicode
             group: Group.TRAVEL_AND_PLACES,
             subgroup: Subgroups.TIME,
             hasGlyph: true,
-            sortOrder: 3102
+            sortOrder: 3107
         );
 
         /* ⏰ */
@@ -31305,7 +31370,7 @@ namespace NeoSmart.Unicode
             group: Group.TRAVEL_AND_PLACES,
             subgroup: Subgroups.TIME,
             hasGlyph: true,
-            sortOrder: 3103
+            sortOrder: 3108
         );
 
         /* ⏱️ */
@@ -31318,7 +31383,7 @@ namespace NeoSmart.Unicode
             group: Group.TRAVEL_AND_PLACES,
             subgroup: Subgroups.TIME,
             hasGlyph: true,
-            sortOrder: 3104
+            sortOrder: 3109
         );
 
         /* ⏲️ */
@@ -31331,7 +31396,7 @@ namespace NeoSmart.Unicode
             group: Group.TRAVEL_AND_PLACES,
             subgroup: Subgroups.TIME,
             hasGlyph: true,
-            sortOrder: 3106
+            sortOrder: 3111
         );
 
         /* 🕰️ */
@@ -31344,7 +31409,7 @@ namespace NeoSmart.Unicode
             group: Group.TRAVEL_AND_PLACES,
             subgroup: Subgroups.TIME,
             hasGlyph: true,
-            sortOrder: 3108
+            sortOrder: 3113
         );
 
         /* 🕛 */
@@ -31357,7 +31422,7 @@ namespace NeoSmart.Unicode
             group: Group.TRAVEL_AND_PLACES,
             subgroup: Subgroups.TIME,
             hasGlyph: true,
-            sortOrder: 3110
+            sortOrder: 3115
         );
 
         /* 🕧 */
@@ -31370,7 +31435,7 @@ namespace NeoSmart.Unicode
             group: Group.TRAVEL_AND_PLACES,
             subgroup: Subgroups.TIME,
             hasGlyph: true,
-            sortOrder: 3111
+            sortOrder: 3116
         );
 
         /* 🕐 */
@@ -31383,7 +31448,7 @@ namespace NeoSmart.Unicode
             group: Group.TRAVEL_AND_PLACES,
             subgroup: Subgroups.TIME,
             hasGlyph: true,
-            sortOrder: 3112
+            sortOrder: 3117
         );
 
         /* 🕜 */
@@ -31396,7 +31461,7 @@ namespace NeoSmart.Unicode
             group: Group.TRAVEL_AND_PLACES,
             subgroup: Subgroups.TIME,
             hasGlyph: true,
-            sortOrder: 3113
+            sortOrder: 3118
         );
 
         /* 🕑 */
@@ -31409,7 +31474,7 @@ namespace NeoSmart.Unicode
             group: Group.TRAVEL_AND_PLACES,
             subgroup: Subgroups.TIME,
             hasGlyph: true,
-            sortOrder: 3114
+            sortOrder: 3119
         );
 
         /* 🕝 */
@@ -31422,7 +31487,7 @@ namespace NeoSmart.Unicode
             group: Group.TRAVEL_AND_PLACES,
             subgroup: Subgroups.TIME,
             hasGlyph: true,
-            sortOrder: 3115
+            sortOrder: 3120
         );
 
         /* 🕒 */
@@ -31435,7 +31500,7 @@ namespace NeoSmart.Unicode
             group: Group.TRAVEL_AND_PLACES,
             subgroup: Subgroups.TIME,
             hasGlyph: true,
-            sortOrder: 3116
+            sortOrder: 3121
         );
 
         /* 🕞 */
@@ -31448,7 +31513,7 @@ namespace NeoSmart.Unicode
             group: Group.TRAVEL_AND_PLACES,
             subgroup: Subgroups.TIME,
             hasGlyph: true,
-            sortOrder: 3117
+            sortOrder: 3122
         );
 
         /* 🕓 */
@@ -31461,7 +31526,7 @@ namespace NeoSmart.Unicode
             group: Group.TRAVEL_AND_PLACES,
             subgroup: Subgroups.TIME,
             hasGlyph: true,
-            sortOrder: 3118
+            sortOrder: 3123
         );
 
         /* 🕟 */
@@ -31474,7 +31539,7 @@ namespace NeoSmart.Unicode
             group: Group.TRAVEL_AND_PLACES,
             subgroup: Subgroups.TIME,
             hasGlyph: true,
-            sortOrder: 3119
+            sortOrder: 3124
         );
 
         /* 🕔 */
@@ -31487,7 +31552,7 @@ namespace NeoSmart.Unicode
             group: Group.TRAVEL_AND_PLACES,
             subgroup: Subgroups.TIME,
             hasGlyph: true,
-            sortOrder: 3120
+            sortOrder: 3125
         );
 
         /* 🕠 */
@@ -31500,7 +31565,7 @@ namespace NeoSmart.Unicode
             group: Group.TRAVEL_AND_PLACES,
             subgroup: Subgroups.TIME,
             hasGlyph: true,
-            sortOrder: 3121
+            sortOrder: 3126
         );
 
         /* 🕕 */
@@ -31513,7 +31578,7 @@ namespace NeoSmart.Unicode
             group: Group.TRAVEL_AND_PLACES,
             subgroup: Subgroups.TIME,
             hasGlyph: true,
-            sortOrder: 3122
+            sortOrder: 3127
         );
 
         /* 🕡 */
@@ -31526,7 +31591,7 @@ namespace NeoSmart.Unicode
             group: Group.TRAVEL_AND_PLACES,
             subgroup: Subgroups.TIME,
             hasGlyph: true,
-            sortOrder: 3123
+            sortOrder: 3128
         );
 
         /* 🕖 */
@@ -31539,7 +31604,7 @@ namespace NeoSmart.Unicode
             group: Group.TRAVEL_AND_PLACES,
             subgroup: Subgroups.TIME,
             hasGlyph: true,
-            sortOrder: 3124
+            sortOrder: 3129
         );
 
         /* 🕢 */
@@ -31552,7 +31617,7 @@ namespace NeoSmart.Unicode
             group: Group.TRAVEL_AND_PLACES,
             subgroup: Subgroups.TIME,
             hasGlyph: true,
-            sortOrder: 3125
+            sortOrder: 3130
         );
 
         /* 🕗 */
@@ -31565,7 +31630,7 @@ namespace NeoSmart.Unicode
             group: Group.TRAVEL_AND_PLACES,
             subgroup: Subgroups.TIME,
             hasGlyph: true,
-            sortOrder: 3126
+            sortOrder: 3131
         );
 
         /* 🕣 */
@@ -31578,7 +31643,7 @@ namespace NeoSmart.Unicode
             group: Group.TRAVEL_AND_PLACES,
             subgroup: Subgroups.TIME,
             hasGlyph: true,
-            sortOrder: 3127
+            sortOrder: 3132
         );
 
         /* 🕘 */
@@ -31591,7 +31656,7 @@ namespace NeoSmart.Unicode
             group: Group.TRAVEL_AND_PLACES,
             subgroup: Subgroups.TIME,
             hasGlyph: true,
-            sortOrder: 3128
+            sortOrder: 3133
         );
 
         /* 🕤 */
@@ -31604,7 +31669,7 @@ namespace NeoSmart.Unicode
             group: Group.TRAVEL_AND_PLACES,
             subgroup: Subgroups.TIME,
             hasGlyph: true,
-            sortOrder: 3129
+            sortOrder: 3134
         );
 
         /* 🕙 */
@@ -31617,7 +31682,7 @@ namespace NeoSmart.Unicode
             group: Group.TRAVEL_AND_PLACES,
             subgroup: Subgroups.TIME,
             hasGlyph: true,
-            sortOrder: 3130
+            sortOrder: 3135
         );
 
         /* 🕥 */
@@ -31630,7 +31695,7 @@ namespace NeoSmart.Unicode
             group: Group.TRAVEL_AND_PLACES,
             subgroup: Subgroups.TIME,
             hasGlyph: true,
-            sortOrder: 3131
+            sortOrder: 3136
         );
 
         /* 🕚 */
@@ -31643,7 +31708,7 @@ namespace NeoSmart.Unicode
             group: Group.TRAVEL_AND_PLACES,
             subgroup: Subgroups.TIME,
             hasGlyph: true,
-            sortOrder: 3132
+            sortOrder: 3137
         );
 
         /* 🕦 */
@@ -31656,7 +31721,7 @@ namespace NeoSmart.Unicode
             group: Group.TRAVEL_AND_PLACES,
             subgroup: Subgroups.TIME,
             hasGlyph: true,
-            sortOrder: 3133
+            sortOrder: 3138
         );
 
         /* 🌑 */
@@ -31669,7 +31734,7 @@ namespace NeoSmart.Unicode
             group: Group.TRAVEL_AND_PLACES,
             subgroup: Subgroups.SKY_WEATHER,
             hasGlyph: true,
-            sortOrder: 3134
+            sortOrder: 3139
         );
 
         /* 🌒 */
@@ -31682,7 +31747,7 @@ namespace NeoSmart.Unicode
             group: Group.TRAVEL_AND_PLACES,
             subgroup: Subgroups.SKY_WEATHER,
             hasGlyph: true,
-            sortOrder: 3135
+            sortOrder: 3140
         );
 
         /* 🌓 */
@@ -31695,7 +31760,7 @@ namespace NeoSmart.Unicode
             group: Group.TRAVEL_AND_PLACES,
             subgroup: Subgroups.SKY_WEATHER,
             hasGlyph: true,
-            sortOrder: 3136
+            sortOrder: 3141
         );
 
         /* 🌔 */
@@ -31708,7 +31773,7 @@ namespace NeoSmart.Unicode
             group: Group.TRAVEL_AND_PLACES,
             subgroup: Subgroups.SKY_WEATHER,
             hasGlyph: true,
-            sortOrder: 3137
+            sortOrder: 3142
         );
 
         /* 🌕 */
@@ -31721,7 +31786,7 @@ namespace NeoSmart.Unicode
             group: Group.TRAVEL_AND_PLACES,
             subgroup: Subgroups.SKY_WEATHER,
             hasGlyph: true,
-            sortOrder: 3138
+            sortOrder: 3143
         );
 
         /* 🌖 */
@@ -31734,7 +31799,7 @@ namespace NeoSmart.Unicode
             group: Group.TRAVEL_AND_PLACES,
             subgroup: Subgroups.SKY_WEATHER,
             hasGlyph: true,
-            sortOrder: 3139
+            sortOrder: 3144
         );
 
         /* 🌗 */
@@ -31747,7 +31812,7 @@ namespace NeoSmart.Unicode
             group: Group.TRAVEL_AND_PLACES,
             subgroup: Subgroups.SKY_WEATHER,
             hasGlyph: true,
-            sortOrder: 3140
+            sortOrder: 3145
         );
 
         /* 🌘 */
@@ -31760,7 +31825,7 @@ namespace NeoSmart.Unicode
             group: Group.TRAVEL_AND_PLACES,
             subgroup: Subgroups.SKY_WEATHER,
             hasGlyph: true,
-            sortOrder: 3141
+            sortOrder: 3146
         );
 
         /* 🌙 */
@@ -31773,7 +31838,7 @@ namespace NeoSmart.Unicode
             group: Group.TRAVEL_AND_PLACES,
             subgroup: Subgroups.SKY_WEATHER,
             hasGlyph: true,
-            sortOrder: 3142
+            sortOrder: 3147
         );
 
         /* 🌚 */
@@ -31786,7 +31851,7 @@ namespace NeoSmart.Unicode
             group: Group.TRAVEL_AND_PLACES,
             subgroup: Subgroups.SKY_WEATHER,
             hasGlyph: true,
-            sortOrder: 3143
+            sortOrder: 3148
         );
 
         /* 🌛 */
@@ -31799,7 +31864,7 @@ namespace NeoSmart.Unicode
             group: Group.TRAVEL_AND_PLACES,
             subgroup: Subgroups.SKY_WEATHER,
             hasGlyph: true,
-            sortOrder: 3144
+            sortOrder: 3149
         );
 
         /* 🌜 */
@@ -31812,7 +31877,7 @@ namespace NeoSmart.Unicode
             group: Group.TRAVEL_AND_PLACES,
             subgroup: Subgroups.SKY_WEATHER,
             hasGlyph: true,
-            sortOrder: 3145
+            sortOrder: 3150
         );
 
         /* 🌡️ */
@@ -31825,7 +31890,7 @@ namespace NeoSmart.Unicode
             group: Group.TRAVEL_AND_PLACES,
             subgroup: Subgroups.SKY_WEATHER,
             hasGlyph: true,
-            sortOrder: 3146
+            sortOrder: 3151
         );
 
         /* ☀️ */
@@ -31838,7 +31903,7 @@ namespace NeoSmart.Unicode
             group: Group.TRAVEL_AND_PLACES,
             subgroup: Subgroups.SKY_WEATHER,
             hasGlyph: true,
-            sortOrder: 3148
+            sortOrder: 3153
         );
 
         /* 🌝 */
@@ -31851,7 +31916,7 @@ namespace NeoSmart.Unicode
             group: Group.TRAVEL_AND_PLACES,
             subgroup: Subgroups.SKY_WEATHER,
             hasGlyph: true,
-            sortOrder: 3150
+            sortOrder: 3155
         );
 
         /* 🌞 */
@@ -31864,7 +31929,7 @@ namespace NeoSmart.Unicode
             group: Group.TRAVEL_AND_PLACES,
             subgroup: Subgroups.SKY_WEATHER,
             hasGlyph: true,
-            sortOrder: 3151
+            sortOrder: 3156
         );
 
         /* 🪐 */
@@ -31877,7 +31942,7 @@ namespace NeoSmart.Unicode
             group: Group.TRAVEL_AND_PLACES,
             subgroup: Subgroups.SKY_WEATHER,
             hasGlyph: true,
-            sortOrder: 3152
+            sortOrder: 3157
         );
 
         /* ⭐ */
@@ -31890,7 +31955,7 @@ namespace NeoSmart.Unicode
             group: Group.TRAVEL_AND_PLACES,
             subgroup: Subgroups.SKY_WEATHER,
             hasGlyph: true,
-            sortOrder: 3153
+            sortOrder: 3158
         );
 
         /* 🌟 */
@@ -31903,7 +31968,7 @@ namespace NeoSmart.Unicode
             group: Group.TRAVEL_AND_PLACES,
             subgroup: Subgroups.SKY_WEATHER,
             hasGlyph: true,
-            sortOrder: 3154
+            sortOrder: 3159
         );
 
         /* 🌠 */
@@ -31916,7 +31981,7 @@ namespace NeoSmart.Unicode
             group: Group.TRAVEL_AND_PLACES,
             subgroup: Subgroups.SKY_WEATHER,
             hasGlyph: true,
-            sortOrder: 3155
+            sortOrder: 3160
         );
 
         /* 🌌 */
@@ -31929,7 +31994,7 @@ namespace NeoSmart.Unicode
             group: Group.TRAVEL_AND_PLACES,
             subgroup: Subgroups.SKY_WEATHER,
             hasGlyph: true,
-            sortOrder: 3156
+            sortOrder: 3161
         );
 
         /* ☁️ */
@@ -31942,7 +32007,7 @@ namespace NeoSmart.Unicode
             group: Group.TRAVEL_AND_PLACES,
             subgroup: Subgroups.SKY_WEATHER,
             hasGlyph: true,
-            sortOrder: 3157
+            sortOrder: 3162
         );
 
         /* ⛅ */
@@ -31955,7 +32020,7 @@ namespace NeoSmart.Unicode
             group: Group.TRAVEL_AND_PLACES,
             subgroup: Subgroups.SKY_WEATHER,
             hasGlyph: true,
-            sortOrder: 3159
+            sortOrder: 3164
         );
 
         /* ⛈️ */
@@ -31968,7 +32033,7 @@ namespace NeoSmart.Unicode
             group: Group.TRAVEL_AND_PLACES,
             subgroup: Subgroups.SKY_WEATHER,
             hasGlyph: true,
-            sortOrder: 3160
+            sortOrder: 3165
         );
 
         /* 🌤️ */
@@ -31981,7 +32046,7 @@ namespace NeoSmart.Unicode
             group: Group.TRAVEL_AND_PLACES,
             subgroup: Subgroups.SKY_WEATHER,
             hasGlyph: true,
-            sortOrder: 3162
+            sortOrder: 3167
         );
 
         /* 🌥️ */
@@ -31994,7 +32059,7 @@ namespace NeoSmart.Unicode
             group: Group.TRAVEL_AND_PLACES,
             subgroup: Subgroups.SKY_WEATHER,
             hasGlyph: true,
-            sortOrder: 3164
+            sortOrder: 3169
         );
 
         /* 🌦️ */
@@ -32007,7 +32072,7 @@ namespace NeoSmart.Unicode
             group: Group.TRAVEL_AND_PLACES,
             subgroup: Subgroups.SKY_WEATHER,
             hasGlyph: true,
-            sortOrder: 3166
+            sortOrder: 3171
         );
 
         /* 🌧️ */
@@ -32020,7 +32085,7 @@ namespace NeoSmart.Unicode
             group: Group.TRAVEL_AND_PLACES,
             subgroup: Subgroups.SKY_WEATHER,
             hasGlyph: true,
-            sortOrder: 3168
+            sortOrder: 3173
         );
 
         /* 🌨️ */
@@ -32033,7 +32098,7 @@ namespace NeoSmart.Unicode
             group: Group.TRAVEL_AND_PLACES,
             subgroup: Subgroups.SKY_WEATHER,
             hasGlyph: true,
-            sortOrder: 3170
+            sortOrder: 3175
         );
 
         /* 🌩️ */
@@ -32046,7 +32111,7 @@ namespace NeoSmart.Unicode
             group: Group.TRAVEL_AND_PLACES,
             subgroup: Subgroups.SKY_WEATHER,
             hasGlyph: true,
-            sortOrder: 3172
+            sortOrder: 3177
         );
 
         /* 🌪️ */
@@ -32059,7 +32124,7 @@ namespace NeoSmart.Unicode
             group: Group.TRAVEL_AND_PLACES,
             subgroup: Subgroups.SKY_WEATHER,
             hasGlyph: true,
-            sortOrder: 3174
+            sortOrder: 3179
         );
 
         /* 🌫️ */
@@ -32072,7 +32137,7 @@ namespace NeoSmart.Unicode
             group: Group.TRAVEL_AND_PLACES,
             subgroup: Subgroups.SKY_WEATHER,
             hasGlyph: true,
-            sortOrder: 3176
+            sortOrder: 3181
         );
 
         /* 🌬️ */
@@ -32085,7 +32150,7 @@ namespace NeoSmart.Unicode
             group: Group.TRAVEL_AND_PLACES,
             subgroup: Subgroups.SKY_WEATHER,
             hasGlyph: true,
-            sortOrder: 3178
+            sortOrder: 3183
         );
 
         /* 🌀 */
@@ -32098,7 +32163,7 @@ namespace NeoSmart.Unicode
             group: Group.TRAVEL_AND_PLACES,
             subgroup: Subgroups.SKY_WEATHER,
             hasGlyph: true,
-            sortOrder: 3180
+            sortOrder: 3185
         );
 
         /* 🌈 */
@@ -32111,7 +32176,7 @@ namespace NeoSmart.Unicode
             group: Group.TRAVEL_AND_PLACES,
             subgroup: Subgroups.SKY_WEATHER,
             hasGlyph: true,
-            sortOrder: 3181
+            sortOrder: 3186
         );
 
         /* 🌂 */
@@ -32124,7 +32189,7 @@ namespace NeoSmart.Unicode
             group: Group.TRAVEL_AND_PLACES,
             subgroup: Subgroups.SKY_WEATHER,
             hasGlyph: true,
-            sortOrder: 3182
+            sortOrder: 3187
         );
 
         /* ☂️ */
@@ -32137,7 +32202,7 @@ namespace NeoSmart.Unicode
             group: Group.TRAVEL_AND_PLACES,
             subgroup: Subgroups.SKY_WEATHER,
             hasGlyph: true,
-            sortOrder: 3183
+            sortOrder: 3188
         );
 
         /* ☔ */
@@ -32150,7 +32215,7 @@ namespace NeoSmart.Unicode
             group: Group.TRAVEL_AND_PLACES,
             subgroup: Subgroups.SKY_WEATHER,
             hasGlyph: true,
-            sortOrder: 3185
+            sortOrder: 3190
         );
 
         /* ⛱️ */
@@ -32163,7 +32228,7 @@ namespace NeoSmart.Unicode
             group: Group.TRAVEL_AND_PLACES,
             subgroup: Subgroups.SKY_WEATHER,
             hasGlyph: true,
-            sortOrder: 3186
+            sortOrder: 3191
         );
 
         /* ⚡ */
@@ -32176,7 +32241,7 @@ namespace NeoSmart.Unicode
             group: Group.TRAVEL_AND_PLACES,
             subgroup: Subgroups.SKY_WEATHER,
             hasGlyph: true,
-            sortOrder: 3188
+            sortOrder: 3193
         );
 
         /* ❄️ */
@@ -32189,7 +32254,7 @@ namespace NeoSmart.Unicode
             group: Group.TRAVEL_AND_PLACES,
             subgroup: Subgroups.SKY_WEATHER,
             hasGlyph: true,
-            sortOrder: 3189
+            sortOrder: 3194
         );
 
         /* ☃️ */
@@ -32202,7 +32267,7 @@ namespace NeoSmart.Unicode
             group: Group.TRAVEL_AND_PLACES,
             subgroup: Subgroups.SKY_WEATHER,
             hasGlyph: true,
-            sortOrder: 3191
+            sortOrder: 3196
         );
 
         /* ⛄ */
@@ -32215,7 +32280,7 @@ namespace NeoSmart.Unicode
             group: Group.TRAVEL_AND_PLACES,
             subgroup: Subgroups.SKY_WEATHER,
             hasGlyph: true,
-            sortOrder: 3193
+            sortOrder: 3198
         );
 
         /* ☄️ */
@@ -32228,7 +32293,7 @@ namespace NeoSmart.Unicode
             group: Group.TRAVEL_AND_PLACES,
             subgroup: Subgroups.SKY_WEATHER,
             hasGlyph: true,
-            sortOrder: 3194
+            sortOrder: 3199
         );
 
         /* 🔥 */
@@ -32241,7 +32306,7 @@ namespace NeoSmart.Unicode
             group: Group.TRAVEL_AND_PLACES,
             subgroup: Subgroups.SKY_WEATHER,
             hasGlyph: true,
-            sortOrder: 3196
+            sortOrder: 3201
         );
 
         /* 💧 */
@@ -32254,7 +32319,7 @@ namespace NeoSmart.Unicode
             group: Group.TRAVEL_AND_PLACES,
             subgroup: Subgroups.SKY_WEATHER,
             hasGlyph: true,
-            sortOrder: 3197
+            sortOrder: 3202
         );
 
         /* 🌊 */
@@ -32267,7 +32332,7 @@ namespace NeoSmart.Unicode
             group: Group.TRAVEL_AND_PLACES,
             subgroup: Subgroups.SKY_WEATHER,
             hasGlyph: true,
-            sortOrder: 3198
+            sortOrder: 3203
         );
 
         /* 🎃 */
@@ -32280,7 +32345,7 @@ namespace NeoSmart.Unicode
             group: Group.ACTIVITIES,
             subgroup: Subgroups.EVENT,
             hasGlyph: true,
-            sortOrder: 3199
+            sortOrder: 3204
         );
 
         /* 🎄 */
@@ -32293,7 +32358,7 @@ namespace NeoSmart.Unicode
             group: Group.ACTIVITIES,
             subgroup: Subgroups.EVENT,
             hasGlyph: true,
-            sortOrder: 3200
+            sortOrder: 3205
         );
 
         /* 🎆 */
@@ -32306,7 +32371,7 @@ namespace NeoSmart.Unicode
             group: Group.ACTIVITIES,
             subgroup: Subgroups.EVENT,
             hasGlyph: true,
-            sortOrder: 3201
+            sortOrder: 3206
         );
 
         /* 🎇 */
@@ -32319,7 +32384,7 @@ namespace NeoSmart.Unicode
             group: Group.ACTIVITIES,
             subgroup: Subgroups.EVENT,
             hasGlyph: true,
-            sortOrder: 3202
+            sortOrder: 3207
         );
 
         /* 🧨 */
@@ -32332,7 +32397,7 @@ namespace NeoSmart.Unicode
             group: Group.ACTIVITIES,
             subgroup: Subgroups.EVENT,
             hasGlyph: true,
-            sortOrder: 3203
+            sortOrder: 3208
         );
 
         /* ✨ */
@@ -32345,7 +32410,7 @@ namespace NeoSmart.Unicode
             group: Group.ACTIVITIES,
             subgroup: Subgroups.EVENT,
             hasGlyph: true,
-            sortOrder: 3204
+            sortOrder: 3209
         );
 
         /* 🎈 */
@@ -32358,7 +32423,7 @@ namespace NeoSmart.Unicode
             group: Group.ACTIVITIES,
             subgroup: Subgroups.EVENT,
             hasGlyph: true,
-            sortOrder: 3205
+            sortOrder: 3210
         );
 
         /* 🎉 */
@@ -32371,7 +32436,7 @@ namespace NeoSmart.Unicode
             group: Group.ACTIVITIES,
             subgroup: Subgroups.EVENT,
             hasGlyph: true,
-            sortOrder: 3206
+            sortOrder: 3211
         );
 
         /* 🎊 */
@@ -32384,7 +32449,7 @@ namespace NeoSmart.Unicode
             group: Group.ACTIVITIES,
             subgroup: Subgroups.EVENT,
             hasGlyph: true,
-            sortOrder: 3207
+            sortOrder: 3212
         );
 
         /* 🎋 */
@@ -32397,7 +32462,7 @@ namespace NeoSmart.Unicode
             group: Group.ACTIVITIES,
             subgroup: Subgroups.EVENT,
             hasGlyph: true,
-            sortOrder: 3208
+            sortOrder: 3213
         );
 
         /* 🎍 */
@@ -32410,7 +32475,7 @@ namespace NeoSmart.Unicode
             group: Group.ACTIVITIES,
             subgroup: Subgroups.EVENT,
             hasGlyph: true,
-            sortOrder: 3209
+            sortOrder: 3214
         );
 
         /* 🎎 */
@@ -32423,7 +32488,7 @@ namespace NeoSmart.Unicode
             group: Group.ACTIVITIES,
             subgroup: Subgroups.EVENT,
             hasGlyph: true,
-            sortOrder: 3210
+            sortOrder: 3215
         );
 
         /* 🎏 */
@@ -32436,7 +32501,7 @@ namespace NeoSmart.Unicode
             group: Group.ACTIVITIES,
             subgroup: Subgroups.EVENT,
             hasGlyph: true,
-            sortOrder: 3211
+            sortOrder: 3216
         );
 
         /* 🎐 */
@@ -32449,7 +32514,7 @@ namespace NeoSmart.Unicode
             group: Group.ACTIVITIES,
             subgroup: Subgroups.EVENT,
             hasGlyph: true,
-            sortOrder: 3212
+            sortOrder: 3217
         );
 
         /* 🎑 */
@@ -32462,7 +32527,7 @@ namespace NeoSmart.Unicode
             group: Group.ACTIVITIES,
             subgroup: Subgroups.EVENT,
             hasGlyph: true,
-            sortOrder: 3213
+            sortOrder: 3218
         );
 
         /* 🧧 */
@@ -32475,7 +32540,7 @@ namespace NeoSmart.Unicode
             group: Group.ACTIVITIES,
             subgroup: Subgroups.EVENT,
             hasGlyph: true,
-            sortOrder: 3214
+            sortOrder: 3219
         );
 
         /* 🎀 */
@@ -32488,7 +32553,7 @@ namespace NeoSmart.Unicode
             group: Group.ACTIVITIES,
             subgroup: Subgroups.EVENT,
             hasGlyph: true,
-            sortOrder: 3215
+            sortOrder: 3220
         );
 
         /* 🎁 */
@@ -32501,7 +32566,7 @@ namespace NeoSmart.Unicode
             group: Group.ACTIVITIES,
             subgroup: Subgroups.EVENT,
             hasGlyph: true,
-            sortOrder: 3216
+            sortOrder: 3221
         );
 
         /* 🎗️ */
@@ -32514,7 +32579,7 @@ namespace NeoSmart.Unicode
             group: Group.ACTIVITIES,
             subgroup: Subgroups.EVENT,
             hasGlyph: true,
-            sortOrder: 3217
+            sortOrder: 3222
         );
 
         /* 🎟️ */
@@ -32527,7 +32592,7 @@ namespace NeoSmart.Unicode
             group: Group.ACTIVITIES,
             subgroup: Subgroups.EVENT,
             hasGlyph: true,
-            sortOrder: 3219
+            sortOrder: 3224
         );
 
         /* 🎫 */
@@ -32540,7 +32605,7 @@ namespace NeoSmart.Unicode
             group: Group.ACTIVITIES,
             subgroup: Subgroups.EVENT,
             hasGlyph: true,
-            sortOrder: 3221
+            sortOrder: 3226
         );
 
         /* 🎖️ */
@@ -32553,7 +32618,7 @@ namespace NeoSmart.Unicode
             group: Group.ACTIVITIES,
             subgroup: Subgroups.AWARD_MEDAL,
             hasGlyph: true,
-            sortOrder: 3222
+            sortOrder: 3227
         );
 
         /* 🏆 */
@@ -32566,7 +32631,7 @@ namespace NeoSmart.Unicode
             group: Group.ACTIVITIES,
             subgroup: Subgroups.AWARD_MEDAL,
             hasGlyph: true,
-            sortOrder: 3224
+            sortOrder: 3229
         );
 
         /* 🏅 */
@@ -32579,7 +32644,7 @@ namespace NeoSmart.Unicode
             group: Group.ACTIVITIES,
             subgroup: Subgroups.AWARD_MEDAL,
             hasGlyph: true,
-            sortOrder: 3225
+            sortOrder: 3230
         );
 
         /* 🥇 */
@@ -32592,7 +32657,7 @@ namespace NeoSmart.Unicode
             group: Group.ACTIVITIES,
             subgroup: Subgroups.AWARD_MEDAL,
             hasGlyph: true,
-            sortOrder: 3226
+            sortOrder: 3231
         );
 
         /* 🥈 */
@@ -32605,7 +32670,7 @@ namespace NeoSmart.Unicode
             group: Group.ACTIVITIES,
             subgroup: Subgroups.AWARD_MEDAL,
             hasGlyph: true,
-            sortOrder: 3227
+            sortOrder: 3232
         );
 
         /* 🥉 */
@@ -32618,7 +32683,7 @@ namespace NeoSmart.Unicode
             group: Group.ACTIVITIES,
             subgroup: Subgroups.AWARD_MEDAL,
             hasGlyph: true,
-            sortOrder: 3228
+            sortOrder: 3233
         );
 
         /* ⚽ */
@@ -32631,7 +32696,7 @@ namespace NeoSmart.Unicode
             group: Group.ACTIVITIES,
             subgroup: Subgroups.SPORT,
             hasGlyph: true,
-            sortOrder: 3229
+            sortOrder: 3234
         );
 
         /* ⚾ */
@@ -32644,7 +32709,7 @@ namespace NeoSmart.Unicode
             group: Group.ACTIVITIES,
             subgroup: Subgroups.SPORT,
             hasGlyph: true,
-            sortOrder: 3230
+            sortOrder: 3235
         );
 
         /* 🥎 */
@@ -32657,7 +32722,7 @@ namespace NeoSmart.Unicode
             group: Group.ACTIVITIES,
             subgroup: Subgroups.SPORT,
             hasGlyph: true,
-            sortOrder: 3231
+            sortOrder: 3236
         );
 
         /* 🏀 */
@@ -32670,7 +32735,7 @@ namespace NeoSmart.Unicode
             group: Group.ACTIVITIES,
             subgroup: Subgroups.SPORT,
             hasGlyph: true,
-            sortOrder: 3232
+            sortOrder: 3237
         );
 
         /* 🏐 */
@@ -32683,7 +32748,7 @@ namespace NeoSmart.Unicode
             group: Group.ACTIVITIES,
             subgroup: Subgroups.SPORT,
             hasGlyph: true,
-            sortOrder: 3233
+            sortOrder: 3238
         );
 
         /* 🏈 */
@@ -32696,7 +32761,7 @@ namespace NeoSmart.Unicode
             group: Group.ACTIVITIES,
             subgroup: Subgroups.SPORT,
             hasGlyph: true,
-            sortOrder: 3234
+            sortOrder: 3239
         );
 
         /* 🏉 */
@@ -32709,7 +32774,7 @@ namespace NeoSmart.Unicode
             group: Group.ACTIVITIES,
             subgroup: Subgroups.SPORT,
             hasGlyph: true,
-            sortOrder: 3235
+            sortOrder: 3240
         );
 
         /* 🎾 */
@@ -32722,7 +32787,7 @@ namespace NeoSmart.Unicode
             group: Group.ACTIVITIES,
             subgroup: Subgroups.SPORT,
             hasGlyph: true,
-            sortOrder: 3236
+            sortOrder: 3241
         );
 
         /* 🥏 */
@@ -32735,7 +32800,7 @@ namespace NeoSmart.Unicode
             group: Group.ACTIVITIES,
             subgroup: Subgroups.SPORT,
             hasGlyph: true,
-            sortOrder: 3237
+            sortOrder: 3242
         );
 
         /* 🎳 */
@@ -32748,7 +32813,7 @@ namespace NeoSmart.Unicode
             group: Group.ACTIVITIES,
             subgroup: Subgroups.SPORT,
             hasGlyph: true,
-            sortOrder: 3238
+            sortOrder: 3243
         );
 
         /* 🏏 */
@@ -32761,7 +32826,7 @@ namespace NeoSmart.Unicode
             group: Group.ACTIVITIES,
             subgroup: Subgroups.SPORT,
             hasGlyph: true,
-            sortOrder: 3239
+            sortOrder: 3244
         );
 
         /* 🏑 */
@@ -32774,7 +32839,7 @@ namespace NeoSmart.Unicode
             group: Group.ACTIVITIES,
             subgroup: Subgroups.SPORT,
             hasGlyph: true,
-            sortOrder: 3240
+            sortOrder: 3245
         );
 
         /* 🏒 */
@@ -32787,7 +32852,7 @@ namespace NeoSmart.Unicode
             group: Group.ACTIVITIES,
             subgroup: Subgroups.SPORT,
             hasGlyph: true,
-            sortOrder: 3241
+            sortOrder: 3246
         );
 
         /* 🥍 */
@@ -32800,7 +32865,7 @@ namespace NeoSmart.Unicode
             group: Group.ACTIVITIES,
             subgroup: Subgroups.SPORT,
             hasGlyph: true,
-            sortOrder: 3242
+            sortOrder: 3247
         );
 
         /* 🏓 */
@@ -32813,7 +32878,7 @@ namespace NeoSmart.Unicode
             group: Group.ACTIVITIES,
             subgroup: Subgroups.SPORT,
             hasGlyph: true,
-            sortOrder: 3243
+            sortOrder: 3248
         );
 
         /* 🏸 */
@@ -32826,7 +32891,7 @@ namespace NeoSmart.Unicode
             group: Group.ACTIVITIES,
             subgroup: Subgroups.SPORT,
             hasGlyph: true,
-            sortOrder: 3244
+            sortOrder: 3249
         );
 
         /* 🥊 */
@@ -32839,7 +32904,7 @@ namespace NeoSmart.Unicode
             group: Group.ACTIVITIES,
             subgroup: Subgroups.SPORT,
             hasGlyph: true,
-            sortOrder: 3245
+            sortOrder: 3250
         );
 
         /* 🥋 */
@@ -32852,7 +32917,7 @@ namespace NeoSmart.Unicode
             group: Group.ACTIVITIES,
             subgroup: Subgroups.SPORT,
             hasGlyph: true,
-            sortOrder: 3246
+            sortOrder: 3251
         );
 
         /* 🥅 */
@@ -32865,7 +32930,7 @@ namespace NeoSmart.Unicode
             group: Group.ACTIVITIES,
             subgroup: Subgroups.SPORT,
             hasGlyph: true,
-            sortOrder: 3247
+            sortOrder: 3252
         );
 
         /* ⛳ */
@@ -32878,7 +32943,7 @@ namespace NeoSmart.Unicode
             group: Group.ACTIVITIES,
             subgroup: Subgroups.SPORT,
             hasGlyph: true,
-            sortOrder: 3248
+            sortOrder: 3253
         );
 
         /* ⛸️ */
@@ -32891,7 +32956,7 @@ namespace NeoSmart.Unicode
             group: Group.ACTIVITIES,
             subgroup: Subgroups.SPORT,
             hasGlyph: true,
-            sortOrder: 3249
+            sortOrder: 3254
         );
 
         /* 🎣 */
@@ -32904,7 +32969,7 @@ namespace NeoSmart.Unicode
             group: Group.ACTIVITIES,
             subgroup: Subgroups.SPORT,
             hasGlyph: true,
-            sortOrder: 3251
+            sortOrder: 3256
         );
 
         /* 🤿 */
@@ -32917,7 +32982,7 @@ namespace NeoSmart.Unicode
             group: Group.ACTIVITIES,
             subgroup: Subgroups.SPORT,
             hasGlyph: true,
-            sortOrder: 3252
+            sortOrder: 3257
         );
 
         /* 🎽 */
@@ -32930,7 +32995,7 @@ namespace NeoSmart.Unicode
             group: Group.ACTIVITIES,
             subgroup: Subgroups.SPORT,
             hasGlyph: true,
-            sortOrder: 3253
+            sortOrder: 3258
         );
 
         /* 🎿 */
@@ -32943,7 +33008,7 @@ namespace NeoSmart.Unicode
             group: Group.ACTIVITIES,
             subgroup: Subgroups.SPORT,
             hasGlyph: true,
-            sortOrder: 3254
+            sortOrder: 3259
         );
 
         /* 🛷 */
@@ -32956,7 +33021,7 @@ namespace NeoSmart.Unicode
             group: Group.ACTIVITIES,
             subgroup: Subgroups.SPORT,
             hasGlyph: true,
-            sortOrder: 3255
+            sortOrder: 3260
         );
 
         /* 🥌 */
@@ -32969,7 +33034,7 @@ namespace NeoSmart.Unicode
             group: Group.ACTIVITIES,
             subgroup: Subgroups.SPORT,
             hasGlyph: true,
-            sortOrder: 3256
+            sortOrder: 3261
         );
 
         /* 🎯 */
@@ -32982,7 +33047,7 @@ namespace NeoSmart.Unicode
             group: Group.ACTIVITIES,
             subgroup: Subgroups.GAME,
             hasGlyph: true,
-            sortOrder: 3257
+            sortOrder: 3262
         );
 
         /* 🪀 */
@@ -32995,7 +33060,7 @@ namespace NeoSmart.Unicode
             group: Group.ACTIVITIES,
             subgroup: Subgroups.GAME,
             hasGlyph: true,
-            sortOrder: 3258
+            sortOrder: 3263
         );
 
         /* 🪁 */
@@ -33008,7 +33073,7 @@ namespace NeoSmart.Unicode
             group: Group.ACTIVITIES,
             subgroup: Subgroups.GAME,
             hasGlyph: true,
-            sortOrder: 3259
+            sortOrder: 3264
         );
 
         /* 🎱 */
@@ -33021,7 +33086,7 @@ namespace NeoSmart.Unicode
             group: Group.ACTIVITIES,
             subgroup: Subgroups.GAME,
             hasGlyph: true,
-            sortOrder: 3260
+            sortOrder: 3265
         );
 
         /* 🔮 */
@@ -33034,7 +33099,7 @@ namespace NeoSmart.Unicode
             group: Group.ACTIVITIES,
             subgroup: Subgroups.GAME,
             hasGlyph: true,
-            sortOrder: 3261
+            sortOrder: 3266
         );
 
         /* 🪄 */
@@ -33047,7 +33112,7 @@ namespace NeoSmart.Unicode
             group: Group.ACTIVITIES,
             subgroup: Subgroups.GAME,
             hasGlyph: false,
-            sortOrder: 3262
+            sortOrder: 3267
         );
 
         /* 🧿 */
@@ -33060,7 +33125,7 @@ namespace NeoSmart.Unicode
             group: Group.ACTIVITIES,
             subgroup: Subgroups.GAME,
             hasGlyph: true,
-            sortOrder: 3263
+            sortOrder: 3268
         );
 
         /* 🎮 */
@@ -33073,7 +33138,7 @@ namespace NeoSmart.Unicode
             group: Group.ACTIVITIES,
             subgroup: Subgroups.GAME,
             hasGlyph: true,
-            sortOrder: 3264
+            sortOrder: 3269
         );
 
         /* 🕹️ */
@@ -33086,7 +33151,7 @@ namespace NeoSmart.Unicode
             group: Group.ACTIVITIES,
             subgroup: Subgroups.GAME,
             hasGlyph: true,
-            sortOrder: 3265
+            sortOrder: 3270
         );
 
         /* 🎰 */
@@ -33099,7 +33164,7 @@ namespace NeoSmart.Unicode
             group: Group.ACTIVITIES,
             subgroup: Subgroups.GAME,
             hasGlyph: true,
-            sortOrder: 3267
+            sortOrder: 3272
         );
 
         /* 🎲 */
@@ -33112,7 +33177,7 @@ namespace NeoSmart.Unicode
             group: Group.ACTIVITIES,
             subgroup: Subgroups.GAME,
             hasGlyph: true,
-            sortOrder: 3268
+            sortOrder: 3273
         );
 
         /* 🧩 */
@@ -33125,7 +33190,7 @@ namespace NeoSmart.Unicode
             group: Group.ACTIVITIES,
             subgroup: Subgroups.GAME,
             hasGlyph: true,
-            sortOrder: 3269
+            sortOrder: 3274
         );
 
         /* 🧸 */
@@ -33138,7 +33203,7 @@ namespace NeoSmart.Unicode
             group: Group.ACTIVITIES,
             subgroup: Subgroups.GAME,
             hasGlyph: true,
-            sortOrder: 3270
+            sortOrder: 3275
         );
 
         /* 🪅 */
@@ -33151,7 +33216,7 @@ namespace NeoSmart.Unicode
             group: Group.ACTIVITIES,
             subgroup: Subgroups.GAME,
             hasGlyph: false,
-            sortOrder: 3271
+            sortOrder: 3276
         );
 
         /* 🪆 */
@@ -33164,7 +33229,7 @@ namespace NeoSmart.Unicode
             group: Group.ACTIVITIES,
             subgroup: Subgroups.GAME,
             hasGlyph: false,
-            sortOrder: 3272
+            sortOrder: 3277
         );
 
         /* ♠️ */
@@ -33177,7 +33242,7 @@ namespace NeoSmart.Unicode
             group: Group.ACTIVITIES,
             subgroup: Subgroups.GAME,
             hasGlyph: true,
-            sortOrder: 3273
+            sortOrder: 3278
         );
 
         /* ♥️ */
@@ -33190,7 +33255,7 @@ namespace NeoSmart.Unicode
             group: Group.ACTIVITIES,
             subgroup: Subgroups.GAME,
             hasGlyph: true,
-            sortOrder: 3275
+            sortOrder: 3280
         );
 
         /* ♦️ */
@@ -33203,7 +33268,7 @@ namespace NeoSmart.Unicode
             group: Group.ACTIVITIES,
             subgroup: Subgroups.GAME,
             hasGlyph: true,
-            sortOrder: 3277
+            sortOrder: 3282
         );
 
         /* ♣️ */
@@ -33216,7 +33281,7 @@ namespace NeoSmart.Unicode
             group: Group.ACTIVITIES,
             subgroup: Subgroups.GAME,
             hasGlyph: true,
-            sortOrder: 3279
+            sortOrder: 3284
         );
 
         /* ♟️ */
@@ -33229,7 +33294,7 @@ namespace NeoSmart.Unicode
             group: Group.ACTIVITIES,
             subgroup: Subgroups.GAME,
             hasGlyph: true,
-            sortOrder: 3281
+            sortOrder: 3286
         );
 
         /* 🃏 */
@@ -33242,7 +33307,7 @@ namespace NeoSmart.Unicode
             group: Group.ACTIVITIES,
             subgroup: Subgroups.GAME,
             hasGlyph: true,
-            sortOrder: 3283
+            sortOrder: 3288
         );
 
         /* 🀄 */
@@ -33255,7 +33320,7 @@ namespace NeoSmart.Unicode
             group: Group.ACTIVITIES,
             subgroup: Subgroups.GAME,
             hasGlyph: true,
-            sortOrder: 3284
+            sortOrder: 3289
         );
 
         /* 🎴 */
@@ -33268,7 +33333,7 @@ namespace NeoSmart.Unicode
             group: Group.ACTIVITIES,
             subgroup: Subgroups.GAME,
             hasGlyph: true,
-            sortOrder: 3285
+            sortOrder: 3290
         );
 
         /* 🎭 */
@@ -33281,7 +33346,7 @@ namespace NeoSmart.Unicode
             group: Group.ACTIVITIES,
             subgroup: Subgroups.ARTS_CRAFTS,
             hasGlyph: true,
-            sortOrder: 3286
+            sortOrder: 3291
         );
 
         /* 🖼️ */
@@ -33294,7 +33359,7 @@ namespace NeoSmart.Unicode
             group: Group.ACTIVITIES,
             subgroup: Subgroups.ARTS_CRAFTS,
             hasGlyph: true,
-            sortOrder: 3287
+            sortOrder: 3292
         );
 
         /* 🎨 */
@@ -33307,7 +33372,7 @@ namespace NeoSmart.Unicode
             group: Group.ACTIVITIES,
             subgroup: Subgroups.ARTS_CRAFTS,
             hasGlyph: true,
-            sortOrder: 3289
+            sortOrder: 3294
         );
 
         /* 🧵 */
@@ -33320,7 +33385,7 @@ namespace NeoSmart.Unicode
             group: Group.ACTIVITIES,
             subgroup: Subgroups.ARTS_CRAFTS,
             hasGlyph: true,
-            sortOrder: 3290
+            sortOrder: 3295
         );
 
         /* 🪡 */
@@ -33333,7 +33398,7 @@ namespace NeoSmart.Unicode
             group: Group.ACTIVITIES,
             subgroup: Subgroups.ARTS_CRAFTS,
             hasGlyph: false,
-            sortOrder: 3291
+            sortOrder: 3296
         );
 
         /* 🧶 */
@@ -33346,7 +33411,7 @@ namespace NeoSmart.Unicode
             group: Group.ACTIVITIES,
             subgroup: Subgroups.ARTS_CRAFTS,
             hasGlyph: true,
-            sortOrder: 3292
+            sortOrder: 3297
         );
 
         /* 🪢 */
@@ -33359,7 +33424,7 @@ namespace NeoSmart.Unicode
             group: Group.ACTIVITIES,
             subgroup: Subgroups.ARTS_CRAFTS,
             hasGlyph: false,
-            sortOrder: 3293
+            sortOrder: 3298
         );
 
         /* 👓 */
@@ -33372,7 +33437,7 @@ namespace NeoSmart.Unicode
             group: Group.OBJECTS,
             subgroup: Subgroups.CLOTHING,
             hasGlyph: true,
-            sortOrder: 3294
+            sortOrder: 3299
         );
 
         /* 🕶️ */
@@ -33385,7 +33450,7 @@ namespace NeoSmart.Unicode
             group: Group.OBJECTS,
             subgroup: Subgroups.CLOTHING,
             hasGlyph: true,
-            sortOrder: 3295
+            sortOrder: 3300
         );
 
         /* 🥽 */
@@ -33398,7 +33463,7 @@ namespace NeoSmart.Unicode
             group: Group.OBJECTS,
             subgroup: Subgroups.CLOTHING,
             hasGlyph: true,
-            sortOrder: 3297
+            sortOrder: 3302
         );
 
         /* 🥼 */
@@ -33411,7 +33476,7 @@ namespace NeoSmart.Unicode
             group: Group.OBJECTS,
             subgroup: Subgroups.CLOTHING,
             hasGlyph: true,
-            sortOrder: 3298
+            sortOrder: 3303
         );
 
         /* 🦺 */
@@ -33424,7 +33489,7 @@ namespace NeoSmart.Unicode
             group: Group.OBJECTS,
             subgroup: Subgroups.CLOTHING,
             hasGlyph: true,
-            sortOrder: 3299
+            sortOrder: 3304
         );
 
         /* 👔 */
@@ -33437,7 +33502,7 @@ namespace NeoSmart.Unicode
             group: Group.OBJECTS,
             subgroup: Subgroups.CLOTHING,
             hasGlyph: true,
-            sortOrder: 3300
+            sortOrder: 3305
         );
 
         /* 👕 */
@@ -33450,7 +33515,7 @@ namespace NeoSmart.Unicode
             group: Group.OBJECTS,
             subgroup: Subgroups.CLOTHING,
             hasGlyph: true,
-            sortOrder: 3301
+            sortOrder: 3306
         );
 
         /* 👖 */
@@ -33463,7 +33528,7 @@ namespace NeoSmart.Unicode
             group: Group.OBJECTS,
             subgroup: Subgroups.CLOTHING,
             hasGlyph: true,
-            sortOrder: 3302
+            sortOrder: 3307
         );
 
         /* 🧣 */
@@ -33476,7 +33541,7 @@ namespace NeoSmart.Unicode
             group: Group.OBJECTS,
             subgroup: Subgroups.CLOTHING,
             hasGlyph: true,
-            sortOrder: 3303
+            sortOrder: 3308
         );
 
         /* 🧤 */
@@ -33489,7 +33554,7 @@ namespace NeoSmart.Unicode
             group: Group.OBJECTS,
             subgroup: Subgroups.CLOTHING,
             hasGlyph: true,
-            sortOrder: 3304
+            sortOrder: 3309
         );
 
         /* 🧥 */
@@ -33502,7 +33567,7 @@ namespace NeoSmart.Unicode
             group: Group.OBJECTS,
             subgroup: Subgroups.CLOTHING,
             hasGlyph: true,
-            sortOrder: 3305
+            sortOrder: 3310
         );
 
         /* 🧦 */
@@ -33515,7 +33580,7 @@ namespace NeoSmart.Unicode
             group: Group.OBJECTS,
             subgroup: Subgroups.CLOTHING,
             hasGlyph: true,
-            sortOrder: 3306
+            sortOrder: 3311
         );
 
         /* 👗 */
@@ -33528,7 +33593,7 @@ namespace NeoSmart.Unicode
             group: Group.OBJECTS,
             subgroup: Subgroups.CLOTHING,
             hasGlyph: true,
-            sortOrder: 3307
+            sortOrder: 3312
         );
 
         /* 👘 */
@@ -33541,7 +33606,7 @@ namespace NeoSmart.Unicode
             group: Group.OBJECTS,
             subgroup: Subgroups.CLOTHING,
             hasGlyph: true,
-            sortOrder: 3308
+            sortOrder: 3313
         );
 
         /* 🥻 */
@@ -33554,7 +33619,7 @@ namespace NeoSmart.Unicode
             group: Group.OBJECTS,
             subgroup: Subgroups.CLOTHING,
             hasGlyph: true,
-            sortOrder: 3309
+            sortOrder: 3314
         );
 
         /* 🩱 */
@@ -33567,7 +33632,7 @@ namespace NeoSmart.Unicode
             group: Group.OBJECTS,
             subgroup: Subgroups.CLOTHING,
             hasGlyph: true,
-            sortOrder: 3310
+            sortOrder: 3315
         );
 
         /* 🩲 */
@@ -33580,7 +33645,7 @@ namespace NeoSmart.Unicode
             group: Group.OBJECTS,
             subgroup: Subgroups.CLOTHING,
             hasGlyph: true,
-            sortOrder: 3311
+            sortOrder: 3316
         );
 
         /* 🩳 */
@@ -33593,7 +33658,7 @@ namespace NeoSmart.Unicode
             group: Group.OBJECTS,
             subgroup: Subgroups.CLOTHING,
             hasGlyph: true,
-            sortOrder: 3312
+            sortOrder: 3317
         );
 
         /* 👙 */
@@ -33606,7 +33671,7 @@ namespace NeoSmart.Unicode
             group: Group.OBJECTS,
             subgroup: Subgroups.CLOTHING,
             hasGlyph: true,
-            sortOrder: 3313
+            sortOrder: 3318
         );
 
         /* 👚 */
@@ -33619,7 +33684,7 @@ namespace NeoSmart.Unicode
             group: Group.OBJECTS,
             subgroup: Subgroups.CLOTHING,
             hasGlyph: true,
-            sortOrder: 3314
+            sortOrder: 3319
         );
 
         /* 👛 */
@@ -33632,7 +33697,7 @@ namespace NeoSmart.Unicode
             group: Group.OBJECTS,
             subgroup: Subgroups.CLOTHING,
             hasGlyph: true,
-            sortOrder: 3315
+            sortOrder: 3320
         );
 
         /* 👜 */
@@ -33645,7 +33710,7 @@ namespace NeoSmart.Unicode
             group: Group.OBJECTS,
             subgroup: Subgroups.CLOTHING,
             hasGlyph: true,
-            sortOrder: 3316
+            sortOrder: 3321
         );
 
         /* 👝 */
@@ -33658,7 +33723,7 @@ namespace NeoSmart.Unicode
             group: Group.OBJECTS,
             subgroup: Subgroups.CLOTHING,
             hasGlyph: true,
-            sortOrder: 3317
+            sortOrder: 3322
         );
 
         /* 🛍️ */
@@ -33671,7 +33736,7 @@ namespace NeoSmart.Unicode
             group: Group.OBJECTS,
             subgroup: Subgroups.CLOTHING,
             hasGlyph: true,
-            sortOrder: 3318
+            sortOrder: 3323
         );
 
         /* 🎒 */
@@ -33684,7 +33749,7 @@ namespace NeoSmart.Unicode
             group: Group.OBJECTS,
             subgroup: Subgroups.CLOTHING,
             hasGlyph: true,
-            sortOrder: 3320
+            sortOrder: 3325
         );
 
         /* 🩴 */
@@ -33697,7 +33762,7 @@ namespace NeoSmart.Unicode
             group: Group.OBJECTS,
             subgroup: Subgroups.CLOTHING,
             hasGlyph: false,
-            sortOrder: 3321
+            sortOrder: 3326
         );
 
         /* 👞 */
@@ -33710,7 +33775,7 @@ namespace NeoSmart.Unicode
             group: Group.OBJECTS,
             subgroup: Subgroups.CLOTHING,
             hasGlyph: true,
-            sortOrder: 3322
+            sortOrder: 3327
         );
 
         /* 👟 */
@@ -33723,7 +33788,7 @@ namespace NeoSmart.Unicode
             group: Group.OBJECTS,
             subgroup: Subgroups.CLOTHING,
             hasGlyph: true,
-            sortOrder: 3323
+            sortOrder: 3328
         );
 
         /* 🥾 */
@@ -33736,7 +33801,7 @@ namespace NeoSmart.Unicode
             group: Group.OBJECTS,
             subgroup: Subgroups.CLOTHING,
             hasGlyph: true,
-            sortOrder: 3324
+            sortOrder: 3329
         );
 
         /* 🥿 */
@@ -33749,7 +33814,7 @@ namespace NeoSmart.Unicode
             group: Group.OBJECTS,
             subgroup: Subgroups.CLOTHING,
             hasGlyph: true,
-            sortOrder: 3325
+            sortOrder: 3330
         );
 
         /* 👠 */
@@ -33762,7 +33827,7 @@ namespace NeoSmart.Unicode
             group: Group.OBJECTS,
             subgroup: Subgroups.CLOTHING,
             hasGlyph: true,
-            sortOrder: 3326
+            sortOrder: 3331
         );
 
         /* 👡 */
@@ -33775,7 +33840,7 @@ namespace NeoSmart.Unicode
             group: Group.OBJECTS,
             subgroup: Subgroups.CLOTHING,
             hasGlyph: true,
-            sortOrder: 3327
+            sortOrder: 3332
         );
 
         /* 🩰 */
@@ -33788,7 +33853,7 @@ namespace NeoSmart.Unicode
             group: Group.OBJECTS,
             subgroup: Subgroups.CLOTHING,
             hasGlyph: true,
-            sortOrder: 3328
+            sortOrder: 3333
         );
 
         /* 👢 */
@@ -33801,7 +33866,7 @@ namespace NeoSmart.Unicode
             group: Group.OBJECTS,
             subgroup: Subgroups.CLOTHING,
             hasGlyph: true,
-            sortOrder: 3329
+            sortOrder: 3334
         );
 
         /* 👑 */
@@ -33814,7 +33879,7 @@ namespace NeoSmart.Unicode
             group: Group.OBJECTS,
             subgroup: Subgroups.CLOTHING,
             hasGlyph: true,
-            sortOrder: 3330
+            sortOrder: 3335
         );
 
         /* 👒 */
@@ -33827,7 +33892,7 @@ namespace NeoSmart.Unicode
             group: Group.OBJECTS,
             subgroup: Subgroups.CLOTHING,
             hasGlyph: true,
-            sortOrder: 3331
+            sortOrder: 3336
         );
 
         /* 🎩 */
@@ -33840,7 +33905,7 @@ namespace NeoSmart.Unicode
             group: Group.OBJECTS,
             subgroup: Subgroups.CLOTHING,
             hasGlyph: true,
-            sortOrder: 3332
+            sortOrder: 3337
         );
 
         /* 🎓 */
@@ -33853,7 +33918,7 @@ namespace NeoSmart.Unicode
             group: Group.OBJECTS,
             subgroup: Subgroups.CLOTHING,
             hasGlyph: true,
-            sortOrder: 3333
+            sortOrder: 3338
         );
 
         /* 🧢 */
@@ -33866,7 +33931,7 @@ namespace NeoSmart.Unicode
             group: Group.OBJECTS,
             subgroup: Subgroups.CLOTHING,
             hasGlyph: true,
-            sortOrder: 3334
+            sortOrder: 3339
         );
 
         /* 🪖 */
@@ -33879,7 +33944,7 @@ namespace NeoSmart.Unicode
             group: Group.OBJECTS,
             subgroup: Subgroups.CLOTHING,
             hasGlyph: false,
-            sortOrder: 3335
+            sortOrder: 3340
         );
 
         /* ⛑️ */
@@ -33892,7 +33957,7 @@ namespace NeoSmart.Unicode
             group: Group.OBJECTS,
             subgroup: Subgroups.CLOTHING,
             hasGlyph: true,
-            sortOrder: 3336
+            sortOrder: 3341
         );
 
         /* 📿 */
@@ -33905,7 +33970,7 @@ namespace NeoSmart.Unicode
             group: Group.OBJECTS,
             subgroup: Subgroups.CLOTHING,
             hasGlyph: true,
-            sortOrder: 3338
+            sortOrder: 3343
         );
 
         /* 💄 */
@@ -33918,7 +33983,7 @@ namespace NeoSmart.Unicode
             group: Group.OBJECTS,
             subgroup: Subgroups.CLOTHING,
             hasGlyph: true,
-            sortOrder: 3339
+            sortOrder: 3344
         );
 
         /* 💍 */
@@ -33931,7 +33996,7 @@ namespace NeoSmart.Unicode
             group: Group.OBJECTS,
             subgroup: Subgroups.CLOTHING,
             hasGlyph: true,
-            sortOrder: 3340
+            sortOrder: 3345
         );
 
         /* 💎 */
@@ -33944,7 +34009,7 @@ namespace NeoSmart.Unicode
             group: Group.OBJECTS,
             subgroup: Subgroups.CLOTHING,
             hasGlyph: true,
-            sortOrder: 3341
+            sortOrder: 3346
         );
 
         /* 🔇 */
@@ -33957,7 +34022,7 @@ namespace NeoSmart.Unicode
             group: Group.OBJECTS,
             subgroup: Subgroups.SOUND,
             hasGlyph: true,
-            sortOrder: 3342
+            sortOrder: 3347
         );
 
         /* 🔈 */
@@ -33970,7 +34035,7 @@ namespace NeoSmart.Unicode
             group: Group.OBJECTS,
             subgroup: Subgroups.SOUND,
             hasGlyph: true,
-            sortOrder: 3343
+            sortOrder: 3348
         );
 
         /* 🔉 */
@@ -33983,7 +34048,7 @@ namespace NeoSmart.Unicode
             group: Group.OBJECTS,
             subgroup: Subgroups.SOUND,
             hasGlyph: true,
-            sortOrder: 3344
+            sortOrder: 3349
         );
 
         /* 🔊 */
@@ -33996,7 +34061,7 @@ namespace NeoSmart.Unicode
             group: Group.OBJECTS,
             subgroup: Subgroups.SOUND,
             hasGlyph: true,
-            sortOrder: 3345
+            sortOrder: 3350
         );
 
         /* 📢 */
@@ -34009,7 +34074,7 @@ namespace NeoSmart.Unicode
             group: Group.OBJECTS,
             subgroup: Subgroups.SOUND,
             hasGlyph: true,
-            sortOrder: 3346
+            sortOrder: 3351
         );
 
         /* 📣 */
@@ -34022,7 +34087,7 @@ namespace NeoSmart.Unicode
             group: Group.OBJECTS,
             subgroup: Subgroups.SOUND,
             hasGlyph: true,
-            sortOrder: 3347
+            sortOrder: 3352
         );
 
         /* 📯 */
@@ -34035,7 +34100,7 @@ namespace NeoSmart.Unicode
             group: Group.OBJECTS,
             subgroup: Subgroups.SOUND,
             hasGlyph: true,
-            sortOrder: 3348
+            sortOrder: 3353
         );
 
         /* 🔔 */
@@ -34048,7 +34113,7 @@ namespace NeoSmart.Unicode
             group: Group.OBJECTS,
             subgroup: Subgroups.SOUND,
             hasGlyph: true,
-            sortOrder: 3349
+            sortOrder: 3354
         );
 
         /* 🔕 */
@@ -34061,7 +34126,7 @@ namespace NeoSmart.Unicode
             group: Group.OBJECTS,
             subgroup: Subgroups.SOUND,
             hasGlyph: true,
-            sortOrder: 3350
+            sortOrder: 3355
         );
 
         /* 🎼 */
@@ -34074,7 +34139,7 @@ namespace NeoSmart.Unicode
             group: Group.OBJECTS,
             subgroup: Subgroups.MUSIC,
             hasGlyph: true,
-            sortOrder: 3351
+            sortOrder: 3356
         );
 
         /* 🎵 */
@@ -34087,7 +34152,7 @@ namespace NeoSmart.Unicode
             group: Group.OBJECTS,
             subgroup: Subgroups.MUSIC,
             hasGlyph: true,
-            sortOrder: 3352
+            sortOrder: 3357
         );
 
         /* 🎶 */
@@ -34100,7 +34165,7 @@ namespace NeoSmart.Unicode
             group: Group.OBJECTS,
             subgroup: Subgroups.MUSIC,
             hasGlyph: true,
-            sortOrder: 3353
+            sortOrder: 3358
         );
 
         /* 🎙️ */
@@ -34113,7 +34178,7 @@ namespace NeoSmart.Unicode
             group: Group.OBJECTS,
             subgroup: Subgroups.MUSIC,
             hasGlyph: true,
-            sortOrder: 3354
+            sortOrder: 3359
         );
 
         /* 🎚️ */
@@ -34126,7 +34191,7 @@ namespace NeoSmart.Unicode
             group: Group.OBJECTS,
             subgroup: Subgroups.MUSIC,
             hasGlyph: true,
-            sortOrder: 3356
+            sortOrder: 3361
         );
 
         /* 🎛️ */
@@ -34139,7 +34204,7 @@ namespace NeoSmart.Unicode
             group: Group.OBJECTS,
             subgroup: Subgroups.MUSIC,
             hasGlyph: true,
-            sortOrder: 3358
+            sortOrder: 3363
         );
 
         /* 🎤 */
@@ -34152,7 +34217,7 @@ namespace NeoSmart.Unicode
             group: Group.OBJECTS,
             subgroup: Subgroups.MUSIC,
             hasGlyph: true,
-            sortOrder: 3360
+            sortOrder: 3365
         );
 
         /* 🎧 */
@@ -34165,7 +34230,7 @@ namespace NeoSmart.Unicode
             group: Group.OBJECTS,
             subgroup: Subgroups.MUSIC,
             hasGlyph: true,
-            sortOrder: 3361
+            sortOrder: 3366
         );
 
         /* 📻 */
@@ -34178,7 +34243,7 @@ namespace NeoSmart.Unicode
             group: Group.OBJECTS,
             subgroup: Subgroups.MUSIC,
             hasGlyph: true,
-            sortOrder: 3362
+            sortOrder: 3367
         );
 
         /* 🎷 */
@@ -34191,7 +34256,7 @@ namespace NeoSmart.Unicode
             group: Group.OBJECTS,
             subgroup: Subgroups.MUSICAL_INSTRUMENT,
             hasGlyph: true,
-            sortOrder: 3363
+            sortOrder: 3368
         );
 
         /* 🪗 */
@@ -34204,7 +34269,7 @@ namespace NeoSmart.Unicode
             group: Group.OBJECTS,
             subgroup: Subgroups.MUSICAL_INSTRUMENT,
             hasGlyph: false,
-            sortOrder: 3364
+            sortOrder: 3369
         );
 
         /* 🎸 */
@@ -34217,7 +34282,7 @@ namespace NeoSmart.Unicode
             group: Group.OBJECTS,
             subgroup: Subgroups.MUSICAL_INSTRUMENT,
             hasGlyph: true,
-            sortOrder: 3365
+            sortOrder: 3370
         );
 
         /* 🎹 */
@@ -34230,7 +34295,7 @@ namespace NeoSmart.Unicode
             group: Group.OBJECTS,
             subgroup: Subgroups.MUSICAL_INSTRUMENT,
             hasGlyph: true,
-            sortOrder: 3366
+            sortOrder: 3371
         );
 
         /* 🎺 */
@@ -34243,7 +34308,7 @@ namespace NeoSmart.Unicode
             group: Group.OBJECTS,
             subgroup: Subgroups.MUSICAL_INSTRUMENT,
             hasGlyph: true,
-            sortOrder: 3367
+            sortOrder: 3372
         );
 
         /* 🎻 */
@@ -34256,7 +34321,7 @@ namespace NeoSmart.Unicode
             group: Group.OBJECTS,
             subgroup: Subgroups.MUSICAL_INSTRUMENT,
             hasGlyph: true,
-            sortOrder: 3368
+            sortOrder: 3373
         );
 
         /* 🪕 */
@@ -34269,7 +34334,7 @@ namespace NeoSmart.Unicode
             group: Group.OBJECTS,
             subgroup: Subgroups.MUSICAL_INSTRUMENT,
             hasGlyph: true,
-            sortOrder: 3369
+            sortOrder: 3374
         );
 
         /* 🥁 */
@@ -34282,7 +34347,7 @@ namespace NeoSmart.Unicode
             group: Group.OBJECTS,
             subgroup: Subgroups.MUSICAL_INSTRUMENT,
             hasGlyph: true,
-            sortOrder: 3370
+            sortOrder: 3375
         );
 
         /* 🪘 */
@@ -34295,7 +34360,7 @@ namespace NeoSmart.Unicode
             group: Group.OBJECTS,
             subgroup: Subgroups.MUSICAL_INSTRUMENT,
             hasGlyph: false,
-            sortOrder: 3371
+            sortOrder: 3376
         );
 
         /* 📱 */
@@ -34308,7 +34373,7 @@ namespace NeoSmart.Unicode
             group: Group.OBJECTS,
             subgroup: Subgroups.PHONE,
             hasGlyph: true,
-            sortOrder: 3372
+            sortOrder: 3377
         );
 
         /* 📲 */
@@ -34321,7 +34386,7 @@ namespace NeoSmart.Unicode
             group: Group.OBJECTS,
             subgroup: Subgroups.PHONE,
             hasGlyph: true,
-            sortOrder: 3373
+            sortOrder: 3378
         );
 
         /* ☎️ */
@@ -34334,7 +34399,7 @@ namespace NeoSmart.Unicode
             group: Group.OBJECTS,
             subgroup: Subgroups.PHONE,
             hasGlyph: true,
-            sortOrder: 3374
+            sortOrder: 3379
         );
 
         /* 📞 */
@@ -34347,7 +34412,7 @@ namespace NeoSmart.Unicode
             group: Group.OBJECTS,
             subgroup: Subgroups.PHONE,
             hasGlyph: true,
-            sortOrder: 3376
+            sortOrder: 3381
         );
 
         /* 📟 */
@@ -34360,7 +34425,7 @@ namespace NeoSmart.Unicode
             group: Group.OBJECTS,
             subgroup: Subgroups.PHONE,
             hasGlyph: true,
-            sortOrder: 3377
+            sortOrder: 3382
         );
 
         /* 📠 */
@@ -34373,7 +34438,7 @@ namespace NeoSmart.Unicode
             group: Group.OBJECTS,
             subgroup: Subgroups.PHONE,
             hasGlyph: true,
-            sortOrder: 3378
+            sortOrder: 3383
         );
 
         /* 🔋 */
@@ -34386,7 +34451,7 @@ namespace NeoSmart.Unicode
             group: Group.OBJECTS,
             subgroup: Subgroups.COMPUTER,
             hasGlyph: true,
-            sortOrder: 3379
+            sortOrder: 3384
         );
 
         /* 🔌 */
@@ -34399,7 +34464,7 @@ namespace NeoSmart.Unicode
             group: Group.OBJECTS,
             subgroup: Subgroups.COMPUTER,
             hasGlyph: true,
-            sortOrder: 3380
+            sortOrder: 3385
         );
 
         /* 💻 */
@@ -34412,7 +34477,7 @@ namespace NeoSmart.Unicode
             group: Group.OBJECTS,
             subgroup: Subgroups.COMPUTER,
             hasGlyph: true,
-            sortOrder: 3381
+            sortOrder: 3386
         );
 
         /* 🖥️ */
@@ -34425,7 +34490,7 @@ namespace NeoSmart.Unicode
             group: Group.OBJECTS,
             subgroup: Subgroups.COMPUTER,
             hasGlyph: true,
-            sortOrder: 3382
+            sortOrder: 3387
         );
 
         /* 🖨️ */
@@ -34438,7 +34503,7 @@ namespace NeoSmart.Unicode
             group: Group.OBJECTS,
             subgroup: Subgroups.COMPUTER,
             hasGlyph: true,
-            sortOrder: 3384
+            sortOrder: 3389
         );
 
         /* ⌨️ */
@@ -34451,7 +34516,7 @@ namespace NeoSmart.Unicode
             group: Group.OBJECTS,
             subgroup: Subgroups.COMPUTER,
             hasGlyph: true,
-            sortOrder: 3386
+            sortOrder: 3391
         );
 
         /* 🖱️ */
@@ -34464,7 +34529,7 @@ namespace NeoSmart.Unicode
             group: Group.OBJECTS,
             subgroup: Subgroups.COMPUTER,
             hasGlyph: true,
-            sortOrder: 3388
+            sortOrder: 3393
         );
 
         /* 🖲️ */
@@ -34477,7 +34542,7 @@ namespace NeoSmart.Unicode
             group: Group.OBJECTS,
             subgroup: Subgroups.COMPUTER,
             hasGlyph: true,
-            sortOrder: 3390
+            sortOrder: 3395
         );
 
         /* 💽 */
@@ -34490,7 +34555,7 @@ namespace NeoSmart.Unicode
             group: Group.OBJECTS,
             subgroup: Subgroups.COMPUTER,
             hasGlyph: true,
-            sortOrder: 3392
+            sortOrder: 3397
         );
 
         /* 💾 */
@@ -34503,7 +34568,7 @@ namespace NeoSmart.Unicode
             group: Group.OBJECTS,
             subgroup: Subgroups.COMPUTER,
             hasGlyph: true,
-            sortOrder: 3393
+            sortOrder: 3398
         );
 
         /* 💿 */
@@ -34516,7 +34581,7 @@ namespace NeoSmart.Unicode
             group: Group.OBJECTS,
             subgroup: Subgroups.COMPUTER,
             hasGlyph: true,
-            sortOrder: 3394
+            sortOrder: 3399
         );
 
         /* 📀 */
@@ -34529,7 +34594,7 @@ namespace NeoSmart.Unicode
             group: Group.OBJECTS,
             subgroup: Subgroups.COMPUTER,
             hasGlyph: true,
-            sortOrder: 3395
+            sortOrder: 3400
         );
 
         /* 🧮 */
@@ -34542,7 +34607,7 @@ namespace NeoSmart.Unicode
             group: Group.OBJECTS,
             subgroup: Subgroups.COMPUTER,
             hasGlyph: true,
-            sortOrder: 3396
+            sortOrder: 3401
         );
 
         /* 🎥 */
@@ -34555,7 +34620,7 @@ namespace NeoSmart.Unicode
             group: Group.OBJECTS,
             subgroup: Subgroups.LIGHT_VIDEO,
             hasGlyph: true,
-            sortOrder: 3397
+            sortOrder: 3402
         );
 
         /* 🎞️ */
@@ -34568,7 +34633,7 @@ namespace NeoSmart.Unicode
             group: Group.OBJECTS,
             subgroup: Subgroups.LIGHT_VIDEO,
             hasGlyph: true,
-            sortOrder: 3398
+            sortOrder: 3403
         );
 
         /* 📽️ */
@@ -34581,7 +34646,7 @@ namespace NeoSmart.Unicode
             group: Group.OBJECTS,
             subgroup: Subgroups.LIGHT_VIDEO,
             hasGlyph: true,
-            sortOrder: 3400
+            sortOrder: 3405
         );
 
         /* 🎬 */
@@ -34594,7 +34659,7 @@ namespace NeoSmart.Unicode
             group: Group.OBJECTS,
             subgroup: Subgroups.LIGHT_VIDEO,
             hasGlyph: true,
-            sortOrder: 3402
+            sortOrder: 3407
         );
 
         /* 📺 */
@@ -34607,7 +34672,7 @@ namespace NeoSmart.Unicode
             group: Group.OBJECTS,
             subgroup: Subgroups.LIGHT_VIDEO,
             hasGlyph: true,
-            sortOrder: 3403
+            sortOrder: 3408
         );
 
         /* 📷 */
@@ -34620,7 +34685,7 @@ namespace NeoSmart.Unicode
             group: Group.OBJECTS,
             subgroup: Subgroups.LIGHT_VIDEO,
             hasGlyph: true,
-            sortOrder: 3404
+            sortOrder: 3409
         );
 
         /* 📸 */
@@ -34633,7 +34698,7 @@ namespace NeoSmart.Unicode
             group: Group.OBJECTS,
             subgroup: Subgroups.LIGHT_VIDEO,
             hasGlyph: true,
-            sortOrder: 3405
+            sortOrder: 3410
         );
 
         /* 📹 */
@@ -34646,7 +34711,7 @@ namespace NeoSmart.Unicode
             group: Group.OBJECTS,
             subgroup: Subgroups.LIGHT_VIDEO,
             hasGlyph: true,
-            sortOrder: 3406
+            sortOrder: 3411
         );
 
         /* 📼 */
@@ -34659,7 +34724,7 @@ namespace NeoSmart.Unicode
             group: Group.OBJECTS,
             subgroup: Subgroups.LIGHT_VIDEO,
             hasGlyph: true,
-            sortOrder: 3407
+            sortOrder: 3412
         );
 
         /* 🔍 */
@@ -34672,7 +34737,7 @@ namespace NeoSmart.Unicode
             group: Group.OBJECTS,
             subgroup: Subgroups.LIGHT_VIDEO,
             hasGlyph: true,
-            sortOrder: 3408
+            sortOrder: 3413
         );
 
         /* 🔎 */
@@ -34685,7 +34750,7 @@ namespace NeoSmart.Unicode
             group: Group.OBJECTS,
             subgroup: Subgroups.LIGHT_VIDEO,
             hasGlyph: true,
-            sortOrder: 3409
+            sortOrder: 3414
         );
 
         /* 🕯️ */
@@ -34698,7 +34763,7 @@ namespace NeoSmart.Unicode
             group: Group.OBJECTS,
             subgroup: Subgroups.LIGHT_VIDEO,
             hasGlyph: true,
-            sortOrder: 3410
+            sortOrder: 3415
         );
 
         /* 💡 */
@@ -34711,7 +34776,7 @@ namespace NeoSmart.Unicode
             group: Group.OBJECTS,
             subgroup: Subgroups.LIGHT_VIDEO,
             hasGlyph: true,
-            sortOrder: 3412
+            sortOrder: 3417
         );
 
         /* 🔦 */
@@ -34724,7 +34789,7 @@ namespace NeoSmart.Unicode
             group: Group.OBJECTS,
             subgroup: Subgroups.LIGHT_VIDEO,
             hasGlyph: true,
-            sortOrder: 3413
+            sortOrder: 3418
         );
 
         /* 🏮 */
@@ -34737,7 +34802,7 @@ namespace NeoSmart.Unicode
             group: Group.OBJECTS,
             subgroup: Subgroups.LIGHT_VIDEO,
             hasGlyph: true,
-            sortOrder: 3414
+            sortOrder: 3419
         );
 
         /* 🪔 */
@@ -34750,7 +34815,7 @@ namespace NeoSmart.Unicode
             group: Group.OBJECTS,
             subgroup: Subgroups.LIGHT_VIDEO,
             hasGlyph: true,
-            sortOrder: 3415
+            sortOrder: 3420
         );
 
         /* 📔 */
@@ -34763,7 +34828,7 @@ namespace NeoSmart.Unicode
             group: Group.OBJECTS,
             subgroup: Subgroups.BOOK_PAPER,
             hasGlyph: true,
-            sortOrder: 3416
+            sortOrder: 3421
         );
 
         /* 📕 */
@@ -34776,7 +34841,7 @@ namespace NeoSmart.Unicode
             group: Group.OBJECTS,
             subgroup: Subgroups.BOOK_PAPER,
             hasGlyph: true,
-            sortOrder: 3417
+            sortOrder: 3422
         );
 
         /* 📖 */
@@ -34789,7 +34854,7 @@ namespace NeoSmart.Unicode
             group: Group.OBJECTS,
             subgroup: Subgroups.BOOK_PAPER,
             hasGlyph: true,
-            sortOrder: 3418
+            sortOrder: 3423
         );
 
         /* 📗 */
@@ -34802,7 +34867,7 @@ namespace NeoSmart.Unicode
             group: Group.OBJECTS,
             subgroup: Subgroups.BOOK_PAPER,
             hasGlyph: true,
-            sortOrder: 3419
+            sortOrder: 3424
         );
 
         /* 📘 */
@@ -34815,7 +34880,7 @@ namespace NeoSmart.Unicode
             group: Group.OBJECTS,
             subgroup: Subgroups.BOOK_PAPER,
             hasGlyph: true,
-            sortOrder: 3420
+            sortOrder: 3425
         );
 
         /* 📙 */
@@ -34828,7 +34893,7 @@ namespace NeoSmart.Unicode
             group: Group.OBJECTS,
             subgroup: Subgroups.BOOK_PAPER,
             hasGlyph: true,
-            sortOrder: 3421
+            sortOrder: 3426
         );
 
         /* 📚 */
@@ -34841,7 +34906,7 @@ namespace NeoSmart.Unicode
             group: Group.OBJECTS,
             subgroup: Subgroups.BOOK_PAPER,
             hasGlyph: true,
-            sortOrder: 3422
+            sortOrder: 3427
         );
 
         /* 📓 */
@@ -34854,7 +34919,7 @@ namespace NeoSmart.Unicode
             group: Group.OBJECTS,
             subgroup: Subgroups.BOOK_PAPER,
             hasGlyph: true,
-            sortOrder: 3423
+            sortOrder: 3428
         );
 
         /* 📒 */
@@ -34867,7 +34932,7 @@ namespace NeoSmart.Unicode
             group: Group.OBJECTS,
             subgroup: Subgroups.BOOK_PAPER,
             hasGlyph: true,
-            sortOrder: 3424
+            sortOrder: 3429
         );
 
         /* 📃 */
@@ -34880,7 +34945,7 @@ namespace NeoSmart.Unicode
             group: Group.OBJECTS,
             subgroup: Subgroups.BOOK_PAPER,
             hasGlyph: true,
-            sortOrder: 3425
+            sortOrder: 3430
         );
 
         /* 📜 */
@@ -34893,7 +34958,7 @@ namespace NeoSmart.Unicode
             group: Group.OBJECTS,
             subgroup: Subgroups.BOOK_PAPER,
             hasGlyph: true,
-            sortOrder: 3426
+            sortOrder: 3431
         );
 
         /* 📄 */
@@ -34906,7 +34971,7 @@ namespace NeoSmart.Unicode
             group: Group.OBJECTS,
             subgroup: Subgroups.BOOK_PAPER,
             hasGlyph: true,
-            sortOrder: 3427
+            sortOrder: 3432
         );
 
         /* 📰 */
@@ -34919,7 +34984,7 @@ namespace NeoSmart.Unicode
             group: Group.OBJECTS,
             subgroup: Subgroups.BOOK_PAPER,
             hasGlyph: true,
-            sortOrder: 3428
+            sortOrder: 3433
         );
 
         /* 🗞️ */
@@ -34932,7 +34997,7 @@ namespace NeoSmart.Unicode
             group: Group.OBJECTS,
             subgroup: Subgroups.BOOK_PAPER,
             hasGlyph: true,
-            sortOrder: 3429
+            sortOrder: 3434
         );
 
         /* 📑 */
@@ -34945,7 +35010,7 @@ namespace NeoSmart.Unicode
             group: Group.OBJECTS,
             subgroup: Subgroups.BOOK_PAPER,
             hasGlyph: true,
-            sortOrder: 3431
+            sortOrder: 3436
         );
 
         /* 🔖 */
@@ -34958,7 +35023,7 @@ namespace NeoSmart.Unicode
             group: Group.OBJECTS,
             subgroup: Subgroups.BOOK_PAPER,
             hasGlyph: true,
-            sortOrder: 3432
+            sortOrder: 3437
         );
 
         /* 🏷️ */
@@ -34971,7 +35036,7 @@ namespace NeoSmart.Unicode
             group: Group.OBJECTS,
             subgroup: Subgroups.BOOK_PAPER,
             hasGlyph: true,
-            sortOrder: 3433
+            sortOrder: 3438
         );
 
         /* 💰 */
@@ -34984,7 +35049,7 @@ namespace NeoSmart.Unicode
             group: Group.OBJECTS,
             subgroup: Subgroups.MONEY,
             hasGlyph: true,
-            sortOrder: 3435
+            sortOrder: 3440
         );
 
         /* 🪙 */
@@ -34997,7 +35062,7 @@ namespace NeoSmart.Unicode
             group: Group.OBJECTS,
             subgroup: Subgroups.MONEY,
             hasGlyph: false,
-            sortOrder: 3436
+            sortOrder: 3441
         );
 
         /* 💴 */
@@ -35010,7 +35075,7 @@ namespace NeoSmart.Unicode
             group: Group.OBJECTS,
             subgroup: Subgroups.MONEY,
             hasGlyph: true,
-            sortOrder: 3437
+            sortOrder: 3442
         );
 
         /* 💵 */
@@ -35023,7 +35088,7 @@ namespace NeoSmart.Unicode
             group: Group.OBJECTS,
             subgroup: Subgroups.MONEY,
             hasGlyph: true,
-            sortOrder: 3438
+            sortOrder: 3443
         );
 
         /* 💶 */
@@ -35036,7 +35101,7 @@ namespace NeoSmart.Unicode
             group: Group.OBJECTS,
             subgroup: Subgroups.MONEY,
             hasGlyph: true,
-            sortOrder: 3439
+            sortOrder: 3444
         );
 
         /* 💷 */
@@ -35049,7 +35114,7 @@ namespace NeoSmart.Unicode
             group: Group.OBJECTS,
             subgroup: Subgroups.MONEY,
             hasGlyph: true,
-            sortOrder: 3440
+            sortOrder: 3445
         );
 
         /* 💸 */
@@ -35062,7 +35127,7 @@ namespace NeoSmart.Unicode
             group: Group.OBJECTS,
             subgroup: Subgroups.MONEY,
             hasGlyph: true,
-            sortOrder: 3441
+            sortOrder: 3446
         );
 
         /* 💳 */
@@ -35075,7 +35140,7 @@ namespace NeoSmart.Unicode
             group: Group.OBJECTS,
             subgroup: Subgroups.MONEY,
             hasGlyph: true,
-            sortOrder: 3442
+            sortOrder: 3447
         );
 
         /* 🧾 */
@@ -35088,7 +35153,7 @@ namespace NeoSmart.Unicode
             group: Group.OBJECTS,
             subgroup: Subgroups.MONEY,
             hasGlyph: true,
-            sortOrder: 3443
+            sortOrder: 3448
         );
 
         /* 💹 */
@@ -35101,33 +35166,7 @@ namespace NeoSmart.Unicode
             group: Group.OBJECTS,
             subgroup: Subgroups.MONEY,
             hasGlyph: true,
-            sortOrder: 3444
-        );
-
-        /* 💱 */
-        public static readonly SingleEmoji CurrencyExchange_E0_6 = new SingleEmoji(
-            sequence: new UnicodeSequence(new int[] { 0x1f4b1 }),
-            name: "currency exchange",
-            searchTerms: new string[] { "currency", "exchange" },
-            skinTones: SingleEmoji.NoSkinTones,
-            eNumber: 0.6,
-            group: Group.OBJECTS,
-            subgroup: Subgroups.MONEY,
-            hasGlyph: true,
-            sortOrder: 3445
-        );
-
-        /* 💲 */
-        public static readonly SingleEmoji HeavyDollarSign_E0_6 = new SingleEmoji(
-            sequence: new UnicodeSequence(new int[] { 0x1f4b2 }),
-            name: "heavy dollar sign",
-            searchTerms: new string[] { "heavy", "dollar", "sign" },
-            skinTones: SingleEmoji.NoSkinTones,
-            eNumber: 0.6,
-            group: Group.OBJECTS,
-            subgroup: Subgroups.MONEY,
-            hasGlyph: true,
-            sortOrder: 3446
+            sortOrder: 3449
         );
 
         /* ✉️ */
@@ -35140,7 +35179,7 @@ namespace NeoSmart.Unicode
             group: Group.OBJECTS,
             subgroup: Subgroups.MAIL,
             hasGlyph: true,
-            sortOrder: 3447
+            sortOrder: 3450
         );
 
         /* 📧 */
@@ -35153,7 +35192,7 @@ namespace NeoSmart.Unicode
             group: Group.OBJECTS,
             subgroup: Subgroups.MAIL,
             hasGlyph: true,
-            sortOrder: 3449
+            sortOrder: 3452
         );
 
         /* 📨 */
@@ -35166,7 +35205,7 @@ namespace NeoSmart.Unicode
             group: Group.OBJECTS,
             subgroup: Subgroups.MAIL,
             hasGlyph: true,
-            sortOrder: 3450
+            sortOrder: 3453
         );
 
         /* 📩 */
@@ -35179,7 +35218,7 @@ namespace NeoSmart.Unicode
             group: Group.OBJECTS,
             subgroup: Subgroups.MAIL,
             hasGlyph: true,
-            sortOrder: 3451
+            sortOrder: 3454
         );
 
         /* 📤 */
@@ -35192,7 +35231,7 @@ namespace NeoSmart.Unicode
             group: Group.OBJECTS,
             subgroup: Subgroups.MAIL,
             hasGlyph: true,
-            sortOrder: 3452
+            sortOrder: 3455
         );
 
         /* 📥 */
@@ -35205,7 +35244,7 @@ namespace NeoSmart.Unicode
             group: Group.OBJECTS,
             subgroup: Subgroups.MAIL,
             hasGlyph: true,
-            sortOrder: 3453
+            sortOrder: 3456
         );
 
         /* 📦 */
@@ -35218,7 +35257,7 @@ namespace NeoSmart.Unicode
             group: Group.OBJECTS,
             subgroup: Subgroups.MAIL,
             hasGlyph: true,
-            sortOrder: 3454
+            sortOrder: 3457
         );
 
         /* 📫 */
@@ -35231,7 +35270,7 @@ namespace NeoSmart.Unicode
             group: Group.OBJECTS,
             subgroup: Subgroups.MAIL,
             hasGlyph: true,
-            sortOrder: 3455
+            sortOrder: 3458
         );
 
         /* 📪 */
@@ -35244,7 +35283,7 @@ namespace NeoSmart.Unicode
             group: Group.OBJECTS,
             subgroup: Subgroups.MAIL,
             hasGlyph: true,
-            sortOrder: 3456
+            sortOrder: 3459
         );
 
         /* 📬 */
@@ -35257,7 +35296,7 @@ namespace NeoSmart.Unicode
             group: Group.OBJECTS,
             subgroup: Subgroups.MAIL,
             hasGlyph: true,
-            sortOrder: 3457
+            sortOrder: 3460
         );
 
         /* 📭 */
@@ -35270,7 +35309,7 @@ namespace NeoSmart.Unicode
             group: Group.OBJECTS,
             subgroup: Subgroups.MAIL,
             hasGlyph: true,
-            sortOrder: 3458
+            sortOrder: 3461
         );
 
         /* 📮 */
@@ -35283,7 +35322,7 @@ namespace NeoSmart.Unicode
             group: Group.OBJECTS,
             subgroup: Subgroups.MAIL,
             hasGlyph: true,
-            sortOrder: 3459
+            sortOrder: 3462
         );
 
         /* 🗳️ */
@@ -35296,7 +35335,7 @@ namespace NeoSmart.Unicode
             group: Group.OBJECTS,
             subgroup: Subgroups.MAIL,
             hasGlyph: true,
-            sortOrder: 3460
+            sortOrder: 3463
         );
 
         /* ✏️ */
@@ -35309,7 +35348,7 @@ namespace NeoSmart.Unicode
             group: Group.OBJECTS,
             subgroup: Subgroups.WRITING,
             hasGlyph: true,
-            sortOrder: 3462
+            sortOrder: 3465
         );
 
         /* ✒️ */
@@ -35322,7 +35361,7 @@ namespace NeoSmart.Unicode
             group: Group.OBJECTS,
             subgroup: Subgroups.WRITING,
             hasGlyph: true,
-            sortOrder: 3464
+            sortOrder: 3467
         );
 
         /* 🖋️ */
@@ -35335,7 +35374,7 @@ namespace NeoSmart.Unicode
             group: Group.OBJECTS,
             subgroup: Subgroups.WRITING,
             hasGlyph: true,
-            sortOrder: 3466
+            sortOrder: 3469
         );
 
         /* 🖊️ */
@@ -35348,7 +35387,7 @@ namespace NeoSmart.Unicode
             group: Group.OBJECTS,
             subgroup: Subgroups.WRITING,
             hasGlyph: true,
-            sortOrder: 3468
+            sortOrder: 3471
         );
 
         /* 🖌️ */
@@ -35361,7 +35400,7 @@ namespace NeoSmart.Unicode
             group: Group.OBJECTS,
             subgroup: Subgroups.WRITING,
             hasGlyph: true,
-            sortOrder: 3470
+            sortOrder: 3473
         );
 
         /* 🖍️ */
@@ -35374,7 +35413,7 @@ namespace NeoSmart.Unicode
             group: Group.OBJECTS,
             subgroup: Subgroups.WRITING,
             hasGlyph: true,
-            sortOrder: 3472
+            sortOrder: 3475
         );
 
         /* 📝 */
@@ -35387,7 +35426,7 @@ namespace NeoSmart.Unicode
             group: Group.OBJECTS,
             subgroup: Subgroups.WRITING,
             hasGlyph: true,
-            sortOrder: 3474
+            sortOrder: 3477
         );
 
         /* 💼 */
@@ -35400,7 +35439,7 @@ namespace NeoSmart.Unicode
             group: Group.OBJECTS,
             subgroup: Subgroups.OFFICE,
             hasGlyph: true,
-            sortOrder: 3475
+            sortOrder: 3478
         );
 
         /* 📁 */
@@ -35413,7 +35452,7 @@ namespace NeoSmart.Unicode
             group: Group.OBJECTS,
             subgroup: Subgroups.OFFICE,
             hasGlyph: true,
-            sortOrder: 3476
+            sortOrder: 3479
         );
 
         /* 📂 */
@@ -35426,7 +35465,7 @@ namespace NeoSmart.Unicode
             group: Group.OBJECTS,
             subgroup: Subgroups.OFFICE,
             hasGlyph: true,
-            sortOrder: 3477
+            sortOrder: 3480
         );
 
         /* 🗂️ */
@@ -35439,7 +35478,7 @@ namespace NeoSmart.Unicode
             group: Group.OBJECTS,
             subgroup: Subgroups.OFFICE,
             hasGlyph: true,
-            sortOrder: 3478
+            sortOrder: 3481
         );
 
         /* 📅 */
@@ -35452,7 +35491,7 @@ namespace NeoSmart.Unicode
             group: Group.OBJECTS,
             subgroup: Subgroups.OFFICE,
             hasGlyph: true,
-            sortOrder: 3480
+            sortOrder: 3483
         );
 
         /* 📆 */
@@ -35465,7 +35504,7 @@ namespace NeoSmart.Unicode
             group: Group.OBJECTS,
             subgroup: Subgroups.OFFICE,
             hasGlyph: true,
-            sortOrder: 3481
+            sortOrder: 3484
         );
 
         /* 🗒️ */
@@ -35478,7 +35517,7 @@ namespace NeoSmart.Unicode
             group: Group.OBJECTS,
             subgroup: Subgroups.OFFICE,
             hasGlyph: true,
-            sortOrder: 3482
+            sortOrder: 3485
         );
 
         /* 🗓️ */
@@ -35491,7 +35530,7 @@ namespace NeoSmart.Unicode
             group: Group.OBJECTS,
             subgroup: Subgroups.OFFICE,
             hasGlyph: true,
-            sortOrder: 3484
+            sortOrder: 3487
         );
 
         /* 📇 */
@@ -35504,7 +35543,7 @@ namespace NeoSmart.Unicode
             group: Group.OBJECTS,
             subgroup: Subgroups.OFFICE,
             hasGlyph: true,
-            sortOrder: 3486
+            sortOrder: 3489
         );
 
         /* 📈 */
@@ -35517,7 +35556,7 @@ namespace NeoSmart.Unicode
             group: Group.OBJECTS,
             subgroup: Subgroups.OFFICE,
             hasGlyph: true,
-            sortOrder: 3487
+            sortOrder: 3490
         );
 
         /* 📉 */
@@ -35530,7 +35569,7 @@ namespace NeoSmart.Unicode
             group: Group.OBJECTS,
             subgroup: Subgroups.OFFICE,
             hasGlyph: true,
-            sortOrder: 3488
+            sortOrder: 3491
         );
 
         /* 📊 */
@@ -35543,7 +35582,7 @@ namespace NeoSmart.Unicode
             group: Group.OBJECTS,
             subgroup: Subgroups.OFFICE,
             hasGlyph: true,
-            sortOrder: 3489
+            sortOrder: 3492
         );
 
         /* 📋 */
@@ -35556,7 +35595,7 @@ namespace NeoSmart.Unicode
             group: Group.OBJECTS,
             subgroup: Subgroups.OFFICE,
             hasGlyph: true,
-            sortOrder: 3490
+            sortOrder: 3493
         );
 
         /* 📌 */
@@ -35569,7 +35608,7 @@ namespace NeoSmart.Unicode
             group: Group.OBJECTS,
             subgroup: Subgroups.OFFICE,
             hasGlyph: true,
-            sortOrder: 3491
+            sortOrder: 3494
         );
 
         /* 📍 */
@@ -35582,7 +35621,7 @@ namespace NeoSmart.Unicode
             group: Group.OBJECTS,
             subgroup: Subgroups.OFFICE,
             hasGlyph: true,
-            sortOrder: 3492
+            sortOrder: 3495
         );
 
         /* 📎 */
@@ -35595,7 +35634,7 @@ namespace NeoSmart.Unicode
             group: Group.OBJECTS,
             subgroup: Subgroups.OFFICE,
             hasGlyph: true,
-            sortOrder: 3493
+            sortOrder: 3496
         );
 
         /* 🖇️ */
@@ -35608,7 +35647,7 @@ namespace NeoSmart.Unicode
             group: Group.OBJECTS,
             subgroup: Subgroups.OFFICE,
             hasGlyph: true,
-            sortOrder: 3494
+            sortOrder: 3497
         );
 
         /* 📏 */
@@ -35621,7 +35660,7 @@ namespace NeoSmart.Unicode
             group: Group.OBJECTS,
             subgroup: Subgroups.OFFICE,
             hasGlyph: true,
-            sortOrder: 3496
+            sortOrder: 3499
         );
 
         /* 📐 */
@@ -35634,7 +35673,7 @@ namespace NeoSmart.Unicode
             group: Group.OBJECTS,
             subgroup: Subgroups.OFFICE,
             hasGlyph: true,
-            sortOrder: 3497
+            sortOrder: 3500
         );
 
         /* ✂️ */
@@ -35647,7 +35686,7 @@ namespace NeoSmart.Unicode
             group: Group.OBJECTS,
             subgroup: Subgroups.OFFICE,
             hasGlyph: true,
-            sortOrder: 3498
+            sortOrder: 3501
         );
 
         /* 🗃️ */
@@ -35660,7 +35699,7 @@ namespace NeoSmart.Unicode
             group: Group.OBJECTS,
             subgroup: Subgroups.OFFICE,
             hasGlyph: true,
-            sortOrder: 3500
+            sortOrder: 3503
         );
 
         /* 🗄️ */
@@ -35673,7 +35712,7 @@ namespace NeoSmart.Unicode
             group: Group.OBJECTS,
             subgroup: Subgroups.OFFICE,
             hasGlyph: true,
-            sortOrder: 3502
+            sortOrder: 3505
         );
 
         /* 🗑️ */
@@ -35686,7 +35725,7 @@ namespace NeoSmart.Unicode
             group: Group.OBJECTS,
             subgroup: Subgroups.OFFICE,
             hasGlyph: true,
-            sortOrder: 3504
+            sortOrder: 3507
         );
 
         /* 🔒 */
@@ -35699,7 +35738,7 @@ namespace NeoSmart.Unicode
             group: Group.OBJECTS,
             subgroup: Subgroups.LOCK,
             hasGlyph: true,
-            sortOrder: 3506
+            sortOrder: 3509
         );
 
         /* 🔓 */
@@ -35712,7 +35751,7 @@ namespace NeoSmart.Unicode
             group: Group.OBJECTS,
             subgroup: Subgroups.LOCK,
             hasGlyph: true,
-            sortOrder: 3507
+            sortOrder: 3510
         );
 
         /* 🔏 */
@@ -35725,7 +35764,7 @@ namespace NeoSmart.Unicode
             group: Group.OBJECTS,
             subgroup: Subgroups.LOCK,
             hasGlyph: true,
-            sortOrder: 3508
+            sortOrder: 3511
         );
 
         /* 🔐 */
@@ -35738,7 +35777,7 @@ namespace NeoSmart.Unicode
             group: Group.OBJECTS,
             subgroup: Subgroups.LOCK,
             hasGlyph: true,
-            sortOrder: 3509
+            sortOrder: 3512
         );
 
         /* 🔑 */
@@ -35751,7 +35790,7 @@ namespace NeoSmart.Unicode
             group: Group.OBJECTS,
             subgroup: Subgroups.LOCK,
             hasGlyph: true,
-            sortOrder: 3510
+            sortOrder: 3513
         );
 
         /* 🗝️ */
@@ -35764,7 +35803,7 @@ namespace NeoSmart.Unicode
             group: Group.OBJECTS,
             subgroup: Subgroups.LOCK,
             hasGlyph: true,
-            sortOrder: 3511
+            sortOrder: 3514
         );
 
         /* 🔨 */
@@ -35777,7 +35816,7 @@ namespace NeoSmart.Unicode
             group: Group.OBJECTS,
             subgroup: Subgroups.TOOL,
             hasGlyph: true,
-            sortOrder: 3513
+            sortOrder: 3516
         );
 
         /* 🪓 */
@@ -35790,7 +35829,7 @@ namespace NeoSmart.Unicode
             group: Group.OBJECTS,
             subgroup: Subgroups.TOOL,
             hasGlyph: true,
-            sortOrder: 3514
+            sortOrder: 3517
         );
 
         /* ⛏️ */
@@ -35803,7 +35842,7 @@ namespace NeoSmart.Unicode
             group: Group.OBJECTS,
             subgroup: Subgroups.TOOL,
             hasGlyph: true,
-            sortOrder: 3515
+            sortOrder: 3518
         );
 
         /* ⚒️ */
@@ -35816,7 +35855,7 @@ namespace NeoSmart.Unicode
             group: Group.OBJECTS,
             subgroup: Subgroups.TOOL,
             hasGlyph: true,
-            sortOrder: 3517
+            sortOrder: 3520
         );
 
         /* 🛠️ */
@@ -35829,7 +35868,7 @@ namespace NeoSmart.Unicode
             group: Group.OBJECTS,
             subgroup: Subgroups.TOOL,
             hasGlyph: true,
-            sortOrder: 3519
+            sortOrder: 3522
         );
 
         /* 🗡️ */
@@ -35842,7 +35881,7 @@ namespace NeoSmart.Unicode
             group: Group.OBJECTS,
             subgroup: Subgroups.TOOL,
             hasGlyph: true,
-            sortOrder: 3521
+            sortOrder: 3524
         );
 
         /* ⚔️ */
@@ -35855,7 +35894,7 @@ namespace NeoSmart.Unicode
             group: Group.OBJECTS,
             subgroup: Subgroups.TOOL,
             hasGlyph: true,
-            sortOrder: 3523
+            sortOrder: 3526
         );
 
         /* 🔫 */
@@ -35868,7 +35907,7 @@ namespace NeoSmart.Unicode
             group: Group.OBJECTS,
             subgroup: Subgroups.TOOL,
             hasGlyph: true,
-            sortOrder: 3525
+            sortOrder: 3528
         );
 
         /* 🪃 */
@@ -35881,7 +35920,7 @@ namespace NeoSmart.Unicode
             group: Group.OBJECTS,
             subgroup: Subgroups.TOOL,
             hasGlyph: false,
-            sortOrder: 3526
+            sortOrder: 3529
         );
 
         /* 🏹 */
@@ -35894,7 +35933,7 @@ namespace NeoSmart.Unicode
             group: Group.OBJECTS,
             subgroup: Subgroups.TOOL,
             hasGlyph: true,
-            sortOrder: 3527
+            sortOrder: 3530
         );
 
         /* 🛡️ */
@@ -35907,7 +35946,7 @@ namespace NeoSmart.Unicode
             group: Group.OBJECTS,
             subgroup: Subgroups.TOOL,
             hasGlyph: true,
-            sortOrder: 3528
+            sortOrder: 3531
         );
 
         /* 🪚 */
@@ -35920,7 +35959,7 @@ namespace NeoSmart.Unicode
             group: Group.OBJECTS,
             subgroup: Subgroups.TOOL,
             hasGlyph: false,
-            sortOrder: 3530
+            sortOrder: 3533
         );
 
         /* 🔧 */
@@ -35933,7 +35972,7 @@ namespace NeoSmart.Unicode
             group: Group.OBJECTS,
             subgroup: Subgroups.TOOL,
             hasGlyph: true,
-            sortOrder: 3531
+            sortOrder: 3534
         );
 
         /* 🪛 */
@@ -35946,7 +35985,7 @@ namespace NeoSmart.Unicode
             group: Group.OBJECTS,
             subgroup: Subgroups.TOOL,
             hasGlyph: false,
-            sortOrder: 3532
+            sortOrder: 3535
         );
 
         /* 🔩 */
@@ -35959,7 +35998,7 @@ namespace NeoSmart.Unicode
             group: Group.OBJECTS,
             subgroup: Subgroups.TOOL,
             hasGlyph: true,
-            sortOrder: 3533
+            sortOrder: 3536
         );
 
         /* ⚙️ */
@@ -35972,7 +36011,7 @@ namespace NeoSmart.Unicode
             group: Group.OBJECTS,
             subgroup: Subgroups.TOOL,
             hasGlyph: true,
-            sortOrder: 3534
+            sortOrder: 3537
         );
 
         /* 🗜️ */
@@ -35985,7 +36024,7 @@ namespace NeoSmart.Unicode
             group: Group.OBJECTS,
             subgroup: Subgroups.TOOL,
             hasGlyph: true,
-            sortOrder: 3536
+            sortOrder: 3539
         );
 
         /* ⚖️ */
@@ -35998,20 +36037,20 @@ namespace NeoSmart.Unicode
             group: Group.OBJECTS,
             subgroup: Subgroups.TOOL,
             hasGlyph: true,
-            sortOrder: 3538
+            sortOrder: 3541
         );
 
         /* 🦯 */
-        public static readonly SingleEmoji ProbingCane_E12_0 = new SingleEmoji(
+        public static readonly SingleEmoji WhiteCane_E12_0 = new SingleEmoji(
             sequence: new UnicodeSequence(new int[] { 0x1f9af }),
-            name: "probing cane",
-            searchTerms: new string[] { "probing", "cane" },
+            name: "white cane",
+            searchTerms: new string[] { "white", "cane" },
             skinTones: SingleEmoji.NoSkinTones,
             eNumber: 12.0,
             group: Group.OBJECTS,
             subgroup: Subgroups.TOOL,
             hasGlyph: true,
-            sortOrder: 3540
+            sortOrder: 3543
         );
 
         /* 🔗 */
@@ -36024,7 +36063,7 @@ namespace NeoSmart.Unicode
             group: Group.OBJECTS,
             subgroup: Subgroups.TOOL,
             hasGlyph: true,
-            sortOrder: 3541
+            sortOrder: 3544
         );
 
         /* ⛓️ */
@@ -36037,7 +36076,7 @@ namespace NeoSmart.Unicode
             group: Group.OBJECTS,
             subgroup: Subgroups.TOOL,
             hasGlyph: true,
-            sortOrder: 3542
+            sortOrder: 3545
         );
 
         /* 🪝 */
@@ -36050,7 +36089,7 @@ namespace NeoSmart.Unicode
             group: Group.OBJECTS,
             subgroup: Subgroups.TOOL,
             hasGlyph: false,
-            sortOrder: 3544
+            sortOrder: 3547
         );
 
         /* 🧰 */
@@ -36063,7 +36102,7 @@ namespace NeoSmart.Unicode
             group: Group.OBJECTS,
             subgroup: Subgroups.TOOL,
             hasGlyph: true,
-            sortOrder: 3545
+            sortOrder: 3548
         );
 
         /* 🧲 */
@@ -36076,7 +36115,7 @@ namespace NeoSmart.Unicode
             group: Group.OBJECTS,
             subgroup: Subgroups.TOOL,
             hasGlyph: true,
-            sortOrder: 3546
+            sortOrder: 3549
         );
 
         /* 🪜 */
@@ -36089,7 +36128,7 @@ namespace NeoSmart.Unicode
             group: Group.OBJECTS,
             subgroup: Subgroups.TOOL,
             hasGlyph: false,
-            sortOrder: 3547
+            sortOrder: 3550
         );
 
         /* ⚗️ */
@@ -36102,7 +36141,7 @@ namespace NeoSmart.Unicode
             group: Group.OBJECTS,
             subgroup: Subgroups.SCIENCE,
             hasGlyph: true,
-            sortOrder: 3548
+            sortOrder: 3551
         );
 
         /* 🧪 */
@@ -36115,7 +36154,7 @@ namespace NeoSmart.Unicode
             group: Group.OBJECTS,
             subgroup: Subgroups.SCIENCE,
             hasGlyph: true,
-            sortOrder: 3550
+            sortOrder: 3553
         );
 
         /* 🧫 */
@@ -36128,7 +36167,7 @@ namespace NeoSmart.Unicode
             group: Group.OBJECTS,
             subgroup: Subgroups.SCIENCE,
             hasGlyph: true,
-            sortOrder: 3551
+            sortOrder: 3554
         );
 
         /* 🧬 */
@@ -36141,7 +36180,7 @@ namespace NeoSmart.Unicode
             group: Group.OBJECTS,
             subgroup: Subgroups.SCIENCE,
             hasGlyph: true,
-            sortOrder: 3552
+            sortOrder: 3555
         );
 
         /* 🔬 */
@@ -36154,7 +36193,7 @@ namespace NeoSmart.Unicode
             group: Group.OBJECTS,
             subgroup: Subgroups.SCIENCE,
             hasGlyph: true,
-            sortOrder: 3553
+            sortOrder: 3556
         );
 
         /* 🔭 */
@@ -36167,7 +36206,7 @@ namespace NeoSmart.Unicode
             group: Group.OBJECTS,
             subgroup: Subgroups.SCIENCE,
             hasGlyph: true,
-            sortOrder: 3554
+            sortOrder: 3557
         );
 
         /* 📡 */
@@ -36180,7 +36219,7 @@ namespace NeoSmart.Unicode
             group: Group.OBJECTS,
             subgroup: Subgroups.SCIENCE,
             hasGlyph: true,
-            sortOrder: 3555
+            sortOrder: 3558
         );
 
         /* 💉 */
@@ -36193,7 +36232,7 @@ namespace NeoSmart.Unicode
             group: Group.OBJECTS,
             subgroup: Subgroups.MEDICAL,
             hasGlyph: true,
-            sortOrder: 3556
+            sortOrder: 3559
         );
 
         /* 🩸 */
@@ -36206,7 +36245,7 @@ namespace NeoSmart.Unicode
             group: Group.OBJECTS,
             subgroup: Subgroups.MEDICAL,
             hasGlyph: true,
-            sortOrder: 3557
+            sortOrder: 3560
         );
 
         /* 💊 */
@@ -36219,7 +36258,7 @@ namespace NeoSmart.Unicode
             group: Group.OBJECTS,
             subgroup: Subgroups.MEDICAL,
             hasGlyph: true,
-            sortOrder: 3558
+            sortOrder: 3561
         );
 
         /* 🩹 */
@@ -36232,7 +36271,7 @@ namespace NeoSmart.Unicode
             group: Group.OBJECTS,
             subgroup: Subgroups.MEDICAL,
             hasGlyph: true,
-            sortOrder: 3559
+            sortOrder: 3562
         );
 
         /* 🩺 */
@@ -36245,7 +36284,7 @@ namespace NeoSmart.Unicode
             group: Group.OBJECTS,
             subgroup: Subgroups.MEDICAL,
             hasGlyph: true,
-            sortOrder: 3560
+            sortOrder: 3563
         );
 
         /* 🚪 */
@@ -36258,7 +36297,7 @@ namespace NeoSmart.Unicode
             group: Group.OBJECTS,
             subgroup: Subgroups.HOUSEHOLD,
             hasGlyph: true,
-            sortOrder: 3561
+            sortOrder: 3564
         );
 
         /* 🛗 */
@@ -36271,7 +36310,7 @@ namespace NeoSmart.Unicode
             group: Group.OBJECTS,
             subgroup: Subgroups.HOUSEHOLD,
             hasGlyph: false,
-            sortOrder: 3562
+            sortOrder: 3565
         );
 
         /* 🪞 */
@@ -36284,7 +36323,7 @@ namespace NeoSmart.Unicode
             group: Group.OBJECTS,
             subgroup: Subgroups.HOUSEHOLD,
             hasGlyph: false,
-            sortOrder: 3563
+            sortOrder: 3566
         );
 
         /* 🪟 */
@@ -36297,7 +36336,7 @@ namespace NeoSmart.Unicode
             group: Group.OBJECTS,
             subgroup: Subgroups.HOUSEHOLD,
             hasGlyph: false,
-            sortOrder: 3564
+            sortOrder: 3567
         );
 
         /* 🛏️ */
@@ -36310,7 +36349,7 @@ namespace NeoSmart.Unicode
             group: Group.OBJECTS,
             subgroup: Subgroups.HOUSEHOLD,
             hasGlyph: true,
-            sortOrder: 3565
+            sortOrder: 3568
         );
 
         /* 🛋️ */
@@ -36323,7 +36362,7 @@ namespace NeoSmart.Unicode
             group: Group.OBJECTS,
             subgroup: Subgroups.HOUSEHOLD,
             hasGlyph: true,
-            sortOrder: 3567
+            sortOrder: 3570
         );
 
         /* 🪑 */
@@ -36336,7 +36375,7 @@ namespace NeoSmart.Unicode
             group: Group.OBJECTS,
             subgroup: Subgroups.HOUSEHOLD,
             hasGlyph: true,
-            sortOrder: 3569
+            sortOrder: 3572
         );
 
         /* 🚽 */
@@ -36349,7 +36388,7 @@ namespace NeoSmart.Unicode
             group: Group.OBJECTS,
             subgroup: Subgroups.HOUSEHOLD,
             hasGlyph: true,
-            sortOrder: 3570
+            sortOrder: 3573
         );
 
         /* 🪠 */
@@ -36362,7 +36401,7 @@ namespace NeoSmart.Unicode
             group: Group.OBJECTS,
             subgroup: Subgroups.HOUSEHOLD,
             hasGlyph: false,
-            sortOrder: 3571
+            sortOrder: 3574
         );
 
         /* 🚿 */
@@ -36375,7 +36414,7 @@ namespace NeoSmart.Unicode
             group: Group.OBJECTS,
             subgroup: Subgroups.HOUSEHOLD,
             hasGlyph: true,
-            sortOrder: 3572
+            sortOrder: 3575
         );
 
         /* 🛁 */
@@ -36388,7 +36427,7 @@ namespace NeoSmart.Unicode
             group: Group.OBJECTS,
             subgroup: Subgroups.HOUSEHOLD,
             hasGlyph: true,
-            sortOrder: 3573
+            sortOrder: 3576
         );
 
         /* 🪤 */
@@ -36401,7 +36440,7 @@ namespace NeoSmart.Unicode
             group: Group.OBJECTS,
             subgroup: Subgroups.HOUSEHOLD,
             hasGlyph: false,
-            sortOrder: 3574
+            sortOrder: 3577
         );
 
         /* 🪒 */
@@ -36414,7 +36453,7 @@ namespace NeoSmart.Unicode
             group: Group.OBJECTS,
             subgroup: Subgroups.HOUSEHOLD,
             hasGlyph: true,
-            sortOrder: 3575
+            sortOrder: 3578
         );
 
         /* 🧴 */
@@ -36427,7 +36466,7 @@ namespace NeoSmart.Unicode
             group: Group.OBJECTS,
             subgroup: Subgroups.HOUSEHOLD,
             hasGlyph: true,
-            sortOrder: 3576
+            sortOrder: 3579
         );
 
         /* 🧷 */
@@ -36440,7 +36479,7 @@ namespace NeoSmart.Unicode
             group: Group.OBJECTS,
             subgroup: Subgroups.HOUSEHOLD,
             hasGlyph: true,
-            sortOrder: 3577
+            sortOrder: 3580
         );
 
         /* 🧹 */
@@ -36453,7 +36492,7 @@ namespace NeoSmart.Unicode
             group: Group.OBJECTS,
             subgroup: Subgroups.HOUSEHOLD,
             hasGlyph: true,
-            sortOrder: 3578
+            sortOrder: 3581
         );
 
         /* 🧺 */
@@ -36466,7 +36505,7 @@ namespace NeoSmart.Unicode
             group: Group.OBJECTS,
             subgroup: Subgroups.HOUSEHOLD,
             hasGlyph: true,
-            sortOrder: 3579
+            sortOrder: 3582
         );
 
         /* 🧻 */
@@ -36479,7 +36518,7 @@ namespace NeoSmart.Unicode
             group: Group.OBJECTS,
             subgroup: Subgroups.HOUSEHOLD,
             hasGlyph: true,
-            sortOrder: 3580
+            sortOrder: 3583
         );
 
         /* 🪣 */
@@ -36492,7 +36531,7 @@ namespace NeoSmart.Unicode
             group: Group.OBJECTS,
             subgroup: Subgroups.HOUSEHOLD,
             hasGlyph: false,
-            sortOrder: 3581
+            sortOrder: 3584
         );
 
         /* 🧼 */
@@ -36505,7 +36544,7 @@ namespace NeoSmart.Unicode
             group: Group.OBJECTS,
             subgroup: Subgroups.HOUSEHOLD,
             hasGlyph: true,
-            sortOrder: 3582
+            sortOrder: 3585
         );
 
         /* 🪥 */
@@ -36518,7 +36557,7 @@ namespace NeoSmart.Unicode
             group: Group.OBJECTS,
             subgroup: Subgroups.HOUSEHOLD,
             hasGlyph: false,
-            sortOrder: 3583
+            sortOrder: 3586
         );
 
         /* 🧽 */
@@ -36531,7 +36570,7 @@ namespace NeoSmart.Unicode
             group: Group.OBJECTS,
             subgroup: Subgroups.HOUSEHOLD,
             hasGlyph: true,
-            sortOrder: 3584
+            sortOrder: 3587
         );
 
         /* 🧯 */
@@ -36544,7 +36583,7 @@ namespace NeoSmart.Unicode
             group: Group.OBJECTS,
             subgroup: Subgroups.HOUSEHOLD,
             hasGlyph: true,
-            sortOrder: 3585
+            sortOrder: 3588
         );
 
         /* 🛒 */
@@ -36557,7 +36596,7 @@ namespace NeoSmart.Unicode
             group: Group.OBJECTS,
             subgroup: Subgroups.HOUSEHOLD,
             hasGlyph: true,
-            sortOrder: 3586
+            sortOrder: 3589
         );
 
         /* 🚬 */
@@ -36570,7 +36609,7 @@ namespace NeoSmart.Unicode
             group: Group.OBJECTS,
             subgroup: Subgroups.OTHER_OBJECT,
             hasGlyph: true,
-            sortOrder: 3587
+            sortOrder: 3590
         );
 
         /* ⚰️ */
@@ -36583,7 +36622,7 @@ namespace NeoSmart.Unicode
             group: Group.OBJECTS,
             subgroup: Subgroups.OTHER_OBJECT,
             hasGlyph: true,
-            sortOrder: 3588
+            sortOrder: 3591
         );
 
         /* 🪦 */
@@ -36596,7 +36635,7 @@ namespace NeoSmart.Unicode
             group: Group.OBJECTS,
             subgroup: Subgroups.OTHER_OBJECT,
             hasGlyph: false,
-            sortOrder: 3590
+            sortOrder: 3593
         );
 
         /* ⚱️ */
@@ -36609,7 +36648,7 @@ namespace NeoSmart.Unicode
             group: Group.OBJECTS,
             subgroup: Subgroups.OTHER_OBJECT,
             hasGlyph: true,
-            sortOrder: 3591
+            sortOrder: 3594
         );
 
         /* 🗿 */
@@ -36622,7 +36661,7 @@ namespace NeoSmart.Unicode
             group: Group.OBJECTS,
             subgroup: Subgroups.OTHER_OBJECT,
             hasGlyph: true,
-            sortOrder: 3593
+            sortOrder: 3596
         );
 
         /* 🪧 */
@@ -36635,7 +36674,7 @@ namespace NeoSmart.Unicode
             group: Group.OBJECTS,
             subgroup: Subgroups.OTHER_OBJECT,
             hasGlyph: false,
-            sortOrder: 3594
+            sortOrder: 3597
         );
 
         /* 🏧 */
@@ -36648,7 +36687,7 @@ namespace NeoSmart.Unicode
             group: Group.SYMBOLS,
             subgroup: Subgroups.TRANSPORT_SIGN,
             hasGlyph: true,
-            sortOrder: 3595
+            sortOrder: 3598
         );
 
         /* 🚮 */
@@ -36661,7 +36700,7 @@ namespace NeoSmart.Unicode
             group: Group.SYMBOLS,
             subgroup: Subgroups.TRANSPORT_SIGN,
             hasGlyph: true,
-            sortOrder: 3596
+            sortOrder: 3599
         );
 
         /* 🚰 */
@@ -36674,7 +36713,7 @@ namespace NeoSmart.Unicode
             group: Group.SYMBOLS,
             subgroup: Subgroups.TRANSPORT_SIGN,
             hasGlyph: true,
-            sortOrder: 3597
+            sortOrder: 3600
         );
 
         /* ♿ */
@@ -36687,7 +36726,7 @@ namespace NeoSmart.Unicode
             group: Group.SYMBOLS,
             subgroup: Subgroups.TRANSPORT_SIGN,
             hasGlyph: true,
-            sortOrder: 3598
+            sortOrder: 3601
         );
 
         /* 🚹 */
@@ -36700,7 +36739,7 @@ namespace NeoSmart.Unicode
             group: Group.SYMBOLS,
             subgroup: Subgroups.TRANSPORT_SIGN,
             hasGlyph: true,
-            sortOrder: 3599
+            sortOrder: 3602
         );
 
         /* 🚺 */
@@ -36713,7 +36752,7 @@ namespace NeoSmart.Unicode
             group: Group.SYMBOLS,
             subgroup: Subgroups.TRANSPORT_SIGN,
             hasGlyph: true,
-            sortOrder: 3600
+            sortOrder: 3603
         );
 
         /* 🚻 */
@@ -36726,7 +36765,7 @@ namespace NeoSmart.Unicode
             group: Group.SYMBOLS,
             subgroup: Subgroups.TRANSPORT_SIGN,
             hasGlyph: true,
-            sortOrder: 3601
+            sortOrder: 3604
         );
 
         /* 🚼 */
@@ -36739,7 +36778,7 @@ namespace NeoSmart.Unicode
             group: Group.SYMBOLS,
             subgroup: Subgroups.TRANSPORT_SIGN,
             hasGlyph: true,
-            sortOrder: 3602
+            sortOrder: 3605
         );
 
         /* 🚾 */
@@ -36752,7 +36791,7 @@ namespace NeoSmart.Unicode
             group: Group.SYMBOLS,
             subgroup: Subgroups.TRANSPORT_SIGN,
             hasGlyph: true,
-            sortOrder: 3603
+            sortOrder: 3606
         );
 
         /* 🛂 */
@@ -36765,7 +36804,7 @@ namespace NeoSmart.Unicode
             group: Group.SYMBOLS,
             subgroup: Subgroups.TRANSPORT_SIGN,
             hasGlyph: true,
-            sortOrder: 3604
+            sortOrder: 3607
         );
 
         /* 🛃 */
@@ -36778,7 +36817,7 @@ namespace NeoSmart.Unicode
             group: Group.SYMBOLS,
             subgroup: Subgroups.TRANSPORT_SIGN,
             hasGlyph: true,
-            sortOrder: 3605
+            sortOrder: 3608
         );
 
         /* 🛄 */
@@ -36791,7 +36830,7 @@ namespace NeoSmart.Unicode
             group: Group.SYMBOLS,
             subgroup: Subgroups.TRANSPORT_SIGN,
             hasGlyph: true,
-            sortOrder: 3606
+            sortOrder: 3609
         );
 
         /* 🛅 */
@@ -36804,7 +36843,7 @@ namespace NeoSmart.Unicode
             group: Group.SYMBOLS,
             subgroup: Subgroups.TRANSPORT_SIGN,
             hasGlyph: true,
-            sortOrder: 3607
+            sortOrder: 3610
         );
 
         /* ⚠️ */
@@ -36817,7 +36856,7 @@ namespace NeoSmart.Unicode
             group: Group.SYMBOLS,
             subgroup: Subgroups.WARNING,
             hasGlyph: true,
-            sortOrder: 3608
+            sortOrder: 3611
         );
 
         /* 🚸 */
@@ -36830,7 +36869,7 @@ namespace NeoSmart.Unicode
             group: Group.SYMBOLS,
             subgroup: Subgroups.WARNING,
             hasGlyph: true,
-            sortOrder: 3610
+            sortOrder: 3613
         );
 
         /* ⛔ */
@@ -36843,7 +36882,7 @@ namespace NeoSmart.Unicode
             group: Group.SYMBOLS,
             subgroup: Subgroups.WARNING,
             hasGlyph: true,
-            sortOrder: 3611
+            sortOrder: 3614
         );
 
         /* 🚫 */
@@ -36856,7 +36895,7 @@ namespace NeoSmart.Unicode
             group: Group.SYMBOLS,
             subgroup: Subgroups.WARNING,
             hasGlyph: true,
-            sortOrder: 3612
+            sortOrder: 3615
         );
 
         /* 🚳 */
@@ -36869,7 +36908,7 @@ namespace NeoSmart.Unicode
             group: Group.SYMBOLS,
             subgroup: Subgroups.WARNING,
             hasGlyph: true,
-            sortOrder: 3613
+            sortOrder: 3616
         );
 
         /* 🚭 */
@@ -36882,7 +36921,7 @@ namespace NeoSmart.Unicode
             group: Group.SYMBOLS,
             subgroup: Subgroups.WARNING,
             hasGlyph: true,
-            sortOrder: 3614
+            sortOrder: 3617
         );
 
         /* 🚯 */
@@ -36895,7 +36934,7 @@ namespace NeoSmart.Unicode
             group: Group.SYMBOLS,
             subgroup: Subgroups.WARNING,
             hasGlyph: true,
-            sortOrder: 3615
+            sortOrder: 3618
         );
 
         /* 🚱 */
@@ -36908,7 +36947,7 @@ namespace NeoSmart.Unicode
             group: Group.SYMBOLS,
             subgroup: Subgroups.WARNING,
             hasGlyph: true,
-            sortOrder: 3616
+            sortOrder: 3619
         );
 
         /* 🚷 */
@@ -36921,7 +36960,7 @@ namespace NeoSmart.Unicode
             group: Group.SYMBOLS,
             subgroup: Subgroups.WARNING,
             hasGlyph: true,
-            sortOrder: 3617
+            sortOrder: 3620
         );
 
         /* 📵 */
@@ -36934,7 +36973,7 @@ namespace NeoSmart.Unicode
             group: Group.SYMBOLS,
             subgroup: Subgroups.WARNING,
             hasGlyph: true,
-            sortOrder: 3618
+            sortOrder: 3621
         );
 
         /* 🔞 */
@@ -36947,7 +36986,7 @@ namespace NeoSmart.Unicode
             group: Group.SYMBOLS,
             subgroup: Subgroups.WARNING,
             hasGlyph: true,
-            sortOrder: 3619
+            sortOrder: 3622
         );
 
         /* ☢️ */
@@ -36960,7 +36999,7 @@ namespace NeoSmart.Unicode
             group: Group.SYMBOLS,
             subgroup: Subgroups.WARNING,
             hasGlyph: true,
-            sortOrder: 3620
+            sortOrder: 3623
         );
 
         /* ☣️ */
@@ -36973,7 +37012,7 @@ namespace NeoSmart.Unicode
             group: Group.SYMBOLS,
             subgroup: Subgroups.WARNING,
             hasGlyph: true,
-            sortOrder: 3622
+            sortOrder: 3625
         );
 
         /* ⬆️ */
@@ -36986,7 +37025,7 @@ namespace NeoSmart.Unicode
             group: Group.SYMBOLS,
             subgroup: Subgroups.ARROW,
             hasGlyph: true,
-            sortOrder: 3624
+            sortOrder: 3627
         );
 
         /* ↗️ */
@@ -36999,7 +37038,7 @@ namespace NeoSmart.Unicode
             group: Group.SYMBOLS,
             subgroup: Subgroups.ARROW,
             hasGlyph: true,
-            sortOrder: 3626
+            sortOrder: 3629
         );
 
         /* ➡️ */
@@ -37012,7 +37051,7 @@ namespace NeoSmart.Unicode
             group: Group.SYMBOLS,
             subgroup: Subgroups.ARROW,
             hasGlyph: true,
-            sortOrder: 3628
+            sortOrder: 3631
         );
 
         /* ↘️ */
@@ -37025,7 +37064,7 @@ namespace NeoSmart.Unicode
             group: Group.SYMBOLS,
             subgroup: Subgroups.ARROW,
             hasGlyph: true,
-            sortOrder: 3630
+            sortOrder: 3633
         );
 
         /* ⬇️ */
@@ -37038,7 +37077,7 @@ namespace NeoSmart.Unicode
             group: Group.SYMBOLS,
             subgroup: Subgroups.ARROW,
             hasGlyph: true,
-            sortOrder: 3632
+            sortOrder: 3635
         );
 
         /* ↙️ */
@@ -37051,7 +37090,7 @@ namespace NeoSmart.Unicode
             group: Group.SYMBOLS,
             subgroup: Subgroups.ARROW,
             hasGlyph: true,
-            sortOrder: 3634
+            sortOrder: 3637
         );
 
         /* ⬅️ */
@@ -37064,7 +37103,7 @@ namespace NeoSmart.Unicode
             group: Group.SYMBOLS,
             subgroup: Subgroups.ARROW,
             hasGlyph: true,
-            sortOrder: 3636
+            sortOrder: 3639
         );
 
         /* ↖️ */
@@ -37077,7 +37116,7 @@ namespace NeoSmart.Unicode
             group: Group.SYMBOLS,
             subgroup: Subgroups.ARROW,
             hasGlyph: true,
-            sortOrder: 3638
+            sortOrder: 3641
         );
 
         /* ↕️ */
@@ -37090,7 +37129,7 @@ namespace NeoSmart.Unicode
             group: Group.SYMBOLS,
             subgroup: Subgroups.ARROW,
             hasGlyph: true,
-            sortOrder: 3640
+            sortOrder: 3643
         );
 
         /* ↔️ */
@@ -37103,7 +37142,7 @@ namespace NeoSmart.Unicode
             group: Group.SYMBOLS,
             subgroup: Subgroups.ARROW,
             hasGlyph: true,
-            sortOrder: 3642
+            sortOrder: 3645
         );
 
         /* ↩️ */
@@ -37116,7 +37155,7 @@ namespace NeoSmart.Unicode
             group: Group.SYMBOLS,
             subgroup: Subgroups.ARROW,
             hasGlyph: true,
-            sortOrder: 3644
+            sortOrder: 3647
         );
 
         /* ↪️ */
@@ -37129,7 +37168,7 @@ namespace NeoSmart.Unicode
             group: Group.SYMBOLS,
             subgroup: Subgroups.ARROW,
             hasGlyph: true,
-            sortOrder: 3646
+            sortOrder: 3649
         );
 
         /* ⤴️ */
@@ -37142,7 +37181,7 @@ namespace NeoSmart.Unicode
             group: Group.SYMBOLS,
             subgroup: Subgroups.ARROW,
             hasGlyph: true,
-            sortOrder: 3648
+            sortOrder: 3651
         );
 
         /* ⤵️ */
@@ -37155,7 +37194,7 @@ namespace NeoSmart.Unicode
             group: Group.SYMBOLS,
             subgroup: Subgroups.ARROW,
             hasGlyph: true,
-            sortOrder: 3650
+            sortOrder: 3653
         );
 
         /* 🔃 */
@@ -37168,7 +37207,7 @@ namespace NeoSmart.Unicode
             group: Group.SYMBOLS,
             subgroup: Subgroups.ARROW,
             hasGlyph: true,
-            sortOrder: 3652
+            sortOrder: 3655
         );
 
         /* 🔄 */
@@ -37181,7 +37220,7 @@ namespace NeoSmart.Unicode
             group: Group.SYMBOLS,
             subgroup: Subgroups.ARROW,
             hasGlyph: true,
-            sortOrder: 3653
+            sortOrder: 3656
         );
 
         /* 🔙 */
@@ -37194,7 +37233,7 @@ namespace NeoSmart.Unicode
             group: Group.SYMBOLS,
             subgroup: Subgroups.ARROW,
             hasGlyph: true,
-            sortOrder: 3654
+            sortOrder: 3657
         );
 
         /* 🔚 */
@@ -37207,7 +37246,7 @@ namespace NeoSmart.Unicode
             group: Group.SYMBOLS,
             subgroup: Subgroups.ARROW,
             hasGlyph: true,
-            sortOrder: 3655
+            sortOrder: 3658
         );
 
         /* 🔛 */
@@ -37220,7 +37259,7 @@ namespace NeoSmart.Unicode
             group: Group.SYMBOLS,
             subgroup: Subgroups.ARROW,
             hasGlyph: true,
-            sortOrder: 3656
+            sortOrder: 3659
         );
 
         /* 🔜 */
@@ -37233,7 +37272,7 @@ namespace NeoSmart.Unicode
             group: Group.SYMBOLS,
             subgroup: Subgroups.ARROW,
             hasGlyph: true,
-            sortOrder: 3657
+            sortOrder: 3660
         );
 
         /* 🔝 */
@@ -37246,7 +37285,7 @@ namespace NeoSmart.Unicode
             group: Group.SYMBOLS,
             subgroup: Subgroups.ARROW,
             hasGlyph: true,
-            sortOrder: 3658
+            sortOrder: 3661
         );
 
         /* 🛐 */
@@ -37259,7 +37298,7 @@ namespace NeoSmart.Unicode
             group: Group.SYMBOLS,
             subgroup: Subgroups.RELIGION,
             hasGlyph: true,
-            sortOrder: 3659
+            sortOrder: 3662
         );
 
         /* ⚛️ */
@@ -37272,7 +37311,7 @@ namespace NeoSmart.Unicode
             group: Group.SYMBOLS,
             subgroup: Subgroups.RELIGION,
             hasGlyph: true,
-            sortOrder: 3660
+            sortOrder: 3663
         );
 
         /* 🕉️ */
@@ -37285,7 +37324,7 @@ namespace NeoSmart.Unicode
             group: Group.SYMBOLS,
             subgroup: Subgroups.RELIGION,
             hasGlyph: true,
-            sortOrder: 3662
+            sortOrder: 3665
         );
 
         /* ✡️ */
@@ -37298,7 +37337,7 @@ namespace NeoSmart.Unicode
             group: Group.SYMBOLS,
             subgroup: Subgroups.RELIGION,
             hasGlyph: true,
-            sortOrder: 3664
+            sortOrder: 3667
         );
 
         /* ☸️ */
@@ -37311,7 +37350,7 @@ namespace NeoSmart.Unicode
             group: Group.SYMBOLS,
             subgroup: Subgroups.RELIGION,
             hasGlyph: true,
-            sortOrder: 3666
+            sortOrder: 3669
         );
 
         /* ☯️ */
@@ -37324,7 +37363,7 @@ namespace NeoSmart.Unicode
             group: Group.SYMBOLS,
             subgroup: Subgroups.RELIGION,
             hasGlyph: true,
-            sortOrder: 3668
+            sortOrder: 3671
         );
 
         /* ✝️ */
@@ -37337,7 +37376,7 @@ namespace NeoSmart.Unicode
             group: Group.SYMBOLS,
             subgroup: Subgroups.RELIGION,
             hasGlyph: true,
-            sortOrder: 3670
+            sortOrder: 3673
         );
 
         /* ☦️ */
@@ -37350,7 +37389,7 @@ namespace NeoSmart.Unicode
             group: Group.SYMBOLS,
             subgroup: Subgroups.RELIGION,
             hasGlyph: true,
-            sortOrder: 3672
+            sortOrder: 3675
         );
 
         /* ☪️ */
@@ -37363,7 +37402,7 @@ namespace NeoSmart.Unicode
             group: Group.SYMBOLS,
             subgroup: Subgroups.RELIGION,
             hasGlyph: true,
-            sortOrder: 3674
+            sortOrder: 3677
         );
 
         /* ☮️ */
@@ -37376,7 +37415,7 @@ namespace NeoSmart.Unicode
             group: Group.SYMBOLS,
             subgroup: Subgroups.RELIGION,
             hasGlyph: true,
-            sortOrder: 3676
+            sortOrder: 3679
         );
 
         /* 🕎 */
@@ -37389,7 +37428,7 @@ namespace NeoSmart.Unicode
             group: Group.SYMBOLS,
             subgroup: Subgroups.RELIGION,
             hasGlyph: true,
-            sortOrder: 3678
+            sortOrder: 3681
         );
 
         /* 🔯 */
@@ -37402,7 +37441,7 @@ namespace NeoSmart.Unicode
             group: Group.SYMBOLS,
             subgroup: Subgroups.RELIGION,
             hasGlyph: true,
-            sortOrder: 3679
+            sortOrder: 3682
         );
 
         /* ♈ */
@@ -37415,7 +37454,7 @@ namespace NeoSmart.Unicode
             group: Group.SYMBOLS,
             subgroup: Subgroups.ZODIAC,
             hasGlyph: true,
-            sortOrder: 3680
+            sortOrder: 3683
         );
 
         /* ♉ */
@@ -37428,7 +37467,7 @@ namespace NeoSmart.Unicode
             group: Group.SYMBOLS,
             subgroup: Subgroups.ZODIAC,
             hasGlyph: true,
-            sortOrder: 3681
+            sortOrder: 3684
         );
 
         /* ♊ */
@@ -37441,7 +37480,7 @@ namespace NeoSmart.Unicode
             group: Group.SYMBOLS,
             subgroup: Subgroups.ZODIAC,
             hasGlyph: true,
-            sortOrder: 3682
+            sortOrder: 3685
         );
 
         /* ♋ */
@@ -37454,7 +37493,7 @@ namespace NeoSmart.Unicode
             group: Group.SYMBOLS,
             subgroup: Subgroups.ZODIAC,
             hasGlyph: true,
-            sortOrder: 3683
+            sortOrder: 3686
         );
 
         /* ♌ */
@@ -37467,7 +37506,7 @@ namespace NeoSmart.Unicode
             group: Group.SYMBOLS,
             subgroup: Subgroups.ZODIAC,
             hasGlyph: true,
-            sortOrder: 3684
+            sortOrder: 3687
         );
 
         /* ♍ */
@@ -37480,7 +37519,7 @@ namespace NeoSmart.Unicode
             group: Group.SYMBOLS,
             subgroup: Subgroups.ZODIAC,
             hasGlyph: true,
-            sortOrder: 3685
+            sortOrder: 3688
         );
 
         /* ♎ */
@@ -37493,7 +37532,7 @@ namespace NeoSmart.Unicode
             group: Group.SYMBOLS,
             subgroup: Subgroups.ZODIAC,
             hasGlyph: true,
-            sortOrder: 3686
+            sortOrder: 3689
         );
 
         /* ♏ */
@@ -37506,7 +37545,7 @@ namespace NeoSmart.Unicode
             group: Group.SYMBOLS,
             subgroup: Subgroups.ZODIAC,
             hasGlyph: true,
-            sortOrder: 3687
+            sortOrder: 3690
         );
 
         /* ♐ */
@@ -37519,7 +37558,7 @@ namespace NeoSmart.Unicode
             group: Group.SYMBOLS,
             subgroup: Subgroups.ZODIAC,
             hasGlyph: true,
-            sortOrder: 3688
+            sortOrder: 3691
         );
 
         /* ♑ */
@@ -37532,7 +37571,7 @@ namespace NeoSmart.Unicode
             group: Group.SYMBOLS,
             subgroup: Subgroups.ZODIAC,
             hasGlyph: true,
-            sortOrder: 3689
+            sortOrder: 3692
         );
 
         /* ♒ */
@@ -37545,7 +37584,7 @@ namespace NeoSmart.Unicode
             group: Group.SYMBOLS,
             subgroup: Subgroups.ZODIAC,
             hasGlyph: true,
-            sortOrder: 3690
+            sortOrder: 3693
         );
 
         /* ♓ */
@@ -37558,7 +37597,7 @@ namespace NeoSmart.Unicode
             group: Group.SYMBOLS,
             subgroup: Subgroups.ZODIAC,
             hasGlyph: true,
-            sortOrder: 3691
+            sortOrder: 3694
         );
 
         /* ⛎ */
@@ -37571,7 +37610,7 @@ namespace NeoSmart.Unicode
             group: Group.SYMBOLS,
             subgroup: Subgroups.ZODIAC,
             hasGlyph: true,
-            sortOrder: 3692
+            sortOrder: 3695
         );
 
         /* 🔀 */
@@ -37584,7 +37623,7 @@ namespace NeoSmart.Unicode
             group: Group.SYMBOLS,
             subgroup: Subgroups.AV_SYMBOL,
             hasGlyph: true,
-            sortOrder: 3693
+            sortOrder: 3696
         );
 
         /* 🔁 */
@@ -37597,7 +37636,7 @@ namespace NeoSmart.Unicode
             group: Group.SYMBOLS,
             subgroup: Subgroups.AV_SYMBOL,
             hasGlyph: true,
-            sortOrder: 3694
+            sortOrder: 3697
         );
 
         /* 🔂 */
@@ -37610,7 +37649,7 @@ namespace NeoSmart.Unicode
             group: Group.SYMBOLS,
             subgroup: Subgroups.AV_SYMBOL,
             hasGlyph: true,
-            sortOrder: 3695
+            sortOrder: 3698
         );
 
         /* ▶️ */
@@ -37623,7 +37662,7 @@ namespace NeoSmart.Unicode
             group: Group.SYMBOLS,
             subgroup: Subgroups.AV_SYMBOL,
             hasGlyph: true,
-            sortOrder: 3696
+            sortOrder: 3699
         );
 
         /* ⏩ */
@@ -37636,7 +37675,7 @@ namespace NeoSmart.Unicode
             group: Group.SYMBOLS,
             subgroup: Subgroups.AV_SYMBOL,
             hasGlyph: true,
-            sortOrder: 3698
+            sortOrder: 3701
         );
 
         /* ⏭️ */
@@ -37649,7 +37688,7 @@ namespace NeoSmart.Unicode
             group: Group.SYMBOLS,
             subgroup: Subgroups.AV_SYMBOL,
             hasGlyph: true,
-            sortOrder: 3699
+            sortOrder: 3702
         );
 
         /* ⏯️ */
@@ -37662,7 +37701,7 @@ namespace NeoSmart.Unicode
             group: Group.SYMBOLS,
             subgroup: Subgroups.AV_SYMBOL,
             hasGlyph: true,
-            sortOrder: 3701
+            sortOrder: 3704
         );
 
         /* ◀️ */
@@ -37675,7 +37714,7 @@ namespace NeoSmart.Unicode
             group: Group.SYMBOLS,
             subgroup: Subgroups.AV_SYMBOL,
             hasGlyph: true,
-            sortOrder: 3703
+            sortOrder: 3706
         );
 
         /* ⏪ */
@@ -37688,7 +37727,7 @@ namespace NeoSmart.Unicode
             group: Group.SYMBOLS,
             subgroup: Subgroups.AV_SYMBOL,
             hasGlyph: true,
-            sortOrder: 3705
+            sortOrder: 3708
         );
 
         /* ⏮️ */
@@ -37701,7 +37740,7 @@ namespace NeoSmart.Unicode
             group: Group.SYMBOLS,
             subgroup: Subgroups.AV_SYMBOL,
             hasGlyph: true,
-            sortOrder: 3706
+            sortOrder: 3709
         );
 
         /* 🔼 */
@@ -37714,7 +37753,7 @@ namespace NeoSmart.Unicode
             group: Group.SYMBOLS,
             subgroup: Subgroups.AV_SYMBOL,
             hasGlyph: true,
-            sortOrder: 3708
+            sortOrder: 3711
         );
 
         /* ⏫ */
@@ -37727,7 +37766,7 @@ namespace NeoSmart.Unicode
             group: Group.SYMBOLS,
             subgroup: Subgroups.AV_SYMBOL,
             hasGlyph: true,
-            sortOrder: 3709
+            sortOrder: 3712
         );
 
         /* 🔽 */
@@ -37740,7 +37779,7 @@ namespace NeoSmart.Unicode
             group: Group.SYMBOLS,
             subgroup: Subgroups.AV_SYMBOL,
             hasGlyph: true,
-            sortOrder: 3710
+            sortOrder: 3713
         );
 
         /* ⏬ */
@@ -37753,7 +37792,7 @@ namespace NeoSmart.Unicode
             group: Group.SYMBOLS,
             subgroup: Subgroups.AV_SYMBOL,
             hasGlyph: true,
-            sortOrder: 3711
+            sortOrder: 3714
         );
 
         /* ⏸️ */
@@ -37766,7 +37805,7 @@ namespace NeoSmart.Unicode
             group: Group.SYMBOLS,
             subgroup: Subgroups.AV_SYMBOL,
             hasGlyph: true,
-            sortOrder: 3712
+            sortOrder: 3715
         );
 
         /* ⏹️ */
@@ -37779,7 +37818,7 @@ namespace NeoSmart.Unicode
             group: Group.SYMBOLS,
             subgroup: Subgroups.AV_SYMBOL,
             hasGlyph: true,
-            sortOrder: 3714
+            sortOrder: 3717
         );
 
         /* ⏺️ */
@@ -37792,7 +37831,7 @@ namespace NeoSmart.Unicode
             group: Group.SYMBOLS,
             subgroup: Subgroups.AV_SYMBOL,
             hasGlyph: true,
-            sortOrder: 3716
+            sortOrder: 3719
         );
 
         /* ⏏️ */
@@ -37805,7 +37844,7 @@ namespace NeoSmart.Unicode
             group: Group.SYMBOLS,
             subgroup: Subgroups.AV_SYMBOL,
             hasGlyph: true,
-            sortOrder: 3718
+            sortOrder: 3721
         );
 
         /* 🎦 */
@@ -37818,7 +37857,7 @@ namespace NeoSmart.Unicode
             group: Group.SYMBOLS,
             subgroup: Subgroups.AV_SYMBOL,
             hasGlyph: true,
-            sortOrder: 3720
+            sortOrder: 3723
         );
 
         /* 🔅 */
@@ -37831,7 +37870,7 @@ namespace NeoSmart.Unicode
             group: Group.SYMBOLS,
             subgroup: Subgroups.AV_SYMBOL,
             hasGlyph: true,
-            sortOrder: 3721
+            sortOrder: 3724
         );
 
         /* 🔆 */
@@ -37844,7 +37883,7 @@ namespace NeoSmart.Unicode
             group: Group.SYMBOLS,
             subgroup: Subgroups.AV_SYMBOL,
             hasGlyph: true,
-            sortOrder: 3722
+            sortOrder: 3725
         );
 
         /* 📶 */
@@ -37857,7 +37896,7 @@ namespace NeoSmart.Unicode
             group: Group.SYMBOLS,
             subgroup: Subgroups.AV_SYMBOL,
             hasGlyph: true,
-            sortOrder: 3723
+            sortOrder: 3726
         );
 
         /* 📳 */
@@ -37870,7 +37909,7 @@ namespace NeoSmart.Unicode
             group: Group.SYMBOLS,
             subgroup: Subgroups.AV_SYMBOL,
             hasGlyph: true,
-            sortOrder: 3724
+            sortOrder: 3727
         );
 
         /* 📴 */
@@ -37883,7 +37922,7 @@ namespace NeoSmart.Unicode
             group: Group.SYMBOLS,
             subgroup: Subgroups.AV_SYMBOL,
             hasGlyph: true,
-            sortOrder: 3725
+            sortOrder: 3728
         );
 
         /* ♀️ */
@@ -37896,7 +37935,7 @@ namespace NeoSmart.Unicode
             group: Group.SYMBOLS,
             subgroup: Subgroups.GENDER,
             hasGlyph: true,
-            sortOrder: 3726
+            sortOrder: 3729
         );
 
         /* ♂️ */
@@ -37909,7 +37948,7 @@ namespace NeoSmart.Unicode
             group: Group.SYMBOLS,
             subgroup: Subgroups.GENDER,
             hasGlyph: true,
-            sortOrder: 3728
+            sortOrder: 3731
         );
 
         /* ⚧️ */
@@ -37922,7 +37961,189 @@ namespace NeoSmart.Unicode
             group: Group.SYMBOLS,
             subgroup: Subgroups.GENDER,
             hasGlyph: true,
-            sortOrder: 3730
+            sortOrder: 3733
+        );
+
+        /* ✖️ */
+        public static readonly SingleEmoji Multiply_E0_6 = new SingleEmoji(
+            sequence: new UnicodeSequence(new int[] { 0x2716, 0xfe0f }),
+            name: "multiply",
+            searchTerms: new string[] { "multiply" },
+            skinTones: SingleEmoji.NoSkinTones,
+            eNumber: 0.6,
+            group: Group.SYMBOLS,
+            subgroup: Subgroups.MATH,
+            hasGlyph: true,
+            sortOrder: 3735
+        );
+
+        /* ➕ */
+        public static readonly SingleEmoji Plus_E0_6 = new SingleEmoji(
+            sequence: new UnicodeSequence(new int[] { 0x2795 }),
+            name: "plus",
+            searchTerms: new string[] { "plus" },
+            skinTones: SingleEmoji.NoSkinTones,
+            eNumber: 0.6,
+            group: Group.SYMBOLS,
+            subgroup: Subgroups.MATH,
+            hasGlyph: true,
+            sortOrder: 3737
+        );
+
+        /* ➖ */
+        public static readonly SingleEmoji Minus_E0_6 = new SingleEmoji(
+            sequence: new UnicodeSequence(new int[] { 0x2796 }),
+            name: "minus",
+            searchTerms: new string[] { "minus" },
+            skinTones: SingleEmoji.NoSkinTones,
+            eNumber: 0.6,
+            group: Group.SYMBOLS,
+            subgroup: Subgroups.MATH,
+            hasGlyph: true,
+            sortOrder: 3738
+        );
+
+        /* ➗ */
+        public static readonly SingleEmoji Divide_E0_6 = new SingleEmoji(
+            sequence: new UnicodeSequence(new int[] { 0x2797 }),
+            name: "divide",
+            searchTerms: new string[] { "divide" },
+            skinTones: SingleEmoji.NoSkinTones,
+            eNumber: 0.6,
+            group: Group.SYMBOLS,
+            subgroup: Subgroups.MATH,
+            hasGlyph: true,
+            sortOrder: 3739
+        );
+
+        /* ♾️ */
+        public static readonly SingleEmoji Infinity_E11_0 = new SingleEmoji(
+            sequence: new UnicodeSequence(new int[] { 0x267e, 0xfe0f }),
+            name: "infinity",
+            searchTerms: new string[] { "infinity" },
+            skinTones: SingleEmoji.NoSkinTones,
+            eNumber: 11.0,
+            group: Group.SYMBOLS,
+            subgroup: Subgroups.MATH,
+            hasGlyph: true,
+            sortOrder: 3740
+        );
+
+        /* ‼️ */
+        public static readonly SingleEmoji DoubleExclamationMark_E0_6 = new SingleEmoji(
+            sequence: new UnicodeSequence(new int[] { 0x203c, 0xfe0f }),
+            name: "double exclamation mark",
+            searchTerms: new string[] { "double", "exclamation", "mark" },
+            skinTones: SingleEmoji.NoSkinTones,
+            eNumber: 0.6,
+            group: Group.SYMBOLS,
+            subgroup: Subgroups.PUNCTUATION,
+            hasGlyph: true,
+            sortOrder: 3742
+        );
+
+        /* ⁉️ */
+        public static readonly SingleEmoji ExclamationQuestionMark_E0_6 = new SingleEmoji(
+            sequence: new UnicodeSequence(new int[] { 0x2049, 0xfe0f }),
+            name: "exclamation question mark",
+            searchTerms: new string[] { "exclamation", "question", "mark" },
+            skinTones: SingleEmoji.NoSkinTones,
+            eNumber: 0.6,
+            group: Group.SYMBOLS,
+            subgroup: Subgroups.PUNCTUATION,
+            hasGlyph: true,
+            sortOrder: 3744
+        );
+
+        /* ❓ */
+        public static readonly SingleEmoji QuestionMark_E0_6 = new SingleEmoji(
+            sequence: new UnicodeSequence(new int[] { 0x2753 }),
+            name: "question mark",
+            searchTerms: new string[] { "question", "mark" },
+            skinTones: SingleEmoji.NoSkinTones,
+            eNumber: 0.6,
+            group: Group.SYMBOLS,
+            subgroup: Subgroups.PUNCTUATION,
+            hasGlyph: true,
+            sortOrder: 3746
+        );
+
+        /* ❔ */
+        public static readonly SingleEmoji WhiteQuestionMark_E0_6 = new SingleEmoji(
+            sequence: new UnicodeSequence(new int[] { 0x2754 }),
+            name: "white question mark",
+            searchTerms: new string[] { "white", "question", "mark" },
+            skinTones: SingleEmoji.NoSkinTones,
+            eNumber: 0.6,
+            group: Group.SYMBOLS,
+            subgroup: Subgroups.PUNCTUATION,
+            hasGlyph: true,
+            sortOrder: 3747
+        );
+
+        /* ❕ */
+        public static readonly SingleEmoji WhiteExclamationMark_E0_6 = new SingleEmoji(
+            sequence: new UnicodeSequence(new int[] { 0x2755 }),
+            name: "white exclamation mark",
+            searchTerms: new string[] { "white", "exclamation", "mark" },
+            skinTones: SingleEmoji.NoSkinTones,
+            eNumber: 0.6,
+            group: Group.SYMBOLS,
+            subgroup: Subgroups.PUNCTUATION,
+            hasGlyph: true,
+            sortOrder: 3748
+        );
+
+        /* ❗ */
+        public static readonly SingleEmoji ExclamationMark_E0_6 = new SingleEmoji(
+            sequence: new UnicodeSequence(new int[] { 0x2757 }),
+            name: "exclamation mark",
+            searchTerms: new string[] { "exclamation", "mark" },
+            skinTones: SingleEmoji.NoSkinTones,
+            eNumber: 0.6,
+            group: Group.SYMBOLS,
+            subgroup: Subgroups.PUNCTUATION,
+            hasGlyph: true,
+            sortOrder: 3749
+        );
+
+        /* 〰️ */
+        public static readonly SingleEmoji WavyDash_E0_6 = new SingleEmoji(
+            sequence: new UnicodeSequence(new int[] { 0x3030, 0xfe0f }),
+            name: "wavy dash",
+            searchTerms: new string[] { "wavy", "dash" },
+            skinTones: SingleEmoji.NoSkinTones,
+            eNumber: 0.6,
+            group: Group.SYMBOLS,
+            subgroup: Subgroups.PUNCTUATION,
+            hasGlyph: true,
+            sortOrder: 3750
+        );
+
+        /* 💱 */
+        public static readonly SingleEmoji CurrencyExchange_E0_6 = new SingleEmoji(
+            sequence: new UnicodeSequence(new int[] { 0x1f4b1 }),
+            name: "currency exchange",
+            searchTerms: new string[] { "currency", "exchange" },
+            skinTones: SingleEmoji.NoSkinTones,
+            eNumber: 0.6,
+            group: Group.SYMBOLS,
+            subgroup: Subgroups.CURRENCY,
+            hasGlyph: true,
+            sortOrder: 3752
+        );
+
+        /* 💲 */
+        public static readonly SingleEmoji HeavyDollarSign_E0_6 = new SingleEmoji(
+            sequence: new UnicodeSequence(new int[] { 0x1f4b2 }),
+            name: "heavy dollar sign",
+            searchTerms: new string[] { "heavy", "dollar", "sign" },
+            skinTones: SingleEmoji.NoSkinTones,
+            eNumber: 0.6,
+            group: Group.SYMBOLS,
+            subgroup: Subgroups.CURRENCY,
+            hasGlyph: true,
+            sortOrder: 3753
         );
 
         /* ⚕️ */
@@ -37935,20 +38156,7 @@ namespace NeoSmart.Unicode
             group: Group.SYMBOLS,
             subgroup: Subgroups.OTHER_SYMBOL,
             hasGlyph: true,
-            sortOrder: 3732
-        );
-
-        /* ♾️ */
-        public static readonly SingleEmoji Infinity_E11_0 = new SingleEmoji(
-            sequence: new UnicodeSequence(new int[] { 0x267e, 0xfe0f }),
-            name: "infinity",
-            searchTerms: new string[] { "infinity" },
-            skinTones: SingleEmoji.NoSkinTones,
-            eNumber: 11.0,
-            group: Group.SYMBOLS,
-            subgroup: Subgroups.OTHER_SYMBOL,
-            hasGlyph: true,
-            sortOrder: 3734
+            sortOrder: 3754
         );
 
         /* ♻️ */
@@ -37961,7 +38169,7 @@ namespace NeoSmart.Unicode
             group: Group.SYMBOLS,
             subgroup: Subgroups.OTHER_SYMBOL,
             hasGlyph: true,
-            sortOrder: 3736
+            sortOrder: 3756
         );
 
         /* ⚜️ */
@@ -37974,7 +38182,7 @@ namespace NeoSmart.Unicode
             group: Group.SYMBOLS,
             subgroup: Subgroups.OTHER_SYMBOL,
             hasGlyph: true,
-            sortOrder: 3738
+            sortOrder: 3758
         );
 
         /* 🔱 */
@@ -37987,7 +38195,7 @@ namespace NeoSmart.Unicode
             group: Group.SYMBOLS,
             subgroup: Subgroups.OTHER_SYMBOL,
             hasGlyph: true,
-            sortOrder: 3740
+            sortOrder: 3760
         );
 
         /* 📛 */
@@ -38000,7 +38208,7 @@ namespace NeoSmart.Unicode
             group: Group.SYMBOLS,
             subgroup: Subgroups.OTHER_SYMBOL,
             hasGlyph: true,
-            sortOrder: 3741
+            sortOrder: 3761
         );
 
         /* 🔰 */
@@ -38013,7 +38221,7 @@ namespace NeoSmart.Unicode
             group: Group.SYMBOLS,
             subgroup: Subgroups.OTHER_SYMBOL,
             hasGlyph: true,
-            sortOrder: 3742
+            sortOrder: 3762
         );
 
         /* ⭕ */
@@ -38026,7 +38234,7 @@ namespace NeoSmart.Unicode
             group: Group.SYMBOLS,
             subgroup: Subgroups.OTHER_SYMBOL,
             hasGlyph: true,
-            sortOrder: 3743
+            sortOrder: 3763
         );
 
         /* ✅ */
@@ -38039,7 +38247,7 @@ namespace NeoSmart.Unicode
             group: Group.SYMBOLS,
             subgroup: Subgroups.OTHER_SYMBOL,
             hasGlyph: true,
-            sortOrder: 3744
+            sortOrder: 3764
         );
 
         /* ☑️ */
@@ -38052,7 +38260,7 @@ namespace NeoSmart.Unicode
             group: Group.SYMBOLS,
             subgroup: Subgroups.OTHER_SYMBOL,
             hasGlyph: true,
-            sortOrder: 3745
+            sortOrder: 3765
         );
 
         /* ✔️ */
@@ -38065,20 +38273,7 @@ namespace NeoSmart.Unicode
             group: Group.SYMBOLS,
             subgroup: Subgroups.OTHER_SYMBOL,
             hasGlyph: true,
-            sortOrder: 3747
-        );
-
-        /* ✖️ */
-        public static readonly SingleEmoji MultiplicationSign_E0_6 = new SingleEmoji(
-            sequence: new UnicodeSequence(new int[] { 0x2716, 0xfe0f }),
-            name: "multiplication sign",
-            searchTerms: new string[] { "multiplication", "sign" },
-            skinTones: SingleEmoji.NoSkinTones,
-            eNumber: 0.6,
-            group: Group.SYMBOLS,
-            subgroup: Subgroups.OTHER_SYMBOL,
-            hasGlyph: true,
-            sortOrder: 3749
+            sortOrder: 3767
         );
 
         /* ❌ */
@@ -38091,7 +38286,7 @@ namespace NeoSmart.Unicode
             group: Group.SYMBOLS,
             subgroup: Subgroups.OTHER_SYMBOL,
             hasGlyph: true,
-            sortOrder: 3751
+            sortOrder: 3769
         );
 
         /* ❎ */
@@ -38104,46 +38299,7 @@ namespace NeoSmart.Unicode
             group: Group.SYMBOLS,
             subgroup: Subgroups.OTHER_SYMBOL,
             hasGlyph: true,
-            sortOrder: 3752
-        );
-
-        /* ➕ */
-        public static readonly SingleEmoji PlusSign_E0_6 = new SingleEmoji(
-            sequence: new UnicodeSequence(new int[] { 0x2795 }),
-            name: "plus sign",
-            searchTerms: new string[] { "plus", "sign" },
-            skinTones: SingleEmoji.NoSkinTones,
-            eNumber: 0.6,
-            group: Group.SYMBOLS,
-            subgroup: Subgroups.OTHER_SYMBOL,
-            hasGlyph: true,
-            sortOrder: 3753
-        );
-
-        /* ➖ */
-        public static readonly SingleEmoji MinusSign_E0_6 = new SingleEmoji(
-            sequence: new UnicodeSequence(new int[] { 0x2796 }),
-            name: "minus sign",
-            searchTerms: new string[] { "minus", "sign" },
-            skinTones: SingleEmoji.NoSkinTones,
-            eNumber: 0.6,
-            group: Group.SYMBOLS,
-            subgroup: Subgroups.OTHER_SYMBOL,
-            hasGlyph: true,
-            sortOrder: 3754
-        );
-
-        /* ➗ */
-        public static readonly SingleEmoji DivisionSign_E0_6 = new SingleEmoji(
-            sequence: new UnicodeSequence(new int[] { 0x2797 }),
-            name: "division sign",
-            searchTerms: new string[] { "division", "sign" },
-            skinTones: SingleEmoji.NoSkinTones,
-            eNumber: 0.6,
-            group: Group.SYMBOLS,
-            subgroup: Subgroups.OTHER_SYMBOL,
-            hasGlyph: true,
-            sortOrder: 3755
+            sortOrder: 3770
         );
 
         /* ➰ */
@@ -38156,7 +38312,7 @@ namespace NeoSmart.Unicode
             group: Group.SYMBOLS,
             subgroup: Subgroups.OTHER_SYMBOL,
             hasGlyph: true,
-            sortOrder: 3756
+            sortOrder: 3771
         );
 
         /* ➿ */
@@ -38169,7 +38325,7 @@ namespace NeoSmart.Unicode
             group: Group.SYMBOLS,
             subgroup: Subgroups.OTHER_SYMBOL,
             hasGlyph: true,
-            sortOrder: 3757
+            sortOrder: 3772
         );
 
         /* 〽️ */
@@ -38182,7 +38338,7 @@ namespace NeoSmart.Unicode
             group: Group.SYMBOLS,
             subgroup: Subgroups.OTHER_SYMBOL,
             hasGlyph: true,
-            sortOrder: 3758
+            sortOrder: 3773
         );
 
         /* ✳️ */
@@ -38195,7 +38351,7 @@ namespace NeoSmart.Unicode
             group: Group.SYMBOLS,
             subgroup: Subgroups.OTHER_SYMBOL,
             hasGlyph: true,
-            sortOrder: 3760
+            sortOrder: 3775
         );
 
         /* ✴️ */
@@ -38208,7 +38364,7 @@ namespace NeoSmart.Unicode
             group: Group.SYMBOLS,
             subgroup: Subgroups.OTHER_SYMBOL,
             hasGlyph: true,
-            sortOrder: 3762
+            sortOrder: 3777
         );
 
         /* ❇️ */
@@ -38221,98 +38377,7 @@ namespace NeoSmart.Unicode
             group: Group.SYMBOLS,
             subgroup: Subgroups.OTHER_SYMBOL,
             hasGlyph: true,
-            sortOrder: 3764
-        );
-
-        /* ‼️ */
-        public static readonly SingleEmoji DoubleExclamationMark_E0_6 = new SingleEmoji(
-            sequence: new UnicodeSequence(new int[] { 0x203c, 0xfe0f }),
-            name: "double exclamation mark",
-            searchTerms: new string[] { "double", "exclamation", "mark" },
-            skinTones: SingleEmoji.NoSkinTones,
-            eNumber: 0.6,
-            group: Group.SYMBOLS,
-            subgroup: Subgroups.OTHER_SYMBOL,
-            hasGlyph: true,
-            sortOrder: 3766
-        );
-
-        /* ⁉️ */
-        public static readonly SingleEmoji ExclamationQuestionMark_E0_6 = new SingleEmoji(
-            sequence: new UnicodeSequence(new int[] { 0x2049, 0xfe0f }),
-            name: "exclamation question mark",
-            searchTerms: new string[] { "exclamation", "question", "mark" },
-            skinTones: SingleEmoji.NoSkinTones,
-            eNumber: 0.6,
-            group: Group.SYMBOLS,
-            subgroup: Subgroups.OTHER_SYMBOL,
-            hasGlyph: true,
-            sortOrder: 3768
-        );
-
-        /* ❓ */
-        public static readonly SingleEmoji QuestionMark_E0_6 = new SingleEmoji(
-            sequence: new UnicodeSequence(new int[] { 0x2753 }),
-            name: "question mark",
-            searchTerms: new string[] { "question", "mark" },
-            skinTones: SingleEmoji.NoSkinTones,
-            eNumber: 0.6,
-            group: Group.SYMBOLS,
-            subgroup: Subgroups.OTHER_SYMBOL,
-            hasGlyph: true,
-            sortOrder: 3770
-        );
-
-        /* ❔ */
-        public static readonly SingleEmoji WhiteQuestionMark_E0_6 = new SingleEmoji(
-            sequence: new UnicodeSequence(new int[] { 0x2754 }),
-            name: "white question mark",
-            searchTerms: new string[] { "white", "question", "mark" },
-            skinTones: SingleEmoji.NoSkinTones,
-            eNumber: 0.6,
-            group: Group.SYMBOLS,
-            subgroup: Subgroups.OTHER_SYMBOL,
-            hasGlyph: true,
-            sortOrder: 3771
-        );
-
-        /* ❕ */
-        public static readonly SingleEmoji WhiteExclamationMark_E0_6 = new SingleEmoji(
-            sequence: new UnicodeSequence(new int[] { 0x2755 }),
-            name: "white exclamation mark",
-            searchTerms: new string[] { "white", "exclamation", "mark" },
-            skinTones: SingleEmoji.NoSkinTones,
-            eNumber: 0.6,
-            group: Group.SYMBOLS,
-            subgroup: Subgroups.OTHER_SYMBOL,
-            hasGlyph: true,
-            sortOrder: 3772
-        );
-
-        /* ❗ */
-        public static readonly SingleEmoji ExclamationMark_E0_6 = new SingleEmoji(
-            sequence: new UnicodeSequence(new int[] { 0x2757 }),
-            name: "exclamation mark",
-            searchTerms: new string[] { "exclamation", "mark" },
-            skinTones: SingleEmoji.NoSkinTones,
-            eNumber: 0.6,
-            group: Group.SYMBOLS,
-            subgroup: Subgroups.OTHER_SYMBOL,
-            hasGlyph: true,
-            sortOrder: 3773
-        );
-
-        /* 〰️ */
-        public static readonly SingleEmoji WavyDash_E0_6 = new SingleEmoji(
-            sequence: new UnicodeSequence(new int[] { 0x3030, 0xfe0f }),
-            name: "wavy dash",
-            searchTerms: new string[] { "wavy", "dash" },
-            skinTones: SingleEmoji.NoSkinTones,
-            eNumber: 0.6,
-            group: Group.SYMBOLS,
-            subgroup: Subgroups.OTHER_SYMBOL,
-            hasGlyph: true,
-            sortOrder: 3774
+            sortOrder: 3779
         );
 
         /* ©️ */
@@ -38325,7 +38390,7 @@ namespace NeoSmart.Unicode
             group: Group.SYMBOLS,
             subgroup: Subgroups.OTHER_SYMBOL,
             hasGlyph: true,
-            sortOrder: 3776
+            sortOrder: 3781
         );
 
         /* ®️ */
@@ -38338,7 +38403,7 @@ namespace NeoSmart.Unicode
             group: Group.SYMBOLS,
             subgroup: Subgroups.OTHER_SYMBOL,
             hasGlyph: true,
-            sortOrder: 3778
+            sortOrder: 3783
         );
 
         /* ™️ */
@@ -38351,7 +38416,7 @@ namespace NeoSmart.Unicode
             group: Group.SYMBOLS,
             subgroup: Subgroups.OTHER_SYMBOL,
             hasGlyph: true,
-            sortOrder: 3780
+            sortOrder: 3785
         );
 
         /* ️⃣ */
@@ -38364,7 +38429,7 @@ namespace NeoSmart.Unicode
             group: Group.SYMBOLS,
             subgroup: Subgroups.KEYCAP,
             hasGlyph: false,
-            sortOrder: 3782
+            sortOrder: 3787
         );
 
         /* *️⃣ */
@@ -38377,7 +38442,7 @@ namespace NeoSmart.Unicode
             group: Group.SYMBOLS,
             subgroup: Subgroups.KEYCAP,
             hasGlyph: true,
-            sortOrder: 3784
+            sortOrder: 3789
         );
 
         /* 0️⃣ */
@@ -38390,7 +38455,7 @@ namespace NeoSmart.Unicode
             group: Group.SYMBOLS,
             subgroup: Subgroups.KEYCAP,
             hasGlyph: true,
-            sortOrder: 3786
+            sortOrder: 3791
         );
 
         /* 1️⃣ */
@@ -38403,7 +38468,7 @@ namespace NeoSmart.Unicode
             group: Group.SYMBOLS,
             subgroup: Subgroups.KEYCAP,
             hasGlyph: true,
-            sortOrder: 3788
+            sortOrder: 3793
         );
 
         /* 2️⃣ */
@@ -38416,7 +38481,7 @@ namespace NeoSmart.Unicode
             group: Group.SYMBOLS,
             subgroup: Subgroups.KEYCAP,
             hasGlyph: true,
-            sortOrder: 3790
+            sortOrder: 3795
         );
 
         /* 3️⃣ */
@@ -38429,7 +38494,7 @@ namespace NeoSmart.Unicode
             group: Group.SYMBOLS,
             subgroup: Subgroups.KEYCAP,
             hasGlyph: true,
-            sortOrder: 3792
+            sortOrder: 3797
         );
 
         /* 4️⃣ */
@@ -38442,7 +38507,7 @@ namespace NeoSmart.Unicode
             group: Group.SYMBOLS,
             subgroup: Subgroups.KEYCAP,
             hasGlyph: true,
-            sortOrder: 3794
+            sortOrder: 3799
         );
 
         /* 5️⃣ */
@@ -38455,7 +38520,7 @@ namespace NeoSmart.Unicode
             group: Group.SYMBOLS,
             subgroup: Subgroups.KEYCAP,
             hasGlyph: true,
-            sortOrder: 3796
+            sortOrder: 3801
         );
 
         /* 6️⃣ */
@@ -38468,7 +38533,7 @@ namespace NeoSmart.Unicode
             group: Group.SYMBOLS,
             subgroup: Subgroups.KEYCAP,
             hasGlyph: true,
-            sortOrder: 3798
+            sortOrder: 3803
         );
 
         /* 7️⃣ */
@@ -38481,7 +38546,7 @@ namespace NeoSmart.Unicode
             group: Group.SYMBOLS,
             subgroup: Subgroups.KEYCAP,
             hasGlyph: true,
-            sortOrder: 3800
+            sortOrder: 3805
         );
 
         /* 8️⃣ */
@@ -38494,7 +38559,7 @@ namespace NeoSmart.Unicode
             group: Group.SYMBOLS,
             subgroup: Subgroups.KEYCAP,
             hasGlyph: true,
-            sortOrder: 3802
+            sortOrder: 3807
         );
 
         /* 9️⃣ */
@@ -38507,7 +38572,7 @@ namespace NeoSmart.Unicode
             group: Group.SYMBOLS,
             subgroup: Subgroups.KEYCAP,
             hasGlyph: true,
-            sortOrder: 3804
+            sortOrder: 3809
         );
 
         /* 🔟 */
@@ -38520,7 +38585,7 @@ namespace NeoSmart.Unicode
             group: Group.SYMBOLS,
             subgroup: Subgroups.KEYCAP,
             hasGlyph: true,
-            sortOrder: 3806
+            sortOrder: 3811
         );
 
         /* 🔠 */
@@ -38533,7 +38598,7 @@ namespace NeoSmart.Unicode
             group: Group.SYMBOLS,
             subgroup: Subgroups.ALPHANUM,
             hasGlyph: true,
-            sortOrder: 3807
+            sortOrder: 3812
         );
 
         /* 🔡 */
@@ -38546,7 +38611,7 @@ namespace NeoSmart.Unicode
             group: Group.SYMBOLS,
             subgroup: Subgroups.ALPHANUM,
             hasGlyph: true,
-            sortOrder: 3808
+            sortOrder: 3813
         );
 
         /* 🔢 */
@@ -38559,7 +38624,7 @@ namespace NeoSmart.Unicode
             group: Group.SYMBOLS,
             subgroup: Subgroups.ALPHANUM,
             hasGlyph: true,
-            sortOrder: 3809
+            sortOrder: 3814
         );
 
         /* 🔣 */
@@ -38572,7 +38637,7 @@ namespace NeoSmart.Unicode
             group: Group.SYMBOLS,
             subgroup: Subgroups.ALPHANUM,
             hasGlyph: true,
-            sortOrder: 3810
+            sortOrder: 3815
         );
 
         /* 🔤 */
@@ -38585,7 +38650,7 @@ namespace NeoSmart.Unicode
             group: Group.SYMBOLS,
             subgroup: Subgroups.ALPHANUM,
             hasGlyph: true,
-            sortOrder: 3811
+            sortOrder: 3816
         );
 
         /* 🅰️ */
@@ -38598,7 +38663,7 @@ namespace NeoSmart.Unicode
             group: Group.SYMBOLS,
             subgroup: Subgroups.ALPHANUM,
             hasGlyph: true,
-            sortOrder: 3812
+            sortOrder: 3817
         );
 
         /* 🆎 */
@@ -38611,7 +38676,7 @@ namespace NeoSmart.Unicode
             group: Group.SYMBOLS,
             subgroup: Subgroups.ALPHANUM,
             hasGlyph: true,
-            sortOrder: 3814
+            sortOrder: 3819
         );
 
         /* 🅱️ */
@@ -38624,7 +38689,7 @@ namespace NeoSmart.Unicode
             group: Group.SYMBOLS,
             subgroup: Subgroups.ALPHANUM,
             hasGlyph: true,
-            sortOrder: 3815
+            sortOrder: 3820
         );
 
         /* 🆑 */
@@ -38637,7 +38702,7 @@ namespace NeoSmart.Unicode
             group: Group.SYMBOLS,
             subgroup: Subgroups.ALPHANUM,
             hasGlyph: true,
-            sortOrder: 3817
+            sortOrder: 3822
         );
 
         /* 🆒 */
@@ -38650,7 +38715,7 @@ namespace NeoSmart.Unicode
             group: Group.SYMBOLS,
             subgroup: Subgroups.ALPHANUM,
             hasGlyph: true,
-            sortOrder: 3818
+            sortOrder: 3823
         );
 
         /* 🆓 */
@@ -38663,7 +38728,7 @@ namespace NeoSmart.Unicode
             group: Group.SYMBOLS,
             subgroup: Subgroups.ALPHANUM,
             hasGlyph: true,
-            sortOrder: 3819
+            sortOrder: 3824
         );
 
         /* ℹ️ */
@@ -38676,7 +38741,7 @@ namespace NeoSmart.Unicode
             group: Group.SYMBOLS,
             subgroup: Subgroups.ALPHANUM,
             hasGlyph: true,
-            sortOrder: 3820
+            sortOrder: 3825
         );
 
         /* 🆔 */
@@ -38689,7 +38754,7 @@ namespace NeoSmart.Unicode
             group: Group.SYMBOLS,
             subgroup: Subgroups.ALPHANUM,
             hasGlyph: true,
-            sortOrder: 3822
+            sortOrder: 3827
         );
 
         /* Ⓜ️ */
@@ -38702,7 +38767,7 @@ namespace NeoSmart.Unicode
             group: Group.SYMBOLS,
             subgroup: Subgroups.ALPHANUM,
             hasGlyph: true,
-            sortOrder: 3823
+            sortOrder: 3828
         );
 
         /* 🆕 */
@@ -38715,7 +38780,7 @@ namespace NeoSmart.Unicode
             group: Group.SYMBOLS,
             subgroup: Subgroups.ALPHANUM,
             hasGlyph: true,
-            sortOrder: 3825
+            sortOrder: 3830
         );
 
         /* 🆖 */
@@ -38728,7 +38793,7 @@ namespace NeoSmart.Unicode
             group: Group.SYMBOLS,
             subgroup: Subgroups.ALPHANUM,
             hasGlyph: true,
-            sortOrder: 3826
+            sortOrder: 3831
         );
 
         /* 🅾️ */
@@ -38741,7 +38806,7 @@ namespace NeoSmart.Unicode
             group: Group.SYMBOLS,
             subgroup: Subgroups.ALPHANUM,
             hasGlyph: true,
-            sortOrder: 3827
+            sortOrder: 3832
         );
 
         /* 🆗 */
@@ -38754,7 +38819,7 @@ namespace NeoSmart.Unicode
             group: Group.SYMBOLS,
             subgroup: Subgroups.ALPHANUM,
             hasGlyph: true,
-            sortOrder: 3829
+            sortOrder: 3834
         );
 
         /* 🅿️ */
@@ -38767,7 +38832,7 @@ namespace NeoSmart.Unicode
             group: Group.SYMBOLS,
             subgroup: Subgroups.ALPHANUM,
             hasGlyph: true,
-            sortOrder: 3830
+            sortOrder: 3835
         );
 
         /* 🆘 */
@@ -38780,7 +38845,7 @@ namespace NeoSmart.Unicode
             group: Group.SYMBOLS,
             subgroup: Subgroups.ALPHANUM,
             hasGlyph: true,
-            sortOrder: 3832
+            sortOrder: 3837
         );
 
         /* 🆙 */
@@ -38793,7 +38858,7 @@ namespace NeoSmart.Unicode
             group: Group.SYMBOLS,
             subgroup: Subgroups.ALPHANUM,
             hasGlyph: true,
-            sortOrder: 3833
+            sortOrder: 3838
         );
 
         /* 🆚 */
@@ -38806,7 +38871,7 @@ namespace NeoSmart.Unicode
             group: Group.SYMBOLS,
             subgroup: Subgroups.ALPHANUM,
             hasGlyph: true,
-            sortOrder: 3834
+            sortOrder: 3839
         );
 
         /* 🈁 */
@@ -38819,7 +38884,7 @@ namespace NeoSmart.Unicode
             group: Group.SYMBOLS,
             subgroup: Subgroups.ALPHANUM,
             hasGlyph: true,
-            sortOrder: 3835
+            sortOrder: 3840
         );
 
         /* 🈂️ */
@@ -38832,7 +38897,7 @@ namespace NeoSmart.Unicode
             group: Group.SYMBOLS,
             subgroup: Subgroups.ALPHANUM,
             hasGlyph: true,
-            sortOrder: 3836
+            sortOrder: 3841
         );
 
         /* 🈷️ */
@@ -38845,7 +38910,7 @@ namespace NeoSmart.Unicode
             group: Group.SYMBOLS,
             subgroup: Subgroups.ALPHANUM,
             hasGlyph: true,
-            sortOrder: 3838
+            sortOrder: 3843
         );
 
         /* 🈶 */
@@ -38858,7 +38923,7 @@ namespace NeoSmart.Unicode
             group: Group.SYMBOLS,
             subgroup: Subgroups.ALPHANUM,
             hasGlyph: true,
-            sortOrder: 3840
+            sortOrder: 3845
         );
 
         /* 🈯 */
@@ -38871,7 +38936,7 @@ namespace NeoSmart.Unicode
             group: Group.SYMBOLS,
             subgroup: Subgroups.ALPHANUM,
             hasGlyph: true,
-            sortOrder: 3841
+            sortOrder: 3846
         );
 
         /* 🉐 */
@@ -38884,7 +38949,7 @@ namespace NeoSmart.Unicode
             group: Group.SYMBOLS,
             subgroup: Subgroups.ALPHANUM,
             hasGlyph: true,
-            sortOrder: 3842
+            sortOrder: 3847
         );
 
         /* 🈹 */
@@ -38897,7 +38962,7 @@ namespace NeoSmart.Unicode
             group: Group.SYMBOLS,
             subgroup: Subgroups.ALPHANUM,
             hasGlyph: true,
-            sortOrder: 3843
+            sortOrder: 3848
         );
 
         /* 🈚 */
@@ -38910,7 +38975,7 @@ namespace NeoSmart.Unicode
             group: Group.SYMBOLS,
             subgroup: Subgroups.ALPHANUM,
             hasGlyph: true,
-            sortOrder: 3844
+            sortOrder: 3849
         );
 
         /* 🈲 */
@@ -38923,7 +38988,7 @@ namespace NeoSmart.Unicode
             group: Group.SYMBOLS,
             subgroup: Subgroups.ALPHANUM,
             hasGlyph: true,
-            sortOrder: 3845
+            sortOrder: 3850
         );
 
         /* 🉑 */
@@ -38936,7 +39001,7 @@ namespace NeoSmart.Unicode
             group: Group.SYMBOLS,
             subgroup: Subgroups.ALPHANUM,
             hasGlyph: true,
-            sortOrder: 3846
+            sortOrder: 3851
         );
 
         /* 🈸 */
@@ -38949,7 +39014,7 @@ namespace NeoSmart.Unicode
             group: Group.SYMBOLS,
             subgroup: Subgroups.ALPHANUM,
             hasGlyph: true,
-            sortOrder: 3847
+            sortOrder: 3852
         );
 
         /* 🈴 */
@@ -38962,7 +39027,7 @@ namespace NeoSmart.Unicode
             group: Group.SYMBOLS,
             subgroup: Subgroups.ALPHANUM,
             hasGlyph: true,
-            sortOrder: 3848
+            sortOrder: 3853
         );
 
         /* 🈳 */
@@ -38975,7 +39040,7 @@ namespace NeoSmart.Unicode
             group: Group.SYMBOLS,
             subgroup: Subgroups.ALPHANUM,
             hasGlyph: true,
-            sortOrder: 3849
+            sortOrder: 3854
         );
 
         /* ㊗️ */
@@ -38988,7 +39053,7 @@ namespace NeoSmart.Unicode
             group: Group.SYMBOLS,
             subgroup: Subgroups.ALPHANUM,
             hasGlyph: true,
-            sortOrder: 3850
+            sortOrder: 3855
         );
 
         /* ㊙️ */
@@ -39001,7 +39066,7 @@ namespace NeoSmart.Unicode
             group: Group.SYMBOLS,
             subgroup: Subgroups.ALPHANUM,
             hasGlyph: true,
-            sortOrder: 3852
+            sortOrder: 3857
         );
 
         /* 🈺 */
@@ -39014,7 +39079,7 @@ namespace NeoSmart.Unicode
             group: Group.SYMBOLS,
             subgroup: Subgroups.ALPHANUM,
             hasGlyph: true,
-            sortOrder: 3854
+            sortOrder: 3859
         );
 
         /* 🈵 */
@@ -39027,7 +39092,7 @@ namespace NeoSmart.Unicode
             group: Group.SYMBOLS,
             subgroup: Subgroups.ALPHANUM,
             hasGlyph: true,
-            sortOrder: 3855
+            sortOrder: 3860
         );
 
         /* 🔴 */
@@ -39040,7 +39105,7 @@ namespace NeoSmart.Unicode
             group: Group.SYMBOLS,
             subgroup: Subgroups.GEOMETRIC,
             hasGlyph: true,
-            sortOrder: 3856
+            sortOrder: 3861
         );
 
         /* 🟠 */
@@ -39053,7 +39118,7 @@ namespace NeoSmart.Unicode
             group: Group.SYMBOLS,
             subgroup: Subgroups.GEOMETRIC,
             hasGlyph: true,
-            sortOrder: 3857
+            sortOrder: 3862
         );
 
         /* 🟡 */
@@ -39066,7 +39131,7 @@ namespace NeoSmart.Unicode
             group: Group.SYMBOLS,
             subgroup: Subgroups.GEOMETRIC,
             hasGlyph: true,
-            sortOrder: 3858
+            sortOrder: 3863
         );
 
         /* 🟢 */
@@ -39079,7 +39144,7 @@ namespace NeoSmart.Unicode
             group: Group.SYMBOLS,
             subgroup: Subgroups.GEOMETRIC,
             hasGlyph: true,
-            sortOrder: 3859
+            sortOrder: 3864
         );
 
         /* 🔵 */
@@ -39092,7 +39157,7 @@ namespace NeoSmart.Unicode
             group: Group.SYMBOLS,
             subgroup: Subgroups.GEOMETRIC,
             hasGlyph: true,
-            sortOrder: 3860
+            sortOrder: 3865
         );
 
         /* 🟣 */
@@ -39105,7 +39170,7 @@ namespace NeoSmart.Unicode
             group: Group.SYMBOLS,
             subgroup: Subgroups.GEOMETRIC,
             hasGlyph: true,
-            sortOrder: 3861
+            sortOrder: 3866
         );
 
         /* 🟤 */
@@ -39118,7 +39183,7 @@ namespace NeoSmart.Unicode
             group: Group.SYMBOLS,
             subgroup: Subgroups.GEOMETRIC,
             hasGlyph: true,
-            sortOrder: 3862
+            sortOrder: 3867
         );
 
         /* ⚫ */
@@ -39131,7 +39196,7 @@ namespace NeoSmart.Unicode
             group: Group.SYMBOLS,
             subgroup: Subgroups.GEOMETRIC,
             hasGlyph: true,
-            sortOrder: 3863
+            sortOrder: 3868
         );
 
         /* ⚪ */
@@ -39144,7 +39209,7 @@ namespace NeoSmart.Unicode
             group: Group.SYMBOLS,
             subgroup: Subgroups.GEOMETRIC,
             hasGlyph: true,
-            sortOrder: 3864
+            sortOrder: 3869
         );
 
         /* 🟥 */
@@ -39157,7 +39222,7 @@ namespace NeoSmart.Unicode
             group: Group.SYMBOLS,
             subgroup: Subgroups.GEOMETRIC,
             hasGlyph: true,
-            sortOrder: 3865
+            sortOrder: 3870
         );
 
         /* 🟧 */
@@ -39170,7 +39235,7 @@ namespace NeoSmart.Unicode
             group: Group.SYMBOLS,
             subgroup: Subgroups.GEOMETRIC,
             hasGlyph: true,
-            sortOrder: 3866
+            sortOrder: 3871
         );
 
         /* 🟨 */
@@ -39183,7 +39248,7 @@ namespace NeoSmart.Unicode
             group: Group.SYMBOLS,
             subgroup: Subgroups.GEOMETRIC,
             hasGlyph: true,
-            sortOrder: 3867
+            sortOrder: 3872
         );
 
         /* 🟩 */
@@ -39196,7 +39261,7 @@ namespace NeoSmart.Unicode
             group: Group.SYMBOLS,
             subgroup: Subgroups.GEOMETRIC,
             hasGlyph: true,
-            sortOrder: 3868
+            sortOrder: 3873
         );
 
         /* 🟦 */
@@ -39209,7 +39274,7 @@ namespace NeoSmart.Unicode
             group: Group.SYMBOLS,
             subgroup: Subgroups.GEOMETRIC,
             hasGlyph: true,
-            sortOrder: 3869
+            sortOrder: 3874
         );
 
         /* 🟪 */
@@ -39222,7 +39287,7 @@ namespace NeoSmart.Unicode
             group: Group.SYMBOLS,
             subgroup: Subgroups.GEOMETRIC,
             hasGlyph: true,
-            sortOrder: 3870
+            sortOrder: 3875
         );
 
         /* 🟫 */
@@ -39235,7 +39300,7 @@ namespace NeoSmart.Unicode
             group: Group.SYMBOLS,
             subgroup: Subgroups.GEOMETRIC,
             hasGlyph: true,
-            sortOrder: 3871
+            sortOrder: 3876
         );
 
         /* ⬛ */
@@ -39248,7 +39313,7 @@ namespace NeoSmart.Unicode
             group: Group.SYMBOLS,
             subgroup: Subgroups.GEOMETRIC,
             hasGlyph: true,
-            sortOrder: 3872
+            sortOrder: 3877
         );
 
         /* ⬜ */
@@ -39261,7 +39326,7 @@ namespace NeoSmart.Unicode
             group: Group.SYMBOLS,
             subgroup: Subgroups.GEOMETRIC,
             hasGlyph: true,
-            sortOrder: 3873
+            sortOrder: 3878
         );
 
         /* ◼️ */
@@ -39274,7 +39339,7 @@ namespace NeoSmart.Unicode
             group: Group.SYMBOLS,
             subgroup: Subgroups.GEOMETRIC,
             hasGlyph: true,
-            sortOrder: 3874
+            sortOrder: 3879
         );
 
         /* ◻️ */
@@ -39287,7 +39352,7 @@ namespace NeoSmart.Unicode
             group: Group.SYMBOLS,
             subgroup: Subgroups.GEOMETRIC,
             hasGlyph: true,
-            sortOrder: 3876
+            sortOrder: 3881
         );
 
         /* ◾ */
@@ -39300,7 +39365,7 @@ namespace NeoSmart.Unicode
             group: Group.SYMBOLS,
             subgroup: Subgroups.GEOMETRIC,
             hasGlyph: true,
-            sortOrder: 3878
+            sortOrder: 3883
         );
 
         /* ◽ */
@@ -39313,7 +39378,7 @@ namespace NeoSmart.Unicode
             group: Group.SYMBOLS,
             subgroup: Subgroups.GEOMETRIC,
             hasGlyph: true,
-            sortOrder: 3879
+            sortOrder: 3884
         );
 
         /* ▪️ */
@@ -39326,7 +39391,7 @@ namespace NeoSmart.Unicode
             group: Group.SYMBOLS,
             subgroup: Subgroups.GEOMETRIC,
             hasGlyph: true,
-            sortOrder: 3880
+            sortOrder: 3885
         );
 
         /* ▫️ */
@@ -39339,7 +39404,7 @@ namespace NeoSmart.Unicode
             group: Group.SYMBOLS,
             subgroup: Subgroups.GEOMETRIC,
             hasGlyph: true,
-            sortOrder: 3882
+            sortOrder: 3887
         );
 
         /* 🔶 */
@@ -39352,7 +39417,7 @@ namespace NeoSmart.Unicode
             group: Group.SYMBOLS,
             subgroup: Subgroups.GEOMETRIC,
             hasGlyph: true,
-            sortOrder: 3884
+            sortOrder: 3889
         );
 
         /* 🔷 */
@@ -39365,7 +39430,7 @@ namespace NeoSmart.Unicode
             group: Group.SYMBOLS,
             subgroup: Subgroups.GEOMETRIC,
             hasGlyph: true,
-            sortOrder: 3885
+            sortOrder: 3890
         );
 
         /* 🔸 */
@@ -39378,7 +39443,7 @@ namespace NeoSmart.Unicode
             group: Group.SYMBOLS,
             subgroup: Subgroups.GEOMETRIC,
             hasGlyph: true,
-            sortOrder: 3886
+            sortOrder: 3891
         );
 
         /* 🔹 */
@@ -39391,7 +39456,7 @@ namespace NeoSmart.Unicode
             group: Group.SYMBOLS,
             subgroup: Subgroups.GEOMETRIC,
             hasGlyph: true,
-            sortOrder: 3887
+            sortOrder: 3892
         );
 
         /* 🔺 */
@@ -39404,7 +39469,7 @@ namespace NeoSmart.Unicode
             group: Group.SYMBOLS,
             subgroup: Subgroups.GEOMETRIC,
             hasGlyph: true,
-            sortOrder: 3888
+            sortOrder: 3893
         );
 
         /* 🔻 */
@@ -39417,7 +39482,7 @@ namespace NeoSmart.Unicode
             group: Group.SYMBOLS,
             subgroup: Subgroups.GEOMETRIC,
             hasGlyph: true,
-            sortOrder: 3889
+            sortOrder: 3894
         );
 
         /* 💠 */
@@ -39430,7 +39495,7 @@ namespace NeoSmart.Unicode
             group: Group.SYMBOLS,
             subgroup: Subgroups.GEOMETRIC,
             hasGlyph: true,
-            sortOrder: 3890
+            sortOrder: 3895
         );
 
         /* 🔘 */
@@ -39443,7 +39508,7 @@ namespace NeoSmart.Unicode
             group: Group.SYMBOLS,
             subgroup: Subgroups.GEOMETRIC,
             hasGlyph: true,
-            sortOrder: 3891
+            sortOrder: 3896
         );
 
         /* 🔳 */
@@ -39456,7 +39521,7 @@ namespace NeoSmart.Unicode
             group: Group.SYMBOLS,
             subgroup: Subgroups.GEOMETRIC,
             hasGlyph: true,
-            sortOrder: 3892
+            sortOrder: 3897
         );
 
         /* 🔲 */
@@ -39469,7 +39534,7 @@ namespace NeoSmart.Unicode
             group: Group.SYMBOLS,
             subgroup: Subgroups.GEOMETRIC,
             hasGlyph: true,
-            sortOrder: 3893
+            sortOrder: 3898
         );
 
         /* 🏁 */
@@ -39482,7 +39547,7 @@ namespace NeoSmart.Unicode
             group: Group.FLAGS,
             subgroup: Subgroups.FLAG,
             hasGlyph: true,
-            sortOrder: 3894
+            sortOrder: 3899
         );
 
         /* 🚩 */
@@ -39495,7 +39560,7 @@ namespace NeoSmart.Unicode
             group: Group.FLAGS,
             subgroup: Subgroups.FLAG,
             hasGlyph: true,
-            sortOrder: 3895
+            sortOrder: 3900
         );
 
         /* 🎌 */
@@ -39508,7 +39573,7 @@ namespace NeoSmart.Unicode
             group: Group.FLAGS,
             subgroup: Subgroups.FLAG,
             hasGlyph: true,
-            sortOrder: 3896
+            sortOrder: 3901
         );
 
         /* 🏴 */
@@ -39521,7 +39586,7 @@ namespace NeoSmart.Unicode
             group: Group.FLAGS,
             subgroup: Subgroups.FLAG,
             hasGlyph: true,
-            sortOrder: 3897
+            sortOrder: 3902
         );
 
         /* 🏳️ */
@@ -39534,7 +39599,7 @@ namespace NeoSmart.Unicode
             group: Group.FLAGS,
             subgroup: Subgroups.FLAG,
             hasGlyph: true,
-            sortOrder: 3898
+            sortOrder: 3903
         );
 
         /* 🏳️‍🌈 */
@@ -39547,7 +39612,7 @@ namespace NeoSmart.Unicode
             group: Group.FLAGS,
             subgroup: Subgroups.FLAG,
             hasGlyph: true,
-            sortOrder: 3900
+            sortOrder: 3905
         );
 
         /* 🏳️‍⚧️ */
@@ -39560,7 +39625,7 @@ namespace NeoSmart.Unicode
             group: Group.FLAGS,
             subgroup: Subgroups.FLAG,
             hasGlyph: false,
-            sortOrder: 3902
+            sortOrder: 3907
         );
 
         /* 🏴‍☠️ */
@@ -39573,7 +39638,7 @@ namespace NeoSmart.Unicode
             group: Group.FLAGS,
             subgroup: Subgroups.FLAG,
             hasGlyph: true,
-            sortOrder: 3906
+            sortOrder: 3911
         );
 
         /* 🇦🇨 */
@@ -39586,7 +39651,7 @@ namespace NeoSmart.Unicode
             group: Group.FLAGS,
             subgroup: Subgroups.COUNTRY_FLAG,
             hasGlyph: true,
-            sortOrder: 3908
+            sortOrder: 3913
         );
 
         /* 🇦🇩 */
@@ -39599,7 +39664,7 @@ namespace NeoSmart.Unicode
             group: Group.FLAGS,
             subgroup: Subgroups.COUNTRY_FLAG,
             hasGlyph: true,
-            sortOrder: 3909
+            sortOrder: 3914
         );
 
         /* 🇦🇪 */
@@ -39612,7 +39677,7 @@ namespace NeoSmart.Unicode
             group: Group.FLAGS,
             subgroup: Subgroups.COUNTRY_FLAG,
             hasGlyph: true,
-            sortOrder: 3910
+            sortOrder: 3915
         );
 
         /* 🇦🇫 */
@@ -39625,7 +39690,7 @@ namespace NeoSmart.Unicode
             group: Group.FLAGS,
             subgroup: Subgroups.COUNTRY_FLAG,
             hasGlyph: true,
-            sortOrder: 3911
+            sortOrder: 3916
         );
 
         /* 🇦🇬 */
@@ -39638,7 +39703,7 @@ namespace NeoSmart.Unicode
             group: Group.FLAGS,
             subgroup: Subgroups.COUNTRY_FLAG,
             hasGlyph: true,
-            sortOrder: 3912
+            sortOrder: 3917
         );
 
         /* 🇦🇮 */
@@ -39651,7 +39716,7 @@ namespace NeoSmart.Unicode
             group: Group.FLAGS,
             subgroup: Subgroups.COUNTRY_FLAG,
             hasGlyph: true,
-            sortOrder: 3913
+            sortOrder: 3918
         );
 
         /* 🇦🇱 */
@@ -39664,7 +39729,7 @@ namespace NeoSmart.Unicode
             group: Group.FLAGS,
             subgroup: Subgroups.COUNTRY_FLAG,
             hasGlyph: true,
-            sortOrder: 3914
+            sortOrder: 3919
         );
 
         /* 🇦🇲 */
@@ -39677,7 +39742,7 @@ namespace NeoSmart.Unicode
             group: Group.FLAGS,
             subgroup: Subgroups.COUNTRY_FLAG,
             hasGlyph: true,
-            sortOrder: 3915
+            sortOrder: 3920
         );
 
         /* 🇦🇴 */
@@ -39690,7 +39755,7 @@ namespace NeoSmart.Unicode
             group: Group.FLAGS,
             subgroup: Subgroups.COUNTRY_FLAG,
             hasGlyph: true,
-            sortOrder: 3916
+            sortOrder: 3921
         );
 
         /* 🇦🇶 */
@@ -39703,7 +39768,7 @@ namespace NeoSmart.Unicode
             group: Group.FLAGS,
             subgroup: Subgroups.COUNTRY_FLAG,
             hasGlyph: true,
-            sortOrder: 3917
+            sortOrder: 3922
         );
 
         /* 🇦🇷 */
@@ -39716,7 +39781,7 @@ namespace NeoSmart.Unicode
             group: Group.FLAGS,
             subgroup: Subgroups.COUNTRY_FLAG,
             hasGlyph: true,
-            sortOrder: 3918
+            sortOrder: 3923
         );
 
         /* 🇦🇸 */
@@ -39729,7 +39794,7 @@ namespace NeoSmart.Unicode
             group: Group.FLAGS,
             subgroup: Subgroups.COUNTRY_FLAG,
             hasGlyph: true,
-            sortOrder: 3919
+            sortOrder: 3924
         );
 
         /* 🇦🇹 */
@@ -39742,7 +39807,7 @@ namespace NeoSmart.Unicode
             group: Group.FLAGS,
             subgroup: Subgroups.COUNTRY_FLAG,
             hasGlyph: true,
-            sortOrder: 3920
+            sortOrder: 3925
         );
 
         /* 🇦🇺 */
@@ -39755,7 +39820,7 @@ namespace NeoSmart.Unicode
             group: Group.FLAGS,
             subgroup: Subgroups.COUNTRY_FLAG,
             hasGlyph: true,
-            sortOrder: 3921
+            sortOrder: 3926
         );
 
         /* 🇦🇼 */
@@ -39768,7 +39833,7 @@ namespace NeoSmart.Unicode
             group: Group.FLAGS,
             subgroup: Subgroups.COUNTRY_FLAG,
             hasGlyph: true,
-            sortOrder: 3922
+            sortOrder: 3927
         );
 
         /* 🇦🇽 */
@@ -39781,7 +39846,7 @@ namespace NeoSmart.Unicode
             group: Group.FLAGS,
             subgroup: Subgroups.COUNTRY_FLAG,
             hasGlyph: true,
-            sortOrder: 3923
+            sortOrder: 3928
         );
 
         /* 🇦🇿 */
@@ -39794,7 +39859,7 @@ namespace NeoSmart.Unicode
             group: Group.FLAGS,
             subgroup: Subgroups.COUNTRY_FLAG,
             hasGlyph: true,
-            sortOrder: 3924
+            sortOrder: 3929
         );
 
         /* 🇧🇦 */
@@ -39807,7 +39872,7 @@ namespace NeoSmart.Unicode
             group: Group.FLAGS,
             subgroup: Subgroups.COUNTRY_FLAG,
             hasGlyph: true,
-            sortOrder: 3925
+            sortOrder: 3930
         );
 
         /* 🇧🇧 */
@@ -39820,7 +39885,7 @@ namespace NeoSmart.Unicode
             group: Group.FLAGS,
             subgroup: Subgroups.COUNTRY_FLAG,
             hasGlyph: true,
-            sortOrder: 3926
+            sortOrder: 3931
         );
 
         /* 🇧🇩 */
@@ -39833,7 +39898,7 @@ namespace NeoSmart.Unicode
             group: Group.FLAGS,
             subgroup: Subgroups.COUNTRY_FLAG,
             hasGlyph: true,
-            sortOrder: 3927
+            sortOrder: 3932
         );
 
         /* 🇧🇪 */
@@ -39846,7 +39911,7 @@ namespace NeoSmart.Unicode
             group: Group.FLAGS,
             subgroup: Subgroups.COUNTRY_FLAG,
             hasGlyph: true,
-            sortOrder: 3928
+            sortOrder: 3933
         );
 
         /* 🇧🇫 */
@@ -39859,7 +39924,7 @@ namespace NeoSmart.Unicode
             group: Group.FLAGS,
             subgroup: Subgroups.COUNTRY_FLAG,
             hasGlyph: true,
-            sortOrder: 3929
+            sortOrder: 3934
         );
 
         /* 🇧🇬 */
@@ -39872,7 +39937,7 @@ namespace NeoSmart.Unicode
             group: Group.FLAGS,
             subgroup: Subgroups.COUNTRY_FLAG,
             hasGlyph: true,
-            sortOrder: 3930
+            sortOrder: 3935
         );
 
         /* 🇧🇭 */
@@ -39885,7 +39950,7 @@ namespace NeoSmart.Unicode
             group: Group.FLAGS,
             subgroup: Subgroups.COUNTRY_FLAG,
             hasGlyph: true,
-            sortOrder: 3931
+            sortOrder: 3936
         );
 
         /* 🇧🇮 */
@@ -39898,7 +39963,7 @@ namespace NeoSmart.Unicode
             group: Group.FLAGS,
             subgroup: Subgroups.COUNTRY_FLAG,
             hasGlyph: true,
-            sortOrder: 3932
+            sortOrder: 3937
         );
 
         /* 🇧🇯 */
@@ -39911,7 +39976,7 @@ namespace NeoSmart.Unicode
             group: Group.FLAGS,
             subgroup: Subgroups.COUNTRY_FLAG,
             hasGlyph: true,
-            sortOrder: 3933
+            sortOrder: 3938
         );
 
         /* 🇧🇱 */
@@ -39924,7 +39989,7 @@ namespace NeoSmart.Unicode
             group: Group.FLAGS,
             subgroup: Subgroups.COUNTRY_FLAG,
             hasGlyph: true,
-            sortOrder: 3934
+            sortOrder: 3939
         );
 
         /* 🇧🇲 */
@@ -39937,7 +40002,7 @@ namespace NeoSmart.Unicode
             group: Group.FLAGS,
             subgroup: Subgroups.COUNTRY_FLAG,
             hasGlyph: true,
-            sortOrder: 3935
+            sortOrder: 3940
         );
 
         /* 🇧🇳 */
@@ -39950,7 +40015,7 @@ namespace NeoSmart.Unicode
             group: Group.FLAGS,
             subgroup: Subgroups.COUNTRY_FLAG,
             hasGlyph: true,
-            sortOrder: 3936
+            sortOrder: 3941
         );
 
         /* 🇧🇴 */
@@ -39963,7 +40028,7 @@ namespace NeoSmart.Unicode
             group: Group.FLAGS,
             subgroup: Subgroups.COUNTRY_FLAG,
             hasGlyph: true,
-            sortOrder: 3937
+            sortOrder: 3942
         );
 
         /* 🇧🇶 */
@@ -39976,7 +40041,7 @@ namespace NeoSmart.Unicode
             group: Group.FLAGS,
             subgroup: Subgroups.COUNTRY_FLAG,
             hasGlyph: true,
-            sortOrder: 3938
+            sortOrder: 3943
         );
 
         /* 🇧🇷 */
@@ -39989,7 +40054,7 @@ namespace NeoSmart.Unicode
             group: Group.FLAGS,
             subgroup: Subgroups.COUNTRY_FLAG,
             hasGlyph: true,
-            sortOrder: 3939
+            sortOrder: 3944
         );
 
         /* 🇧🇸 */
@@ -40002,7 +40067,7 @@ namespace NeoSmart.Unicode
             group: Group.FLAGS,
             subgroup: Subgroups.COUNTRY_FLAG,
             hasGlyph: true,
-            sortOrder: 3940
+            sortOrder: 3945
         );
 
         /* 🇧🇹 */
@@ -40015,7 +40080,7 @@ namespace NeoSmart.Unicode
             group: Group.FLAGS,
             subgroup: Subgroups.COUNTRY_FLAG,
             hasGlyph: true,
-            sortOrder: 3941
+            sortOrder: 3946
         );
 
         /* 🇧🇻 */
@@ -40028,7 +40093,7 @@ namespace NeoSmart.Unicode
             group: Group.FLAGS,
             subgroup: Subgroups.COUNTRY_FLAG,
             hasGlyph: true,
-            sortOrder: 3942
+            sortOrder: 3947
         );
 
         /* 🇧🇼 */
@@ -40041,7 +40106,7 @@ namespace NeoSmart.Unicode
             group: Group.FLAGS,
             subgroup: Subgroups.COUNTRY_FLAG,
             hasGlyph: true,
-            sortOrder: 3943
+            sortOrder: 3948
         );
 
         /* 🇧🇾 */
@@ -40054,7 +40119,7 @@ namespace NeoSmart.Unicode
             group: Group.FLAGS,
             subgroup: Subgroups.COUNTRY_FLAG,
             hasGlyph: true,
-            sortOrder: 3944
+            sortOrder: 3949
         );
 
         /* 🇧🇿 */
@@ -40067,7 +40132,7 @@ namespace NeoSmart.Unicode
             group: Group.FLAGS,
             subgroup: Subgroups.COUNTRY_FLAG,
             hasGlyph: true,
-            sortOrder: 3945
+            sortOrder: 3950
         );
 
         /* 🇨🇦 */
@@ -40080,7 +40145,7 @@ namespace NeoSmart.Unicode
             group: Group.FLAGS,
             subgroup: Subgroups.COUNTRY_FLAG,
             hasGlyph: true,
-            sortOrder: 3946
+            sortOrder: 3951
         );
 
         /* 🇨🇨 */
@@ -40093,7 +40158,7 @@ namespace NeoSmart.Unicode
             group: Group.FLAGS,
             subgroup: Subgroups.COUNTRY_FLAG,
             hasGlyph: true,
-            sortOrder: 3947
+            sortOrder: 3952
         );
 
         /* 🇨🇩 */
@@ -40106,7 +40171,7 @@ namespace NeoSmart.Unicode
             group: Group.FLAGS,
             subgroup: Subgroups.COUNTRY_FLAG,
             hasGlyph: true,
-            sortOrder: 3948
+            sortOrder: 3953
         );
 
         /* 🇨🇫 */
@@ -40119,7 +40184,7 @@ namespace NeoSmart.Unicode
             group: Group.FLAGS,
             subgroup: Subgroups.COUNTRY_FLAG,
             hasGlyph: true,
-            sortOrder: 3949
+            sortOrder: 3954
         );
 
         /* 🇨🇬 */
@@ -40132,7 +40197,7 @@ namespace NeoSmart.Unicode
             group: Group.FLAGS,
             subgroup: Subgroups.COUNTRY_FLAG,
             hasGlyph: true,
-            sortOrder: 3950
+            sortOrder: 3955
         );
 
         /* 🇨🇭 */
@@ -40145,7 +40210,7 @@ namespace NeoSmart.Unicode
             group: Group.FLAGS,
             subgroup: Subgroups.COUNTRY_FLAG,
             hasGlyph: true,
-            sortOrder: 3951
+            sortOrder: 3956
         );
 
         /* 🇨🇮 */
@@ -40158,7 +40223,7 @@ namespace NeoSmart.Unicode
             group: Group.FLAGS,
             subgroup: Subgroups.COUNTRY_FLAG,
             hasGlyph: true,
-            sortOrder: 3952
+            sortOrder: 3957
         );
 
         /* 🇨🇰 */
@@ -40171,7 +40236,7 @@ namespace NeoSmart.Unicode
             group: Group.FLAGS,
             subgroup: Subgroups.COUNTRY_FLAG,
             hasGlyph: true,
-            sortOrder: 3953
+            sortOrder: 3958
         );
 
         /* 🇨🇱 */
@@ -40184,7 +40249,7 @@ namespace NeoSmart.Unicode
             group: Group.FLAGS,
             subgroup: Subgroups.COUNTRY_FLAG,
             hasGlyph: true,
-            sortOrder: 3954
+            sortOrder: 3959
         );
 
         /* 🇨🇲 */
@@ -40197,7 +40262,7 @@ namespace NeoSmart.Unicode
             group: Group.FLAGS,
             subgroup: Subgroups.COUNTRY_FLAG,
             hasGlyph: true,
-            sortOrder: 3955
+            sortOrder: 3960
         );
 
         /* 🇨🇳 */
@@ -40210,7 +40275,7 @@ namespace NeoSmart.Unicode
             group: Group.FLAGS,
             subgroup: Subgroups.COUNTRY_FLAG,
             hasGlyph: true,
-            sortOrder: 3956
+            sortOrder: 3961
         );
 
         /* 🇨🇴 */
@@ -40223,7 +40288,7 @@ namespace NeoSmart.Unicode
             group: Group.FLAGS,
             subgroup: Subgroups.COUNTRY_FLAG,
             hasGlyph: true,
-            sortOrder: 3957
+            sortOrder: 3962
         );
 
         /* 🇨🇵 */
@@ -40236,7 +40301,7 @@ namespace NeoSmart.Unicode
             group: Group.FLAGS,
             subgroup: Subgroups.COUNTRY_FLAG,
             hasGlyph: true,
-            sortOrder: 3958
+            sortOrder: 3963
         );
 
         /* 🇨🇷 */
@@ -40249,7 +40314,7 @@ namespace NeoSmart.Unicode
             group: Group.FLAGS,
             subgroup: Subgroups.COUNTRY_FLAG,
             hasGlyph: true,
-            sortOrder: 3959
+            sortOrder: 3964
         );
 
         /* 🇨🇺 */
@@ -40262,7 +40327,7 @@ namespace NeoSmart.Unicode
             group: Group.FLAGS,
             subgroup: Subgroups.COUNTRY_FLAG,
             hasGlyph: true,
-            sortOrder: 3960
+            sortOrder: 3965
         );
 
         /* 🇨🇻 */
@@ -40275,7 +40340,7 @@ namespace NeoSmart.Unicode
             group: Group.FLAGS,
             subgroup: Subgroups.COUNTRY_FLAG,
             hasGlyph: true,
-            sortOrder: 3961
+            sortOrder: 3966
         );
 
         /* 🇨🇼 */
@@ -40288,7 +40353,7 @@ namespace NeoSmart.Unicode
             group: Group.FLAGS,
             subgroup: Subgroups.COUNTRY_FLAG,
             hasGlyph: true,
-            sortOrder: 3962
+            sortOrder: 3967
         );
 
         /* 🇨🇽 */
@@ -40301,7 +40366,7 @@ namespace NeoSmart.Unicode
             group: Group.FLAGS,
             subgroup: Subgroups.COUNTRY_FLAG,
             hasGlyph: true,
-            sortOrder: 3963
+            sortOrder: 3968
         );
 
         /* 🇨🇾 */
@@ -40314,7 +40379,7 @@ namespace NeoSmart.Unicode
             group: Group.FLAGS,
             subgroup: Subgroups.COUNTRY_FLAG,
             hasGlyph: true,
-            sortOrder: 3964
+            sortOrder: 3969
         );
 
         /* 🇨🇿 */
@@ -40327,7 +40392,7 @@ namespace NeoSmart.Unicode
             group: Group.FLAGS,
             subgroup: Subgroups.COUNTRY_FLAG,
             hasGlyph: true,
-            sortOrder: 3965
+            sortOrder: 3970
         );
 
         /* 🇩🇪 */
@@ -40340,7 +40405,7 @@ namespace NeoSmart.Unicode
             group: Group.FLAGS,
             subgroup: Subgroups.COUNTRY_FLAG,
             hasGlyph: true,
-            sortOrder: 3966
+            sortOrder: 3971
         );
 
         /* 🇩🇬 */
@@ -40353,7 +40418,7 @@ namespace NeoSmart.Unicode
             group: Group.FLAGS,
             subgroup: Subgroups.COUNTRY_FLAG,
             hasGlyph: true,
-            sortOrder: 3967
+            sortOrder: 3972
         );
 
         /* 🇩🇯 */
@@ -40366,7 +40431,7 @@ namespace NeoSmart.Unicode
             group: Group.FLAGS,
             subgroup: Subgroups.COUNTRY_FLAG,
             hasGlyph: true,
-            sortOrder: 3968
+            sortOrder: 3973
         );
 
         /* 🇩🇰 */
@@ -40379,7 +40444,7 @@ namespace NeoSmart.Unicode
             group: Group.FLAGS,
             subgroup: Subgroups.COUNTRY_FLAG,
             hasGlyph: true,
-            sortOrder: 3969
+            sortOrder: 3974
         );
 
         /* 🇩🇲 */
@@ -40392,7 +40457,7 @@ namespace NeoSmart.Unicode
             group: Group.FLAGS,
             subgroup: Subgroups.COUNTRY_FLAG,
             hasGlyph: true,
-            sortOrder: 3970
+            sortOrder: 3975
         );
 
         /* 🇩🇴 */
@@ -40405,7 +40470,7 @@ namespace NeoSmart.Unicode
             group: Group.FLAGS,
             subgroup: Subgroups.COUNTRY_FLAG,
             hasGlyph: true,
-            sortOrder: 3971
+            sortOrder: 3976
         );
 
         /* 🇩🇿 */
@@ -40418,7 +40483,7 @@ namespace NeoSmart.Unicode
             group: Group.FLAGS,
             subgroup: Subgroups.COUNTRY_FLAG,
             hasGlyph: true,
-            sortOrder: 3972
+            sortOrder: 3977
         );
 
         /* 🇪🇦 */
@@ -40431,7 +40496,7 @@ namespace NeoSmart.Unicode
             group: Group.FLAGS,
             subgroup: Subgroups.COUNTRY_FLAG,
             hasGlyph: true,
-            sortOrder: 3973
+            sortOrder: 3978
         );
 
         /* 🇪🇨 */
@@ -40444,7 +40509,7 @@ namespace NeoSmart.Unicode
             group: Group.FLAGS,
             subgroup: Subgroups.COUNTRY_FLAG,
             hasGlyph: true,
-            sortOrder: 3974
+            sortOrder: 3979
         );
 
         /* 🇪🇪 */
@@ -40457,7 +40522,7 @@ namespace NeoSmart.Unicode
             group: Group.FLAGS,
             subgroup: Subgroups.COUNTRY_FLAG,
             hasGlyph: true,
-            sortOrder: 3975
+            sortOrder: 3980
         );
 
         /* 🇪🇬 */
@@ -40470,7 +40535,7 @@ namespace NeoSmart.Unicode
             group: Group.FLAGS,
             subgroup: Subgroups.COUNTRY_FLAG,
             hasGlyph: true,
-            sortOrder: 3976
+            sortOrder: 3981
         );
 
         /* 🇪🇭 */
@@ -40483,7 +40548,7 @@ namespace NeoSmart.Unicode
             group: Group.FLAGS,
             subgroup: Subgroups.COUNTRY_FLAG,
             hasGlyph: true,
-            sortOrder: 3977
+            sortOrder: 3982
         );
 
         /* 🇪🇷 */
@@ -40496,7 +40561,7 @@ namespace NeoSmart.Unicode
             group: Group.FLAGS,
             subgroup: Subgroups.COUNTRY_FLAG,
             hasGlyph: true,
-            sortOrder: 3978
+            sortOrder: 3983
         );
 
         /* 🇪🇸 */
@@ -40509,7 +40574,7 @@ namespace NeoSmart.Unicode
             group: Group.FLAGS,
             subgroup: Subgroups.COUNTRY_FLAG,
             hasGlyph: true,
-            sortOrder: 3979
+            sortOrder: 3984
         );
 
         /* 🇪🇹 */
@@ -40522,7 +40587,7 @@ namespace NeoSmart.Unicode
             group: Group.FLAGS,
             subgroup: Subgroups.COUNTRY_FLAG,
             hasGlyph: true,
-            sortOrder: 3980
+            sortOrder: 3985
         );
 
         /* 🇪🇺 */
@@ -40535,7 +40600,7 @@ namespace NeoSmart.Unicode
             group: Group.FLAGS,
             subgroup: Subgroups.COUNTRY_FLAG,
             hasGlyph: true,
-            sortOrder: 3981
+            sortOrder: 3986
         );
 
         /* 🇫🇮 */
@@ -40548,7 +40613,7 @@ namespace NeoSmart.Unicode
             group: Group.FLAGS,
             subgroup: Subgroups.COUNTRY_FLAG,
             hasGlyph: true,
-            sortOrder: 3982
+            sortOrder: 3987
         );
 
         /* 🇫🇯 */
@@ -40561,7 +40626,7 @@ namespace NeoSmart.Unicode
             group: Group.FLAGS,
             subgroup: Subgroups.COUNTRY_FLAG,
             hasGlyph: true,
-            sortOrder: 3983
+            sortOrder: 3988
         );
 
         /* 🇫🇰 */
@@ -40574,7 +40639,7 @@ namespace NeoSmart.Unicode
             group: Group.FLAGS,
             subgroup: Subgroups.COUNTRY_FLAG,
             hasGlyph: true,
-            sortOrder: 3984
+            sortOrder: 3989
         );
 
         /* 🇫🇲 */
@@ -40587,7 +40652,7 @@ namespace NeoSmart.Unicode
             group: Group.FLAGS,
             subgroup: Subgroups.COUNTRY_FLAG,
             hasGlyph: true,
-            sortOrder: 3985
+            sortOrder: 3990
         );
 
         /* 🇫🇴 */
@@ -40600,7 +40665,7 @@ namespace NeoSmart.Unicode
             group: Group.FLAGS,
             subgroup: Subgroups.COUNTRY_FLAG,
             hasGlyph: true,
-            sortOrder: 3986
+            sortOrder: 3991
         );
 
         /* 🇫🇷 */
@@ -40613,7 +40678,7 @@ namespace NeoSmart.Unicode
             group: Group.FLAGS,
             subgroup: Subgroups.COUNTRY_FLAG,
             hasGlyph: true,
-            sortOrder: 3987
+            sortOrder: 3992
         );
 
         /* 🇬🇦 */
@@ -40626,7 +40691,7 @@ namespace NeoSmart.Unicode
             group: Group.FLAGS,
             subgroup: Subgroups.COUNTRY_FLAG,
             hasGlyph: true,
-            sortOrder: 3988
+            sortOrder: 3993
         );
 
         /* 🇬🇧 */
@@ -40639,7 +40704,7 @@ namespace NeoSmart.Unicode
             group: Group.FLAGS,
             subgroup: Subgroups.COUNTRY_FLAG,
             hasGlyph: true,
-            sortOrder: 3989
+            sortOrder: 3994
         );
 
         /* 🇬🇩 */
@@ -40652,7 +40717,7 @@ namespace NeoSmart.Unicode
             group: Group.FLAGS,
             subgroup: Subgroups.COUNTRY_FLAG,
             hasGlyph: true,
-            sortOrder: 3990
+            sortOrder: 3995
         );
 
         /* 🇬🇪 */
@@ -40665,7 +40730,7 @@ namespace NeoSmart.Unicode
             group: Group.FLAGS,
             subgroup: Subgroups.COUNTRY_FLAG,
             hasGlyph: true,
-            sortOrder: 3991
+            sortOrder: 3996
         );
 
         /* 🇬🇫 */
@@ -40678,7 +40743,7 @@ namespace NeoSmart.Unicode
             group: Group.FLAGS,
             subgroup: Subgroups.COUNTRY_FLAG,
             hasGlyph: true,
-            sortOrder: 3992
+            sortOrder: 3997
         );
 
         /* 🇬🇬 */
@@ -40691,7 +40756,7 @@ namespace NeoSmart.Unicode
             group: Group.FLAGS,
             subgroup: Subgroups.COUNTRY_FLAG,
             hasGlyph: true,
-            sortOrder: 3993
+            sortOrder: 3998
         );
 
         /* 🇬🇭 */
@@ -40704,7 +40769,7 @@ namespace NeoSmart.Unicode
             group: Group.FLAGS,
             subgroup: Subgroups.COUNTRY_FLAG,
             hasGlyph: true,
-            sortOrder: 3994
+            sortOrder: 3999
         );
 
         /* 🇬🇮 */
@@ -40717,7 +40782,7 @@ namespace NeoSmart.Unicode
             group: Group.FLAGS,
             subgroup: Subgroups.COUNTRY_FLAG,
             hasGlyph: true,
-            sortOrder: 3995
+            sortOrder: 4000
         );
 
         /* 🇬🇱 */
@@ -40730,7 +40795,7 @@ namespace NeoSmart.Unicode
             group: Group.FLAGS,
             subgroup: Subgroups.COUNTRY_FLAG,
             hasGlyph: true,
-            sortOrder: 3996
+            sortOrder: 4001
         );
 
         /* 🇬🇲 */
@@ -40743,7 +40808,7 @@ namespace NeoSmart.Unicode
             group: Group.FLAGS,
             subgroup: Subgroups.COUNTRY_FLAG,
             hasGlyph: true,
-            sortOrder: 3997
+            sortOrder: 4002
         );
 
         /* 🇬🇳 */
@@ -40756,7 +40821,7 @@ namespace NeoSmart.Unicode
             group: Group.FLAGS,
             subgroup: Subgroups.COUNTRY_FLAG,
             hasGlyph: true,
-            sortOrder: 3998
+            sortOrder: 4003
         );
 
         /* 🇬🇵 */
@@ -40769,7 +40834,7 @@ namespace NeoSmart.Unicode
             group: Group.FLAGS,
             subgroup: Subgroups.COUNTRY_FLAG,
             hasGlyph: true,
-            sortOrder: 3999
+            sortOrder: 4004
         );
 
         /* 🇬🇶 */
@@ -40782,7 +40847,7 @@ namespace NeoSmart.Unicode
             group: Group.FLAGS,
             subgroup: Subgroups.COUNTRY_FLAG,
             hasGlyph: true,
-            sortOrder: 4000
+            sortOrder: 4005
         );
 
         /* 🇬🇷 */
@@ -40795,7 +40860,7 @@ namespace NeoSmart.Unicode
             group: Group.FLAGS,
             subgroup: Subgroups.COUNTRY_FLAG,
             hasGlyph: true,
-            sortOrder: 4001
+            sortOrder: 4006
         );
 
         /* 🇬🇸 */
@@ -40808,7 +40873,7 @@ namespace NeoSmart.Unicode
             group: Group.FLAGS,
             subgroup: Subgroups.COUNTRY_FLAG,
             hasGlyph: true,
-            sortOrder: 4002
+            sortOrder: 4007
         );
 
         /* 🇬🇹 */
@@ -40821,7 +40886,7 @@ namespace NeoSmart.Unicode
             group: Group.FLAGS,
             subgroup: Subgroups.COUNTRY_FLAG,
             hasGlyph: true,
-            sortOrder: 4003
+            sortOrder: 4008
         );
 
         /* 🇬🇺 */
@@ -40834,7 +40899,7 @@ namespace NeoSmart.Unicode
             group: Group.FLAGS,
             subgroup: Subgroups.COUNTRY_FLAG,
             hasGlyph: true,
-            sortOrder: 4004
+            sortOrder: 4009
         );
 
         /* 🇬🇼 */
@@ -40847,7 +40912,7 @@ namespace NeoSmart.Unicode
             group: Group.FLAGS,
             subgroup: Subgroups.COUNTRY_FLAG,
             hasGlyph: true,
-            sortOrder: 4005
+            sortOrder: 4010
         );
 
         /* 🇬🇾 */
@@ -40860,7 +40925,7 @@ namespace NeoSmart.Unicode
             group: Group.FLAGS,
             subgroup: Subgroups.COUNTRY_FLAG,
             hasGlyph: true,
-            sortOrder: 4006
+            sortOrder: 4011
         );
 
         /* 🇭🇰 */
@@ -40873,7 +40938,7 @@ namespace NeoSmart.Unicode
             group: Group.FLAGS,
             subgroup: Subgroups.COUNTRY_FLAG,
             hasGlyph: true,
-            sortOrder: 4007
+            sortOrder: 4012
         );
 
         /* 🇭🇲 */
@@ -40886,7 +40951,7 @@ namespace NeoSmart.Unicode
             group: Group.FLAGS,
             subgroup: Subgroups.COUNTRY_FLAG,
             hasGlyph: true,
-            sortOrder: 4008
+            sortOrder: 4013
         );
 
         /* 🇭🇳 */
@@ -40899,7 +40964,7 @@ namespace NeoSmart.Unicode
             group: Group.FLAGS,
             subgroup: Subgroups.COUNTRY_FLAG,
             hasGlyph: true,
-            sortOrder: 4009
+            sortOrder: 4014
         );
 
         /* 🇭🇷 */
@@ -40912,7 +40977,7 @@ namespace NeoSmart.Unicode
             group: Group.FLAGS,
             subgroup: Subgroups.COUNTRY_FLAG,
             hasGlyph: true,
-            sortOrder: 4010
+            sortOrder: 4015
         );
 
         /* 🇭🇹 */
@@ -40925,7 +40990,7 @@ namespace NeoSmart.Unicode
             group: Group.FLAGS,
             subgroup: Subgroups.COUNTRY_FLAG,
             hasGlyph: true,
-            sortOrder: 4011
+            sortOrder: 4016
         );
 
         /* 🇭🇺 */
@@ -40938,7 +41003,7 @@ namespace NeoSmart.Unicode
             group: Group.FLAGS,
             subgroup: Subgroups.COUNTRY_FLAG,
             hasGlyph: true,
-            sortOrder: 4012
+            sortOrder: 4017
         );
 
         /* 🇮🇨 */
@@ -40951,7 +41016,7 @@ namespace NeoSmart.Unicode
             group: Group.FLAGS,
             subgroup: Subgroups.COUNTRY_FLAG,
             hasGlyph: true,
-            sortOrder: 4013
+            sortOrder: 4018
         );
 
         /* 🇮🇩 */
@@ -40964,7 +41029,7 @@ namespace NeoSmart.Unicode
             group: Group.FLAGS,
             subgroup: Subgroups.COUNTRY_FLAG,
             hasGlyph: true,
-            sortOrder: 4014
+            sortOrder: 4019
         );
 
         /* 🇮🇪 */
@@ -40977,7 +41042,7 @@ namespace NeoSmart.Unicode
             group: Group.FLAGS,
             subgroup: Subgroups.COUNTRY_FLAG,
             hasGlyph: true,
-            sortOrder: 4015
+            sortOrder: 4020
         );
 
         /* 🇮🇱 */
@@ -40990,7 +41055,7 @@ namespace NeoSmart.Unicode
             group: Group.FLAGS,
             subgroup: Subgroups.COUNTRY_FLAG,
             hasGlyph: true,
-            sortOrder: 4016
+            sortOrder: 4021
         );
 
         /* 🇮🇲 */
@@ -41003,7 +41068,7 @@ namespace NeoSmart.Unicode
             group: Group.FLAGS,
             subgroup: Subgroups.COUNTRY_FLAG,
             hasGlyph: true,
-            sortOrder: 4017
+            sortOrder: 4022
         );
 
         /* 🇮🇳 */
@@ -41016,7 +41081,7 @@ namespace NeoSmart.Unicode
             group: Group.FLAGS,
             subgroup: Subgroups.COUNTRY_FLAG,
             hasGlyph: true,
-            sortOrder: 4018
+            sortOrder: 4023
         );
 
         /* 🇮🇴 */
@@ -41029,7 +41094,7 @@ namespace NeoSmart.Unicode
             group: Group.FLAGS,
             subgroup: Subgroups.COUNTRY_FLAG,
             hasGlyph: true,
-            sortOrder: 4019
+            sortOrder: 4024
         );
 
         /* 🇮🇶 */
@@ -41042,7 +41107,7 @@ namespace NeoSmart.Unicode
             group: Group.FLAGS,
             subgroup: Subgroups.COUNTRY_FLAG,
             hasGlyph: true,
-            sortOrder: 4020
+            sortOrder: 4025
         );
 
         /* 🇮🇷 */
@@ -41055,7 +41120,7 @@ namespace NeoSmart.Unicode
             group: Group.FLAGS,
             subgroup: Subgroups.COUNTRY_FLAG,
             hasGlyph: true,
-            sortOrder: 4021
+            sortOrder: 4026
         );
 
         /* 🇮🇸 */
@@ -41068,7 +41133,7 @@ namespace NeoSmart.Unicode
             group: Group.FLAGS,
             subgroup: Subgroups.COUNTRY_FLAG,
             hasGlyph: true,
-            sortOrder: 4022
+            sortOrder: 4027
         );
 
         /* 🇮🇹 */
@@ -41081,7 +41146,7 @@ namespace NeoSmart.Unicode
             group: Group.FLAGS,
             subgroup: Subgroups.COUNTRY_FLAG,
             hasGlyph: true,
-            sortOrder: 4023
+            sortOrder: 4028
         );
 
         /* 🇯🇪 */
@@ -41094,7 +41159,7 @@ namespace NeoSmart.Unicode
             group: Group.FLAGS,
             subgroup: Subgroups.COUNTRY_FLAG,
             hasGlyph: true,
-            sortOrder: 4024
+            sortOrder: 4029
         );
 
         /* 🇯🇲 */
@@ -41107,7 +41172,7 @@ namespace NeoSmart.Unicode
             group: Group.FLAGS,
             subgroup: Subgroups.COUNTRY_FLAG,
             hasGlyph: true,
-            sortOrder: 4025
+            sortOrder: 4030
         );
 
         /* 🇯🇴 */
@@ -41120,7 +41185,7 @@ namespace NeoSmart.Unicode
             group: Group.FLAGS,
             subgroup: Subgroups.COUNTRY_FLAG,
             hasGlyph: true,
-            sortOrder: 4026
+            sortOrder: 4031
         );
 
         /* 🇯🇵 */
@@ -41133,7 +41198,7 @@ namespace NeoSmart.Unicode
             group: Group.FLAGS,
             subgroup: Subgroups.COUNTRY_FLAG,
             hasGlyph: true,
-            sortOrder: 4027
+            sortOrder: 4032
         );
 
         /* 🇰🇪 */
@@ -41146,7 +41211,7 @@ namespace NeoSmart.Unicode
             group: Group.FLAGS,
             subgroup: Subgroups.COUNTRY_FLAG,
             hasGlyph: true,
-            sortOrder: 4028
+            sortOrder: 4033
         );
 
         /* 🇰🇬 */
@@ -41159,7 +41224,7 @@ namespace NeoSmart.Unicode
             group: Group.FLAGS,
             subgroup: Subgroups.COUNTRY_FLAG,
             hasGlyph: true,
-            sortOrder: 4029
+            sortOrder: 4034
         );
 
         /* 🇰🇭 */
@@ -41172,7 +41237,7 @@ namespace NeoSmart.Unicode
             group: Group.FLAGS,
             subgroup: Subgroups.COUNTRY_FLAG,
             hasGlyph: true,
-            sortOrder: 4030
+            sortOrder: 4035
         );
 
         /* 🇰🇮 */
@@ -41185,7 +41250,7 @@ namespace NeoSmart.Unicode
             group: Group.FLAGS,
             subgroup: Subgroups.COUNTRY_FLAG,
             hasGlyph: true,
-            sortOrder: 4031
+            sortOrder: 4036
         );
 
         /* 🇰🇲 */
@@ -41198,7 +41263,7 @@ namespace NeoSmart.Unicode
             group: Group.FLAGS,
             subgroup: Subgroups.COUNTRY_FLAG,
             hasGlyph: true,
-            sortOrder: 4032
+            sortOrder: 4037
         );
 
         /* 🇰🇳 */
@@ -41211,7 +41276,7 @@ namespace NeoSmart.Unicode
             group: Group.FLAGS,
             subgroup: Subgroups.COUNTRY_FLAG,
             hasGlyph: true,
-            sortOrder: 4033
+            sortOrder: 4038
         );
 
         /* 🇰🇵 */
@@ -41224,7 +41289,7 @@ namespace NeoSmart.Unicode
             group: Group.FLAGS,
             subgroup: Subgroups.COUNTRY_FLAG,
             hasGlyph: true,
-            sortOrder: 4034
+            sortOrder: 4039
         );
 
         /* 🇰🇷 */
@@ -41237,7 +41302,7 @@ namespace NeoSmart.Unicode
             group: Group.FLAGS,
             subgroup: Subgroups.COUNTRY_FLAG,
             hasGlyph: true,
-            sortOrder: 4035
+            sortOrder: 4040
         );
 
         /* 🇰🇼 */
@@ -41250,7 +41315,7 @@ namespace NeoSmart.Unicode
             group: Group.FLAGS,
             subgroup: Subgroups.COUNTRY_FLAG,
             hasGlyph: true,
-            sortOrder: 4036
+            sortOrder: 4041
         );
 
         /* 🇰🇾 */
@@ -41263,7 +41328,7 @@ namespace NeoSmart.Unicode
             group: Group.FLAGS,
             subgroup: Subgroups.COUNTRY_FLAG,
             hasGlyph: true,
-            sortOrder: 4037
+            sortOrder: 4042
         );
 
         /* 🇰🇿 */
@@ -41276,7 +41341,7 @@ namespace NeoSmart.Unicode
             group: Group.FLAGS,
             subgroup: Subgroups.COUNTRY_FLAG,
             hasGlyph: true,
-            sortOrder: 4038
+            sortOrder: 4043
         );
 
         /* 🇱🇦 */
@@ -41289,7 +41354,7 @@ namespace NeoSmart.Unicode
             group: Group.FLAGS,
             subgroup: Subgroups.COUNTRY_FLAG,
             hasGlyph: true,
-            sortOrder: 4039
+            sortOrder: 4044
         );
 
         /* 🇱🇧 */
@@ -41302,7 +41367,7 @@ namespace NeoSmart.Unicode
             group: Group.FLAGS,
             subgroup: Subgroups.COUNTRY_FLAG,
             hasGlyph: true,
-            sortOrder: 4040
+            sortOrder: 4045
         );
 
         /* 🇱🇨 */
@@ -41315,7 +41380,7 @@ namespace NeoSmart.Unicode
             group: Group.FLAGS,
             subgroup: Subgroups.COUNTRY_FLAG,
             hasGlyph: true,
-            sortOrder: 4041
+            sortOrder: 4046
         );
 
         /* 🇱🇮 */
@@ -41328,7 +41393,7 @@ namespace NeoSmart.Unicode
             group: Group.FLAGS,
             subgroup: Subgroups.COUNTRY_FLAG,
             hasGlyph: true,
-            sortOrder: 4042
+            sortOrder: 4047
         );
 
         /* 🇱🇰 */
@@ -41341,7 +41406,7 @@ namespace NeoSmart.Unicode
             group: Group.FLAGS,
             subgroup: Subgroups.COUNTRY_FLAG,
             hasGlyph: true,
-            sortOrder: 4043
+            sortOrder: 4048
         );
 
         /* 🇱🇷 */
@@ -41354,7 +41419,7 @@ namespace NeoSmart.Unicode
             group: Group.FLAGS,
             subgroup: Subgroups.COUNTRY_FLAG,
             hasGlyph: true,
-            sortOrder: 4044
+            sortOrder: 4049
         );
 
         /* 🇱🇸 */
@@ -41367,7 +41432,7 @@ namespace NeoSmart.Unicode
             group: Group.FLAGS,
             subgroup: Subgroups.COUNTRY_FLAG,
             hasGlyph: true,
-            sortOrder: 4045
+            sortOrder: 4050
         );
 
         /* 🇱🇹 */
@@ -41380,7 +41445,7 @@ namespace NeoSmart.Unicode
             group: Group.FLAGS,
             subgroup: Subgroups.COUNTRY_FLAG,
             hasGlyph: true,
-            sortOrder: 4046
+            sortOrder: 4051
         );
 
         /* 🇱🇺 */
@@ -41393,7 +41458,7 @@ namespace NeoSmart.Unicode
             group: Group.FLAGS,
             subgroup: Subgroups.COUNTRY_FLAG,
             hasGlyph: true,
-            sortOrder: 4047
+            sortOrder: 4052
         );
 
         /* 🇱🇻 */
@@ -41406,7 +41471,7 @@ namespace NeoSmart.Unicode
             group: Group.FLAGS,
             subgroup: Subgroups.COUNTRY_FLAG,
             hasGlyph: true,
-            sortOrder: 4048
+            sortOrder: 4053
         );
 
         /* 🇱🇾 */
@@ -41419,7 +41484,7 @@ namespace NeoSmart.Unicode
             group: Group.FLAGS,
             subgroup: Subgroups.COUNTRY_FLAG,
             hasGlyph: true,
-            sortOrder: 4049
+            sortOrder: 4054
         );
 
         /* 🇲🇦 */
@@ -41432,7 +41497,7 @@ namespace NeoSmart.Unicode
             group: Group.FLAGS,
             subgroup: Subgroups.COUNTRY_FLAG,
             hasGlyph: true,
-            sortOrder: 4050
+            sortOrder: 4055
         );
 
         /* 🇲🇨 */
@@ -41445,7 +41510,7 @@ namespace NeoSmart.Unicode
             group: Group.FLAGS,
             subgroup: Subgroups.COUNTRY_FLAG,
             hasGlyph: true,
-            sortOrder: 4051
+            sortOrder: 4056
         );
 
         /* 🇲🇩 */
@@ -41458,7 +41523,7 @@ namespace NeoSmart.Unicode
             group: Group.FLAGS,
             subgroup: Subgroups.COUNTRY_FLAG,
             hasGlyph: true,
-            sortOrder: 4052
+            sortOrder: 4057
         );
 
         /* 🇲🇪 */
@@ -41471,7 +41536,7 @@ namespace NeoSmart.Unicode
             group: Group.FLAGS,
             subgroup: Subgroups.COUNTRY_FLAG,
             hasGlyph: true,
-            sortOrder: 4053
+            sortOrder: 4058
         );
 
         /* 🇲🇫 */
@@ -41484,7 +41549,7 @@ namespace NeoSmart.Unicode
             group: Group.FLAGS,
             subgroup: Subgroups.COUNTRY_FLAG,
             hasGlyph: true,
-            sortOrder: 4054
+            sortOrder: 4059
         );
 
         /* 🇲🇬 */
@@ -41497,7 +41562,7 @@ namespace NeoSmart.Unicode
             group: Group.FLAGS,
             subgroup: Subgroups.COUNTRY_FLAG,
             hasGlyph: true,
-            sortOrder: 4055
+            sortOrder: 4060
         );
 
         /* 🇲🇭 */
@@ -41510,7 +41575,7 @@ namespace NeoSmart.Unicode
             group: Group.FLAGS,
             subgroup: Subgroups.COUNTRY_FLAG,
             hasGlyph: true,
-            sortOrder: 4056
+            sortOrder: 4061
         );
 
         /* 🇲🇰 */
@@ -41523,7 +41588,7 @@ namespace NeoSmart.Unicode
             group: Group.FLAGS,
             subgroup: Subgroups.COUNTRY_FLAG,
             hasGlyph: true,
-            sortOrder: 4057
+            sortOrder: 4062
         );
 
         /* 🇲🇱 */
@@ -41536,7 +41601,7 @@ namespace NeoSmart.Unicode
             group: Group.FLAGS,
             subgroup: Subgroups.COUNTRY_FLAG,
             hasGlyph: true,
-            sortOrder: 4058
+            sortOrder: 4063
         );
 
         /* 🇲🇲 */
@@ -41549,7 +41614,7 @@ namespace NeoSmart.Unicode
             group: Group.FLAGS,
             subgroup: Subgroups.COUNTRY_FLAG,
             hasGlyph: true,
-            sortOrder: 4059
+            sortOrder: 4064
         );
 
         /* 🇲🇳 */
@@ -41562,7 +41627,7 @@ namespace NeoSmart.Unicode
             group: Group.FLAGS,
             subgroup: Subgroups.COUNTRY_FLAG,
             hasGlyph: true,
-            sortOrder: 4060
+            sortOrder: 4065
         );
 
         /* 🇲🇴 */
@@ -41575,7 +41640,7 @@ namespace NeoSmart.Unicode
             group: Group.FLAGS,
             subgroup: Subgroups.COUNTRY_FLAG,
             hasGlyph: true,
-            sortOrder: 4061
+            sortOrder: 4066
         );
 
         /* 🇲🇵 */
@@ -41588,7 +41653,7 @@ namespace NeoSmart.Unicode
             group: Group.FLAGS,
             subgroup: Subgroups.COUNTRY_FLAG,
             hasGlyph: true,
-            sortOrder: 4062
+            sortOrder: 4067
         );
 
         /* 🇲🇶 */
@@ -41601,7 +41666,7 @@ namespace NeoSmart.Unicode
             group: Group.FLAGS,
             subgroup: Subgroups.COUNTRY_FLAG,
             hasGlyph: true,
-            sortOrder: 4063
+            sortOrder: 4068
         );
 
         /* 🇲🇷 */
@@ -41614,7 +41679,7 @@ namespace NeoSmart.Unicode
             group: Group.FLAGS,
             subgroup: Subgroups.COUNTRY_FLAG,
             hasGlyph: true,
-            sortOrder: 4064
+            sortOrder: 4069
         );
 
         /* 🇲🇸 */
@@ -41627,7 +41692,7 @@ namespace NeoSmart.Unicode
             group: Group.FLAGS,
             subgroup: Subgroups.COUNTRY_FLAG,
             hasGlyph: true,
-            sortOrder: 4065
+            sortOrder: 4070
         );
 
         /* 🇲🇹 */
@@ -41640,7 +41705,7 @@ namespace NeoSmart.Unicode
             group: Group.FLAGS,
             subgroup: Subgroups.COUNTRY_FLAG,
             hasGlyph: true,
-            sortOrder: 4066
+            sortOrder: 4071
         );
 
         /* 🇲🇺 */
@@ -41653,7 +41718,7 @@ namespace NeoSmart.Unicode
             group: Group.FLAGS,
             subgroup: Subgroups.COUNTRY_FLAG,
             hasGlyph: true,
-            sortOrder: 4067
+            sortOrder: 4072
         );
 
         /* 🇲🇻 */
@@ -41666,7 +41731,7 @@ namespace NeoSmart.Unicode
             group: Group.FLAGS,
             subgroup: Subgroups.COUNTRY_FLAG,
             hasGlyph: true,
-            sortOrder: 4068
+            sortOrder: 4073
         );
 
         /* 🇲🇼 */
@@ -41679,7 +41744,7 @@ namespace NeoSmart.Unicode
             group: Group.FLAGS,
             subgroup: Subgroups.COUNTRY_FLAG,
             hasGlyph: true,
-            sortOrder: 4069
+            sortOrder: 4074
         );
 
         /* 🇲🇽 */
@@ -41692,7 +41757,7 @@ namespace NeoSmart.Unicode
             group: Group.FLAGS,
             subgroup: Subgroups.COUNTRY_FLAG,
             hasGlyph: true,
-            sortOrder: 4070
+            sortOrder: 4075
         );
 
         /* 🇲🇾 */
@@ -41705,7 +41770,7 @@ namespace NeoSmart.Unicode
             group: Group.FLAGS,
             subgroup: Subgroups.COUNTRY_FLAG,
             hasGlyph: true,
-            sortOrder: 4071
+            sortOrder: 4076
         );
 
         /* 🇲🇿 */
@@ -41718,7 +41783,7 @@ namespace NeoSmart.Unicode
             group: Group.FLAGS,
             subgroup: Subgroups.COUNTRY_FLAG,
             hasGlyph: true,
-            sortOrder: 4072
+            sortOrder: 4077
         );
 
         /* 🇳🇦 */
@@ -41731,7 +41796,7 @@ namespace NeoSmart.Unicode
             group: Group.FLAGS,
             subgroup: Subgroups.COUNTRY_FLAG,
             hasGlyph: true,
-            sortOrder: 4073
+            sortOrder: 4078
         );
 
         /* 🇳🇨 */
@@ -41744,7 +41809,7 @@ namespace NeoSmart.Unicode
             group: Group.FLAGS,
             subgroup: Subgroups.COUNTRY_FLAG,
             hasGlyph: true,
-            sortOrder: 4074
+            sortOrder: 4079
         );
 
         /* 🇳🇪 */
@@ -41757,7 +41822,7 @@ namespace NeoSmart.Unicode
             group: Group.FLAGS,
             subgroup: Subgroups.COUNTRY_FLAG,
             hasGlyph: true,
-            sortOrder: 4075
+            sortOrder: 4080
         );
 
         /* 🇳🇫 */
@@ -41770,7 +41835,7 @@ namespace NeoSmart.Unicode
             group: Group.FLAGS,
             subgroup: Subgroups.COUNTRY_FLAG,
             hasGlyph: true,
-            sortOrder: 4076
+            sortOrder: 4081
         );
 
         /* 🇳🇬 */
@@ -41783,7 +41848,7 @@ namespace NeoSmart.Unicode
             group: Group.FLAGS,
             subgroup: Subgroups.COUNTRY_FLAG,
             hasGlyph: true,
-            sortOrder: 4077
+            sortOrder: 4082
         );
 
         /* 🇳🇮 */
@@ -41796,7 +41861,7 @@ namespace NeoSmart.Unicode
             group: Group.FLAGS,
             subgroup: Subgroups.COUNTRY_FLAG,
             hasGlyph: true,
-            sortOrder: 4078
+            sortOrder: 4083
         );
 
         /* 🇳🇱 */
@@ -41809,7 +41874,7 @@ namespace NeoSmart.Unicode
             group: Group.FLAGS,
             subgroup: Subgroups.COUNTRY_FLAG,
             hasGlyph: true,
-            sortOrder: 4079
+            sortOrder: 4084
         );
 
         /* 🇳🇴 */
@@ -41822,7 +41887,7 @@ namespace NeoSmart.Unicode
             group: Group.FLAGS,
             subgroup: Subgroups.COUNTRY_FLAG,
             hasGlyph: true,
-            sortOrder: 4080
+            sortOrder: 4085
         );
 
         /* 🇳🇵 */
@@ -41835,7 +41900,7 @@ namespace NeoSmart.Unicode
             group: Group.FLAGS,
             subgroup: Subgroups.COUNTRY_FLAG,
             hasGlyph: true,
-            sortOrder: 4081
+            sortOrder: 4086
         );
 
         /* 🇳🇷 */
@@ -41848,7 +41913,7 @@ namespace NeoSmart.Unicode
             group: Group.FLAGS,
             subgroup: Subgroups.COUNTRY_FLAG,
             hasGlyph: true,
-            sortOrder: 4082
+            sortOrder: 4087
         );
 
         /* 🇳🇺 */
@@ -41861,7 +41926,7 @@ namespace NeoSmart.Unicode
             group: Group.FLAGS,
             subgroup: Subgroups.COUNTRY_FLAG,
             hasGlyph: true,
-            sortOrder: 4083
+            sortOrder: 4088
         );
 
         /* 🇳🇿 */
@@ -41874,7 +41939,7 @@ namespace NeoSmart.Unicode
             group: Group.FLAGS,
             subgroup: Subgroups.COUNTRY_FLAG,
             hasGlyph: true,
-            sortOrder: 4084
+            sortOrder: 4089
         );
 
         /* 🇴🇲 */
@@ -41887,7 +41952,7 @@ namespace NeoSmart.Unicode
             group: Group.FLAGS,
             subgroup: Subgroups.COUNTRY_FLAG,
             hasGlyph: true,
-            sortOrder: 4085
+            sortOrder: 4090
         );
 
         /* 🇵🇦 */
@@ -41900,7 +41965,7 @@ namespace NeoSmart.Unicode
             group: Group.FLAGS,
             subgroup: Subgroups.COUNTRY_FLAG,
             hasGlyph: true,
-            sortOrder: 4086
+            sortOrder: 4091
         );
 
         /* 🇵🇪 */
@@ -41913,7 +41978,7 @@ namespace NeoSmart.Unicode
             group: Group.FLAGS,
             subgroup: Subgroups.COUNTRY_FLAG,
             hasGlyph: true,
-            sortOrder: 4087
+            sortOrder: 4092
         );
 
         /* 🇵🇫 */
@@ -41926,7 +41991,7 @@ namespace NeoSmart.Unicode
             group: Group.FLAGS,
             subgroup: Subgroups.COUNTRY_FLAG,
             hasGlyph: true,
-            sortOrder: 4088
+            sortOrder: 4093
         );
 
         /* 🇵🇬 */
@@ -41939,7 +42004,7 @@ namespace NeoSmart.Unicode
             group: Group.FLAGS,
             subgroup: Subgroups.COUNTRY_FLAG,
             hasGlyph: true,
-            sortOrder: 4089
+            sortOrder: 4094
         );
 
         /* 🇵🇭 */
@@ -41952,7 +42017,7 @@ namespace NeoSmart.Unicode
             group: Group.FLAGS,
             subgroup: Subgroups.COUNTRY_FLAG,
             hasGlyph: true,
-            sortOrder: 4090
+            sortOrder: 4095
         );
 
         /* 🇵🇰 */
@@ -41965,7 +42030,7 @@ namespace NeoSmart.Unicode
             group: Group.FLAGS,
             subgroup: Subgroups.COUNTRY_FLAG,
             hasGlyph: true,
-            sortOrder: 4091
+            sortOrder: 4096
         );
 
         /* 🇵🇱 */
@@ -41978,7 +42043,7 @@ namespace NeoSmart.Unicode
             group: Group.FLAGS,
             subgroup: Subgroups.COUNTRY_FLAG,
             hasGlyph: true,
-            sortOrder: 4092
+            sortOrder: 4097
         );
 
         /* 🇵🇲 */
@@ -41991,7 +42056,7 @@ namespace NeoSmart.Unicode
             group: Group.FLAGS,
             subgroup: Subgroups.COUNTRY_FLAG,
             hasGlyph: true,
-            sortOrder: 4093
+            sortOrder: 4098
         );
 
         /* 🇵🇳 */
@@ -42004,7 +42069,7 @@ namespace NeoSmart.Unicode
             group: Group.FLAGS,
             subgroup: Subgroups.COUNTRY_FLAG,
             hasGlyph: true,
-            sortOrder: 4094
+            sortOrder: 4099
         );
 
         /* 🇵🇷 */
@@ -42017,7 +42082,7 @@ namespace NeoSmart.Unicode
             group: Group.FLAGS,
             subgroup: Subgroups.COUNTRY_FLAG,
             hasGlyph: true,
-            sortOrder: 4095
+            sortOrder: 4100
         );
 
         /* 🇵🇸 */
@@ -42030,7 +42095,7 @@ namespace NeoSmart.Unicode
             group: Group.FLAGS,
             subgroup: Subgroups.COUNTRY_FLAG,
             hasGlyph: true,
-            sortOrder: 4096
+            sortOrder: 4101
         );
 
         /* 🇵🇹 */
@@ -42043,7 +42108,7 @@ namespace NeoSmart.Unicode
             group: Group.FLAGS,
             subgroup: Subgroups.COUNTRY_FLAG,
             hasGlyph: true,
-            sortOrder: 4097
+            sortOrder: 4102
         );
 
         /* 🇵🇼 */
@@ -42056,7 +42121,7 @@ namespace NeoSmart.Unicode
             group: Group.FLAGS,
             subgroup: Subgroups.COUNTRY_FLAG,
             hasGlyph: true,
-            sortOrder: 4098
+            sortOrder: 4103
         );
 
         /* 🇵🇾 */
@@ -42069,7 +42134,7 @@ namespace NeoSmart.Unicode
             group: Group.FLAGS,
             subgroup: Subgroups.COUNTRY_FLAG,
             hasGlyph: true,
-            sortOrder: 4099
+            sortOrder: 4104
         );
 
         /* 🇶🇦 */
@@ -42082,7 +42147,7 @@ namespace NeoSmart.Unicode
             group: Group.FLAGS,
             subgroup: Subgroups.COUNTRY_FLAG,
             hasGlyph: true,
-            sortOrder: 4100
+            sortOrder: 4105
         );
 
         /* 🇷🇪 */
@@ -42095,7 +42160,7 @@ namespace NeoSmart.Unicode
             group: Group.FLAGS,
             subgroup: Subgroups.COUNTRY_FLAG,
             hasGlyph: true,
-            sortOrder: 4101
+            sortOrder: 4106
         );
 
         /* 🇷🇴 */
@@ -42108,7 +42173,7 @@ namespace NeoSmart.Unicode
             group: Group.FLAGS,
             subgroup: Subgroups.COUNTRY_FLAG,
             hasGlyph: true,
-            sortOrder: 4102
+            sortOrder: 4107
         );
 
         /* 🇷🇸 */
@@ -42121,7 +42186,7 @@ namespace NeoSmart.Unicode
             group: Group.FLAGS,
             subgroup: Subgroups.COUNTRY_FLAG,
             hasGlyph: true,
-            sortOrder: 4103
+            sortOrder: 4108
         );
 
         /* 🇷🇺 */
@@ -42134,7 +42199,7 @@ namespace NeoSmart.Unicode
             group: Group.FLAGS,
             subgroup: Subgroups.COUNTRY_FLAG,
             hasGlyph: true,
-            sortOrder: 4104
+            sortOrder: 4109
         );
 
         /* 🇷🇼 */
@@ -42147,7 +42212,7 @@ namespace NeoSmart.Unicode
             group: Group.FLAGS,
             subgroup: Subgroups.COUNTRY_FLAG,
             hasGlyph: true,
-            sortOrder: 4105
+            sortOrder: 4110
         );
 
         /* 🇸🇦 */
@@ -42160,7 +42225,7 @@ namespace NeoSmart.Unicode
             group: Group.FLAGS,
             subgroup: Subgroups.COUNTRY_FLAG,
             hasGlyph: true,
-            sortOrder: 4106
+            sortOrder: 4111
         );
 
         /* 🇸🇧 */
@@ -42173,7 +42238,7 @@ namespace NeoSmart.Unicode
             group: Group.FLAGS,
             subgroup: Subgroups.COUNTRY_FLAG,
             hasGlyph: true,
-            sortOrder: 4107
+            sortOrder: 4112
         );
 
         /* 🇸🇨 */
@@ -42186,7 +42251,7 @@ namespace NeoSmart.Unicode
             group: Group.FLAGS,
             subgroup: Subgroups.COUNTRY_FLAG,
             hasGlyph: true,
-            sortOrder: 4108
+            sortOrder: 4113
         );
 
         /* 🇸🇩 */
@@ -42199,7 +42264,7 @@ namespace NeoSmart.Unicode
             group: Group.FLAGS,
             subgroup: Subgroups.COUNTRY_FLAG,
             hasGlyph: true,
-            sortOrder: 4109
+            sortOrder: 4114
         );
 
         /* 🇸🇪 */
@@ -42212,7 +42277,7 @@ namespace NeoSmart.Unicode
             group: Group.FLAGS,
             subgroup: Subgroups.COUNTRY_FLAG,
             hasGlyph: true,
-            sortOrder: 4110
+            sortOrder: 4115
         );
 
         /* 🇸🇬 */
@@ -42225,7 +42290,7 @@ namespace NeoSmart.Unicode
             group: Group.FLAGS,
             subgroup: Subgroups.COUNTRY_FLAG,
             hasGlyph: true,
-            sortOrder: 4111
+            sortOrder: 4116
         );
 
         /* 🇸🇭 */
@@ -42238,7 +42303,7 @@ namespace NeoSmart.Unicode
             group: Group.FLAGS,
             subgroup: Subgroups.COUNTRY_FLAG,
             hasGlyph: true,
-            sortOrder: 4112
+            sortOrder: 4117
         );
 
         /* 🇸🇮 */
@@ -42251,7 +42316,7 @@ namespace NeoSmart.Unicode
             group: Group.FLAGS,
             subgroup: Subgroups.COUNTRY_FLAG,
             hasGlyph: true,
-            sortOrder: 4113
+            sortOrder: 4118
         );
 
         /* 🇸🇯 */
@@ -42264,7 +42329,7 @@ namespace NeoSmart.Unicode
             group: Group.FLAGS,
             subgroup: Subgroups.COUNTRY_FLAG,
             hasGlyph: true,
-            sortOrder: 4114
+            sortOrder: 4119
         );
 
         /* 🇸🇰 */
@@ -42277,7 +42342,7 @@ namespace NeoSmart.Unicode
             group: Group.FLAGS,
             subgroup: Subgroups.COUNTRY_FLAG,
             hasGlyph: true,
-            sortOrder: 4115
+            sortOrder: 4120
         );
 
         /* 🇸🇱 */
@@ -42290,7 +42355,7 @@ namespace NeoSmart.Unicode
             group: Group.FLAGS,
             subgroup: Subgroups.COUNTRY_FLAG,
             hasGlyph: true,
-            sortOrder: 4116
+            sortOrder: 4121
         );
 
         /* 🇸🇲 */
@@ -42303,7 +42368,7 @@ namespace NeoSmart.Unicode
             group: Group.FLAGS,
             subgroup: Subgroups.COUNTRY_FLAG,
             hasGlyph: true,
-            sortOrder: 4117
+            sortOrder: 4122
         );
 
         /* 🇸🇳 */
@@ -42316,7 +42381,7 @@ namespace NeoSmart.Unicode
             group: Group.FLAGS,
             subgroup: Subgroups.COUNTRY_FLAG,
             hasGlyph: true,
-            sortOrder: 4118
+            sortOrder: 4123
         );
 
         /* 🇸🇴 */
@@ -42329,7 +42394,7 @@ namespace NeoSmart.Unicode
             group: Group.FLAGS,
             subgroup: Subgroups.COUNTRY_FLAG,
             hasGlyph: true,
-            sortOrder: 4119
+            sortOrder: 4124
         );
 
         /* 🇸🇷 */
@@ -42342,7 +42407,7 @@ namespace NeoSmart.Unicode
             group: Group.FLAGS,
             subgroup: Subgroups.COUNTRY_FLAG,
             hasGlyph: true,
-            sortOrder: 4120
+            sortOrder: 4125
         );
 
         /* 🇸🇸 */
@@ -42355,7 +42420,7 @@ namespace NeoSmart.Unicode
             group: Group.FLAGS,
             subgroup: Subgroups.COUNTRY_FLAG,
             hasGlyph: true,
-            sortOrder: 4121
+            sortOrder: 4126
         );
 
         /* 🇸🇹 */
@@ -42368,7 +42433,7 @@ namespace NeoSmart.Unicode
             group: Group.FLAGS,
             subgroup: Subgroups.COUNTRY_FLAG,
             hasGlyph: true,
-            sortOrder: 4122
+            sortOrder: 4127
         );
 
         /* 🇸🇻 */
@@ -42381,7 +42446,7 @@ namespace NeoSmart.Unicode
             group: Group.FLAGS,
             subgroup: Subgroups.COUNTRY_FLAG,
             hasGlyph: true,
-            sortOrder: 4123
+            sortOrder: 4128
         );
 
         /* 🇸🇽 */
@@ -42394,7 +42459,7 @@ namespace NeoSmart.Unicode
             group: Group.FLAGS,
             subgroup: Subgroups.COUNTRY_FLAG,
             hasGlyph: true,
-            sortOrder: 4124
+            sortOrder: 4129
         );
 
         /* 🇸🇾 */
@@ -42407,7 +42472,7 @@ namespace NeoSmart.Unicode
             group: Group.FLAGS,
             subgroup: Subgroups.COUNTRY_FLAG,
             hasGlyph: true,
-            sortOrder: 4125
+            sortOrder: 4130
         );
 
         /* 🇸🇿 */
@@ -42420,7 +42485,7 @@ namespace NeoSmart.Unicode
             group: Group.FLAGS,
             subgroup: Subgroups.COUNTRY_FLAG,
             hasGlyph: true,
-            sortOrder: 4126
+            sortOrder: 4131
         );
 
         /* 🇹🇦 */
@@ -42433,7 +42498,7 @@ namespace NeoSmart.Unicode
             group: Group.FLAGS,
             subgroup: Subgroups.COUNTRY_FLAG,
             hasGlyph: true,
-            sortOrder: 4127
+            sortOrder: 4132
         );
 
         /* 🇹🇨 */
@@ -42446,7 +42511,7 @@ namespace NeoSmart.Unicode
             group: Group.FLAGS,
             subgroup: Subgroups.COUNTRY_FLAG,
             hasGlyph: true,
-            sortOrder: 4128
+            sortOrder: 4133
         );
 
         /* 🇹🇩 */
@@ -42459,7 +42524,7 @@ namespace NeoSmart.Unicode
             group: Group.FLAGS,
             subgroup: Subgroups.COUNTRY_FLAG,
             hasGlyph: true,
-            sortOrder: 4129
+            sortOrder: 4134
         );
 
         /* 🇹🇫 */
@@ -42472,7 +42537,7 @@ namespace NeoSmart.Unicode
             group: Group.FLAGS,
             subgroup: Subgroups.COUNTRY_FLAG,
             hasGlyph: true,
-            sortOrder: 4130
+            sortOrder: 4135
         );
 
         /* 🇹🇬 */
@@ -42485,7 +42550,7 @@ namespace NeoSmart.Unicode
             group: Group.FLAGS,
             subgroup: Subgroups.COUNTRY_FLAG,
             hasGlyph: true,
-            sortOrder: 4131
+            sortOrder: 4136
         );
 
         /* 🇹🇭 */
@@ -42498,7 +42563,7 @@ namespace NeoSmart.Unicode
             group: Group.FLAGS,
             subgroup: Subgroups.COUNTRY_FLAG,
             hasGlyph: true,
-            sortOrder: 4132
+            sortOrder: 4137
         );
 
         /* 🇹🇯 */
@@ -42511,7 +42576,7 @@ namespace NeoSmart.Unicode
             group: Group.FLAGS,
             subgroup: Subgroups.COUNTRY_FLAG,
             hasGlyph: true,
-            sortOrder: 4133
+            sortOrder: 4138
         );
 
         /* 🇹🇰 */
@@ -42524,7 +42589,7 @@ namespace NeoSmart.Unicode
             group: Group.FLAGS,
             subgroup: Subgroups.COUNTRY_FLAG,
             hasGlyph: true,
-            sortOrder: 4134
+            sortOrder: 4139
         );
 
         /* 🇹🇱 */
@@ -42537,7 +42602,7 @@ namespace NeoSmart.Unicode
             group: Group.FLAGS,
             subgroup: Subgroups.COUNTRY_FLAG,
             hasGlyph: true,
-            sortOrder: 4135
+            sortOrder: 4140
         );
 
         /* 🇹🇲 */
@@ -42550,7 +42615,7 @@ namespace NeoSmart.Unicode
             group: Group.FLAGS,
             subgroup: Subgroups.COUNTRY_FLAG,
             hasGlyph: true,
-            sortOrder: 4136
+            sortOrder: 4141
         );
 
         /* 🇹🇳 */
@@ -42563,7 +42628,7 @@ namespace NeoSmart.Unicode
             group: Group.FLAGS,
             subgroup: Subgroups.COUNTRY_FLAG,
             hasGlyph: true,
-            sortOrder: 4137
+            sortOrder: 4142
         );
 
         /* 🇹🇴 */
@@ -42576,7 +42641,7 @@ namespace NeoSmart.Unicode
             group: Group.FLAGS,
             subgroup: Subgroups.COUNTRY_FLAG,
             hasGlyph: true,
-            sortOrder: 4138
+            sortOrder: 4143
         );
 
         /* 🇹🇷 */
@@ -42589,7 +42654,7 @@ namespace NeoSmart.Unicode
             group: Group.FLAGS,
             subgroup: Subgroups.COUNTRY_FLAG,
             hasGlyph: true,
-            sortOrder: 4139
+            sortOrder: 4144
         );
 
         /* 🇹🇹 */
@@ -42602,7 +42667,7 @@ namespace NeoSmart.Unicode
             group: Group.FLAGS,
             subgroup: Subgroups.COUNTRY_FLAG,
             hasGlyph: true,
-            sortOrder: 4140
+            sortOrder: 4145
         );
 
         /* 🇹🇻 */
@@ -42615,7 +42680,7 @@ namespace NeoSmart.Unicode
             group: Group.FLAGS,
             subgroup: Subgroups.COUNTRY_FLAG,
             hasGlyph: true,
-            sortOrder: 4141
+            sortOrder: 4146
         );
 
         /* 🇹🇼 */
@@ -42628,7 +42693,7 @@ namespace NeoSmart.Unicode
             group: Group.FLAGS,
             subgroup: Subgroups.COUNTRY_FLAG,
             hasGlyph: true,
-            sortOrder: 4142
+            sortOrder: 4147
         );
 
         /* 🇹🇿 */
@@ -42641,7 +42706,7 @@ namespace NeoSmart.Unicode
             group: Group.FLAGS,
             subgroup: Subgroups.COUNTRY_FLAG,
             hasGlyph: true,
-            sortOrder: 4143
+            sortOrder: 4148
         );
 
         /* 🇺🇦 */
@@ -42654,7 +42719,7 @@ namespace NeoSmart.Unicode
             group: Group.FLAGS,
             subgroup: Subgroups.COUNTRY_FLAG,
             hasGlyph: true,
-            sortOrder: 4144
+            sortOrder: 4149
         );
 
         /* 🇺🇬 */
@@ -42667,7 +42732,7 @@ namespace NeoSmart.Unicode
             group: Group.FLAGS,
             subgroup: Subgroups.COUNTRY_FLAG,
             hasGlyph: true,
-            sortOrder: 4145
+            sortOrder: 4150
         );
 
         /* 🇺🇲 */
@@ -42680,7 +42745,7 @@ namespace NeoSmart.Unicode
             group: Group.FLAGS,
             subgroup: Subgroups.COUNTRY_FLAG,
             hasGlyph: true,
-            sortOrder: 4146
+            sortOrder: 4151
         );
 
         /* 🇺🇳 */
@@ -42693,7 +42758,7 @@ namespace NeoSmart.Unicode
             group: Group.FLAGS,
             subgroup: Subgroups.COUNTRY_FLAG,
             hasGlyph: true,
-            sortOrder: 4147
+            sortOrder: 4152
         );
 
         /* 🇺🇸 */
@@ -42706,7 +42771,7 @@ namespace NeoSmart.Unicode
             group: Group.FLAGS,
             subgroup: Subgroups.COUNTRY_FLAG,
             hasGlyph: true,
-            sortOrder: 4148
+            sortOrder: 4153
         );
 
         /* 🇺🇾 */
@@ -42719,7 +42784,7 @@ namespace NeoSmart.Unicode
             group: Group.FLAGS,
             subgroup: Subgroups.COUNTRY_FLAG,
             hasGlyph: true,
-            sortOrder: 4149
+            sortOrder: 4154
         );
 
         /* 🇺🇿 */
@@ -42732,7 +42797,7 @@ namespace NeoSmart.Unicode
             group: Group.FLAGS,
             subgroup: Subgroups.COUNTRY_FLAG,
             hasGlyph: true,
-            sortOrder: 4150
+            sortOrder: 4155
         );
 
         /* 🇻🇦 */
@@ -42745,7 +42810,7 @@ namespace NeoSmart.Unicode
             group: Group.FLAGS,
             subgroup: Subgroups.COUNTRY_FLAG,
             hasGlyph: true,
-            sortOrder: 4151
+            sortOrder: 4156
         );
 
         /* 🇻🇨 */
@@ -42758,7 +42823,7 @@ namespace NeoSmart.Unicode
             group: Group.FLAGS,
             subgroup: Subgroups.COUNTRY_FLAG,
             hasGlyph: true,
-            sortOrder: 4152
+            sortOrder: 4157
         );
 
         /* 🇻🇪 */
@@ -42771,7 +42836,7 @@ namespace NeoSmart.Unicode
             group: Group.FLAGS,
             subgroup: Subgroups.COUNTRY_FLAG,
             hasGlyph: true,
-            sortOrder: 4153
+            sortOrder: 4158
         );
 
         /* 🇻🇬 */
@@ -42784,7 +42849,7 @@ namespace NeoSmart.Unicode
             group: Group.FLAGS,
             subgroup: Subgroups.COUNTRY_FLAG,
             hasGlyph: true,
-            sortOrder: 4154
+            sortOrder: 4159
         );
 
         /* 🇻🇮 */
@@ -42797,7 +42862,7 @@ namespace NeoSmart.Unicode
             group: Group.FLAGS,
             subgroup: Subgroups.COUNTRY_FLAG,
             hasGlyph: true,
-            sortOrder: 4155
+            sortOrder: 4160
         );
 
         /* 🇻🇳 */
@@ -42810,7 +42875,7 @@ namespace NeoSmart.Unicode
             group: Group.FLAGS,
             subgroup: Subgroups.COUNTRY_FLAG,
             hasGlyph: true,
-            sortOrder: 4156
+            sortOrder: 4161
         );
 
         /* 🇻🇺 */
@@ -42823,7 +42888,7 @@ namespace NeoSmart.Unicode
             group: Group.FLAGS,
             subgroup: Subgroups.COUNTRY_FLAG,
             hasGlyph: true,
-            sortOrder: 4157
+            sortOrder: 4162
         );
 
         /* 🇼🇫 */
@@ -42836,7 +42901,7 @@ namespace NeoSmart.Unicode
             group: Group.FLAGS,
             subgroup: Subgroups.COUNTRY_FLAG,
             hasGlyph: true,
-            sortOrder: 4158
+            sortOrder: 4163
         );
 
         /* 🇼🇸 */
@@ -42849,7 +42914,7 @@ namespace NeoSmart.Unicode
             group: Group.FLAGS,
             subgroup: Subgroups.COUNTRY_FLAG,
             hasGlyph: true,
-            sortOrder: 4159
+            sortOrder: 4164
         );
 
         /* 🇽🇰 */
@@ -42862,7 +42927,7 @@ namespace NeoSmart.Unicode
             group: Group.FLAGS,
             subgroup: Subgroups.COUNTRY_FLAG,
             hasGlyph: true,
-            sortOrder: 4160
+            sortOrder: 4165
         );
 
         /* 🇾🇪 */
@@ -42875,7 +42940,7 @@ namespace NeoSmart.Unicode
             group: Group.FLAGS,
             subgroup: Subgroups.COUNTRY_FLAG,
             hasGlyph: true,
-            sortOrder: 4161
+            sortOrder: 4166
         );
 
         /* 🇾🇹 */
@@ -42888,7 +42953,7 @@ namespace NeoSmart.Unicode
             group: Group.FLAGS,
             subgroup: Subgroups.COUNTRY_FLAG,
             hasGlyph: true,
-            sortOrder: 4162
+            sortOrder: 4167
         );
 
         /* 🇿🇦 */
@@ -42901,7 +42966,7 @@ namespace NeoSmart.Unicode
             group: Group.FLAGS,
             subgroup: Subgroups.COUNTRY_FLAG,
             hasGlyph: true,
-            sortOrder: 4163
+            sortOrder: 4168
         );
 
         /* 🇿🇲 */
@@ -42914,7 +42979,7 @@ namespace NeoSmart.Unicode
             group: Group.FLAGS,
             subgroup: Subgroups.COUNTRY_FLAG,
             hasGlyph: true,
-            sortOrder: 4164
+            sortOrder: 4169
         );
 
         /* 🇿🇼 */
@@ -42927,7 +42992,7 @@ namespace NeoSmart.Unicode
             group: Group.FLAGS,
             subgroup: Subgroups.COUNTRY_FLAG,
             hasGlyph: true,
-            sortOrder: 4165
+            sortOrder: 4170
         );
 
         /* 🏴󠁧󠁢󠁥󠁮󠁧󠁿 */
@@ -42940,7 +43005,7 @@ namespace NeoSmart.Unicode
             group: Group.FLAGS,
             subgroup: Subgroups.SUBDIVISION_FLAG,
             hasGlyph: true,
-            sortOrder: 4166
+            sortOrder: 4171
         );
 
         /* 🏴󠁧󠁢󠁳󠁣󠁴󠁿 */
@@ -42953,7 +43018,7 @@ namespace NeoSmart.Unicode
             group: Group.FLAGS,
             subgroup: Subgroups.SUBDIVISION_FLAG,
             hasGlyph: true,
-            sortOrder: 4167
+            sortOrder: 4172
         );
 
         /* 🏴󠁧󠁢󠁷󠁬󠁳󠁿 */
@@ -42966,7 +43031,7 @@ namespace NeoSmart.Unicode
             group: Group.FLAGS,
             subgroup: Subgroups.SUBDIVISION_FLAG,
             hasGlyph: true,
-            sortOrder: 4168
+            sortOrder: 4173
         );
     }
 }
