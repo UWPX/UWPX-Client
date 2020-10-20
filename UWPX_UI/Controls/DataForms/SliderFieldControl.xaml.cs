@@ -66,7 +66,7 @@ namespace UWPX_UI.Controls.DataForms
                 {
                     slider.Minimum = val.MIN;
                     slider.Maximum = val.MAX;
-                    slider.Value = val.VALUE;
+                    // slider.Value = val.VALUE;
                     slider.StepFrequency = val.STEPS;
                 }
 
