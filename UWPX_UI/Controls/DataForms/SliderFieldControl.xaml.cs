@@ -66,6 +66,14 @@ namespace UWPX_UI.Controls.DataForms
                 {
                     slider.Value = val;
                 }
+                else if (Field.Value is string s)
+                {
+                    if (double.TryParse(s, out double tmp))
+                    {
+                        Field.Value = tmp;
+                        slider.Value = tmp;
+                    }
+                }
                 // Properties:
                 if (Field.Field.addIoTProps is SliderFieldProperties props)
                 {
