@@ -2,7 +2,7 @@
 
 namespace XMPP_API.Classes.Network.XML.Messages.XEP_IoT.Controls
 {
-    public class SliderFieldValue
+    public class SliderFieldProperties
     {
         //--------------------------------------------------------Attributes:-----------------------------------------------------------------\\
         #region --Attributes--
@@ -13,7 +13,7 @@ namespace XMPP_API.Classes.Network.XML.Messages.XEP_IoT.Controls
         #endregion
         //--------------------------------------------------------Constructor:----------------------------------------------------------------\\
         #region --Constructors--
-        public SliderFieldValue(XmlNode node)
+        public SliderFieldProperties(XmlNode node)
         {
             MIN = double.Parse(node.Attributes["min"].Value);
             MAX = double.Parse(node.Attributes["max"].Value);

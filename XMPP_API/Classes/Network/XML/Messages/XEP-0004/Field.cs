@@ -20,16 +20,15 @@ namespace XMPP_API.Classes.Network.XML.Messages.XEP_0004
         /// XEP-0336 (Data Forms - Dynamic Forms) configuration.
         /// </summary>
         public DynamicFormsConfiguration dfConfiguration;
+        /// <summary>
+        /// Additional IoT properties for some fild types like a slider with min, max and steps values.
+        /// See also: <seealso cref="SliderFieldProperties"/>
+        /// </summary>
+        public object addIoTProps;
 
         #endregion
         //--------------------------------------------------------Constructor:----------------------------------------------------------------\\
         #region --Constructors--
-        /// <summary>
-        /// Basic Constructor
-        /// </summary>
-        /// <history>
-        /// 02/06/2018 Created [Fabian Sauter]
-        /// </history>
         public Field()
         {
             options = new List<FieldOption>();
@@ -38,6 +37,7 @@ namespace XMPP_API.Classes.Network.XML.Messages.XEP_0004
             var = null;
             label = null;
             dfConfiguration = new DynamicFormsConfiguration();
+            addIoTProps = null;
         }
 
         public Field(XmlNode node)
@@ -98,7 +98,7 @@ namespace XMPP_API.Classes.Network.XML.Messages.XEP_0004
                     break;
 
                 case "slider": // XEP-IoT
-                    value = new SliderFieldValue(node);
+                    addIoTProps = new SliderFieldProperties(node);
                     type = FieldType.SLIDER;
                     break;
 

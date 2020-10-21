@@ -4,40 +4,17 @@ using XMPP_API.Classes.Network.XML.Messages.XEP_0060;
 
 namespace XMPP_API.Classes.Network.XML.Messages.XEP_IoT
 {
-    public abstract class AbstractValueNodeEventMessage: AbstractPubSubEventMessage
+    public abstract class AbstractNodeItemsResponseMessage: AbstractPubSubResultMessage
     {
         //--------------------------------------------------------Attributes:-----------------------------------------------------------------\\
         #region --Attributes--
-        public readonly List<IoTValue> VALUES;
+        public readonly List<IoTValue> VALUES = new List<IoTValue>();
         public readonly string NODE_NAME;
 
         #endregion
         //--------------------------------------------------------Constructor:----------------------------------------------------------------\\
         #region --Constructors--
-        public AbstractValueNodeEventMessage(XmlNode node, string nodeName) : base(node)
-        {
-            NODE_NAME = nodeName;
-            VALUES = new List<IoTValue>();
-            XmlNode eventNode = XMLUtils.getChildNode(node, "event", Consts.XML_XMLNS, Consts.XML_XEP_0060_NAMESPACE_EVENT);
-            if (!(eventNode is null))
-            {
-                XmlNode itemsNode = XMLUtils.getChildNode(eventNode, "items", "node", NODE_NAME);
-                if (!(itemsNode is null))
-                {
-                    foreach (XmlNode itemNode in itemsNode.ChildNodes)
-                    {
-                        if (string.Equals(itemNode.Name, "item"))
-                        {
-                            XmlNode valNode = XMLUtils.getChildNode(itemNode, "val", Consts.XML_XMLNS, Consts.XML_XEP_IOT_NAMESPACE);
-                            if (!(valNode is null))
-                            {
-                                VALUES.Add(new IoTValue(itemNode.Attributes["id"]?.Value, valNode));
-                            }
-                        }
-                    }
-                }
-            }
-        }
+        public AbstractNodeItemsResponseMessage(XmlNode node) : base(node) { }
 
         #endregion
         //--------------------------------------------------------Set-, Get- Methods:---------------------------------------------------------\\

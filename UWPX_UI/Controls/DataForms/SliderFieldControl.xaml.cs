@@ -61,16 +61,19 @@ namespace UWPX_UI.Controls.DataForms
             {
                 // General:
                 slider.Header = Field.Label;
-                SliderFieldValue val = (SliderFieldValue)Field.Value;
-                if (!(val is null))
+                // Value:
+                if (Field.Value is double val)
                 {
-                    slider.Minimum = val.MIN;
-                    slider.Maximum = val.MAX;
-                    slider.TickFrequency = (val.MAX - val.MIN) / 10;
-                    // slider.Value = val.VALUE;
-                    slider.StepFrequency = val.STEPS;
+                    slider.Value = val;
                 }
-
+                // Properties:
+                if (Field.Field.addIoTProps is SliderFieldProperties props)
+                {
+                    slider.Minimum = props.MIN;
+                    slider.Maximum = props.MAX;
+                    slider.TickFrequency = (props.MAX - props.MIN) / 10;
+                    slider.StepFrequency = props.STEPS;
+                }
                 // Options:
                 slider.IsEnabled = !Field.Field.dfConfiguration.flags.HasFlag(DynamicFormsFlags.READ_ONLY);
             }

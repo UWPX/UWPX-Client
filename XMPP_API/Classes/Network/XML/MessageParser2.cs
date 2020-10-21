@@ -324,6 +324,18 @@ namespace XMPP_API.Classes.Network.XML
                                                             messages.Add(new UiNodeItemsResponseMessage(n));
                                                             fondNode = true;
                                                         }
+                                                        // XEP-IoT:
+                                                        else if (nodeAttr.Equals(IoTConsts.NODE_NAME_SENSORS))
+                                                        {
+                                                            messages.Add(new SensorsNodeItemsResponseMessage(n));
+                                                            fondNode = true;
+                                                        }
+                                                        // XEP-IoT:
+                                                        else if (nodeAttr.Equals(IoTConsts.NODE_NAME_ACTUATORS))
+                                                        {
+                                                            messages.Add(new ActuatorsNodeItemsResponseMessage(n));
+                                                            fondNode = true;
+                                                        }
                                                     }
                                                     break;
 

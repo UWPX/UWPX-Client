@@ -39,14 +39,15 @@ namespace UWPX_UI_Context.Classes.DataContext.Controls.IoT
             // Unsubscribe while we are loading:
             MODEL.Chat.Client.NewPubSubEvent -= Client_NewPubSubEvent;
 
-            string targetBareJid = MODEL.Chat.Chat.chatJabberId;
-
             // Request nodes:
+            string targetBareJid = MODEL.Chat.Chat.chatJabberId;
             MessageResponseHelperResult<IQMessage> result = await MODEL.Chat.Client.PUB_SUB_COMMAND_HELPER.discoNodesAsync(targetBareJid);
             if (result.STATE == MessageResponseHelperResultState.SUCCESS && result.RESULT is DiscoResponseMessage discoResponse)
             {
                 await SubscribeToIoTNodesAsync(discoResponse.ITEMS, MODEL.Chat.Client, targetBareJid);
                 await RequestUiNodeAsync(MODEL.Chat.Client, targetBareJid);
+                await RequestSensorsNodeAsync(MODEL.Chat.Client, targetBareJid);
+                await RequestActuatorsNodeAsync(MODEL.Chat.Client, targetBareJid);
             }
             else
             {
@@ -54,10 +55,16 @@ namespace UWPX_UI_Context.Classes.DataContext.Controls.IoT
                 await SubscribeToNodeAsync(IoTConsts.NODE_NAME_UI, MODEL.Chat.Client, targetBareJid);
                 await SubscribeToNodeAsync(IoTConsts.NODE_NAME_SENSORS, MODEL.Chat.Client, targetBareJid);
                 await SubscribeToNodeAsync(IoTConsts.NODE_NAME_ACTUATORS, MODEL.Chat.Client, targetBareJid);
+
+                // Request Nodes:
                 await RequestUiNodeAsync(MODEL.Chat.Client, targetBareJid);
+                await RequestSensorsNodeAsync(MODEL.Chat.Client, targetBareJid);
+                await RequestActuatorsNodeAsync(MODEL.Chat.Client, targetBareJid);
 
                 Logger.Warn("Failed to request PubSub nodes from: " + targetBareJid);
             }
+            // Subscribe again:
+            MODEL.Chat.Client.NewPubSubEvent += Client_NewPubSubEvent;
             MODEL.IsLoading = false;
         }
 
@@ -66,10 +73,7 @@ namespace UWPX_UI_Context.Classes.DataContext.Controls.IoT
             MODEL.Chat = chat;
             if (!(chat is null))
             {
-                Task.Run(async () =>
-                {
-                    await LoadAsync();
-                });
+                _ = LoadAsync();
             }
         }
 
@@ -82,8 +86,24 @@ namespace UWPX_UI_Context.Classes.DataContext.Controls.IoT
             if (result.STATE == MessageResponseHelperResultState.SUCCESS && result.RESULT is UiNodeItemsResponseMessage uiResponse)
             {
                 UpdateForm(uiResponse.form);
-                client.NewPubSubEvent -= Client_NewPubSubEvent;
-                client.NewPubSubEvent += Client_NewPubSubEvent;
+            }
+        }
+
+        private async Task RequestSensorsNodeAsync(XMPPClient client, string pubSubServer)
+        {
+            MessageResponseHelperResult<IQMessage> result = await client.PUB_SUB_COMMAND_HELPER.requestNodeAsync(pubSubServer, IoTConsts.NODE_NAME_SENSORS, 0);
+            if (result.STATE == MessageResponseHelperResultState.SUCCESS && result.RESULT is SensorsNodeItemsResponseMessage sensorsResponse)
+            {
+                UpdateFields(sensorsResponse.VALUES);
+            }
+        }
+
+        private async Task RequestActuatorsNodeAsync(XMPPClient client, string pubSubServer)
+        {
+            MessageResponseHelperResult<IQMessage> result = await client.PUB_SUB_COMMAND_HELPER.requestNodeAsync(pubSubServer, IoTConsts.NODE_NAME_ACTUATORS, 0);
+            if (result.STATE == MessageResponseHelperResultState.SUCCESS && result.RESULT is ActuatorsNodeItemsResponseMessage actuatorsResponse)
+            {
+                UpdateFields(actuatorsResponse.VALUES);
             }
         }
 
@@ -188,6 +208,21 @@ namespace UWPX_UI_Context.Classes.DataContext.Controls.IoT
             await MODEL.Chat.Client.SendAsync(msg);
         }
 
+        private void UpdateFields(List<IoTValue> values)
+        {
+            foreach (FieldDataTemplate f in MODEL.Form.FIELDS)
+            {
+                foreach (IoTValue val in values)
+                {
+                    if (string.Equals(val.ITEM_ID, f.Var))
+                    {
+                        f.Value = val.VALUE;
+                        break;
+                    }
+                }
+            }
+        }
+
         #endregion
 
         #region --Misc Methods (Protected)--
@@ -198,21 +233,10 @@ namespace UWPX_UI_Context.Classes.DataContext.Controls.IoT
         #region --Events--
         private void Client_NewPubSubEvent(XMPPClient client, NewPubSubEventEventArgs args)
         {
-            if (args.MSG is SensorsNodeEventMessage sensorsNodeEvent)
+            if (args.MSG is AbstractValueNodeEventMessage abstractNodeEvent)
             {
-                Logger.Debug("New PubSub sensors node changed event message.");
-                foreach (FieldDataTemplate f in MODEL.Form.FIELDS)
-                {
-                    if (string.Equals(sensorsNodeEvent.VALUES.ITEM_ID, f.Var))
-                    {
-                        f.Value = sensorsNodeEvent.VALUES.VALUE;
-                        break;
-                    }
-                }
-            }
-            else if (args.MSG is ActuatorsNodeEventMessage actuatorsNodeEvent)
-            {
-                Logger.Debug("New PubSub actuators node changed event message.");
+                Logger.Debug("New PubSub node changed event message for: " + abstractNodeEvent.NODE_NAME);
+                UpdateFields(abstractNodeEvent.VALUES);
             }
             else if (args.MSG is UiNodeEventMessage uiNodeEvent)
             {
