@@ -25,8 +25,8 @@ namespace UWPX_UI_Context.Classes.DataTemplates.Controls.IoT
 
         public string Instructions
         {
-            get => Form?.titel;
-            set => SetProperty(ref Form.titel, value);
+            get => Form?.instructions;
+            set => SetProperty(ref Form.instructions, value);
         }
 
         public readonly CustomObservableCollection<FieldDataTemplate> FIELDS = new CustomObservableCollection<FieldDataTemplate>(true);
