@@ -6,6 +6,8 @@
              mc:Ignorable="d">
 
     <Slider x:Name="slider"
+            Width="200"
             ManipulationCompleted="Slider_ManipulationCompleted"
-            ManipulationMode="All"/>
+            ManipulationMode="All"
+            TickPlacement="Outside"/>
 </UserControl>
