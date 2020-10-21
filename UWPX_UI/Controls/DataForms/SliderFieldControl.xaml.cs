@@ -98,10 +98,23 @@ namespace UWPX_UI.Controls.DataForms
 
         private void Slider_ManipulationCompleted(object sender, Windows.UI.Xaml.Input.ManipulationCompletedRoutedEventArgs e)
         {
-            if (!supressValueChanged && (double)Field.Value != slider.Value)
+            if (!supressValueChanged)
             {
-                Field.Value = slider.Value;
-                Field.OnValueChangedByUser();
+                double val = 0;
+                if (Field.Value is double d)
+                {
+                    val = d;
+                }
+                else if (Field.Value is string s)
+                {
+                    double.TryParse(s, out val);
+                }
+
+                if (val != slider.Value)
+                {
+                    Field.Value = slider.Value;
+                    Field.OnValueChangedByUser();
+                }
             }
         }
 
