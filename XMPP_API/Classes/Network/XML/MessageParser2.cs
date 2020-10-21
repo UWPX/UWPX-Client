@@ -386,6 +386,17 @@ namespace XMPP_API.Classes.Network.XML
                                     break;
                                 }
 
+                                // XEP-0030 (disco request)
+                                XmlNode query = XMLUtils.getChildNode(n, "query");
+                                if (!(query is null))
+                                {
+                                    if (string.Equals(query.NamespaceURI, Consts.XML_XEP_0030_INFO_NAMESPACE) || string.Equals(query.NamespaceURI, Consts.XML_XEP_0030_ITEMS_NAMESPACE))
+                                    {
+                                        messages.Add(new DiscoRequestMessage(n));
+                                        break;
+                                    }
+                                }
+
                                 // Default to IQErrorMessage:
                                 messages.Add(new IQErrorMessage(n));
                                 break;
