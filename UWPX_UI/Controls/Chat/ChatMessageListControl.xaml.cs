@@ -137,12 +137,12 @@ namespace UWPX_UI.Controls.Chat
         /// </summary>
         private async Task LoadMoreMessagesAsync()
         {
-            if (VIEW_MODEL.MODEL.hasMoreMessages)
+            if (VIEW_MODEL.MODEL.HasMoreMessages)
             {
                 do
                 {
-                    await VIEW_MODEL.MODEL.LoadMoreMessagesAsync();
-                } while (VIEW_MODEL.MODEL.hasMoreMessages && scrollViewer.DesiredSize.Height < scrollViewer.ViewportHeight);
+                    await VIEW_MODEL.LoadMoreMessagesAsync();
+                } while (VIEW_MODEL.MODEL.HasMoreMessages && scrollViewer.DesiredSize.Height < scrollViewer.ViewportHeight);
             }
         }
         #endregion
