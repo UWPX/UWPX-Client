@@ -69,6 +69,11 @@ namespace Data_Manager2.Classes.DBManager
             return getNextNChatMessages(chatId, null, limit);
         }
 
+        public IList<ChatMessageTable> getChatMessages(string chatId)
+        {
+            return dB.Query<ChatMessageTable>(true, "SELECT * FROM " + DBTableConsts.CHAT_MESSAGE_TABLE + " WHERE chatId = ? ORDER BY date DESC;", chatId);
+        }
+
         public IList<ChatMessageTable> getNextNChatMessages(string chatId, string chatMessageId, int limit)
         {
             if (string.IsNullOrEmpty(chatMessageId))
@@ -161,6 +166,11 @@ namespace Data_Manager2.Classes.DBManager
             return dB.Query<ChatTable>(true, "SELECT * FROM " + DBTableConsts.CHAT_TABLE + " WHERE userAccountId = ?;", userAccountId);
         }
 
+        public List<ChatTable> getAllChats()
+        {
+            return dB.Query<ChatTable>(true, "SELECT * FROM " + DBTableConsts.CHAT_TABLE + ';');
+        }
+
         public List<ChatTable> getNotStartedChatsForClient(string userAccountId, ChatType chatType)
         {
             return dB.Query<ChatTable>(true, "SELECT * FROM " + DBTableConsts.CHAT_TABLE + " WHERE userAccountId = ? AND isChatActive = ? AND chatType = ?;", userAccountId, false, chatType);
@@ -186,14 +196,10 @@ namespace Data_Manager2.Classes.DBManager
             return null;
         }
 
-        public ChatMessageTable getLastChatMessageForChat(string chatId)
+        public ChatMessageTable getLatestChatMessageForChat(string chatId)
         {
             IList<ChatMessageTable> list = getNextNChatMessages(chatId, 1);
-            if (list.Count <= 0)
-            {
-                return null;
-            }
-            return list[list.Count - 1];
+            return list.Count <= 0 ? null : list[list.Count - 1];
         }
 
         public int getUnreadCount(string chatId)

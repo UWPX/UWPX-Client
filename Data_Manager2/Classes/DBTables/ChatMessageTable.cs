@@ -35,6 +35,8 @@ namespace Data_Manager2.Classes.DBTables
         public bool isEncrypted { get; set; }
         // Whether the message got favorite
         public bool isFavorite { get; set; }
+        // The unique and stable stanza ID (XEP-0359) used for MAM (XEP-0313)
+        public string stableId { get; set; }
 
         // Defines if the message is a dummy message like for the personalize settings page chat preview
         [Ignore]
@@ -76,6 +78,7 @@ namespace Data_Manager2.Classes.DBTables
                     fromUser = Utils.getBareJidFromFullJid(msg.getFrom());
                     break;
             }
+            stableId = msg.ID;
             chatId = chat.id;
             type = msg.TYPE;
             message = msg.MESSAGE;
@@ -85,14 +88,7 @@ namespace Data_Manager2.Classes.DBTables
             {
                 date = DateTime.Now;
             }
-            if (msg.CC_TYPE == XMPP_API.Classes.Network.XML.CarbonCopyType.SENT)
-            {
-                state = MessageState.SEND;
-            }
-            else
-            {
-                state = MessageState.UNREAD;
-            }
+            state = msg.CC_TYPE == XMPP_API.Classes.Network.XML.CarbonCopyType.SENT ? MessageState.SEND : MessageState.UNREAD;
             isImage = isMessageAnImageUrl(msg.MESSAGE);
             isCC = msg.CC_TYPE != XMPP_API.Classes.Network.XML.CarbonCopyType.NONE;
             isEncrypted = msg is OmemoMessageMessage;

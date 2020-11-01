@@ -10,6 +10,7 @@ using Shared.Classes;
 using Shared.Classes.SQLite;
 using Windows.ApplicationModel;
 using XMPP_API.Classes.Network;
+using XMPP_API.Classes.Network.XML.Messages;
 
 namespace UWPX_UI_Context.Classes
 {
@@ -244,6 +245,36 @@ namespace UWPX_UI_Context.Classes
                         Logger.Info("Started the 0.24.0.0 update...");
                         Settings.setSetting(SettingsConsts.ENTER_TO_SEND_MESSAGES, true);
                         Logger.Info("Update to version 0.24.0.0 done.");
+                    }
+
+                    // The new stableId attribute for chat messages has been introduced.
+                    // We need to generate it based on the message id.
+                    if (versionLastStart.Major <= 0 && versionLastStart.Minor < 29)
+                    {
+                        Logger.Info("Started the 0.29.0.0 update...");
+                        List<ChatTable> chats = ChatDBManager.INSTANCE.getAllChats();
+                        Logger.Info("Generating chat message stableIds for " + chats.Count + " chats...");
+                        foreach (ChatTable chat in chats)
+                        {
+                            IList<ChatMessageTable> msgs = ChatDBManager.INSTANCE.getChatMessages(chat.id);
+                            Logger.Info("Generating " + msgs.Count + " stableIds for \"" + chat.chatJabberId + "\".");
+                            foreach (ChatMessageTable msg in msgs)
+                            {
+                                if(!string.Equals(msg.type, MessageMessage.TYPE_ERROR))
+                                {
+                                    // Reverse the process of ChatMessageTable.generateId():
+                                    msg.stableId = msg.id.Replace('_' + chat.id, "");
+                                }
+                                else
+                                {
+                                    // Reverse the process of ChatMessageTable.generateErrorMessageId():
+                                    msg.stableId = msg.id.Replace('_' + chat.id + "_error", "");
+                                }
+                                await ChatDBManager.INSTANCE.setChatMessageAsync(msg, false, false);
+                            }
+                        }
+                        Logger.Info("Chat message stableIds generated.");
+                        Logger.Info("Update to version 0.29.0.0 done.");
                     }
                 }
             }
