@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Diagnostics;
+using System.Text;
 
 namespace XMPP_API.Classes.Network.XML.Messages.XEP_0313
 {
@@ -21,20 +22,18 @@ namespace XMPP_API.Classes.Network.XML.Messages.XEP_0313
         {
             if (!msg.COMPLETE)
             {
-                Debug.Assert(string.IsNullOrEmpty(msg.RESULT_SET.FIRST));
-                Debug.Assert(!(msg.RESULT_SET.FIRST_INDEX is null));
-                Debug.Assert(string.IsNullOrEmpty(msg.RESULT_SET.LAST));
+                Debug.Assert(!string.IsNullOrEmpty(msg.RESULT_SET.FIRST));
+                Debug.Assert(!string.IsNullOrEmpty(msg.RESULT_SET.LAST));
 
                 FIRST = msg.RESULT_SET.FIRST;
                 LAST = msg.RESULT_SET.LAST;
-                INDEX = (uint)msg.RESULT_SET.FIRST_INDEX;
+                INDEX = msg.RESULT_SET.FIRST_INDEX is null ? 0 : (uint)msg.RESULT_SET.FIRST_INDEX;
             }
             else
             {
                 COMPLETE = true;
             }
-            Debug.Assert(!(msg.RESULT_SET.COUNT is null));
-            COUNT = (uint)msg.RESULT_SET.COUNT;
+            COUNT = msg.RESULT_SET.COUNT is null ? 0 : (uint)msg.RESULT_SET.COUNT;
 
             RESULTS = results;
         }
@@ -47,7 +46,20 @@ namespace XMPP_API.Classes.Network.XML.Messages.XEP_0313
         #endregion
         //--------------------------------------------------------Misc Methods:---------------------------------------------------------------\\
         #region --Misc Methods (Public)--
-
+        public override string ToString()
+        {
+            StringBuilder sb = new StringBuilder("First: ");
+            sb.Append(FIRST);
+            sb.Append(", Last: ");
+            sb.Append(LAST);
+            sb.Append(", Index: ");
+            sb.Append(INDEX);
+            sb.Append(", Count: ");
+            sb.Append(COUNT);
+            sb.Append(", Complete: ");
+            sb.Append(COMPLETE);
+            return sb.ToString();
+        }
 
         #endregion
 

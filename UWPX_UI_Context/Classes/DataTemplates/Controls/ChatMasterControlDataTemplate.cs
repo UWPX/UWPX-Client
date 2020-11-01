@@ -297,7 +297,7 @@ namespace UWPX_UI_Context.Classes.DataTemplates.Controls
         {
             Task.Run(() =>
             {
-                ChatMessageTable lastMsg = ChatDBManager.INSTANCE.getLastChatMessageForChat(chat.id);
+                ChatMessageTable lastMsg = ChatDBManager.INSTANCE.getLatestChatMessageForChat(chat.id);
                 if (lastMsg is null)
                 {
                     LastActionIconText = "";

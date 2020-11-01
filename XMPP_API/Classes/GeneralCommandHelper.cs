@@ -246,16 +246,25 @@ namespace XMPP_API.Classes
         /// <summary>
         /// Sends a <seealso cref="QueryArchiveMessage"/> to the server and requests the MAM archive.
         /// </summary>
+        /// <param name="filter">A filter for filtering the MAM results like filtering by JID.</param>
         /// <returns>The result of the request.</returns>
-        public async Task<MessageResponseHelperResult<MamResult>> requestMamAsync(QueryFilter filter)
+        public async Task<MessageResponseHelperResult<MamResult>> requestMamAsync(QueryFilter filter) { return await requestMamAsync(filter, null); }
+
+        /// <summary>
+        /// Sends a <seealso cref="QueryArchiveMessage"/> to the server and requests the MAM archive.
+        /// </summary>
+        /// <param name="filter">A filter for filtering the MAM results like filtering by JID.</param>
+        /// <param name="to">The target of the request. null for request to your own server. Used for requesting MUC-MAMs.</param>
+        /// <returns>The result of the request.</returns>
+        public async Task<MessageResponseHelperResult<MamResult>> requestMamAsync(QueryFilter filter, string to)
         {
-            QueryArchiveMessage msg = new QueryArchiveMessage(filter);
+            QueryArchiveMessage msg = new QueryArchiveMessage(filter, CONNECTION.account.getFullJid(), to);
             List<QueryArchiveResultMessage> results = new List<QueryArchiveResultMessage>();
             Predicate<AbstractAddressableMessage> predicate = (x) =>
             {
                 if (x is QueryArchiveResultMessage result && string.Equals(result.QUERY_ID, msg.QUERY_ID))
                 {
-                    results.Add(result);
+                    results.Insert(0, result);
                     return false;
                 }
                 return x is QueryArchiveFinishMessage fin && string.Equals(fin.ID, msg.ID) && string.Equals(fin.QUERY_ID, msg.QUERY_ID);

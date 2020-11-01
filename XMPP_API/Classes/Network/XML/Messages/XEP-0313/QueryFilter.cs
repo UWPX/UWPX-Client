@@ -35,7 +35,27 @@ namespace XMPP_API.Classes.Network.XML.Messages.XEP_0313
             form.addToXElement(node);
         }
 
-        public void with(string jid)
+        public void BeforeId(string id)
+        {
+            form.fields.Add(new Field()
+            {
+                var = "before-id",
+                type = FieldType.NONE,
+                value = id
+            });
+        }
+
+        public void AfterId(string id)
+        {
+            form.fields.Add(new Field()
+            {
+                var = "after-id",
+                type = FieldType.NONE,
+                value = id
+            });
+        }
+
+        public void With(string jid)
         {
             form.fields.Add(new Field()
             {

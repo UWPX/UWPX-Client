@@ -12,11 +12,13 @@ namespace XMPP_API.Classes.Network.XML.Messages.XEP_0313
         #endregion
         //--------------------------------------------------------Constructor:----------------------------------------------------------------\\
         #region --Constructors--
-        public QueryArchiveMessage(QueryFilter filter) : base(null, null, SET, getRandomId())
+        public QueryArchiveMessage(QueryFilter filter, string from, string to) : base(from, to, SET, getRandomId())
         {
             QUERY_ID = getRandomId();
             FILTER = filter;
         }
+
+        public QueryArchiveMessage(QueryFilter filter) : this(filter, null, null) { }
 
         #endregion
         //--------------------------------------------------------Set-, Get- Methods:---------------------------------------------------------\\

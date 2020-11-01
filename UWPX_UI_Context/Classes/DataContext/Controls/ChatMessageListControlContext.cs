@@ -1,4 +1,6 @@
 ﻿using System.Collections.Generic;
+using System.Linq;
+using System.Reflection.Metadata.Ecma335;
 using System.Threading;
 using System.Threading.Tasks;
 using Data_Manager2.Classes;
@@ -6,8 +8,11 @@ using Data_Manager2.Classes.DBManager;
 using Data_Manager2.Classes.DBTables;
 using Data_Manager2.Classes.Events;
 using Data_Manager2.Classes.Toast;
+using Logging;
 using UWPX_UI_Context.Classes.DataTemplates;
 using UWPX_UI_Context.Classes.DataTemplates.Controls;
+using XMPP_API.Classes.Network.XML.Messages.Helper;
+using XMPP_API.Classes.Network.XML.Messages.XEP_0313;
 
 namespace UWPX_UI_Context.Classes.DataContext.Controls
 {
@@ -22,6 +27,8 @@ namespace UWPX_UI_Context.Classes.DataContext.Controls
         private readonly SemaphoreSlim LOAD_MORE_MESSAGES_SEMA = new SemaphoreSlim(1);
 
         private const int MAX_MESSAGES_PER_REQUEST = 15;
+        private bool mamRequested = false;
+        private bool loadedAllLocalMessages = false;
 
         #endregion
         //--------------------------------------------------------Constructor:----------------------------------------------------------------\\
@@ -50,6 +57,9 @@ namespace UWPX_UI_Context.Classes.DataContext.Controls
                 newChat.PropertyChanged += Chat_PropertyChanged;
                 newChat.ChatMessageChanged += Chat_ChatMessageChanged;
                 newChat.NewChatMessage += Chat_NewChatMessage;
+
+                loadedAllLocalMessages = false;
+                mamRequested = false;
             }
 
             MODEL.UpdateView(oldChat, newChat);
@@ -72,20 +82,32 @@ namespace UWPX_UI_Context.Classes.DataContext.Controls
                 MODEL.IsLoading = true;
                 loadMoreMessagesToken = new CancellationTokenSource();
 
-                loadMoreMessagesTask = Task.Run(() =>
+                loadMoreMessagesTask = Task.Run(async () =>
                 {
-                    List<ChatMessageDataTemplate> tmpMsgs = new List<ChatMessageDataTemplate>();
-                    IList<ChatMessageTable> list = ChatDBManager.INSTANCE.getNextNChatMessages(MODEL.Chat.Chat.id, MODEL.GetLastMessageId(), MAX_MESSAGES_PER_REQUEST + 1); // Load one item more than we use laster to determine if there are more items available
-                    for (int i = 0; i < list.Count && i < MAX_MESSAGES_PER_REQUEST && !loadMoreMessagesToken.IsCancellationRequested; i++)
+                    List<ChatMessageDataTemplate> tmpMsgs;
+                    if (loadedAllLocalMessages)
                     {
-                        tmpMsgs.Add(new ChatMessageDataTemplate
+                        if(!mamRequested)
                         {
-                            Message = list[i],
-                            Chat = MODEL.Chat.Chat,
-                            MUC = MODEL.Chat.MucInfo
-                        });
+                            // TODO: Replace with the actual loading MAM messages:
+                            // -----------------------------------------------
+                            // tmpMsgs = await LoadMoreMamMessagesAsync();
+                            MODEL.HasMoreMessages = false;
+                            return new List<ChatMessageDataTemplate>();
+                            // -----------------------------------------------
+                        }
+                        else
+                        {
+                            tmpMsgs = new List<ChatMessageDataTemplate>();
+                        }
                     }
-                    MODEL.HasMoreMessages = list.Count > MAX_MESSAGES_PER_REQUEST;
+                    else
+                    {
+                        tmpMsgs = LoadMoreLocalMessages();
+                        loadedAllLocalMessages = tmpMsgs.Count < MAX_MESSAGES_PER_REQUEST;
+                    }
+
+                    MODEL.HasMoreMessages = (!loadedAllLocalMessages)|| (MODEL.Chat.Chat.chatType == ChatType.MUC && !mamRequested);
                     return tmpMsgs;
                 });
 
@@ -104,7 +126,65 @@ namespace UWPX_UI_Context.Classes.DataContext.Controls
         #endregion
 
         #region --Misc Methods (Private)--
+        private QueryFilter GenerateMamQueryFilter()
+        {
+            QueryFilter filter = new QueryFilter();
+            if(MODEL.CHAT_MESSAGES.Count > 0 && !string.IsNullOrEmpty(MODEL.CHAT_MESSAGES[0].Message.stableId))
+            {
+                filter.AfterId(MODEL.CHAT_MESSAGES[0].Message.stableId);
+            }
 
+            return filter;
+        }
+
+        private async Task<List<ChatMessageDataTemplate>> LoadMoreMamMessagesAsync()
+        {
+            Logger.Info("Requesting MAM messages for \"" + MODEL.Chat.Chat.id + "\".");
+            QueryFilter filter = GenerateMamQueryFilter();
+            MessageResponseHelperResult<MamResult> result = await MODEL.Chat.Client.GENERAL_COMMAND_HELPER.requestMamAsync(filter, MODEL.Chat.Chat.chatJabberId);
+            if(result.STATE == MessageResponseHelperResultState.SUCCESS)
+            {
+                Logger.Info("Found " + result.RESULT.COUNT + " MAM messages for \"" + MODEL.Chat.Chat.id + "\".");
+                Logger.Debug("MAM result: " + result.RESULT.ToString());
+
+                mamRequested = result.RESULT.COMPLETE;
+
+                List<ChatMessageDataTemplate> msgs = new List<ChatMessageDataTemplate>();
+                foreach (QueryArchiveResultMessage msg in result.RESULT.RESULTS)
+                {
+                    ChatMessageDataTemplate tmp = new ChatMessageDataTemplate
+                    {
+                        Message = new ChatMessageTable(msg.MESSAGE, MODEL.Chat.Chat),
+                        Chat = MODEL.Chat.Chat,
+                        MUC = MODEL.Chat.MucInfo
+                    };
+                    msgs.Add(tmp);
+                    await ChatDBManager.INSTANCE.setChatMessageAsync(tmp.Message, false, false);
+                }
+                return msgs;
+            }
+            else
+            {
+                Logger.Error("Failed to load more MAM messages for \"" + MODEL.Chat.Chat.id + "\". Failed with: " + result.STATE);
+                return new List<ChatMessageDataTemplate>();
+            }
+        }
+
+        private List<ChatMessageDataTemplate> LoadMoreLocalMessages()
+        {
+            List<ChatMessageDataTemplate> tmpMsgs = new List<ChatMessageDataTemplate>();
+            IList<ChatMessageTable> list = ChatDBManager.INSTANCE.getNextNChatMessages(MODEL.Chat.Chat.id, MODEL.GetLastMessageId(), MAX_MESSAGES_PER_REQUEST + 1); // Load one item more than we use laster to determine if there are more items available
+            for (int i = 0; i < list.Count && i < MAX_MESSAGES_PER_REQUEST && !loadMoreMessagesToken.IsCancellationRequested; i++)
+            {
+                tmpMsgs.Add(new ChatMessageDataTemplate
+                {
+                    Message = list[i],
+                    Chat = MODEL.Chat.Chat,
+                    MUC = MODEL.Chat.MucInfo
+                });
+            }
+            return tmpMsgs;
+        }
 
         #endregion
 

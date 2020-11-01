@@ -163,7 +163,7 @@ namespace UWPX_UI.Controls.Chat
             if (!IsDummy)
             {
                 QueryFilter filter = new QueryFilter();
-                filter.with(Chat.Chat.chatJabberId);
+                filter.With(Chat.Chat.chatJabberId);
                 MessageResponseHelperResult<MamResult> result = await Chat.Client.GENERAL_COMMAND_HELPER.requestMamAsync(filter);
             }
         }
