@@ -356,31 +356,14 @@ For more up to date information visit:
     <value>https://www.xmpp-iot.org/</value>
   </data>
   <data name="WhatsNewDialog_markdown.Text" xml:space="preserve">
-    <value># [October 2020] Back to the Future
-Time has passed again and a new release of UWPX is ready to be tested.
-It includes a bunch of chat view related fixes and improvements.
-Up until now it was only possible to view the last 100 messages.
-This changes now. It took me about one and a half year to implement incremental loading for chat messages.
-The problem here: The UWP `ScrollViewer` only supports incremental loading if you are scrolling downwards. But like you probably already noticed chats are being scrolled upwards ➡💥.
+    <value># [November 2020] MAM the first
+Since the addition of incremental loading chat messages [last month](https://github.com/UWPX/UWPX-Client/releases/tag/v.0.28.0.0), the next logical step was to add support for MAM ([XEP-0313: Message Archive Management](https://xmpp.org/extensions/xep-0313.html)).
+For this I started implementing MAM support. Currently the implementation supports retrieving archived MUC (group chat) messages.
+Since it's still very much work in progress, I decided to deactivate it for now.
 
-I finally managed to write my own logic for detecting and loading chat messages incrementally.
-Besides that the chat interface also got a little bit of love. I fixed a bunch of chat message related bugs like downloading images and showing empty chat messages. 
+Nevertheless this version includes, besides all the fundamental work for MAM, a bunch of bug fixes like for [#139](https://github.com/UWPX/UWPX-Client/issues/139) and  [#140](https://github.com/UWPX/UWPX-Client/issues/140).
 
 **Please report bugs [here](https://github.com/UWPX/UWPX-Client/issues)!**
-
-### Push
-During my trial and error runs for fixing the push channel I deleted the `Live SDK` integration. I was hoping to get a new link, which is not broken. Turns out, once you deleted it, you can not create a new one. Thanks for now warning, when clicking this button...  
-https://twitter.com/UWPX_APP/status/1254786200134578178
-MS support is also not helpful, since they either want money from me, so I even can start chatting with them about that, or redirect you to ask questions in the forum. There the only suggestion is to **DELETE** UWPX from the store and start all over again.
-
-This is no solution for me, since then everybody would have redownload the app...  
-To deliver push support I **have to** change the app identity. This results in a new app in the Microsoft Store. People **have to** redownload the app.
-
-#### So I decided to do the following:  
-* Do not offer push support for versions &lt; v.1.0  
-* Once version v.1.0 has been released people have to redownload a new and stable version of the app  
-
-You can read more about this **[here](https://github.com/UWPX/UWPX-Client/issues/136)**.
 
 #### Want more up to date news?
 Follow [@UWPX_APP](https://twitter.com/UWPX_APP) on ![Twitter](http://i.imgur.com/wWzX9uB.png).
@@ -393,16 +376,15 @@ Follow [@UWPX_APP](https://twitter.com/UWPX_APP) on ![Twitter](http://i.imgur.co
 * `OmemoHelper` is null [#134](https://github.com/UWPX/UWPX-Client/issues/134)
 
 ### Changes
-* Added incremental loading for chat messages
-* Added a "Click to view" tool tip for images
-* Added a scroll down button for chat messages
-* Better TLS upgrade error messages
-* Fixed the image download progress not updating [#69](https://github.com/UWPX/UWPX-Client/issues/69)
-* Fixed reconnect loops
-* Increased the account reconnect delay to 15 seconds
-* Fixed displaying empty chat messages
-* Fixed showing send even if there are only whitespace chars
 * Preparations for MAM (XEP-0313) support
-**Continue reading on [GitHub](https://github.com/UWPX/UWPX-Client/releases/tag/v.0.27.0.0).**</value>
+* Fixed the IconButtonControl background color
+* Added additional IoT controls
+* Updated to the emoji picker to the latest version of Unicode 13
+* Fixed a crash when deleting accounts [#140](https://github.com/UWPX/UWPX-Client/issues/140)
+* Added support for parsing [disco](https://xmpp.org/extensions/xep-0030.html) request messages
+* Additional fixes related to IoT data forms
+* Increased the Windows 10 target version to `10.0.19041.0` (2004) (minimum version stays at `10.0.16299.0` (1709))
+
+**Continue reading on [GitHub](https://github.com/UWPX/UWPX-Client/releases/tag/v.0.29.0.0).**</value>
   </data>
 </root>
