@@ -184,7 +184,7 @@ namespace XMPP_API.Classes.Network.XML.Messages
             // XEP-0359 (Unique and Stable Stanza IDs):
             Debug.Assert(ID != null);
             XNamespace sid_ns = Consts.XML_XEP_0359_NAMESPACE;
-            XElement originId = new XElement(sid_ns + "origin-id", MESSAGE);
+            XElement originId = new XElement(sid_ns + "origin-id");
             originId.Add(new XAttribute("id", ID));
             msgNode.Add(originId);
 
