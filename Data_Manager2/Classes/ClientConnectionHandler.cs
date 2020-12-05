@@ -55,11 +55,18 @@ namespace Data_Manager2.Classes
             return client.getXMPPAccount().disabled;
         }
 
+        /// <summary>
+        /// Returns the bare JID of the account, e.g. 'alice@example.com'.
+        /// </summary>
+        /// <returns></returns>
         public string GetBareJid()
         {
             return client.getXMPPAccount().getBareJid();
         }
 
+        /// <summary>
+        /// Updates the <see cref="XMPPAccount"/> for current <see cref="XMPPClient"/>.
+        /// </summary>
         public void SetAccount(XMPPAccount account)
         {
             client.setAccount(account);
@@ -98,16 +105,25 @@ namespace Data_Manager2.Classes
             }
         }
 
+        /// <summary>
+        /// Connects the client.
+        /// </summary>
         public async Task ConnectAsync()
         {
             await client.connectAsync();
         }
 
+        /// <summary>
+        /// Disconnects the client.
+        /// </summary>
         public async Task DisconnectAsync()
         {
             await client.disconnectAsync();
         }
 
+        /// <summary>
+        /// Reconnects the client.
+        /// </summary>
         public async Task ReconnectAsync()
         {
             await client.reconnectAsync();
@@ -162,8 +178,7 @@ namespace Data_Manager2.Classes
         /// <summary>
         /// Called once a client enters the 'Disconnected' or 'Error' state.
         /// </summary>
-        /// <param name="client">The Client which entered the state.</param>
-        private void OnDisconnectedOrError(XMPPClient client)
+        private void OnDisconnectedOrError()
         {
             ChatDBManager.INSTANCE.resetPresence(GetBareJid());
             MUCHandler.INSTANCE.onClientDisconnected(client);
@@ -172,8 +187,7 @@ namespace Data_Manager2.Classes
         /// <summary>
         /// Called once a client enters the 'Disconnecting' state.
         /// </summary>
-        /// <param name="client">The Client which entered the state.</param>
-        private void OnDisconneting(XMPPClient client)
+        private void OnDisconneting()
         {
             MUCHandler.INSTANCE.onClientDisconnecting(client);
         }
@@ -181,8 +195,7 @@ namespace Data_Manager2.Classes
         /// <summary>
         /// Called once a client enters the 'Connected' state.
         /// </summary>
-        /// <param name="client">The Client which entered the state.</param>
-        private void OnConnected(XMPPClient client)
+        private void OnConnected()
         {
             Task.Run(async () =>
             {
@@ -190,29 +203,31 @@ namespace Data_Manager2.Classes
                 client.PUB_SUB_COMMAND_HELPER.requestBookmars_xep_0048(null, null);
                 MUCHandler.INSTANCE.onClientConnected(client);
                 ClientConnected?.Invoke(this, new ClientConnectedEventArgs(client));
-                await SendOutsandingChatMessagesAsync(client);
+                await SendOutsandingChatMessagesAsync();
             });
         }
 
-        private async Task SendOutsandingChatMessagesAsync(XMPPClient client)
+        /// <summary>
+        /// Sends all outstanding chat messages for the current client.
+        /// </summary>
+        private async Task SendOutsandingChatMessagesAsync()
         {
             IList<ChatMessageTable> toSend = ChatDBManager.INSTANCE.getChatMessages(GetBareJid(), MessageState.SENDING);
             Logger.Info("Sending " + toSend.Count + " outstanding chat messages for: " + GetBareJid());
-            await SendOutsandingChatMessagesAsync(client, toSend);
+            await SendOutsandingChatMessagesAsync(toSend);
             Logger.Info("Finished sending outstanding chat messages for: " + GetBareJid());
 
             IList<ChatMessageTable> toEncrypt = ChatDBManager.INSTANCE.getChatMessages(GetBareJid(), MessageState.TO_ENCRYPT);
             Logger.Info("Sending " + toSend.Count + " outstanding OMEMO chat messages for: " + GetBareJid());
-            await SendOutsandingChatMessagesAsync(client, toEncrypt);
+            await SendOutsandingChatMessagesAsync(toEncrypt);
             Logger.Info("Finished sending outstanding OMEMO chat messages for: " + GetBareJid());
         }
 
         /// <summary>
         /// Sends all chat messages passed to it.
         /// </summary>
-        /// <param name="client">The XMPPClient that should be used to send the messages.</param>
         /// <param name="messages">A list of chat messages to send. They SHOULD be sorted by their chatId for optimal performance.</param>
-        private async Task SendOutsandingChatMessagesAsync(XMPPClient client, IList<ChatMessageTable> messages)
+        private async Task SendOutsandingChatMessagesAsync(IList<ChatMessageTable> messages)
         {
             ChatTable chat = null;
             foreach (ChatMessageTable msgDb in messages)
@@ -240,7 +255,7 @@ namespace Data_Manager2.Classes
             }
         }
 
-        private async Task AnswerPresenceProbeAsync(string from, string to, ChatTable chat, XMPPClient client, PresenceMessage msg)
+        private async Task AnswerPresenceProbeAsync(string from, string to, ChatTable chat, PresenceMessage msg)
         {
             XMPPAccount account = client.getXMPPAccount();
             PresenceMessage answer;
@@ -275,7 +290,7 @@ namespace Data_Manager2.Classes
         }
 
         /// <summary>
-        /// Unsubscribes from all XMPPClient events.
+        /// Unsubscribes from all <see cref="XMPPClient"/> events.
         /// </summary>
         private void UnsubscribeFromEvents()
         {
@@ -291,7 +306,7 @@ namespace Data_Manager2.Classes
         }
 
         /// <summary>
-        /// Subscribes to all XMPPClient events.
+        /// Subscribes to all <see cref="XMPPClient"/> events.
         /// </summary>
         private void SubscribeToEvents()
         {
@@ -546,7 +561,7 @@ namespace Data_Manager2.Classes
 
                 // Answer presence probes:
                 case "probe":
-                    await AnswerPresenceProbeAsync(from, to, chat, client, args.PRESENCE_MESSAGE);
+                    await AnswerPresenceProbeAsync(from, to, chat, args.PRESENCE_MESSAGE);
                     return;
 
                 default:
@@ -635,16 +650,16 @@ namespace Data_Manager2.Classes
             switch (args.newState)
             {
                 case ConnectionState.CONNECTED:
-                    OnConnected(client);
+                    OnConnected();
                     break;
 
                 case ConnectionState.DISCONNECTING:
-                    OnDisconneting(client);
+                    OnDisconneting();
                     break;
 
                 case ConnectionState.ERROR:
                 case ConnectionState.DISCONNECTED:
-                    OnDisconnectedOrError(client);
+                    OnDisconnectedOrError();
                     break;
 
                 default:
