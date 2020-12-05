@@ -46,15 +46,12 @@ namespace XMPP_API.Classes
         /// Sends a RequestBookmarksMessage to request all bookmarks from the server.
         /// https://xmpp.org/extensions/xep-0048.html#storage-pubsub-retrieve
         /// </summary>
-        /// <param name="onMessage">The method that should get executed once the helper receives a new valid message (can be null).</param>
-        /// <param name="onTimeout">The method that should get executed once the helper timeout gets triggered (can be null).</param>
-        /// <returns>Returns a MessageResponseHelper listening for RequestBookmarksMessage answers.</returns>
-        public MessageResponseHelper<IQMessage> requestBookmars_xep_0048(MessageResponseHelper<IQMessage>.OnMessageHandler onMessage, MessageResponseHelper<IQMessage>.OnTimeoutHandler onTimeout)
+        /// <returns>The XEP-0048 RequestBookmarksMessage result.</returns>
+        public async Task<MessageResponseHelperResult<IQMessage>> requestBookmars_xep_0048Async()
         {
-            MessageResponseHelper<IQMessage> helper = new MessageResponseHelper<IQMessage>(CONNECTION, onMessage, onTimeout);
+            AsyncMessageResponseHelper<IQMessage> helper = new AsyncMessageResponseHelper<IQMessage>(CONNECTION);
             Network.XML.Messages.XEP_0048.RequestBookmarksMessage msg = new Network.XML.Messages.XEP_0048.RequestBookmarksMessage(CONNECTION.account.getFullJid());
-            helper.start(msg);
-            return helper;
+            return await helper.startAsync(msg);
         }
 
         /// <summary>

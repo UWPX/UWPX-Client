@@ -180,6 +180,7 @@
     <Compile Include="Classes\MUCJoinHelper.cs" />
     <Compile Include="Classes\Omemo\OmemoStore.cs" />
     <Compile Include="Classes\OnConnectedHandler.cs" />
+    <Compile Include="Classes\PostClientConnectedHandler.cs" />
     <Compile Include="Classes\Settings.cs" />
     <Compile Include="Classes\SettingsConsts.cs" />
     <Compile Include="Classes\Toast\AbstractToastActivation.cs" />

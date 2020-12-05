@@ -28,6 +28,7 @@ namespace Data_Manager2.Classes
         //--------------------------------------------------------Attributes:-----------------------------------------------------------------\\
         #region --Attributes--
         public readonly XMPPClient client;
+        private readonly PostClientConnectedHandler postClientConnectedHandler;
 
         public event ClientConnectedHandler ClientConnected;
         public delegate void ClientConnectedHandler(ClientConnectionHandler handler, ClientConnectedEventArgs args);
@@ -38,6 +39,7 @@ namespace Data_Manager2.Classes
         public ClientConnectionHandler(XMPPAccount account)
         {
             client = LoadAccount(account);
+            postClientConnectedHandler = new PostClientConnectedHandler(client);
 
             // Ensure no event gets bound multiple times:
             UnsubscribeFromEvents();
@@ -197,62 +199,8 @@ namespace Data_Manager2.Classes
         /// </summary>
         private void OnConnected()
         {
-            Task.Run(async () =>
-            {
-                await client.GENERAL_COMMAND_HELPER.sendRequestRosterMessageAsync();
-                client.PUB_SUB_COMMAND_HELPER.requestBookmars_xep_0048(null, null);
-                MUCHandler.INSTANCE.onClientConnected(client);
-                ClientConnected?.Invoke(this, new ClientConnectedEventArgs(client));
-                await SendOutsandingChatMessagesAsync();
-            });
-        }
-
-        /// <summary>
-        /// Sends all outstanding chat messages for the current client.
-        /// </summary>
-        private async Task SendOutsandingChatMessagesAsync()
-        {
-            IList<ChatMessageTable> toSend = ChatDBManager.INSTANCE.getChatMessages(GetBareJid(), MessageState.SENDING);
-            Logger.Info("Sending " + toSend.Count + " outstanding chat messages for: " + GetBareJid());
-            await SendOutsandingChatMessagesAsync(toSend);
-            Logger.Info("Finished sending outstanding chat messages for: " + GetBareJid());
-
-            IList<ChatMessageTable> toEncrypt = ChatDBManager.INSTANCE.getChatMessages(GetBareJid(), MessageState.TO_ENCRYPT);
-            Logger.Info("Sending " + toSend.Count + " outstanding OMEMO chat messages for: " + GetBareJid());
-            await SendOutsandingChatMessagesAsync(toEncrypt);
-            Logger.Info("Finished sending outstanding OMEMO chat messages for: " + GetBareJid());
-        }
-
-        /// <summary>
-        /// Sends all chat messages passed to it.
-        /// </summary>
-        /// <param name="messages">A list of chat messages to send. They SHOULD be sorted by their chatId for optimal performance.</param>
-        private async Task SendOutsandingChatMessagesAsync(IList<ChatMessageTable> messages)
-        {
-            ChatTable chat = null;
-            foreach (ChatMessageTable msgDb in messages)
-            {
-                if (chat is null || !string.Equals(chat.id, msgDb.chatId))
-                {
-                    chat = ChatDBManager.INSTANCE.getChat(msgDb.chatId);
-
-                    if (chat is null)
-                    {
-                        Logger.Warn("Unable to send outstanding chat message for: " + msgDb.chatId + " - no such chat.");
-                        continue;
-                    }
-                }
-                MessageMessage msg = msgDb.toXmppMessage(client.getXMPPAccount().getFullJid(), chat);
-
-                if (msg is OmemoMessageMessage omemoMsg)
-                {
-                    await client.sendOmemoMessageAsync(omemoMsg, chat.chatJabberId, GetBareJid());
-                }
-                else
-                {
-                    await client.SendAsync(msg);
-                }
-            }
+            MUCHandler.INSTANCE.onClientConnected(client);
+            ClientConnected?.Invoke(this, new ClientConnectedEventArgs(client));
         }
 
         private async Task AnswerPresenceProbeAsync(string from, string to, ChatTable chat, PresenceMessage msg)
