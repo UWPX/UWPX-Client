@@ -38,6 +38,10 @@ namespace Data_Manager2.Classes
         public ClientConnectionHandler(XMPPAccount account)
         {
             client = LoadAccount(account);
+
+            // Ensure no event gets bound multiple times:
+            UnsubscribeFromEvents();
+            SubscribeToEvents();
         }
 
         #endregion
@@ -143,10 +147,6 @@ namespace Data_Manager2.Classes
                 account.omemoBundleInfoAnnounced = false;
                 AccountDBManager.INSTANCE.setAccount(account, true, false);
             }
-
-            // Ensure no event gets bound multiple times:
-            UnsubscribeFromEvents();
-            SubscribeToEvents();
             return client;
         }
 
