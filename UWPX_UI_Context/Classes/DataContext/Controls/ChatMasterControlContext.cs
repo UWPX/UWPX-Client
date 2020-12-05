@@ -285,7 +285,7 @@ namespace UWPX_UI_Context.Classes.DataContext.Controls
                     break;
 
                 default:
-                    MODEL.ShowAccountColor = ConnectionHandler.INSTANCE.getClients().Count > 1;
+                    MODEL.ShowAccountColor = ConnectionHandler.INSTANCE.GetClients().Count > 1;
                     break;
             }
 

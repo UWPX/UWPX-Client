@@ -80,7 +80,7 @@ namespace Push.Classes
         /// </summary>
         private static int GetAccountsHash()
         {
-            IEnumerable<string> accounts = ConnectionHandler.INSTANCE.getClients().Select(x => x.getXMPPAccount().getBareJid());
+            IEnumerable<string> accounts = ConnectionHandler.INSTANCE.GetClients().Select(x => x.GetBareJid());
             // The last bit always indicates push enabled:
             return unchecked(GetOrderIndependentHashCode(accounts) << 1) ^ Settings.getSettingBoolean(SettingsConsts.PUSH_ENABLED).GetHashCode();
         }
@@ -201,7 +201,7 @@ namespace Push.Classes
             Logger.Debug("Updating push settings for " + accounts.Count + " accounts.");
             foreach (PushAccount pushAccount in accounts)
             {
-                XMPPClient client = ConnectionHandler.INSTANCE.getClient(pushAccount.bareJid);
+                XMPPClient client = ConnectionHandler.INSTANCE.GetClient(pushAccount.bareJid);
                 if (!(client is null))
                 {
                     XMPPAccount account = client.getXMPPAccount();
@@ -229,7 +229,7 @@ namespace Push.Classes
                 {
                     await connection.ConnectAsync();
                     // If push is disabled, send an empty list:
-                    SetPushAccountsMessage msg = Settings.getSettingBoolean(SettingsConsts.PUSH_ENABLED) ? new SetPushAccountsMessage(ConnectionHandler.INSTANCE.getClients().Select(x => x.getXMPPAccount().getBareJid()).ToList()) : new SetPushAccountsMessage(new List<string>());
+                    SetPushAccountsMessage msg = Settings.getSettingBoolean(SettingsConsts.PUSH_ENABLED) ? new SetPushAccountsMessage(ConnectionHandler.INSTANCE.GetClients().Select(x => x.GetBareJid()).ToList()) : new SetPushAccountsMessage(new List<string>());
                     await connection.SendAsync(msg.ToString());
                 }
                 catch (Exception e)

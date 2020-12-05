@@ -52,12 +52,12 @@ namespace UWPX_UI_Context.Classes.DataTemplates.Controls
                 loadingAccountsTask = Task.Run(() =>
                 {
                     ACCOUNTS.Clear();
-                    CustomObservableCollection<XMPPClient> clients = ConnectionHandler.INSTANCE.getClients();
+                    CustomObservableCollection<ClientConnectionHandler> clients = ConnectionHandler.INSTANCE.GetClients();
                     IEnumerable<AccountDataTemplate> accounts = clients.Select((client) =>
                     {
                         return new AccountDataTemplate
                         {
-                            Client = client
+                            Client = client.client
                         };
                     });
 

@@ -192,7 +192,7 @@ namespace UWPX_UI
 
             if (isRunning)
             {
-                XMPPClient client = ConnectionHandler.INSTANCE.getClient(fromBareJid);
+                XMPPClient client = ConnectionHandler.INSTANCE.GetClient(fromBareJid);
                 if (client is null)
                 {
                     Logger.Error("Unable to send message in background - no such client: " + fromBareJid);
@@ -290,14 +290,14 @@ namespace UWPX_UI
             //await ConnectionHandler.INSTANCE.transferSocketOwnershipAsync();
 
             // Disconnect all clients:
-            await ConnectionHandler.INSTANCE.disconnectAllAsync();
+            await ConnectionHandler.INSTANCE.DisconnectAllAsync();
             deferral.Complete();
         }
 
         private void OnAppResuming(object sender, object e)
         {
             // Connect to all clients:
-            ConnectionHandler.INSTANCE.connectAll();
+            ConnectionHandler.INSTANCE.ConnectAll();
             isRunning = true;
 
             // Initialize push:

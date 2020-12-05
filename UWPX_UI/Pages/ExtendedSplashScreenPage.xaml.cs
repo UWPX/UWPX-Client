@@ -167,7 +167,7 @@ namespace UWPX_UI.Pages
             ChatBackgroundHelper.INSTANCE.Init();
 
             // Connect to all clients:
-            ConnectionHandler.INSTANCE.connectAll();
+            ConnectionHandler.INSTANCE.ConnectAll();
 
             // Remove the messages will be send later toast:
             ToastHelper.removeToastGroup(ToastHelper.WILL_BE_SEND_LATER_TOAST_GROUP);

@@ -127,7 +127,7 @@ namespace UWPX_UI_Context.Classes.DataContext.Dialogs
                     // Clients:
                     if (MODEL.ReloadClients)
                     {
-                        ConnectionHandler.INSTANCE.reloadClients();
+                        ConnectionHandler.INSTANCE.ReloadClients();
                     }
                     return true;
                 }

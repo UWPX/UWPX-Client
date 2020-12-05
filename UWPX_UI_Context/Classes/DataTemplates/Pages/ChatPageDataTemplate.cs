@@ -95,9 +95,9 @@ namespace UWPX_UI_Context.Classes.DataTemplates.Pages
         private List<ChatDataTemplate> LoadChatsFromDB()
         {
             List<ChatDataTemplate> list = new List<ChatDataTemplate>();
-            foreach (XMPPClient c in ConnectionHandler.INSTANCE.getClients())
+            foreach (ClientConnectionHandler c in ConnectionHandler.INSTANCE.GetClients())
             {
-                foreach (ChatTable chat in ChatDBManager.INSTANCE.getAllChatsForClient(c.getXMPPAccount().getBareJid()))
+                foreach (ChatTable chat in ChatDBManager.INSTANCE.getAllChatsForClient(c.GetBareJid()))
                 {
                     // Only show chats with at least 1 chat message or that have been started:
                     if (chat.chatType == ChatType.CHAT && !chat.isChatActive)
@@ -110,7 +110,7 @@ namespace UWPX_UI_Context.Classes.DataTemplates.Pages
                         list.Add(new ChatDataTemplate()
                         {
                             Chat = chat,
-                            Client = c,
+                            Client = c.client,
                             MucInfo = MUCDBManager.INSTANCE.getMUCInfo(chat.id)
                         });
                     }
@@ -119,7 +119,7 @@ namespace UWPX_UI_Context.Classes.DataTemplates.Pages
                         list.Add(new ChatDataTemplate()
                         {
                             Chat = chat,
-                            Client = c
+                            Client = c.client
                         });
                     }
                 }
@@ -160,16 +160,16 @@ namespace UWPX_UI_Context.Classes.DataTemplates.Pages
             ChatDataTemplate newChat = await Task.Run(() =>
             {
                 // Add the new chat to the list of chats:
-                foreach (XMPPClient c in ConnectionHandler.INSTANCE.getClients())
+                foreach (ClientConnectionHandler c in ConnectionHandler.INSTANCE.GetClients())
                 {
-                    if (Equals(args.CHAT.userAccountId, c.getXMPPAccount().getBareJid()))
+                    if (Equals(args.CHAT.userAccountId, c.GetBareJid()))
                     {
                         if (args.CHAT.chatType == ChatType.MUC)
                         {
                             return new ChatDataTemplate()
                             {
                                 Chat = args.CHAT,
-                                Client = c,
+                                Client = c.client,
                                 MucInfo = MUCDBManager.INSTANCE.getMUCInfo(args.CHAT.id)
                             };
                         }
@@ -178,7 +178,7 @@ namespace UWPX_UI_Context.Classes.DataTemplates.Pages
                             return new ChatDataTemplate()
                             {
                                 Chat = args.CHAT,
-                                Client = c
+                                Client = c.client
                             };
                         }
                     }

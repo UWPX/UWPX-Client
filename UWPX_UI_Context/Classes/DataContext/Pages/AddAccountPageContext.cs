@@ -87,7 +87,7 @@ namespace UWPX_UI_Context.Classes.DataContext.Pages
                     Logger.Info("Deleting account: " + MODEL.Account.getBareJid());
                     try
                     {
-                        await ConnectionHandler.INSTANCE.removeAccountAsync(MODEL.Account.getBareJid());
+                        await ConnectionHandler.INSTANCE.RemoveAccountAsync(MODEL.Account.getBareJid());
                     }
                     catch (System.Exception e)
                     {

@@ -29,7 +29,7 @@ namespace UWPX_UI_Context.Classes.DataContext.Pages
         #region --Misc Methods (Public)--
         public async Task ReconnectAllAsync()
         {
-            await Task.Run(() => ConnectionHandler.INSTANCE.reconnectAll());
+            await Task.Run(() => ConnectionHandler.INSTANCE.ReconnectAll());
         }
 
         public void OnLoaded()

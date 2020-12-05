@@ -68,7 +68,7 @@ namespace UWPX_UI_Context.Classes.DataTemplates.Dialogs
         private void LoadClients()
         {
             CLIENTS.Clear();
-            CLIENTS.AddRange(ConnectionHandler.INSTANCE.getClients().Select((x) => new XMPPClientDataTemplate(x)));
+            CLIENTS.AddRange(ConnectionHandler.INSTANCE.GetClients().Select((x) => new XMPPClientDataTemplate(x.client)));
         }
 
         #endregion

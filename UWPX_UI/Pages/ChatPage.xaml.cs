@@ -52,7 +52,7 @@ namespace UWPX_UI.Pages
         #region --Master_Command_Bar--
         private void Master_cmdb_Opening(object sender, object e)
         {
-            changePresence_abb.IsEnabled = ConnectionHandler.INSTANCE.getClients().Count > 0;
+            changePresence_abb.IsEnabled = ConnectionHandler.INSTANCE.GetClients().Count > 0;
         }
 
         private async void AddChat_mfoi_Click(object sender, RoutedEventArgs e)

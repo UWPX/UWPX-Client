@@ -15,6 +15,7 @@
         public const string IGNORED_CERTIFICATE_ERROR_TABLE = "IgnoredCertificateErrorTable";
         public const string CONNECTION_OPTIONS_TABLE = "ConnectionOptionsTable_2";
         public const string SPAM_MESSAGE_TABLE = "SpamMessageTable";
+        public const string MAM_TABLE = "MamTable";
 
         public const string OMEMO_SIGNED_PRE_KEY_TABLE = "OmemoSignedPreKeyTable";
         public const string OMEMO_PRE_KEY_TABLE = "OmemoPreKeyTable";
