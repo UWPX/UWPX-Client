@@ -62,7 +62,7 @@ namespace Data_Manager2.Classes
 
         public void SetAccount(XMPPAccount account)
         {
-
+            client.setAccount(account);
         }
 
         #endregion
