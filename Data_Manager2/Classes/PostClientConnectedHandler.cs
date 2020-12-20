@@ -18,6 +18,7 @@ namespace Data_Manager2.Classes
     internal enum SetupState
     {
         NOT_STARTED,
+        DISCO,
         SENDING_OUTSTANDING_MESSAGES,
         REQUESTING_BOOKMARKS,
         REQUESTING_ROSTER,
@@ -67,6 +68,10 @@ namespace Data_Manager2.Classes
             {
                 case SetupState.NOT_STARTED:
                     Logger.Info("Starting post client connected process for: " + client.getXMPPAccount().getBareJid());
+                    _ = DiscoAsync();
+                    break;
+
+                case SetupState.DISCO:
                     _ = SendOutsandingChatMessagesAsync();
                     break;
 
@@ -93,7 +98,7 @@ namespace Data_Manager2.Classes
 
                 case SetupState.DONE:
                     Logger.Info("Post client connected process done for: " + client.getXMPPAccount().getBareJid());
-                    break;
+                    return;
 
                 case SetupState.CANCELED:
                     Logger.Info("Post client connected process canceled for: " + client.getXMPPAccount().getBareJid());
@@ -104,6 +109,13 @@ namespace Data_Manager2.Classes
                     break;
             }
             Logger.Debug("PostClientConnectedHandler for " + client.getXMPPAccount().getBareJid() + " now in state: " + state.ToString());
+        }
+
+        private async Task DiscoAsync()
+        {
+            state = SetupState.DISCO;
+            await client.connection.DISCO_HELPER.DiscoAsync();
+            Continue();
         }
 
         private async Task RequestBookmarksAsync()
@@ -123,28 +135,81 @@ namespace Data_Manager2.Classes
         private async Task RequestMamAsync()
         {
             state = SetupState.REQUESTING_MAM;
-            MamRequestTable mamRequest = MamDBManager.INSTANCE.getLastRequest(client.getXMPPAccount().getBareJid());
-            QueryFilter filter = new QueryFilter();
-            if (!(mamRequest is null))
+
+            if (!client.connection.DISCO_HELPER.HasFeature(Consts.XML_XEP_0313_NAMESPACE, client.getXMPPAccount().getBareJid()))
             {
-                filter.AfterId(mamRequest.lastMsgId);
+                Logger.Info("No need to request MAM for " + client.getXMPPAccount().getBareJid() + " - not supported.");
+                Continue();
+                return;
             }
 
-            MessageResponseHelperResult<MamResult> result = await client.GENERAL_COMMAND_HELPER.requestMamAsync(filter);
-            if (result.STATE == MessageResponseHelperResultState.SUCCESS)
+            bool extendedMamSupport = client.connection.DISCO_HELPER.HasFeature(Consts.XML_XEP_0313_EXTENDED_NAMESPACE, client.getXMPPAccount().getBareJid());
+            Logger.Info("Extended MAM support for " + client.getXMPPAccount().getBareJid() + ": " + extendedMamSupport);
+            if (!extendedMamSupport)
             {
-                mamRequest = new MamRequestTable
+                Logger.Info("No need to request MAM for " + client.getXMPPAccount().getBareJid() + " - server does not support extended MAM features.");
+            }
+
+            MamRequestTable mamRequest = MamDBManager.INSTANCE.getLastRequest(client.getXMPPAccount().getBareJid());
+            string lastMsgId = null;
+            if (!(mamRequest is null))
+            {
+                lastMsgId = mamRequest.lastMsgId;
+            }
+
+            // Request all MAM messages:
+            bool done = false;
+            int iteration = 1;
+            while (!done)
+            {
+                QueryFilter filter = new QueryFilter();
+                // Only extended MAM supports setting the 'after-id' property.
+                // Reference: https://xmpp.org/extensions/xep-0313.html#support
+                if (extendedMamSupport && !(lastMsgId is null))
                 {
-                    accountId = client.getXMPPAccount().getBareJid(),
-                    lastUpdate = DateTime.Now
-                };
-                if (result.RESULT.COUNT > 0)
-                {
-                    mamRequest.lastMsgId = result.RESULT.LAST;
+                    filter.AfterId(lastMsgId);
                 }
-                MamDBManager.INSTANCE.setLastRequest(mamRequest);
+
+                MessageResponseHelperResult<MamResult> result = await RequestMamWithRetry(filter, 2);
+                if (result.STATE == MessageResponseHelperResultState.SUCCESS)
+                {
+                    mamRequest = new MamRequestTable
+                    {
+                        accountId = client.getXMPPAccount().getBareJid(),
+                        lastUpdate = DateTime.Now
+                    };
+                    if (result.RESULT.COUNT > 0)
+                    {
+                        mamRequest.lastMsgId = result.RESULT.LAST;
+                        lastMsgId = result.RESULT.LAST;
+                        MamDBManager.INSTANCE.setLastRequest(mamRequest);
+                        Logger.Info("MAM request for " + client.getXMPPAccount().getBareJid() + " received " + result.RESULT.COUNT + " messages in iteration " + iteration + '.');
+                    }
+                    if (result.RESULT.COMPLETE || result.RESULT.COUNT <= 0)
+                    {
+                        done = true;
+                        Logger.Info("MAM requested.");
+                    }
+                    MamDBManager.INSTANCE.setLastRequest(mamRequest);
+                }
+                else if (state == SetupState.REQUESTING_MAM)
+                {
+                    done = true;
+                    Logger.Warn("Failed to request MAM archive with: " + state);
+                }
+                ++iteration;
             }
             Continue();
+        }
+
+        private async Task<MessageResponseHelperResult<MamResult>> RequestMamWithRetry(QueryFilter filter, int numOfTries)
+        {
+            MessageResponseHelperResult<MamResult> result = await client.GENERAL_COMMAND_HELPER.requestMamAsync(filter);
+            if (result.STATE == MessageResponseHelperResultState.SUCCESS || numOfTries <= 0 || state != SetupState.REQUESTING_MAM)
+            {
+                return result;
+            }
+            return await RequestMamWithRetry(filter, --numOfTries);
         }
 
         private async Task InitOmemoAsync()

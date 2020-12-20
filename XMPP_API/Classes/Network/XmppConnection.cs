@@ -68,7 +68,7 @@ namespace XMPP_API.Classes.Network
         public readonly MUCCommandHelper MUC_COMMAND_HELPER;
         public readonly PubSubCommandHelper PUB_SUB_COMMAND_HELPER;
         public readonly OmemoCommandHelper OMEMO_COMMAND_HELPER;
-        private readonly DiscoFeatureHelper DISCO_HELPER;
+        public readonly DiscoFeatureHelper DISCO_HELPER;
 
         #endregion
         //--------------------------------------------------------Constructor:----------------------------------------------------------------\\

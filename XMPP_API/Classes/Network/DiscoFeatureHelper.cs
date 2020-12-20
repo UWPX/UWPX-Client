@@ -10,12 +10,13 @@ using XMPP_API.Classes.Network.XML.Messages.XEP_0030;
 
 namespace XMPP_API.Classes.Network
 {
-    internal class DiscoFeatureHelper
+    public class DiscoFeatureHelper
     {
         //--------------------------------------------------------Attributes:-----------------------------------------------------------------\\
         #region --Attributes--
         private readonly XmppConnection CONNECTION;
-        private delegate Task CheckDiscoFeaturesAsync(List<DiscoFeature> features);
+        private delegate Task CheckDiscoFeaturesAsync(List<DiscoFeature> features, string discoTarget);
+        private readonly Dictionary<string, HashSet<string>> DISCO_INFO_RESULT = new Dictionary<string, HashSet<string>>();
 
 
         #endregion
@@ -24,7 +25,6 @@ namespace XMPP_API.Classes.Network
         public DiscoFeatureHelper(XmppConnection connection)
         {
             CONNECTION = connection;
-            connection.ConnectionStateChanged += Connection_ConnectionStateChanged;
         }
 
         #endregion
@@ -35,30 +35,33 @@ namespace XMPP_API.Classes.Network
         #endregion
         //--------------------------------------------------------Misc Methods:---------------------------------------------------------------\\
         #region --Misc Methods (Public)--
-
-
-        #endregion
-
-        #region --Misc Methods (Private)--
-        private async Task DiscoAsync()
+        public async Task DiscoAsync()
         {
             await DiscoDomainPartAsync();
             await DiscoBareJidAsync();
         }
 
-        private Task DiscoDomainPartAsync()
+        public bool HasFeature(string feature, string discoTarget)
         {
-            return DiscoAsync(CONNECTION.account.user.domainPart, CheckDiscoFeaturesDomainPartAsync);
+            return DISCO_INFO_RESULT.ContainsKey(discoTarget) && DISCO_INFO_RESULT[discoTarget].Contains(feature);
         }
 
-        private Task DiscoBareJidAsync()
+        #endregion
+
+        #region --Misc Methods (Private)--
+        private async Task DiscoDomainPartAsync()
         {
-            return DiscoAsync(CONNECTION.account.user.getBareJid(), CheckDiscoFeaturesBareJidAsync);
+            await DiscoAsync(CONNECTION.account.user.domainPart, CheckDiscoFeaturesDomainPartAsync);
         }
 
-        private async Task DiscoAsync(string target, CheckDiscoFeaturesAsync action)
+        private async Task DiscoBareJidAsync()
         {
-            MessageResponseHelperResult<IQMessage> result = await CONNECTION.GENERAL_COMMAND_HELPER.discoAsync(target, DiscoType.INFO);
+            await DiscoAsync(CONNECTION.account.user.getBareJid(), CheckDiscoFeaturesBareJidAsync);
+        }
+
+        private async Task DiscoAsync(string discoTarget, CheckDiscoFeaturesAsync action)
+        {
+            MessageResponseHelperResult<IQMessage> result = await CONNECTION.GENERAL_COMMAND_HELPER.discoAsync(discoTarget, DiscoType.INFO);
             if (result.STATE != MessageResponseHelperResultState.SUCCESS)
             {
                 Logger.Error("Failed to perform server DISCO for '" + CONNECTION.account.getBareJid() + "' - " + result.STATE);
@@ -70,7 +73,7 @@ namespace XMPP_API.Classes.Network
             // Success:
             else if (result.RESULT is DiscoResponseMessage disco)
             {
-                await OnDiscoResponseMessage(disco, action);
+                await OnDiscoResponseMessage(disco, action, discoTarget);
                 return;
             }
             else
@@ -82,7 +85,7 @@ namespace XMPP_API.Classes.Network
             CONNECTION.account.CONNECTION_INFO.pushState = PushState.ERROR;
         }
 
-        private async Task OnDiscoResponseMessage(DiscoResponseMessage disco, CheckDiscoFeaturesAsync action)
+        private async Task OnDiscoResponseMessage(DiscoResponseMessage disco, CheckDiscoFeaturesAsync action, string discoTarget)
         {
             // Print a list of all supported features:
             if (Logger.logLevel >= LogLevel.DEBUG)
@@ -104,7 +107,7 @@ namespace XMPP_API.Classes.Network
                     break;
 
                 case DiscoType.INFO:
-                    await action(disco.FEATURES);
+                    await action(disco.FEATURES, discoTarget);
                     break;
 
                 default:
@@ -112,8 +115,10 @@ namespace XMPP_API.Classes.Network
             }
         }
 
-        private async Task CheckDiscoFeaturesDomainPartAsync(List<DiscoFeature> features)
+        private async Task CheckDiscoFeaturesDomainPartAsync(List<DiscoFeature> features, string discoTarget)
         {
+            AddFeaturesForTarget(features, discoTarget);
+
             if (CONNECTION.account.connectionConfiguration.disableMessageCarbons)
             {
                 CONNECTION.account.CONNECTION_INFO.msgCarbonsState = MessageCarbonsState.DISABLED;
@@ -121,50 +126,55 @@ namespace XMPP_API.Classes.Network
                 return;
             }
 
-            bool foundCarbons = false;
-            foreach (DiscoFeature f in features)
+            // Check if the server supports 'XEP-0280: Message Carbons':
+            bool supportsCarbons = HasFeature(Consts.XML_XEP_0280_NAMESPACE, discoTarget);
+            if (supportsCarbons)
             {
-                // Check if the server supports 'XEP-0280: Message Carbons':
-                if (!foundCarbons && string.Equals(f.VAR, Consts.XML_XEP_0280_NAMESPACE))
-                {
-                    foundCarbons = true;
-                    await CONNECTION.EnableMessageCarbonsAsync();
-                    break;
-                }
+                await CONNECTION.EnableMessageCarbonsAsync();
             }
-
-            if (!foundCarbons)
+            else
             {
                 CONNECTION.account.CONNECTION_INFO.msgCarbonsState = MessageCarbonsState.NOT_SUPPORTED;
                 Logger.Warn("Unable to enable message carbons for '" + CONNECTION.account.getBareJid() + "' - not supported by the server.");
             }
         }
 
-        private async Task CheckDiscoFeaturesBareJidAsync(List<DiscoFeature> features)
+        private void AddFeaturesForTarget(List<DiscoFeature> features, string discoTarget)
         {
-            bool foundPush = !CONNECTION.account.pushEnabled || CONNECTION.account.pushNodePublished;
+            HashSet<string> featureSet = new HashSet<string>();
+            foreach (DiscoFeature f in features)
+            {
+                featureSet.Add(f.VAR);
+            }
+            DISCO_INFO_RESULT[discoTarget] = featureSet;
+            Logger.Info("Features for " + discoTarget + " updated.");
+        }
+
+        private async Task CheckDiscoFeaturesBareJidAsync(List<DiscoFeature> features, string discoTarget)
+        {
+            AddFeaturesForTarget(features, discoTarget);
+
+
             if (!CONNECTION.account.pushEnabled)
             {
                 CONNECTION.account.CONNECTION_INFO.pushState = PushState.DISABLED;
+                Logger.Info("No need to enable push for '" + CONNECTION.account.getBareJid() + "' - disabled");
+                return;
             }
             else if (CONNECTION.account.pushNodePublished)
             {
                 CONNECTION.account.CONNECTION_INFO.pushState = PushState.ENABLED;
                 Logger.Info("No need to enable push for '" + CONNECTION.account.getBareJid() + "' - already enabled");
+                return;
             }
 
-            foreach (DiscoFeature f in features)
+            // Check if the server supports 'XEP-0357: Push Notifications':
+            bool supportsPush = HasFeature(Consts.XML_XEP_0357_NAMESPACE, discoTarget);
+            if (supportsPush)
             {
-                // Check if the server supports 'XEP-0357: Push Notifications':
-                if (!foundPush && string.Equals(f.VAR, Consts.XML_XEP_0357_NAMESPACE))
-                {
-                    foundPush = true;
-                    await CONNECTION.EnablePushNotificationsAsync();
-                    break;
-                }
+                await CONNECTION.EnablePushNotificationsAsync();
             }
-
-            if (!foundPush)
+            else
             {
                 CONNECTION.account.CONNECTION_INFO.pushState = PushState.NOT_SUPPORTED;
                 Logger.Warn("Unable to enable push notifications for '" + CONNECTION.account.getBareJid() + "' - not supported by the server.");
@@ -179,13 +189,7 @@ namespace XMPP_API.Classes.Network
         #endregion
         //--------------------------------------------------------Events:---------------------------------------------------------------------\\
         #region --Events--
-        private void Connection_ConnectionStateChanged(AbstractConnection sender, Events.ConnectionStateChangedEventArgs args)
-        {
-            if (args.newState == ConnectionState.CONNECTED)
-            {
-                _ = DiscoAsync();
-            }
-        }
+
 
         #endregion
     }
