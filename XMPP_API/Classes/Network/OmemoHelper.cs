@@ -7,6 +7,7 @@ using libsignal.state;
 using Logging;
 using XMPP_API.Classes.Crypto;
 using XMPP_API.Classes.Events;
+using XMPP_API.Classes.Network.Events;
 using XMPP_API.Classes.Network.XML.Messages;
 using XMPP_API.Classes.Network.XML.Messages.Helper;
 using XMPP_API.Classes.Network.XML.Messages.XEP_0384;
@@ -25,7 +26,7 @@ namespace XMPP_API.Classes.Network
 
         private uint tmpDeviceId;
 
-        // Keep sessions during App runtime:
+        // Keep sessions during app runtime:
         private readonly Dictionary<string, OmemoSession> OMEMO_SESSIONS;
         private readonly Dictionary<string, Tuple<List<OmemoMessageMessage>, OmemoSessionBuildHelper>> MESSAGE_CACHE;
         public readonly IOmemoStore OMEMO_STORE;
@@ -33,12 +34,6 @@ namespace XMPP_API.Classes.Network
         #endregion
         //--------------------------------------------------------Constructor:----------------------------------------------------------------\\
         #region --Constructors--
-        /// <summary>
-        /// Basic Constructor
-        /// </summary>
-        /// <history>
-        /// 06/08/2018 Created [Fabian Sauter]
-        /// </history>
         public OmemoHelper(XmppConnection connection, IOmemoStore omemoStore)
         {
             CONNECTION = connection;
@@ -62,7 +57,7 @@ namespace XMPP_API.Classes.Network
                 Logger.Debug("[OMEMO HELPER](" + CONNECTION.account.getBareJid() + ") " + oldState + " -> " + STATE);
                 if (STATE == OmemoHelperState.ERROR)
                 {
-                    CONNECTION.NewValidMessage -= CONNECTION_ConnectionNewValidMessage;
+                    CONNECTION.NewValidMessage -= OnNewValidMessage;
 
                 }
                 else if (oldState == OmemoHelperState.ERROR && STATE != OmemoHelperState.ERROR)
@@ -80,6 +75,25 @@ namespace XMPP_API.Classes.Network
         #endregion
         //--------------------------------------------------------Misc Methods:---------------------------------------------------------------\\
         #region --Misc Methods (Public)--
+        public async Task initAsync()
+        {
+            if (!CONNECTION.account.checkOmemoKeys())
+            {
+                setState(OmemoHelperState.ERROR);
+                Logger.Error("[OMEMO HELPER](" + CONNECTION.account.getBareJid() + ") Failed - no keys!");
+            }
+            else if (STATE == OmemoHelperState.DISABLED)
+            {
+                CONNECTION.ConnectionStateChanged -= OnConnectionStateChanged;
+                CONNECTION.ConnectionStateChanged += OnConnectionStateChanged;
+
+                CONNECTION.NewValidMessage -= OnNewValidMessage;
+                CONNECTION.NewValidMessage += OnNewValidMessage;
+
+                await requestDeviceListAsync();
+            }
+        }
+
         public SessionCipher loadCipher(SignalProtocolAddress address)
         {
             return new SessionCipher(OMEMO_STORE, address);
@@ -87,21 +101,7 @@ namespace XMPP_API.Classes.Network
 
         public void Dispose()
         {
-            CONNECTION.ConnectionStateChanged -= CONNECTION_ConnectionStateChanged;
-            CONNECTION.NewValidMessage -= CONNECTION_ConnectionNewValidMessage;
-        }
-
-        public void reset()
-        {
-            setState(OmemoHelperState.DISABLED);
-
-            CONNECTION.ConnectionStateChanged -= CONNECTION_ConnectionStateChanged;
-            CONNECTION.ConnectionStateChanged += CONNECTION_ConnectionStateChanged;
-
-            CONNECTION.NewValidMessage -= CONNECTION_ConnectionNewValidMessage;
-            CONNECTION.NewValidMessage += CONNECTION_ConnectionNewValidMessage;
-
-            tmpDeviceId = 0;
+            reset();
         }
 
         public SignalProtocolAddress newSession(string chatJid, OmemoBundleInformationResultMessage bundleInfoMsg)
@@ -158,6 +158,15 @@ namespace XMPP_API.Classes.Network
         #endregion
 
         #region --Misc Methods (Private)--
+        private void reset()
+        {
+            CONNECTION.ConnectionStateChanged -= OnConnectionStateChanged;
+            CONNECTION.NewValidMessage -= OnNewValidMessage;
+
+            setState(OmemoHelperState.DISABLED);
+            tmpDeviceId = 0;
+        }
+
         private async Task sendAllOutstandingMessagesAsync(OmemoSession omemoSession)
         {
             Tuple<List<OmemoMessageMessage>, OmemoSessionBuildHelper> cache = MESSAGE_CACHE[omemoSession.CHAT_JID];
@@ -352,7 +361,7 @@ namespace XMPP_API.Classes.Network
         #endregion
         //--------------------------------------------------------Events:---------------------------------------------------------------------\\
         #region --Events--
-        private async void CONNECTION_ConnectionNewValidMessage(IMessageSender sender, Events.NewValidMessageEventArgs args)
+        private async void OnNewValidMessage(IMessageSender sender, NewValidMessageEventArgs args)
         {
             if (args.MESSAGE is OmemoDeviceListEventMessage eventMsg)
             {
@@ -360,26 +369,11 @@ namespace XMPP_API.Classes.Network
             }
         }
 
-        private async void CONNECTION_ConnectionStateChanged(AbstractConnection sender, Events.ConnectionStateChangedEventArgs arg)
+        private void OnConnectionStateChanged(AbstractConnection sender, ConnectionStateChangedEventArgs arg)
         {
-            switch (arg.newState)
+            if (arg.newState != ConnectionState.CONNECTED)
             {
-                case ConnectionState.CONNECTED:
-                    if (!CONNECTION.account.checkOmemoKeys())
-                    {
-                        setState(OmemoHelperState.ERROR);
-                        Logger.Error("[OMEMO HELPER](" + CONNECTION.account.getBareJid() + ") Failed - no keys!");
-                    }
-                    else if (STATE == OmemoHelperState.DISABLED)
-                    {
-                        await requestDeviceListAsync();
-                    }
-                    break;
-
-                case ConnectionState.DISCONNECTED:
-                case ConnectionState.ERROR:
-                    reset();
-                    break;
+                reset();
             }
         }
 

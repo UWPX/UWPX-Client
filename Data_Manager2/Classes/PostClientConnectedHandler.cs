@@ -103,6 +103,7 @@ namespace Data_Manager2.Classes
                     Debug.Assert(false); // Should not happen
                     break;
             }
+            Logger.Debug("PostClientConnectedHandler for " + client.getXMPPAccount().getBareJid() + " now in state: " + state.ToString());
         }
 
         private async Task RequestBookmarksAsync()
@@ -149,6 +150,15 @@ namespace Data_Manager2.Classes
         private async Task InitOmemoAsync()
         {
             state = SetupState.INITIALISING_OMEMO_KEYS;
+            OmemoHelper omemoHelper = client.getOmemoHelper();
+            if (!(omemoHelper is null))
+            {
+                await omemoHelper.initAsync();
+            }
+            else
+            {
+                Logger.Warn("Failed to initialize OMEMO handler since it is null.");
+            }
             Continue();
         }
 
