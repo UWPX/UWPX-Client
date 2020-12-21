@@ -49,15 +49,7 @@ namespace Data_Manager2.Classes.DBTables
         #endregion
         //--------------------------------------------------------Constructor:----------------------------------------------------------------\\
         #region --Constructors--
-        /// <summary>
-        /// Basic Constructor
-        /// </summary>
-        /// <history>
-        /// 18/11/2017 Created [Fabian Sauter]
-        /// </history>
-        public ChatMessageTable()
-        {
-        }
+        public ChatMessageTable() { }
 
         public ChatMessageTable(MessageMessage msg, ChatTable chat)
         {

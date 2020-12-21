@@ -1,6 +1,4 @@
 ﻿using System.Collections.Generic;
-using System.Linq;
-using System.Reflection.Metadata.Ecma335;
 using System.Threading;
 using System.Threading.Tasks;
 using Data_Manager2.Classes;
@@ -11,6 +9,7 @@ using Data_Manager2.Classes.Toast;
 using Logging;
 using UWPX_UI_Context.Classes.DataTemplates;
 using UWPX_UI_Context.Classes.DataTemplates.Controls;
+using XMPP_API.Classes;
 using XMPP_API.Classes.Network.XML.Messages.Helper;
 using XMPP_API.Classes.Network.XML.Messages.XEP_0313;
 
@@ -65,6 +64,36 @@ namespace UWPX_UI_Context.Classes.DataContext.Controls
             MODEL.UpdateView(oldChat, newChat);
         }
 
+        private async Task<List<ChatMessageDataTemplate>> LoadMoreMessagesInTaskAsync()
+        {
+            List<ChatMessageDataTemplate> tmpMsgs;
+            if (loadedAllLocalMessages)
+            {
+                if (!mamRequested)
+                {
+                    tmpMsgs = await LoadMoreMamMessagesAsync();
+                    MODEL.HasMoreMessages = tmpMsgs.Count > 0;
+                    return tmpMsgs;
+                }
+                else
+                {
+                    tmpMsgs = new List<ChatMessageDataTemplate>();
+                }
+            }
+            else
+            {
+                tmpMsgs = LoadMoreLocalMessages();
+                loadedAllLocalMessages = tmpMsgs.Count < MAX_MESSAGES_PER_REQUEST;
+                if (tmpMsgs.Count <= 0)
+                {
+                    return await LoadMoreMessagesInTaskAsync();
+                }
+            }
+
+            MODEL.HasMoreMessages = (!loadedAllLocalMessages) || (MODEL.Chat.Chat.chatType == ChatType.MUC && !mamRequested);
+            return tmpMsgs;
+        }
+
         public Task LoadMoreMessagesAsync()
         {
             return Task.Run(async () =>
@@ -84,31 +113,7 @@ namespace UWPX_UI_Context.Classes.DataContext.Controls
 
                 loadMoreMessagesTask = Task.Run(async () =>
                 {
-                    List<ChatMessageDataTemplate> tmpMsgs;
-                    if (loadedAllLocalMessages)
-                    {
-                        if(!mamRequested)
-                        {
-                            // TODO: Replace with the actual loading MAM messages:
-                            // -----------------------------------------------
-                            // tmpMsgs = await LoadMoreMamMessagesAsync();
-                            MODEL.HasMoreMessages = false;
-                            return new List<ChatMessageDataTemplate>();
-                            // -----------------------------------------------
-                        }
-                        else
-                        {
-                            tmpMsgs = new List<ChatMessageDataTemplate>();
-                        }
-                    }
-                    else
-                    {
-                        tmpMsgs = LoadMoreLocalMessages();
-                        loadedAllLocalMessages = tmpMsgs.Count < MAX_MESSAGES_PER_REQUEST;
-                    }
-
-                    MODEL.HasMoreMessages = (!loadedAllLocalMessages)|| (MODEL.Chat.Chat.chatType == ChatType.MUC && !mamRequested);
-                    return tmpMsgs;
+                    return await LoadMoreMessagesInTaskAsync();
                 });
 
                 List<ChatMessageDataTemplate> msgs = await loadMoreMessagesTask;
@@ -129,11 +134,20 @@ namespace UWPX_UI_Context.Classes.DataContext.Controls
         private QueryFilter GenerateMamQueryFilter()
         {
             QueryFilter filter = new QueryFilter();
-            if(MODEL.CHAT_MESSAGES.Count > 0 && !string.IsNullOrEmpty(MODEL.CHAT_MESSAGES[0].Message.stableId))
+            if (MODEL.CHAT_MESSAGES.Count > 0 && !string.IsNullOrEmpty(MODEL.CHAT_MESSAGES[0].Message.stableId))
             {
-                filter.AfterId(MODEL.CHAT_MESSAGES[0].Message.stableId);
+                if (MODEL.Chat.Client.connection.DISCO_HELPER.HasFeature(Consts.XML_XEP_0313_EXTENDED_NAMESPACE, MODEL.Chat.Client.getXMPPAccount().getBareJid()))
+                {
+                    // Only extended MAM supports setting the 'after-id' property.
+                    // Reference: https://xmpp.org/extensions/xep-0313.html#support
+                    filter.BeforeId(MODEL.CHAT_MESSAGES[0].Message.stableId);
+                }
+                else
+                {
+                    filter.End(MODEL.CHAT_MESSAGES[0].Message.date);
+                }
             }
-
+            filter.With(MODEL.Chat.Chat.chatJabberId);
             return filter;
         }
 
@@ -141,8 +155,10 @@ namespace UWPX_UI_Context.Classes.DataContext.Controls
         {
             Logger.Info("Requesting MAM messages for \"" + MODEL.Chat.Chat.id + "\".");
             QueryFilter filter = GenerateMamQueryFilter();
-            MessageResponseHelperResult<MamResult> result = await MODEL.Chat.Client.GENERAL_COMMAND_HELPER.requestMamAsync(filter, MODEL.Chat.Chat.chatJabberId);
-            if(result.STATE == MessageResponseHelperResultState.SUCCESS)
+            // For MUCs ask the MUC server and for everything else ask our own server for messages:
+            string target = MODEL.Chat.Chat.chatType == ChatType.CHAT ? MODEL.Chat.Client.getXMPPAccount().getBareJid() : MODEL.Chat.Chat.chatJabberId;
+            MessageResponseHelperResult<MamResult> result = await MODEL.Chat.Client.GENERAL_COMMAND_HELPER.requestMamAsync(filter, target);
+            if (result.STATE == MessageResponseHelperResultState.SUCCESS)
             {
                 Logger.Info("Found " + result.RESULT.COUNT + " MAM messages for \"" + MODEL.Chat.Chat.id + "\".");
                 Logger.Debug("MAM result: " + result.RESULT.ToString());
