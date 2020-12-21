@@ -2,36 +2,24 @@
 using System.Text.RegularExpressions;
 using Logging;
 
-namespace XMPP_API.Classes
+namespace XMPP_API.Classes.Network.XML.Messages.XEP_0082
 {
     /// <summary>
     /// A helper class to parse the by XEP-0082 defined date and time strings
     /// https://xmpp.org/extensions/xep-0082.html
     /// </summary>
-    public class DateTimeParserHelper
+    public static class DateTimeHelper
     {
         //--------------------------------------------------------Attributes:-----------------------------------------------------------------\\
         #region --Attributes--
-        private readonly Regex DATE_REGEX;
-        private readonly Regex TIME_REGEX;
-        private readonly Regex DATE_TIME_REGEX;
+        private static readonly Regex DATE_REGEX = new Regex(@"\d{4}(-?\d{2}){2}");
+        private static readonly Regex TIME_REGEX = new Regex(@"(\d{2}:){2}\d{2}(.\d{3})?\D*");
+        private static readonly Regex DATE_TIME_REGEX = new Regex(@"\d{4}(-?\d{2}){2}T(\d{2}:){2}\d{2}(.\d{3})?\D*");
 
         #endregion
         //--------------------------------------------------------Constructor:----------------------------------------------------------------\\
         #region --Constructors--
-        /// <summary>
-        /// Basic Constructor
-        /// </summary>
-        /// <history>
-        /// 20/09/2017 Created [Fabian Sauter]
-        /// </history>
-        public DateTimeParserHelper()
-        {
-            // Regex: https://regex101.com/
-            DATE_REGEX = new Regex(@"\d{4}(-?\d{2}){2}");
-            TIME_REGEX = new Regex(@"(\d{2}:){2}\d{2}(.\d{3})?\D*");
-            DATE_TIME_REGEX = new Regex(@"\d{4}(-?\d{2}){2}T(\d{2}:){2}\d{2}(.\d{3})?\D*");
-        }
+
 
         #endregion
         //--------------------------------------------------------Set-, Get- Methods:---------------------------------------------------------\\
@@ -41,30 +29,38 @@ namespace XMPP_API.Classes
         #endregion
         //--------------------------------------------------------Misc Methods:---------------------------------------------------------------\\
         #region --Misc Methods (Public)--
-        public DateTime parse(string dateString)
+        /// <summary>
+        /// Parses the given XEP-0082 time stamp into a <see cref="DateTime"/> object.
+        /// </summary>
+        /// <param name="dateString">The time stamp to parse e.g. '1969-07-21T02:56:15Z'</param>
+        /// <returns>The parsed <see cref="DateTime"/> object or <seealso cref="DateTime.MinValue"/> in case of an error occurred.</returns>
+        public static DateTime Parse(string dateString)
         {
             if (dateString != null)
             {
                 if (DATE_TIME_REGEX.IsMatch(dateString))
                 {
-                    return parseDateTimeString(dateString);
+                    return ParseDateTimeString(dateString);
                 }
                 else if (DATE_REGEX.IsMatch(dateString))
                 {
-                    return parseDateString(dateString);
+                    return ParseDateString(dateString);
                 }
                 else if (TIME_REGEX.IsMatch(dateString))
                 {
-                    return parseTimeString(dateString, DateTime.MinValue);
+                    return ParseTimeString(dateString, DateTime.MinValue);
                 }
             }
             return DateTime.MinValue;
         }
 
-        public string toString(DateTime dateTime)
+        /// <summary>
+        /// Converts the given <see cref="DateTime"/> to a XEP-0082 time stamp.
+        /// </summary>
+        /// <returns>A XEP-0082 time stamp e.g. '1969-07-21T02:56:15Z'</returns>
+        public static string ToString(DateTime dateTime)
         {
             TimeSpan uTCoffset = TimeZoneInfo.Local.GetUtcOffset(dateTime.ToUniversalTime());
-
             dateTime = dateTime.ToUniversalTime();
             string result = dateTime.ToString("yyyy-MM-dd") + 'T' + dateTime.ToString(@"HH\:mm\:ss");
             if (uTCoffset.TotalHours == 0)
@@ -89,13 +85,13 @@ namespace XMPP_API.Classes
         #endregion
 
         #region --Misc Methods (Private)--
-        private DateTime parseDateTimeString(string dateString)
+        private static DateTime ParseDateTimeString(string dateString)
         {
             DateTime dateTime = DateTime.MinValue;
             try
             {
-                DateTime date = parseDateString(dateString.Substring(0, dateString.IndexOf('T')));
-                dateTime = parseTimeString(dateString.Substring(dateString.IndexOf('T') + 1), date);
+                DateTime date = ParseDateString(dateString.Substring(0, dateString.IndexOf('T')));
+                dateTime = ParseTimeString(dateString.Substring(dateString.IndexOf('T') + 1), date);
             }
             catch (Exception e)
             {
@@ -104,7 +100,7 @@ namespace XMPP_API.Classes
             return dateTime;
         }
 
-        private DateTime parseDateString(string dateString)
+        private static DateTime ParseDateString(string dateString)
         {
             DateTime dateTime = DateTime.MinValue;
             try
@@ -133,7 +129,7 @@ namespace XMPP_API.Classes
             return dateTime;
         }
 
-        private DateTime parseTimeString(string dateString, DateTime date)
+        private static DateTime ParseTimeString(string dateString, DateTime date)
         {
             try
             {

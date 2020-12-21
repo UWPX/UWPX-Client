@@ -2,6 +2,7 @@
 using System.Diagnostics;
 using System.Xml;
 using System.Xml.Linq;
+using XMPP_API.Classes.Network.XML.Messages.XEP_0082;
 
 namespace XMPP_API.Classes.Network.XML.Messages
 {
@@ -26,15 +27,7 @@ namespace XMPP_API.Classes.Network.XML.Messages
         #endregion
         //--------------------------------------------------------Constructor:----------------------------------------------------------------\\
         #region --Constructors--
-        /// <summary>
-        /// Basic Constructor
-        /// </summary>
-        /// <history>
-        /// 17/08/2017 Created [Fabian Sauter]
-        /// </history>
-        public MessageMessage(string from, string to, string message, string type, bool reciptRequested) : this(from, to, message, type, null, reciptRequested)
-        {
-        }
+        public MessageMessage(string from, string to, string message, string type, bool reciptRequested) : this(from, to, message, type, null, reciptRequested) { }
 
         public MessageMessage(string from, string to, string message, string type, string from_nick, bool reciptRequested) : base(from, to)
         {
@@ -114,11 +107,6 @@ namespace XMPP_API.Classes.Network.XML.Messages
         #endregion
         //--------------------------------------------------------Set-, Get- Methods:---------------------------------------------------------\\
         #region --Set-, Get- Methods--
-        public DateTime getDelay()
-        {
-            return delay;
-        }
-
         protected static string loadMessageId(XmlNode node)
         {
             // Check for a 'XEP-0359: Unique and Stable Stanza IDs' ID:
@@ -193,8 +181,7 @@ namespace XMPP_API.Classes.Network.XML.Messages
             {
                 XNamespace ns = Consts.XML_XEP_0203_NAMESPACE;
                 XElement delayNode = new XElement(ns + "delay");
-                DateTimeParserHelper parserHelper = new DateTimeParserHelper();
-                delayNode.Add(new XAttribute("stamp", parserHelper.toString(DateTime.Now)));
+                delayNode.Add(new XAttribute("stamp", DateTimeHelper.ToString(DateTime.Now)));
                 delayNode.Add(new XAttribute("from", FROM));
                 delayNode.Add("Offline Storage");
                 msgNode.Add(delay);
@@ -230,8 +217,7 @@ namespace XMPP_API.Classes.Network.XML.Messages
             XmlAttribute stamp = XMLUtils.getAttribute(delayNode, "stamp");
             if (stamp != null)
             {
-                DateTimeParserHelper parserHelper = new DateTimeParserHelper();
-                delay = parserHelper.parse(stamp.Value);
+                delay = DateTimeHelper.Parse(stamp.Value);
             }
         }
 

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Xml;
+using XMPP_API.Classes.Network.XML.Messages.XEP_0082;
 
 namespace XMPP_API.Classes.Network.XML.Messages.XEP_0363
 {
@@ -47,8 +48,7 @@ namespace XMPP_API.Classes.Network.XML.Messages.XEP_0363
                             XmlAttribute stamp = XMLUtils.getAttribute(n, "stamp");
                             if (stamp != null)
                             {
-                                DateTimeParserHelper parserHelper = new DateTimeParserHelper();
-                                RETRY_STAMP = parserHelper.parse(stamp.Value);
+                                RETRY_STAMP = DateTimeHelper.Parse(stamp.Value);
                             }
                             break;
 

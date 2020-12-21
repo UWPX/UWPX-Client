@@ -39,7 +39,7 @@ namespace Data_Manager2.Classes
         public ClientConnectionHandler(XMPPAccount account)
         {
             client = LoadAccount(account);
-            postClientConnectedHandler = new PostClientConnectedHandler(client);
+            postClientConnectedHandler = new PostClientConnectedHandler(this);
 
             // Ensure no event gets bound multiple times:
             UnsubscribeFromEvents();
@@ -129,6 +129,183 @@ namespace Data_Manager2.Classes
         public async Task ReconnectAsync()
         {
             await client.reconnectAsync();
+        }
+
+        public async Task HandleNewChatMessageAsync(MessageMessage msg)
+        {
+            // Handel MUC room subject messages:
+            if (msg is MUCRoomSubjectMessage)
+            {
+                MUCHandler.INSTANCE.onMUCRoomSubjectMessage(msg as MUCRoomSubjectMessage);
+                return;
+            }
+
+            string from = Utils.getBareJidFromFullJid(msg.getFrom());
+            string to = Utils.getBareJidFromFullJid(msg.getTo());
+            string id = msg.CC_TYPE == CarbonCopyType.SENT ? ChatTable.generateId(to, from) : ChatTable.generateId(from, to);
+
+            // Check if device id is valid and if, decrypt the OMEMO messages:
+            if (msg is OmemoMessageMessage omemoMessage)
+            {
+                OmemoHelper helper = client.getOmemoHelper();
+                if (helper is null)
+                {
+                    OnOmemoSessionBuildError(client, new OmemoSessionBuildErrorEventArgs(id, OmemoSessionBuildError.KEY_ERROR, new List<OmemoMessageMessage> { omemoMessage }));
+                    Logger.Error("Failed to decrypt OMEMO message - OmemoHelper is null");
+                    return;
+                }
+                else if (!client.getXMPPAccount().checkOmemoKeys())
+                {
+                    OnOmemoSessionBuildError(client, new OmemoSessionBuildErrorEventArgs(id, OmemoSessionBuildError.KEY_ERROR, new List<OmemoMessageMessage> { omemoMessage }));
+                    Logger.Error("Failed to decrypt OMEMO message - keys are corrupted");
+                    return;
+                }
+                else if (!await omemoMessage.decryptAsync(client.getOmemoHelper(), client.getXMPPAccount().omemoDeviceId))
+                {
+                    return;
+                }
+            }
+
+            ChatTable chat = ChatDBManager.INSTANCE.getChat(id);
+            bool chatChanged = false;
+
+            // Spam detection:
+            if (Settings.getSettingBoolean(SettingsConsts.SPAM_DETECTION_ENABLED))
+            {
+                if (Settings.getSettingBoolean(SettingsConsts.SPAM_DETECTION_FOR_ALL_CHAT_MESSAGES) || chat is null)
+                {
+                    if (SpamDBManager.INSTANCE.isSpam(msg.MESSAGE))
+                    {
+                        Logger.Warn("Received spam message from " + from);
+                        return;
+                    }
+                }
+            }
+
+            if (chat is null)
+            {
+                chatChanged = true;
+                chat = new ChatTable(from, to)
+                {
+                    lastActive = msg.delay,
+                    chatType = string.Equals(msg.TYPE, MessageMessage.TYPE_GROUPCHAT) ? ChatType.MUC : ChatType.CHAT
+                };
+            }
+
+            // Mark chat as active:
+            chat.isChatActive = true;
+
+            ChatMessageTable message = new ChatMessageTable(msg, chat);
+
+            // Handle MUC invite messages:
+            if (msg is DirectMUCInvitationMessage)
+            {
+                DirectMUCInvitationMessage inviteMessage = msg as DirectMUCInvitationMessage;
+                bool doesRoomExist = ChatDBManager.INSTANCE.doesMUCExist(ChatTable.generateId(inviteMessage.ROOM_JID, msg.getTo()));
+                bool doesOutstandingInviteExist = ChatDBManager.INSTANCE.doesOutstandingMUCInviteExist(id, inviteMessage.ROOM_JID);
+
+                if (doesRoomExist && doesOutstandingInviteExist)
+                {
+                    return;
+                }
+
+                MUCDirectInvitationTable inviteTable = new MUCDirectInvitationTable(inviteMessage, message.id);
+                ChatDBManager.INSTANCE.setMUCDirectInvitation(inviteTable);
+            }
+
+            bool isMUCMessage = string.Equals(MessageMessage.TYPE_GROUPCHAT, message.type);
+            ChatMessageTable existingMessage = ChatDBManager.INSTANCE.getChatMessageById(message.id);
+            bool doesMessageExist = existingMessage != null;
+
+            if (isMUCMessage)
+            {
+                MUCChatInfoTable mucInfo = MUCDBManager.INSTANCE.getMUCInfo(chat.id);
+                if (mucInfo != null)
+                {
+                    if (Equals(message.fromUser, mucInfo.nickname))
+                    {
+                        // Filter MUC messages that already exist:
+                        // ToDo: Allow MUC messages being edited and detect it
+                        if (doesMessageExist)
+                        {
+                            return;
+                        }
+                        else
+                        {
+                            message.state = MessageState.SEND;
+                        }
+                    }
+                    else
+                    {
+                        if (doesMessageExist)
+                        {
+                            message.state = existingMessage.state;
+                        }
+                    }
+                }
+            }
+
+            if (chat.lastActive.CompareTo(msg.delay) < 0)
+            {
+                chatChanged = true;
+                chat.lastActive = msg.delay;
+            }
+
+            if (chatChanged)
+            {
+                ChatDBManager.INSTANCE.setChat(chat, false, true);
+            }
+
+            // Send XEP-0184 (Message Delivery Receipts) reply:
+            if (msg.RECIPT_REQUESTED && id != null && !Settings.getSettingBoolean(SettingsConsts.DONT_SEND_CHAT_MESSAGE_RECEIVED_MARKERS))
+            {
+                await Task.Run(async () =>
+                {
+                    DeliveryReceiptMessage receiptMessage = new DeliveryReceiptMessage(client.getXMPPAccount().getFullJid(), from, msg.ID);
+                    await client.SendAsync(receiptMessage);
+                });
+            }
+
+            await ChatDBManager.INSTANCE.setChatMessageAsync(message, !doesMessageExist, doesMessageExist && !isMUCMessage);
+
+            // Show toast:
+            if (!doesMessageExist && !chat.muted)
+            {
+                await Task.Run(() =>
+                {
+                    try
+                    {
+                        switch (msg.TYPE)
+                        {
+                            case MessageMessage.TYPE_GROUPCHAT:
+                            case MessageMessage.TYPE_CHAT:
+                                if (!message.isCC)
+                                {
+                                    // Create toast:
+                                    if (message.isImage)
+                                    {
+                                        ToastHelper.showChatTextImageToast(message, chat);
+                                    }
+                                    else
+                                    {
+                                        ToastHelper.showChatTextToast(message, chat);
+                                    }
+
+                                    // Update badge notification count:
+                                    ToastHelper.UpdateBadgeNumber();
+                                }
+                                break;
+
+                            default:
+                                break;
+                        }
+                    }
+                    catch (Exception e)
+                    {
+                        Logger.Error("Failed to send toast notification!", e);
+                    }
+                });
+            }
         }
 
         #endregion
@@ -306,181 +483,7 @@ namespace Data_Manager2.Classes
 
         private async void OnNewChatMessage(XMPPClient client, XMPP_API.Classes.Network.Events.NewChatMessageEventArgs args)
         {
-            MessageMessage msg = args.getMessage();
-
-            // Handel MUC room subject messages:
-            if (msg is MUCRoomSubjectMessage)
-            {
-                MUCHandler.INSTANCE.onMUCRoomSubjectMessage(msg as MUCRoomSubjectMessage);
-                return;
-            }
-
-            string from = Utils.getBareJidFromFullJid(msg.getFrom());
-            string to = Utils.getBareJidFromFullJid(msg.getTo());
-            string id = msg.CC_TYPE == CarbonCopyType.SENT ? ChatTable.generateId(to, from) : ChatTable.generateId(from, to);
-
-            // Check if device id is valid and if, decrypt the OMEMO messages:
-            if (msg is OmemoMessageMessage omemoMessage)
-            {
-                OmemoHelper helper = client.getOmemoHelper();
-                if (helper is null)
-                {
-                    OnOmemoSessionBuildError(client, new OmemoSessionBuildErrorEventArgs(id, OmemoSessionBuildError.KEY_ERROR, new List<OmemoMessageMessage> { omemoMessage }));
-                    Logger.Error("Failed to decrypt OMEMO message - OmemoHelper is null");
-                    return;
-                }
-                else if (!client.getXMPPAccount().checkOmemoKeys())
-                {
-                    OnOmemoSessionBuildError(client, new OmemoSessionBuildErrorEventArgs(id, OmemoSessionBuildError.KEY_ERROR, new List<OmemoMessageMessage> { omemoMessage }));
-                    Logger.Error("Failed to decrypt OMEMO message - keys are corrupted");
-                    return;
-                }
-                else if (!await omemoMessage.decryptAsync(client.getOmemoHelper(), client.getXMPPAccount().omemoDeviceId))
-                {
-                    return;
-                }
-            }
-
-            ChatTable chat = ChatDBManager.INSTANCE.getChat(id);
-            bool chatChanged = false;
-
-            // Spam detection:
-            if (Settings.getSettingBoolean(SettingsConsts.SPAM_DETECTION_ENABLED))
-            {
-                if (Settings.getSettingBoolean(SettingsConsts.SPAM_DETECTION_FOR_ALL_CHAT_MESSAGES) || chat is null)
-                {
-                    if (SpamDBManager.INSTANCE.isSpam(msg.MESSAGE))
-                    {
-                        Logger.Warn("Received spam message from " + from);
-                        return;
-                    }
-                }
-            }
-
-            if (chat is null)
-            {
-                chatChanged = true;
-                chat = new ChatTable(from, to)
-                {
-                    lastActive = msg.getDelay(),
-                    chatType = string.Equals(msg.TYPE, MessageMessage.TYPE_GROUPCHAT) ? ChatType.MUC : ChatType.CHAT
-                };
-            }
-
-            // Mark chat as active:
-            chat.isChatActive = true;
-
-            ChatMessageTable message = new ChatMessageTable(msg, chat);
-
-            // Handle MUC invite messages:
-            if (msg is DirectMUCInvitationMessage)
-            {
-                DirectMUCInvitationMessage inviteMessage = msg as DirectMUCInvitationMessage;
-                bool doesRoomExist = ChatDBManager.INSTANCE.doesMUCExist(ChatTable.generateId(inviteMessage.ROOM_JID, msg.getTo()));
-                bool doesOutstandingInviteExist = ChatDBManager.INSTANCE.doesOutstandingMUCInviteExist(id, inviteMessage.ROOM_JID);
-
-                if (doesRoomExist && doesOutstandingInviteExist)
-                {
-                    return;
-                }
-
-                MUCDirectInvitationTable inviteTable = new MUCDirectInvitationTable(inviteMessage, message.id);
-                ChatDBManager.INSTANCE.setMUCDirectInvitation(inviteTable);
-            }
-
-            bool isMUCMessage = string.Equals(MessageMessage.TYPE_GROUPCHAT, message.type);
-            ChatMessageTable existingMessage = ChatDBManager.INSTANCE.getChatMessageById(message.id);
-            bool doesMessageExist = existingMessage != null;
-
-            if (isMUCMessage)
-            {
-                MUCChatInfoTable mucInfo = MUCDBManager.INSTANCE.getMUCInfo(chat.id);
-                if (mucInfo != null)
-                {
-                    if (Equals(message.fromUser, mucInfo.nickname))
-                    {
-                        // Filter MUC messages that already exist:
-                        // ToDo: Allow MUC messages being edited and detect it
-                        if (doesMessageExist)
-                        {
-                            return;
-                        }
-                        else
-                        {
-                            message.state = MessageState.SEND;
-                        }
-                    }
-                    else
-                    {
-                        if (doesMessageExist)
-                        {
-                            message.state = existingMessage.state;
-                        }
-                    }
-                }
-            }
-
-            if (chat.lastActive.CompareTo(msg.getDelay()) < 0)
-            {
-                chatChanged = true;
-                chat.lastActive = msg.getDelay();
-            }
-
-            if (chatChanged)
-            {
-                ChatDBManager.INSTANCE.setChat(chat, false, true);
-            }
-
-            // Send XEP-0184 (Message Delivery Receipts) reply:
-            if (msg.RECIPT_REQUESTED && id != null && !Settings.getSettingBoolean(SettingsConsts.DONT_SEND_CHAT_MESSAGE_RECEIVED_MARKERS))
-            {
-                await Task.Run(async () =>
-                {
-                    DeliveryReceiptMessage receiptMessage = new DeliveryReceiptMessage(client.getXMPPAccount().getFullJid(), from, msg.ID);
-                    await client.SendAsync(receiptMessage);
-                });
-            }
-
-            await ChatDBManager.INSTANCE.setChatMessageAsync(message, !doesMessageExist, doesMessageExist && !isMUCMessage);
-
-            // Show toast:
-            if (!doesMessageExist && !chat.muted)
-            {
-                await Task.Run(() =>
-                {
-                    try
-                    {
-                        switch (msg.TYPE)
-                        {
-                            case MessageMessage.TYPE_GROUPCHAT:
-                            case MessageMessage.TYPE_CHAT:
-                                if (!message.isCC)
-                                {
-                                    // Create toast:
-                                    if (message.isImage)
-                                    {
-                                        ToastHelper.showChatTextImageToast(message, chat);
-                                    }
-                                    else
-                                    {
-                                        ToastHelper.showChatTextToast(message, chat);
-                                    }
-
-                                    // Update badge notification count:
-                                    ToastHelper.UpdateBadgeNumber();
-                                }
-                                break;
-
-                            default:
-                                break;
-                        }
-                    }
-                    catch (Exception e)
-                    {
-                        Logger.Error("Failed to send toast notification!", e);
-                    }
-                });
-            }
+            await HandleNewChatMessageAsync(args.getMessage());
         }
 
         private async void OnNewPresence(XMPPClient client, NewPresenceMessageEventArgs args)

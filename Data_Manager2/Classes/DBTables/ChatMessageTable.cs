@@ -82,7 +82,7 @@ namespace Data_Manager2.Classes.DBTables
             chatId = chat.id;
             type = msg.TYPE;
             message = msg.MESSAGE;
-            date = msg.getDelay();
+            date = msg.delay;
             isDummyMessage = false;
             if (date.Equals(DateTime.MinValue))
             {

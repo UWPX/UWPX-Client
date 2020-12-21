@@ -133,7 +133,6 @@
     <Compile Include="Classes\Consts.cs" />
     <Compile Include="Classes\Crypto\Aes128GcmCpp.cs" />
     <Compile Include="Classes\Crypto\CryptoUtils.cs" />
-    <Compile Include="Classes\DateTimeParserHelper.cs" />
     <Compile Include="Classes\Events\NewPresenceMessageEventArgs.cs" />
     <Compile Include="Classes\Events\OmemoSessionBuildErrorEventArgs.cs" />
     <Compile Include="Classes\Exceptions\XMPPGeneralException.cs" />
@@ -295,6 +294,7 @@
     <Compile Include="Classes\Network\XML\Messages\XEP-0060\PubSubAffiliationsResultMessage.cs" />
     <Compile Include="Classes\Network\XML\Messages\XEP-0060\PubSubSubscriptionsResultMessage.cs" />
     <Compile Include="Classes\Network\XML\Messages\XEP-0060\PubSubSubscriptionState.cs" />
+    <Compile Include="Classes\Network\XML\Messages\XEP-0082\DateTimeHelper.cs" />
     <Compile Include="Classes\Network\XML\Messages\XEP-0085\ChatState.cs" />
     <Compile Include="Classes\Network\XML\Messages\XEP-0085\ChatStateMessage.cs" />
     <Compile Include="Classes\Network\XML\Messages\XEP-0184\DeliveryReceiptMessage.cs" />

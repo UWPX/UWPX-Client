@@ -1,5 +1,7 @@
-﻿using System.Xml.Linq;
+﻿using System;
+using System.Xml.Linq;
 using XMPP_API.Classes.Network.XML.Messages.XEP_0004;
+using XMPP_API.Classes.Network.XML.Messages.XEP_0082;
 
 namespace XMPP_API.Classes.Network.XML.Messages.XEP_0313
 {
@@ -35,6 +37,11 @@ namespace XMPP_API.Classes.Network.XML.Messages.XEP_0313
             form.addToXElement(node);
         }
 
+        /// <summary>
+        /// https://xmpp.org/extensions/xep-0313.html#query-limit-id
+        /// <para/>
+        /// Namespace: urn:xmpp:mam:2#extended
+        /// </summary>
         public void BeforeId(string id)
         {
             form.fields.Add(new Field()
@@ -45,6 +52,11 @@ namespace XMPP_API.Classes.Network.XML.Messages.XEP_0313
             });
         }
 
+        /// <summary>
+        /// https://xmpp.org/extensions/xep-0313.html#query-limit-id
+        /// <para/>
+        /// Namespace: urn:xmpp:mam:2#extended
+        /// </summary>
         public void AfterId(string id)
         {
             form.fields.Add(new Field()
@@ -55,6 +67,12 @@ namespace XMPP_API.Classes.Network.XML.Messages.XEP_0313
             });
         }
 
+        /// <summary>
+        /// https://xmpp.org/extensions/xep-0313.html#filter-jid
+        /// <para/>
+        /// Namespace: urn:xmpp:mam:2
+        /// </summary>
+        /// <param name="jid"></param>
         public void With(string jid)
         {
             form.fields.Add(new Field()
@@ -62,6 +80,38 @@ namespace XMPP_API.Classes.Network.XML.Messages.XEP_0313
                 var = "with",
                 type = FieldType.NONE,
                 value = jid
+            });
+        }
+
+        /// <summary>
+        /// https://xmpp.org/extensions/xep-0313.html#filter-time
+        /// <para/>
+        /// Namespace: urn:xmpp:mam:2
+        /// </summary>
+        /// <param name="date"></param>
+        public void Start(DateTime date)
+        {
+            form.fields.Add(new Field()
+            {
+                var = "start",
+                type = FieldType.NONE,
+                value = DateTimeHelper.ToString(date)
+            });
+        }
+
+        /// <summary>
+        /// https://xmpp.org/extensions/xep-0313.html#filter-time
+        /// <para/>
+        /// Namespace: urn:xmpp:mam:2
+        /// </summary>
+        /// <param name="date"></param>
+        public void End(DateTime date)
+        {
+            form.fields.Add(new Field()
+            {
+                var = "end",
+                type = FieldType.NONE,
+                value = DateTimeHelper.ToString(date)
             });
         }
 
