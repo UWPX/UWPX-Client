@@ -16,4 +16,7 @@
     <ClInclude Include="c\aes.h" />
     <ClInclude Include="c\gcm.h" />
   </ItemGroup>
+  <ItemGroup>
+    <None Include="packages.config" />
+  </ItemGroup>
 </Project>
