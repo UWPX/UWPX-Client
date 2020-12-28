@@ -18,6 +18,8 @@
 
   <ItemGroup>
     <ProjectReference Include="..\Data_Manager2\Data_Manager2.csproj" />
+    <ProjectReference Include="..\Logging\Logging.csproj" />
+    <ProjectReference Include="..\Shared\Shared.csproj" />
     <ProjectReference Include="..\XMPP_API\XMPP_API.csproj" />
   </ItemGroup>
 
