@@ -121,7 +121,8 @@
   </PropertyGroup>
   <ItemGroup>
     <Compile Include="Classes\Consts.cs" />
-    <Compile Include="Classes\DoubleRachet.cs" />
+    <Compile Include="Classes\CryptoUtils.cs" />
+    <Compile Include="Classes\DoubleRachetSession.cs" />
     <Compile Include="Classes\IdentityKey.cs" />
     <Compile Include="Classes\KeyHelper.cs" />
     <Compile Include="Classes\Keys\Bundle.cs" />
@@ -132,6 +133,9 @@
     <Compile Include="Classes\Keys\IdentityKeyPair.cs" />
     <Compile Include="Classes\Keys\PreKey.cs" />
     <Compile Include="Classes\Keys\SignedPreKey.cs" />
+    <Compile Include="Classes\Messages\OmemoAuthenticatedMessage.cs" />
+    <Compile Include="Classes\Messages\OmemoKeyExchange.cs" />
+    <Compile Include="Classes\Messages\OmemoMessage.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <EmbeddedResource Include="Properties\Omemo.rd.xml" />
   </ItemGroup>

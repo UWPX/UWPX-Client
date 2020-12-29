@@ -12,7 +12,7 @@ namespace XMPP_API.Classes.Network.XML.Messages.XEP_0384
     {
         //--------------------------------------------------------Attributes:-----------------------------------------------------------------\\
         #region --Attributes--
-        public readonly HashSet<uint> IDS;
+        public readonly HashSet<OmemoDevice> DEVICES;
 
         #endregion
         //--------------------------------------------------------Constructor:----------------------------------------------------------------\\
@@ -27,7 +27,7 @@ namespace XMPP_API.Classes.Network.XML.Messages.XEP_0384
 
         public OmemoDevices(string id)
         {
-            IDS = new HashSet<uint>();
+            DEVICES = new HashSet<OmemoDevice>();
             this.id = id;
         }
 
@@ -38,27 +38,29 @@ namespace XMPP_API.Classes.Network.XML.Messages.XEP_0384
         {
             XNamespace ns1 = Consts.XML_XEP_0384_NAMESPACE;
             XElement listNode = new XElement(ns1 + "list");
-            foreach (uint i in IDS)
+            foreach (OmemoDevice d in DEVICES)
             {
-                XElement device = new XElement(ns1 + "device");
-                device.Add(new XAttribute("id", i));
-                listNode.Add(device);
+                listNode.Add(d.toXElement(ns1));
             }
             return listNode;
         }
 
+        /// <summary>
+        /// Required for test only.
+        /// </summary>
         public uint getRandomDeviceId()
         {
-            if (IDS.Count <= 0)
+            if (DEVICES.Count <= 0)
             {
-                throw new InvalidOperationException("Failed to get random device id! Device count = " + IDS.Count);
+                throw new InvalidOperationException("Failed to get random device id! Device count = " + DEVICES.Count);
             }
             Random r = new Random();
-            return IDS.ToArray()[r.Next(0, IDS.Count)];
+            return DEVICES.ToArray()[r.Next(0, DEVICES.Count)].id;
         }
 
         /// <summary>
-        /// Sets the item id to "current". <para/>
+        /// Sets the item id to "current".
+        /// <para/>
         /// Reference: https://xmpp.org/extensions/xep-0384.html#usecases-announcing
         /// </summary>
         public void setId()
@@ -71,24 +73,25 @@ namespace XMPP_API.Classes.Network.XML.Messages.XEP_0384
         #region --Misc Methods (Public)--
         public void loadDevices(XmlNode node)
         {
+            setId();
             foreach (XmlNode itemNode in node.ChildNodes)
             {
                 if (string.Equals(itemNode.Name, "item"))
                 {
-                    id = itemNode.Attributes["id"]?.Value;
-                    XmlNode listNode = XMLUtils.getChildNode(itemNode, "list", Consts.XML_XMLNS, Consts.XML_XEP_0384_NAMESPACE);
-                    if (listNode != null)
+                    if (string.Equals(itemNode.Attributes["id"]?.Value, "current"))
                     {
-                        foreach (XmlNode device in listNode.ChildNodes)
+                        XmlNode listNode = XMLUtils.getChildNode(itemNode, "devices", Consts.XML_XMLNS, Consts.XML_XEP_0384_NAMESPACE);
+                        if (listNode != null)
                         {
-                            if (string.Equals(device.Name, "device") && device.Attributes["id"] != null)
+                            foreach (XmlNode device in listNode.ChildNodes)
                             {
-                                if (uint.TryParse(device.Attributes["id"].Value, out uint d) && d != 0)
+                                if (string.Equals(device.Name, "device") && device.Attributes["id"] != null)
                                 {
-                                    IDS.Add(d);
+                                    DEVICES.Add(new OmemoDevice(device));
                                 }
                             }
                         }
+                        return;
                     }
                 }
             }
@@ -97,9 +100,9 @@ namespace XMPP_API.Classes.Network.XML.Messages.XEP_0384
         public IList<SignalProtocolAddress> toSignalProtocolAddressList(string name)
         {
             List<SignalProtocolAddress> ret = new List<SignalProtocolAddress>();
-            foreach (uint d in IDS)
+            foreach (OmemoDevice d in DEVICES)
             {
-                ret.Add(new SignalProtocolAddress(name, d));
+                ret.Add(new SignalProtocolAddress(name, d.id));
             }
             return ret;
         }

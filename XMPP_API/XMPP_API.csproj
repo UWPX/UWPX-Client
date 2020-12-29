@@ -329,6 +329,7 @@
     <Compile Include="Classes\Network\XML\Messages\XEP-0384\IOmemoStore.cs" />
     <Compile Include="Classes\Network\XML\Messages\XEP-0384\OmemoBundleInformation.cs" />
     <Compile Include="Classes\Network\XML\Messages\XEP-0384\OmemoBundleInformationResultMessage.cs" />
+    <Compile Include="Classes\Network\XML\Messages\XEP-0384\OmemoDevice.cs" />
     <Compile Include="Classes\Network\XML\Messages\XEP-0384\OmemoDeviceListEventMessage.cs" />
     <Compile Include="Classes\Network\XML\Messages\XEP-0384\OmemoDeviceListResultMessage.cs" />
     <Compile Include="Classes\Network\XML\Messages\XEP-0384\OmemoDeviceListSubscriptionState.cs" />
@@ -354,6 +355,7 @@
     <Compile Include="Classes\Network\XML\Messages\XEP-0402\RemoveBookmarkMessage.cs" />
     <Compile Include="Classes\Network\XML\Messages\XEP-0402\RequestBookmarksMessage.cs" />
     <Compile Include="Classes\Network\XML\Messages\XEP-0313\QueryArchiveMessage.cs" />
+    <Compile Include="Classes\Network\XML\Messages\XEP-0420\EncryptedMessage.cs" />
     <Compile Include="Classes\Network\XML\Messages\XEP-IoT\ActuatorsNodeItemsResponseMessage.cs" />
     <Compile Include="Classes\Network\XML\Messages\XEP-IoT\SensorsNodeItemsResponseMessage.cs" />
     <Compile Include="Classes\Network\XML\Messages\XEP-IoT\AbstractNodeItemsResponseMessage.cs" />
@@ -408,6 +410,10 @@
     <ProjectReference Include="..\Logging\Logging.csproj">
       <Project>{0c1fb090-4492-441d-b182-c999df71f917}</Project>
       <Name>Logging</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Omemo\Omemo.csproj">
+      <Project>{e8d1b7b3-548a-4f0f-a703-48ab327b9340}</Project>
+      <Name>Omemo</Name>
     </ProjectReference>
     <ProjectReference Include="..\Shared\Shared.csproj">
       <Project>{c4af94da-11cf-4147-b5b7-4b2dc7c624a0}</Project>

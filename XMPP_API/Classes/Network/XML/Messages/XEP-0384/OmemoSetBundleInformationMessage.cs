@@ -1,4 +1,5 @@
-﻿using XMPP_API.Classes.Network.XML.Messages.XEP_0060;
+﻿using XMPP_API.Classes.Network.XML.Messages.XEP_0004;
+using XMPP_API.Classes.Network.XML.Messages.XEP_0060;
 
 namespace XMPP_API.Classes.Network.XML.Messages.XEP_0384
 {
@@ -7,21 +8,13 @@ namespace XMPP_API.Classes.Network.XML.Messages.XEP_0384
         //--------------------------------------------------------Attributes:-----------------------------------------------------------------\\
         #region --Attributes--
         public readonly OmemoBundleInformation BUNDLE_INFO;
-        public readonly uint DEVICE_ID;
 
         #endregion
         //--------------------------------------------------------Constructor:----------------------------------------------------------------\\
         #region --Constructors--
-        /// <summary>
-        /// Basic Constructor
-        /// </summary>
-        /// <history>
-        /// 06/08/2018 Created [Fabian Sauter]
-        /// </history>
-        public OmemoSetBundleInformationMessage(string from, OmemoBundleInformation bundleInfo, uint deviceid) : base(from, null, Consts.XML_XEP_0384_BUNDLE_INFO_NODE + deviceid)
+        public OmemoSetBundleInformationMessage(string from, OmemoBundleInformation bundleInfo) : base(from, null, Consts.XML_XEP_0384_BUNDLE_INFO_NODE)
         {
             BUNDLE_INFO = bundleInfo;
-            DEVICE_ID = deviceid;
         }
 
         #endregion
@@ -29,7 +22,20 @@ namespace XMPP_API.Classes.Network.XML.Messages.XEP_0384
         #region --Set-, Get- Methods--
         protected override PubSubPublishOptions getPublishOptions()
         {
-            return null;
+            PubSubPublishOptions options = PubSubPublishOptions.getDefaultPublishOptions();
+            options.OPTIONS.fields.Add(new Field()
+            {
+                var = "pubsub#access_model",
+                value = "open",
+                type = FieldType.NONE
+            });
+            options.OPTIONS.fields.Add(new Field()
+            {
+                var = "pubsub#max_items",
+                value = "max",
+                type = FieldType.NONE
+            });
+            return options;
         }
 
         protected override AbstractPubSubItem getPubSubItem()
