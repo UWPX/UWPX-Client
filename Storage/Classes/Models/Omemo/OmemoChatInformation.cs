@@ -1,6 +1,5 @@
 ﻿using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
-using Data_Manager2.Classes;
 
 namespace Storage.Classes.Models.Omemo
 {
@@ -14,15 +13,14 @@ namespace Storage.Classes.Models.Omemo
         [Key]
         public string id { get; set; }
         /// <summary>
-        /// A collection of all device list subscription states for this chat.
+        /// The device list subscription states for this chat.
         /// </summary>
-        [Required]
-        public List<OmemoDeviceListSubscription> deviceListSubscriptions { get; set; }
+        public OmemoDeviceListSubscription deviceListSubscription { get; set; }
         /// <summary>
         /// A collection of devices involved in this chat.
         /// </summary>
         [Required]
-        public List<OmemoDevice> devices { get; set; }
+        public List<OmemoDevice> devices { get; set; } = new List<OmemoDevice>();
         /// <summary>
         /// Has the OMEMO encryption been enabled for this chat.
         /// </summary>
@@ -39,9 +37,9 @@ namespace Storage.Classes.Models.Omemo
         #region --Constructors--
         public OmemoChatInformation()
         {
-            deviceListSubscriptions = new List<OmemoDeviceListSubscription>();
+            deviceListSubscription = new OmemoDeviceListSubscription();
             devices = new List<OmemoDevice>();
-            enabled = Settings.getSettingBoolean(SettingsConsts.ENABLE_OMEMO_BY_DEFAULT_FOR_NEW_CHATS);
+            enabled = Settings.GetSettingBoolean(SettingsConsts.ENABLE_OMEMO_BY_DEFAULT_FOR_NEW_CHATS);
             trustedKeysOnly = false;
         }
 

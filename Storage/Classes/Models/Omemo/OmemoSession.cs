@@ -1,11 +1,12 @@
 ﻿using System.ComponentModel.DataAnnotations;
+using Storage.Classes.Models.Account;
 
 namespace Storage.Classes.Models.Omemo
 {
     /// <summary>
     /// An established session for XEP-0384 (OMEMO Encryption).
     /// </summary>
-    public class OmemoSession
+    public class OmemoSession: AbstractAccountModel
     {
         //--------------------------------------------------------Attributes:-----------------------------------------------------------------\\
         #region --Attributes--

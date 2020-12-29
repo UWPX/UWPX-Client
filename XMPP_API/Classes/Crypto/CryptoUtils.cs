@@ -200,6 +200,33 @@ namespace XMPP_API.Classes.Crypto
             CryptographicBuffer.CopyToByteArray(buf, out b);
         }
 
+        /// <summary>
+        /// Loads a new <see cref="IdentityKeyPair"/> instance from the given key and returns it.
+        /// </summary>
+        /// <param name="key">The key to load the <see cref="IdentityKeyPair"/> from.</param>
+        public static IdentityKeyPair loadIdentityKeyPair(byte[] key)
+        {
+            return new IdentityKeyPair(key);
+        }
+
+        /// <summary>
+        /// Loads a new <see cref="SignedPreKeyRecord"/> instance from the given key and returns it.
+        /// </summary>
+        /// <param name="key">The key to load the <see cref="SignedPreKeyRecord"/> from.</param>
+        public static SignedPreKeyRecord loadSignedPreKeyRecord(byte[] key)
+        {
+            return new SignedPreKeyRecord(key);
+        }
+
+        /// <summary>
+        /// Loads a new <see cref="PreKeyRecord"/> instance from the given key and returns it.
+        /// </summary>
+        /// <param name="key">The key to load the <see cref="PreKeyRecord"/> from.</param>
+        public static PreKeyRecord loadPreKeyRecord(byte[] key)
+        {
+            return new PreKeyRecord(key);
+        }
+
         #endregion
 
         #region --Misc Methods (Private)--

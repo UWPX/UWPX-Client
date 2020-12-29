@@ -1,4 +1,6 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using System.Linq;
+using Microsoft.EntityFrameworkCore;
+using Storage.Classes.Models.Account;
 using Storage.Classes.Models.Chat;
 
 namespace Storage.Classes.Contexts
@@ -23,7 +25,14 @@ namespace Storage.Classes.Contexts
         #endregion
         //--------------------------------------------------------Misc Methods:---------------------------------------------------------------\\
         #region --Misc Methods (Public)--
-
+        public static void ResetMucSateForAccount(Account account)
+        {
+            using (ChatDbContext ctx = new ChatDbContext())
+            {
+                ctx.Chats.Where(c => c.account.id == account.id).Select(c => c.muc).ToList().ForEach(m => m.state = MucState.DISCONNECTED);
+                ctx.SaveChanges();
+            }
+        }
 
         #endregion
 
