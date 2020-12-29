@@ -1,11 +1,12 @@
 ﻿using System.ComponentModel.DataAnnotations;
+using Storage.Classes.Models.Account;
 
 namespace Storage.Classes.Models.Omemo
 {
     /// <summary>
     /// Represents a single OMEMO capable device.
     /// </summary>
-    public class OmemoDevice
+    public class OmemoDevice: AbstractAccountModel
     {
         //--------------------------------------------------------Attributes:-----------------------------------------------------------------\\
         #region --Attributes--

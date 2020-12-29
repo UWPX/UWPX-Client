@@ -1,11 +1,12 @@
 ﻿using System.ComponentModel.DataAnnotations;
+using Storage.Classes.Models.Account;
 
 namespace Storage.Classes.Models.Omemo
 {
     /// <summary>
     /// A signed pre key for XEP-0384 (OMEMO Encryption).
     /// </summary>
-    public class OmemoSignedPreKey
+    public class OmemoSignedPreKey: AbstractAccountModel
     {
         //--------------------------------------------------------Attributes:-----------------------------------------------------------------\\
         #region --Attributes--

@@ -3,7 +3,7 @@ using XMPP_API.Classes.Network.TCP;
 
 namespace Storage.Classes.Models.Account
 {
-    public class Server
+    public class Server: AbstractAccountModel
     {
         //--------------------------------------------------------Attributes:-----------------------------------------------------------------\\
         #region --Attributes--

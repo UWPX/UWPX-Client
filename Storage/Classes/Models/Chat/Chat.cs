@@ -16,12 +16,12 @@ namespace Storage.Classes.Models.Chat
         /// The bare JID of the chat/room e.g. 'coven@chat.shakespeare.lit'.
         /// </summary>
         [Required]
-        public Jid bareJid { get; set; }
+        public string bareJid { get; set; }
         /// <summary>
-        /// The account, the chat belongs to.
+        /// The bare JID of the account, the chat belongs to.
         /// </summary>
         [Required]
-        public Account account { get; set; }
+        public string accountBareJid { get; set; }
         /// <summary>
         /// Whether there are chat messages for the chat available/the chat has been started.
         /// </summary>
@@ -72,14 +72,18 @@ namespace Storage.Classes.Models.Chat
         /// Information about the state of OMEMO for this chat.
         /// </summary>
         public OmemoChatInformation omemo { get; set; }
+        /// <summary>
+        /// The optional MUC information in case <see cref="chatType"/> == <seealso cref="ChatType.MUC"/>.
+        /// </summary>
+        public MucInfo muc { get; set; }
 
         #endregion
         //--------------------------------------------------------Constructor:----------------------------------------------------------------\\
         #region --Constructors--
-        public Chat(Jid chatBareJid, Account account)
+        public Chat(string chatBareJid, Account.Account account)
         {
             bareJid = chatBareJid;
-            this.account = account;
+            accountBareJid = account.bareJid;
             isChatActive = false;
             lastActive = DateTime.Now;
             muted = false;

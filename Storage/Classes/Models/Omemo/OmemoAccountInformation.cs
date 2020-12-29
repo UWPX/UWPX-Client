@@ -1,12 +1,13 @@
 ﻿using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using Storage.Classes.Models.Account;
 
 namespace Storage.Classes.Models.Omemo
 {
     /// <summary>
     /// Information about the XEP-0384 (OMEMO Encryption) account status.
     /// </summary>
-    public class OmemoAccountInformation
+    public class OmemoAccountInformation: AbstractAccountModel
     {
         //--------------------------------------------------------Attributes:-----------------------------------------------------------------\\
         #region --Attributes--
@@ -34,23 +35,28 @@ namespace Storage.Classes.Models.Omemo
         /// <summary>
         /// The private key pair.
         /// </summary>
-        public byte[] omemoIdentityKeyPair { get; set; }
+        public byte[] identityKeyPair { get; set; }
         /// <summary>
-        /// The signed pre key.
+        /// A collection of signed pre keys.
         /// Only valid in case <see cref="keysGenerated"/> is true.
         /// </summary>
-        public OmemoSignedPreKey signedPreKey { get; set; }
+        [Required]
+        public List<OmemoSignedPreKey> signedPreKeys { get; set; } = new List<OmemoSignedPreKey>();
         /// <summary>
         /// A collection of pre keys to publish.
         /// Only valid in case <see cref="keysGenerated"/> is true.
         /// </summary>
         [Required]
-        public List<OmemoPreKey> preKeys { get; set; }
+        public List<OmemoPreKey> preKeys { get; set; } = new List<OmemoPreKey>();
         /// <summary>
         /// A collection of OMEMO capable devices.
         /// </summary>
         [Required]
-        public List<OmemoDevice> devices { get; set; }
+        public List<OmemoDevice> devices { get; set; } = new List<OmemoDevice>();
+        /// <summary>
+        /// The device list subscription states for this chat.
+        /// </summary>
+        public OmemoDeviceListSubscription deviceListSubscription { get; set; };
 
         #endregion
         //--------------------------------------------------------Constructor:----------------------------------------------------------------\\

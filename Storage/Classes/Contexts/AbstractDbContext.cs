@@ -15,8 +15,6 @@ namespace Storage.Classes.Contexts
         #region --Constructors--
         public AbstractDbContext()
         {
-            // Disable change tracking since we always manually update them and only require them read only:
-            ChangeTracker.QueryTrackingBehavior = QueryTrackingBehavior.NoTracking;
             Database.EnsureCreated();
         }
 
