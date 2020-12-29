@@ -11,15 +11,7 @@ namespace XMPP_API.Classes.Network.XML.Messages.XEP_0384
         #endregion
         //--------------------------------------------------------Constructor:----------------------------------------------------------------\\
         #region --Constructors--
-        /// <summary>
-        /// Basic Constructor
-        /// </summary>
-        /// <history>
-        /// 12/08/2018 Created [Fabian Sauter]
-        /// </history>
-        public OmemoSubscribeToDeviceListMessage(string fromFullJid, string fromBareJid, string to) : base(fromFullJid, fromBareJid, to, Consts.XML_XEP_0384_DEVICE_LIST_NODE)
-        {
-        }
+        public OmemoSubscribeToDeviceListMessage(string fromFullJid, string fromBareJid, string to) : base(fromFullJid, fromBareJid, to, Consts.XML_XEP_0384_DEVICE_LIST_NODE) { }
 
         #endregion
         //--------------------------------------------------------Set-, Get- Methods:---------------------------------------------------------\\

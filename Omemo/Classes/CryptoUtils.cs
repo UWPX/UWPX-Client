@@ -1,8 +1,9 @@
-﻿using XMPP_API.Classes.Network.XML.Messages.XEP_0060;
+﻿using Windows.Security.Cryptography;
+using Windows.Storage.Streams;
 
-namespace XMPP_API.Classes.Network.XML.Messages.XEP_0384
+namespace Omemo.Classes
 {
-    public class OmemoRequestDeviceListMessage: PubSubRequestNodeMessage
+    public static class CryptoUtils
     {
         //--------------------------------------------------------Attributes:-----------------------------------------------------------------\\
         #region --Attributes--
@@ -11,7 +12,7 @@ namespace XMPP_API.Classes.Network.XML.Messages.XEP_0384
         #endregion
         //--------------------------------------------------------Constructor:----------------------------------------------------------------\\
         #region --Constructors--
-        public OmemoRequestDeviceListMessage(string from, string to) : base(from, to, Consts.XML_XEP_0384_DEVICE_LIST_NODE, 1) { }
+
 
         #endregion
         //--------------------------------------------------------Set-, Get- Methods:---------------------------------------------------------\\
@@ -21,7 +22,13 @@ namespace XMPP_API.Classes.Network.XML.Messages.XEP_0384
         #endregion
         //--------------------------------------------------------Misc Methods:---------------------------------------------------------------\\
         #region --Misc Methods (Public)--
-
+        public static byte[] NextBytesSecureRandom(uint length)
+        {
+            byte[] bytes = new byte[length];
+            IBuffer buf = CryptographicBuffer.GenerateRandom(length);
+            CryptographicBuffer.CopyToByteArray(buf, out bytes);
+            return bytes;
+        }
 
         #endregion
 

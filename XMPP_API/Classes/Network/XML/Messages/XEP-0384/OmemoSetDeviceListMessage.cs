@@ -1,4 +1,5 @@
-﻿using XMPP_API.Classes.Network.XML.Messages.XEP_0060;
+﻿using XMPP_API.Classes.Network.XML.Messages.XEP_0004;
+using XMPP_API.Classes.Network.XML.Messages.XEP_0060;
 
 namespace XMPP_API.Classes.Network.XML.Messages.XEP_0384
 {
@@ -11,12 +12,6 @@ namespace XMPP_API.Classes.Network.XML.Messages.XEP_0384
         #endregion
         //--------------------------------------------------------Constructor:----------------------------------------------------------------\\
         #region --Constructors--
-        /// <summary>
-        /// Basic Constructor
-        /// </summary>
-        /// <history>
-        /// 04/08/2018 Created [Fabian Sauter]
-        /// </history>
         public OmemoSetDeviceListMessage(string from, OmemoDevices devices) : base(from, null, Consts.XML_XEP_0384_DEVICE_LIST_NODE)
         {
             DEVICES = devices;
@@ -27,7 +22,14 @@ namespace XMPP_API.Classes.Network.XML.Messages.XEP_0384
         #region --Set-, Get- Methods--
         protected override PubSubPublishOptions getPublishOptions()
         {
-            return null;
+            PubSubPublishOptions options = PubSubPublishOptions.getDefaultPublishOptions();
+            options.OPTIONS.fields.Add(new Field()
+            {
+                var = "pubsub#access_model",
+                value = "open",
+                type = FieldType.NONE
+            });
+            return options;
         }
 
         protected override AbstractPubSubItem getPubSubItem()

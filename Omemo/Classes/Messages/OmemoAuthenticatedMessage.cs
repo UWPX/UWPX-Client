@@ -1,17 +1,24 @@
-﻿using XMPP_API.Classes.Network.XML.Messages.XEP_0060;
+﻿using System;
 
-namespace XMPP_API.Classes.Network.XML.Messages.XEP_0384
+namespace Omemo.Classes.Messages
 {
-    public class OmemoRequestDeviceListMessage: PubSubRequestNodeMessage
+    /// <summary>
+    /// Message based on: https://xmpp.org/extensions/xep-0384.html#protobuf-schema
+    /// </summary>
+    public class OmemoAuthenticatedMessage
     {
         //--------------------------------------------------------Attributes:-----------------------------------------------------------------\\
         #region --Attributes--
-
+        public readonly byte[] mac;
+        /// <summary>
+        /// Byte-encoding of an <see cref="OmemoMessage"/>.
+        /// </summary>
+        public readonly byte[] message;
 
         #endregion
         //--------------------------------------------------------Constructor:----------------------------------------------------------------\\
         #region --Constructors--
-        public OmemoRequestDeviceListMessage(string from, string to) : base(from, to, Consts.XML_XEP_0384_DEVICE_LIST_NODE, 1) { }
+
 
         #endregion
         //--------------------------------------------------------Set-, Get- Methods:---------------------------------------------------------\\
@@ -21,7 +28,13 @@ namespace XMPP_API.Classes.Network.XML.Messages.XEP_0384
         #endregion
         //--------------------------------------------------------Misc Methods:---------------------------------------------------------------\\
         #region --Misc Methods (Public)--
-
+        public byte[] ToByteArray()
+        {
+            byte[] result = new byte[mac.Length + message.Length];
+            Buffer.BlockCopy(mac, 0, result, 0, mac.Length);
+            Buffer.BlockCopy(message, 0, result, mac.Length, message.Length);
+            return result;
+        }
 
         #endregion
 

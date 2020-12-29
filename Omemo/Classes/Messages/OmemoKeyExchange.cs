@@ -1,32 +1,31 @@
 ﻿using System;
-using System.Collections.Generic;
 
-namespace Omemo.Classes.Keys
+namespace Omemo.Classes.Messages
 {
-    public class Bundle
+    /// <summary>
+    /// Message based on: https://xmpp.org/extensions/xep-0384.html#protobuf-schema
+    /// </summary>
+    public class OmemoKeyExchange
     {
         //--------------------------------------------------------Attributes:-----------------------------------------------------------------\\
         #region --Attributes--
         /// <summary>
-        /// The public part of the signed PreKey.
+        /// PreKey id.
         /// </summary>
-        public ECPubKey signedPreKey;
+        public readonly uint pkId;
         /// <summary>
-        /// The id of the signed PreKey.
+        /// Signed PreKey id.
         /// </summary>
-        public uint signedPreKeyId;
+        public readonly uint spkId;
         /// <summary>
-        /// The signature of the signed PreKey.
+        /// Pubic key part of the identity key.
         /// </summary>
-        public byte[] preKeySignature;
+        public readonly byte[] ik;
         /// <summary>
-        /// The public part of the identity key.
+        /// Ephemeral key pair used by the X3DH key agreement.
         /// </summary>
-        public ECPubKey identityKey;
-        /// <summary>
-        /// A collection of public parts of the <see cref="PreKey"/>s and their ID.
-        /// </summary>
-        public List<Tuple<ECPubKey, uint>> preKeys = new List<Tuple<ECPubKey, uint>>();
+        public readonly byte[] ek;
+        public readonly OmemoAuthenticatedMessage message;
 
         #endregion
         //--------------------------------------------------------Constructor:----------------------------------------------------------------\\
@@ -41,10 +40,16 @@ namespace Omemo.Classes.Keys
         #endregion
         //--------------------------------------------------------Misc Methods:---------------------------------------------------------------\\
         #region --Misc Methods (Public)--
-        public Tuple<ECPubKey, uint> getRandomPreKey()
+        public byte[] ToByteArray()
         {
-            Random r = new Random();
-            return preKeys[r.Next(0, preKeys.Count)];
+            byte[] msg = message.ToByteArray();
+            byte[] result = new byte[4 + 4 + ik.Length + ek.Length + msg.Length];
+            Buffer.BlockCopy(BitConverter.GetBytes(pkId), 0, result, 0, 4);
+            Buffer.BlockCopy(BitConverter.GetBytes(spkId), 0, result, 4, 4);
+            Buffer.BlockCopy(ik, 0, result, 8, ik.Length);
+            Buffer.BlockCopy(ek, 0, result, 8 + ik.Length, ek.Length);
+            Buffer.BlockCopy(msg, 0, result, 8 + ik.Length + ek.Length, msg.Length);
+            return result;
         }
 
         #endregion
