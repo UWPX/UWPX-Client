@@ -98,5 +98,8 @@ namespace XMPP_API.Classes
         public const string XML_XEP_0297_NAMESPACE = "urn:xmpp:forward:0";
         // XEP-0059 (Result Set Management)
         public const string XML_XEP_0059_NAMESPACE = "http://jabber.org/protocol/rsm";
+        // XEP-0420 (Stanza Content Encryption)
+        public const string XML_XEP_0420_NAMESPACE = "urn:xmpp:sce:0";
+
     }
 }

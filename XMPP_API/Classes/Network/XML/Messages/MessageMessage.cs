@@ -176,7 +176,8 @@ namespace XMPP_API.Classes.Network.XML.Messages
 
             if (includeBody && MESSAGE != null)
             {
-                msgNode.Add(new XElement("body", MESSAGE));
+                XNamespace bodyNs = Consts.XML_CLIENT;
+                msgNode.Add(new XElement(bodyNs + "body", MESSAGE));
             }
 
             // XEP-0359 (Unique and Stable Stanza IDs):

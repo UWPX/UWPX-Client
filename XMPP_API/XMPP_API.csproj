@@ -334,8 +334,10 @@
     <Compile Include="Classes\Network\XML\Messages\XEP-0384\OmemoDeviceListResultMessage.cs" />
     <Compile Include="Classes\Network\XML\Messages\XEP-0384\OmemoDeviceListSubscriptionState.cs" />
     <Compile Include="Classes\Network\XML\Messages\XEP-0384\OmemoDevices.cs" />
+    <Compile Include="Classes\Network\XML\Messages\XEP-0384\OmemoEncryptedMessage.cs" />
     <Compile Include="Classes\Network\XML\Messages\XEP-0384\OmemoFingerprint.cs" />
     <Compile Include="Classes\Network\XML\Messages\XEP-0384\OmemoKey.cs" />
+    <Compile Include="Classes\Network\XML\Messages\XEP-0384\OmemoKeys.cs" />
     <Compile Include="Classes\Network\XML\Messages\XEP-0384\OmemoMessageMessage.cs" />
     <Compile Include="Classes\Network\XML\Messages\XEP-0384\OmemoRequestBundleInformationMessage.cs" />
     <Compile Include="Classes\Network\XML\Messages\XEP-0384\OmemoRequestDeviceListMessage.cs" />

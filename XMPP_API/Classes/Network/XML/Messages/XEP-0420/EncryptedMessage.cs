@@ -1,5 +1,7 @@
 ﻿using System;
+using System.Linq;
 using System.Xml;
+using System.Xml.Linq;
 using Logging;
 
 namespace XMPP_API.Classes.Network.XML.Messages.XEP_0420
@@ -8,10 +10,9 @@ namespace XMPP_API.Classes.Network.XML.Messages.XEP_0420
     {
         //--------------------------------------------------------Attributes:-----------------------------------------------------------------\\
         #region --Attributes--
-        public readonly uint PADDING_LENGTH;
-        public readonly DateTime TIME_STAMP;
         public readonly string REF_TO;
         public readonly string REF_FROM;
+        public DateTime timeStamp;
 
         #endregion
         //--------------------------------------------------------Constructor:----------------------------------------------------------------\\
@@ -50,7 +51,7 @@ namespace XMPP_API.Classes.Network.XML.Messages.XEP_0420
 
             if (!ValidateTimeStamp())
             {
-                Logger.Error("Time stamp validation of an encrypted message failed: " + TIME_STAMP.ToString());
+                Logger.Error("Time stamp validation of an encrypted message failed: " + timeStamp.ToString());
                 return false;
             }
 
@@ -65,16 +66,40 @@ namespace XMPP_API.Classes.Network.XML.Messages.XEP_0420
             return true;
         }
 
+        /// <summary>
+        /// Generates a random 
+        /// </summary>
+        /// <param name="length"></param>
+        /// <param name="r"></param>
+        /// <returns></returns>
+        private string randomString(uint length, Random r)
+        {
+            const string chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
+            return new string(Enumerable.Repeat(chars, (int)length).Select(s => s[r.Next(s.Length)]).ToArray());
+        }
         #endregion
 
         #region --Misc Methods (Protected)--
-
-
-        #endregion
-        //--------------------------------------------------------Events:---------------------------------------------------------------------\\
-        #region --Events--
-
-
-        #endregion
+        /// <summary>
+        /// Generates the padding element and returns it. Uses a random amount of characters for padding between the given min and max.
+        /// <para/>
+        /// It is suggested to use a value >0 and <200 as padding.
+        /// </summary>
+        /// <param name="minPadding">The inclusive lower bound.</param>
+        /// <param name="maxPadding">The exclusive upper bound.</param>
+        /// <param name="ns">The namespace the element should be added to.</param>
+        protected XElement generatePaddingNode(uint minPadding, uint maxPadding, XNamespace ns)
+        {
+            Random r = new Random();
+            return new XElement(ns + "rpad", randomString((uint)r.Next((int)minPadding, (int)maxPadding), r));
+        }
     }
+
+    #endregion
+    //--------------------------------------------------------Events:---------------------------------------------------------------------\\
+    #region --Events--
+
+
+    #endregion
+}
 }
