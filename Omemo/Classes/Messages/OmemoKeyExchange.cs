@@ -5,7 +5,7 @@ namespace Omemo.Classes.Messages
     /// <summary>
     /// Message based on: https://xmpp.org/extensions/xep-0384.html#protobuf-schema
     /// </summary>
-    public class OmemoKeyExchange
+    public class OmemoKeyExchange: IOmemoMessage
     {
         //--------------------------------------------------------Attributes:-----------------------------------------------------------------\\
         #region --Attributes--
@@ -18,7 +18,7 @@ namespace Omemo.Classes.Messages
         /// </summary>
         public readonly uint spkId;
         /// <summary>
-        /// Pubic key part of the identity key.
+        /// Public key part of the identity key.
         /// </summary>
         public readonly byte[] ik;
         /// <summary>

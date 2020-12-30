@@ -1,27 +1,36 @@
-﻿using System;
+﻿using System.Collections.Generic;
+using System.Xml;
+using System.Xml.Linq;
 
-namespace Omemo.Classes.Messages
+namespace XMPP_API.Classes.Network.XML.Messages.XEP_0384
 {
-    /// <summary>
-    /// Message based on: https://xmpp.org/extensions/xep-0384.html#protobuf-schema
-    /// </summary>
-    public class OmemoAuthenticatedMessage: IOmemoMessage
+    public class OmemoKeys: IXElementable
     {
         //--------------------------------------------------------Attributes:-----------------------------------------------------------------\\
         #region --Attributes--
-        /// <summary>
-        /// The HMAC of the message.
-        /// </summary>
-        public readonly byte[] mac;
-        /// <summary>
-        /// Byte-encoding of an <see cref="OmemoMessage"/>.
-        /// </summary>
-        public readonly byte[] message;
+        public readonly List<OmemoKey> KEYS = new List<OmemoKey>();
+        public readonly string BARE_JID;
 
         #endregion
         //--------------------------------------------------------Constructor:----------------------------------------------------------------\\
         #region --Constructors--
+        public OmemoKeys(List<OmemoKey> keys, string bareJid)
+        {
+            KEYS = keys;
+            BARE_JID = bareJid;
+        }
 
+        public OmemoKeys(XmlNode node)
+        {
+            BARE_JID = node.Attributes["jid"]?.Value;
+            foreach (XmlNode keyNode in node.ChildNodes)
+            {
+                if (string.Equals(keyNode.Name, "key"))
+                {
+                    KEYS.Add(new OmemoKey(keyNode));
+                }
+            }
+        }
 
         #endregion
         //--------------------------------------------------------Set-, Get- Methods:---------------------------------------------------------\\
@@ -31,12 +40,15 @@ namespace Omemo.Classes.Messages
         #endregion
         //--------------------------------------------------------Misc Methods:---------------------------------------------------------------\\
         #region --Misc Methods (Public)--
-        public byte[] ToByteArray()
+        public XElement toXElement(XNamespace ns)
         {
-            byte[] result = new byte[mac.Length + message.Length];
-            Buffer.BlockCopy(mac, 0, result, 0, mac.Length);
-            Buffer.BlockCopy(message, 0, result, mac.Length, message.Length);
-            return result;
+            XElement keysNode = new XElement("keys");
+            keysNode.Add(new XAttribute("jid", BARE_JID));
+            foreach (OmemoKey key in KEYS)
+            {
+                keysNode.Add(key.toXElement(ns));
+            }
+            return keysNode;
         }
 
         #endregion

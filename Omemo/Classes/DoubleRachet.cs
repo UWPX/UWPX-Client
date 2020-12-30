@@ -1,39 +1,51 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
 using System.Security.Cryptography;
 using System.Text;
+using Omemo.Classes.Keys;
+using Omemo.Classes.Messages;
 using Org.BouncyCastle.Crypto.Digests;
 using Org.BouncyCastle.Crypto.Generators;
 using Org.BouncyCastle.Crypto.Parameters;
 
 namespace Omemo.Classes
 {
-    public class DoubleRachetSession
+    public class DoubleRachet
     {
         //--------------------------------------------------------Attributes:-----------------------------------------------------------------\\
         #region --Attributes--
-
+        private readonly IdentityKeyPair SENDER_IDENTITY_KEY;
+        private readonly OmemoSession SESSION;
 
         #endregion
         //--------------------------------------------------------Constructor:----------------------------------------------------------------\\
         #region --Constructors--
-
+        public DoubleRachet(OmemoSession session)
+        {
+            SESSION = session;
+        }
 
         #endregion
         //--------------------------------------------------------Set-, Get- Methods:---------------------------------------------------------\\
         #region --Set-, Get- Methods--
-
+        /// <summary>
+        /// Generates the associated data (ad) by concatenating the senders and receivers public identity keys.
+        /// </summary>
+        /// <param name="receiverIdentityKey">The receivers public identity key.</param>
+        public byte[] GetAssociatedData(ECPubKey receiverIdentityKey)
+        {
+            byte[] ad = new byte[SENDER_IDENTITY_KEY.pubKey.key.Length + receiverIdentityKey.key.Length];
+            Buffer.BlockCopy(SENDER_IDENTITY_KEY.pubKey.key, 0, ad, 0, SENDER_IDENTITY_KEY.pubKey.key.Length);
+            Buffer.BlockCopy(receiverIdentityKey.key, 0, ad, SENDER_IDENTITY_KEY.pubKey.key.Length, receiverIdentityKey.key.Length);
+            return ad;
+        }
 
         #endregion
         //--------------------------------------------------------Misc Methods:---------------------------------------------------------------\\
         #region --Misc Methods (Public)--
-        public void EncryptMessasge(string msg)
-        {
-            EncryptMessasge(Encoding.UTF8.GetBytes(msg));
-        }
-
-        public void EncryptMessasge(byte[] msg)
+        public List<IOmemoMessage> EncryptMessasge(byte[] msg, List<> devices)
         {
             byte[] key = GenerateKey();
             byte[] hkdfOutput = HkdfSha256(key);
@@ -42,6 +54,10 @@ namespace Omemo.Classes
             byte[] hmac = HmacSha256(authKey, cipherText);
             hmac = Truncate(hmac, 16);
             byte[] keyHmac = Concat(key, hmac);
+
+            List<IOmemoMessage> msgs = new List<IOmemoMessage>();
+
+            return msgs;
 
             // TODO: Encrypt for each device
             // EncryptForDevice(key, keyHmac, Encode(IK_A) || Encode(IK_B));
@@ -53,7 +69,7 @@ namespace Omemo.Classes
         /// <param name="msgKey">The key used for encrypting the actual message.</param>
         /// <param name="plaintext">The key, HMAC concatenation result.</param>
         /// <param name="assData">Encode(IK_A) || Encode(IK_B) => Concatenation of Alices and Bobs public part of their identity key.</param>
-        public void EncryptForDevice(byte[] msgKey, byte[] plainText, byte[] assData)
+        public IOmemoMessage EncryptForDevice(byte[] msgKey, byte[] plainText, byte[] assData)
         {
             byte[] hkdfOutput = HkdfSha256(msgKey);
             SplitKey(hkdfOutput, out byte[] encKey, out byte[] authKey, out byte[] iv);

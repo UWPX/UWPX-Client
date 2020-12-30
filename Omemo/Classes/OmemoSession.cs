@@ -1,17 +1,26 @@
-﻿using curve25519;
-
-namespace Omemo.Classes
+﻿namespace Omemo.Classes
 {
-    public class IdentityKey
+    public class OmemoSession
     {
         //--------------------------------------------------------Attributes:-----------------------------------------------------------------\\
         #region --Attributes--
+        public readonly DoubleRachet RACHET;
+
+        // State variables:
 
 
         #endregion
         //--------------------------------------------------------Constructor:----------------------------------------------------------------\\
         #region --Constructors--
+        public OmemoSession()
+        {
+            RACHET = new DoubleRachet(this);
+        }
 
+        public OmemoSession(byte[] data)
+        {
+
+        }
 
         #endregion
         //--------------------------------------------------------Set-, Get- Methods:---------------------------------------------------------\\
@@ -21,10 +30,9 @@ namespace Omemo.Classes
         #endregion
         //--------------------------------------------------------Misc Methods:---------------------------------------------------------------\\
         #region --Misc Methods (Public)--
-        public static IdentityKey GenerateNew()
+        public byte[] Serialize()
         {
-            Curve25519Native curve = new Curve25519Native();
-            curve.generatePrivateKey();
+
         }
 
         #endregion

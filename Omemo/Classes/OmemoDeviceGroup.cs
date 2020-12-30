@@ -1,27 +1,25 @@
-﻿using System;
+﻿using System.Collections.Generic;
 
-namespace Omemo.Classes.Messages
+namespace Omemo.Classes
 {
     /// <summary>
-    /// Message based on: https://xmpp.org/extensions/xep-0384.html#protobuf-schema
+    /// Represents a group of OMEMO capable devices, owned by the same owner.
     /// </summary>
-    public class OmemoAuthenticatedMessage: IOmemoMessage
+    public class OmemoDeviceGroup
     {
         //--------------------------------------------------------Attributes:-----------------------------------------------------------------\\
         #region --Attributes--
-        /// <summary>
-        /// The HMAC of the message.
-        /// </summary>
-        public readonly byte[] mac;
-        /// <summary>
-        /// Byte-encoding of an <see cref="OmemoMessage"/>.
-        /// </summary>
-        public readonly byte[] message;
+        public readonly string BARE_JID;
+        public readonly List<uint> DEVICE_IDS;
 
         #endregion
         //--------------------------------------------------------Constructor:----------------------------------------------------------------\\
         #region --Constructors--
-
+        public OmemoDeviceGroup(string bareJid, List<uint> deviceIds)
+        {
+            BARE_JID = bareJid;
+            DEVICE_IDS = deviceIds;
+        }
 
         #endregion
         //--------------------------------------------------------Set-, Get- Methods:---------------------------------------------------------\\
@@ -31,13 +29,7 @@ namespace Omemo.Classes.Messages
         #endregion
         //--------------------------------------------------------Misc Methods:---------------------------------------------------------------\\
         #region --Misc Methods (Public)--
-        public byte[] ToByteArray()
-        {
-            byte[] result = new byte[mac.Length + message.Length];
-            Buffer.BlockCopy(mac, 0, result, 0, mac.Length);
-            Buffer.BlockCopy(message, 0, result, mac.Length, message.Length);
-            return result;
-        }
+
 
         #endregion
 

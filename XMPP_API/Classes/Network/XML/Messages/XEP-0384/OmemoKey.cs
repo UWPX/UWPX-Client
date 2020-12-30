@@ -7,33 +7,29 @@ namespace XMPP_API.Classes.Network.XML.Messages.XEP_0384
     {
         //--------------------------------------------------------Attributes:-----------------------------------------------------------------\\
         #region --Attributes--
-        public readonly uint REMOTE_DEVICE_ID;
-        public readonly bool IS_PRE_KEY;
-        public readonly string BASE_64_KEY;
+        public readonly uint DEVICE_ID;
+        public readonly bool KEY_EXCHANGE = false;
+        public readonly string BASE64_PAYLOAD;
+
 
         #endregion
         //--------------------------------------------------------Constructor:----------------------------------------------------------------\\
         #region --Constructors--
-        /// <summary>
-        /// Basic Constructor
-        /// </summary>
-        /// <history>
-        /// 12/08/2018 Created [Fabian Sauter]
-        /// </history>
-        public OmemoKey(uint remoteDeviceId, bool isPreKey, string base64Key)
+        public OmemoKey(uint deviceId, bool keyEchange, string base64Payload)
         {
-            REMOTE_DEVICE_ID = remoteDeviceId;
-            IS_PRE_KEY = isPreKey;
-            BASE_64_KEY = base64Key;
+            DEVICE_ID = deviceId;
+            KEY_EXCHANGE = keyEchange;
+            BASE64_PAYLOAD = base64Payload;
         }
 
         public OmemoKey(XmlNode node)
         {
-            BASE_64_KEY = node.InnerText;
-            XmlAttribute isPreKeyAtt = node.Attributes["prekey"];
-            IS_PRE_KEY = isPreKeyAtt != null && XMLUtils.tryParseToBool(isPreKeyAtt.Value);
-            uint.TryParse(node.Attributes["rid"].Value, out uint rid);
-            REMOTE_DEVICE_ID = rid;
+            BASE64_PAYLOAD = node.Value;
+            KEY_EXCHANGE = XMLUtils.tryParseToBool(node.Attributes["kex"]?.Value);
+            if (uint.TryParse(node.Attributes["rid"]?.Value, out uint rid))
+            {
+                DEVICE_ID = rid;
+            }
         }
 
         #endregion
@@ -46,16 +42,12 @@ namespace XMPP_API.Classes.Network.XML.Messages.XEP_0384
         #region --Misc Methods (Public)--
         public XElement toXElement(XNamespace ns)
         {
-            XElement keyNode = new XElement(ns + "key")
+            XElement keyNode = new XElement("key", BASE64_PAYLOAD);
+            keyNode.Add(new XAttribute("rid", DEVICE_ID));
+            if (KEY_EXCHANGE)
             {
-                Value = BASE_64_KEY
-            };
-            keyNode.Add(new XAttribute("rid", REMOTE_DEVICE_ID));
-            if (IS_PRE_KEY)
-            {
-                keyNode.Add(new XAttribute("prekey", true));
+                keyNode.Add(new XAttribute("kex", KEY_EXCHANGE));
             }
-
             return keyNode;
         }
 
