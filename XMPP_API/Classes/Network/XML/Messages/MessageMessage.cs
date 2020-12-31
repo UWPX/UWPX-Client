@@ -119,6 +119,16 @@ namespace XMPP_API.Classes.Network.XML.Messages
                     return sId;
                 }
             }
+            // Fall back to an 'origin-id' node:
+            XmlNode originIdNode = XMLUtils.getChildNode(node, "origin-id", Consts.XML_XMLNS, Consts.XML_XEP_0359_NAMESPACE);
+            if (!(originIdNode is null))
+            {
+                string oId = originIdNode.Attributes["id"]?.Value;
+                if (!(oId is null))
+                {
+                    return oId;
+                }
+            }
 
             // Check for a MAM-ID in the archived node:
             XmlNode archivedNode = XMLUtils.getChildNode(node, "archived", Consts.XML_XMLNS, Consts.XML_XEP_0313_TMP_NAMESPACE);
