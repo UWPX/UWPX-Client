@@ -4,6 +4,7 @@ using System.Diagnostics;
 using System.IO;
 using System.Security.Cryptography;
 using System.Text;
+using Chaos.NaCl;
 using Omemo.Classes.Keys;
 using Omemo.Classes.Messages;
 using Org.BouncyCastle.Crypto.Digests;
@@ -45,10 +46,11 @@ namespace Omemo.Classes
         #endregion
         //--------------------------------------------------------Misc Methods:---------------------------------------------------------------\\
         #region --Misc Methods (Public)--
-        public List<IOmemoMessage> EncryptMessasge(byte[] msg, List<> devices)
+        public List<IOmemoMessage> EncryptMessasge(byte[] msg, List<OmemoKeys> devices)
         {
             byte[] key = GenerateKey();
-            byte[] hkdfOutput = HkdfSha256(key);
+            // 32 byte (256 bit) of salt. Initialized with 0s.
+            byte[] hkdfOutput = HkdfSha256(key, new byte[32], "OMEMO Payload");
             SplitKey(hkdfOutput, out byte[] encKey, out byte[] authKey, out byte[] iv);
             byte[] cipherText = Aes256CbcEncrypt(encKey, iv, msg);
             byte[] hmac = HmacSha256(authKey, cipherText);
@@ -67,13 +69,31 @@ namespace Omemo.Classes
         /// Encrypts the given plain text with 
         /// </summary>
         /// <param name="msgKey">The key used for encrypting the actual message.</param>
-        /// <param name="plaintext">The key, HMAC concatenation result.</param>
+        /// <param name="plainText">The key, HMAC concatenation result.</param>
         /// <param name="assData">Encode(IK_A) || Encode(IK_B) => Concatenation of Alices and Bobs public part of their identity key.</param>
-        public IOmemoMessage EncryptForDevice(byte[] msgKey, byte[] plainText, byte[] assData)
+        private IOmemoMessage EncryptForDevice(byte[] msgKey, byte[] plainText, byte[] assData)
         {
-            byte[] hkdfOutput = HkdfSha256(msgKey);
+            // 32 byte (256 bit) of salt. Initialized with 0s.
+            byte[] hkdfOutput = HkdfSha256(msgKey, new byte[32], "OMEMO Message Key Material");
             SplitKey(hkdfOutput, out byte[] encKey, out byte[] authKey, out byte[] iv);
-            byte[] ciphertext = Aes256CbcEncrypt(encKey, iv, plainText);
+            OmemoMessage omemoMessage = new OmemoMessage(0, 0, SESSION.EPHEMERAL_KEY_PAIR.pubKey.key)
+            {
+                cipherText = Aes256CbcEncrypt(encKey, iv, plainText)
+            };
+            byte[] omemoMessageBytes = omemoMessage.ToByteArray();
+            byte[] hmacInput = Concat(assData, omemoMessageBytes);
+            byte[] hmacResult = HmacSha256(authKey, hmacInput);
+            byte[] hmacTruncated = Truncate(hmacResult, 16);
+            return new OmemoAuthenticatedMessage(hmacTruncated, omemoMessageBytes);
+        }
+
+        public IOmemoMessage EncryptForDevice(byte[] plainText, ECPubKey receiverIdentityKey)
+        {
+            byte[] sharedSecret = SharedSecret(SENDER_IDENTITY_KEY.privKey, receiverIdentityKey);
+            byte[] sharedSecretEmph = SharedSecret(SESSION.EPHEMERAL_KEY_PAIR.privKey, receiverIdentityKey);
+            byte[] msgKey = HkdfSha256(sharedSecret, sharedSecretEmph, "OMEMO Root Chain");
+            byte[] assData = GetAssociatedData(receiverIdentityKey);
+            return EncryptForDevice(msgKey, plainText, assData);
         }
 
         #endregion
@@ -122,13 +142,11 @@ namespace Omemo.Classes
         /// Performs HKDF-SHA-256 on the given data and returns 80 bytes.
         /// </summary>
         /// <param name="data">The data HKDF-SHA-256 should be performed on.</param>
-        private byte[] HkdfSha256(byte[] data)
+        private byte[] HkdfSha256(byte[] data, byte[] salt, string info)
         {
             HkdfBytesGenerator generator = new HkdfBytesGenerator(new Sha256Digest());
-            // 32 byte (256 bit) of salt. Initialized with 0s.
-            byte[] salt = new byte[32];
-            byte[] info = Encoding.ASCII.GetBytes("OMEMO Payload");
-            generator.Init(new HkdfParameters(data, salt, info));
+            byte[] infoBytes = Encoding.ASCII.GetBytes(info);
+            generator.Init(new HkdfParameters(data, salt, infoBytes));
 
             byte[] result = new byte[80];
             generator.GenerateBytes(result, 0, result.Length);
@@ -190,6 +208,18 @@ namespace Omemo.Classes
             Buffer.BlockCopy(a, 0, result, 0, a.Length);
             Buffer.BlockCopy(b, 0, result, a.Length, b.Length);
             return result;
+        }
+
+        /// <summary>
+        /// Generates the shared secret between two Ed25519 public keys and returns it. 
+        /// </summary>
+        /// <param name="a">An Ed25519 private key.</param>
+        /// <param name="b">An Ed25519 public key.</param>
+        private byte[] SharedSecret(ECPrivKey a, ECPubKey b)
+        {
+#pragma warning disable CS0618 // Type or member is obsolete but can be ignored here since this function just needs more testing.
+            return Ed25519.KeyExchange(b.key, a.key);
+#pragma warning restore CS0618 // Type or member is obsolete but can be ignored here since this function just needs more testing.
         }
 
         #endregion

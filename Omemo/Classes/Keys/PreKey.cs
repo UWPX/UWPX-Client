@@ -1,4 +1,4 @@
-﻿using Org.BouncyCastle.Math.EC.Rfc8032;
+﻿using Chaos.NaCl;
 
 namespace Omemo.Classes.Keys
 {
@@ -25,13 +25,11 @@ namespace Omemo.Classes.Keys
         //--------------------------------------------------------Misc Methods:---------------------------------------------------------------\\
         #region --Misc Methods (Public)--
         /// <summary>
-        /// Signes the public key with the private key and the returns the signature of it.
+        /// Signes the public key with the private key and the returns the signature.
         /// </summary>
         public byte[] GenerateSignature()
         {
-            byte[] sig = new byte[Ed25519.SignatureSize];
-            Ed25519.Sign(privKey.key, 0, pubKey.key, 0, (int)Consts.ED25519_KEY_SIZE_IN_BYTES, sig, 0);
-            return sig;
+            return Ed25519.Sign(pubKey.key, privKey.key);
         }
 
         #endregion

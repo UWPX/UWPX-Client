@@ -18,10 +18,10 @@ namespace Omemo.Classes.Messages
         /// </summary>
         public readonly uint PN;
         /// <summary>
-        /// The sender public key.
+        /// The sender public Ephemeral key.
         /// </summary>
         public readonly byte[] DH_PUB;
-        public readonly byte[] CIPHER_TEXT;
+        public byte[] cipherText;
 
         #endregion
         //--------------------------------------------------------Constructor:----------------------------------------------------------------\\
@@ -37,13 +37,21 @@ namespace Omemo.Classes.Messages
             // Cipher text here is optional:
             if (cipherTextLenth > 0)
             {
-                CIPHER_TEXT = new byte[data.Length - (8 + DH_PUB.Length)];
-                Buffer.BlockCopy(data, 8 + DH_PUB.Length, CIPHER_TEXT, 0, CIPHER_TEXT.Length);
+                cipherText = new byte[data.Length - (8 + DH_PUB.Length)];
+                Buffer.BlockCopy(data, 8 + DH_PUB.Length, cipherText, 0, cipherText.Length);
             }
             else
             {
-                CIPHER_TEXT = new byte[0];
+                cipherText = new byte[0];
             }
+        }
+
+        public OmemoMessage(uint n, uint pn, byte[] dhPub)
+        {
+            N = n;
+            PN = pn;
+            DH_PUB = dhPub;
+            cipherText = null;
         }
 
         #endregion
@@ -57,17 +65,17 @@ namespace Omemo.Classes.Messages
         public byte[] ToByteArray()
         {
             int size = 4 + 4 + DH_PUB.Length;
-            if (!(CIPHER_TEXT is null))
+            if (!(cipherText is null))
             {
-                size += CIPHER_TEXT.Length;
+                size += cipherText.Length;
             }
             byte[] result = new byte[size];
             Buffer.BlockCopy(BitConverter.GetBytes(N), 0, result, 0, 4);
             Buffer.BlockCopy(BitConverter.GetBytes(PN), 0, result, 4, 4);
             Buffer.BlockCopy(DH_PUB, 0, result, 8, DH_PUB.Length);
-            if (!(CIPHER_TEXT is null))
+            if (!(cipherText is null))
             {
-                Buffer.BlockCopy(CIPHER_TEXT, 0, result, 8 + DH_PUB.Length, CIPHER_TEXT.Length);
+                Buffer.BlockCopy(cipherText, 0, result, 8 + DH_PUB.Length, cipherText.Length);
             }
             return result;
         }
