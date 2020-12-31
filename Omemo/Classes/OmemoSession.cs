@@ -1,10 +1,13 @@
-﻿namespace Omemo.Classes
+﻿using Omemo.Classes.Keys;
+
+namespace Omemo.Classes
 {
     public class OmemoSession
     {
         //--------------------------------------------------------Attributes:-----------------------------------------------------------------\\
         #region --Attributes--
         public readonly DoubleRachet RACHET;
+        public readonly EphemeralKeyPair EPHEMERAL_KEY_PAIR;
 
         // State variables:
 
@@ -15,6 +18,7 @@
         public OmemoSession()
         {
             RACHET = new DoubleRachet(this);
+            EPHEMERAL_KEY_PAIR = KeyHelper.GenerateEphemeralKeyPair();
         }
 
         public OmemoSession(byte[] data)

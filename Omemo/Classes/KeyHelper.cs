@@ -1,7 +1,6 @@
 ﻿using System.Collections.Generic;
+using Chaos.NaCl;
 using Omemo.Classes.Keys;
-using Org.BouncyCastle.Math.EC.Rfc8032;
-using Org.BouncyCastle.Security;
 
 namespace Omemo.Classes
 {
@@ -25,7 +24,7 @@ namespace Omemo.Classes
         //--------------------------------------------------------Misc Methods:---------------------------------------------------------------\\
         #region --Misc Methods (Public)--
         /// <summary>
-        /// Generates a new Ed25519 identity key pair and returns it.
+        /// Generates a new Ed25519 <see cref="IdentityKeyPair"/> and returns it.
         /// </summary>
         public static IdentityKeyPair GenerateIdentityKeyPair()
         {
@@ -71,6 +70,15 @@ namespace Omemo.Classes
             return new SignedPreKey(preKey, signature);
         }
 
+        /// <summary>
+        /// Generates a new Ed25519 <see cref="EphemeralKeyPair"/> and returns it.
+        /// </summary>
+        public static EphemeralKeyPair GenerateEphemeralKeyPair()
+        {
+            ECKeyPair pair = GenerateKeyPair();
+            return new EphemeralKeyPair(pair.privKey, pair.pubKey);
+        }
+
         #endregion
 
         #region --Misc Methods (Private)--
@@ -79,11 +87,7 @@ namespace Omemo.Classes
         /// </summary>
         private static ECKeyPair GenerateKeyPair()
         {
-            SecureRandom random = new SecureRandom();
-            byte[] privKey = new byte[Consts.ED25519_KEY_SIZE_IN_BYTES];
-            Ed25519.GeneratePrivateKey(random, privKey);
-            byte[] pubKey = new byte[Ed25519.PublicKeySize];
-            Ed25519.GeneratePublicKey(privKey, 0, pubKey, 0);
+            Ed25519.KeyPairFromSeed(out byte[] pubKey, out byte[] privKey, new byte[Ed25519.PrivateKeySeedSizeInBytes]);
             return new ECKeyPair(new ECPrivKey(privKey), new ECPubKey(pubKey));
         }
 

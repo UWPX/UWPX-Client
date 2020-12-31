@@ -22,9 +22,5 @@ namespace Omemo.Classes
         /// Read more: https://xmpp.org/extensions/xep-0384.html#protocol-key_exchange
         /// </summary>
         public static uint NUM_PRE_KEYS_PROVIDED = 100;
-        /// <summary>
-        /// The default size of an Ed25519 is 256 bit or 32 byte.
-        /// </summary>
-        public static readonly uint ED25519_KEY_SIZE_IN_BYTES = 32;
     }
 }
