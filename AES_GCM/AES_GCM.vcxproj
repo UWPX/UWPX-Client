@@ -236,7 +236,6 @@
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
     <Import Project="..\packages\Microsoft.NETCore.UniversalWindowsPlatform.6.2.11\build\Microsoft.NetCore.UniversalWindowsPlatform.targets" Condition="Exists('..\packages\Microsoft.NETCore.UniversalWindowsPlatform.6.2.11\build\Microsoft.NetCore.UniversalWindowsPlatform.targets')" />
-    <Import Project="..\packages\Microsoft.UI.Xaml.2.5.0\build\native\Microsoft.UI.Xaml.targets" Condition="Exists('..\packages\Microsoft.UI.Xaml.2.5.0\build\native\Microsoft.UI.Xaml.targets')" />
   </ImportGroup>
   <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
     <PropertyGroup>
@@ -244,6 +243,5 @@
     </PropertyGroup>
     <Error Condition="!Exists('..\packages\Microsoft.NETCore.UniversalWindowsPlatform.6.2.11\build\Microsoft.NETCore.UniversalWindowsPlatform.props')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\Microsoft.NETCore.UniversalWindowsPlatform.6.2.11\build\Microsoft.NETCore.UniversalWindowsPlatform.props'))" />
     <Error Condition="!Exists('..\packages\Microsoft.NETCore.UniversalWindowsPlatform.6.2.11\build\Microsoft.NetCore.UniversalWindowsPlatform.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\Microsoft.NETCore.UniversalWindowsPlatform.6.2.11\build\Microsoft.NetCore.UniversalWindowsPlatform.targets'))" />
-    <Error Condition="!Exists('..\packages\Microsoft.UI.Xaml.2.5.0\build\native\Microsoft.UI.Xaml.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\Microsoft.UI.Xaml.2.5.0\build\native\Microsoft.UI.Xaml.targets'))" />
   </Target>
 </Project>
