@@ -36,10 +36,20 @@ namespace Omemo.Classes
             return ad;
         }
 
+        public OmemoSession LoadSession(OmemoProtocolAddress address)
+        {
+            return STORAGE.LoadSession(address);
+        }
+
         #endregion
         //--------------------------------------------------------Misc Methods:---------------------------------------------------------------\\
         #region --Misc Methods (Public)--
-        public List<IOmemoMessage> EncryptMessasge(byte[] msg, List<OmemoDeviceGroup> devices, IOmemoStorage storage)
+        /// <summary>
+        /// Encrypts the given plaintext message and returns the result.
+        /// </summary>
+        /// <param name="msg">The plain text message to encrypt.</param>
+        /// <returns>A tuple consisting out of the cipher text and key-HMAC combination (Tuple[cipherText, keyHmac]).</returns>
+        public Tuple<byte[], byte[]> EncryptMessasge(byte[] msg)
         {
             byte[] key = KeyHelper.GenerateSymetricKey();
             // 32 byte (256 bit) of salt. Initialized with 0s.
@@ -49,42 +59,58 @@ namespace Omemo.Classes
             byte[] hmac = CryptoUtils.HmacSha256(authKey, cipherText);
             hmac = CryptoUtils.Truncate(hmac, 16);
             byte[] keyHmac = CryptoUtils.Concat(key, hmac);
+            return new Tuple<byte[], byte[]>(cipherText, keyHmac);
+        }
 
-            List<IOmemoMessage> msgs = new List<IOmemoMessage>();
+        /// <summary>
+        /// Encrypts the given <paramref name="keyHmac"/> combination for all given devices and returns the resulting messages.
+        /// Uses the given <see cref="OmemoSession"/> for encrypting.
+        /// Calls <see cref="IOmemoStorage.StoreSession(OmemoProtocolAddress, OmemoSession)"/> on completion for each session.
+        /// </summary>
+        /// <param name="keyHmac">The key HMAC combination, that should be encrypted.</param>
+        /// <param name="devices">A collection of devices, we should encrypt the message for.</param>
+        /// <returns>A collection of encrypted messages for each device grouped by their bare JID (List[Tuple[bareJid, List[Tuple[deviceId, IOmemoMessage]]]]).</returns>
+        public List<Tuple<string, List<Tuple<uint, IOmemoMessage>>>> EncryptForDevices(byte[] keyHmac, List<OmemoDeviceGroup> devices)
+        {
+            List<Tuple<string, List<Tuple<uint, IOmemoMessage>>>> msgs = new List<Tuple<string, List<Tuple<uint, IOmemoMessage>>>>();
             foreach (OmemoDeviceGroup group in devices)
             {
-                foreach (Tuple<uint, Bundle> device in group.DEVICE_IDS)
+                List<Tuple<uint, IOmemoMessage>> groupMsgs = new List<Tuple<uint, IOmemoMessage>>();
+                foreach (Tuple<uint, OmemoSession> device in group.DEVICE_IDS)
                 {
-                    OmemoProtocolAddress address = new OmemoProtocolAddress(group.BARE_JID, device.Item1);
-                    OmemoSession session = storage.LoadSession(address);
-                    if (session is null)
+                    OmemoSession session = device.Item2;
+                    /*if (session is null)
                     {
                         // Use a new session:
                         Bundle bundle = device.Item2;
                         int preKeyIndex = bundle.GetRandomPreKeyIndex();
                         session = new OmemoSession(bundle, preKeyIndex, SENDER_IDENTITY_KEY);
-                    }
-                    OmemoAuthenticatedMessage authMsg = EncryptForDevice(keyHmac, session, GetAssociatedData(device.Item2.identityKey));
+                    }*/
+                    OmemoAuthenticatedMessage authMsg = EncryptForDevice(keyHmac, device.Item2, GetAssociatedData(device.Item2.dhR.pubKey));
 
                     // To account for lost and out-of-order messages during the key exchange, OmemoKeyExchange structures are sent until a response by the recipient confirms that the key exchange was successfully completed.
                     if (session.nS == 0 || session.nR == 0)
                     {
-                        msgs.Add(new OmemoKeyExchange(session.preKeyId, session.signedPreKeyId, SENDER_IDENTITY_KEY.pubKey, session.ek, authMsg));
+                        OmemoKeyExchange kexMsg = new OmemoKeyExchange(session.preKeyId, session.signedPreKeyId, SENDER_IDENTITY_KEY.pubKey, session.ek, authMsg);
+                        groupMsgs.Add(new Tuple<uint, IOmemoMessage>(device.Item1, kexMsg));
                     }
                     else
                     {
-                        msgs.Add(authMsg);
+                        groupMsgs.Add(new Tuple<uint, IOmemoMessage>(device.Item1, authMsg));
                     }
 
                     // Update the session and store it:
                     ++session.nS;
-                    storage.StoreSession(address, session);
+                    STORAGE.StoreSession(new OmemoProtocolAddress(group.BARE_JID, device.Item1), session);
                 }
+                msgs.Add(new Tuple<string, List<Tuple<uint, IOmemoMessage>>>(group.BARE_JID, groupMsgs));
             }
-
             return msgs;
         }
 
+        #endregion
+
+        #region --Misc Methods (Private)--
         /// <summary>
         /// Encrypts the given plain text with 
         /// </summary>
@@ -107,11 +133,6 @@ namespace Omemo.Classes
             byte[] hmacTruncated = CryptoUtils.Truncate(hmacResult, 16);
             return new OmemoAuthenticatedMessage(hmacTruncated, omemoMessageBytes);
         }
-
-        #endregion
-
-        #region --Misc Methods (Private)--
-
 
         #endregion
 

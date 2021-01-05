@@ -8,16 +8,16 @@ namespace XMPP_API.Classes.Network.XML.Messages.XEP_0384
     {
         //--------------------------------------------------------Attributes:-----------------------------------------------------------------\\
         #region --Attributes--
-        public readonly List<OmemoKey> KEYS = new List<OmemoKey>();
         public readonly string BARE_JID;
+        public readonly List<OmemoKey> KEYS = new List<OmemoKey>();
 
         #endregion
         //--------------------------------------------------------Constructor:----------------------------------------------------------------\\
         #region --Constructors--
-        public OmemoKeys(List<OmemoKey> keys, string bareJid)
+        public OmemoKeys(string bareJid, List<OmemoKey> keys)
         {
-            KEYS = keys;
             BARE_JID = bareJid;
+            KEYS = keys;
         }
 
         public OmemoKeys(XmlNode node)

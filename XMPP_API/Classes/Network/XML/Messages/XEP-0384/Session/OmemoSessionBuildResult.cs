@@ -1,30 +1,26 @@
-﻿using System.Collections.Generic;
-using libsignal;
-
-namespace XMPP_API.Classes.Network.XML.Messages.XEP_0384.Signal.Session
+﻿namespace XMPP_API.Classes.Network.XML.Messages.XEP_0384.Session
 {
-    public class OmemoSession
+    public class OmemoSessionBuildResult
     {
         //--------------------------------------------------------Attributes:-----------------------------------------------------------------\\
         #region --Attributes--
-        public readonly Dictionary<uint, SessionCipher> DEVICE_SESSIONS_OWN;
-        public readonly Dictionary<uint, SessionCipher> DEVICE_SESSIONS_REMOTE;
-        public readonly string CHAT_JID;
+        public readonly bool SUCCESS;
+        public readonly OmemoSessionBuildError ERROR;
+        public readonly OmemoDeviceSession SESSION;
 
         #endregion
         //--------------------------------------------------------Constructor:----------------------------------------------------------------\\
         #region --Constructors--
-        /// <summary>
-        /// Basic Constructor
-        /// </summary>
-        /// <history>
-        /// 18/08/2018 Created [Fabian Sauter]
-        /// </history>
-        public OmemoSession(string chatJid)
+        internal OmemoSessionBuildResult(OmemoDeviceSession session)
         {
-            CHAT_JID = chatJid;
-            DEVICE_SESSIONS_OWN = new Dictionary<uint, SessionCipher>();
-            DEVICE_SESSIONS_REMOTE = new Dictionary<uint, SessionCipher>();
+            SESSION = session;
+            SUCCESS = true;
+        }
+
+        internal OmemoSessionBuildResult(OmemoSessionBuildError error)
+        {
+            ERROR = error;
+            SUCCESS = false;
         }
 
         #endregion

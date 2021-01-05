@@ -1,12 +1,15 @@
-﻿using System.Collections.Generic;
-using libsignal.state;
-
-namespace XMPP_API.Classes.Network.XML.Messages.XEP_0384
+﻿namespace Omemo.Classes
 {
-    public interface IOmemoStore: SignalProtocolStore, IOmemoDeviceStore, IOmemoFingerprintStore
+    public class OmemoDevice
     {
         //--------------------------------------------------------Attributes:-----------------------------------------------------------------\\
         #region --Attributes--
+        public readonly uint DEVICE_ID;
+        public readonly OmemoSession SESSION;
+
+        #endregion
+        //--------------------------------------------------------Constructor:----------------------------------------------------------------\\
+        #region --Constructors--
 
 
         #endregion
@@ -17,9 +20,7 @@ namespace XMPP_API.Classes.Network.XML.Messages.XEP_0384
         #endregion
         //--------------------------------------------------------Misc Methods:---------------------------------------------------------------\\
         #region --Misc Methods (Public)--
-        IList<PreKeyRecord> LoadPreKeys();
 
-        void StorePreKeys(IList<PreKeyRecord> preKeys);
 
         #endregion
 

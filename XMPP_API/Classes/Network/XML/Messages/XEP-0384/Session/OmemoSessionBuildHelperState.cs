@@ -1,4 +1,4 @@
-﻿namespace XMPP_API.Classes.Network.XML.Messages.XEP_0384.Signal.Session
+﻿namespace XMPP_API.Classes.Network.XML.Messages.XEP_0384.Session
 {
     public enum OmemoSessionBuildHelperState
     {

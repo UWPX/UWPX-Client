@@ -1,9 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Diagnostics;
+using System.Linq;
 using System.Text;
 using System.Xml;
 using System.Xml.Linq;
+using Omemo.Classes;
+using Omemo.Classes.Keys;
 using XMPP_API.Classes.Network.XML.Messages.XEP_0082;
 using XMPP_API.Classes.Network.XML.Messages.XEP_0420;
 
@@ -21,7 +24,7 @@ namespace XMPP_API.Classes.Network.XML.Messages.XEP_0384
         /// The device ID of the sender.
         /// </summary>
         public uint SID { get; private set; }
-        public readonly List<OmemoKeys> KEYS = new List<OmemoKeys>();
+        public List<OmemoKeys> keys;
         public string BASE_64_PAYLOAD { get; private set; }
 
         #endregion
@@ -43,7 +46,7 @@ namespace XMPP_API.Classes.Network.XML.Messages.XEP_0384
             {
                 if (string.Equals(keysNode.Name, "keys"))
                 {
-                    KEYS.Add(new OmemoKeys(keysNode));
+                    keys.Add(new OmemoKeys(keysNode));
                 }
             }
 
@@ -83,9 +86,9 @@ namespace XMPP_API.Classes.Network.XML.Messages.XEP_0384
             // Header:
             XElement headerNode = new XElement("header");
             headerNode.Add(new XAttribute("sid", SID));
-            foreach (OmemoKeys keys in KEYS)
+            foreach (OmemoKeys key in keys)
             {
-                headerNode.Add(keys.toXElement(ns));
+                headerNode.Add(key.toXElement(ns));
             }
             encryptedNode.Add(headerNode);
 
@@ -103,13 +106,22 @@ namespace XMPP_API.Classes.Network.XML.Messages.XEP_0384
         /// Encrypts the message and prepares everything for sending it.
         /// </summary>
         /// <param name="sid">The device ID of the sender.</param>
-        public void encrypt(uint sid)
+        /// <param name="senderIdentityKey">The identity key pair of the sender.</param>
+        /// <param name="storage">An instance of the <see cref="IOmemoStorage"/> interface.</param>
+        public void encrypt(uint sid, IdentityKeyPair senderIdentityKey, IOmemoStorage storage, List<OmemoDeviceGroup> devices)
         {
             SID = sid;
             XElement contentNode = generateContent();
             byte[] contentData = Encoding.UTF8.GetBytes(contentNode.ToString());
-            byte[] contentEnc = encryptContent(contentData);
-            BASE_64_PAYLOAD = Convert.ToBase64String(contentEnc);
+
+            // Encrypt message:
+            DoubleRachet rachet = new DoubleRachet(senderIdentityKey, storage);
+            Tuple<byte[], byte[]> encrypted = rachet.EncryptMessasge(contentData);
+            BASE_64_PAYLOAD = Convert.ToBase64String(encrypted.Item1);
+
+            // Encrypt key || HMAC for devices:
+            keys = rachet.EncryptForDevices(encrypted.Item2, devices).Select(x => new OmemoKeys(x.Item1, x.Item2.Select(x => new OmemoKey(x)).ToList())).ToList();
+
             ENCRYPTED = true;
         }
 
@@ -167,11 +179,6 @@ namespace XMPP_API.Classes.Network.XML.Messages.XEP_0384
             contentNode.Add(timeNode);
 
             return contentNode;
-        }
-
-        private byte[] encryptContent(byte[] data)
-        {
-            throw new NotImplementedException();
         }
 
         private byte[] decryptContent(byte[] data)

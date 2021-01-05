@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using Omemo.Classes.Keys;
 
 namespace Omemo.Classes
 {
@@ -12,12 +11,12 @@ namespace Omemo.Classes
         //--------------------------------------------------------Attributes:-----------------------------------------------------------------\\
         #region --Attributes--
         public readonly string BARE_JID;
-        public readonly List<Tuple<uint, Bundle>> DEVICE_IDS;
+        public readonly List<Tuple<uint, OmemoSession>> DEVICE_IDS;
 
         #endregion
         //--------------------------------------------------------Constructor:----------------------------------------------------------------\\
         #region --Constructors--
-        public OmemoDeviceGroup(string bareJid, List<Tuple<uint, Bundle>> deviceIds)
+        public OmemoDeviceGroup(string bareJid, List<Tuple<uint, OmemoSession>> deviceIds)
         {
             BARE_JID = bareJid;
             DEVICE_IDS = deviceIds;
