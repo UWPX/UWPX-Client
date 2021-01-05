@@ -66,7 +66,7 @@ namespace Omemo.Classes.Messages
         #region --Misc Methods (Public)--
         public byte[] ToByteArray()
         {
-            int size = 4 + 4 + EK.Length;
+            int size = 4 + 4 + EK.key.Length;
             if (!(cipherText is null))
             {
                 size += cipherText.Length;
@@ -74,10 +74,10 @@ namespace Omemo.Classes.Messages
             byte[] result = new byte[size];
             Buffer.BlockCopy(BitConverter.GetBytes(N), 0, result, 0, 4);
             Buffer.BlockCopy(BitConverter.GetBytes(PN), 0, result, 4, 4);
-            Buffer.BlockCopy(EK, 0, result, 8, EK.Length);
+            Buffer.BlockCopy(EK.key, 0, result, 8, EK.key.Length);
             if (!(cipherText is null))
             {
-                Buffer.BlockCopy(cipherText, 0, result, 8 + EK.Length, cipherText.Length);
+                Buffer.BlockCopy(cipherText, 0, result, 8 + EK.key.Length, cipherText.Length);
             }
             return result;
         }
