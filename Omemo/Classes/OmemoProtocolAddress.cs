@@ -1,17 +1,19 @@
-﻿namespace Omemo.Classes.Keys
+﻿namespace Omemo.Classes
 {
-    public class PreKey: ECKeyPair
+    public class OmemoProtocolAddress
     {
         //--------------------------------------------------------Attributes:-----------------------------------------------------------------\\
         #region --Attributes--
-        public readonly uint id;
+        public readonly string BARE_JID;
+        public readonly uint DEVICE_ID;
 
         #endregion
         //--------------------------------------------------------Constructor:----------------------------------------------------------------\\
         #region --Constructors--
-        public PreKey(ECPrivKey privKey, ECPubKey pubKey, uint id) : base(privKey, pubKey)
+        public OmemoProtocolAddress(string bareJid, uint deviceId)
         {
-            this.id = id;
+            BARE_JID = bareJid;
+            DEVICE_ID = deviceId;
         }
 
         #endregion

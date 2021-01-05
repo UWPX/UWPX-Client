@@ -63,10 +63,11 @@ namespace Omemo.Classes
         /// Generates a new Ed25519 <see cref="SignedPreKey"/> and returns it.
         /// </summary>
         /// <param name="id">The id of the <see cref="SignedPreKey"/>.</param>
-        public static SignedPreKey GenerateSignedPreKey(uint id)
+        /// <param name="identiyKey">The private part of an <see cref="IdentityKeyPair"/> used for signing.</param>
+        public static SignedPreKey GenerateSignedPreKey(uint id, ECPrivKey identiyKey)
         {
             PreKey preKey = GeneratePreKey(id);
-            byte[] signature = preKey.GenerateSignature();
+            byte[] signature = Ed25519.Sign(preKey.pubKey.key, identiyKey.key);
             return new SignedPreKey(preKey, signature);
         }
 
@@ -79,17 +80,27 @@ namespace Omemo.Classes
             return new EphemeralKeyPair(pair.privKey, pair.pubKey);
         }
 
-        #endregion
-
-        #region --Misc Methods (Private)--
         /// <summary>
         /// Generates a new Ed25519 <see cref="ECKeyPair"/> and returns it.
         /// </summary>
-        private static ECKeyPair GenerateKeyPair()
+        public static ECKeyPair GenerateKeyPair()
         {
             Ed25519.KeyPairFromSeed(out byte[] pubKey, out byte[] privKey, new byte[Ed25519.PrivateKeySeedSizeInBytes]);
             return new ECKeyPair(new ECPrivKey(privKey), new ECPubKey(pubKey));
         }
+
+        /// <summary>
+        /// Generates a 32 byte long cryptographically secure random data symetric key and returns it.
+        /// </summary>
+        public static byte[] GenerateSymetricKey()
+        {
+            return CryptoUtils.NextBytesSecureRandom(32);
+        }
+
+        #endregion
+
+        #region --Misc Methods (Private)--
+
 
         #endregion
 
