@@ -1,5 +1,7 @@
-﻿using System.Xml;
+﻿using System;
+using System.Xml;
 using System.Xml.Linq;
+using Omemo.Classes.Messages;
 
 namespace XMPP_API.Classes.Network.XML.Messages.XEP_0384
 {
@@ -15,11 +17,11 @@ namespace XMPP_API.Classes.Network.XML.Messages.XEP_0384
         #endregion
         //--------------------------------------------------------Constructor:----------------------------------------------------------------\\
         #region --Constructors--
-        public OmemoKey(uint deviceId, bool keyEchange, string base64Payload)
+        public OmemoKey(Tuple<uint, IOmemoMessage> msg)
         {
-            DEVICE_ID = deviceId;
-            KEY_EXCHANGE = keyEchange;
-            BASE64_PAYLOAD = base64Payload;
+            DEVICE_ID = msg.Item1;
+            KEY_EXCHANGE = msg.Item2 is OmemoKeyExchange;
+            BASE64_PAYLOAD = Convert.ToBase64String(msg.Item2.ToByteArray());
         }
 
         public OmemoKey(XmlNode node)

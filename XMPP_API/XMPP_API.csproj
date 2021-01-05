@@ -326,7 +326,6 @@
     <Compile Include="Classes\Network\XML\Messages\XEP-0363\HTTPUploadSlot.cs" />
     <Compile Include="Classes\Network\XML\Messages\XEP-0384\IOmemoDeviceStore.cs" />
     <Compile Include="Classes\Network\XML\Messages\XEP-0384\IOmemoFingerprintStore.cs" />
-    <Compile Include="Classes\Network\XML\Messages\XEP-0384\IOmemoStore.cs" />
     <Compile Include="Classes\Network\XML\Messages\XEP-0384\OmemoBundleInformation.cs" />
     <Compile Include="Classes\Network\XML\Messages\XEP-0384\OmemoBundleInformationResultMessage.cs" />
     <Compile Include="Classes\Network\XML\Messages\XEP-0384\OmemoDevice.cs" />
@@ -338,17 +337,16 @@
     <Compile Include="Classes\Network\XML\Messages\XEP-0384\OmemoFingerprint.cs" />
     <Compile Include="Classes\Network\XML\Messages\XEP-0384\OmemoKey.cs" />
     <Compile Include="Classes\Network\XML\Messages\XEP-0384\OmemoKeys.cs" />
-    <Compile Include="Classes\Network\XML\Messages\XEP-0384\OmemoMessageMessage.cs" />
     <Compile Include="Classes\Network\XML\Messages\XEP-0384\OmemoRequestBundleInformationMessage.cs" />
     <Compile Include="Classes\Network\XML\Messages\XEP-0384\OmemoRequestDeviceListMessage.cs" />
     <Compile Include="Classes\Network\XML\Messages\XEP-0384\OmemoSetBundleInformationMessage.cs" />
     <Compile Include="Classes\Network\XML\Messages\XEP-0384\OmemoSetDeviceListMessage.cs" />
     <Compile Include="Classes\Network\XML\Messages\XEP-0384\OmemoSubscribeToDeviceListMessage.cs" />
-    <Compile Include="Classes\Network\XML\Messages\XEP-0384\Signal\Session\OmemoSession.cs" />
-    <Compile Include="Classes\Network\XML\Messages\XEP-0384\Signal\Session\OmemoSessionBuildError.cs" />
-    <Compile Include="Classes\Network\XML\Messages\XEP-0384\Signal\Session\OmemoSessionBuildHelper.cs" />
-    <Compile Include="Classes\Network\XML\Messages\XEP-0384\Signal\Session\OmemoSessionBuildHelperState.cs" />
-    <Compile Include="Classes\Network\XML\Messages\XEP-0384\Signal\Session\OmemoSessionBuildResult.cs" />
+    <Compile Include="Classes\Network\XML\Messages\XEP-0384\Session\OmemoDeviceSession.cs" />
+    <Compile Include="Classes\Network\XML\Messages\XEP-0384\Session\OmemoSessionBuildError.cs" />
+    <Compile Include="Classes\Network\XML\Messages\XEP-0384\Session\OmemoSessionBuildHelper.cs" />
+    <Compile Include="Classes\Network\XML\Messages\XEP-0384\Session\OmemoSessionBuildHelperState.cs" />
+    <Compile Include="Classes\Network\XML\Messages\XEP-0384\Session\OmemoSessionBuildResult.cs" />
     <Compile Include="Classes\Network\XML\Messages\XEP-0392\ConsistentColorGenerator.cs" />
     <Compile Include="Classes\Network\XML\Messages\XEP-0392\HsluvConverter.cs" />
     <Compile Include="Classes\Network\XML\Messages\XEP-0402\AddBookmarkMessage.cs" />
@@ -399,9 +397,6 @@
     </PackageReference>
     <PackageReference Include="Microsoft.Toolkit.Uwp.Connectivity">
       <Version>6.1.1</Version>
-    </PackageReference>
-    <PackageReference Include="signal-protocol-pcl">
-      <Version>2.2.0</Version>
     </PackageReference>
   </ItemGroup>
   <ItemGroup>

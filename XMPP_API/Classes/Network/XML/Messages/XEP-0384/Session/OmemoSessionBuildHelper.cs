@@ -1,12 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
-using libsignal;
 using Logging;
 using XMPP_API.Classes.Network.XML.Messages.Helper;
 using XMPP_API.Classes.Network.XML.Messages.XEP_0060;
 
-namespace XMPP_API.Classes.Network.XML.Messages.XEP_0384.Signal.Session
+namespace XMPP_API.Classes.Network.XML.Messages.XEP_0384.Session
 {
     public class OmemoSessionBuildHelper
     {
@@ -24,12 +23,6 @@ namespace XMPP_API.Classes.Network.XML.Messages.XEP_0384.Signal.Session
         #endregion
         //--------------------------------------------------------Constructor:----------------------------------------------------------------\\
         #region --Constructors--
-        /// <summary>
-        /// Basic Constructor
-        /// </summary>
-        /// <history>
-        /// 10/08/2018 Created [Fabian Sauter]
-        /// </history>
         internal OmemoSessionBuildHelper(string chatJid, string bareAccountJid, string fullAccountJid, XmppConnection connection, OmemoHelper omemoHelper)
         {
             CONNECTION = connection;
@@ -101,7 +94,7 @@ namespace XMPP_API.Classes.Network.XML.Messages.XEP_0384.Signal.Session
             }
 
             // Build sessions for all devices:
-            OmemoSession session = new OmemoSession(CHAT_JID);
+            OmemoDeviceSession session = new OmemoDeviceSession(CHAT_JID);
             await buildSessionForDevicesAsync(session.DEVICE_SESSIONS_REMOTE, devicesRemote);
 
             if (session.DEVICE_SESSIONS_REMOTE.Count > 0)
