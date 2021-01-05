@@ -1,4 +1,5 @@
 ﻿using System;
+using Omemo.Classes.Keys;
 
 namespace Omemo.Classes.Messages
 {
@@ -18,7 +19,7 @@ namespace Omemo.Classes.Messages
         /// </summary>
         public readonly uint spkId;
         /// <summary>
-        /// Public key part of the identity key.
+        /// Public key part of the senders identity key.
         /// </summary>
         public readonly byte[] ik;
         /// <summary>
@@ -30,7 +31,14 @@ namespace Omemo.Classes.Messages
         #endregion
         //--------------------------------------------------------Constructor:----------------------------------------------------------------\\
         #region --Constructors--
-
+        public OmemoKeyExchange(uint pkId, uint spkId, ECPubKey ik, ECPubKey ek, OmemoAuthenticatedMessage message)
+        {
+            this.pkId = pkId;
+            this.spkId = spkId;
+            this.ik = ik.key;
+            this.ek = ek.key;
+            this.message = message;
+        }
 
         #endregion
         //--------------------------------------------------------Set-, Get- Methods:---------------------------------------------------------\\

@@ -1,4 +1,6 @@
 ﻿using System;
+using Chaos.NaCl;
+using Omemo.Classes.Keys;
 
 namespace Omemo.Classes.Messages
 {
@@ -20,7 +22,7 @@ namespace Omemo.Classes.Messages
         /// <summary>
         /// The sender public Ephemeral key.
         /// </summary>
-        public readonly byte[] DH_PUB;
+        public readonly ECPubKey EK;
         public byte[] cipherText;
 
         #endregion
@@ -30,15 +32,15 @@ namespace Omemo.Classes.Messages
         {
             N = (uint)BitConverter.ToInt32(data, 0);
             PN = (uint)BitConverter.ToInt32(data, 4);
-            DH_PUB = new byte[1];
-            Buffer.BlockCopy(data, 8, DH_PUB, 0, DH_PUB.Length);
-            int cipherTextLenth = data.Length - (8 + DH_PUB.Length);
+            EK = new ECPubKey(new byte[Ed25519.PublicKeySizeInBytes]);
+            Buffer.BlockCopy(data, 8, EK.key, 0, EK.key.Length);
+            int cipherTextLenth = data.Length - (8 + EK.key.Length);
 
             // Cipher text here is optional:
             if (cipherTextLenth > 0)
             {
-                cipherText = new byte[data.Length - (8 + DH_PUB.Length)];
-                Buffer.BlockCopy(data, 8 + DH_PUB.Length, cipherText, 0, cipherText.Length);
+                cipherText = new byte[data.Length - (8 + EK.key.Length)];
+                Buffer.BlockCopy(data, 8 + EK.key.Length, cipherText, 0, cipherText.Length);
             }
             else
             {
@@ -46,11 +48,11 @@ namespace Omemo.Classes.Messages
             }
         }
 
-        public OmemoMessage(uint n, uint pn, byte[] dhPub)
+        public OmemoMessage(OmemoSession session)
         {
-            N = n;
-            PN = pn;
-            DH_PUB = dhPub;
+            N = session.nS + 1;
+            PN = session.nS;
+            EK = session.ek;
             cipherText = null;
         }
 
@@ -64,7 +66,7 @@ namespace Omemo.Classes.Messages
         #region --Misc Methods (Public)--
         public byte[] ToByteArray()
         {
-            int size = 4 + 4 + DH_PUB.Length;
+            int size = 4 + 4 + EK.Length;
             if (!(cipherText is null))
             {
                 size += cipherText.Length;
@@ -72,10 +74,10 @@ namespace Omemo.Classes.Messages
             byte[] result = new byte[size];
             Buffer.BlockCopy(BitConverter.GetBytes(N), 0, result, 0, 4);
             Buffer.BlockCopy(BitConverter.GetBytes(PN), 0, result, 4, 4);
-            Buffer.BlockCopy(DH_PUB, 0, result, 8, DH_PUB.Length);
+            Buffer.BlockCopy(EK, 0, result, 8, EK.Length);
             if (!(cipherText is null))
             {
-                Buffer.BlockCopy(cipherText, 0, result, 8 + DH_PUB.Length, cipherText.Length);
+                Buffer.BlockCopy(cipherText, 0, result, 8 + EK.Length, cipherText.Length);
             }
             return result;
         }

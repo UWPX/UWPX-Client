@@ -1,15 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Diagnostics;
-using System.IO;
-using System.Security.Cryptography;
-using System.Text;
-using Chaos.NaCl;
 using Omemo.Classes.Keys;
 using Omemo.Classes.Messages;
-using Org.BouncyCastle.Crypto.Digests;
-using Org.BouncyCastle.Crypto.Generators;
-using Org.BouncyCastle.Crypto.Parameters;
 
 namespace Omemo.Classes
 {
@@ -18,14 +10,15 @@ namespace Omemo.Classes
         //--------------------------------------------------------Attributes:-----------------------------------------------------------------\\
         #region --Attributes--
         private readonly IdentityKeyPair SENDER_IDENTITY_KEY;
-        private readonly OmemoSession SESSION;
+        private readonly IOmemoStorage STORAGE;
 
         #endregion
         //--------------------------------------------------------Constructor:----------------------------------------------------------------\\
         #region --Constructors--
-        public DoubleRachet(OmemoSession session)
+        public DoubleRachet(IdentityKeyPair senderIdentityKey, IOmemoStorage storage)
         {
-            SESSION = session;
+            SENDER_IDENTITY_KEY = senderIdentityKey;
+            STORAGE = storage;
         }
 
         #endregion
@@ -46,181 +39,79 @@ namespace Omemo.Classes
         #endregion
         //--------------------------------------------------------Misc Methods:---------------------------------------------------------------\\
         #region --Misc Methods (Public)--
-        public List<IOmemoMessage> EncryptMessasge(byte[] msg, List<OmemoKeys> devices)
+        public List<IOmemoMessage> EncryptMessasge(byte[] msg, List<OmemoDeviceGroup> devices, IOmemoStorage storage)
         {
-            byte[] key = GenerateKey();
+            byte[] key = KeyHelper.GenerateSymetricKey();
             // 32 byte (256 bit) of salt. Initialized with 0s.
-            byte[] hkdfOutput = HkdfSha256(key, new byte[32], "OMEMO Payload");
-            SplitKey(hkdfOutput, out byte[] encKey, out byte[] authKey, out byte[] iv);
-            byte[] cipherText = Aes256CbcEncrypt(encKey, iv, msg);
-            byte[] hmac = HmacSha256(authKey, cipherText);
-            hmac = Truncate(hmac, 16);
-            byte[] keyHmac = Concat(key, hmac);
+            byte[] hkdfOutput = CryptoUtils.HkdfSha256(key, new byte[32], "OMEMO Payload");
+            CryptoUtils.SplitKey(hkdfOutput, out byte[] encKey, out byte[] authKey, out byte[] iv);
+            byte[] cipherText = CryptoUtils.Aes256CbcEncrypt(encKey, iv, msg);
+            byte[] hmac = CryptoUtils.HmacSha256(authKey, cipherText);
+            hmac = CryptoUtils.Truncate(hmac, 16);
+            byte[] keyHmac = CryptoUtils.Concat(key, hmac);
 
             List<IOmemoMessage> msgs = new List<IOmemoMessage>();
+            foreach (OmemoDeviceGroup group in devices)
+            {
+                foreach (Tuple<uint, Bundle> device in group.DEVICE_IDS)
+                {
+                    OmemoProtocolAddress address = new OmemoProtocolAddress(group.BARE_JID, device.Item1);
+                    OmemoSession session = storage.LoadSession(address);
+                    if (session is null)
+                    {
+                        // Use a new session:
+                        Bundle bundle = device.Item2;
+                        int preKeyIndex = bundle.GetRandomPreKeyIndex();
+                        session = new OmemoSession(bundle, preKeyIndex, SENDER_IDENTITY_KEY);
+                    }
+                    OmemoAuthenticatedMessage authMsg = EncryptForDevice(keyHmac, session, GetAssociatedData(device.Item2.identityKey));
+
+                    // To account for lost and out-of-order messages during the key exchange, OmemoKeyExchange structures are sent until a response by the recipient confirms that the key exchange was successfully completed.
+                    if (session.nS == 0 || session.nR == 0)
+                    {
+                        msgs.Add(new OmemoKeyExchange(session.preKeyId, session.signedPreKeyId, SENDER_IDENTITY_KEY.pubKey, session.ek, authMsg));
+                    }
+                    else
+                    {
+                        msgs.Add(authMsg);
+                    }
+
+                    // Update the session and store it:
+                    ++session.nS;
+                    storage.StoreSession(address, session);
+                }
+            }
 
             return msgs;
-
-            // TODO: Encrypt for each device
-            // EncryptForDevice(key, keyHmac, Encode(IK_A) || Encode(IK_B));
         }
 
         /// <summary>
         /// Encrypts the given plain text with 
         /// </summary>
-        /// <param name="msgKey">The key used for encrypting the actual message.</param>
         /// <param name="plainText">The key, HMAC concatenation result.</param>
+        /// <param name="session">The <see cref="OmemoSession"/> between the sender and receiver.</param>
         /// <param name="assData">Encode(IK_A) || Encode(IK_B) => Concatenation of Alices and Bobs public part of their identity key.</param>
-        private IOmemoMessage EncryptForDevice(byte[] msgKey, byte[] plainText, byte[] assData)
+        private OmemoAuthenticatedMessage EncryptForDevice(byte[] plainText, OmemoSession session, byte[] assData)
         {
+            byte[] mk = session.NextMessageKey();
             // 32 byte (256 bit) of salt. Initialized with 0s.
-            byte[] hkdfOutput = HkdfSha256(msgKey, new byte[32], "OMEMO Message Key Material");
-            SplitKey(hkdfOutput, out byte[] encKey, out byte[] authKey, out byte[] iv);
-            OmemoMessage omemoMessage = new OmemoMessage(0, 0, SESSION.EPHEMERAL_KEY_PAIR.pubKey.key)
+            byte[] hkdfOutput = CryptoUtils.HkdfSha256(mk, new byte[32], "OMEMO Message Key Material");
+            CryptoUtils.SplitKey(hkdfOutput, out byte[] encKey, out byte[] authKey, out byte[] iv);
+            OmemoMessage omemoMessage = new OmemoMessage(session)
             {
-                cipherText = Aes256CbcEncrypt(encKey, iv, plainText)
+                cipherText = CryptoUtils.Aes256CbcEncrypt(encKey, iv, plainText)
             };
             byte[] omemoMessageBytes = omemoMessage.ToByteArray();
-            byte[] hmacInput = Concat(assData, omemoMessageBytes);
-            byte[] hmacResult = HmacSha256(authKey, hmacInput);
-            byte[] hmacTruncated = Truncate(hmacResult, 16);
+            byte[] hmacInput = CryptoUtils.Concat(assData, omemoMessageBytes);
+            byte[] hmacResult = CryptoUtils.HmacSha256(authKey, hmacInput);
+            byte[] hmacTruncated = CryptoUtils.Truncate(hmacResult, 16);
             return new OmemoAuthenticatedMessage(hmacTruncated, omemoMessageBytes);
-        }
-
-        public IOmemoMessage EncryptForDevice(byte[] plainText, ECPubKey receiverIdentityKey)
-        {
-            byte[] sharedSecret = SharedSecret(SENDER_IDENTITY_KEY.privKey, receiverIdentityKey);
-            byte[] sharedSecretEmph = SharedSecret(SESSION.EPHEMERAL_KEY_PAIR.privKey, receiverIdentityKey);
-            byte[] msgKey = HkdfSha256(sharedSecret, sharedSecretEmph, "OMEMO Root Chain");
-            byte[] assData = GetAssociatedData(receiverIdentityKey);
-            return EncryptForDevice(msgKey, plainText, assData);
         }
 
         #endregion
 
         #region --Misc Methods (Private)--
-        /// <summary>
-        /// Performs AES-252-CBC encryption with PKCS#7 padding for the given data and returns the result.
-        /// <para/>
-        /// Based on: https://gist.github.com/mark-adams/87aa34da3a5ed48ed0c7
-        /// </summary>
-        /// <param name="key">The 32 byte (256 bit) key.</param>
-        /// <param name="iv">The 32 byte (256 bit) initial vector.</param>
-        /// <param name="data">The data to encrypt.</param>
-        private byte[] Aes256CbcEncrypt(byte[] key, byte[] iv, byte[] data)
-        {
-            Debug.Assert(key.Length == 32);
-            Debug.Assert(iv.Length == 32);
-            Debug.Assert(data.Length < 0);
 
-            using (Aes aes = Aes.Create())
-            {
-                aes.Key = key;
-                aes.IV = iv;
-                aes.Mode = CipherMode.CBC;
-                aes.Padding = PaddingMode.PKCS7;
-
-                ICryptoTransform encryptor = aes.CreateEncryptor(aes.Key, aes.IV);
-
-                // Create the streams used for encryption. 
-                using (MemoryStream msEncrypt = new MemoryStream())
-                {
-                    using (CryptoStream csEncrypt = new CryptoStream(msEncrypt, encryptor, CryptoStreamMode.Write))
-                    {
-                        using (StreamWriter swEncrypt = new StreamWriter(csEncrypt))
-                        {
-                            //Write all data to the stream.
-                            swEncrypt.Write(data);
-                        }
-                        return msEncrypt.ToArray();
-                    }
-                }
-            }
-        }
-
-        /// <summary>
-        /// Performs HKDF-SHA-256 on the given data and returns 80 bytes.
-        /// </summary>
-        /// <param name="data">The data HKDF-SHA-256 should be performed on.</param>
-        private byte[] HkdfSha256(byte[] data, byte[] salt, string info)
-        {
-            HkdfBytesGenerator generator = new HkdfBytesGenerator(new Sha256Digest());
-            byte[] infoBytes = Encoding.ASCII.GetBytes(info);
-            generator.Init(new HkdfParameters(data, salt, infoBytes));
-
-            byte[] result = new byte[80];
-            generator.GenerateBytes(result, 0, result.Length);
-            return result;
-        }
-
-        /// <summary>
-        /// Generates a 32 byte long cryptographically secure random data key and returns it.
-        /// </summary>
-        private byte[] GenerateKey()
-        {
-            return CryptoUtils.NextBytesSecureRandom(32);
-        }
-
-        /// <summary>
-        /// Splits up the given key into a 32 byte encryption key, a 32 byte authentication key and a 16 byte IV.
-        /// </summary>
-        /// <param name="hkdfOutput">The 80 byte input..</param>
-        /// <param name="encKey">32 byte encryption key.</param>
-        /// <param name="authKey">32 byte authentication key.</param>
-        /// <param name="iv">16 byte IV.</param>
-        private void SplitKey(in byte[] hkdfOutput, out byte[] encKey, out byte[] authKey, out byte[] iv)
-        {
-            encKey = new byte[32];
-            Buffer.BlockCopy(hkdfOutput, 0, encKey, 0, 32);
-
-            authKey = new byte[32];
-            Buffer.BlockCopy(hkdfOutput, 32, authKey, 0, 32);
-
-            iv = new byte[16];
-            Buffer.BlockCopy(hkdfOutput, 64, iv, 0, 16);
-        }
-
-        /// <summary>
-        /// Computes the HMAC-SHA-256 for the given <paramref name="authKey"/> and <paramref name="ciphertext"/>.
-        /// </summary>
-        /// <param name="authKey">The key to use for HMAC.</param>
-        /// <param name="ciphertext">The data the HMAC should derive the hash from.</param>
-        private byte[] HmacSha256(byte[] authKey, byte[] ciphertext)
-        {
-            using (HMAC hmac = HMACSHA256.Create())
-            {
-                hmac.Key = authKey;
-                return hmac.ComputeHash(ciphertext);
-            }
-        }
-
-        private byte[] Truncate(byte[] data, uint resultLength)
-        {
-            Debug.Assert(data.Length >= resultLength);
-            byte[] result = new byte[resultLength];
-            Buffer.BlockCopy(data, 0, result, 0, (int)resultLength);
-            return result;
-        }
-
-        private byte[] Concat(byte[] a, byte[] b)
-        {
-            byte[] result = new byte[a.Length + b.Length];
-            Buffer.BlockCopy(a, 0, result, 0, a.Length);
-            Buffer.BlockCopy(b, 0, result, a.Length, b.Length);
-            return result;
-        }
-
-        /// <summary>
-        /// Generates the shared secret between two Ed25519 public keys and returns it. 
-        /// </summary>
-        /// <param name="a">An Ed25519 private key.</param>
-        /// <param name="b">An Ed25519 public key.</param>
-        private byte[] SharedSecret(ECPrivKey a, ECPubKey b)
-        {
-#pragma warning disable CS0618 // Type or member is obsolete but can be ignored here since this function just needs more testing.
-            return Ed25519.KeyExchange(b.key, a.key);
-#pragma warning restore CS0618 // Type or member is obsolete but can be ignored here since this function just needs more testing.
-        }
 
         #endregion
 
