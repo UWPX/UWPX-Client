@@ -66,11 +66,6 @@ namespace Manager.Classes
             return CLIENTS;
         }
 
-        public void OnClientChanged()
-        {
-
-        }
-
         #endregion
         //--------------------------------------------------------Misc Methods:---------------------------------------------------------------\\
         #region --Misc Methods (Public)--

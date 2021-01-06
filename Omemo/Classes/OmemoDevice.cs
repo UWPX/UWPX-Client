@@ -10,7 +10,11 @@
         #endregion
         //--------------------------------------------------------Constructor:----------------------------------------------------------------\\
         #region --Constructors--
-
+        public OmemoDevice(uint deviceId, OmemoSession session)
+        {
+            DEVICE_ID = deviceId;
+            SESSION = session;
+        }
 
         #endregion
         //--------------------------------------------------------Set-, Get- Methods:---------------------------------------------------------\\

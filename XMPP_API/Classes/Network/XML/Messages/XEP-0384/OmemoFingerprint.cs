@@ -1,52 +1,43 @@
 ﻿using System;
 using System.Linq;
-using libsignal;
-using libsignal.ecc;
-using XMPP_API.Classes.Crypto;
+using Omemo.Classes;
+using Omemo.Classes.Keys;
 
 namespace XMPP_API.Classes.Network.XML.Messages.XEP_0384
 {
-    public class OmemoFingerprint: IComparable
+    public class OmemoFingerprint
     {
         //--------------------------------------------------------Attributes:-----------------------------------------------------------------\\
         #region --Attributes--
-        public readonly ECPublicKey IDENTITY_PUB_KEY;
-        public readonly SignalProtocolAddress ADDRESS;
+        public readonly ECPubKey IDENTITY_KEY;
+        public readonly OmemoProtocolAddress ADDRESS;
         public DateTime lastSeen;
         public bool trusted;
 
         #endregion
         //--------------------------------------------------------Constructor:----------------------------------------------------------------\\
         #region --Constructors--
-        public OmemoFingerprint(ECPublicKey identityPubKey, SignalProtocolAddress address, DateTime lastSeen, bool trusted)
+        public OmemoFingerprint(ECPubKey identityKey, OmemoProtocolAddress address, DateTime lastSeen, bool trusted)
         {
-            IDENTITY_PUB_KEY = identityPubKey;
+            IDENTITY_KEY = identityKey;
             ADDRESS = address;
             this.lastSeen = lastSeen;
             this.trusted = trusted;
         }
 
-        public OmemoFingerprint(ECPublicKey identityPubKey, SignalProtocolAddress address) : this(identityPubKey, address, DateTime.MinValue, false) { }
+        public OmemoFingerprint(ECPubKey identityKey, OmemoProtocolAddress address) : this(identityKey, address, DateTime.MinValue, false) { }
 
         #endregion
         //--------------------------------------------------------Set-, Get- Methods:---------------------------------------------------------\\
         #region --Set-, Get- Methods--
-        public byte[] getByteArrayFingerprint()
-        {
-            return CryptoUtils.getRawFromECPublicKey(IDENTITY_PUB_KEY);
-        }
+
 
         #endregion
         //--------------------------------------------------------Misc Methods:---------------------------------------------------------------\\
         #region --Misc Methods (Public)--
-        public bool checkIdentityKey(ECPublicKey other)
+        public bool checkIdentityKey(ECPubKey other)
         {
-            return other.serialize().SequenceEqual(IDENTITY_PUB_KEY.serialize());
-        }
-
-        public int CompareTo(object obj)
-        {
-            return ADDRESS.getName().GetHashCode() ^ ADDRESS.getDeviceId().GetHashCode();
+            return other.key.SequenceEqual(IDENTITY_KEY.key);
         }
 
         #endregion

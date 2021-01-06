@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 
 namespace Omemo.Classes
 {
@@ -11,15 +10,14 @@ namespace Omemo.Classes
         //--------------------------------------------------------Attributes:-----------------------------------------------------------------\\
         #region --Attributes--
         public readonly string BARE_JID;
-        public readonly List<Tuple<uint, OmemoSession>> DEVICE_IDS;
+        public readonly Dictionary<uint, OmemoSession> SESSIONS = new Dictionary<uint, OmemoSession>();
 
         #endregion
         //--------------------------------------------------------Constructor:----------------------------------------------------------------\\
         #region --Constructors--
-        public OmemoDeviceGroup(string bareJid, List<Tuple<uint, OmemoSession>> deviceIds)
+        public OmemoDeviceGroup(string bareJid)
         {
             BARE_JID = bareJid;
-            DEVICE_IDS = deviceIds;
         }
 
         #endregion

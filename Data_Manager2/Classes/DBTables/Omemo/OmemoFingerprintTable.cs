@@ -34,7 +34,7 @@ namespace Data_Manager2.Classes.DBTables.Omemo
             bareJid = fingerprint.ADDRESS.getName();
             deviceId = fingerprint.ADDRESS.getDeviceId();
             id = generateId(chatId, bareJid, deviceId);
-            identityPubKey = fingerprint.IDENTITY_PUB_KEY.serialize();
+            identityPubKey = fingerprint.IDENTITY_KEY.serialize();
             lastSeen = fingerprint.lastSeen;
             trusted = fingerprint.trusted;
         }

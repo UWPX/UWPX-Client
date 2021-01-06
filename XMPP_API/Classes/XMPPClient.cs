@@ -178,21 +178,21 @@ namespace XMPP_API.Classes
             await connection.DisconnectAsync();
         }
 
-        public async Task sendOmemoMessageAsync(OmemoMessageMessage msg, string chatJid, string accountJid)
+        public async Task sendOmemoMessageAsync(OmemoEncryptedMessage msg, string chatJid, string accountJid)
         {
             if (connection.omemoHelper is null)
             {
-                OmemoSessionBuildError?.Invoke(this, new OmemoSessionBuildErrorEventArgs(chatJid, Network.XML.Messages.XEP_0384.Signal.Session.OmemoSessionBuildError.KEY_ERROR, new List<OmemoMessageMessage> { msg }));
+                OmemoSessionBuildError?.Invoke(this, new OmemoSessionBuildErrorEventArgs(chatJid, Network.XML.Messages.XEP_0384.Session.OmemoSessionBuildError.KEY_ERROR, new List<OmemoEncryptedMessage> { msg }));
                 Logger.Error("Failed to send OMEMO message - OmemoHelper is null");
             }
             else if (!connection.account.checkOmemoKeys())
             {
-                OmemoSessionBuildError?.Invoke(this, new OmemoSessionBuildErrorEventArgs(chatJid, Network.XML.Messages.XEP_0384.Signal.Session.OmemoSessionBuildError.KEY_ERROR, new List<OmemoMessageMessage> { msg }));
+                OmemoSessionBuildError?.Invoke(this, new OmemoSessionBuildErrorEventArgs(chatJid, Network.XML.Messages.XEP_0384.Session.OmemoSessionBuildError.KEY_ERROR, new List<OmemoEncryptedMessage> { msg }));
                 Logger.Error("Failed to send OMEMO message - keys are corrupted");
             }
             else
             {
-                await connection.omemoHelper.sendOmemoMessageAsync(msg, chatJid, accountJid);
+                await connection.omemoHelper.sendOmemoMessageAsync(msg, accountJid, chatJid);
             }
         }
 
@@ -212,7 +212,7 @@ namespace XMPP_API.Classes
         /// </summary>
         /// <param name="omemoStore">A persistent store for all the OMEMO related data (e.g. device ids and keys).</param>
         /// <returns>Returns true on success.</returns>
-        public bool enableOmemo(IOmemoStore omemoStore)
+        public bool enableOmemo(IExtendedOmemoStorage omemoStore)
         {
             return connection.EnableOmemo(omemoStore);
         }

@@ -108,6 +108,7 @@ namespace XMPP_API.Classes.Network.XML.Messages.XEP_0384
         /// <param name="sid">The device ID of the sender.</param>
         /// <param name="senderIdentityKey">The identity key pair of the sender.</param>
         /// <param name="storage">An instance of the <see cref="IOmemoStorage"/> interface.</param>
+        /// <param name="devices">A collection of <see cref="OmemoDeviceGroup"/>s the message should be encrypted for.</param>
         public void encrypt(uint sid, IdentityKeyPair senderIdentityKey, IOmemoStorage storage, List<OmemoDeviceGroup> devices)
         {
             SID = sid;

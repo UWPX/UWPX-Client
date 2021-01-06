@@ -3,24 +3,31 @@ using System.Xml.Linq;
 
 namespace XMPP_API.Classes.Network.XML.Messages.XEP_0384
 {
-    public class OmemoDevice: IXElementable
+    public class OmemoXmlDevice: IXElementable
     {
         //--------------------------------------------------------Attributes:-----------------------------------------------------------------\\
         #region --Attributes--
-        public readonly uint id;
-        public readonly string label;
-        public readonly bool isValid = false;
+        public readonly uint ID;
+        public readonly string LABEL;
+        public readonly bool IS_VALID = false;
 
         #endregion
         //--------------------------------------------------------Constructor:----------------------------------------------------------------\\
         #region --Constructors--
-        public OmemoDevice(XmlNode node)
+        public OmemoXmlDevice(XmlNode node)
         {
-            if (uint.TryParse(node.Attributes["id"].Value, out id) && id != 0)
+            if (uint.TryParse(node.Attributes["id"].Value, out ID) && ID != 0)
             {
-                isValid = true;
+                IS_VALID = true;
             }
-            label = node.Attributes["label"]?.Value;
+            LABEL = node.Attributes["label"]?.Value;
+        }
+
+        public OmemoXmlDevice(uint id, string label)
+        {
+            ID = id;
+            LABEL = label;
+            IS_VALID = true;
         }
 
         #endregion
@@ -34,14 +41,14 @@ namespace XMPP_API.Classes.Network.XML.Messages.XEP_0384
         public XElement toXElement(XNamespace ns)
         {
             XElement node = new XElement(ns + "device");
-            node.Add(new XAttribute("id", id));
-            node.Add(new XAttribute("label", label));
+            node.Add(new XAttribute("id", ID));
+            node.Add(new XAttribute("label", LABEL));
             return node;
         }
 
         public override int GetHashCode()
         {
-            return id.GetHashCode();
+            return ID.GetHashCode();
         }
 
         #endregion

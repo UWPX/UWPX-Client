@@ -7,7 +7,7 @@ namespace XMPP_API.Classes.Network.XML.Messages.XEP_0384
     {
         //--------------------------------------------------------Attributes:-----------------------------------------------------------------\\
         #region --Attributes--
-        public readonly OmemoDevices DEVICES;
+        public readonly OmemoXmlDevices DEVICES;
 
         #endregion
         //--------------------------------------------------------Constructor:----------------------------------------------------------------\\
@@ -20,7 +20,7 @@ namespace XMPP_API.Classes.Network.XML.Messages.XEP_0384
         /// </history>
         public OmemoDeviceListEventMessage(XmlNode node) : base(node)
         {
-            DEVICES = new OmemoDevices();
+            DEVICES = new OmemoXmlDevices();
             XmlNode eventNode = XMLUtils.getChildNode(node, "event", Consts.XML_XMLNS, Consts.XML_XEP_0060_NAMESPACE_EVENT);
             if (eventNode != null)
             {

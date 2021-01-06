@@ -3,31 +3,25 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Xml;
 using System.Xml.Linq;
-using libsignal;
+using Omemo.Classes;
 using XMPP_API.Classes.Network.XML.Messages.XEP_0060;
 
 namespace XMPP_API.Classes.Network.XML.Messages.XEP_0384
 {
-    public class OmemoDevices: AbstractPubSubItem
+    public class OmemoXmlDevices: AbstractPubSubItem
     {
         //--------------------------------------------------------Attributes:-----------------------------------------------------------------\\
         #region --Attributes--
-        public readonly HashSet<OmemoDevice> DEVICES;
+        public readonly HashSet<OmemoXmlDevice> DEVICES;
 
         #endregion
         //--------------------------------------------------------Constructor:----------------------------------------------------------------\\
         #region --Constructors--
-        /// <summary>
-        /// Basic Constructor
-        /// </summary>
-        /// <history>
-        /// 04/08/2018 Created [Fabian Sauter]
-        /// </history>
-        public OmemoDevices() : this("current") { }
+        public OmemoXmlDevices() : this("current") { }
 
-        public OmemoDevices(string id)
+        public OmemoXmlDevices(string id)
         {
-            DEVICES = new HashSet<OmemoDevice>();
+            DEVICES = new HashSet<OmemoXmlDevice>();
             this.id = id;
         }
 
@@ -38,7 +32,7 @@ namespace XMPP_API.Classes.Network.XML.Messages.XEP_0384
         {
             XNamespace ns1 = Consts.XML_XEP_0384_NAMESPACE;
             XElement listNode = new XElement(ns1 + "list");
-            foreach (OmemoDevice d in DEVICES)
+            foreach (OmemoXmlDevice d in DEVICES)
             {
                 listNode.Add(d.toXElement(ns1));
             }
@@ -55,7 +49,7 @@ namespace XMPP_API.Classes.Network.XML.Messages.XEP_0384
                 throw new InvalidOperationException("Failed to get random device id! Device count = " + DEVICES.Count);
             }
             Random r = new Random();
-            return DEVICES.ToArray()[r.Next(0, DEVICES.Count)].id;
+            return DEVICES.ToArray()[r.Next(0, DEVICES.Count)].ID;
         }
 
         /// <summary>
@@ -87,7 +81,7 @@ namespace XMPP_API.Classes.Network.XML.Messages.XEP_0384
                             {
                                 if (string.Equals(device.Name, "device") && device.Attributes["id"] != null)
                                 {
-                                    DEVICES.Add(new OmemoDevice(device));
+                                    DEVICES.Add(new OmemoXmlDevice(device));
                                 }
                             }
                         }
@@ -97,14 +91,9 @@ namespace XMPP_API.Classes.Network.XML.Messages.XEP_0384
             }
         }
 
-        public IList<SignalProtocolAddress> toSignalProtocolAddressList(string name)
+        public List<OmemoProtocolAddress> toOmemoProtocolAddress(string bareJid)
         {
-            List<SignalProtocolAddress> ret = new List<SignalProtocolAddress>();
-            foreach (OmemoDevice d in DEVICES)
-            {
-                ret.Add(new SignalProtocolAddress(name, d.id));
-            }
-            return ret;
+            return DEVICES.Select(d => new OmemoProtocolAddress(bareJid, d.ID)).ToList();
         }
 
         #endregion

@@ -324,15 +324,16 @@
     <Compile Include="Classes\Network\XML\Messages\XEP-0363\HTTPUploadRequestSlotMessage.cs" />
     <Compile Include="Classes\Network\XML\Messages\XEP-0363\HTTPUploadResponseSlotMessage.cs" />
     <Compile Include="Classes\Network\XML\Messages\XEP-0363\HTTPUploadSlot.cs" />
+    <Compile Include="Classes\Network\XML\Messages\XEP-0384\IExtendedOmemoStorage.cs" />
     <Compile Include="Classes\Network\XML\Messages\XEP-0384\IOmemoDeviceStore.cs" />
     <Compile Include="Classes\Network\XML\Messages\XEP-0384\IOmemoFingerprintStore.cs" />
     <Compile Include="Classes\Network\XML\Messages\XEP-0384\OmemoBundleInformation.cs" />
     <Compile Include="Classes\Network\XML\Messages\XEP-0384\OmemoBundleInformationResultMessage.cs" />
-    <Compile Include="Classes\Network\XML\Messages\XEP-0384\OmemoDevice.cs" />
+    <Compile Include="Classes\Network\XML\Messages\XEP-0384\OmemoXmlDevice.cs" />
     <Compile Include="Classes\Network\XML\Messages\XEP-0384\OmemoDeviceListEventMessage.cs" />
     <Compile Include="Classes\Network\XML\Messages\XEP-0384\OmemoDeviceListResultMessage.cs" />
     <Compile Include="Classes\Network\XML\Messages\XEP-0384\OmemoDeviceListSubscriptionState.cs" />
-    <Compile Include="Classes\Network\XML\Messages\XEP-0384\OmemoDevices.cs" />
+    <Compile Include="Classes\Network\XML\Messages\XEP-0384\OmemoXmlDevices.cs" />
     <Compile Include="Classes\Network\XML\Messages\XEP-0384\OmemoEncryptedMessage.cs" />
     <Compile Include="Classes\Network\XML\Messages\XEP-0384\OmemoFingerprint.cs" />
     <Compile Include="Classes\Network\XML\Messages\XEP-0384\OmemoKey.cs" />
@@ -342,7 +343,7 @@
     <Compile Include="Classes\Network\XML\Messages\XEP-0384\OmemoSetBundleInformationMessage.cs" />
     <Compile Include="Classes\Network\XML\Messages\XEP-0384\OmemoSetDeviceListMessage.cs" />
     <Compile Include="Classes\Network\XML\Messages\XEP-0384\OmemoSubscribeToDeviceListMessage.cs" />
-    <Compile Include="Classes\Network\XML\Messages\XEP-0384\Session\OmemoDeviceSession.cs" />
+    <Compile Include="Classes\Network\XML\Messages\XEP-0384\Session\OmemoSessions.cs" />
     <Compile Include="Classes\Network\XML\Messages\XEP-0384\Session\OmemoSessionBuildError.cs" />
     <Compile Include="Classes\Network\XML\Messages\XEP-0384\Session\OmemoSessionBuildHelper.cs" />
     <Compile Include="Classes\Network\XML\Messages\XEP-0384\Session\OmemoSessionBuildHelperState.cs" />
@@ -400,10 +401,6 @@
     </PackageReference>
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\AES_GCM\AES_GCM.vcxproj">
-      <Project>{6fe90c15-0d01-4659-a760-109a38ec892a}</Project>
-      <Name>AES_GCM</Name>
-    </ProjectReference>
     <ProjectReference Include="..\Logging\Logging.csproj">
       <Project>{0c1fb090-4492-441d-b182-c999df71f917}</Project>
       <Name>Logging</Name>
