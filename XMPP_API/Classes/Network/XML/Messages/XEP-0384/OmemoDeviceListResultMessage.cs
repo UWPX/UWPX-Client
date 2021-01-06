@@ -7,7 +7,7 @@ namespace XMPP_API.Classes.Network.XML.Messages.XEP_0384
     {
         //--------------------------------------------------------Attributes:-----------------------------------------------------------------\\
         #region --Attributes--
-        public OmemoDevices DEVICES { get; set; }
+        public OmemoXmlDevices DEVICES { get; set; }
 
         #endregion
         //--------------------------------------------------------Constructor:----------------------------------------------------------------\\
@@ -42,7 +42,7 @@ namespace XMPP_API.Classes.Network.XML.Messages.XEP_0384
         #region --Misc Methods (Protected)--
         protected override void loadContent(XmlNodeList content)
         {
-            DEVICES = new OmemoDevices();
+            DEVICES = new OmemoXmlDevices();
             foreach (XmlNode n in content)
             {
                 if (string.Equals(n.Name, "items") && string.Equals(n.Attributes["node"]?.Value, Consts.XML_XEP_0384_DEVICE_LIST_NODE))

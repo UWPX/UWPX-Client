@@ -32,16 +32,15 @@ namespace XMPP_API.Classes
         //--------------------------------------------------------Set-, Get- Methods:---------------------------------------------------------\\
         #region --Set-, Get- Methods--
         /// <summary>
-        /// Sends an OmemoSetBundleInformationMessage for updating the given bundle information and device id.
+        /// Sends an OmemoSetBundleInformationMessage for updating the given bundle information.
         /// </summary>
         /// <param name="bundleInfo">The bundle information you want to update.</param>
-        /// <param name="deviceId">The device id for the given bundle information.</param>
         /// <returns>The OmemoSetBundleInformationMessage result.</returns>
-        public async Task<MessageResponseHelperResult<IQMessage>> setBundleInfoAsync(OmemoBundleInformation bundleInfo, uint deviceId)
+        public async Task<MessageResponseHelperResult<IQMessage>> setBundleInfoAsync(OmemoBundleInformation bundleInfo)
         {
             Predicate<IQMessage> predicate = (x) => { return true; };
             AsyncMessageResponseHelper<IQMessage> helper = new AsyncMessageResponseHelper<IQMessage>(CONNECTION, predicate);
-            OmemoSetBundleInformationMessage msg = new OmemoSetBundleInformationMessage(CONNECTION.account.getFullJid(), bundleInfo, deviceId);
+            OmemoSetBundleInformationMessage msg = new OmemoSetBundleInformationMessage(CONNECTION.account.getFullJid(), bundleInfo);
             return await helper.startAsync(msg);
         }
 
@@ -50,7 +49,7 @@ namespace XMPP_API.Classes
         /// </summary>
         /// <param name="devices">The new OMEMO device list.</param>
         /// <returns>The OmemoSetDeviceListMessage result.</returns>
-        public async Task<MessageResponseHelperResult<IQMessage>> setDeviceListAsync(OmemoDevices devices)
+        public async Task<MessageResponseHelperResult<IQMessage>> setDeviceListAsync(OmemoXmlDevices devices)
         {
             Predicate<IQMessage> predicate = (x) => { return true; };
             AsyncMessageResponseHelper<IQMessage> helper = new AsyncMessageResponseHelper<IQMessage>(CONNECTION, predicate);

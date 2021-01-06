@@ -2,11 +2,8 @@
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using DnsClient.Protocol;
-using libsignal;
-using libsignal.ecc;
-using libsignal.state;
-using libsignal.util;
 using Logging;
+using Omemo.Classes.Keys;
 using Shared.Classes;
 using Shared.Classes.Collections;
 using XMPP_API.Classes.Crypto;
@@ -95,8 +92,8 @@ namespace XMPP_API.Classes.Network
             get => _omemoSignedPreKeyId;
             set => SetProperty(ref _omemoSignedPreKeyId, value);
         }
-        private SignedPreKeyRecord _omemoSignedPreKeyPair;
-        public SignedPreKeyRecord omemoSignedPreKeyPair
+        private SignedPreKey _omemoSignedPreKeyPair;
+        public SignedPreKey omemoSignedPreKeyPair
         {
             get => _omemoSignedPreKeyPair;
             set => SetProperty(ref _omemoSignedPreKeyPair, value);
@@ -107,13 +104,19 @@ namespace XMPP_API.Classes.Network
             get => _omemoDeviceId;
             set => SetProperty(ref _omemoDeviceId, value);
         }
+        private string _omemoDeviceLabel;
+        public string omemoDeviceLabel
+        {
+            get => _omemoDeviceLabel;
+            set => SetProperty(ref _omemoDeviceLabel, value);
+        }
         private bool _omemoBundleInfoAnnounced;
         public bool omemoBundleInfoAnnounced
         {
             get => _omemoBundleInfoAnnounced;
             set => SetProperty(ref _omemoBundleInfoAnnounced, value);
         }
-        public readonly CustomObservableCollection<PreKeyRecord> OMEMO_PRE_KEYS;
+        public readonly CustomObservableCollection<PreKey> OMEMO_PRE_KEYS;
 
         // XEP-0357 (Push Notifications):
         private string _pushNode;
@@ -242,7 +245,7 @@ namespace XMPP_API.Classes.Network
         /// </summary>
         /// <param name="omemoStore">A persistent store for all the OMEMO related data (e.g. device ids and keys).</param>
         /// <returns>Returns true on success.</returns>
-        public bool loadOmemoKeys(IOmemoStore omemoStore)
+        public bool loadOmemoKeys(IExtendedOmemoStorage omemoStore)
         {
             if (!omemoKeysGenerated)
             {

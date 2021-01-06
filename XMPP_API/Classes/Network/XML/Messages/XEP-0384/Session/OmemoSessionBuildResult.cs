@@ -6,14 +6,14 @@
         #region --Attributes--
         public readonly bool SUCCESS;
         public readonly OmemoSessionBuildError ERROR;
-        public readonly OmemoDeviceSession SESSION;
+        public readonly OmemoSessions SESSIONS;
 
         #endregion
         //--------------------------------------------------------Constructor:----------------------------------------------------------------\\
         #region --Constructors--
-        internal OmemoSessionBuildResult(OmemoDeviceSession session)
+        internal OmemoSessionBuildResult(OmemoSessions session)
         {
-            SESSION = session;
+            SESSIONS = session;
             SUCCESS = true;
         }
 

@@ -1,23 +1,22 @@
 ﻿using System.Collections.Generic;
+using Omemo.Classes;
 
 namespace XMPP_API.Classes.Network.XML.Messages.XEP_0384.Session
 {
-    public class OmemoDeviceSession
+    public class OmemoSessions
     {
         //--------------------------------------------------------Attributes:-----------------------------------------------------------------\\
         #region --Attributes--
-        public readonly Dictionary<uint, OmemoDeviceSession> DEVICE_SESSIONS_OWN;
-        public readonly Dictionary<uint, OmemoDeviceSession> DEVICE_SESSIONS_REMOTE;
-        public readonly string CHAT_JID;
+        public readonly OmemoDeviceGroup SRC_DEVICE_GROUP;
+        public readonly OmemoDeviceGroup DST_DEVICE_GROUP;
 
         #endregion
         //--------------------------------------------------------Constructor:----------------------------------------------------------------\\
         #region --Constructors--
-        public OmemoDeviceSession(string chatJid)
+        public OmemoSessions(OmemoDeviceGroup srcDeviceGroup, OmemoDeviceGroup dstDeviceGroup)
         {
-            CHAT_JID = chatJid;
-            DEVICE_SESSIONS_OWN = new Dictionary<uint, OmemoDeviceSession>();
-            DEVICE_SESSIONS_REMOTE = new Dictionary<uint, OmemoDeviceSession>();
+            SRC_DEVICE_GROUP = srcDeviceGroup;
+            DST_DEVICE_GROUP = dstDeviceGroup;
         }
 
         #endregion
@@ -28,7 +27,10 @@ namespace XMPP_API.Classes.Network.XML.Messages.XEP_0384.Session
         #endregion
         //--------------------------------------------------------Misc Methods:---------------------------------------------------------------\\
         #region --Misc Methods (Public)--
-
+        public List<OmemoDeviceGroup> toList()
+        {
+            return new List<OmemoDeviceGroup>() { SRC_DEVICE_GROUP, DST_DEVICE_GROUP };
+        }
 
         #endregion
 

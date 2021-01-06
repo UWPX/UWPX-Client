@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.ComponentModel;
 using XMPP_API.Classes.Network.XML.Messages.XEP_0384;
-using XMPP_API.Classes.Network.XML.Messages.XEP_0384.Signal.Session;
+using XMPP_API.Classes.Network.XML.Messages.XEP_0384.Session;
 
 namespace XMPP_API.Classes.Events
 {
@@ -11,18 +11,12 @@ namespace XMPP_API.Classes.Events
         #region --Attributes--
         public readonly string CHAT_JID;
         public readonly OmemoSessionBuildError ERROR;
-        public readonly IList<OmemoMessageMessage> MESSAGES;
+        public readonly IList<OmemoEncryptedMessage> MESSAGES;
 
         #endregion
         //--------------------------------------------------------Constructor:----------------------------------------------------------------\\
         #region --Constructors--
-        /// <summary>
-        /// Basic Constructor
-        /// </summary>
-        /// <history>
-        /// 04/12/2018 Created [Fabian Sauter]
-        /// </history>
-        public OmemoSessionBuildErrorEventArgs(string chatJid, OmemoSessionBuildError error, IList<OmemoMessageMessage> messages)
+        public OmemoSessionBuildErrorEventArgs(string chatJid, OmemoSessionBuildError error, IList<OmemoEncryptedMessage> messages)
         {
             CHAT_JID = chatJid;
             ERROR = error;

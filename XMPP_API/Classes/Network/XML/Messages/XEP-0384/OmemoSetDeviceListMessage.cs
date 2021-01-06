@@ -7,12 +7,12 @@ namespace XMPP_API.Classes.Network.XML.Messages.XEP_0384
     {
         //--------------------------------------------------------Attributes:-----------------------------------------------------------------\\
         #region --Attributes--
-        public readonly OmemoDevices DEVICES;
+        public readonly OmemoXmlDevices DEVICES;
 
         #endregion
         //--------------------------------------------------------Constructor:----------------------------------------------------------------\\
         #region --Constructors--
-        public OmemoSetDeviceListMessage(string from, OmemoDevices devices) : base(from, null, Consts.XML_XEP_0384_DEVICE_LIST_NODE)
+        public OmemoSetDeviceListMessage(string from, OmemoXmlDevices devices) : base(from, null, Consts.XML_XEP_0384_DEVICE_LIST_NODE)
         {
             DEVICES = devices;
         }

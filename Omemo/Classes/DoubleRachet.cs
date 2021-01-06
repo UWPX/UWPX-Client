@@ -76,16 +76,9 @@ namespace Omemo.Classes
             foreach (OmemoDeviceGroup group in devices)
             {
                 List<Tuple<uint, IOmemoMessage>> groupMsgs = new List<Tuple<uint, IOmemoMessage>>();
-                foreach (Tuple<uint, OmemoSession> device in group.DEVICE_IDS)
+                foreach (Tuple<uint, OmemoSession> device in group.SESSIONS)
                 {
                     OmemoSession session = device.Item2;
-                    /*if (session is null)
-                    {
-                        // Use a new session:
-                        Bundle bundle = device.Item2;
-                        int preKeyIndex = bundle.GetRandomPreKeyIndex();
-                        session = new OmemoSession(bundle, preKeyIndex, SENDER_IDENTITY_KEY);
-                    }*/
                     OmemoAuthenticatedMessage authMsg = EncryptForDevice(keyHmac, device.Item2, GetAssociatedData(device.Item2.dhR.pubKey));
 
                     // To account for lost and out-of-order messages during the key exchange, OmemoKeyExchange structures are sent until a response by the recipient confirms that the key exchange was successfully completed.

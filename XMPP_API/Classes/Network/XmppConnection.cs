@@ -228,7 +228,7 @@ namespace XMPP_API.Classes.Network
         /// </summary>
         /// <param name="omemoStore">A persistent store for all the OMEMO related data (e.g. device ids and keys).</param>
         /// <returns>Returns true on success.</returns>
-        public bool EnableOmemo(IOmemoStore omemoStore)
+        public bool EnableOmemo(IExtendedOmemoStorage omemoStore)
         {
             if (state != ConnectionState.DISCONNECTED)
             {

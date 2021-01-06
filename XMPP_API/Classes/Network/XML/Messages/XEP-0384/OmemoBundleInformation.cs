@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Xml;
 using System.Xml.Linq;
-using libsignal;
 using Omemo.Classes.Keys;
 using XMPP_API.Classes.Network.XML.Messages.XEP_0060;
 
@@ -53,13 +52,13 @@ namespace XMPP_API.Classes.Network.XML.Messages.XEP_0384
 
             XElement preKeysNode = new XElement(ns1 + "prekeys");
             XElement preKeyNode;
-            foreach (Tuple<ECPubKey, uint> key in bundle.preKeys)
+            foreach (PreKey preKey in bundle.preKeys)
             {
                 preKeyNode = new XElement(ns1 + "pk")
                 {
-                    Value = Convert.ToBase64String(key.Item1.key)
+                    Value = Convert.ToBase64String(preKey.pubKey.key)
                 };
-                preKeyNode.Add(new XAttribute("id", key.Item2));
+                preKeyNode.Add(new XAttribute("id", preKey.id));
                 preKeysNode.Add(preKeyNode);
             }
             bundleNode.Add(preKeysNode);
@@ -113,11 +112,11 @@ namespace XMPP_API.Classes.Network.XML.Messages.XEP_0384
                                                 if (uint.TryParse(n1.Attributes["id"]?.Value, out uint preKeyId))
                                                 {
                                                     byte[] pubPreKey = Convert.FromBase64String(n1.InnerText);
-                                                    bundle.preKeys.Add(new Tuple<ECPubKey, uint>(new ECPubKey(pubPreKey), preKeyId));
+                                                    bundle.preKeys.Add(new PreKey(null, new ECPubKey(pubPreKey), preKeyId));
                                                 }
                                                 else
                                                 {
-                                                    throw new InvalidMessageException("Invalid message. Unable to parse preKeyId");
+                                                    throw new InvalidOperationException("Invalid message. Unable to parse preKeyId");
                                                 }
                                                 break;
                                         }

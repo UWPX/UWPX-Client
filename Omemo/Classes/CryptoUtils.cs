@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
 using System.Security.Cryptography;
@@ -180,6 +181,26 @@ namespace Omemo.Classes
 
             iv = new byte[16];
             Buffer.BlockCopy(hkdfOutput, 64, iv, 0, 16);
+        }
+
+        /// <summary>
+        /// Tries to generate a new unique OMEMO device ID.
+        /// In case this fails 100 times in a row, it will throw an <see cref="InvalidOperationException"/>.
+        /// </summary>
+        /// <param name="usedDeviceIds">The already occupied device IDs.</param>
+        public static uint GenerateUniqueDeviceId(List<uint> usedDeviceIds)
+        {
+            // Try 100 times to get a random, unique device id:
+            uint id;
+            for (int i = 0; i < 100; i++)
+            {
+                id = CryptographicBuffer.GenerateRandomNumber();
+                if (!usedDeviceIds.Contains(id))
+                {
+                    return id;
+                }
+            }
+            throw new InvalidOperationException("Failed to generate unique device id! " + nameof(usedDeviceIds) + ". Count = " + usedDeviceIds.Count);
         }
 
         #endregion

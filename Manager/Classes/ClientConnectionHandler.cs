@@ -18,7 +18,7 @@ using XMPP_API.Classes.Network.XML.Messages.XEP_0048;
 using XMPP_API.Classes.Network.XML.Messages.XEP_0184;
 using XMPP_API.Classes.Network.XML.Messages.XEP_0249;
 using XMPP_API.Classes.Network.XML.Messages.XEP_0384;
-using XMPP_API.Classes.Network.XML.Messages.XEP_0384.Signal.Session;
+using XMPP_API.Classes.Network.XML.Messages.XEP_0384.Session;
 
 namespace Manager.Classes
 {
@@ -146,18 +146,18 @@ namespace Manager.Classes
 
 
             // Check if device id is valid and if, decrypt the OMEMO messages:
-            if (msg is OmemoMessageMessage omemoMessage)
+            if (msg is OmemoEncryptedMessage omemoMessage)
             {
                 OmemoHelper helper = client.getOmemoHelper();
                 if (helper is null)
                 {
-                    OnOmemoSessionBuildError(client, new OmemoSessionBuildErrorEventArgs(from, OmemoSessionBuildError.KEY_ERROR, new List<OmemoMessageMessage> { omemoMessage }));
+                    OnOmemoSessionBuildError(client, new OmemoSessionBuildErrorEventArgs(from, OmemoSessionBuildError.KEY_ERROR, new List<OmemoEncryptedMessage> { omemoMessage }));
                     Logger.Error("Failed to decrypt OMEMO message - OmemoHelper is null");
                     return;
                 }
                 else if (!client.getXMPPAccount().checkOmemoKeys())
                 {
-                    OnOmemoSessionBuildError(client, new OmemoSessionBuildErrorEventArgs(from, OmemoSessionBuildError.KEY_ERROR, new List<OmemoMessageMessage> { omemoMessage }));
+                    OnOmemoSessionBuildError(client, new OmemoSessionBuildErrorEventArgs(from, OmemoSessionBuildError.KEY_ERROR, new List<OmemoEncryptedMessage> { omemoMessage }));
                     Logger.Error("Failed to decrypt OMEMO message - keys are corrupted");
                     return;
                 }

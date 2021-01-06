@@ -33,7 +33,7 @@ namespace UWPX_UI_Context.Classes.DataContext.Controls
         public async Task ResetOmemoDevicesAsync(XMPPClient client)
         {
             MODEL.ResettingDevices = true;
-            OmemoDevices devices = new OmemoDevices();
+            OmemoXmlDevices devices = new OmemoXmlDevices();
             devices.IDS.Add(client.getXMPPAccount().omemoDeviceId);
             await client.OMEMO_COMMAND_HELPER.setDeviceListAsync(devices);
             MODEL.ResettingDevices = false;
