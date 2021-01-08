@@ -24,7 +24,15 @@
         #endregion
         //--------------------------------------------------------Misc Methods:---------------------------------------------------------------\\
         #region --Misc Methods (Public)--
+        public override bool Equals(object obj)
+        {
+            return obj is OmemoProtocolAddress address && address.DEVICE_ID == DEVICE_ID && string.Equals(address.BARE_JID, BARE_JID);
+        }
 
+        public override int GetHashCode()
+        {
+            return ((int)DEVICE_ID) ^ BARE_JID.GetHashCode();
+        }
 
         #endregion
 

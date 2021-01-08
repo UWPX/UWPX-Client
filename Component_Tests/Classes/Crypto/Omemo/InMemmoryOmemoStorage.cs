@@ -1,14 +1,13 @@
 ﻿using System.Collections.Generic;
-using System.Linq;
-using libsignal.state;
+using Omemo.Classes;
 
-namespace Component_Tests.Classes.Crypto.Libsignal
+namespace Component_Tests.Classes.Crypto.Omemo
 {
-    internal class InMemorySignedPreKeyStore: SignedPreKeyStore
+    public class InMemmoryOmemoStorage: IOmemoStorage
     {
         //--------------------------------------------------------Attributes:-----------------------------------------------------------------\\
         #region --Attributes--
-        private readonly Dictionary<uint, SignedPreKeyRecord> SIGNED_PRE_KEYS = new Dictionary<uint, SignedPreKeyRecord>();
+        public readonly Dictionary<OmemoProtocolAddress, OmemoSession> SESSIONS = new Dictionary<OmemoProtocolAddress, OmemoSession>();
 
         #endregion
         //--------------------------------------------------------Constructor:----------------------------------------------------------------\\
@@ -23,29 +22,14 @@ namespace Component_Tests.Classes.Crypto.Libsignal
         #endregion
         //--------------------------------------------------------Misc Methods:---------------------------------------------------------------\\
         #region --Misc Methods (Public)--
-        public bool ContainsSignedPreKey(uint signedPreKeyId)
+        public OmemoSession LoadSession(OmemoProtocolAddress address)
         {
-            return SIGNED_PRE_KEYS.ContainsKey(signedPreKeyId);
+            return SESSIONS.ContainsKey(address) ? SESSIONS[address] : null;
         }
 
-        public SignedPreKeyRecord LoadSignedPreKey(uint signedPreKeyId)
+        public void StoreSession(OmemoProtocolAddress address, OmemoSession session)
         {
-            return SIGNED_PRE_KEYS[signedPreKeyId];
-        }
-
-        public List<SignedPreKeyRecord> LoadSignedPreKeys()
-        {
-            return SIGNED_PRE_KEYS.Values.ToList();
-        }
-
-        public void RemoveSignedPreKey(uint signedPreKeyId)
-        {
-            SIGNED_PRE_KEYS.Remove(signedPreKeyId);
-        }
-
-        public void StoreSignedPreKey(uint signedPreKeyId, SignedPreKeyRecord record)
-        {
-            SIGNED_PRE_KEYS[signedPreKeyId] = record;
+            SESSIONS[address] = session;
         }
 
         #endregion

@@ -82,6 +82,7 @@ namespace XMPP_API.Classes.Network.XML.Messages.XEP_0384
                     XmlNode bundleNode = XMLUtils.getChildNode(itemNode, "bundle", Consts.XML_XMLNS, Consts.XML_XEP_0384_NAMESPACE);
                     if (bundleNode != null)
                     {
+                        bundle = new Bundle();
                         foreach (XmlNode n in bundleNode.ChildNodes)
                         {
                             switch (n.Name)

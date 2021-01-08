@@ -12,7 +12,7 @@ namespace XMPP_API.Classes.Network.XML.Messages.XEP_0384
         #endregion
         //--------------------------------------------------------Constructor:----------------------------------------------------------------\\
         #region --Constructors--
-        public OmemoSetBundleInformationMessage(string from, OmemoBundleInformation bundleInfo) : base(from, null, Consts.XML_XEP_0384_BUNDLE_INFO_NODE)
+        public OmemoSetBundleInformationMessage(string from, OmemoBundleInformation bundleInfo) : base(from, null, Consts.XML_XEP_0384_BUNDLES_NODE)
         {
             BUNDLE_INFO = bundleInfo;
         }
