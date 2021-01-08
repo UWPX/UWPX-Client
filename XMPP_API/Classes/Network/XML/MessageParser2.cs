@@ -29,23 +29,13 @@ namespace XMPP_API.Classes.Network.XML
     {
         //--------------------------------------------------------Attributes:-----------------------------------------------------------------\\
         #region --Attributes--
-        public readonly MessageParserStats STATS;
-        private readonly XmlReaderSettings READER_SETTINGS;
+        public readonly MessageParserStats STATS = new MessageParserStats();
+        private static readonly XmlReaderSettings READER_SETTINGS = new XmlReaderSettings { ConformanceLevel = ConformanceLevel.Fragment };
 
         #endregion
         //--------------------------------------------------------Constructor:----------------------------------------------------------------\\
         #region --Constructors--
-        /// <summary>
-        /// Basic Constructor
-        /// </summary>
-        /// <history>
-        /// 01/09/2017 Created [Fabian Sauter]
-        /// </history>
-        public MessageParser2()
-        {
-            STATS = new MessageParserStats();
-            READER_SETTINGS = new XmlReaderSettings { ConformanceLevel = ConformanceLevel.Fragment };
-        }
+
 
         #endregion
         //--------------------------------------------------------Set-, Get- Methods:---------------------------------------------------------\\
@@ -65,15 +55,12 @@ namespace XMPP_API.Classes.Network.XML
             return messages;
         }
 
-        #endregion
-
-        #region --Misc Methods (Private)--
         /// <summary>
         /// Reads all root nodes from a given XML string and returns them.
         /// </summary>
         /// <param name="msg">A valid XML string.</param>
         /// <returns>A list of XmlNodes read from the given XML string.</returns>
-        private List<XmlNode> parseToXmlNodes(in string msg)
+        public static List<XmlNode> parseToXmlNodes(in string msg)
         {
             List<XmlNode> nodes = new List<XmlNode>();
             using (XmlReader reader = XmlReader.Create(new StringReader(msg), READER_SETTINGS))
@@ -95,6 +82,21 @@ namespace XMPP_API.Classes.Network.XML
             return nodes;
         }
 
+        /// <summary>
+        /// Translates a given XElement to an XmlNode.
+        /// </summary>
+        /// <param name="xElement">The XElement that should get translated to an XmlNode.</param>
+        /// <returns>The corresponding XmlNode for the given XElement.</returns>
+        public static XmlNode toXmlNode(XElement xElement)
+        {
+            XmlDocument doc = new XmlDocument();
+            doc.LoadXml(xElement.ToString());
+            return doc.FirstChild;
+        }
+
+        #endregion
+
+        #region --Misc Methods (Private)--
         private List<AbstractMessage> parseMessageInternal(ref string msg)
         {
             List<AbstractMessage> messages = new List<AbstractMessage>();
@@ -592,18 +594,6 @@ namespace XMPP_API.Classes.Network.XML
                     }
                 }
             }
-        }
-
-        /// <summary>
-        /// Translates a given XElement to an XmlNode.
-        /// </summary>
-        /// <param name="xElement">The XElement that should get translated to an XmlNode.</param>
-        /// <returns>The corresponding XmlNode for the given XElement.</returns>
-        private XmlNode toXmlNode(XElement xElement)
-        {
-            XmlDocument doc = new XmlDocument();
-            doc.LoadXml(xElement.ToString());
-            return doc.FirstChild;
         }
 
         #endregion

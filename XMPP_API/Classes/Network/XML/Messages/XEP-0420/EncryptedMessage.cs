@@ -10,8 +10,8 @@ namespace XMPP_API.Classes.Network.XML.Messages.XEP_0420
     {
         //--------------------------------------------------------Attributes:-----------------------------------------------------------------\\
         #region --Attributes--
-        public readonly string REF_TO;
-        public readonly string REF_FROM;
+        public string refTo;
+        public string refFrom;
         public DateTime timeStamp;
 
         #endregion
@@ -23,8 +23,8 @@ namespace XMPP_API.Classes.Network.XML.Messages.XEP_0420
 
         public EncryptedMessage(string from, string to, string message, string type, bool reciptRequested) : base(from, to, message, type, reciptRequested)
         {
-            REF_TO = to;
-            REF_FROM = from;
+            refTo = to;
+            refFrom = from;
         }
 
         #endregion
@@ -37,15 +37,15 @@ namespace XMPP_API.Classes.Network.XML.Messages.XEP_0420
         #region --Misc Methods (Public)--
         public bool Verify()
         {
-            if (!string.Equals(REF_FROM, FROM))
+            if (!string.Equals(refFrom, FROM))
             {
-                Logger.Error("From attribute of an encrypted message does not match: " + REF_FROM + " =! " + FROM);
+                Logger.Error("From attribute of an encrypted message does not match: " + refFrom + " =! " + FROM);
                 return false;
             }
 
-            if (!string.Equals(REF_TO, TO))
+            if (!string.Equals(refTo, TO))
             {
-                Logger.Error("To attribute of an encrypted message does not match: " + REF_TO + " =! " + TO);
+                Logger.Error("To attribute of an encrypted message does not match: " + refTo + " =! " + TO);
                 return false;
             }
 
@@ -61,7 +61,7 @@ namespace XMPP_API.Classes.Network.XML.Messages.XEP_0420
         #endregion
 
         #region --Misc Methods (Private)--
-        private bool ValidateTimeStamp()
+        protected bool ValidateTimeStamp()
         {
             return true;
         }

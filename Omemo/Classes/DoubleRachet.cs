@@ -9,15 +9,15 @@ namespace Omemo.Classes
     {
         //--------------------------------------------------------Attributes:-----------------------------------------------------------------\\
         #region --Attributes--
-        private readonly IdentityKeyPair SENDER_IDENTITY_KEY;
+        private readonly IdentityKeyPair OWN_IDENTITY_KEY;
         private readonly IOmemoStorage STORAGE;
 
         #endregion
         //--------------------------------------------------------Constructor:----------------------------------------------------------------\\
         #region --Constructors--
-        public DoubleRachet(IdentityKeyPair senderIdentityKey, IOmemoStorage storage)
+        public DoubleRachet(IdentityKeyPair ownIdentityKey, IOmemoStorage storage)
         {
-            SENDER_IDENTITY_KEY = senderIdentityKey;
+            OWN_IDENTITY_KEY = ownIdentityKey;
             STORAGE = storage;
         }
 
@@ -30,9 +30,9 @@ namespace Omemo.Classes
         /// <param name="receiverIdentityKey">The receivers public identity key.</param>
         public byte[] GetAssociatedData(ECPubKey receiverIdentityKey)
         {
-            byte[] ad = new byte[SENDER_IDENTITY_KEY.pubKey.key.Length + receiverIdentityKey.key.Length];
-            Buffer.BlockCopy(SENDER_IDENTITY_KEY.pubKey.key, 0, ad, 0, SENDER_IDENTITY_KEY.pubKey.key.Length);
-            Buffer.BlockCopy(receiverIdentityKey.key, 0, ad, SENDER_IDENTITY_KEY.pubKey.key.Length, receiverIdentityKey.key.Length);
+            byte[] ad = new byte[OWN_IDENTITY_KEY.pubKey.key.Length + receiverIdentityKey.key.Length];
+            Buffer.BlockCopy(OWN_IDENTITY_KEY.pubKey.key, 0, ad, 0, OWN_IDENTITY_KEY.pubKey.key.Length);
+            Buffer.BlockCopy(receiverIdentityKey.key, 0, ad, OWN_IDENTITY_KEY.pubKey.key.Length, receiverIdentityKey.key.Length);
             return ad;
         }
 
@@ -84,7 +84,7 @@ namespace Omemo.Classes
                     // To account for lost and out-of-order messages during the key exchange, OmemoKeyExchange structures are sent until a response by the recipient confirms that the key exchange was successfully completed.
                     if (session.nS == 0 || session.nR == 0)
                     {
-                        OmemoKeyExchange kexMsg = new OmemoKeyExchange(session.preKeyId, session.signedPreKeyId, SENDER_IDENTITY_KEY.pubKey, session.ek, authMsg);
+                        OmemoKeyExchange kexMsg = new OmemoKeyExchange(session.preKeyId, session.signedPreKeyId, OWN_IDENTITY_KEY.pubKey, session.ek, authMsg);
                         groupMsgs.Add(new Tuple<uint, IOmemoMessage>(device.Key, kexMsg));
                     }
                     else
