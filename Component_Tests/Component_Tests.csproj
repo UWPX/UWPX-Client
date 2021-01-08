@@ -127,13 +127,8 @@
     <SDKReference Include="TestPlatform.Universal, Version=$(UnitTestPlatformVersion)" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Classes\Crypto\Libsignal\InMemoryIdentityKeyStore.cs" />
-    <Compile Include="Classes\Crypto\Libsignal\InMemoryPreKeyStore.cs" />
-    <Compile Include="Classes\Crypto\Libsignal\InMemorySessionStore.cs" />
-    <Compile Include="Classes\Crypto\Libsignal\InMemorySignedPreKeyStore.cs" />
-    <Compile Include="Classes\Crypto\Libsignal\Test_Libsignal.cs" />
+    <Compile Include="Classes\Crypto\Omemo\InMemmoryOmemoStorage.cs" />
     <Compile Include="Classes\Crypto\Omemo\Test_Omemo.cs" />
-    <Compile Include="Classes\Crypto\Test_Aes128GcmCpp.cs" />
     <Compile Include="Classes\Crypto\Test_CryptoUtils.cs" />
     <Compile Include="Classes\Misc\Test_DateTimeParserHelper.cs" />
     <Compile Include="Classes\Misc\Test_ConsistentColorGenerator.cs" />
@@ -186,6 +181,10 @@
     <ProjectReference Include="..\Logging\Logging.csproj">
       <Project>{0c1fb090-4492-441d-b182-c999df71f917}</Project>
       <Name>Logging</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Omemo\Omemo.csproj">
+      <Project>{e8d1b7b3-548a-4f0f-a703-48ab327b9340}</Project>
+      <Name>Omemo</Name>
     </ProjectReference>
     <ProjectReference Include="..\Shared\Shared.csproj">
       <Project>{c4af94da-11cf-4147-b5b7-4b2dc7c624a0}</Project>

@@ -1,14 +1,14 @@
 ﻿using System;
 using System.Linq;
 using System.Text;
-using libsignal;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
+using Omemo.Classes.Keys;
 using XMPP_API.Classes.Crypto;
 
 namespace Component_Tests.Classes.Crypto
 {
     [TestClass]
-    internal class Test_CryptoUtils
+    public class Test_CryptoUtils
     {
         [TestCategory("Crypto")]
         [TestMethod]
@@ -129,13 +129,12 @@ namespace Component_Tests.Classes.Crypto
         [TestMethod]
         public void Test_CryptoUtils_GenOmemoFingerprint()
         {
-            string identKeyPairSerializedHex = "0a210511dbad7fcece74492f390f0a2a8387c543e802ab7f2176e303e28840559c41521220a082ae07fd8941536457cb2f3e4b560a87991d380f02af460b5204e46ca7b15a";
-            byte[] identKeyPairSerialized = CryptoUtils.hexStringToByteArray(identKeyPairSerializedHex);
-            IdentityKeyPair identKeyPair = new IdentityKeyPair(identKeyPairSerialized);
+            string publicIdentKeySerializedHex = "3b6a27bcceb6a42d62a3a8d02a6f0d73653215771de243a63ac048a18b59da29";
+            byte[] publicIdentKeySerialized = CryptoUtils.hexStringToByteArray(publicIdentKeySerializedHex);
+            ECPubKey identKeyPair = new ECPubKey(publicIdentKeySerialized);
 
-            string outputRef = "11dbad7f cece7449 2f390f0a 2a8387c5 43e802ab 7f2176e3 03e28840 559c4152";
-            byte[] keyRaw = CryptoUtils.getRawFromECPublicKey(identKeyPair.getPublicKey().getPublicKey());
-            string output = CryptoUtils.generateOmemoFingerprint(keyRaw);
+            string outputRef = "3b6a27bc ceb6a42d 62a3a8d0 2a6f0d73 65321577 1de243a6 3ac048a1 8b59da29";
+            string output = CryptoUtils.generateOmemoFingerprint(identKeyPair.key);
 
             Assert.AreEqual(outputRef, output);
         }

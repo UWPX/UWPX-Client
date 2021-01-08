@@ -307,7 +307,7 @@ namespace XMPP_API.Classes.Network.XML
                                                             fondNode = true;
                                                         }
                                                         // XEP-0384 (OMEMO Encryption) bundle information:
-                                                        else if (nodeAttr.StartsWith(Consts.XML_XEP_0384_BUNDLE_INFO_NODE))
+                                                        else if (nodeAttr.StartsWith(Consts.XML_XEP_0384_BUNDLES_NODE))
                                                         {
                                                             messages.Add(new OmemoBundleInformationResultMessage(n));
                                                             fondNode = true;

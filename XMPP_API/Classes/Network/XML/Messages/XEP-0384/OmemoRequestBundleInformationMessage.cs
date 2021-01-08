@@ -12,7 +12,7 @@ namespace XMPP_API.Classes.Network.XML.Messages.XEP_0384
         #endregion
         //--------------------------------------------------------Constructor:----------------------------------------------------------------\\
         #region --Constructors--
-        public OmemoRequestBundleInformationMessage(string from, string to, uint deviceId) : base(from, to, Consts.XML_XEP_0384_BUNDLE_INFO_NODE, 1)
+        public OmemoRequestBundleInformationMessage(string from, string to, uint deviceId) : base(from, to, Consts.XML_XEP_0384_BUNDLES_NODE, 1)
         {
             DEVICE_ID = deviceId;
         }

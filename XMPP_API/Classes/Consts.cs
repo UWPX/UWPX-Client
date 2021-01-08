@@ -76,7 +76,7 @@ namespace XMPP_API.Classes
         // XEP-0384 (OMEMO Encryption):
         public const string XML_XEP_0384_NAMESPACE = "urn:xmpp:omemo:1";
         public const string XML_XEP_0384_DEVICE_LIST_NODE = "urn:xmpp:omemo:1:devices";
-        public const string XML_XEP_0384_BUNDLE_INFO_NODE = "urn:xmpp:omemo:1:bundles";
+        public const string XML_XEP_0384_BUNDLES_NODE = "urn:xmpp:omemo:1:bundles";
         // XEP-0280 (Message Carbons):
         public const string XML_XEP_0280_NAMESPACE = "urn:xmpp:carbons:2";
         public const string XML_XEP_0280_NAMESPACE_FORWARDED = "urn:xmpp:forward:0";
