@@ -1,12 +1,11 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 using DnsClient.Protocol;
 using Logging;
 using Omemo.Classes.Keys;
 using Shared.Classes;
 using Shared.Classes.Collections;
-using XMPP_API.Classes.Crypto;
 using XMPP_API.Classes.Network.TCP;
 using XMPP_API.Classes.Network.XML.Messages.XEP_0384;
 
@@ -80,23 +79,17 @@ namespace XMPP_API.Classes.Network
             get => _omemoKeysGenerated;
             set => SetProperty(ref _omemoKeysGenerated, value);
         }
-        private IdentityKeyPair _omemoIdentityKeyPair;
-        public IdentityKeyPair omemoIdentityKeyPair
+        private IdentityKeyPair _omemoIdentityKey;
+        public IdentityKeyPair omemoIdentityKey
         {
-            get => _omemoIdentityKeyPair;
-            set => SetProperty(ref _omemoIdentityKeyPair, value);
+            get => _omemoIdentityKey;
+            set => SetProperty(ref _omemoIdentityKey, value);
         }
-        private uint _omemoSignedPreKeyId;
-        public uint omemoSignedPreKeyId
+        private SignedPreKey _omemoSignedPreKey;
+        public SignedPreKey omemoSignedPreKey
         {
-            get => _omemoSignedPreKeyId;
-            set => SetProperty(ref _omemoSignedPreKeyId, value);
-        }
-        private SignedPreKey _omemoSignedPreKeyPair;
-        public SignedPreKey omemoSignedPreKeyPair
-        {
-            get => _omemoSignedPreKeyPair;
-            set => SetProperty(ref _omemoSignedPreKeyPair, value);
+            get => _omemoSignedPreKey;
+            set => SetProperty(ref _omemoSignedPreKey, value);
         }
         private uint _omemoDeviceId;
         public uint omemoDeviceId
@@ -169,9 +162,9 @@ namespace XMPP_API.Classes.Network
             status = null;
             CONNECTION_INFO = new ConnectionInformation();
             CONNECTION_INFO.PropertyChanged += CONNECTION_INFO_PropertyChanged;
-            omemoIdentityKeyPair = null;
-            omemoSignedPreKeyPair = null;
-            OMEMO_PRE_KEYS = new CustomObservableCollection<PreKeyRecord>(false);
+            omemoIdentityKey = null;
+            omemoSignedPreKey = null;
+            OMEMO_PRE_KEYS = new CustomObservableCollection<PreKey>(false);
             OMEMO_PRE_KEYS.CollectionChanged += OMEMO_PRE_KEYS_CollectionChanged;
             omemoDeviceId = 0;
             omemoBundleInfoAnnounced = false;
@@ -187,7 +180,7 @@ namespace XMPP_API.Classes.Network
         #region --Set-, Get- Methods--
         public bool checkOmemoKeys()
         {
-            return omemoKeysGenerated && !(omemoIdentityKeyPair is null || OMEMO_PRE_KEYS.Count <= 0 || omemoSignedPreKeyPair is null);
+            return omemoKeysGenerated && !(omemoIdentityKey is null || OMEMO_PRE_KEYS.Count <= 0 || omemoSignedPreKey is null);
         }
 
         public string getBareJid()
@@ -202,12 +195,15 @@ namespace XMPP_API.Classes.Network
 
         public OmemoBundleInformation getOmemoBundleInformation()
         {
-            List<Tuple<uint, ECPublicKey>> pubPreKeys = new List<Tuple<uint, ECPublicKey>>();
-            foreach (PreKeyRecord key in OMEMO_PRE_KEYS)
+            Bundle bundle = new Bundle()
             {
-                pubPreKeys.Add(new Tuple<uint, ECPublicKey>(key.getId(), key.getKeyPair().getPublicKey()));
-            }
-            return new OmemoBundleInformation(omemoIdentityKeyPair.getPublicKey().getPublicKey(), omemoSignedPreKeyPair.getKeyPair().getPublicKey(), omemoSignedPreKeyId, omemoSignedPreKeyPair.getSignature(), pubPreKeys);
+                identityKey = omemoIdentityKey.pubKey,
+                preKeys = OMEMO_PRE_KEYS.Select(key => new PreKey(null, key.pubKey, key.id)).ToList(),
+                preKeySignature = omemoSignedPreKey.signature,
+                signedPreKey = omemoSignedPreKey.preKey.pubKey,
+                signedPreKeyId = omemoSignedPreKey.preKey.id
+            };
+            return new OmemoBundleInformation(bundle, omemoDeviceId);
         }
 
         private void setXMPPUserProperty(XMPPUser value)
@@ -233,100 +229,12 @@ namespace XMPP_API.Classes.Network
             if (!(connectionConfiguration is null))
             {
                 connectionConfiguration.PropertyChanged += ConnectionConfiguration_PropertyChanged;
-                ;
             }
         }
 
         #endregion
         //--------------------------------------------------------Misc Methods:---------------------------------------------------------------\\
         #region --Misc Methods (Public)--
-        /// <summary>
-        /// Loads all OMEMO keys from the given store.
-        /// </summary>
-        /// <param name="omemoStore">A persistent store for all the OMEMO related data (e.g. device ids and keys).</param>
-        /// <returns>Returns true on success.</returns>
-        public bool loadOmemoKeys(IExtendedOmemoStorage omemoStore)
-        {
-            if (!omemoKeysGenerated)
-            {
-                Logger.Error("Failed to load OMEMO keys for: " + getBareJid() + " - run generateOmemoKeys() first!");
-                return false;
-            }
-
-            OMEMO_PRE_KEYS.Clear();
-            OMEMO_PRE_KEYS.AddRange(omemoStore.LoadPreKeys());
-            if (OMEMO_PRE_KEYS.Count <= 0)
-            {
-                Logger.Error("Failed to load OMEMO prekeys for: " + getBareJid());
-                return false;
-            }
-
-            omemoSignedPreKeyPair = omemoStore.LoadSignedPreKey(omemoSignedPreKeyId);
-            if (omemoSignedPreKeyPair is null)
-            {
-                Logger.Error("Failed to load OMEMO signed prekey pair for: " + getBareJid());
-                return false;
-            }
-
-            Logger.Info("Successfully loaded OMEMO keys for: " + getBareJid());
-            return true;
-        }
-
-        /// <summary>
-        /// Stores all OMEMO keys in the given store.
-        /// </summary>
-        /// <param name="omemoStore">A persistent store for all the OMEMO related data (e.g. device ids and keys).</param>
-        /// <returns>Returns true on success.</returns>
-        public bool storeOmemoKeys(IOmemoStore omemoStore)
-        {
-            if (!checkOmemoKeys())
-            {
-                Logger.Error("Failed to save OMEMO keys for: " + getBareJid());
-                return false;
-            }
-            omemoStore.StoreSignedPreKey(omemoSignedPreKeyId, omemoSignedPreKeyPair);
-            omemoStore.StorePreKeys(OMEMO_PRE_KEYS);
-            return true;
-        }
-
-        /// <summary>
-        /// Generates a new omemoIdentityKeyPair, omemoSignedPreKeyPair, omemoPreKeys.
-        /// Sets omemoDeviceId to 0.
-        /// Sets omemoBundleInfoAnnounced to false.
-        /// Sets omemoKeysGenerated to true.
-        /// </summary>
-        public void generateOmemoKeys()
-        {
-            omemoDeviceId = 0;
-            omemoBundleInfoAnnounced = false;
-            omemoIdentityKeyPair = CryptoUtils.generateOmemoIdentityKeyPair();
-            OMEMO_PRE_KEYS.Clear();
-            OMEMO_PRE_KEYS.AddRange(CryptoUtils.generateOmemoPreKeys());
-            omemoSignedPreKeyPair = CryptoUtils.generateOmemoSignedPreKey(omemoIdentityKeyPair);
-            omemoSignedPreKeyId = omemoSignedPreKeyPair.getId();
-            omemoKeysGenerated = true;
-        }
-
-        public void replaceOmemoPreKey(uint preKeyId, IOmemoStore omemoStore)
-        {
-            // Remove key:
-            foreach (PreKeyRecord key in OMEMO_PRE_KEYS)
-            {
-                if (key.getId() == preKeyId)
-                {
-                    OMEMO_PRE_KEYS.Remove(key);
-                    omemoStore.RemovePreKey(preKeyId);
-                    break;
-                }
-            }
-
-            // Generate new key:
-            PreKeyRecord newKey = KeyHelper.generatePreKeys(preKeyId, 1)[0];
-            OMEMO_PRE_KEYS.Add(newKey);
-            omemoStore.StorePreKey(newKey.getId(), newKey);
-            omemoBundleInfoAnnounced = false;
-        }
-
         public override bool Equals(object obj)
         {
             if (obj is XMPPAccount)
@@ -342,11 +250,12 @@ namespace XMPP_API.Classes.Network
                     string.Equals(o.status, status) &&
                     connectionConfiguration.Equals(o.connectionConfiguration) &&
                     o.omemoDeviceId == omemoDeviceId &&
+                    string.Equals(o.omemoDeviceLabel, omemoDeviceLabel) &&
                     o.omemoKeysGenerated == omemoKeysGenerated &&
-                    Equals(o.omemoIdentityKeyPair.serialize(), omemoIdentityKeyPair.serialize()) &&
-                    Equals(o.omemoSignedPreKeyPair.serialize(), omemoSignedPreKeyPair.serialize()) &&
-                    Equals(o.OMEMO_PRE_KEYS, OMEMO_PRE_KEYS) &&
                     o.omemoBundleInfoAnnounced == omemoBundleInfoAnnounced &&
+                    Equals(o.omemoIdentityKey, omemoIdentityKey) &&
+                    Equals(o.omemoSignedPreKey, omemoSignedPreKey) &&
+                    o.OMEMO_PRE_KEYS.SequenceEqual(OMEMO_PRE_KEYS) &&
                     string.Equals(o.pushNode, pushNode) &&
                     string.Equals(o.pushNodeSecret, pushNodeSecret) &&
                     string.Equals(o.pushServerBareJid, pushServerBareJid) &&

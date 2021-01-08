@@ -131,7 +131,6 @@
   </PropertyGroup>
   <ItemGroup>
     <Compile Include="Classes\Consts.cs" />
-    <Compile Include="Classes\Crypto\Aes128GcmCpp.cs" />
     <Compile Include="Classes\Crypto\CryptoUtils.cs" />
     <Compile Include="Classes\Events\NewPresenceMessageEventArgs.cs" />
     <Compile Include="Classes\Events\OmemoSessionBuildErrorEventArgs.cs" />
@@ -325,8 +324,6 @@
     <Compile Include="Classes\Network\XML\Messages\XEP-0363\HTTPUploadResponseSlotMessage.cs" />
     <Compile Include="Classes\Network\XML\Messages\XEP-0363\HTTPUploadSlot.cs" />
     <Compile Include="Classes\Network\XML\Messages\XEP-0384\IExtendedOmemoStorage.cs" />
-    <Compile Include="Classes\Network\XML\Messages\XEP-0384\IOmemoDeviceStore.cs" />
-    <Compile Include="Classes\Network\XML\Messages\XEP-0384\IOmemoFingerprintStore.cs" />
     <Compile Include="Classes\Network\XML\Messages\XEP-0384\OmemoBundleInformation.cs" />
     <Compile Include="Classes\Network\XML\Messages\XEP-0384\OmemoBundleInformationResultMessage.cs" />
     <Compile Include="Classes\Network\XML\Messages\XEP-0384\OmemoXmlDevice.cs" />

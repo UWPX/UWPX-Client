@@ -75,7 +75,7 @@ namespace Data_Manager2.Classes.DBTables
             status = account.status;
             omemoKeysGenerated = account.omemoKeysGenerated;
             omemoDeviceId = account.omemoDeviceId;
-            omemoIdentityKeyPair = account.omemoIdentityKeyPair?.serialize();
+            omemoIdentityKeyPair = account.omemoIdentityKey?.serialize();
             omemoBundleInfoAnnounced = account.omemoBundleInfoAnnounced;
             omemoSignedPreKeyId = account.omemoSignedPreKeyId;
         }
@@ -93,7 +93,7 @@ namespace Data_Manager2.Classes.DBTables
                 status = status,
                 omemoKeysGenerated = omemoKeysGenerated,
                 omemoDeviceId = omemoDeviceId,
-                omemoIdentityKeyPair = omemoIdentityKeyPair is null ? null : new libsignal.IdentityKeyPair(omemoIdentityKeyPair),
+                omemoIdentityKey = omemoIdentityKeyPair is null ? null : new libsignal.IdentityKeyPair(omemoIdentityKeyPair),
                 omemoBundleInfoAnnounced = omemoBundleInfoAnnounced,
                 omemoSignedPreKeyId = omemoSignedPreKeyId
             };

@@ -40,7 +40,7 @@ namespace UWPX_UI_Context.Classes.DataTemplates.Controls.OMEMO
         {
             if (!(account is null))
             {
-                IdentityKey key = account.omemoIdentityKeyPair?.getPublicKey();
+                IdentityKey key = account.omemoIdentityKey?.getPublicKey();
                 IdentPubKey = key.getPublicKey();
                 QrCodeFingerprint = !(key is null) ? CryptoUtils.generateOmemoQrCodeFingerprint(key, account) : null;
                 return;

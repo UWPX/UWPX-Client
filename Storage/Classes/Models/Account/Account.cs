@@ -82,10 +82,10 @@ namespace Storage.Classes.Models.Account
                 status = status,
                 omemoKeysGenerated = omemoInfo.keysGenerated,
                 omemoDeviceId = omemoInfo.deviceId,
-                omemoIdentityKeyPair = CryptoUtils.loadIdentityKeyPair(omemoInfo.identityKeyPair),
+                omemoIdentityKey = CryptoUtils.loadIdentityKeyPair(omemoInfo.identityKey),
                 omemoBundleInfoAnnounced = omemoInfo.bundleInfoAnnounced,
                 omemoSignedPreKeyId = omemoInfo.signedPreKeys.keyId,
-                omemoSignedPreKeyPair = CryptoUtils.loadSignedPreKeyRecord(omemoInfo.signedPreKeys.key)
+                omemoSignedPreKey = CryptoUtils.loadSignedPreKeyRecord(omemoInfo.signedPreKeys.key)
             };
         }
 

@@ -76,25 +76,25 @@ namespace Omemo.Classes
             foreach (OmemoDeviceGroup group in devices)
             {
                 List<Tuple<uint, IOmemoMessage>> groupMsgs = new List<Tuple<uint, IOmemoMessage>>();
-                foreach (Tuple<uint, OmemoSession> device in group.SESSIONS)
+                foreach (KeyValuePair<uint, OmemoSession> device in group.SESSIONS)
                 {
-                    OmemoSession session = device.Item2;
-                    OmemoAuthenticatedMessage authMsg = EncryptForDevice(keyHmac, device.Item2, GetAssociatedData(device.Item2.dhR.pubKey));
+                    OmemoSession session = device.Value;
+                    OmemoAuthenticatedMessage authMsg = EncryptForDevice(keyHmac, device.Value, GetAssociatedData(device.Value.dhR.pubKey));
 
                     // To account for lost and out-of-order messages during the key exchange, OmemoKeyExchange structures are sent until a response by the recipient confirms that the key exchange was successfully completed.
                     if (session.nS == 0 || session.nR == 0)
                     {
                         OmemoKeyExchange kexMsg = new OmemoKeyExchange(session.preKeyId, session.signedPreKeyId, SENDER_IDENTITY_KEY.pubKey, session.ek, authMsg);
-                        groupMsgs.Add(new Tuple<uint, IOmemoMessage>(device.Item1, kexMsg));
+                        groupMsgs.Add(new Tuple<uint, IOmemoMessage>(device.Key, kexMsg));
                     }
                     else
                     {
-                        groupMsgs.Add(new Tuple<uint, IOmemoMessage>(device.Item1, authMsg));
+                        groupMsgs.Add(new Tuple<uint, IOmemoMessage>(device.Key, authMsg));
                     }
 
                     // Update the session and store it:
                     ++session.nS;
-                    STORAGE.StoreSession(new OmemoProtocolAddress(group.BARE_JID, device.Item1), session);
+                    STORAGE.StoreSession(new OmemoProtocolAddress(group.BARE_JID, device.Key), session);
                 }
                 msgs.Add(new Tuple<string, List<Tuple<uint, IOmemoMessage>>>(group.BARE_JID, groupMsgs));
             }

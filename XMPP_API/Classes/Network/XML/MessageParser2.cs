@@ -511,7 +511,7 @@ namespace XMPP_API.Classes.Network.XML
             // XEP-0384 (OMEMO Encryption):
             if (XMLUtils.getChildNode(n, "encrypted", Consts.XML_XMLNS, Consts.XML_XEP_0384_NAMESPACE) != null)
             {
-                messages.Add(new OmemoMessageMessage(n, ccType));
+                messages.Add(new OmemoEncryptedMessage(n, ccType));
             }
             // XEP-0184 (Message Delivery Receipts):
             else if (XMLUtils.getChildNode(n, "received", Consts.XML_XMLNS, Consts.XML_XEP_0184_NAMESPACE) != null)

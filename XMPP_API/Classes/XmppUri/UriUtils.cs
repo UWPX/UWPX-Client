@@ -3,11 +3,10 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Net;
 using System.Text;
-using libsignal;
-using libsignal.ecc;
 using Logging;
+using Omemo.Classes;
+using Omemo.Classes.Keys;
 using Windows.Foundation;
-using XMPP_API.Classes.Crypto;
 using XMPP_API.Classes.Network.XML.Messages.XEP_0384;
 
 namespace XMPP_API.Classes.XmppUri
@@ -186,11 +185,11 @@ namespace XMPP_API.Classes.XmppUri
                         IWwwFormUrlDecoderEntry entry = query.FirstOrDefault(x => x.Name.StartsWith("omemo-sid-"));
                         if (!(entry is null))
                         {
-                            ECPublicKey pubKey = null;
+                            ECPubKey pubKey = null;
                             try
                             {
-                                byte[] fingerprintBytes = CryptoUtils.hexStringToByteArray(entry.Value);
-                                pubKey = Curve.decodePoint(fingerprintBytes, 0);
+                                byte[] fingerprintBytes = Crypto.CryptoUtils.hexStringToByteArray(entry.Value);
+                                pubKey = new ECPubKey(fingerprintBytes);
                             }
                             catch (Exception e)
                             {
@@ -200,7 +199,7 @@ namespace XMPP_API.Classes.XmppUri
 
                             if (uint.TryParse(entry.Name.Replace("omemo-sid-", "").Trim(), out uint deviceId))
                             {
-                                SignalProtocolAddress address = new SignalProtocolAddress(uri.LocalPath, deviceId);
+                                OmemoProtocolAddress address = new OmemoProtocolAddress(uri.LocalPath, deviceId);
                                 return new OmemoFingerprintUriAction(new OmemoFingerprint(pubKey, address));
                             }
                             else

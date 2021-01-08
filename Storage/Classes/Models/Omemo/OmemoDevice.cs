@@ -18,6 +18,10 @@ namespace Storage.Classes.Models.Omemo
         [Required]
         public uint deviceId { get; set; }
         /// <summary>
+        /// The local name for this device.
+        /// </summary>
+        public string deviceLabel { get; set; }
+        /// <summary>
         /// Not null in case there exists a session with this device.
         /// </summary>
         public OmemoSession session { get; set; }
