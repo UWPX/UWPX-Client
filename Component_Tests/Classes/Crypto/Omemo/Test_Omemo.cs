@@ -19,6 +19,61 @@ namespace Component_Tests.Classes.Crypto.Omemo
 
         [TestCategory("Crypto")]
         [TestMethod]
+        public void Test_Double_Rachet()
+        {
+            // Generate Alices keys:
+            IdentityKeyPair aliceIdentKey = KeyHelper.GenerateIdentityKeyPair();
+            List<PreKey> alicePreKeys = KeyHelper.GeneratePreKeys(0, 100);
+            SignedPreKey aliceSignedPreKey = KeyHelper.GenerateSignedPreKey(0, aliceIdentKey.privKey);
+            Bundle aliceBundle = new Bundle()
+            {
+                identityKey = aliceIdentKey.pubKey,
+                preKeys = alicePreKeys.Select(key => new PreKey(null, key.pubKey, key.id)).ToList(),
+                preKeySignature = aliceSignedPreKey.signature,
+                signedPreKey = aliceSignedPreKey.preKey.pubKey,
+                signedPreKeyId = aliceSignedPreKey.preKey.id
+            };
+            InMemmoryOmemoStorage aliceStorage = new InMemmoryOmemoStorage();
+            DoubleRachet aliceRachet = new DoubleRachet(aliceIdentKey, aliceStorage);
+
+            // Generate Bobs keys:
+            IdentityKeyPair bobIdentKey = KeyHelper.GenerateIdentityKeyPair();
+            List<PreKey> bobPreKeys = KeyHelper.GeneratePreKeys(0, 100);
+            SignedPreKey bobSignedPreKey = KeyHelper.GenerateSignedPreKey(0, bobIdentKey.privKey);
+            Bundle bobBundle = new Bundle()
+            {
+                identityKey = bobIdentKey.pubKey,
+                preKeys = bobPreKeys.Select(key => new PreKey(null, key.pubKey, key.id)).ToList(),
+                preKeySignature = bobSignedPreKey.signature,
+                signedPreKey = bobSignedPreKey.preKey.pubKey,
+                signedPreKeyId = bobSignedPreKey.preKey.id
+            };
+            InMemmoryOmemoStorage bobStorage = new InMemmoryOmemoStorage();
+            DoubleRachet bobRachet = new DoubleRachet(bobIdentKey, bobStorage);
+
+            //-----------------OMEOMO Session Building:-----------------
+            MessageParser2 parser = new MessageParser2();
+
+            string deviceListMsg = GetBobsDeviceListMsg();
+            List<AbstractMessage> messages = parser.parseMessages(ref deviceListMsg);
+            Assert.IsTrue(messages.Count == 1);
+            Assert.IsTrue(messages[0] is OmemoDeviceListResultMessage);
+            OmemoDeviceListResultMessage devList = messages[0] as OmemoDeviceListResultMessage;
+
+            uint selectedBobDeviceId = devList.DEVICES.getRandomDeviceId();
+            Assert.IsTrue(selectedBobDeviceId == BOB_ADDRESS.DEVICE_ID);
+
+            // Alice builds a session to Bob:
+            string bundleInfoMsg = GetBobsBundleInfoMsg(bobBundle);
+            messages = parser.parseMessages(ref bundleInfoMsg);
+            Assert.IsTrue(messages.Count == 1);
+            Assert.IsTrue(messages[0] is OmemoBundleInformationResultMessage);
+            OmemoBundleInformationResultMessage bundleInfo = messages[0] as OmemoBundleInformationResultMessage;
+            Assert.IsTrue(bundleInfo.BUNDLE_INFO.deviceId == BOB_ADDRESS.DEVICE_ID);
+        }
+
+        [TestCategory("Crypto")]
+        [TestMethod]
         public void Test_Omemo_Enc_Dec()
         {
             // Generate Alices keys:
@@ -97,8 +152,6 @@ namespace Component_Tests.Classes.Crypto.Omemo
             Assert.IsInstanceOfType(messages[0], typeof(OmemoBundleInformationResultMessage));
 
             OmemoBundleInformationResultMessage bundleInfoMsg = messages[0] as OmemoBundleInformationResultMessage;
-
-            string i = XMPP_API.Classes.Crypto.CryptoUtils.byteArrayToHexString(bobIdentKey.pubKey.key);
 
             // Check if keys match:
             Assert.IsTrue(bundleInfoMsg.BUNDLE_INFO.bundle.identityKey.Equals(bobIdentKey.pubKey));

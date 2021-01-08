@@ -5,6 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Xml;
 using System.Xml.Linq;
+using Logging;
 using Omemo.Classes;
 using Omemo.Classes.Keys;
 using XMPP_API.Classes.Network.XML.Messages.XEP_0082;
@@ -126,24 +127,26 @@ namespace XMPP_API.Classes.Network.XML.Messages.XEP_0384
             ENCRYPTED = true;
         }
 
-        public bool decrypt()
+        /// <summary>
+        /// Tries to decrypt the message and returns true on success.
+        /// </summary>
+        /// <param name="receiverIdentityKey">The receives <see cref="IdentityKeyPair"/>.</param>
+        /// <param name="storage">An instance of the <see cref="IOmemoStorage"/> interface.</param>
+        /// <returns>True in case the message has been decrypted successfully.</returns>
+        public bool decrypt(IdentityKeyPair receiverIdentityKey, IOmemoStorage storage)
         {
-            // Content can be empty:
+            bool result = true;
+            // Content can be null in case we have a pure keys exchange message:
             if (!string.IsNullOrEmpty(BASE_64_PAYLOAD))
             {
                 byte[] contentEnc = Convert.FromBase64String(BASE_64_PAYLOAD);
-                byte[] contentDec = decryptContent(contentEnc);
+                byte[] contentDec = decryptContent(contentEnc, receiverIdentityKey, storage);
                 string contentStr = Encoding.UTF8.GetString(contentDec);
-                XDocument contentNode = XDocument.Parse(contentStr);
-                parseContentNode(contentNode);
+                XmlNode contentNode = getContentNode(contentStr);
+                result = parseContentNode(contentNode);
             }
             ENCRYPTED = false;
-            return true;
-        }
-
-        private void parseContentNode(XDocument contentNode)
-        {
-            throw new NotImplementedException("TODO");
+            return result;
         }
 
         #endregion
@@ -182,9 +185,70 @@ namespace XMPP_API.Classes.Network.XML.Messages.XEP_0384
             return contentNode;
         }
 
-        private byte[] decryptContent(byte[] data)
+        private byte[] decryptContent(byte[] data, IdentityKeyPair receiverIdentityKey, IOmemoStorage storage)
         {
-            throw new NotImplementedException();
+            DoubleRachet rachet = new DoubleRachet(receiverIdentityKey, storage); // TODO: Continue here
+            return data;
+        }
+
+        private XmlNode getContentNode(string contentNodeStr)
+        {
+            List<XmlNode> nodes = MessageParser2.parseToXmlNodes(contentNodeStr);
+            foreach (XmlNode n in nodes)
+            {
+                if (string.Equals(n.Name, "content") && string.Equals(n.Attributes[Consts.XML_XMLNS]?.Value, Consts.XML_XEP_0420_NAMESPACE))
+                {
+                    return n;
+                }
+            }
+            return null;
+        }
+
+        private bool parseContentNode(XmlNode contentNode)
+        {
+            // Validate the message:
+            XmlNode fromNode = XMLUtils.getChildNode(contentNode, "from");
+            if (!(fromNode is null))
+            {
+                refFrom = fromNode.Attributes["jid"]?.Value;
+                if (!string.Equals(refFrom, FROM))
+                {
+                    Logger.Error("Failed to parse OMEMO message. Content 'from' does not match: " + refFrom + " != " + FROM);
+                    return false;
+                }
+            }
+            XmlNode toNode = XMLUtils.getChildNode(contentNode, "to");
+            if (toNode is null)
+            {
+                Logger.Error("Failed to parse OMEMO message. Content does not contain a 'to' node for validation, which is mandatory.");
+                return false;
+            }
+            refTo = toNode.Attributes["jid"]?.Value;
+            if (!string.Equals(refTo, TO))
+            {
+                Logger.Error("Failed to parse OMEMO message. Content 'to' does not match: " + refTo + " != " + TO);
+                return false;
+            }
+            XmlNode timeNode = XMLUtils.getChildNode(contentNode, "time");
+            if (!(timeNode is null))
+            {
+                timeStamp = DateTimeHelper.Parse(timeNode.Attributes["stamp"]?.Value);
+                if (!ValidateTimeStamp())
+                {
+                    return false;
+                }
+            }
+
+
+            // Load the payload:
+            XmlNode payloadNode = XMLUtils.getChildNode(contentNode, "payload");
+            if (payloadNode is null)
+            {
+                XmlNode bodyNode = XMLUtils.getChildNode(contentNode, "body");
+                MESSAGE = bodyNode.Value;
+                return false;
+            }
+            return true;
         }
 
         #endregion
