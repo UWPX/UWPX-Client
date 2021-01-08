@@ -83,7 +83,7 @@ namespace Manager.Classes.Client
 
         public IdentityKeyPair GetIdentityKeyPair()
         {
-            return new IdentityKeyPair(dbAccount.omemoInfo.identityKeyPair);
+            return new IdentityKeyPair(dbAccount.omemoInfo.identityKey);
         }
 
         public uint GetLocalRegistrationId()

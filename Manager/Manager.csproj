@@ -130,6 +130,7 @@
     <Compile Include="Classes\ImageDownloadHandler.cs" />
     <Compile Include="Classes\MucHandler.cs" />
     <Compile Include="Classes\MucJoinHelper.cs" />
+    <Compile Include="Classes\OmemoStorage.cs" />
     <Compile Include="Classes\PostClientConnectedHandler.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <EmbeddedResource Include="Properties\Manager.rd.xml" />
@@ -147,6 +148,10 @@
     <ProjectReference Include="..\Logging\Logging.csproj">
       <Project>{0c1fb090-4492-441d-b182-c999df71f917}</Project>
       <Name>Logging</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Omemo\Omemo.csproj">
+      <Project>{E8D1B7B3-548A-4F0F-A703-48AB327B9340}</Project>
+      <Name>Omemo</Name>
     </ProjectReference>
     <ProjectReference Include="..\Shared\Shared.csproj">
       <Project>{c4af94da-11cf-4147-b5b7-4b2dc7c624a0}</Project>

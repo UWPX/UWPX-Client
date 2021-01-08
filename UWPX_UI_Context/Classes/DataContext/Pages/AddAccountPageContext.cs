@@ -59,8 +59,6 @@ namespace UWPX_UI_Context.Classes.DataContext.Pages
 
                 // Look up the DNS SRV record:
                 await account.dnsSrvLookupAsync();
-
-                account.generateOmemoKeys();
                 SetAccount(account);
             });
         }

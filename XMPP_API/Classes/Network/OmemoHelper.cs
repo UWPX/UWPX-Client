@@ -125,12 +125,6 @@ namespace XMPP_API.Classes.Network
             }
         }
 
-        public async Task removePreKeyAndRepublishAsync(uint preKeyId)
-        {
-            CONNECTION.account.replaceOmemoPreKey(preKeyId, OMEMO_STORAGE);
-            await announceBundleInfoAsync();
-        }
-
         #endregion
 
         #region --Misc Methods (Private)--
@@ -148,7 +142,7 @@ namespace XMPP_API.Classes.Network
             Tuple<List<OmemoEncryptedMessage>, OmemoSessionBuildHelper> cache = MESSAGE_CACHE[omemoSessions.DST_DEVICE_GROUP.BARE_JID];
             foreach (OmemoEncryptedMessage msg in cache.Item1)
             {
-                msg.encrypt(CONNECTION.account.omemoDeviceId, CONNECTION.account.omemoIdentityKeyPair, omemoSessions.);
+                msg.encrypt(CONNECTION.account.omemoDeviceId, CONNECTION.account.omemoIdentityKey, OMEMO_STORAGE, omemoSessions.toList());
                 await CONNECTION.SendAsync(msg, false);
             }
             MESSAGE_CACHE.Remove(omemoSessions.DST_DEVICE_GROUP.BARE_JID);

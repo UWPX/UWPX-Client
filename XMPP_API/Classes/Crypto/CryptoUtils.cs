@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Linq;
 using System.Runtime.InteropServices.WindowsRuntime;
+using System.Security.Cryptography;
 using System.Text;
 using System.Text.RegularExpressions;
 using Omemo.Classes.Keys;
@@ -140,6 +141,40 @@ namespace XMPP_API.Classes.Crypto
 
             // Return the encoded string
             return buffHash.ToArray();
+        }
+
+        public static byte[] hmacSha1(byte[] data, string key)
+        {
+            return hmacSha1(data, Encoding.UTF8.GetBytes(key));
+        }
+
+        public static byte[] hmacSha1(string data, string key)
+        {
+            return hmacSha1(Encoding.UTF8.GetBytes(data), Encoding.UTF8.GetBytes(key));
+        }
+
+        public static byte[] hmacSha1(string data, byte[] key)
+        {
+            return hmacSha1(Encoding.UTF8.GetBytes(data), key);
+        }
+
+        public static byte[] hmacSha1(byte[] data, byte[] key)
+        {
+            HMACSHA1 hmac = new HMACSHA1(key);
+            hmac.Initialize();
+            return hmac.ComputeHash(data);
+        }
+
+        /// <summary>
+        /// RFC 2898 with SHA1.
+        /// </summary>
+        public static byte[] pbkdf2Sha1(string normalizedPassword, byte[] salt, int iterations)
+        {
+            Rfc2898DeriveBytes deriveBytes = new Rfc2898DeriveBytes(normalizedPassword, salt)
+            {
+                IterationCount = iterations
+            };
+            return deriveBytes.GetBytes(20);
         }
 
         #endregion

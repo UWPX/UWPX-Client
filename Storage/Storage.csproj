@@ -139,10 +139,7 @@
     <Compile Include="Classes\Models\Omemo\OmemoDevice.cs" />
     <Compile Include="Classes\Models\Omemo\OmemoDeviceListSubscription.cs" />
     <Compile Include="Classes\Models\Omemo\OmemoFingerprint.cs" />
-    <Compile Include="Classes\Models\Omemo\OmemoIdentityKey.cs" />
-    <Compile Include="Classes\Models\Omemo\OmemoPreKey.cs" />
     <Compile Include="Classes\Models\Omemo\OmemoSession.cs" />
-    <Compile Include="Classes\Models\Omemo\OmemoSignedPreKey.cs" />
     <Compile Include="Classes\Settings.cs" />
     <Compile Include="Classes\SettingsConsts.cs" />
     <Compile Include="Classes\Vault.cs" />
@@ -172,6 +169,10 @@
     <ProjectReference Include="..\Logging\Logging.csproj">
       <Project>{0c1fb090-4492-441d-b182-c999df71f917}</Project>
       <Name>Logging</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Omemo\Omemo.csproj">
+      <Project>{e8d1b7b3-548a-4f0f-a703-48ab327b9340}</Project>
+      <Name>Omemo</Name>
     </ProjectReference>
     <ProjectReference Include="..\Shared\Shared.csproj">
       <Project>{C4AF94DA-11CF-4147-B5B7-4B2DC7C624A0}</Project>

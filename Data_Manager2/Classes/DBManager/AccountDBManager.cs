@@ -53,9 +53,9 @@ namespace Data_Manager2.Classes.DBManager
                 {
                     OmemoSignalKeyDBManager.INSTANCE.deletePreKeys(account.getBareJid());
                 }
-                if (account.omemoSignedPreKeyPair != null)
+                if (account.omemoSignedPreKey != null)
                 {
-                    OmemoSignalKeyDBManager.INSTANCE.setSignedPreKey(account.omemoSignedPreKeyId, account.omemoSignedPreKeyPair, account.getBareJid());
+                    OmemoSignalKeyDBManager.INSTANCE.setSignedPreKey(account.omemoSignedPreKeyId, account.omemoSignedPreKey, account.getBareJid());
                 }
                 else
                 {

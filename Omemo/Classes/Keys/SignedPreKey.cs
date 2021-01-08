@@ -1,4 +1,6 @@
-﻿namespace Omemo.Classes.Keys
+﻿using System.Linq;
+
+namespace Omemo.Classes.Keys
 {
     public class SignedPreKey
     {
@@ -24,7 +26,15 @@
         #endregion
         //--------------------------------------------------------Misc Methods:---------------------------------------------------------------\\
         #region --Misc Methods (Public)--
+        public override bool Equals(object obj)
+        {
+            return obj is SignedPreKey signedPreKey && signedPreKey.preKey.Equals(preKey) && signedPreKey.signature.SequenceEqual(signature);
+        }
 
+        public override int GetHashCode()
+        {
+            return preKey.GetHashCode() ^ signature.GetHashCode();
+        }
 
         #endregion
 

@@ -132,7 +132,7 @@ namespace XMPP_API.Classes.Network.XML.Messages.XEP_0384.Session
                 if (!(bundleMsg is null))
                 {
                     int preKeyIndex = bundleMsg.BUNDLE_INFO.bundle.GetRandomPreKeyIndex();
-                    session = new OmemoSession(bundleMsg.BUNDLE_INFO.bundle, preKeyIndex, CONNECTION.account.omemoIdentityKeyPair);
+                    session = new OmemoSession(bundleMsg.BUNDLE_INFO.bundle, preKeyIndex, CONNECTION.account.omemoIdentityKey);
 
                     // Validate fingerprints:
                     if (fingerprint is null)

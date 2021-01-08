@@ -122,13 +122,13 @@ namespace XMPP_API.Classes.Network.XML.Messages.Features.SASL.SHA1
         {
             string clientFinalMessageBare = "c=biws,r=" + serverNonce;
             byte[] saltBytes = Convert.FromBase64String(saltBase64);
-            byte[] saltedPassword = CryptoUtils.Pbkdf2Sha1(PASSWORD_NORMALIZED, saltBytes, iterations);
+            byte[] saltedPassword = CryptoUtils.pbkdf2Sha1(PASSWORD_NORMALIZED, saltBytes, iterations);
 
-            byte[] clientKey = CryptoUtils.HmacSha1("Client Key", saltedPassword);
+            byte[] clientKey = CryptoUtils.hmacSha1("Client Key", saltedPassword);
             byte[] storedKey = CryptoUtils.SHA_1(clientKey);
             string authMessage = clientFirstMsg + ',' + serverFirstMsg + ',' + clientFinalMessageBare;
 
-            byte[] clientSignature = CryptoUtils.HmacSha1(authMessage, storedKey);
+            byte[] clientSignature = CryptoUtils.hmacSha1(authMessage, storedKey);
             byte[] clientProof = CryptoUtils.xor(clientKey, clientSignature);
             string clientFinalMessage = clientFinalMessageBare + ",p=" + Convert.ToBase64String(clientProof);
 

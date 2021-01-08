@@ -7,7 +7,6 @@ using Storage.Classes.Events;
 using Storage.Classes.Models.Account;
 using Storage.Classes.Models.Chat;
 using XMPP_API.Classes;
-using XMPP_API.Classes.Crypto;
 using XMPP_API.Classes.Events;
 using XMPP_API.Classes.Network;
 using XMPP_API.Classes.Network.Events;
@@ -324,26 +323,28 @@ namespace Manager.Classes
             client.connection.TCP_CONNECTION.disableTlsUpgradeTimeout = Settings.GetSettingBoolean(SettingsConsts.DEBUG_DISABLE_TLS_TIMEOUT);
 
             // Enable OMEMO:
-            OmemoStore signalProtocolStore = new OmemoStore(account);
-            // Generate OMEMO keys if necessary:
+            EnableOmemo(account, client);
+            return client;
+        }
+
+        private void EnableOmemo(Account account, XMPPClient client)
+        {
             if (!account.omemoInfo.keysGenerated)
             {
-                account.generateOmemoKeys();
-                AccountDBManager.INSTANCE.setAccount(account, true, false);
+                Logger.Info("Generating OMEMO keys for account '" + account.bareJid + "'...");
+                account.omemoInfo.GenerateOmemoKeys();
+                account.omemoInfo.Save();
+                Logger.Info("OMEMO keys for account '" + account.bareJid + "' generated.");
             }
-            client.enableOmemo(signalProtocolStore);
-
-            // Sometimes the DB fails and only stores less than 100 OMEMO pre keys.
-            // So if we detect an issue with that generate a new batch of OMEMO pre keys and announce the new ones.
-            if (account.OMEMO_PRE_KEYS.Count < 100)
-            {
-                Logger.Warn("Only " + account.OMEMO_PRE_KEYS.Count + " found. Generating a new set.");
-                account.OMEMO_PRE_KEYS.Clear();
-                account.OMEMO_PRE_KEYS.AddRange(CryptoUtils.generateOmemoPreKeys());
-                account.omemoBundleInfoAnnounced = false;
-                AccountDBManager.INSTANCE.setAccount(account, true, false);
-            }
-            return client;
+            XMPPAccount xmppAccount = client.getXMPPAccount();
+            xmppAccount.omemoDeviceId = account.omemoInfo.deviceId;
+            xmppAccount.omemoDeviceLabel = account.omemoInfo.deviceLabel;
+            xmppAccount.omemoIdentityKey = account.omemoInfo.identityKey;
+            xmppAccount.omemoSignedPreKey = account.omemoInfo.signedPreKey;
+            xmppAccount.OMEMO_PRE_KEYS.Clear();
+            xmppAccount.OMEMO_PRE_KEYS.AddRange(account.omemoInfo.preKeys);
+            xmppAccount.omemoBundleInfoAnnounced = account.omemoInfo.bundleInfoAnnounced;
+            client.enableOmemo(new OmemoStorage()); // TODO Continue here
         }
 
         private void SetOmemoChatMessagesSendFailed(IList<OmemoMessageMessage> messages, ChatTable chat)

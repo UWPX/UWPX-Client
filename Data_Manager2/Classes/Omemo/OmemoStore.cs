@@ -37,7 +37,7 @@ namespace Data_Manager2.Classes.Omemo
         #region --Set-, Get- Methods--
         public IdentityKeyPair GetIdentityKeyPair()
         {
-            return ACCOUNT.omemoIdentityKeyPair;
+            return ACCOUNT.omemoIdentityKey;
         }
 
         public uint GetLocalRegistrationId()

@@ -242,11 +242,6 @@ namespace XMPP_API.Classes.Network
                 omemoHelper = null;
                 return false;
             }
-            else if (!account.loadOmemoKeys(omemoStore))
-            {
-                omemoHelper = null;
-                return false;
-            }
             omemoHelper = new OmemoHelper(this, omemoStore);
             return true;
         }

@@ -22,7 +22,15 @@
         #endregion
         //--------------------------------------------------------Misc Methods:---------------------------------------------------------------\\
         #region --Misc Methods (Public)--
+        public override bool Equals(object obj)
+        {
+            return obj is PreKey preKey && preKey.id == id && base.Equals(obj);
+        }
 
+        public override int GetHashCode()
+        {
+            return base.GetHashCode() ^ (int)id;
+        }
 
         #endregion
 
