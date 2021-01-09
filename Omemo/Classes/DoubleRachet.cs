@@ -84,7 +84,7 @@ namespace Omemo.Classes
                     // To account for lost and out-of-order messages during the key exchange, OmemoKeyExchange structures are sent until a response by the recipient confirms that the key exchange was successfully completed.
                     if (session.nS == 0 || session.nR == 0)
                     {
-                        OmemoKeyExchange kexMsg = new OmemoKeyExchange(session.preKeyId, session.signedPreKeyId, OWN_IDENTITY_KEY.pubKey, session.ek, authMsg);
+                        OmemoKeyExchangeMessage kexMsg = new OmemoKeyExchangeMessage(session.preKeyId, session.signedPreKeyId, OWN_IDENTITY_KEY.pubKey, session.ek, authMsg);
                         groupMsgs.Add(new Tuple<uint, IOmemoMessage>(device.Key, kexMsg));
                     }
                     else

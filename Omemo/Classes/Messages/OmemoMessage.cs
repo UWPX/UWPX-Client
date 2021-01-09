@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Linq;
 using Chaos.NaCl;
 using Omemo.Classes.Keys;
 
@@ -42,10 +43,6 @@ namespace Omemo.Classes.Messages
                 cipherText = new byte[data.Length - (8 + EK.key.Length)];
                 Buffer.BlockCopy(data, 8 + EK.key.Length, cipherText, 0, cipherText.Length);
             }
-            else
-            {
-                cipherText = new byte[0];
-            }
         }
 
         public OmemoMessage(OmemoSession session)
@@ -80,6 +77,16 @@ namespace Omemo.Classes.Messages
                 Buffer.BlockCopy(cipherText, 0, result, 8 + EK.key.Length, cipherText.Length);
             }
             return result;
+        }
+
+        public override bool Equals(object obj)
+        {
+            return obj is OmemoMessage msg && msg.N == N && msg.PN == PN && msg.EK.Equals(EK) && ((msg.cipherText is null && cipherText is null) || msg.cipherText.SequenceEqual(cipherText));
+        }
+
+        public override int GetHashCode()
+        {
+            throw new NotImplementedException();
         }
 
         #endregion
