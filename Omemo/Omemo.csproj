@@ -137,7 +137,7 @@
     <Compile Include="Classes\LibSignalUtils.cs" />
     <Compile Include="Classes\Messages\IOmemoMessage.cs" />
     <Compile Include="Classes\Messages\OmemoAuthenticatedMessage.cs" />
-    <Compile Include="Classes\Messages\OmemoKeyExchange.cs" />
+    <Compile Include="Classes\Messages\OmemoKeyExchangeMessage.cs" />
     <Compile Include="Classes\Messages\OmemoMessage.cs" />
     <Compile Include="Classes\OmemoDevice.cs" />
     <Compile Include="Classes\OmemoDeviceGroup.cs" />

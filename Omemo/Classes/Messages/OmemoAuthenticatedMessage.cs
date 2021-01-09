@@ -1,4 +1,6 @@
 ﻿using System;
+using System.Diagnostics;
+using System.Linq;
 
 namespace Omemo.Classes.Messages
 {
@@ -11,6 +13,7 @@ namespace Omemo.Classes.Messages
         #region --Attributes--
         /// <summary>
         /// The HMAC of the <see cref="OMEMO_MESSAGE"/>.
+        /// Truncated to 16 byte.
         /// </summary>
         public readonly byte[] HMAC;
         /// <summary>
@@ -23,8 +26,17 @@ namespace Omemo.Classes.Messages
         #region --Constructors--
         public OmemoAuthenticatedMessage(byte[] hmac, byte[] omemoMessage)
         {
+            Debug.Assert(hmac.Length == 16);
             HMAC = hmac;
             OMEMO_MESSAGE = omemoMessage;
+        }
+
+        public OmemoAuthenticatedMessage(byte[] data)
+        {
+            HMAC = new byte[16];
+            OMEMO_MESSAGE = new byte[data.Length - HMAC.Length];
+            Buffer.BlockCopy(data, 0, HMAC, 0, HMAC.Length);
+            Buffer.BlockCopy(data, HMAC.Length, OMEMO_MESSAGE, 0, OMEMO_MESSAGE.Length);
         }
 
         #endregion
@@ -41,6 +53,16 @@ namespace Omemo.Classes.Messages
             Buffer.BlockCopy(HMAC, 0, result, 0, HMAC.Length);
             Buffer.BlockCopy(OMEMO_MESSAGE, 0, result, HMAC.Length, OMEMO_MESSAGE.Length);
             return result;
+        }
+
+        public override bool Equals(object obj)
+        {
+            return obj is OmemoAuthenticatedMessage msg && msg.HMAC.SequenceEqual(HMAC) && msg.OMEMO_MESSAGE.SequenceEqual(OMEMO_MESSAGE);
+        }
+
+        public override int GetHashCode()
+        {
+            throw new NotImplementedException();
         }
 
         #endregion

@@ -5,6 +5,7 @@ using System.Text;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Omemo.Classes;
 using Omemo.Classes.Keys;
+using Omemo.Classes.Messages;
 using XMPP_API.Classes.Network.XML;
 using XMPP_API.Classes.Network.XML.Messages;
 using XMPP_API.Classes.Network.XML.Messages.XEP_0384;
@@ -181,6 +182,76 @@ namespace Component_Tests.Classes.Crypto.Omemo
             Assert.IsTrue(devicesMsg.DEVICES.DEVICES.First().IS_VALID);
             Assert.IsTrue(devicesMsg.DEVICES.DEVICES.First().ID == BOB_ADDRESS.DEVICE_ID);
             Assert.IsTrue(devicesMsg.DEVICES.DEVICES.First().LABEL.Equals("Gajim on Ubuntu Linux"));
+        }
+
+        [TestCategory("Crypto")]
+        [TestMethod]
+        public void Test_OmemoMessage()
+        {
+            Random rand = new Random();
+            byte[] sessionKey = new byte[32];
+            rand.NextBytes(sessionKey);
+
+            OmemoSession refOmemoSession = new OmemoSession(KeyHelper.GenerateIdentityKeyPair(), sessionKey)
+            {
+                ek = KeyHelper.GenerateKeyPair().pubKey
+            };
+            OmemoMessage refOmemoMessage = new OmemoMessage(refOmemoSession);
+
+            byte[] data = refOmemoMessage.ToByteArray();
+            Assert.IsTrue(data.Length > 0);
+
+            OmemoMessage omemoMessage = new OmemoMessage(data);
+            Assert.IsTrue(omemoMessage.Equals(refOmemoMessage));
+        }
+
+        [TestCategory("Crypto")]
+        [TestMethod]
+        public void Test_OmemoAuthenticatedMessage()
+        {
+            Random rand = new Random();
+            byte[] hmac = new byte[16];
+            rand.NextBytes(hmac);
+            byte[] sessionKey = new byte[32];
+            rand.NextBytes(sessionKey);
+
+            OmemoSession refOmemoSession = new OmemoSession(KeyHelper.GenerateIdentityKeyPair(), sessionKey)
+            {
+                ek = KeyHelper.GenerateKeyPair().pubKey
+            };
+            OmemoMessage refOmemoMessage = new OmemoMessage(refOmemoSession);
+            OmemoAuthenticatedMessage refOmemoAuthenticatedMessage = new OmemoAuthenticatedMessage(new byte[16], refOmemoMessage.ToByteArray());
+
+            byte[] data = refOmemoAuthenticatedMessage.ToByteArray();
+            Assert.IsTrue(data.Length > 0);
+
+            OmemoAuthenticatedMessage omemoAuthenticatedMessage = new OmemoAuthenticatedMessage(data);
+            Assert.IsTrue(omemoAuthenticatedMessage.Equals(refOmemoAuthenticatedMessage));
+        }
+
+        [TestCategory("Crypto")]
+        [TestMethod]
+        public void Test_OmemoKeyExchangeMessage()
+        {
+            Random rand = new Random();
+            byte[] hmac = new byte[16];
+            rand.NextBytes(hmac);
+            byte[] sessionKey = new byte[32];
+            rand.NextBytes(sessionKey);
+
+            OmemoSession refOmemoSession = new OmemoSession(KeyHelper.GenerateIdentityKeyPair(), sessionKey)
+            {
+                ek = KeyHelper.GenerateKeyPair().pubKey
+            };
+            OmemoMessage refOmemoMessage = new OmemoMessage(refOmemoSession);
+            OmemoAuthenticatedMessage refOmemoAuthenticatedMessage = new OmemoAuthenticatedMessage(new byte[16], refOmemoMessage.ToByteArray());
+            OmemoKeyExchangeMessage refOmemoKeyExchangeMessage = new OmemoKeyExchangeMessage((uint)rand.Next(), (uint)rand.Next(), KeyHelper.GenerateKeyPair().pubKey, KeyHelper.GenerateKeyPair().pubKey, refOmemoAuthenticatedMessage);
+
+            byte[] data = refOmemoKeyExchangeMessage.ToByteArray();
+            Assert.IsTrue(data.Length > 0);
+
+            OmemoKeyExchangeMessage omemoKeyExchangeMessage = new OmemoKeyExchangeMessage(data);
+            Assert.IsTrue(omemoKeyExchangeMessage.Equals(refOmemoKeyExchangeMessage));
         }
 
         public string GetBobsDeviceListMsg()

@@ -20,7 +20,7 @@ namespace XMPP_API.Classes.Network.XML.Messages.XEP_0384
         public OmemoKey(Tuple<uint, IOmemoMessage> msg)
         {
             DEVICE_ID = msg.Item1;
-            KEY_EXCHANGE = msg.Item2 is OmemoKeyExchange;
+            KEY_EXCHANGE = msg.Item2 is OmemoKeyExchangeMessage;
             BASE64_PAYLOAD = Convert.ToBase64String(msg.Item2.ToByteArray());
         }
 
