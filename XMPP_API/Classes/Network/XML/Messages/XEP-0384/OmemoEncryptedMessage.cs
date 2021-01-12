@@ -8,6 +8,7 @@ using System.Xml.Linq;
 using Logging;
 using Omemo.Classes;
 using Omemo.Classes.Keys;
+using Omemo.Classes.Messages;
 using XMPP_API.Classes.Network.XML.Messages.XEP_0082;
 using XMPP_API.Classes.Network.XML.Messages.XEP_0420;
 
@@ -133,14 +134,14 @@ namespace XMPP_API.Classes.Network.XML.Messages.XEP_0384
         /// <param name="receiverIdentityKey">The receives <see cref="IdentityKeyPair"/>.</param>
         /// <param name="storage">An instance of the <see cref="IOmemoStorage"/> interface.</param>
         /// <returns>True in case the message has been decrypted successfully.</returns>
-        public bool decrypt(IdentityKeyPair receiverIdentityKey, IOmemoStorage storage)
+        public bool decrypt(IdentityKeyPair receiverIdentityKey, OmemoProtocolAddress receiverAddress, IOmemoStorage storage)
         {
             bool result = true;
             // Content can be null in case we have a pure keys exchange message:
             if (!string.IsNullOrEmpty(BASE_64_PAYLOAD))
             {
                 byte[] contentEnc = Convert.FromBase64String(BASE_64_PAYLOAD);
-                byte[] contentDec = decryptContent(contentEnc, receiverIdentityKey, storage);
+                byte[] contentDec = decryptContent(contentEnc, receiverIdentityKey, receiverAddress, storage);
                 string contentStr = Encoding.UTF8.GetString(contentDec);
                 XmlNode contentNode = getContentNode(contentStr);
                 result = parseContentNode(contentNode);
@@ -185,10 +186,36 @@ namespace XMPP_API.Classes.Network.XML.Messages.XEP_0384
             return contentNode;
         }
 
-        private byte[] decryptContent(byte[] data, IdentityKeyPair receiverIdentityKey, IOmemoStorage storage)
+        private byte[] decryptContent(byte[] data, IdentityKeyPair receiverIdentityKey, OmemoProtocolAddress receiverAddress, IOmemoStorage storage)
         {
             DoubleRachet rachet = new DoubleRachet(receiverIdentityKey, storage); // TODO: Continue here
             return data;
+        }
+
+        private OmemoSession loadSession(OmemoProtocolAddress receiverAddress, IdentityKeyPair receiverIdentityKey)
+        {
+            OmemoKey key = getOmemoKeyForAddress(receiverAddress);
+            if (key is null)
+            {
+                throw new InvalidOperationException("Unable to decrypt message content. No key for device found.");
+            }
+
+            byte[] data = Convert.FromBase64String(key.BASE64_PAYLOAD);
+            OmemoSession session = null;
+            if (key.KEY_EXCHANGE)
+            {
+                OmemoKeyExchangeMessage msg = new OmemoKeyExchangeMessage(data);
+                session = new OmemoSession(receiverIdentityKey, msg.) // TODO: Continue here
+            }
+            else
+            {
+                OmemoAuthenticatedMessage msg = new OmemoAuthenticatedMessage(data);
+            }
+        }
+
+        private OmemoKey getOmemoKeyForAddress(OmemoProtocolAddress receiverAddress)
+        {
+            return keys.Where(k => string.Equals(k.BARE_JID, receiverAddress.BARE_JID)).FirstOrDefault()?.KEYS.Where(k => k.DEVICE_ID == receiverAddress.DEVICE_ID).FirstOrDefault();
         }
 
         private XmlNode getContentNode(string contentNodeStr)
