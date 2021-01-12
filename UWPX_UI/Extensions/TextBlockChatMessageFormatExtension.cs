@@ -33,7 +33,7 @@ namespace UWPX_UI.Extensions
         private static readonly Regex EMAIL_REGEX = new Regex(EMAIL_REGEX_PATTERN, RegexOptions.IgnoreCase, TimeSpan.FromMilliseconds(500));
         private static readonly Regex PHONE_REGEX = new Regex(PHONE_REGEX_PATTERN, RegexOptions.IgnoreCase, TimeSpan.FromMilliseconds(250));
 
-        public static readonly DependencyProperty FormattedTextProperty = DependencyProperty.Register("FormattedText", typeof(string), typeof(TextBlockChatMessageFormatExtension), new PropertyMetadata(null, OnFormattedTextChanged));
+        public static readonly DependencyProperty FormattedTextProperty = DependencyProperty.Register("FormattedText", typeof(string), typeof(TextBlockChatMessageFormatExtension), new PropertyMetadata("Loading...", OnFormattedTextChanged));
 
         #endregion
         //--------------------------------------------------------Constructor:----------------------------------------------------------------\\
@@ -161,7 +161,7 @@ namespace UWPX_UI.Extensions
         #region --Events--
         private static async void OnFormattedTextChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
-            if (!(d is TextBlock textBlock && e.NewValue is string text))
+            if (d is not TextBlock textBlock)
             {
                 return;
             }
@@ -170,9 +170,9 @@ namespace UWPX_UI.Extensions
             textBlock.Inlines.Clear();
 
             // Empty message:
-            if (string.IsNullOrWhiteSpace(text))
+            if (e.NewValue is not string text || string.IsNullOrWhiteSpace(text))
             {
-                textBlock.Inlines.Add(new Run { Text = text });
+                textBlock.Inlines.Add(new Run { Text = "" });
                 return;
             }
 
