@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using Omemo.Classes.Keys;
+using Omemo.Classes.Messages;
 
 namespace Omemo.Classes
 {
@@ -61,8 +62,6 @@ namespace Omemo.Classes
         /// </summary>
         private const uint MAX_SKIP = 100;
 
-        // State variables:
-
 
         #endregion
         //--------------------------------------------------------Constructor:----------------------------------------------------------------\\
@@ -76,7 +75,7 @@ namespace Omemo.Classes
         public OmemoSession(Bundle bundle, int preKeyIndex, IdentityKeyPair identityKeyPair)
         {
             EphemeralKeyPair ephemeralKeyPair = KeyHelper.GenerateEphemeralKeyPair();
-            byte[] sk = bundle.GenerateSessionKey(identityKeyPair, ephemeralKeyPair, preKeyIndex);
+            byte[] sk = bundle.GenerateSenderSessionKey(identityKeyPair, ephemeralKeyPair, preKeyIndex);
 
             // We are only interested in the public key and discard the private key.
             ek = ephemeralKeyPair.pubKey;
@@ -92,9 +91,10 @@ namespace Omemo.Classes
         /// Creates a new <see cref="OmemoSession"/> for receiving a message,
         /// </summary>
         /// <param name="ownIdentityKeyPair"></param>
-        /// <param name="sessionKey">The session key (SK) generated via <see cref="Bundle.GenerateSessionKey(IdentityKeyPair, EphemeralKeyPair, int)"/>.</param>
-        public OmemoSession(IdentityKeyPair ownIdentityKeyPair, byte[] sessionKey)
+        /// <param name="sessionKey">The session key (SK) generated via <see cref="Bundle.GenerateSenderSessionKey(IdentityKeyPair, EphemeralKeyPair, int)"/>.</param>
+        public OmemoSession(IdentityKeyPair ownIdentityKeyPair, Bundle ownBundle, OmemoKeyExchangeMessage keyExchangeMessage)
         {
+            byte[] sk = ownBundle.GenerateSessionKey
             //TODO: generate session key based on: https://www.signal.org/docs/specifications/x3dh/
             dhS = ownIdentityKeyPair;
             rootKey = sessionKey;
