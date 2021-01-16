@@ -105,7 +105,7 @@ namespace Omemo.Classes
                 return plainText;
             }
 
-            if (!session.dhR.pubKey.Equals(msg.DH))
+            if (session.dhR is null || !session.dhR.pubKey.Equals(msg.DH))
             {
                 SkipMessageKeys(session, msg.PN);
                 session.InitDhRatchet(msg);
