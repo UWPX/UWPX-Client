@@ -21,9 +21,9 @@ namespace Omemo.Classes.Messages
         /// </summary>
         public readonly uint PN;
         /// <summary>
-        /// The sender public Ephemeral key.
+        /// The sender public key part of the encryption key.
         /// </summary>
-        public readonly ECPubKey EK;
+        public readonly ECPubKey DH;
         public byte[] cipherText;
 
         #endregion
@@ -33,15 +33,15 @@ namespace Omemo.Classes.Messages
         {
             N = (uint)BitConverter.ToInt32(data, 0);
             PN = (uint)BitConverter.ToInt32(data, 4);
-            EK = new ECPubKey(new byte[Ed25519.PublicKeySizeInBytes]);
-            Buffer.BlockCopy(data, 8, EK.key, 0, EK.key.Length);
-            int cipherTextLenth = data.Length - (8 + EK.key.Length);
+            DH = new ECPubKey(new byte[Ed25519.PublicKeySizeInBytes]);
+            Buffer.BlockCopy(data, 8, DH.key, 0, DH.key.Length);
+            int cipherTextLenth = data.Length - (8 + DH.key.Length);
 
             // Cipher text here is optional:
             if (cipherTextLenth > 0)
             {
-                cipherText = new byte[data.Length - (8 + EK.key.Length)];
-                Buffer.BlockCopy(data, 8 + EK.key.Length, cipherText, 0, cipherText.Length);
+                cipherText = new byte[data.Length - (8 + DH.key.Length)];
+                Buffer.BlockCopy(data, 8 + DH.key.Length, cipherText, 0, cipherText.Length);
             }
         }
 
@@ -49,7 +49,7 @@ namespace Omemo.Classes.Messages
         {
             N = session.nS + 1;
             PN = session.nS;
-            EK = session.ek;
+            DH = session.dhS.pubKey;
             cipherText = null;
         }
 
@@ -63,7 +63,7 @@ namespace Omemo.Classes.Messages
         #region --Misc Methods (Public)--
         public byte[] ToByteArray()
         {
-            int size = 4 + 4 + EK.key.Length;
+            int size = 4 + 4 + DH.key.Length;
             if (!(cipherText is null))
             {
                 size += cipherText.Length;
@@ -71,17 +71,17 @@ namespace Omemo.Classes.Messages
             byte[] result = new byte[size];
             Buffer.BlockCopy(BitConverter.GetBytes(N), 0, result, 0, 4);
             Buffer.BlockCopy(BitConverter.GetBytes(PN), 0, result, 4, 4);
-            Buffer.BlockCopy(EK.key, 0, result, 8, EK.key.Length);
+            Buffer.BlockCopy(DH.key, 0, result, 8, DH.key.Length);
             if (!(cipherText is null))
             {
-                Buffer.BlockCopy(cipherText, 0, result, 8 + EK.key.Length, cipherText.Length);
+                Buffer.BlockCopy(cipherText, 0, result, 8 + DH.key.Length, cipherText.Length);
             }
             return result;
         }
 
         public override bool Equals(object obj)
         {
-            return obj is OmemoMessage msg && msg.N == N && msg.PN == PN && msg.EK.Equals(EK) && ((msg.cipherText is null && cipherText is null) || msg.cipherText.SequenceEqual(cipherText));
+            return obj is OmemoMessage msg && msg.N == N && msg.PN == PN && msg.DH.Equals(DH) && ((msg.cipherText is null && cipherText is null) || msg.cipherText.SequenceEqual(cipherText));
         }
 
         public override int GetHashCode()

@@ -36,11 +36,6 @@ namespace Omemo.Classes
             return ad;
         }
 
-        public OmemoSession LoadSession(OmemoProtocolAddress address)
-        {
-            return STORAGE.LoadSession(address);
-        }
-
         #endregion
         //--------------------------------------------------------Misc Methods:---------------------------------------------------------------\\
         #region --Misc Methods (Public)--
@@ -101,6 +96,27 @@ namespace Omemo.Classes
             return msgs;
         }
 
+        public byte[] DecryptForDevice(OmemoAuthenticatedMessage authMsg, OmemoSession session)
+        {
+            OmemoMessage msg = new OmemoMessage(authMsg.OMEMO_MESSAGE);
+            byte[] plainText = TrySkippedMessageKeys(msg, session);
+            if (!(plainText is null))
+            {
+                return plainText;
+            }
+
+            if (!session.dhR.pubKey.Equals(msg.DH))
+            {
+                SkipMessageKeys(session, msg.PN);
+                session.InitDhRatchet(msg);
+            }
+            SkipMessageKeys(session, msg.N);
+            byte[] mk = LibSignalUtils.KDF_CK(session.ckR, 0x01);
+            session.ckR = LibSignalUtils.KDF_CK(session.ckR, 0x02);
+            ++session.nR;
+            return DecryptForDevice(mk, msg);
+        }
+
         #endregion
 
         #region --Misc Methods (Private)--
@@ -125,6 +141,38 @@ namespace Omemo.Classes
             byte[] hmacResult = CryptoUtils.HmacSha256(authKey, hmacInput);
             byte[] hmacTruncated = CryptoUtils.Truncate(hmacResult, 16);
             return new OmemoAuthenticatedMessage(hmacTruncated, omemoMessageBytes);
+        }
+
+        private byte[] TrySkippedMessageKeys(OmemoMessage msg, OmemoSession session)
+        {
+            byte[] mk = session.MK_SKIPPED.GetMessagekey(msg.DH, msg.N);
+            return !(mk is null) ? DecryptForDevice(mk, msg) : null;
+        }
+
+        private void SkipMessageKeys(OmemoSession session, uint until)
+        {
+            if (session.nR + OmemoSession.MAX_SKIP < until)
+            {
+                throw new InvalidOperationException("Failed to decrypt. Would skip to many message keys from " + session.nR + " to " + until + ", which is more than " + OmemoSession.MAX_SKIP + '.');
+            }
+            if (!(session.ckR is null))
+            {
+                while (session.nR < until)
+                {
+                    byte[] mk = LibSignalUtils.KDF_CK(session.ckR, 0x01);
+                    session.ckR = LibSignalUtils.KDF_CK(session.ckR, 0x02);
+                    session.MK_SKIPPED.SetMessageKey(session.dhR.pubKey, session.nR, mk);
+                    ++session.nR;
+                }
+            }
+        }
+
+        private byte[] DecryptForDevice(byte[] mk, OmemoMessage msg)
+        {
+            // 32 byte (256 bit) of salt. Initialized with 0s.
+            byte[] hkdfOutput = CryptoUtils.HkdfSha256(mk, new byte[32], "OMEMO Message Key Material");
+            CryptoUtils.SplitKey(hkdfOutput, out byte[] encKey, out byte[] authKey, out byte[] iv);
+            return CryptoUtils.Aes256CbcEncrypt(encKey, iv, msg.cipherText);
         }
 
         #endregion

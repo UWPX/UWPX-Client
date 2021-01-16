@@ -91,9 +91,8 @@ namespace Omemo.Classes
         /// <param name="ciphertext">The data the HMAC should derive the hash from.</param>
         public static byte[] HmacSha256(byte[] authKey, byte[] ciphertext)
         {
-            using (HMAC hmac = HMACSHA256.Create())
+            using (HMACSHA256 hmac = new HMACSHA256(authKey))
             {
-                hmac.Key = authKey;
                 return hmac.ComputeHash(ciphertext);
             }
         }
@@ -120,19 +119,19 @@ namespace Omemo.Classes
         /// </summary>
         /// <param name="key">The 32 byte (256 bit) key.</param>
         /// <param name="iv">The 32 byte (256 bit) initial vector.</param>
-        /// <param name="data">The data to encrypt.</param>
-        public static byte[] Aes256CbcEncrypt(byte[] key, byte[] iv, byte[] data)
+        /// <param name="plainText">The data to encrypt.</param>
+        public static byte[] Aes256CbcEncrypt(byte[] key, byte[] iv, byte[] plainText)
         {
             Debug.Assert(key.Length == 32);
-            Debug.Assert(iv.Length == 32);
-            Debug.Assert(data.Length < 0);
+            Debug.Assert(iv.Length == 16);
+            Debug.Assert(plainText.Length > 0);
 
             using (Aes aes = Aes.Create())
             {
-                aes.Key = key;
-                aes.IV = iv;
                 aes.Mode = CipherMode.CBC;
                 aes.Padding = PaddingMode.PKCS7;
+                aes.Key = key;
+                aes.IV = iv;
 
                 ICryptoTransform encryptor = aes.CreateEncryptor(aes.Key, aes.IV);
 
@@ -141,12 +140,45 @@ namespace Omemo.Classes
                 {
                     using (CryptoStream csEncrypt = new CryptoStream(msEncrypt, encryptor, CryptoStreamMode.Write))
                     {
-                        using (StreamWriter swEncrypt = new StreamWriter(csEncrypt))
-                        {
-                            //Write all data to the stream.
-                            swEncrypt.Write(data);
-                        }
+                        csEncrypt.Write(plainText, 0, plainText.Length);
+                        csEncrypt.FlushFinalBlock();
                         return msEncrypt.ToArray();
+                    }
+                }
+            }
+        }
+
+        /// <summary>
+        /// Performs AES-252-CBC decryption with PKCS#7 padding for the given data and returns the result.
+        /// <para/>
+        /// Based on: https://gist.github.com/mark-adams/87aa34da3a5ed48ed0c7
+        /// </summary>
+        /// <param name="key">The 32 byte (256 bit) key.</param>
+        /// <param name="iv">The 32 byte (256 bit) initial vector.</param>
+        /// <param name="cipherText">The data to decrypt.</param>
+        public static byte[] Aes256CbcDecrypt(byte[] key, byte[] iv, byte[] cipherText)
+        {
+            Debug.Assert(key.Length == 32);
+            Debug.Assert(iv.Length == 16);
+            Debug.Assert(cipherText.Length > 0);
+
+            using (Aes aes = Aes.Create())
+            {
+                aes.Mode = CipherMode.CBC;
+                aes.Padding = PaddingMode.PKCS7;
+                aes.Key = key;
+                aes.IV = iv;
+
+                ICryptoTransform decryptor = aes.CreateDecryptor(aes.Key, aes.IV);
+
+                // Create the streams used for decryption. 
+                using (MemoryStream msDecrypt = new MemoryStream())
+                {
+                    using (CryptoStream csDecrypt = new CryptoStream(msDecrypt, decryptor, CryptoStreamMode.Write))
+                    {
+                        csDecrypt.Write(cipherText, 0, cipherText.Length);
+                        csDecrypt.FlushFinalBlock();
+                        return msDecrypt.ToArray();
                     }
                 }
             }
@@ -201,6 +233,46 @@ namespace Omemo.Classes
                 }
             }
             throw new InvalidOperationException("Failed to generate unique device id! " + nameof(usedDeviceIds) + ". Count = " + usedDeviceIds.Count);
+        }
+
+        /// <summary>
+        /// Generates the X3DH session key for the sender of a message.
+        /// <para/>
+        /// Documentation: https://www.signal.org/docs/specifications/x3dh/
+        /// </summary>
+        /// <param name="senderIndentityKey">The private key part of the senders <see cref="IdentityKeyPair"/>.</param>
+        /// <param name="senderEphemeralKeyPair">The private key part of the senders <see cref="EphemeralKeyPair"/>.</param>
+        /// <param name="receiverIdentityKey">The public key part of the receivers <see cref="IdentityKeyPair"/>.</param>
+        /// <param name="receiverSignedPreKey">The public key part of the receivers <see cref="SignedPreKey"/>.</param>
+        /// <param name="receiverPreKey">The public key part of the receivers <see cref="PreKey"/>.</param>
+        /// <returns>The session key (SK).</returns>
+        public static byte[] GenerateSenderSessionKey(ECPrivKey senderIndentityKey, ECPrivKey senderEphemeralKeyPair, ECPubKey receiverIdentityKey, ECPubKey receiverSignedPreKey, ECPubKey receiverPreKey)
+        {
+            byte[] dh1 = SharedSecret(senderIndentityKey, receiverSignedPreKey);
+            byte[] dh2 = SharedSecret(senderEphemeralKeyPair, receiverIdentityKey);
+            byte[] dh3 = SharedSecret(senderEphemeralKeyPair, receiverSignedPreKey);
+            byte[] dh4 = SharedSecret(senderEphemeralKeyPair, receiverPreKey);
+            return Concat(new byte[][] { dh1, dh2, dh3, dh4 });
+        }
+
+        /// <summary>
+        /// Generates the X3DH session key for the receiver of a message.
+        /// <para/>
+        /// Documentation: https://www.signal.org/docs/specifications/x3dh/
+        /// </summary>
+        /// <param name="senderIndentityKey">The public key part of the senders <see cref="IdentityKeyPair"/>.</param>
+        /// <param name="senderEphemeralKeyPair">The public key part of the senders <see cref="EphemeralKeyPair"/>.</param>
+        /// <param name="receiverIdentityKey">The private key part of the receivers <see cref="IdentityKeyPair"/>.</param>
+        /// <param name="receiverSignedPreKey">The private key part of the receivers <see cref="SignedPreKey"/>.</param>
+        /// <param name="receiverPreKey">The private key part of the receivers <see cref="PreKey"/>.</param>
+        /// <returns>The session key (SK).</returns>
+        public static byte[] GenerateReceiverSessionKey(ECPubKey senderIndentityKey, ECPubKey senderEphemeralKeyPair, ECPrivKey receiverIdentityKey, ECPrivKey receiverSignedPreKey, ECPrivKey receiverPreKey)
+        {
+            byte[] dh1 = SharedSecret(receiverSignedPreKey, senderIndentityKey);
+            byte[] dh2 = SharedSecret(receiverIdentityKey, senderEphemeralKeyPair);
+            byte[] dh3 = SharedSecret(receiverSignedPreKey, senderEphemeralKeyPair);
+            byte[] dh4 = SharedSecret(receiverPreKey, senderEphemeralKeyPair);
+            return Concat(new byte[][] { dh1, dh2, dh3, dh4 });
         }
 
         #endregion

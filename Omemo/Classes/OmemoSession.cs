@@ -1,5 +1,4 @@
-﻿using System.Collections.Generic;
-using Omemo.Classes.Keys;
+﻿using Omemo.Classes.Keys;
 using Omemo.Classes.Messages;
 
 namespace Omemo.Classes
@@ -23,7 +22,7 @@ namespace Omemo.Classes
         /// <summary>
         /// 32 byte root key for encryption.
         /// </summary>
-        public byte[] rootKey;
+        public byte[] rk;
         /// <summary>
         /// 32 byte Chain Keys for sending.
         /// </summary>
@@ -43,11 +42,11 @@ namespace Omemo.Classes
         /// <summary>
         /// Number of messages in previous sending chain.
         /// </summary>
-        public uint npS;
+        public uint pn;
         /// <summary>
-        /// Dictionary of skipped-over message keys, indexed by ratchet public key and message number.
+        /// Skipped-over message keys, indexed by ratchet <see cref="ECPubKey"/> and message number. Raises an exception if too many elements are stored.
         /// </summary>
-        public Dictionary<uint, byte[]> mkSkipped = new Dictionary<uint, byte[]>();
+        public readonly SkippedMessageKeys MK_SKIPPED = new SkippedMessageKeys();
         /// <summary>
         /// The id of the PreKey used to create establish this session.
         /// </summary>
@@ -58,9 +57,9 @@ namespace Omemo.Classes
         public uint signedPreKeyId;
 
         /// <summary>
-        /// 
+        /// Max number of skipped message keys to prevent DOS attacks.
         /// </summary>
-        private const uint MAX_SKIP = 100;
+        public const uint MAX_SKIP = 100;
 
 
         #endregion
@@ -69,35 +68,28 @@ namespace Omemo.Classes
         /// <summary>
         /// Creates a new <see cref="OmemoSession"/> for sending a new message.
         /// </summary>
-        /// <param name="bundle">The <see cref="Bundle"/> of the receiving end.</param>
-        /// /// <param name="preKeyIndex">The index of the <see cref="Bundle.preKeys"/> to use.</param>
-        /// <param name="identityKeyPair">Our own <see cref="IdentityKeyPair"/>.</param>
-        public OmemoSession(Bundle bundle, int preKeyIndex, IdentityKeyPair identityKeyPair)
+        /// <param name="receiverBundle">The <see cref="Bundle"/> of the receiving end.</param>
+        /// /// <param name="receiverPreKeyIndex">The index of the <see cref="Bundle.preKeys"/> to use.</param>
+        /// <param name="senderIdentityKeyPair">Our own <see cref="IdentityKeyPair"/>.</param>
+        public OmemoSession(Bundle receiverBundle, int receiverPreKeyIndex, IdentityKeyPair senderIdentityKeyPair)
         {
             EphemeralKeyPair ephemeralKeyPair = KeyHelper.GenerateEphemeralKeyPair();
-            byte[] sk = bundle.GenerateSenderSessionKey(identityKeyPair, ephemeralKeyPair, preKeyIndex);
+            byte[] sk = CryptoUtils.GenerateSenderSessionKey(senderIdentityKeyPair.privKey, ephemeralKeyPair.privKey, receiverBundle.identityKey, receiverBundle.signedPreKey, receiverBundle.preKeys[receiverPreKeyIndex].pubKey);
 
             // We are only interested in the public key and discard the private key.
             ek = ephemeralKeyPair.pubKey;
             dhS = KeyHelper.GenerateKeyPair();
-            dhR = new ECKeyPair(null, bundle.identityKey);
-            rootKey = LibSignalUtils.KDF_RK(sk, CryptoUtils.SharedSecret(dhS.privKey, dhR.pubKey));
-            ckS = rootKey;
-            signedPreKeyId = bundle.signedPreKeyId;
-            preKeyId = bundle.preKeys[preKeyIndex].id;
+            dhR = new ECKeyPair(null, receiverBundle.identityKey);
+            rk = LibSignalUtils.KDF_RK(sk, CryptoUtils.SharedSecret(dhS.privKey, dhR.pubKey));
+            ckS = rk;
+            signedPreKeyId = receiverBundle.signedPreKeyId;
+            preKeyId = receiverBundle.preKeys[receiverPreKeyIndex].id;
         }
 
-        /// <summary>
-        /// Creates a new <see cref="OmemoSession"/> for receiving a message,
-        /// </summary>
-        /// <param name="ownIdentityKeyPair"></param>
-        /// <param name="sessionKey">The session key (SK) generated via <see cref="Bundle.GenerateSenderSessionKey(IdentityKeyPair, EphemeralKeyPair, int)"/>.</param>
-        public OmemoSession(IdentityKeyPair ownIdentityKeyPair, Bundle ownBundle, OmemoKeyExchangeMessage keyExchangeMessage)
+        public OmemoSession(IdentityKeyPair receiverIdentityKey, SignedPreKey receiverSignedPreKey, PreKey receiverPreKey, OmemoKeyExchangeMessage keyExchangeMsg)
         {
-            byte[] sk = ownBundle.GenerateSessionKey
-            //TODO: generate session key based on: https://www.signal.org/docs/specifications/x3dh/
-            dhS = ownIdentityKeyPair;
-            rootKey = sessionKey;
+            dhS = receiverIdentityKey;
+            rk = CryptoUtils.GenerateReceiverSessionKey(keyExchangeMsg.IK, keyExchangeMsg.EK, receiverIdentityKey.privKey, receiverSignedPreKey.preKey.privKey, receiverPreKey.privKey);
         }
 
         #endregion
@@ -118,6 +110,19 @@ namespace Omemo.Classes
             byte[] mk = LibSignalUtils.KDF_CK(ckS, 0x01);
             ckS = LibSignalUtils.KDF_CK(ckS, 0x02);
             return mk;
+        }
+
+        public void InitDhRatchet(OmemoMessage msg)
+        {
+            pn = nS;
+            nS = 0;
+            nR = 0;
+            dhR = new ECKeyPair(null, msg.DH);
+            rk = LibSignalUtils.KDF_RK(rk, CryptoUtils.SharedSecret(dhS.privKey, dhR.pubKey));
+            ckR = rk;
+            dhS = KeyHelper.GenerateKeyPair();
+            rk = LibSignalUtils.KDF_RK(rk, CryptoUtils.SharedSecret(dhS.privKey, dhR.pubKey));
+            ckS = rk;
         }
 
         #endregion
