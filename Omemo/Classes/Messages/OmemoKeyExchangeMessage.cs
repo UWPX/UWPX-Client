@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Linq;
 using Chaos.NaCl;
 using Omemo.Classes.Keys;
 
@@ -21,13 +20,13 @@ namespace Omemo.Classes.Messages
         /// </summary>
         public readonly uint SPK_ID;
         /// <summary>
-        /// Public key part of the senders identity key.
+        /// The public key part of the senders <see cref="IdentityKeyPair"/>.
         /// </summary>
-        public readonly byte[] IK;
+        public readonly ECPubKey IK;
         /// <summary>
-        /// Ephemeral key pair used by the X3DH key agreement.
+        /// The public key part of the senders <see cref="EphemeralKeyPair"/>.
         /// </summary>
-        public readonly byte[] EK;
+        public readonly ECPubKey EK;
         public readonly OmemoAuthenticatedMessage MESSAGE;
 
         #endregion
@@ -37,8 +36,8 @@ namespace Omemo.Classes.Messages
         {
             PK_ID = pkId;
             SPK_ID = spkId;
-            IK = ik.key;
-            EK = ek.key;
+            IK = ik;
+            EK = ek;
             MESSAGE = message;
         }
 
@@ -46,12 +45,12 @@ namespace Omemo.Classes.Messages
         {
             PK_ID = BitConverter.ToUInt32(data, 0);
             SPK_ID = BitConverter.ToUInt32(data, 4);
-            IK = new byte[Ed25519.PublicKeySizeInBytes];
-            Buffer.BlockCopy(data, 8, IK, 0, IK.Length);
-            EK = new byte[Ed25519.PublicKeySizeInBytes];
-            Buffer.BlockCopy(data, 8 + IK.Length, EK, 0, EK.Length);
-            byte[] msg = new byte[data.Length - 4 - 4 - IK.Length - EK.Length];
-            Buffer.BlockCopy(data, 8 + IK.Length + EK.Length, msg, 0, msg.Length);
+            IK = new ECPubKey(new byte[Ed25519.PublicKeySizeInBytes]);
+            Buffer.BlockCopy(data, 8, IK.key, 0, IK.key.Length);
+            EK = new ECPubKey(new byte[Ed25519.PublicKeySizeInBytes]);
+            Buffer.BlockCopy(data, 8 + IK.key.Length, EK.key, 0, EK.key.Length);
+            byte[] msg = new byte[data.Length - 4 - 4 - IK.key.Length - EK.key.Length];
+            Buffer.BlockCopy(data, 8 + IK.key.Length + EK.key.Length, msg, 0, msg.Length);
             MESSAGE = new OmemoAuthenticatedMessage(msg);
         }
 
@@ -66,18 +65,18 @@ namespace Omemo.Classes.Messages
         public byte[] ToByteArray()
         {
             byte[] msg = MESSAGE.ToByteArray();
-            byte[] result = new byte[4 + 4 + IK.Length + EK.Length + msg.Length];
+            byte[] result = new byte[4 + 4 + IK.key.Length + EK.key.Length + msg.Length];
             Buffer.BlockCopy(BitConverter.GetBytes(PK_ID), 0, result, 0, 4);
             Buffer.BlockCopy(BitConverter.GetBytes(SPK_ID), 0, result, 4, 4);
-            Buffer.BlockCopy(IK, 0, result, 8, IK.Length);
-            Buffer.BlockCopy(EK, 0, result, 8 + IK.Length, EK.Length);
-            Buffer.BlockCopy(msg, 0, result, 8 + IK.Length + EK.Length, msg.Length);
+            Buffer.BlockCopy(IK.key, 0, result, 8, IK.key.Length);
+            Buffer.BlockCopy(EK.key, 0, result, 8 + IK.key.Length, EK.key.Length);
+            Buffer.BlockCopy(msg, 0, result, 8 + IK.key.Length + EK.key.Length, msg.Length);
             return result;
         }
 
         public override bool Equals(object obj)
         {
-            return obj is OmemoKeyExchangeMessage msg && msg.PK_ID == PK_ID && msg.SPK_ID == SPK_ID && msg.IK.SequenceEqual(IK) && msg.EK.SequenceEqual(EK) && msg.MESSAGE.Equals(MESSAGE);
+            return obj is OmemoKeyExchangeMessage msg && msg.PK_ID == PK_ID && msg.SPK_ID == SPK_ID && msg.IK.Equals(IK) && msg.EK.Equals(EK) && msg.MESSAGE.Equals(MESSAGE);
         }
 
         public override int GetHashCode()

@@ -64,42 +64,6 @@ namespace Omemo.Classes.Keys
             return Ed25519.Verify(preKeySignature, signedPreKey.key, identityKey.key);
         }
 
-        /// <summary>
-        /// Generates the X3DH session key for the sender of a message.
-        /// <para/>
-        /// Documentation: https://www.signal.org/docs/specifications/x3dh/
-        /// </summary>
-        /// <param name="identityKey">The <see cref="IdentityKeyPair"/> of the other part involved in this session.</param>
-        /// <param name="ephemeralKeyPair">The <see cref="EphemeralKeyPair"/> of the other part involved in this session.</param>
-        /// <param name="preKeysIndex">The index of one of the <see cref="preKeys"/> owned by this instance.</param>
-        /// <returns>The session key (SK).</returns>
-        public byte[] GenerateSenderSessionKey(IdentityKeyPair identityKey, EphemeralKeyPair ephemeralKeyPair, int preKeysIndex)
-        {
-            byte[] dh1 = CryptoUtils.SharedSecret(identityKey.privKey, signedPreKey);
-            byte[] dh2 = CryptoUtils.SharedSecret(ephemeralKeyPair.privKey, this.identityKey);
-            byte[] dh3 = CryptoUtils.SharedSecret(ephemeralKeyPair.privKey, signedPreKey);
-            byte[] dh4 = CryptoUtils.SharedSecret(ephemeralKeyPair.privKey, preKeys[preKeysIndex].pubKey);
-            return CryptoUtils.Concat(new byte[][] { dh1, dh2, dh3, dh4 });
-        }
-
-        /// <summary>
-        /// Generates the X3DH session key for the receiver of a message.
-        /// <para/>
-        /// Documentation: https://www.signal.org/docs/specifications/x3dh/
-        /// </summary>
-        /// <param name="identityKey">The <see cref="IdentityKeyPair"/> of the other part involved in this session.</param>
-        /// <param name="ephemeralKeyPair">The <see cref="EphemeralKeyPair"/> of the other part involved in this session.</param>
-        /// <param name="preKeysIndex">The index of one of the <see cref="preKeys"/> owned by this instance.</param>
-        /// <returns>The session key (SK).</returns>
-        public byte[] GenerateReceiverSessionKey(ECPubKey identityKey, EphemeralKeyPair ephemeralKeyPair, int preKeysIndex)
-        {
-            byte[] dh1 = CryptoUtils.SharedSecret(signedPreKey.key., signedPreKey);
-            byte[] dh2 = CryptoUtils.SharedSecret(ephemeralKeyPair.privKey, this.identityKey);
-            byte[] dh3 = CryptoUtils.SharedSecret(ephemeralKeyPair.privKey, signedPreKey);
-            byte[] dh4 = CryptoUtils.SharedSecret(ephemeralKeyPair.privKey, preKeys[preKeysIndex].pubKey);
-            return CryptoUtils.Concat(new byte[][] { dh1, dh2, dh3, dh4 });
-        }
-
         #endregion
 
         #region --Misc Methods (Private)--

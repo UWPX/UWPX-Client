@@ -134,18 +134,32 @@ namespace XMPP_API.Classes.Network.XML.Messages.XEP_0384
         /// <param name="receiverIdentityKey">The receives <see cref="IdentityKeyPair"/>.</param>
         /// <param name="storage">An instance of the <see cref="IOmemoStorage"/> interface.</param>
         /// <returns>True in case the message has been decrypted successfully.</returns>
-        public bool decrypt(IdentityKeyPair receiverIdentityKey, OmemoProtocolAddress receiverAddress, IOmemoStorage storage)
+        public bool decrypt(OmemoProtocolAddress receiverAddress, IdentityKeyPair receiverIdentityKey, SignedPreKey receiverSignedPreKey, PreKey receiverPreKey, IOmemoStorage storage)
         {
             bool result = true;
             // Content can be null in case we have a pure keys exchange message:
             if (!string.IsNullOrEmpty(BASE_64_PAYLOAD))
             {
                 byte[] contentEnc = Convert.FromBase64String(BASE_64_PAYLOAD);
-                byte[] contentDec = decryptContent(contentEnc, receiverIdentityKey, receiverAddress, storage);
+                byte[] contentDec = decryptContent(contentEnc, receiverAddress, receiverIdentityKey, receiverSignedPreKey, receiverPreKey, storage);
                 string contentStr = Encoding.UTF8.GetString(contentDec);
                 XmlNode contentNode = getContentNode(contentStr);
                 result = parseContentNode(contentNode);
             }
+            OmemoKeys omemoKeys = keys.Where(k => string.Equals(k.BARE_JID, receiverAddress.BARE_JID)).FirstOrDefault();
+            if (keys is null)
+            {
+                Logger.Warn("Failed to decrypt message. Not encrypted for JID.");
+                return false;
+            }
+            OmemoKey key = omemoKeys.KEYS?.Where(k => k.DEVICE_ID == receiverAddress.DEVICE_ID).FirstOrDefault();
+            if (key is null)
+            {
+                Logger.Warn("Failed to decrypt message. Not encrypted for device.");
+                return false;
+            }
+
+
             ENCRYPTED = false;
             return result;
         }
@@ -186,13 +200,15 @@ namespace XMPP_API.Classes.Network.XML.Messages.XEP_0384
             return contentNode;
         }
 
-        private byte[] decryptContent(byte[] data, IdentityKeyPair receiverIdentityKey, OmemoProtocolAddress receiverAddress, IOmemoStorage storage)
+        private byte[] decryptContent(byte[] data, OmemoProtocolAddress receiverAddress, IdentityKeyPair receiverIdentityKey, SignedPreKey receiverSignedPreKey, PreKey receiverPreKey, IOmemoStorage storage)
         {
-            DoubleRachet rachet = new DoubleRachet(receiverIdentityKey, storage); // TODO: Continue here
+            OmemoAuthenticatedMessage msg = prepareSession(receiverAddress, receiverIdentityKey, receiverSignedPreKey, receiverPreKey, storage);
+            DoubleRachet rachet = new DoubleRachet(receiverIdentityKey, storage);
+            rachet.DecryptForDevice(msg, storage.LoadSession(receiverAddress)); // TODO: Replace with sender address
             return data;
         }
 
-        private OmemoSession loadSession(OmemoProtocolAddress receiverAddress, IdentityKeyPair receiverIdentityKey)
+        private OmemoAuthenticatedMessage prepareSession(OmemoProtocolAddress receiverAddress, IdentityKeyPair receiverIdentityKey, SignedPreKey receiverSignedPreKey, PreKey receiverPreKey, IOmemoStorage storage)
         {
             OmemoKey key = getOmemoKeyForAddress(receiverAddress);
             if (key is null)
@@ -201,15 +217,15 @@ namespace XMPP_API.Classes.Network.XML.Messages.XEP_0384
             }
 
             byte[] data = Convert.FromBase64String(key.BASE64_PAYLOAD);
-            OmemoSession session = null;
             if (key.KEY_EXCHANGE)
             {
                 OmemoKeyExchangeMessage msg = new OmemoKeyExchangeMessage(data);
-                session = new OmemoSession(receiverIdentityKey, msg.) // TODO: Continue here
+                storage.StoreSession(receiverAddress, new OmemoSession(receiverIdentityKey, receiverSignedPreKey, receiverPreKey, msg)); // TODO: Replace with sender address
+                return msg.MESSAGE;
             }
             else
             {
-                OmemoAuthenticatedMessage msg = new OmemoAuthenticatedMessage(data);
+                return new OmemoAuthenticatedMessage(data);
             }
         }
 

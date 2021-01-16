@@ -143,6 +143,7 @@
     <Compile Include="Classes\OmemoDeviceGroup.cs" />
     <Compile Include="Classes\OmemoProtocolAddress.cs" />
     <Compile Include="Classes\OmemoSession.cs" />
+    <Compile Include="Classes\SkippedMessageKeys.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <EmbeddedResource Include="Properties\Omemo.rd.xml" />
   </ItemGroup>
