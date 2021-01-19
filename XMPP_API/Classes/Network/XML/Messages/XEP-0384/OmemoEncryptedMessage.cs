@@ -137,16 +137,7 @@ namespace XMPP_API.Classes.Network.XML.Messages.XEP_0384
         public bool decrypt(OmemoProtocolAddress receiverAddress, IdentityKeyPair receiverIdentityKey, SignedPreKey receiverSignedPreKey, PreKey receiverPreKey, IOmemoStorage storage)
         {
             bool result = true;
-            // Content can be null in case we have a pure keys exchange message:
-            if (!string.IsNullOrEmpty(BASE_64_PAYLOAD))
-            {
-                OmemoProtocolAddress senderAddress = new OmemoProtocolAddress(Utils.getBareJidFromFullJid(FROM), SID);
-                byte[] contentEnc = Convert.FromBase64String(BASE_64_PAYLOAD);
-                byte[] contentDec = decryptContent(contentEnc, senderAddress, receiverAddress, receiverIdentityKey, receiverSignedPreKey, receiverPreKey, storage);
-                string contentStr = Encoding.UTF8.GetString(contentDec);
-                XmlNode contentNode = getContentNode(contentStr);
-                result = parseContentNode(contentNode);
-            }
+            // Check if the message has been encrypted for us:
             OmemoKeys omemoKeys = keys.Where(k => string.Equals(k.BARE_JID, receiverAddress.BARE_JID)).FirstOrDefault();
             if (keys is null)
             {
@@ -160,6 +151,16 @@ namespace XMPP_API.Classes.Network.XML.Messages.XEP_0384
                 return false;
             }
 
+            // Content can be null in case we have a pure keys exchange message:
+            if (!string.IsNullOrEmpty(BASE_64_PAYLOAD))
+            {
+                OmemoProtocolAddress senderAddress = new OmemoProtocolAddress(Utils.getBareJidFromFullJid(FROM), SID);
+                byte[] contentEnc = Convert.FromBase64String(BASE_64_PAYLOAD);
+                byte[] contentDec = decryptContent(contentEnc, senderAddress, receiverAddress, receiverIdentityKey, receiverSignedPreKey, receiverPreKey, storage);
+                string contentStr = Encoding.UTF8.GetString(contentDec);
+                XmlNode contentNode = getContentNode(contentStr);
+                result = parseContentNode(contentNode);
+            }
 
             ENCRYPTED = false;
             return result;
@@ -189,7 +190,7 @@ namespace XMPP_API.Classes.Network.XML.Messages.XEP_0384
 
             // To:
             XElement toNode = new XElement("to");
-            toNode.Add(new XAttribute("jid", FROM));
+            toNode.Add(new XAttribute("jid", TO));
             contentNode.Add(toNode);
 
             // Time:
@@ -201,7 +202,7 @@ namespace XMPP_API.Classes.Network.XML.Messages.XEP_0384
             return contentNode;
         }
 
-        private byte[] decryptContent(byte[] data, OmemoProtocolAddress senderAddress, OmemoProtocolAddress receiverAddress, IdentityKeyPair receiverIdentityKey, SignedPreKey receiverSignedPreKey, PreKey receiverPreKey, IOmemoStorage storage)
+        private byte[] decryptContent(byte[] content, OmemoProtocolAddress senderAddress, OmemoProtocolAddress receiverAddress, IdentityKeyPair receiverIdentityKey, SignedPreKey receiverSignedPreKey, PreKey receiverPreKey, IOmemoStorage storage)
         {
             OmemoAuthenticatedMessage msg = prepareSession(senderAddress, receiverAddress, receiverIdentityKey, receiverSignedPreKey, receiverPreKey, storage);
             DoubleRachet rachet = new DoubleRachet(receiverIdentityKey, storage);
@@ -210,8 +211,7 @@ namespace XMPP_API.Classes.Network.XML.Messages.XEP_0384
             {
                 throw new InvalidOperationException("Failed to decrypt. No session found.");
             }
-            rachet.DecryptForDevice(msg, session);
-            return data;
+            return rachet.DecryptForDevice(msg, session, content);
         }
 
         private OmemoAuthenticatedMessage prepareSession(OmemoProtocolAddress senderAddress, OmemoProtocolAddress receiverAddress, IdentityKeyPair receiverIdentityKey, SignedPreKey receiverSignedPreKey, PreKey receiverPreKey, IOmemoStorage storage)
@@ -293,10 +293,10 @@ namespace XMPP_API.Classes.Network.XML.Messages.XEP_0384
             XmlNode payloadNode = XMLUtils.getChildNode(contentNode, "payload");
             if (payloadNode is null)
             {
-                XmlNode bodyNode = XMLUtils.getChildNode(contentNode, "body");
-                MESSAGE = bodyNode.Value;
                 return false;
             }
+            XmlNode bodyNode = XMLUtils.getChildNode(payloadNode, "body");
+            MESSAGE = bodyNode.InnerText;
             return true;
         }
 

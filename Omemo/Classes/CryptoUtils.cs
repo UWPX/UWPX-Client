@@ -98,16 +98,17 @@ namespace Omemo.Classes
         }
 
         /// <summary>
-        /// Performs HKDF-SHA-256 on the given data and returns 80 bytes.
+        /// Performs HKDF-SHA-256 on the given data and derives <paramref name="numberOfBytes"/> of data.
         /// </summary>
         /// <param name="data">The data HKDF-SHA-256 should be performed on.</param>
-        public static byte[] HkdfSha256(byte[] data, byte[] salt, string info)
+        /// <param name="numberOfBytes">How many bytes should be derived.</param>
+        public static byte[] HkdfSha256(byte[] data, byte[] salt, string info, int numberOfBytes)
         {
             HkdfBytesGenerator generator = new HkdfBytesGenerator(new Sha256Digest());
             byte[] infoBytes = Encoding.ASCII.GetBytes(info);
             generator.Init(new HkdfParameters(data, salt, infoBytes));
 
-            byte[] result = new byte[80];
+            byte[] result = new byte[numberOfBytes];
             generator.GenerateBytes(result, 0, result.Length);
             return result;
         }
