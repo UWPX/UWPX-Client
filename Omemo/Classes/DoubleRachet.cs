@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using Omemo.Classes.Keys;
 using Omemo.Classes.Messages;
 
@@ -48,7 +49,7 @@ namespace Omemo.Classes
         {
             byte[] key = KeyHelper.GenerateSymetricKey();
             // 32 byte (256 bit) of salt. Initialized with 0s.
-            byte[] hkdfOutput = CryptoUtils.HkdfSha256(key, new byte[32], "OMEMO Payload");
+            byte[] hkdfOutput = CryptoUtils.HkdfSha256(key, new byte[32], "OMEMO Payload", 80);
             CryptoUtils.SplitKey(hkdfOutput, out byte[] encKey, out byte[] authKey, out byte[] iv);
             byte[] cipherText = CryptoUtils.Aes256CbcEncrypt(encKey, iv, msg);
             byte[] hmac = CryptoUtils.HmacSha256(authKey, cipherText);
@@ -87,8 +88,7 @@ namespace Omemo.Classes
                         groupMsgs.Add(new Tuple<uint, IOmemoMessage>(device.Key, authMsg));
                     }
 
-                    // Update the session and store it:
-                    ++session.nS;
+                    // Store the changed session:
                     STORAGE.StoreSession(new OmemoProtocolAddress(group.BARE_JID, device.Key), session);
                 }
                 msgs.Add(new Tuple<string, List<Tuple<uint, IOmemoMessage>>>(group.BARE_JID, groupMsgs));
@@ -96,46 +96,45 @@ namespace Omemo.Classes
             return msgs;
         }
 
-        public byte[] DecryptForDevice(OmemoAuthenticatedMessage authMsg, OmemoSession session)
+        public byte[] DecryptForDevice(OmemoAuthenticatedMessage authMsg, OmemoSession session, byte[] cipherContent)
         {
-            OmemoMessage msg = new OmemoMessage(authMsg.OMEMO_MESSAGE);
-            byte[] plainText = TrySkippedMessageKeys(msg, session);
-            if (!(plainText is null))
-            {
-                return plainText;
-            }
+            byte[] keyHmac = DecryptKeyHmacForDevice(authMsg, session);
+            byte[] key = new byte[32];
+            Buffer.BlockCopy(keyHmac, 0, key, 0, key.Length);
+            byte[] hmacRef = new byte[16];
+            Buffer.BlockCopy(keyHmac, key.Length, hmacRef, 0, hmacRef.Length);
 
-            if (session.dhR is null || !session.dhR.pubKey.Equals(msg.DH))
+            // 32 byte (256 bit) of salt. Initialized with 0s.
+            byte[] hkdfOutput = CryptoUtils.HkdfSha256(key, new byte[32], "OMEMO Payload", 80);
+            CryptoUtils.SplitKey(hkdfOutput, out byte[] encKey, out byte[] authKey, out byte[] iv);
+            byte[] hmac = CryptoUtils.HmacSha256(authKey, cipherContent);
+            hmac = CryptoUtils.Truncate(hmac, 16);
+            if (!hmacRef.SequenceEqual(hmac))
             {
-                SkipMessageKeys(session, msg.PN);
-                session.InitDhRatchet(msg);
+                throw new InvalidOperationException("Failed to decrypt. HMAC does not match.");
             }
-            SkipMessageKeys(session, msg.N);
-            byte[] mk = LibSignalUtils.KDF_CK(session.ckR, 0x01);
-            session.ckR = LibSignalUtils.KDF_CK(session.ckR, 0x02);
-            ++session.nR;
-            return DecryptForDevice(mk, msg);
+            return CryptoUtils.Aes256CbcDecrypt(encKey, iv, cipherContent);
         }
 
         #endregion
 
         #region --Misc Methods (Private)--
         /// <summary>
-        /// Encrypts the given plain text with 
+        /// Encrypts the given key and HMAC concatenation and returns the result.
         /// </summary>
-        /// <param name="plainText">The key, HMAC concatenation result.</param>
+        /// <param name="keyHmac">The key, HMAC concatenation result.</param>
         /// <param name="session">The <see cref="OmemoSession"/> between the sender and receiver.</param>
         /// <param name="assData">Encode(IK_A) || Encode(IK_B) => Concatenation of Alices and Bobs public part of their identity key.</param>
-        private OmemoAuthenticatedMessage EncryptForDevice(byte[] plainText, OmemoSession session, byte[] assData)
+        private OmemoAuthenticatedMessage EncryptForDevice(byte[] keyHmac, OmemoSession session, byte[] assData)
         {
-            byte[] mk = session.NextMessageKey();
+            byte[] mk = LibSignalUtils.KDF_CK(session.ckS, 0x01);
+            session.ckS = LibSignalUtils.KDF_CK(session.ckS, 0x02);
+            OmemoMessage omemoMessage = new OmemoMessage(session);
+            ++session.nS;
             // 32 byte (256 bit) of salt. Initialized with 0s.
-            byte[] hkdfOutput = CryptoUtils.HkdfSha256(mk, new byte[32], "OMEMO Message Key Material");
+            byte[] hkdfOutput = CryptoUtils.HkdfSha256(mk, new byte[32], "OMEMO Message Key Material", 80);
             CryptoUtils.SplitKey(hkdfOutput, out byte[] encKey, out byte[] authKey, out byte[] iv);
-            OmemoMessage omemoMessage = new OmemoMessage(session)
-            {
-                cipherText = CryptoUtils.Aes256CbcEncrypt(encKey, iv, plainText)
-            };
+            omemoMessage.cipherText = CryptoUtils.Aes256CbcEncrypt(encKey, iv, keyHmac);
             byte[] omemoMessageBytes = omemoMessage.ToByteArray();
             byte[] hmacInput = CryptoUtils.Concat(assData, omemoMessageBytes);
             byte[] hmacResult = CryptoUtils.HmacSha256(authKey, hmacInput);
@@ -170,9 +169,30 @@ namespace Omemo.Classes
         private byte[] DecryptForDevice(byte[] mk, OmemoMessage msg)
         {
             // 32 byte (256 bit) of salt. Initialized with 0s.
-            byte[] hkdfOutput = CryptoUtils.HkdfSha256(mk, new byte[32], "OMEMO Message Key Material");
+            byte[] hkdfOutput = CryptoUtils.HkdfSha256(mk, new byte[32], "OMEMO Message Key Material", 80);
             CryptoUtils.SplitKey(hkdfOutput, out byte[] encKey, out byte[] authKey, out byte[] iv);
-            return CryptoUtils.Aes256CbcEncrypt(encKey, iv, msg.cipherText);
+            return CryptoUtils.Aes256CbcDecrypt(encKey, iv, msg.cipherText);
+        }
+
+        private byte[] DecryptKeyHmacForDevice(OmemoAuthenticatedMessage authMsg, OmemoSession session)
+        {
+            OmemoMessage msg = new OmemoMessage(authMsg.OMEMO_MESSAGE);
+            byte[] plainText = TrySkippedMessageKeys(msg, session);
+            if (!(plainText is null))
+            {
+                return plainText;
+            }
+
+            if (session.dhR is null || !session.dhR.pubKey.Equals(msg.DH))
+            {
+                SkipMessageKeys(session, msg.PN);
+                session.InitDhRatchet(msg);
+            }
+            SkipMessageKeys(session, msg.N);
+            byte[] mk = LibSignalUtils.KDF_CK(session.ckR, 0x01);
+            session.ckR = LibSignalUtils.KDF_CK(session.ckR, 0x02);
+            ++session.nR;
+            return DecryptForDevice(mk, msg);
         }
 
         #endregion

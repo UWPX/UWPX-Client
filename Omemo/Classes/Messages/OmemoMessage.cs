@@ -47,8 +47,8 @@ namespace Omemo.Classes.Messages
 
         public OmemoMessage(OmemoSession session)
         {
-            N = session.nS + 1;
-            PN = session.nS;
+            N = session.nS;
+            PN = session.pn;
             DH = session.dhS.pubKey;
             cipherText = null;
         }

@@ -1,4 +1,6 @@
-﻿namespace Omemo.Classes
+﻿using System;
+
+namespace Omemo.Classes
 {
     public static class LibSignalUtils
     {
@@ -24,9 +26,15 @@
         /// </summary>
         /// <param name="rk">Root key.</param>
         /// <param name="sharedSecret">Diffie-Hellman shared secret.</param>
-        public static byte[] KDF_RK(byte[] rk, byte[] sharedSecret)
+        /// <returns>A <see cref="Tuple"/> containing the new root key (rk) and the new chain key (ck).</returns>
+        public static Tuple<byte[], byte[]> KDF_RK(byte[] rk, byte[] sharedSecret)
         {
-            return CryptoUtils.HkdfSha256(sharedSecret, rk, "OMEMO Root Chain");
+            byte[] tmp = CryptoUtils.HkdfSha256(sharedSecret, rk, "OMEMO Root Chain", 64);
+            byte[] rk_new = new byte[32];
+            Buffer.BlockCopy(tmp, 0, rk_new, 0, rk_new.Length);
+            byte[] ck_new = new byte[32];
+            Buffer.BlockCopy(tmp, rk_new.Length, ck_new, 0, ck_new.Length);
+            return new Tuple<byte[], byte[]>(rk_new, ck_new);
         }
 
         /// <summary>

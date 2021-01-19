@@ -1,4 +1,5 @@
-﻿using Omemo.Classes.Keys;
+﻿using System;
+using Omemo.Classes.Keys;
 using Omemo.Classes.Messages;
 
 namespace Omemo.Classes
@@ -80,8 +81,9 @@ namespace Omemo.Classes
             ek = ephemeralKeyPair.pubKey;
             dhS = KeyHelper.GenerateKeyPair();
             dhR = new ECKeyPair(null, receiverBundle.identityKey);
-            rk = LibSignalUtils.KDF_RK(sk, CryptoUtils.SharedSecret(dhS.privKey, dhR.pubKey));
-            ckS = rk;
+            Tuple<byte[], byte[]> tmp = LibSignalUtils.KDF_RK(sk, CryptoUtils.SharedSecret(dhS.privKey, dhR.pubKey));
+            rk = tmp.Item1;
+            ckS = tmp.Item2;
             signedPreKeyId = receiverBundle.signedPreKeyId;
             preKeyId = receiverBundle.preKeys[receiverPreKeyIndex].id;
         }
@@ -100,29 +102,19 @@ namespace Omemo.Classes
         #endregion
         //--------------------------------------------------------Misc Methods:---------------------------------------------------------------\\
         #region --Misc Methods (Public)--
-        /// <summary>
-        /// Generates the next message key (mk) and returns it.
-        /// <para/>
-        /// Also updates <see cref="ckS"/> with its new value.
-        /// </summary>
-        public byte[] NextMessageKey()
-        {
-            byte[] mk = LibSignalUtils.KDF_CK(ckS, 0x01);
-            ckS = LibSignalUtils.KDF_CK(ckS, 0x02);
-            return mk;
-        }
-
         public void InitDhRatchet(OmemoMessage msg)
         {
             pn = nS;
             nS = 0;
             nR = 0;
             dhR = new ECKeyPair(null, msg.DH);
-            rk = LibSignalUtils.KDF_RK(rk, CryptoUtils.SharedSecret(dhS.privKey, dhR.pubKey));
-            ckR = rk;
+            Tuple<byte[], byte[]> tmp = LibSignalUtils.KDF_RK(rk, CryptoUtils.SharedSecret(dhS.privKey, dhR.pubKey));
+            rk = tmp.Item1;
+            ckR = tmp.Item2;
             dhS = KeyHelper.GenerateKeyPair();
-            rk = LibSignalUtils.KDF_RK(rk, CryptoUtils.SharedSecret(dhS.privKey, dhR.pubKey));
-            ckS = rk;
+            tmp = LibSignalUtils.KDF_RK(rk, CryptoUtils.SharedSecret(dhS.privKey, dhR.pubKey));
+            rk = tmp.Item1;
+            ckS = tmp.Item2;
         }
 
         #endregion
