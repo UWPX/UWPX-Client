@@ -1,5 +1,6 @@
 ﻿using System;
 using Chaos.NaCl;
+using Omemo.Classes.Exceptions;
 using Omemo.Classes.Keys;
 
 namespace Omemo.Classes.Messages
@@ -52,6 +53,7 @@ namespace Omemo.Classes.Messages
             byte[] msg = new byte[data.Length - 4 - 4 - IK.key.Length - EK.key.Length];
             Buffer.BlockCopy(data, 8 + IK.key.Length + EK.key.Length, msg, 0, msg.Length);
             MESSAGE = new OmemoAuthenticatedMessage(msg);
+            Validate();
         }
 
         #endregion
@@ -72,6 +74,23 @@ namespace Omemo.Classes.Messages
             Buffer.BlockCopy(EK.key, 0, result, 8 + IK.key.Length, EK.key.Length);
             Buffer.BlockCopy(msg, 0, result, 8 + IK.key.Length + EK.key.Length, msg.Length);
             return result;
+        }
+
+        public void Validate()
+        {
+            if (IK?.key is null || IK.key.Length != Ed25519.PublicKeySizeInBytes)
+            {
+                throw new OmemoException("Invalid " + nameof(OmemoKeyExchangeMessage) + " IK.key.Length: " + IK?.key?.Length);
+            }
+            if (EK?.key is null || EK.key.Length != Ed25519.PublicKeySizeInBytes)
+            {
+                throw new OmemoException("Invalid " + nameof(OmemoKeyExchangeMessage) + " IK.key.Length: " + EK?.key?.Length);
+            }
+            if (MESSAGE is null)
+            {
+                throw new OmemoException("Invalid " + nameof(OmemoKeyExchangeMessage) + " MESSAGE is null.");
+            }
+            MESSAGE.Validate();
         }
 
         public override bool Equals(object obj)
