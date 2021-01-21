@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Linq;
 using Chaos.NaCl;
+using Omemo.Classes.Exceptions;
 using Omemo.Classes.Keys;
 
 namespace Omemo.Classes.Messages
@@ -26,6 +27,11 @@ namespace Omemo.Classes.Messages
         public readonly ECPubKey DH;
         public byte[] cipherText;
 
+        /// <summary>
+        /// The minimum size in bytes for a valid version of this message.
+        /// </summary>
+        public static int MIN_SIZE = sizeof(uint) + sizeof(uint) + Ed25519.PublicKeySizeInBytes;
+
         #endregion
         //--------------------------------------------------------Constructor:----------------------------------------------------------------\\
         #region --Constructors--
@@ -43,6 +49,7 @@ namespace Omemo.Classes.Messages
                 cipherText = new byte[data.Length - (8 + DH.key.Length)];
                 Buffer.BlockCopy(data, 8 + DH.key.Length, cipherText, 0, cipherText.Length);
             }
+            Validate();
         }
 
         public OmemoMessage(OmemoSession session)
@@ -77,6 +84,14 @@ namespace Omemo.Classes.Messages
                 Buffer.BlockCopy(cipherText, 0, result, 8 + DH.key.Length, cipherText.Length);
             }
             return result;
+        }
+
+        public void Validate()
+        {
+            if (DH?.key is null || DH.key.Length != Ed25519.PublicKeySizeInBytes)
+            {
+                throw new OmemoException("Invalid " + nameof(OmemoMessage) + " DH.key.Length: " + DH?.key?.Length);
+            }
         }
 
         public override bool Equals(object obj)

@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Diagnostics;
 using System.Linq;
+using Omemo.Classes.Exceptions;
 
 namespace Omemo.Classes.Messages
 {
@@ -37,6 +38,7 @@ namespace Omemo.Classes.Messages
             OMEMO_MESSAGE = new byte[data.Length - HMAC.Length];
             Buffer.BlockCopy(data, 0, HMAC, 0, HMAC.Length);
             Buffer.BlockCopy(data, HMAC.Length, OMEMO_MESSAGE, 0, OMEMO_MESSAGE.Length);
+            Validate();
         }
 
         #endregion
@@ -53,6 +55,18 @@ namespace Omemo.Classes.Messages
             Buffer.BlockCopy(HMAC, 0, result, 0, HMAC.Length);
             Buffer.BlockCopy(OMEMO_MESSAGE, 0, result, HMAC.Length, OMEMO_MESSAGE.Length);
             return result;
+        }
+
+        public void Validate()
+        {
+            if (OMEMO_MESSAGE is null || OMEMO_MESSAGE.Length < OmemoMessage.MIN_SIZE)
+            {
+                throw new OmemoException("Invalid " + nameof(OmemoAuthenticatedMessage) + " OMEMO_MESSAGE.Length < " + OmemoMessage.MIN_SIZE + ": " + OMEMO_MESSAGE?.Length);
+            }
+            if (HMAC is null || HMAC.Length != 16)
+            {
+                throw new OmemoException("Invalid " + nameof(OmemoAuthenticatedMessage) + " HMAC.Length != 16: " + HMAC?.Length);
+            }
         }
 
         public override bool Equals(object obj)
