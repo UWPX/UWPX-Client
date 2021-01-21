@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using Logging;
 using Omemo.Classes.Exceptions;
 using Omemo.Classes.Keys;
 using Omemo.Classes.Messages;
@@ -12,15 +13,13 @@ namespace Omemo.Classes
         //--------------------------------------------------------Attributes:-----------------------------------------------------------------\\
         #region --Attributes--
         private readonly IdentityKeyPair OWN_IDENTITY_KEY;
-        private readonly IOmemoStorage STORAGE;
 
         #endregion
         //--------------------------------------------------------Constructor:----------------------------------------------------------------\\
         #region --Constructors--
-        public DoubleRachet(IdentityKeyPair ownIdentityKey, IOmemoStorage storage)
+        public DoubleRachet(IdentityKeyPair ownIdentityKey)
         {
             OWN_IDENTITY_KEY = ownIdentityKey;
-            STORAGE = storage;
         }
 
         #endregion
@@ -52,7 +51,6 @@ namespace Omemo.Classes
         /// <summary>
         /// Encrypts the given <paramref name="keyHmac"/> combination for all given devices and returns the resulting messages.
         /// Uses the given <see cref="OmemoSession"/> for encrypting.
-        /// Calls <see cref="IOmemoStorage.StoreSession(OmemoProtocolAddress, OmemoSession)"/> on completion for each session.
         /// </summary>
         /// <param name="keyHmac">The key HMAC combination, that should be encrypted.</param>
         /// <param name="devices">A collection of devices, we should encrypt the message for.</param>
@@ -65,22 +63,26 @@ namespace Omemo.Classes
                 List<Tuple<uint, IOmemoMessage>> groupMsgs = new List<Tuple<uint, IOmemoMessage>>();
                 foreach (KeyValuePair<uint, OmemoSession> device in group.SESSIONS)
                 {
-                    OmemoSession session = device.Value;
-                    OmemoAuthenticatedMessage authMsg = EncryptKeyHmacForDevices(keyHmac, device.Value, session.assData);
-
-                    // To account for lost and out-of-order messages during the key exchange, OmemoKeyExchange structures are sent until a response by the recipient confirms that the key exchange was successfully completed.
-                    if (session.nS == 0 || session.nR == 0)
+                    try
                     {
-                        OmemoKeyExchangeMessage kexMsg = new OmemoKeyExchangeMessage(session.preKeyId, session.signedPreKeyId, OWN_IDENTITY_KEY.pubKey, session.ek, authMsg);
-                        groupMsgs.Add(new Tuple<uint, IOmemoMessage>(device.Key, kexMsg));
-                    }
-                    else
-                    {
-                        groupMsgs.Add(new Tuple<uint, IOmemoMessage>(device.Key, authMsg));
-                    }
+                        OmemoSession session = device.Value;
+                        OmemoAuthenticatedMessage authMsg = EncryptKeyHmacForDevices(keyHmac, device.Value, session.assData);
 
-                    // Store the changed session:
-                    STORAGE.StoreSession(new OmemoProtocolAddress(group.BARE_JID, device.Key), session);
+                        // To account for lost and out-of-order messages during the key exchange, OmemoKeyExchange structures are sent until a response by the recipient confirms that the key exchange was successfully completed.
+                        if (session.nS == 0 || session.nR == 0)
+                        {
+                            OmemoKeyExchangeMessage kexMsg = new OmemoKeyExchangeMessage(session.preKeyId, session.signedPreKeyId, OWN_IDENTITY_KEY.pubKey, session.ek, authMsg);
+                            groupMsgs.Add(new Tuple<uint, IOmemoMessage>(device.Key, kexMsg));
+                        }
+                        else
+                        {
+                            groupMsgs.Add(new Tuple<uint, IOmemoMessage>(device.Key, authMsg));
+                        }
+                    }
+                    catch (OmemoException e)
+                    {
+                        Logger.Error("Failed to encrypt message for device " + group.ToString() + " with: " + e.ToString());
+                    }
                 }
                 msgs.Add(new Tuple<string, List<Tuple<uint, IOmemoMessage>>>(group.BARE_JID, groupMsgs));
             }
