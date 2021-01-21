@@ -82,7 +82,8 @@ namespace Component_Tests.Classes.Crypto.Omemo
             omemoEncryptedMessage.encrypt(ALICE_ADDRESS.DEVICE_ID, aliceIdentKey, aliceStorage, bobDevices);
 
             // Decrypt:
-            Assert.IsTrue(omemoEncryptedMessage.decrypt(BOB_ADDRESS, bobIdentKey, bobSignedPreKey, bobPreKeys[0], bobStorage));
+            // Throws an exception in case something goes wrong:
+            omemoEncryptedMessage.decrypt(BOB_ADDRESS, bobIdentKey, bobSignedPreKey, bobPreKeys[0], bobStorage);
             Assert.AreEqual(msg, omemoEncryptedMessage.MESSAGE);
         }
 

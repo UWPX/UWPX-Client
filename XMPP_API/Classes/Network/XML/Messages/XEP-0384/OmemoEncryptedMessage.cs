@@ -5,8 +5,8 @@ using System.Linq;
 using System.Text;
 using System.Xml;
 using System.Xml.Linq;
-using Logging;
 using Omemo.Classes;
+using Omemo.Classes.Exceptions;
 using Omemo.Classes.Keys;
 using Omemo.Classes.Messages;
 using XMPP_API.Classes.Network.XML.Messages.XEP_0082;
@@ -113,19 +113,30 @@ namespace XMPP_API.Classes.Network.XML.Messages.XEP_0384
         /// <param name="devices">A collection of <see cref="OmemoDeviceGroup"/>s the message should be encrypted for.</param>
         public void encrypt(uint sid, IdentityKeyPair senderIdentityKey, IOmemoStorage storage, List<OmemoDeviceGroup> devices)
         {
-            SID = sid;
-            XElement contentNode = generateContent();
-            byte[] contentData = Encoding.UTF8.GetBytes(contentNode.ToString());
+            try
+            {
+                SID = sid;
+                XElement contentNode = generateContent();
+                byte[] contentData = Encoding.UTF8.GetBytes(contentNode.ToString());
 
-            // Encrypt message:
-            DoubleRachet rachet = new DoubleRachet(senderIdentityKey, storage);
-            Tuple<byte[], byte[]> encrypted = rachet.EncryptMessasge(contentData);
-            BASE_64_PAYLOAD = Convert.ToBase64String(encrypted.Item1);
+                // Encrypt message:
+                DoubleRachet rachet = new DoubleRachet(senderIdentityKey, storage);
+                Tuple<byte[], byte[]> encrypted = rachet.EncryptMessasge(contentData);
+                BASE_64_PAYLOAD = Convert.ToBase64String(encrypted.Item1);
 
-            // Encrypt key || HMAC for devices:
-            keys = rachet.EncryptKeyHmacForDevices(encrypted.Item2, devices).Select(x => new OmemoKeys(x.Item1, x.Item2.Select(x => new OmemoKey(x)).ToList())).ToList();
+                // Encrypt key || HMAC for devices:
+                keys = rachet.EncryptKeyHmacForDevices(encrypted.Item2, devices).Select(x => new OmemoKeys(x.Item1, x.Item2.Select(x => new OmemoKey(x)).ToList())).ToList();
 
-            ENCRYPTED = true;
+                ENCRYPTED = true;
+            }
+            catch (Exception e)
+            {
+                if (e is OmemoException)
+                {
+                    throw e;
+                }
+                throw new OmemoException("Failed to encrypt.", e);
+            }
         }
 
         /// <summary>
@@ -133,37 +144,42 @@ namespace XMPP_API.Classes.Network.XML.Messages.XEP_0384
         /// </summary>
         /// <param name="receiverIdentityKey">The receives <see cref="IdentityKeyPair"/>.</param>
         /// <param name="storage">An instance of the <see cref="IOmemoStorage"/> interface.</param>
-        /// <returns>True in case the message has been decrypted successfully.</returns>
-        public bool decrypt(OmemoProtocolAddress receiverAddress, IdentityKeyPair receiverIdentityKey, SignedPreKey receiverSignedPreKey, PreKey receiverPreKey, IOmemoStorage storage)
+        public void decrypt(OmemoProtocolAddress receiverAddress, IdentityKeyPair receiverIdentityKey, SignedPreKey receiverSignedPreKey, PreKey receiverPreKey, IOmemoStorage storage)
         {
-            bool result = true;
-            // Check if the message has been encrypted for us:
-            OmemoKeys omemoKeys = keys.Where(k => string.Equals(k.BARE_JID, receiverAddress.BARE_JID)).FirstOrDefault();
-            if (keys is null)
+            try
             {
-                Logger.Warn("Failed to decrypt message. Not encrypted for JID.");
-                return false;
-            }
-            OmemoKey key = omemoKeys.KEYS?.Where(k => k.DEVICE_ID == receiverAddress.DEVICE_ID).FirstOrDefault();
-            if (key is null)
-            {
-                Logger.Warn("Failed to decrypt message. Not encrypted for device.");
-                return false;
-            }
+                // Check if the message has been encrypted for us:
+                OmemoKeys omemoKeys = keys.Where(k => string.Equals(k.BARE_JID, receiverAddress.BARE_JID)).FirstOrDefault();
+                if (keys is null)
+                {
+                    throw new NotForDeviceException("Failed to decrypt message. Not encrypted for JID.");
+                }
+                OmemoKey key = omemoKeys.KEYS?.Where(k => k.DEVICE_ID == receiverAddress.DEVICE_ID).FirstOrDefault();
+                if (key is null)
+                {
+                    throw new NotForDeviceException("Failed to decrypt message. Not encrypted for device.");
+                }
 
-            // Content can be null in case we have a pure keys exchange message:
-            if (!string.IsNullOrEmpty(BASE_64_PAYLOAD))
-            {
-                OmemoProtocolAddress senderAddress = new OmemoProtocolAddress(Utils.getBareJidFromFullJid(FROM), SID);
-                byte[] contentEnc = Convert.FromBase64String(BASE_64_PAYLOAD);
-                byte[] contentDec = decryptContent(contentEnc, senderAddress, receiverAddress, receiverIdentityKey, receiverSignedPreKey, receiverPreKey, storage);
-                string contentStr = Encoding.UTF8.GetString(contentDec);
-                XmlNode contentNode = getContentNode(contentStr);
-                result = parseContentNode(contentNode);
+                // Content can be null in case we have a pure keys exchange message:
+                if (!string.IsNullOrEmpty(BASE_64_PAYLOAD))
+                {
+                    OmemoProtocolAddress senderAddress = new OmemoProtocolAddress(Utils.getBareJidFromFullJid(FROM), SID);
+                    byte[] contentEnc = Convert.FromBase64String(BASE_64_PAYLOAD);
+                    byte[] contentDec = decryptContent(contentEnc, senderAddress, receiverAddress, receiverIdentityKey, receiverSignedPreKey, receiverPreKey, storage);
+                    string contentStr = Encoding.UTF8.GetString(contentDec);
+                    XmlNode contentNode = getContentNode(contentStr);
+                    parseContentNode(contentNode);
+                }
+                ENCRYPTED = false;
             }
-
-            ENCRYPTED = false;
-            return result;
+            catch (Exception e)
+            {
+                if (e is OmemoException)
+                {
+                    throw e;
+                }
+                throw new OmemoException("Failed to decrypt.", e);
+            }
         }
 
         #endregion
@@ -253,7 +269,7 @@ namespace XMPP_API.Classes.Network.XML.Messages.XEP_0384
             return null;
         }
 
-        private bool parseContentNode(XmlNode contentNode)
+        private void parseContentNode(XmlNode contentNode)
         {
             // Validate the message:
             XmlNode fromNode = XMLUtils.getChildNode(contentNode, "from");
@@ -262,21 +278,18 @@ namespace XMPP_API.Classes.Network.XML.Messages.XEP_0384
                 refFrom = fromNode.Attributes["jid"]?.Value;
                 if (!string.Equals(refFrom, FROM))
                 {
-                    Logger.Error("Failed to parse OMEMO message. Content 'from' does not match: " + refFrom + " != " + FROM);
-                    return false;
+                    throw new OmemoException("Failed to parse OMEMO message. Content 'from' does not match: " + refFrom + " != " + FROM);
                 }
             }
             XmlNode toNode = XMLUtils.getChildNode(contentNode, "to");
             if (toNode is null)
             {
-                Logger.Error("Failed to parse OMEMO message. Content does not contain a 'to' node for validation, which is mandatory.");
-                return false;
+                throw new OmemoException("Failed to parse OMEMO message. Content does not contain a 'to' node for validation, which is mandatory.");
             }
             refTo = toNode.Attributes["jid"]?.Value;
             if (!string.Equals(refTo, TO))
             {
-                Logger.Error("Failed to parse OMEMO message. Content 'to' does not match: " + refTo + " != " + TO);
-                return false;
+                throw new OmemoException("Failed to parse OMEMO message. Content 'to' does not match: " + refTo + " != " + TO);
             }
             XmlNode timeNode = XMLUtils.getChildNode(contentNode, "time");
             if (!(timeNode is null))
@@ -284,20 +297,17 @@ namespace XMPP_API.Classes.Network.XML.Messages.XEP_0384
                 timeStamp = DateTimeHelper.Parse(timeNode.Attributes["stamp"]?.Value);
                 if (!ValidateTimeStamp())
                 {
-                    return false;
+                    throw new OmemoException("Failed to parse OMEMO message. Invalid time stamp: " + timeNode.Attributes["stamp"]?.Value);
                 }
             }
 
-
             // Load the payload:
             XmlNode payloadNode = XMLUtils.getChildNode(contentNode, "payload");
-            if (payloadNode is null)
+            if (!(payloadNode is null))
             {
-                return false;
+                XmlNode bodyNode = XMLUtils.getChildNode(payloadNode, "body");
+                MESSAGE = bodyNode.InnerText;
             }
-            XmlNode bodyNode = XMLUtils.getChildNode(payloadNode, "body");
-            MESSAGE = bodyNode.InnerText;
-            return true;
         }
 
         #endregion

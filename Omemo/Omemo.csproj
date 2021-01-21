@@ -123,6 +123,8 @@
     <Compile Include="Classes\Consts.cs" />
     <Compile Include="Classes\CryptoUtils.cs" />
     <Compile Include="Classes\DoubleRachet.cs" />
+    <Compile Include="Classes\Exceptions\NotForDeviceException.cs" />
+    <Compile Include="Classes\Exceptions\OmemoException.cs" />
     <Compile Include="Classes\IOmemoStorage.cs" />
     <Compile Include="Classes\KeyHelper.cs" />
     <Compile Include="Classes\Keys\Bundle.cs" />
