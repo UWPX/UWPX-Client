@@ -34,6 +34,11 @@
             return ((int)DEVICE_ID) ^ BARE_JID.GetHashCode();
         }
 
+        public override string ToString()
+        {
+            return BARE_JID + ':' + DEVICE_ID;
+        }
+
         #endregion
 
         #region --Misc Methods (Private)--
