@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using Omemo.Classes.Exceptions;
 using Omemo.Classes.Keys;
 using Omemo.Classes.Messages;
 
@@ -108,7 +109,7 @@ namespace Omemo.Classes
             hmac = CryptoUtils.Truncate(hmac, 16);
             if (!hmacRef.SequenceEqual(hmac))
             {
-                throw new InvalidOperationException("Failed to decrypt. HMAC does not match.");
+                throw new OmemoException("Failed to decrypt. HMAC does not match.");
             }
             return CryptoUtils.Aes256CbcDecrypt(encKey, iv, cipherContent);
         }
@@ -161,7 +162,7 @@ namespace Omemo.Classes
         {
             if (session.nR + OmemoSession.MAX_SKIP < until)
             {
-                throw new InvalidOperationException("Failed to decrypt. Would skip to many message keys from " + session.nR + " to " + until + ", which is more than " + OmemoSession.MAX_SKIP + '.');
+                throw new OmemoException("Failed to decrypt. Would skip to many message keys from " + session.nR + " to " + until + ", which is more than " + OmemoSession.MAX_SKIP + '.');
             }
             if (!(session.ckR is null))
             {
@@ -193,7 +194,7 @@ namespace Omemo.Classes
             byte[] hmacTruncated = CryptoUtils.Truncate(hmacResult, 16);
             if (!hmacTruncated.SequenceEqual(msgHmac))
             {
-                throw new InvalidOperationException("Failed to decrypt. HMAC of OmemoMessage does not match.");
+                throw new OmemoException("Failed to decrypt. HMAC of OmemoMessage does not match.");
             }
             return CryptoUtils.Aes256CbcDecrypt(encKey, iv, msg.cipherText);
         }
