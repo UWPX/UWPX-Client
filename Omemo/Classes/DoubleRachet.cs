@@ -25,17 +25,7 @@ namespace Omemo.Classes
         #endregion
         //--------------------------------------------------------Set-, Get- Methods:---------------------------------------------------------\\
         #region --Set-, Get- Methods--
-        /// <summary>
-        /// Generates the associated data (ad) by concatenating the senders and receivers public identity keys.
-        /// </summary>
-        /// <param name="receiverIdentityKey">The receivers public identity key.</param>
-        public byte[] GetAssociatedData(ECPubKey receiverIdentityKey)
-        {
-            byte[] ad = new byte[OWN_IDENTITY_KEY.pubKey.key.Length + receiverIdentityKey.key.Length];
-            Buffer.BlockCopy(OWN_IDENTITY_KEY.pubKey.key, 0, ad, 0, OWN_IDENTITY_KEY.pubKey.key.Length);
-            Buffer.BlockCopy(receiverIdentityKey.key, 0, ad, OWN_IDENTITY_KEY.pubKey.key.Length, receiverIdentityKey.key.Length);
-            return ad;
-        }
+
 
         #endregion
         //--------------------------------------------------------Misc Methods:---------------------------------------------------------------\\
@@ -66,7 +56,7 @@ namespace Omemo.Classes
         /// <param name="keyHmac">The key HMAC combination, that should be encrypted.</param>
         /// <param name="devices">A collection of devices, we should encrypt the message for.</param>
         /// <returns>A collection of encrypted messages for each device grouped by their bare JID (List[Tuple[bareJid, List[Tuple[deviceId, IOmemoMessage]]]]).</returns>
-        public List<Tuple<string, List<Tuple<uint, IOmemoMessage>>>> EncryptForDevices(byte[] keyHmac, List<OmemoDeviceGroup> devices)
+        public List<Tuple<string, List<Tuple<uint, IOmemoMessage>>>> EncryptKeyHmacForDevices(byte[] keyHmac, List<OmemoDeviceGroup> devices)
         {
             List<Tuple<string, List<Tuple<uint, IOmemoMessage>>>> msgs = new List<Tuple<string, List<Tuple<uint, IOmemoMessage>>>>();
             foreach (OmemoDeviceGroup group in devices)
@@ -75,7 +65,7 @@ namespace Omemo.Classes
                 foreach (KeyValuePair<uint, OmemoSession> device in group.SESSIONS)
                 {
                     OmemoSession session = device.Value;
-                    OmemoAuthenticatedMessage authMsg = EncryptForDevice(keyHmac, device.Value, GetAssociatedData(device.Value.dhR.pubKey));
+                    OmemoAuthenticatedMessage authMsg = EncryptKeyHmacForDevices(keyHmac, device.Value, session.assData);
 
                     // To account for lost and out-of-order messages during the key exchange, OmemoKeyExchange structures are sent until a response by the recipient confirms that the key exchange was successfully completed.
                     if (session.nS == 0 || session.nR == 0)
@@ -96,7 +86,14 @@ namespace Omemo.Classes
             return msgs;
         }
 
-        public byte[] DecryptForDevice(OmemoAuthenticatedMessage authMsg, OmemoSession session, byte[] cipherContent)
+        /// <summary>
+        /// Tries to decrypt the given <paramref name="cipherContent"/>.
+        /// </summary>
+        /// <param name="authMsg">The <see cref="OmemoAuthenticatedMessage"/> that should be used for decrypting the <paramref name="cipherContent"/>.</param>
+        /// <param name="session">The <see cref="OmemoSession"/> that should be used for decryption.</param>
+        /// <param name="cipherContent">The cipher text that should be decrypted.</param>
+        /// <returns>On success the plain text for the given <paramref name="cipherContent"/>.</returns>
+        public byte[] DecryptMessage(OmemoAuthenticatedMessage authMsg, OmemoSession session, byte[] cipherContent)
         {
             byte[] keyHmac = DecryptKeyHmacForDevice(authMsg, session);
             byte[] key = new byte[32];
@@ -125,7 +122,7 @@ namespace Omemo.Classes
         /// <param name="keyHmac">The key, HMAC concatenation result.</param>
         /// <param name="session">The <see cref="OmemoSession"/> between the sender and receiver.</param>
         /// <param name="assData">Encode(IK_A) || Encode(IK_B) => Concatenation of Alices and Bobs public part of their identity key.</param>
-        private OmemoAuthenticatedMessage EncryptForDevice(byte[] keyHmac, OmemoSession session, byte[] assData)
+        private OmemoAuthenticatedMessage EncryptKeyHmacForDevices(byte[] keyHmac, OmemoSession session, byte[] assData)
         {
             byte[] mk = LibSignalUtils.KDF_CK(session.ckS, 0x01);
             session.ckS = LibSignalUtils.KDF_CK(session.ckS, 0x02);
@@ -142,12 +139,24 @@ namespace Omemo.Classes
             return new OmemoAuthenticatedMessage(hmacTruncated, omemoMessageBytes);
         }
 
-        private byte[] TrySkippedMessageKeys(OmemoMessage msg, OmemoSession session)
+        /// <summary>
+        /// Tries a skipped message key for decrypting the key and HMAC concatenation (<see cref="OmemoMessage.cipherText"/>).
+        /// </summary>
+        /// <param name="msg">The <see cref="OmemoMessage"/> containing the key and HMAC concatenation (<see cref="OmemoMessage.cipherText"/>).</param>
+        /// <param name="msgHmac">The HMAC of the <paramref name="msg"/>.</param>
+        /// <param name="session">The <see cref="OmemoSession"/> that should be used for decryption.</param>
+        /// <returns>key || HMAC on success, else null.</returns>
+        private byte[] TrySkippedMessageKeys(OmemoMessage msg, byte[] msgHmac, OmemoSession session)
         {
             byte[] mk = session.MK_SKIPPED.GetMessagekey(msg.DH, msg.N);
-            return !(mk is null) ? DecryptForDevice(mk, msg) : null;
+            return !(mk is null) ? DecryptKeyHmacForDevice(mk, msg, msgHmac, session.assData) : null;
         }
 
+        /// <summary>
+        /// Skippes receiving message keys <paramref name="until"/>.
+        /// </summary>
+        /// <param name="session">The <see cref="OmemoSession"/> the keys should be skipped for.</param>
+        /// <param name="until">Until which key should be skipped.</param>
         private void SkipMessageKeys(OmemoSession session, uint until)
         {
             if (session.nR + OmemoSession.MAX_SKIP < until)
@@ -166,18 +175,39 @@ namespace Omemo.Classes
             }
         }
 
-        private byte[] DecryptForDevice(byte[] mk, OmemoMessage msg)
+        /// <summary>
+        /// Decrypts the key and HMAC concatenation (<see cref="OmemoMessage.cipherText"/>) with the given <paramref name="mk"/> and returns the result.
+        /// </summary>
+        /// <param name="mk">The message key that should be used for decryption.</param>
+        /// <param name="msg">The <see cref="OmemoMessage"/> containing the key and HMAC concatenation (<see cref="OmemoMessage.cipherText"/>).</param>
+        /// <param name="msgHmac">The HMAC of the <paramref name="msg"/>.</param>
+        /// <param name="assData">Encode(IK_A) || Encode(IK_B) => Concatenation of Alices and Bobs public part of their identity key.</param>
+        /// <returns>key || HMAC</returns>
+        private byte[] DecryptKeyHmacForDevice(byte[] mk, OmemoMessage msg, byte[] msgHmac, byte[] assData)
         {
             // 32 byte (256 bit) of salt. Initialized with 0s.
             byte[] hkdfOutput = CryptoUtils.HkdfSha256(mk, new byte[32], "OMEMO Message Key Material", 80);
             CryptoUtils.SplitKey(hkdfOutput, out byte[] encKey, out byte[] authKey, out byte[] iv);
+            byte[] hmacInput = CryptoUtils.Concat(assData, msg.ToByteArray());
+            byte[] hmacResult = CryptoUtils.HmacSha256(authKey, hmacInput);
+            byte[] hmacTruncated = CryptoUtils.Truncate(hmacResult, 16);
+            if (!hmacTruncated.SequenceEqual(msgHmac))
+            {
+                throw new InvalidOperationException("Failed to decrypt. HMAC of OmemoMessage does not match.");
+            }
             return CryptoUtils.Aes256CbcDecrypt(encKey, iv, msg.cipherText);
         }
 
+        /// <summary>
+        /// Decrypts the key and HMAC concatenation (<see cref="OmemoMessage.cipherText"/>) with the given <paramref name="session"/>.
+        /// </summary>
+        /// <param name="authMsg">The <see cref="OmemoAuthenticatedMessage"/> containing the key and HMAC.</param>
+        /// <param name="session">The <see cref="OmemoSession"/> that should be used for decryption.</param>
+        /// <returns>key || HMAC</returns>
         private byte[] DecryptKeyHmacForDevice(OmemoAuthenticatedMessage authMsg, OmemoSession session)
         {
             OmemoMessage msg = new OmemoMessage(authMsg.OMEMO_MESSAGE);
-            byte[] plainText = TrySkippedMessageKeys(msg, session);
+            byte[] plainText = TrySkippedMessageKeys(msg, authMsg.HMAC, session);
             if (!(plainText is null))
             {
                 return plainText;
@@ -192,7 +222,7 @@ namespace Omemo.Classes
             byte[] mk = LibSignalUtils.KDF_CK(session.ckR, 0x01);
             session.ckR = LibSignalUtils.KDF_CK(session.ckR, 0x02);
             ++session.nR;
-            return DecryptForDevice(mk, msg);
+            return DecryptKeyHmacForDevice(mk, msg, authMsg.HMAC, session.assData);
         }
 
         #endregion

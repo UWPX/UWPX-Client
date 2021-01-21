@@ -56,6 +56,14 @@ namespace Omemo.Classes
         /// The id of the signed PreKey used to create establish this session.
         /// </summary>
         public uint signedPreKeyId;
+        /// <summary>
+        /// The associated data is created by concatenating the IdentityKeys of Alice and Bob.
+        /// <para/>
+        /// AD = Encode(IK_A) || Encode(IK_B).
+        /// <para/>
+        /// Alice is the party that actively initiated the key exchange, while Bob is the party that passively accepted the key exchange.
+        /// </summary>
+        public byte[] assData = null;
 
         /// <summary>
         /// Max number of skipped message keys to prevent DOS attacks.
@@ -67,7 +75,7 @@ namespace Omemo.Classes
         //--------------------------------------------------------Constructor:----------------------------------------------------------------\\
         #region --Constructors--
         /// <summary>
-        /// Creates a new <see cref="OmemoSession"/> for sending a new message.
+        /// Creates a new <see cref="OmemoSession"/> for sending a new message and initiating a new key exchange.
         /// </summary>
         /// <param name="receiverBundle">The <see cref="Bundle"/> of the receiving end.</param>
         /// /// <param name="receiverPreKeyIndex">The index of the <see cref="Bundle.preKeys"/> to use.</param>
@@ -86,12 +94,21 @@ namespace Omemo.Classes
             ckS = tmp.Item2;
             signedPreKeyId = receiverBundle.signedPreKeyId;
             preKeyId = receiverBundle.preKeys[receiverPreKeyIndex].id;
+            assData = CryptoUtils.Concat(senderIdentityKeyPair.pubKey.key, receiverBundle.identityKey.key);
         }
 
+        /// <summary>
+        /// Creates a new <see cref="OmemoSession"/> for receiving a new message and accepting a new key exchange.
+        /// </summary>
+        /// <param name="receiverIdentityKey">The receivers <see cref="IdentityKeyPair"/>.</param>
+        /// <param name="receiverSignedPreKey">The receivers <see cref="SignedPreKey"/>.</param>
+        /// <param name="receiverPreKey">The receivers <see cref="PreKey"/> selected by the sender.</param>
+        /// <param name="keyExchangeMsg">The received <see cref="OmemoKeyExchangeMessage"/>.</param>
         public OmemoSession(IdentityKeyPair receiverIdentityKey, SignedPreKey receiverSignedPreKey, PreKey receiverPreKey, OmemoKeyExchangeMessage keyExchangeMsg)
         {
             dhS = receiverIdentityKey;
             rk = CryptoUtils.GenerateReceiverSessionKey(keyExchangeMsg.IK, keyExchangeMsg.EK, receiverIdentityKey.privKey, receiverSignedPreKey.preKey.privKey, receiverPreKey.privKey);
+            assData = CryptoUtils.Concat(keyExchangeMsg.IK.key, receiverIdentityKey.pubKey.key);
         }
 
         #endregion
@@ -102,6 +119,10 @@ namespace Omemo.Classes
         #endregion
         //--------------------------------------------------------Misc Methods:---------------------------------------------------------------\\
         #region --Misc Methods (Public)--
+        /// <summary>
+        /// Initiates the DH ratchet for decrypting the first message.
+        /// </summary>
+        /// <param name="msg">The received <see cref="OmemoMessage"/>.</param>
         public void InitDhRatchet(OmemoMessage msg)
         {
             pn = nS;
