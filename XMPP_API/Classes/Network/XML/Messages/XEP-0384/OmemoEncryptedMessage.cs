@@ -123,7 +123,7 @@ namespace XMPP_API.Classes.Network.XML.Messages.XEP_0384
             BASE_64_PAYLOAD = Convert.ToBase64String(encrypted.Item1);
 
             // Encrypt key || HMAC for devices:
-            keys = rachet.EncryptForDevices(encrypted.Item2, devices).Select(x => new OmemoKeys(x.Item1, x.Item2.Select(x => new OmemoKey(x)).ToList())).ToList();
+            keys = rachet.EncryptKeyHmacForDevices(encrypted.Item2, devices).Select(x => new OmemoKeys(x.Item1, x.Item2.Select(x => new OmemoKey(x)).ToList())).ToList();
 
             ENCRYPTED = true;
         }
@@ -211,7 +211,7 @@ namespace XMPP_API.Classes.Network.XML.Messages.XEP_0384
             {
                 throw new InvalidOperationException("Failed to decrypt. No session found.");
             }
-            return rachet.DecryptForDevice(msg, session, content);
+            return rachet.DecryptMessage(msg, session, content);
         }
 
         private OmemoAuthenticatedMessage prepareSession(OmemoProtocolAddress senderAddress, OmemoProtocolAddress receiverAddress, IdentityKeyPair receiverIdentityKey, SignedPreKey receiverSignedPreKey, PreKey receiverPreKey, IOmemoStorage storage)
