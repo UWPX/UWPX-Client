@@ -1,8 +1,8 @@
 ﻿using Storage.Classes.Contexts;
 
-namespace Storage.Classes.Models.Account
+namespace Storage.Classes.Models.Chat
 {
-    public abstract class AbstractAccountModel: IModel
+    public abstract class AbstractChatModel: IModel
     {
         //--------------------------------------------------------Attributes:-----------------------------------------------------------------\\
         #region --Attributes--
@@ -23,7 +23,7 @@ namespace Storage.Classes.Models.Account
         #region --Misc Methods (Public)--
         public void Save()
         {
-            using (AccountDbContext ctx = new AccountDbContext())
+            using (ChatDbContext ctx = new ChatDbContext())
             {
                 ctx.Update(this);
                 ctx.SaveChanges();

@@ -6,7 +6,7 @@ using XMPP_API.Classes;
 
 namespace Storage.Classes.Models.Chat
 {
-    public class Chat: IComparable
+    public class ChatModel: AbstractChatModel, IComparable
     {
         //--------------------------------------------------------Attributes:-----------------------------------------------------------------\\
         #region --Attributes--
@@ -71,16 +71,16 @@ namespace Storage.Classes.Models.Chat
         /// <summary>
         /// Information about the state of OMEMO for this chat.
         /// </summary>
-        public OmemoChatInformation omemo { get; set; }
+        public OmemoChatInformationModel omemo { get; set; }
         /// <summary>
         /// The optional MUC information in case <see cref="chatType"/> == <seealso cref="ChatType.MUC"/>.
         /// </summary>
-        public MucInfo muc { get; set; }
+        public MucInfoModel muc { get; set; }
 
         #endregion
         //--------------------------------------------------------Constructor:----------------------------------------------------------------\\
         #region --Constructors--
-        public Chat(string chatBareJid, Account.Account account)
+        public ChatModel(string chatBareJid, Account.AccountModel account)
         {
             bareJid = chatBareJid;
             accountBareJid = account.bareJid;
@@ -93,7 +93,7 @@ namespace Storage.Classes.Models.Chat
             status = null;
             presence = Presence.Unavailable;
             chatType = ChatType.CHAT;
-            omemo = new OmemoChatInformation();
+            omemo = new OmemoChatInformationModel();
         }
 
         #endregion
@@ -106,7 +106,7 @@ namespace Storage.Classes.Models.Chat
         #region --Misc Methods (Public)--
         public int CompareTo(object obj)
         {
-            return obj is Chat c ? lastActive.CompareTo(c.lastActive) : -1;
+            return obj is ChatModel c ? lastActive.CompareTo(c.lastActive) : -1;
         }
 
         #endregion

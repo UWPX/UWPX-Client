@@ -1,8 +1,8 @@
 ﻿using Storage.Classes.Contexts;
 
-namespace Storage.Classes.Models.Account
+namespace Storage.Classes.Models.Omemo
 {
-    public abstract class AbstractAccountModel: IModel
+    public abstract class AbstractOmemoModel: IModel
     {
         //--------------------------------------------------------Attributes:-----------------------------------------------------------------\\
         #region --Attributes--

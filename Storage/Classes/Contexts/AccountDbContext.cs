@@ -1,6 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Storage.Classes.Models.Account;
 using Storage.Classes.Models.Omemo;
+using Storage.Classes.Models.Omemo.Keys;
 
 namespace Storage.Classes.Contexts
 {
@@ -8,20 +9,23 @@ namespace Storage.Classes.Contexts
     {
         //--------------------------------------------------------Attributes:-----------------------------------------------------------------\\
         #region --Attributes--
-        public DbSet<Account> Accounts { get; set; }
-        public DbSet<Jid> Jids { get; set; }
-        public DbSet<Server> Servers { get; set; }
-        public DbSet<IgnoredCertificateError> IgnoredCertificateErrors { get; set; }
+        public DbSet<AccountModel> Accounts { get; set; }
+        public DbSet<JidModel> Jids { get; set; }
+        public DbSet<ServerModel> Servers { get; set; }
+        public DbSet<IgnoredCertificateErrorModel> IgnoredCertificateErrors { get; set; }
 
-        public DbSet<OmemoAccountInformation> AccountInfos { get; set; }
-        public DbSet<OmemoChatInformation> ChatInfos { get; set; }
-        public DbSet<OmemoDevice> Devices { get; set; }
-        public DbSet<OmemoDeviceListSubscription> DeviceListSubscriptions { get; set; }
-        public DbSet<OmemoFingerprint> Fingerprints { get; set; }
-        public DbSet<OmemoIdentityKey> IdentityKeys { get; set; }
-        public DbSet<OmemoPreKey> PreKeys { get; set; }
-        public DbSet<OmemoSession> Sessions { get; set; }
-        public DbSet<OmemoSignedPreKey> SignedPreKeys { get; set; }
+        public DbSet<OmemoAccountInformationModel> AccountInfos { get; set; }
+        public DbSet<OmemoChatInformationModel> ChatInfos { get; set; }
+        public DbSet<OmemoDeviceModel> Devices { get; set; }
+        public DbSet<OmemoDeviceListSubscriptionModel> DeviceListSubscriptions { get; set; }
+        public DbSet<OmemoFingerprintModel> Fingerprints { get; set; }
+        public DbSet<IndentityKeyPairModel> IdentityKeyPairs { get; set; }
+        public DbSet<PreKeyModel> PreKeys { get; set; }
+        public DbSet<OmemoSessionModel> Sessions { get; set; }
+        public DbSet<SignedPreKeyModel> SignedPreKeys { get; set; }
+        public DbSet<ECKeyPairModel> ECKeyPairs { get; set; }
+        public DbSet<SkippedMessageKeyGroupModel> SkippedMessageKeyGroups { get; set; }
+        public DbSet<SkippedMessageKeyModel> SkippedMessageKeys { get; set; }
 
         #endregion
         //--------------------------------------------------------Constructor:----------------------------------------------------------------\\

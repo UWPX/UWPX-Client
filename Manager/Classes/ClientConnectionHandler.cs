@@ -26,7 +26,7 @@ namespace Manager.Classes
         //--------------------------------------------------------Attributes:-----------------------------------------------------------------\\
         #region --Attributes--
         public readonly XMPPClient client;
-        public readonly Account account;
+        public readonly AccountModel account;
         private readonly PostClientConnectedHandler postClientConnectedHandler;
 
         public event ClientConnectedHandler ClientConnected;
@@ -35,7 +35,7 @@ namespace Manager.Classes
         #endregion
         //--------------------------------------------------------Constructor:----------------------------------------------------------------\\
         #region --Constructors--
-        public ClientConnectionHandler(Account account)
+        public ClientConnectionHandler(AccountModel account)
         {
             this.account = account;
             client = LoadAccount(account);
@@ -316,7 +316,7 @@ namespace Manager.Classes
         /// </summary>
         /// <param name="account">The account which should get loaded.</param>
         /// <returns>Returns a new XMPPClient instance.</returns>
-        private XMPPClient LoadAccount(Account account)
+        private XMPPClient LoadAccount(AccountModel account)
         {
             XMPPClient client = new XMPPClient(account.ToXMPPAccount());
             client.connection.TCP_CONNECTION.disableConnectionTimeout = Settings.GetSettingBoolean(SettingsConsts.DEBUG_DISABLE_TCP_TIMEOUT);
@@ -327,7 +327,7 @@ namespace Manager.Classes
             return client;
         }
 
-        private void EnableOmemo(Account account, XMPPClient client)
+        private void EnableOmemo(AccountModel account, XMPPClient client)
         {
             if (!account.omemoInfo.keysGenerated)
             {

@@ -162,7 +162,7 @@ namespace Manager.Classes
             {
                 CLIENT_SEMA.Wait();
                 CLIENTS.Clear();
-                foreach (Account account in ctx.Accounts)
+                foreach (AccountModel account in ctx.Accounts)
                 {
                     ClientConnectionHandler client = new ClientConnectionHandler(account);
                     client.ClientConnected += OnClientConnected;

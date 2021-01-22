@@ -2,12 +2,13 @@
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Text.RegularExpressions;
+using Storage.Classes.Models.Account;
 using XMPP_API.Classes.Network.XML.Messages;
 using XMPP_API.Classes.Network.XML.Messages.XEP_0384;
 
 namespace Storage.Classes.Models.Chat
 {
-    public class ChatMessage
+    public class ChatMessageModel: AbstractChatModel
     {
         //--------------------------------------------------------Attributes:-----------------------------------------------------------------\\
         #region --Attributes--
@@ -19,7 +20,7 @@ namespace Storage.Classes.Models.Chat
         [Required]
         public string stableId { get; set; }
         [Required]
-        public Chat chat { get; set; }
+        public ChatModel chat { get; set; }
         /// <summary>
         /// The type of the message e.g. 'error', 'chat', 'groupchat', ...
         /// </summary>
@@ -31,10 +32,10 @@ namespace Storage.Classes.Models.Chat
         [Required]
         public string message { get; set; }
         /// <summary>
-        /// Represents the s
+        /// Represents the sender JID.
         /// </summary>
         [Required]
-        public Jid from { get; set; }
+        public JidModel from { get; set; }
         /// <summary>
         /// The nickname of the sender. Useful for group chats e.g. MUC or MIX.
         /// </summary>
@@ -81,9 +82,9 @@ namespace Storage.Classes.Models.Chat
         #endregion
         //--------------------------------------------------------Constructor:----------------------------------------------------------------\\
         #region --Constructors--
-        public ChatMessage(MessageMessage msg, Chat chat)
+        public ChatMessageModel(MessageMessage msg, ChatModel chat)
         {
-            from = Jid.FromString(msg.getFrom());
+            from = JidModel.FromString(msg.getFrom());
             fromNickname = msg.FROM_NICK;
             stableId = msg.ID;
             this.chat = chat;
@@ -98,7 +99,7 @@ namespace Storage.Classes.Models.Chat
             state = msg.CC_TYPE == XMPP_API.Classes.Network.XML.CarbonCopyType.SENT ? MessageState.SEND : MessageState.UNREAD;
             isImage = IsImageUrl(msg.MESSAGE);
             isCC = msg.CC_TYPE != XMPP_API.Classes.Network.XML.CarbonCopyType.NONE;
-            isEncrypted = msg is OmemoMessageMessage;
+            isEncrypted = msg is OmemoEncryptedMessage;
             isFavorite = false;
         }
 

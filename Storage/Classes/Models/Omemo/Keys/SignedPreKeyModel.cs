@@ -1,24 +1,32 @@
 ﻿using System.ComponentModel.DataAnnotations;
-using Windows.Security.Cryptography.Certificates;
+using Omemo.Classes.Keys;
 
-namespace Storage.Classes.Models.Account
+namespace Storage.Classes.Models.Omemo.Keys
 {
-    public class IgnoredCertificateError: AbstractAccountModel
+    public class SignedPreKeyModel: AbstractOmemoModel
     {
         //--------------------------------------------------------Attributes:-----------------------------------------------------------------\\
         #region --Attributes--
         [Key]
         public int id { get; set; }
-        /// <summary>
-        /// The certificate error that should be ignored during connecting to the server.
-        /// </summary>
         [Required]
-        public ChainValidationResult certificateError { get; set; }
+        public uint keyId { get; set; }
+        [Required]
+        public byte[] signature { get; set; }
+        public byte[] privKey { get; set; }
+        public byte[] pubKey { get; set; }
 
         #endregion
         //--------------------------------------------------------Constructor:----------------------------------------------------------------\\
         #region --Constructors--
-
+        public SignedPreKeyModel() { }
+        public SignedPreKeyModel(SignedPreKey key)
+        {
+            keyId = key.preKey.id;
+            signature = key.signature;
+            privKey = key.preKey.privKey.key;
+            pubKey = key.preKey.pubKey.key;
+        }
 
         #endregion
         //--------------------------------------------------------Set-, Get- Methods:---------------------------------------------------------\\
@@ -28,7 +36,10 @@ namespace Storage.Classes.Models.Account
         #endregion
         //--------------------------------------------------------Misc Methods:---------------------------------------------------------------\\
         #region --Misc Methods (Public)--
-
+        public SignedPreKey ToSignedPreKey()
+        {
+            return new SignedPreKey(new PreKey(new ECPrivKey(privKey), new ECPubKey(pubKey), keyId), signature);
+        }
 
         #endregion
 

@@ -31,7 +31,7 @@ namespace Omemo.Classes
         /// <summary>
         /// 32 byte Chain Keys for receiving.
         /// </summary>
-        public byte[] ckR = null;
+        public byte[] ckR;
         /// <summary>
         /// Message numbers for sending.
         /// </summary>
@@ -63,7 +63,7 @@ namespace Omemo.Classes
         /// <para/>
         /// Alice is the party that actively initiated the key exchange, while Bob is the party that passively accepted the key exchange.
         /// </summary>
-        public byte[] assData = null;
+        public byte[] assData;
 
         /// <summary>
         /// Max number of skipped message keys to prevent DOS attacks.
@@ -110,6 +110,8 @@ namespace Omemo.Classes
             rk = CryptoUtils.GenerateReceiverSessionKey(keyExchangeMsg.IK, keyExchangeMsg.EK, receiverIdentityKey.privKey, receiverSignedPreKey.preKey.privKey, receiverPreKey.privKey);
             assData = CryptoUtils.Concat(keyExchangeMsg.IK.key, receiverIdentityKey.pubKey.key);
         }
+
+        public OmemoSession() { }
 
         #endregion
         //--------------------------------------------------------Set-, Get- Methods:---------------------------------------------------------\\
