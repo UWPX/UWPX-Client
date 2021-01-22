@@ -1,57 +1,33 @@
 ﻿using System.ComponentModel.DataAnnotations;
-using XMPP_API.Classes.Network.TCP;
 
 namespace Storage.Classes.Models.Account
 {
-    public class Server: AbstractAccountModel
+    public class JidModel
     {
         //--------------------------------------------------------Attributes:-----------------------------------------------------------------\\
         #region --Attributes--
         [Key]
         public int id { get; set; }
         /// <summary>
-        /// The address of the server e.g. 'xmpp.jabber.org'.
+        /// The user part of a bare or full Jabber ID e.g. 'coven' in 'coven@chat.shakespeare.lit'.
         /// </summary>
         [Required]
-        public string address { get; set; }
+        public string userPart { get; set; }
         /// <summary>
-        /// The server port e.g. '5222'.
+        /// The domain part of a bare or full Jabber ID e.g. 'chat.shakespeare.lit' in 'coven@chat.shakespeare.lit'.
         /// </summary>
         [Required]
-        public short port { get; set; }
+        public string domainPart { get; set; }
         /// <summary>
-        /// Defines how to handle the TLS connection.
+        /// The resource part of a full Jabber ID e.g. 'phone' in 'coven@chat.shakespeare.lit/phone'.
         /// </summary>
         [Required]
-        public TLSConnectionMode tlsMode { get; set; }
-        /// <summary>
-        /// True in case XEP-0198 (Stream Management) should be disabled.
-        /// </summary>
-        [Required]
-        public bool disableStreamManagement { get; set; }
-        /// <summary>
-        /// True in case XEP-0280 (Message Carbons) should be disabled.
-        /// </summary>
-        [Required]
-        public bool disableMessageCarbons { get; set; }
-        /// <summary>
-        /// A collection of certificate errors that should be ignored during connecting to a server.
-        /// </summary>
-        [Required]
-        public IgnoredCertificateError ignoredCertificateErrors { get; set; }
-
+        public string resourcePart { get; set; }
 
         #endregion
         //--------------------------------------------------------Constructor:----------------------------------------------------------------\\
         #region --Constructors--
-        public Server()
-        {
-            port = 5222;
-            tlsMode = TLSConnectionMode.FORCE;
-            disableStreamManagement = false;
-            disableMessageCarbons = false;
-            ignoredCertificateErrors = new IgnoredCertificateError();
-        }
+
 
         #endregion
         //--------------------------------------------------------Set-, Get- Methods:---------------------------------------------------------\\
@@ -61,7 +37,10 @@ namespace Storage.Classes.Models.Account
         #endregion
         //--------------------------------------------------------Misc Methods:---------------------------------------------------------------\\
         #region --Misc Methods (Public)--
-
+        public static JidModel FromString(string bareJid)
+        {
+            return new JidModel();
+        }
 
         #endregion
 

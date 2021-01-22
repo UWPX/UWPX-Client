@@ -9,7 +9,7 @@ namespace Omemo.Classes
     {
         //--------------------------------------------------------Attributes:-----------------------------------------------------------------\\
         #region --Attributes--
-        private readonly List<Tuple<ECPubKey, Dictionary<uint, byte[]>>> MKS = new List<Tuple<ECPubKey, Dictionary<uint, byte[]>>>();
+        public readonly List<Tuple<ECPubKey, Dictionary<uint, byte[]>>> MKS = new List<Tuple<ECPubKey, Dictionary<uint, byte[]>>>();
 
         #endregion
         //--------------------------------------------------------Constructor:----------------------------------------------------------------\\

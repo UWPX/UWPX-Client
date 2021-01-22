@@ -16,7 +16,7 @@ namespace Manager.Classes.Chat
         private bool initialized = false;
 
         private readonly SemaphoreSlim CHATS_SEMA = new SemaphoreSlim(1);
-        private readonly CustomObservableCollection<Storage.Classes.Models.Chat.Chat> CHATS = new CustomObservableCollection<Storage.Classes.Models.Chat.Chat>(false);
+        private readonly CustomObservableCollection<Storage.Classes.Models.Chat.ChatModel> CHATS = new CustomObservableCollection<Storage.Classes.Models.Chat.ChatModel>(false);
         #endregion
         //--------------------------------------------------------Constructor:----------------------------------------------------------------\\
         #region --Constructors--
@@ -25,10 +25,10 @@ namespace Manager.Classes.Chat
         #endregion
         //--------------------------------------------------------Set-, Get- Methods:---------------------------------------------------------\\
         #region --Set-, Get- Methods--
-        public Storage.Classes.Models.Chat.Chat GetChat(Account dbAccount, string chatJid)
+        public Storage.Classes.Models.Chat.ChatModel GetChat(AccountModel dbAccount, string chatJid)
         {
             CHATS_SEMA.Wait();
-            Storage.Classes.Models.Chat.Chat result = CHATS.Where(c => string.Equals(c.accountBareJid, dbAccount.bareJid) && string.Equals(c.bareJid, chatJid)).FirstOrDefault();
+            Storage.Classes.Models.Chat.ChatModel result = CHATS.Where(c => string.Equals(c.accountBareJid, dbAccount.bareJid) && string.Equals(c.bareJid, chatJid)).FirstOrDefault();
             CHATS_SEMA.Release();
             return result;
         }

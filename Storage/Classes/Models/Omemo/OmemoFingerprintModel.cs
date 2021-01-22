@@ -1,28 +1,28 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using System;
+using System.ComponentModel.DataAnnotations;
+using Storage.Classes.Models.Account;
 
-namespace Storage.Classes.Models.Account
+namespace Storage.Classes.Models.Omemo
 {
-    public class Jid
+    public class OmemoFingerprintModel: AbstractOmemoModel
     {
         //--------------------------------------------------------Attributes:-----------------------------------------------------------------\\
         #region --Attributes--
         [Key]
         public int id { get; set; }
         /// <summary>
-        /// The user part of a bare or full Jabber ID e.g. 'coven' in 'coven@chat.shakespeare.lit'.
+        /// The bare JID e.g. 'coven@chat.shakespeare.lit' we received the update from.
         /// </summary>
         [Required]
-        public string userPart { get; set; }
-        /// <summary>
-        /// The domain part of a bare or full Jabber ID e.g. 'chat.shakespeare.lit' in 'coven@chat.shakespeare.lit'.
-        /// </summary>
+        public OmemoDeviceModel device { get; set; }
         [Required]
-        public string domainPart { get; set; }
-        /// <summary>
-        /// The resource part of a full Jabber ID e.g. 'phone' in 'coven@chat.shakespeare.lit/phone'.
-        /// </summary>
+        public JidModel bareJid { get; set; }
         [Required]
-        public string resourcePart { get; set; }
+        public DateTime lastSeen { get; set; }
+        [Required]
+        public bool trusted { get; set; }
+        [Required]
+        public byte[] identityPubKey { get; set; }
 
         #endregion
         //--------------------------------------------------------Constructor:----------------------------------------------------------------\\
@@ -37,10 +37,7 @@ namespace Storage.Classes.Models.Account
         #endregion
         //--------------------------------------------------------Misc Methods:---------------------------------------------------------------\\
         #region --Misc Methods (Public)--
-        public static Jid FromString(string bareJid)
-        {
-            return new Jid();
-        }
+
 
         #endregion
 

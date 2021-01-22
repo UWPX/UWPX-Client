@@ -1,28 +1,33 @@
-﻿using System;
-using System.ComponentModel.DataAnnotations;
-using Storage.Classes.Models.Account;
+﻿using System.ComponentModel.DataAnnotations;
 
 namespace Storage.Classes.Models.Omemo
 {
-    public class OmemoFingerprint: AbstractAccountModel
+    /// <summary>
+    /// Represents a single OMEMO capable device.
+    /// </summary>
+    public class OmemoDeviceModel: AbstractOmemoModel
     {
         //--------------------------------------------------------Attributes:-----------------------------------------------------------------\\
         #region --Attributes--
         [Key]
-        public string id { get; set; }
+        public int id { get; set; }
         /// <summary>
-        /// The bare JID e.g. 'coven@chat.shakespeare.lit' we received the update from.
+        /// The unique ID of the device
         /// </summary>
         [Required]
-        public OmemoDevice device { get; set; }
-        [Required]
-        public Jid bareJid { get; set; }
-        [Required]
-        public DateTime lastSeen { get; set; }
-        [Required]
-        public bool trusted { get; set; }
-        [Required]
-        public byte[] identityPubKey { get; set; }
+        public uint deviceId { get; set; }
+        /// <summary>
+        /// The local name for this device.
+        /// </summary>
+        public string deviceLabel { get; set; }
+        /// <summary>
+        /// Not null in case there exists a session with this device.
+        /// </summary>
+        public OmemoSessionModel session { get; set; }
+        /// <summary>
+        /// The fingerprint of this device.
+        /// </summary>
+        public OmemoFingerprintModel fingerprint { get; set; }
 
         #endregion
         //--------------------------------------------------------Constructor:----------------------------------------------------------------\\

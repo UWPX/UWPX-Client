@@ -1,12 +1,12 @@
 ﻿using System.ComponentModel.DataAnnotations;
+using System.Linq;
 using Storage.Classes.Models.Omemo;
 using XMPP_API.Classes;
-using XMPP_API.Classes.Crypto;
 using XMPP_API.Classes.Network;
 
 namespace Storage.Classes.Models.Account
 {
-    public class Account: AbstractAccountModel
+    public class AccountModel: AbstractAccountModel
     {
         //--------------------------------------------------------Attributes:-----------------------------------------------------------------\\
         #region --Attributes--
@@ -19,12 +19,12 @@ namespace Storage.Classes.Models.Account
         /// The full Jabber ID of the account e.g. 'coven@chat.shakespeare.lit/phone'
         /// </summary>
         [Required]
-        public Jid fullJid { get; set; }
+        public JidModel fullJid { get; set; }
         /// <summary>
         /// The complete server configuration for the account.
         /// </summary>
         [Required]
-        public Server server { get; set; }
+        public ServerModel server { get; set; }
         /// <summary>
         /// The presence priority within range -127 to 128 e.g. 0.
         /// </summary>
@@ -54,7 +54,7 @@ namespace Storage.Classes.Models.Account
         /// Information about the XEP-0384 (OMEMO Encryption) account status.
         /// </summary>
         [Required]
-        public OmemoAccountInformation omemoInfo { get; set; } = new OmemoAccountInformation();
+        public OmemoAccountInformationModel omemoInfo { get; set; } = new OmemoAccountInformationModel();
 
         #endregion
         //--------------------------------------------------------Constructor:----------------------------------------------------------------\\
@@ -71,7 +71,7 @@ namespace Storage.Classes.Models.Account
         #region --Misc Methods (Public)--
         public XMPPAccount ToXMPPAccount()
         {
-            return new XMPPAccount(new XMPPUser(fullJid.userPart, fullJid.domainPart, fullJid.resourcePart))
+            XMPPAccount account = new XMPPAccount(new XMPPUser(fullJid.userPart, fullJid.domainPart, fullJid.resourcePart))
             {
                 serverAddress = server.address,
                 port = server.port,
@@ -82,11 +82,13 @@ namespace Storage.Classes.Models.Account
                 status = status,
                 omemoKeysGenerated = omemoInfo.keysGenerated,
                 omemoDeviceId = omemoInfo.deviceId,
-                omemoIdentityKey = CryptoUtils.loadIdentityKeyPair(omemoInfo.identityKey),
+                omemoIdentityKey = omemoInfo.identityKey.ToIdentityKeyPair(),
                 omemoBundleInfoAnnounced = omemoInfo.bundleInfoAnnounced,
-                omemoSignedPreKeyId = omemoInfo.signedPreKeys.keyId,
-                omemoSignedPreKey = CryptoUtils.loadSignedPreKeyRecord(omemoInfo.signedPreKeys.key)
+                omemoSignedPreKey = omemoInfo.signedPreKey.ToSignedPreKey(),
+                omemoDeviceLabel = omemoInfo.deviceLabel,
             };
+            account.OMEMO_PRE_KEYS.AddRange(omemoInfo.preKeys.Select(k => k.ToPreKey()));
+            return account;
         }
 
         #endregion

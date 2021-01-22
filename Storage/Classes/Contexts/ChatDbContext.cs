@@ -9,8 +9,8 @@ namespace Storage.Classes.Contexts
     {
         //--------------------------------------------------------Attributes:-----------------------------------------------------------------\\
         #region --Attributes--
-        public DbSet<Chat> Chats { get; set; }
-        public DbSet<ChatMessage> ChatMessages { get; set; }
+        public DbSet<ChatModel> Chats { get; set; }
+        public DbSet<ChatMessageModel> ChatMessages { get; set; }
 
         #endregion
         //--------------------------------------------------------Constructor:----------------------------------------------------------------\\
@@ -25,11 +25,11 @@ namespace Storage.Classes.Contexts
         #endregion
         //--------------------------------------------------------Misc Methods:---------------------------------------------------------------\\
         #region --Misc Methods (Public)--
-        public static void ResetMucSateForAccount(Account account)
+        public static void ResetMucSateForAccount(AccountModel account)
         {
             using (ChatDbContext ctx = new ChatDbContext())
             {
-                ctx.Chats.Where(c => c.account.id == account.id).Select(c => c.muc).ToList().ForEach(m => m.state = MucState.DISCONNECTED);
+                ctx.Chats.Where(c => string.Equals(c.accountBareJid, account.bareJid)).Select(c => c.muc).ToList().ForEach(m => m.state = MucState.DISCONNECTED);
                 ctx.SaveChanges();
             }
         }

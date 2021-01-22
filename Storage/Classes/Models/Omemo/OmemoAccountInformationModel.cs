@@ -1,21 +1,22 @@
 ﻿using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Diagnostics;
+using System.Linq;
 using Omemo.Classes;
 using Omemo.Classes.Keys;
-using Storage.Classes.Models.Account;
+using Storage.Classes.Models.Omemo.Keys;
 
 namespace Storage.Classes.Models.Omemo
 {
     /// <summary>
     /// Information about the XEP-0384 (OMEMO Encryption) account status.
     /// </summary>
-    public class OmemoAccountInformation: AbstractAccountModel
+    public class OmemoAccountInformationModel: AbstractOmemoModel
     {
         //--------------------------------------------------------Attributes:-----------------------------------------------------------------\\
         #region --Attributes--
         [Key]
-        public string id { get; set; }
+        public int id { get; set; }
         /// <summary>
         /// Did we already successfully generate all XEP-0384 (OMEMO Encryption) keys?
         /// </summary>
@@ -42,28 +43,28 @@ namespace Storage.Classes.Models.Omemo
         /// <summary>
         /// The private key pair.
         /// </summary>
-        public IdentityKeyPair identityKey { get; set; }
+        public IndentityKeyPairModel identityKey { get; set; }
         /// <summary>
         /// The signed PreKey.
         /// Only valid in case <see cref="keysGenerated"/> is true.
         /// </summary>
         [Required]
-        public SignedPreKey signedPreKey { get; set; }
+        public SignedPreKeyModel signedPreKey { get; set; }
         /// <summary>
         /// A collection of PreKeys to publish.
         /// Only valid in case <see cref="keysGenerated"/> is true.
         /// </summary>
         [Required]
-        public List<PreKey> preKeys { get; set; } = new List<PreKey>();
+        public List<PreKeyModel> preKeys { get; set; } = new List<PreKeyModel>();
         /// <summary>
         /// A collection of OMEMO capable devices.
         /// </summary>
         [Required]
-        public List<OmemoDevice> devices { get; set; } = new List<OmemoDevice>();
+        public List<OmemoDeviceModel> devices { get; set; } = new List<OmemoDeviceModel>();
         /// <summary>
         /// The device list subscription states for this chat.
         /// </summary>
-        public OmemoDeviceListSubscription deviceListSubscription { get; set; }
+        public OmemoDeviceListSubscriptionModel deviceListSubscription { get; set; }
 
         #endregion
         //--------------------------------------------------------Constructor:----------------------------------------------------------------\\
@@ -87,9 +88,10 @@ namespace Storage.Classes.Models.Omemo
             Debug.Assert(!keysGenerated);
             deviceId = 0;
             bundleInfoAnnounced = false;
-            identityKey = KeyHelper.GenerateIdentityKeyPair();
-            signedPreKey = KeyHelper.GenerateSignedPreKey(0, identityKey.privKey);
-            preKeys = KeyHelper.GeneratePreKeys(0, 100);
+            IdentityKeyPair tmp = KeyHelper.GenerateIdentityKeyPair();
+            identityKey = new IndentityKeyPairModel(tmp);
+            signedPreKey = new SignedPreKeyModel(KeyHelper.GenerateSignedPreKey(0, tmp.privKey));
+            preKeys = KeyHelper.GeneratePreKeys(0, 100).Select(k => new PreKeyModel(k)).ToList();
             keysGenerated = true;
         }
 

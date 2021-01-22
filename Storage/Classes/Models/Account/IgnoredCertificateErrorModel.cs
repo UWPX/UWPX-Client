@@ -1,34 +1,19 @@
 ﻿using System.ComponentModel.DataAnnotations;
-using Storage.Classes.Models.Account;
+using Windows.Security.Cryptography.Certificates;
 
-namespace Storage.Classes.Models.Omemo
+namespace Storage.Classes.Models.Account
 {
-    /// <summary>
-    /// Represents a single OMEMO capable device.
-    /// </summary>
-    public class OmemoDevice: AbstractAccountModel
+    public class IgnoredCertificateErrorModel: AbstractAccountModel
     {
         //--------------------------------------------------------Attributes:-----------------------------------------------------------------\\
         #region --Attributes--
         [Key]
-        public string id { get; set; }
+        public int id { get; set; }
         /// <summary>
-        /// The unique ID of the device
+        /// The certificate error that should be ignored during connecting to the server.
         /// </summary>
         [Required]
-        public uint deviceId { get; set; }
-        /// <summary>
-        /// The local name for this device.
-        /// </summary>
-        public string deviceLabel { get; set; }
-        /// <summary>
-        /// Not null in case there exists a session with this device.
-        /// </summary>
-        public OmemoSession session { get; set; }
-        /// <summary>
-        /// The fingerprint of this device.
-        /// </summary>
-        public OmemoFingerprint fingerprint { get; set; }
+        public ChainValidationResult certificateError { get; set; }
 
         #endregion
         //--------------------------------------------------------Constructor:----------------------------------------------------------------\\

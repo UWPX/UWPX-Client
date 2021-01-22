@@ -9,12 +9,12 @@ namespace Manager.Classes.Client
         //--------------------------------------------------------Attributes:-----------------------------------------------------------------\\
         #region --Attributes--
         public readonly XMPPClient xmppClient;
-        public readonly Account dbAccount;
+        public readonly AccountModel dbAccount;
 
         #endregion
         //--------------------------------------------------------Constructor:----------------------------------------------------------------\\
         #region --Constructors--
-        public Client(Account dbAccount)
+        public Client(AccountModel dbAccount)
         {
             this.dbAccount = dbAccount;
             xmppClient = LoadXmppClient(dbAccount);
@@ -33,7 +33,7 @@ namespace Manager.Classes.Client
         #endregion
 
         #region --Misc Methods (Private)--
-        private static XMPPClient LoadXmppClient(Account dbAccount)
+        private static XMPPClient LoadXmppClient(AccountModel dbAccount)
         {
             XMPPClient client = new XMPPClient(dbAccount.ToXMPPAccount());
             client.connection.TCP_CONNECTION.disableConnectionTimeout = Settings.GetSettingBoolean(SettingsConsts.DEBUG_DISABLE_TCP_TIMEOUT);

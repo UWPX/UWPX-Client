@@ -1,17 +1,27 @@
-﻿using Storage.Classes.Contexts;
+﻿using System.ComponentModel.DataAnnotations;
 
-namespace Storage.Classes.Models.Account
+namespace Storage.Classes.Models.Omemo.Keys
 {
-    public abstract class AbstractAccountModel: IModel
+    public class SkippedMessageKeyModel: AbstractOmemoModel
     {
         //--------------------------------------------------------Attributes:-----------------------------------------------------------------\\
         #region --Attributes--
-
+        [Key]
+        public int id { get; set; }
+        [Required]
+        public uint nr { get; set; }
+        public byte[] mk { get; set; }
 
         #endregion
         //--------------------------------------------------------Constructor:----------------------------------------------------------------\\
         #region --Constructors--
+        public SkippedMessageKeyModel() { }
 
+        public SkippedMessageKeyModel(uint nr, byte[] mk)
+        {
+            this.nr = nr;
+            this.mk = mk;
+        }
 
         #endregion
         //--------------------------------------------------------Set-, Get- Methods:---------------------------------------------------------\\
@@ -21,14 +31,7 @@ namespace Storage.Classes.Models.Account
         #endregion
         //--------------------------------------------------------Misc Methods:---------------------------------------------------------------\\
         #region --Misc Methods (Public)--
-        public void Save()
-        {
-            using (AccountDbContext ctx = new AccountDbContext())
-            {
-                ctx.Update(this);
-                ctx.SaveChanges();
-            }
-        }
+
 
         #endregion
 

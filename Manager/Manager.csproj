@@ -124,7 +124,6 @@
     <Compile Include="Classes\Client\Client.cs" />
     <Compile Include="Classes\ClientConnectionHandler.cs" />
     <Compile Include="Classes\Client\ClientHandler.cs" />
-    <Compile Include="Classes\Client\OmemoStore.cs" />
     <Compile Include="Classes\ConnectionHandler.cs" />
     <Compile Include="Classes\Events\ClientConnectedEventArgs.cs" />
     <Compile Include="Classes\ImageDownloadHandler.cs" />

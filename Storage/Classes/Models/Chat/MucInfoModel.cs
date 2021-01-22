@@ -3,7 +3,7 @@ using XMPP_API.Classes.Network.XML.Messages.XEP_0045;
 
 namespace Storage.Classes.Models.Chat
 {
-    public class MucInfo
+    public class MucInfoModel: AbstractChatModel
     {
         //--------------------------------------------------------Attributes:-----------------------------------------------------------------\\
         #region --Attributes--

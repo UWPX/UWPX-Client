@@ -1,19 +1,29 @@
-﻿using System.ComponentModel.DataAnnotations;
-using Storage.Classes.Models.Account;
+﻿using System;
+using System.ComponentModel.DataAnnotations;
+using XMPP_API.Classes.Network.XML.Messages.XEP_0384;
 
 namespace Storage.Classes.Models.Omemo
 {
-    /// <summary>
-    /// An established session for XEP-0384 (OMEMO Encryption).
-    /// </summary>
-    public class OmemoSession: AbstractAccountModel
+    public class OmemoDeviceListSubscriptionModel: AbstractOmemoModel
     {
         //--------------------------------------------------------Attributes:-----------------------------------------------------------------\\
         #region --Attributes--
         [Key]
-        public string id { get; set; }
+        public int id { get; set; }
+        /// <summary>
+        /// The bare JID e.g. 'coven@chat.shakespeare.lit' we received the update from.
+        /// </summary>
         [Required]
-        public byte[] session { get; set; }
+        public string bareJid { get; set; }
+        /// <summary>
+        /// The <see cref="DateTime"/> we received the last update for this entry.
+        /// </summary>
+        [Required]
+        public DateTime lastUpdateReceived { get; set; }
+        /// <summary>
+        /// The current state of the subscription.
+        /// </summary>
+        public OmemoDeviceListSubscriptionState state { get; set; }
 
         #endregion
         //--------------------------------------------------------Constructor:----------------------------------------------------------------\\

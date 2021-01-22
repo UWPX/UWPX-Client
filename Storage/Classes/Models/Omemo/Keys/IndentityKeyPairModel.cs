@@ -1,17 +1,26 @@
-﻿using Storage.Classes.Contexts;
+﻿using System.ComponentModel.DataAnnotations;
+using Omemo.Classes.Keys;
 
-namespace Storage.Classes.Models.Account
+namespace Storage.Classes.Models.Omemo.Keys
 {
-    public abstract class AbstractAccountModel: IModel
+    public class IndentityKeyPairModel: AbstractOmemoModel
     {
         //--------------------------------------------------------Attributes:-----------------------------------------------------------------\\
         #region --Attributes--
-
+        [Key]
+        public int id { get; set; }
+        public byte[] privKey { get; set; }
+        public byte[] pubKey { get; set; }
 
         #endregion
         //--------------------------------------------------------Constructor:----------------------------------------------------------------\\
         #region --Constructors--
-
+        public IndentityKeyPairModel() { }
+        public IndentityKeyPairModel(IdentityKeyPair key)
+        {
+            privKey = key.privKey.key;
+            pubKey = key.pubKey.key;
+        }
 
         #endregion
         //--------------------------------------------------------Set-, Get- Methods:---------------------------------------------------------\\
@@ -21,13 +30,9 @@ namespace Storage.Classes.Models.Account
         #endregion
         //--------------------------------------------------------Misc Methods:---------------------------------------------------------------\\
         #region --Misc Methods (Public)--
-        public void Save()
+        public IdentityKeyPair ToIdentityKeyPair()
         {
-            using (AccountDbContext ctx = new AccountDbContext())
-            {
-                ctx.Update(this);
-                ctx.SaveChanges();
-            }
+            return new IdentityKeyPair(new ECPrivKey(privKey), new ECPubKey(pubKey));
         }
 
         #endregion

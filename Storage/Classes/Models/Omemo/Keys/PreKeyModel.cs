@@ -1,35 +1,29 @@
-﻿using System;
-using System.ComponentModel.DataAnnotations;
-using Storage.Classes.Models.Account;
-using XMPP_API.Classes.Network.XML.Messages.XEP_0384;
+﻿using System.ComponentModel.DataAnnotations;
+using Omemo.Classes.Keys;
 
-namespace Storage.Classes.Models.Omemo
+namespace Storage.Classes.Models.Omemo.Keys
 {
-    public class OmemoDeviceListSubscription: AbstractAccountModel
+    public class PreKeyModel: AbstractOmemoModel
     {
         //--------------------------------------------------------Attributes:-----------------------------------------------------------------\\
         #region --Attributes--
         [Key]
-        public string id { get; set; }
-        /// <summary>
-        /// The bare JID e.g. 'coven@chat.shakespeare.lit' we received the update from.
-        /// </summary>
+        public int id { get; set; }
         [Required]
-        public Jid bareJid { get; set; }
-        /// <summary>
-        /// The <see cref="DateTime"/> we received the last update for this entry.
-        /// </summary>
-        [Required]
-        public DateTime lastUpdateReceived { get; set; }
-        /// <summary>
-        /// The current state of the subscription.
-        /// </summary>
-        public OmemoDeviceListSubscriptionState state { get; set; }
+        public uint keyId { get; set; }
+        public byte[] privKey { get; set; }
+        public byte[] pubKey { get; set; }
 
         #endregion
         //--------------------------------------------------------Constructor:----------------------------------------------------------------\\
         #region --Constructors--
-
+        public PreKeyModel() { }
+        public PreKeyModel(PreKey key)
+        {
+            keyId = key.id;
+            privKey = key.privKey.key;
+            pubKey = key.pubKey.key;
+        }
 
         #endregion
         //--------------------------------------------------------Set-, Get- Methods:---------------------------------------------------------\\
@@ -39,7 +33,10 @@ namespace Storage.Classes.Models.Omemo
         #endregion
         //--------------------------------------------------------Misc Methods:---------------------------------------------------------------\\
         #region --Misc Methods (Public)--
-
+        public PreKey ToPreKey()
+        {
+            return new PreKey(new ECPrivKey(privKey), new ECPubKey(pubKey), keyId);
+        }
 
         #endregion
 
