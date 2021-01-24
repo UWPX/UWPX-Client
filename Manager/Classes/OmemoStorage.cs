@@ -119,24 +119,10 @@ namespace Manager.Classes
 
         public void StoreDeviceListSubscription(string bareJid, Tuple<OmemoDeviceListSubscriptionState, DateTime> lastUpdate)
         {
+            OmemoDeviceListSubscriptionModel subscription;
             if (string.Equals(bareJid, dbAccount.bareJid))
             {
-                if (dbAccount.omemoInfo.deviceListSubscription is null)
-                {
-                    dbAccount.omemoInfo.deviceListSubscription = new OmemoDeviceListSubscriptionModel()
-                    {
-                        bareJid = bareJid,
-                        lastUpdateReceived = lastUpdate.Item2,
-                        state = lastUpdate.Item1
-                    };
-                }
-                else
-                {
-                    dbAccount.omemoInfo.deviceListSubscription.lastUpdateReceived = lastUpdate.Item2;
-                    dbAccount.omemoInfo.deviceListSubscription.state = lastUpdate.Item1;
-                }
-                dbAccount.omemoInfo.deviceListSubscription.Save();
-                dbAccount.omemoInfo.Save();
+                subscription = dbAccount.omemoInfo.deviceListSubscription;
             }
             else
             {
@@ -145,34 +131,14 @@ namespace Manager.Classes
                     ChatModel chat = ctx.Chats.Where(c => string.Equals(c.accountBareJid, dbAccount.bareJid) && string.Equals(c.bareJid, bareJid)).FirstOrDefault();
                     if (chat is null)
                     {
-                        throw new InvalidOperationException("Failed to store device list subscription. Chat does not exist.");
+                        throw new InvalidOperationException("Failed to store device list subscription. Chat '" + bareJid + "' does not exist.");
                     }
-                    OmemoChatInformationModel omemoChatInfo = ctx.Chats.Where(c => string.Equals(c.accountBareJid, dbAccount.bareJid) && string.Equals(c.bareJid, bareJid)).FirstOrDefault()?.omemo;
-                    if (omemoChatInfo is null)
-                    {
-                        chat.omemo = new OmemoChatInformationModel()
-                        {
-                            deviceListSubscription = new OmemoDeviceListSubscriptionModel()
-                            {
-                                bareJid = bareJid,
-                                lastUpdateReceived = lastUpdate.Item2,
-                                state = lastUpdate.Item1
-                            },
-                            enabled = false,
-                            trustedKeysOnly = false
-                        };
-                        chat.omemo.deviceListSubscription.Save();
-                        chat.omemo.Save();
-                        chat.Save();
-                    }
-                    else
-                    {
-                        dbAccount.omemoInfo.deviceListSubscription.lastUpdateReceived = lastUpdate.Item2;
-                        dbAccount.omemoInfo.deviceListSubscription.state = lastUpdate.Item1;
-                        chat.omemo.deviceListSubscription.Save();
-                    }
+                    subscription = chat.omemo.deviceListSubscription;
                 }
             }
+            subscription.lastUpdateReceived = lastUpdate.Item2;
+            subscription.state = lastUpdate.Item1;
+            subscription.Save();
         }
 
         public void StoreDevices(List<OmemoProtocolAddress> devices, string bareJid)
@@ -187,7 +153,38 @@ namespace Manager.Classes
 
         public void StoreSession(OmemoProtocolAddress address, OmemoSession session)
         {
-            throw new NotImplementedException();
+            OmemoDeviceModel device;
+            if (string.Equals(address.BARE_JID, dbAccount.bareJid))
+            {
+                device = dbAccount.omemoInfo.devices.Where(d => address.DEVICE_ID == d.deviceId).FirstOrDefault();
+            }
+            else
+            {
+                using (ChatDbContext ctx = new ChatDbContext())
+                {
+                    ChatModel chat = ctx.Chats.Where(c => string.Equals(c.accountBareJid, dbAccount.bareJid) && string.Equals(c.bareJid, address.BARE_JID)).FirstOrDefault();
+                    if (chat is null)
+                    {
+                        throw new InvalidOperationException("Failed to store session. Chat '" + address.BARE_JID + "' does not exist.");
+                    }
+                    device = chat.omemo.devices.Where(d => d.deviceId == address.DEVICE_ID).FirstOrDefault();
+                }
+            }
+
+            if (device is null)
+            {
+                throw new InvalidOperationException("Failed to store session. Device '" + address.ToString() + "' does not exist.");
+            }
+            if (device.session is null)
+            {
+                device.session = new OmemoSessionModel(session);
+                device.session.Save();
+                device.Save();
+            }
+            else
+            {
+                device.session.Save();
+            }
         }
 
         #endregion

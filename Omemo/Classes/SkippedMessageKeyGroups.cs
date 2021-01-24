@@ -1,15 +1,17 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using Omemo.Classes.Keys;
 
 namespace Omemo.Classes
 {
-    public class SkippedMessageKeys
+    public class SkippedMessageKeyGroups
     {
         //--------------------------------------------------------Attributes:-----------------------------------------------------------------\\
         #region --Attributes--
-        public readonly List<Tuple<ECPubKey, Dictionary<uint, byte[]>>> MKS = new List<Tuple<ECPubKey, Dictionary<uint, byte[]>>>();
+        [Key]
+        public int id { get; set; }
+        public readonly List<SkippedMessageKeyGroup> MKS = new List<SkippedMessageKeyGroup>();
 
         #endregion
         //--------------------------------------------------------Constructor:----------------------------------------------------------------\\
@@ -24,15 +26,13 @@ namespace Omemo.Classes
         /// </summary>
         public void SetMessageKey(ECPubKey dhr, uint nr, byte[] mk)
         {
-            Tuple<ECPubKey, Dictionary<uint, byte[]>> mks = MKS.Where(x => x.Item1.Equals(dhr)).FirstOrDefault();
-            if (mks is null)
+            SkippedMessageKeyGroup group = MKS.Where(g => g.dh.Equals(dhr)).FirstOrDefault();
+            if (group is null)
             {
-                MKS.Add(new Tuple<ECPubKey, Dictionary<uint, byte[]>>(dhr, new Dictionary<uint, byte[]> { { nr, mk } }));
+                group = new SkippedMessageKeyGroup(dhr);
+                MKS.Add(group);
             }
-            else
-            {
-                mks.Item2[nr] = mk;
-            }
+            group.SetKey(nr, mk);
         }
 
         /// <summary>
@@ -40,22 +40,8 @@ namespace Omemo.Classes
         /// </summary>
         public byte[] GetMessagekey(ECPubKey dhr, uint nr)
         {
-            Tuple<ECPubKey, Dictionary<uint, byte[]>> mks = MKS.Where(x => x.Item1.Equals(dhr)).FirstOrDefault();
-            if (mks is null)
-            {
-                return null;
-            }
-            else if (mks.Item2.ContainsKey(nr))
-            {
-                byte[] mk = mks.Item2[nr];
-                mks.Item2.Remove(nr);
-                if (mks.Item2.Count <= 0)
-                {
-                    MKS.Remove(mks);
-                }
-                return mk;
-            }
-            return null;
+            SkippedMessageKeyGroup group = MKS.Where(g => g.dh.Equals(dhr)).FirstOrDefault();
+            return group?.RemoveKey(nr)?.mk;
         }
 
         #endregion

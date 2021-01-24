@@ -1,31 +1,26 @@
 ﻿using System.ComponentModel.DataAnnotations;
-using Omemo.Classes.Keys;
 
-namespace Storage.Classes.Models.Omemo.Keys
+namespace Omemo.Classes
 {
-    public class SignedPreKeyModel: AbstractOmemoModel
+    public class SkippedMessageKey
     {
         //--------------------------------------------------------Attributes:-----------------------------------------------------------------\\
         #region --Attributes--
         [Key]
         public int id { get; set; }
         [Required]
-        public uint keyId { get; set; }
+        public uint nr { get; set; }
         [Required]
-        public byte[] signature { get; set; }
-        public byte[] privKey { get; set; }
-        public byte[] pubKey { get; set; }
+        public byte[] mk { get; set; }
 
         #endregion
         //--------------------------------------------------------Constructor:----------------------------------------------------------------\\
         #region --Constructors--
-        public SignedPreKeyModel() { }
-        public SignedPreKeyModel(SignedPreKey key)
+        public SkippedMessageKey() { }
+        public SkippedMessageKey(uint nr, byte[] mk)
         {
-            keyId = key.preKey.id;
-            signature = key.signature;
-            privKey = key.preKey.privKey.key;
-            pubKey = key.preKey.pubKey.key;
+            this.nr = nr;
+            this.mk = mk;
         }
 
         #endregion
@@ -36,9 +31,9 @@ namespace Storage.Classes.Models.Omemo.Keys
         #endregion
         //--------------------------------------------------------Misc Methods:---------------------------------------------------------------\\
         #region --Misc Methods (Public)--
-        public SignedPreKey ToSignedPreKey()
+        public override int GetHashCode()
         {
-            return new SignedPreKey(new PreKey(new ECPrivKey(privKey), new ECPubKey(pubKey), keyId), signature);
+            return (int)nr;
         }
 
         #endregion

@@ -58,7 +58,7 @@ namespace XMPP_API.Classes.Network.XML.Messages.XEP_0384
                 {
                     Value = Convert.ToBase64String(preKey.pubKey.key)
                 };
-                preKeyNode.Add(new XAttribute("id", preKey.id));
+                preKeyNode.Add(new XAttribute("id", preKey.keyId));
                 preKeysNode.Add(preKeyNode);
             }
             bundleNode.Add(preKeysNode);

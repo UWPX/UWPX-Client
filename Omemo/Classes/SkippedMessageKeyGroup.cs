@@ -1,28 +1,29 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
+using System.Linq;
 using Omemo.Classes.Keys;
 
-namespace Storage.Classes.Models.Omemo.Keys
+namespace Omemo.Classes
 {
-    public class PreKeyModel: AbstractOmemoModel
+    public class SkippedMessageKeyGroup
     {
         //--------------------------------------------------------Attributes:-----------------------------------------------------------------\\
         #region --Attributes--
         [Key]
         public int id { get; set; }
         [Required]
-        public uint keyId { get; set; }
-        public byte[] privKey { get; set; }
-        public byte[] pubKey { get; set; }
+        public ECPubKey dh { get; set; }
+        [Required]
+        public HashSet<SkippedMessageKey> messageKeys { get; set; } = new HashSet<SkippedMessageKey>();
 
         #endregion
         //--------------------------------------------------------Constructor:----------------------------------------------------------------\\
         #region --Constructors--
-        public PreKeyModel() { }
-        public PreKeyModel(PreKey key)
+        public SkippedMessageKeyGroup() { }
+
+        public SkippedMessageKeyGroup(ECPubKey dh)
         {
-            keyId = key.id;
-            privKey = key.privKey.key;
-            pubKey = key.pubKey.key;
+            this.dh = dh;
         }
 
         #endregion
@@ -33,9 +34,32 @@ namespace Storage.Classes.Models.Omemo.Keys
         #endregion
         //--------------------------------------------------------Misc Methods:---------------------------------------------------------------\\
         #region --Misc Methods (Public)--
-        public PreKey ToPreKey()
+        public SkippedMessageKey RemoveKey(uint nr)
         {
-            return new PreKey(new ECPrivKey(privKey), new ECPubKey(pubKey), keyId);
+            SkippedMessageKey skippedMessageKey = GetKey(nr);
+            if (!(skippedMessageKey is null))
+            {
+                messageKeys.Remove(skippedMessageKey);
+            }
+            return skippedMessageKey;
+        }
+
+        public SkippedMessageKey GetKey(uint nr)
+        {
+            return messageKeys.Where(k => k.nr == nr).FirstOrDefault();
+        }
+
+        public void SetKey(uint nr, byte[] mk)
+        {
+            SkippedMessageKey skippedMessageKey = GetKey(nr);
+            if (skippedMessageKey is null)
+            {
+                messageKeys.Add(new SkippedMessageKey(nr, mk));
+            }
+            else
+            {
+                skippedMessageKey.mk = mk;
+            }
         }
 
         #endregion

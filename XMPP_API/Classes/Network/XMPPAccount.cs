@@ -198,10 +198,10 @@ namespace XMPP_API.Classes.Network
             Bundle bundle = new Bundle()
             {
                 identityKey = omemoIdentityKey.pubKey,
-                preKeys = OMEMO_PRE_KEYS.Select(key => new PreKey(null, key.pubKey, key.id)).ToList(),
+                preKeys = OMEMO_PRE_KEYS.Select(key => new PreKey(null, key.pubKey, key.keyId)).ToList(),
                 preKeySignature = omemoSignedPreKey.signature,
                 signedPreKey = omemoSignedPreKey.preKey.pubKey,
-                signedPreKeyId = omemoSignedPreKey.preKey.id
+                signedPreKeyId = omemoSignedPreKey.preKey.keyId
             };
             return new OmemoBundleInformation(bundle, omemoDeviceId);
         }

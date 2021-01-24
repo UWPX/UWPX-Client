@@ -2,7 +2,7 @@
 
 namespace Storage.Classes.Models.Account
 {
-    public class JidModel
+    public class JidModel: AbstractAccountModel
     {
         //--------------------------------------------------------Attributes:-----------------------------------------------------------------\\
         #region --Attributes--

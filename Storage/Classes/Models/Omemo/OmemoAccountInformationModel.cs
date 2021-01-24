@@ -1,10 +1,8 @@
 ﻿using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Diagnostics;
-using System.Linq;
 using Omemo.Classes;
 using Omemo.Classes.Keys;
-using Storage.Classes.Models.Omemo.Keys;
 
 namespace Storage.Classes.Models.Omemo
 {
@@ -43,19 +41,19 @@ namespace Storage.Classes.Models.Omemo
         /// <summary>
         /// The private key pair.
         /// </summary>
-        public IndentityKeyPairModel identityKey { get; set; }
+        public IdentityKeyPair identityKey { get; set; }
         /// <summary>
         /// The signed PreKey.
         /// Only valid in case <see cref="keysGenerated"/> is true.
         /// </summary>
         [Required]
-        public SignedPreKeyModel signedPreKey { get; set; }
+        public SignedPreKey signedPreKey { get; set; }
         /// <summary>
         /// A collection of PreKeys to publish.
         /// Only valid in case <see cref="keysGenerated"/> is true.
         /// </summary>
         [Required]
-        public List<PreKeyModel> preKeys { get; set; } = new List<PreKeyModel>();
+        public List<PreKey> preKeys { get; set; } = new List<PreKey>();
         /// <summary>
         /// A collection of OMEMO capable devices.
         /// </summary>
@@ -64,6 +62,7 @@ namespace Storage.Classes.Models.Omemo
         /// <summary>
         /// The device list subscription states for this chat.
         /// </summary>
+        [Required]
         public OmemoDeviceListSubscriptionModel deviceListSubscription { get; set; }
 
         #endregion
@@ -88,10 +87,9 @@ namespace Storage.Classes.Models.Omemo
             Debug.Assert(!keysGenerated);
             deviceId = 0;
             bundleInfoAnnounced = false;
-            IdentityKeyPair tmp = KeyHelper.GenerateIdentityKeyPair();
-            identityKey = new IndentityKeyPairModel(tmp);
-            signedPreKey = new SignedPreKeyModel(KeyHelper.GenerateSignedPreKey(0, tmp.privKey));
-            preKeys = KeyHelper.GeneratePreKeys(0, 100).Select(k => new PreKeyModel(k)).ToList();
+            identityKey = KeyHelper.GenerateIdentityKeyPair();
+            signedPreKey = KeyHelper.GenerateSignedPreKey(0, identityKey.privKey);
+            preKeys = KeyHelper.GeneratePreKeys(0, 100);
             keysGenerated = true;
         }
 
