@@ -71,6 +71,7 @@ namespace Storage.Classes.Models.Chat
         /// <summary>
         /// Information about the state of OMEMO for this chat.
         /// </summary>
+        [Required]
         public OmemoChatInformationModel omemo { get; set; }
         /// <summary>
         /// The optional MUC information in case <see cref="chatType"/> == <seealso cref="ChatType.MUC"/>.

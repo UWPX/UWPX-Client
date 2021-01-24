@@ -1,17 +1,20 @@
-﻿namespace Omemo.Classes.Keys
+﻿using System.ComponentModel.DataAnnotations;
+
+namespace Omemo.Classes.Keys
 {
     public class PreKey: ECKeyPair
     {
         //--------------------------------------------------------Attributes:-----------------------------------------------------------------\\
         #region --Attributes--
-        public readonly uint id;
+        [Required]
+        public uint keyId { get; set; }
 
         #endregion
         //--------------------------------------------------------Constructor:----------------------------------------------------------------\\
         #region --Constructors--
-        public PreKey(ECPrivKey privKey, ECPubKey pubKey, uint id) : base(privKey, pubKey)
+        public PreKey(ECPrivKey privKey, ECPubKey pubKey, uint keyId) : base(privKey, pubKey)
         {
-            this.id = id;
+            this.keyId = keyId;
         }
 
         #endregion
@@ -24,12 +27,12 @@
         #region --Misc Methods (Public)--
         public override bool Equals(object obj)
         {
-            return obj is PreKey preKey && preKey.id == id && base.Equals(obj);
+            return obj is PreKey preKey && preKey.keyId == keyId && base.Equals(obj);
         }
 
         public override int GetHashCode()
         {
-            return base.GetHashCode() ^ (int)id;
+            return base.GetHashCode() ^ (int)keyId;
         }
 
         #endregion

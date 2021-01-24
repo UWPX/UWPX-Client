@@ -15,6 +15,7 @@ namespace Storage.Classes.Models.Omemo
         /// <summary>
         /// The device list subscription states for this chat.
         /// </summary>
+        [Required]
         public OmemoDeviceListSubscriptionModel deviceListSubscription { get; set; }
         /// <summary>
         /// A collection of devices involved in this chat.

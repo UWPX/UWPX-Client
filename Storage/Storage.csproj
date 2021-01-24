@@ -137,12 +137,6 @@
     <Compile Include="Classes\Models\Chat\MucState.cs" />
     <Compile Include="Classes\Models\IModel.cs" />
     <Compile Include="Classes\Models\Omemo\AbstractOmemoModel.cs" />
-    <Compile Include="Classes\Models\Omemo\Keys\ECKeyPairModel.cs" />
-    <Compile Include="Classes\Models\Omemo\Keys\IndentityKeyPairModel.cs" />
-    <Compile Include="Classes\Models\Omemo\Keys\PreKeyModel.cs" />
-    <Compile Include="Classes\Models\Omemo\Keys\SignedPreKeyModel.cs" />
-    <Compile Include="Classes\Models\Omemo\Keys\SkippedMessageKeyGroupModel.cs" />
-    <Compile Include="Classes\Models\Omemo\Keys\SkippedMessageKeyModel.cs" />
     <Compile Include="Classes\Models\Omemo\OmemoAccountInformationModel.cs" />
     <Compile Include="Classes\Models\Omemo\OmemoChatInformationModel.cs" />
     <Compile Include="Classes\Models\Omemo\OmemoDeviceModel.cs" />

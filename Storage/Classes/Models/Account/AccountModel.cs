@@ -1,4 +1,5 @@
 ﻿using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using Storage.Classes.Models.Omemo;
 using XMPP_API.Classes;
@@ -14,6 +15,7 @@ namespace Storage.Classes.Models.Account
         /// The unique bare Jabber ID of the account: user@domain e.g. 'coven@chat.shakespeare.lit'
         /// </summary>
         [Key]
+        [DatabaseGenerated(DatabaseGeneratedOption.None)] // Do not automatically let the DB generate this ID
         public string bareJid { get; set; }
         /// <summary>
         /// The full Jabber ID of the account e.g. 'coven@chat.shakespeare.lit/phone'

@@ -1,4 +1,5 @@
-﻿using System.Diagnostics;
+﻿using System.ComponentModel.DataAnnotations;
+using System.Diagnostics;
 using System.Linq;
 
 namespace Omemo.Classes.Keys
@@ -7,7 +8,10 @@ namespace Omemo.Classes.Keys
     {
         //--------------------------------------------------------Attributes:-----------------------------------------------------------------\\
         #region --Attributes--
-        public readonly byte[] key;
+        [Key]
+        public int id { get; set; }
+        [Required]
+        public readonly byte[] key { get; set; }
 
         #endregion
         //--------------------------------------------------------Constructor:----------------------------------------------------------------\\

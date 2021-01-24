@@ -145,6 +145,30 @@ namespace Storage.Classes.Models.Omemo
             return session;
         }
 
+        public void UpdateFromOmemoSession(OmemoSession session)
+        {
+            dhS = new ECKeyPairModel(session.dhS);
+            dhR = new ECKeyPairModel(session.dhR);
+            rk = session.rk;
+            ckS = session.ckS;
+            ckR = session.ckR;
+            nS = session.nS;
+            nR = session.nR;
+            pn = session.pn;
+            preKeyId = session.preKeyId;
+            signedPreKeyId = session.signedPreKeyId;
+            assData = session.assData;
+            foreach (Tuple<ECPubKey, Dictionary<uint, byte[]>> group in session.MK_SKIPPED.MKS)
+            {
+                SkippedMessageKeyGroupModel tmp = new SkippedMessageKeyGroupModel(group.Item1.key);
+                foreach (KeyValuePair<uint, byte[]> key in group.Item2)
+                {
+                    tmp.keys.Add(new SkippedMessageKeyModel(key.Key, key.Value));
+                }
+                skippedMessageKeys.Add(tmp);
+            }
+        }
+
         #endregion
 
         #region --Misc Methods (Private)--

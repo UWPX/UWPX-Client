@@ -1,11 +1,15 @@
-﻿namespace Omemo.Classes.Keys
+﻿using System.ComponentModel.DataAnnotations;
+
+namespace Omemo.Classes.Keys
 {
     public class ECKeyPair
     {
         //--------------------------------------------------------Attributes:-----------------------------------------------------------------\\
         #region --Attributes--
-        public readonly ECPrivKey privKey;
-        public readonly ECPubKey pubKey;
+        [Key]
+        public int id { get; set; }
+        public readonly ECPrivKey privKey { get; set; }
+        public readonly ECPubKey pubKey { get; set; }
 
         #endregion
         //--------------------------------------------------------Constructor:----------------------------------------------------------------\\

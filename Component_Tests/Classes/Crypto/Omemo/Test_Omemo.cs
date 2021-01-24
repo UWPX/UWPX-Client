@@ -29,10 +29,10 @@ namespace Component_Tests.Classes.Crypto.Omemo
             Bundle aliceBundle = new Bundle()
             {
                 identityKey = aliceIdentKey.pubKey,
-                preKeys = alicePreKeys.Select(key => new PreKey(null, key.pubKey, key.id)).ToList(),
+                preKeys = alicePreKeys.Select(key => new PreKey(null, key.pubKey, key.keyId)).ToList(),
                 preKeySignature = aliceSignedPreKey.signature,
                 signedPreKey = aliceSignedPreKey.preKey.pubKey,
-                signedPreKeyId = aliceSignedPreKey.preKey.id
+                signedPreKeyId = aliceSignedPreKey.preKey.keyId
             };
             InMemmoryOmemoStorage aliceStorage = new InMemmoryOmemoStorage();
             DoubleRachet aliceRachet = new DoubleRachet(aliceIdentKey);
@@ -44,10 +44,10 @@ namespace Component_Tests.Classes.Crypto.Omemo
             Bundle bobBundle = new Bundle()
             {
                 identityKey = bobIdentKey.pubKey,
-                preKeys = bobPreKeys.Select(key => new PreKey(null, key.pubKey, key.id)).ToList(),
+                preKeys = bobPreKeys.Select(key => new PreKey(null, key.pubKey, key.keyId)).ToList(),
                 preKeySignature = bobSignedPreKey.signature,
                 signedPreKey = bobSignedPreKey.preKey.pubKey,
-                signedPreKeyId = bobSignedPreKey.preKey.id
+                signedPreKeyId = bobSignedPreKey.preKey.keyId
             };
             InMemmoryOmemoStorage bobStorage = new InMemmoryOmemoStorage();
             DoubleRachet bobRachet = new DoubleRachet(bobIdentKey);
@@ -100,10 +100,10 @@ namespace Component_Tests.Classes.Crypto.Omemo
             Bundle bobBundle = new Bundle()
             {
                 identityKey = bobIdentKey.pubKey,
-                preKeys = bobPreKeys.Select(key => new PreKey(null, key.pubKey, key.id)).ToList(),
+                preKeys = bobPreKeys.Select(key => new PreKey(null, key.pubKey, key.keyId)).ToList(),
                 preKeySignature = bobSignedPreKey.signature,
                 signedPreKey = bobSignedPreKey.preKey.pubKey,
-                signedPreKeyId = bobSignedPreKey.preKey.id
+                signedPreKeyId = bobSignedPreKey.preKey.keyId
             };
             string bundleInfo = GetBobsBundleInfoMsg(bobBundle);
 
@@ -118,10 +118,10 @@ namespace Component_Tests.Classes.Crypto.Omemo
 
             // Check if keys match:
             Assert.IsTrue(bundleInfoMsg.BUNDLE_INFO.bundle.identityKey.Equals(bobIdentKey.pubKey));
-            Assert.IsTrue(bundleInfoMsg.BUNDLE_INFO.bundle.preKeys.SequenceEqual(bobPreKeys.Select(key => new PreKey(null, key.pubKey, key.id)).ToList()));
+            Assert.IsTrue(bundleInfoMsg.BUNDLE_INFO.bundle.preKeys.SequenceEqual(bobPreKeys.Select(key => new PreKey(null, key.pubKey, key.keyId)).ToList()));
             Assert.IsTrue(bundleInfoMsg.BUNDLE_INFO.bundle.preKeySignature.SequenceEqual(bobSignedPreKey.signature));
             Assert.IsTrue(bundleInfoMsg.BUNDLE_INFO.bundle.signedPreKey.Equals(bobSignedPreKey.preKey.pubKey));
-            Assert.IsTrue(bundleInfoMsg.BUNDLE_INFO.bundle.signedPreKeyId == bobSignedPreKey.preKey.id);
+            Assert.IsTrue(bundleInfoMsg.BUNDLE_INFO.bundle.signedPreKeyId == bobSignedPreKey.preKey.keyId);
         }
 
         [TestCategory("Crypto")]
@@ -162,7 +162,7 @@ namespace Component_Tests.Classes.Crypto.Omemo
                 preKeys = KeyHelper.GeneratePreKeys(0, 10),
                 preKeySignature = signedPreKey.signature,
                 signedPreKey = signedPreKey.preKey.pubKey,
-                signedPreKeyId = signedPreKey.preKey.id
+                signedPreKeyId = signedPreKey.preKey.keyId
 
             }, 0, KeyHelper.GenerateIdentityKeyPair())
             {
@@ -195,7 +195,7 @@ namespace Component_Tests.Classes.Crypto.Omemo
                 preKeys = KeyHelper.GeneratePreKeys(0, 10),
                 preKeySignature = signedPreKey.signature,
                 signedPreKey = signedPreKey.preKey.pubKey,
-                signedPreKeyId = signedPreKey.preKey.id
+                signedPreKeyId = signedPreKey.preKey.keyId
 
             }, 0, KeyHelper.GenerateIdentityKeyPair())
             {
@@ -229,7 +229,7 @@ namespace Component_Tests.Classes.Crypto.Omemo
                 preKeys = KeyHelper.GeneratePreKeys(0, 10),
                 preKeySignature = signedPreKey.signature,
                 signedPreKey = signedPreKey.preKey.pubKey,
-                signedPreKeyId = signedPreKey.preKey.id
+                signedPreKeyId = signedPreKey.preKey.keyId
 
             }, 0, KeyHelper.GenerateIdentityKeyPair())
             {

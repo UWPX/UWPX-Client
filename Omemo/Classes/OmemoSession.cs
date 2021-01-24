@@ -1,4 +1,5 @@
 ﻿using System;
+using System.ComponentModel.DataAnnotations;
 using Omemo.Classes.Keys;
 using Omemo.Classes.Messages;
 
@@ -9,53 +10,64 @@ namespace Omemo.Classes
         //--------------------------------------------------------Attributes:-----------------------------------------------------------------\\
         #region --Attributes--
         /// <summary>
+        /// DB key for storing a session in a DB.
+        /// </summary>
+        [Key]
+        public int id { get; set; }
+        /// <summary>
         /// Key pair for the sending ratchet.
         /// </summary>
-        public ECKeyPair dhS;
+        public ECKeyPair dhS { get; set; }
         /// <summary>
         /// Key pair for the receiving ratchet.
         /// </summary>
-        public ECKeyPair dhR;
+        public ECKeyPair dhR { get; set; }
         /// <summary>
         /// Ephemeral key used for initiating this session. 
         /// </summary>
-        public ECPubKey ek;
+        [Required]
+        public ECPubKey ek { get; set; }
         /// <summary>
         /// 32 byte root key for encryption.
         /// </summary>
-        public byte[] rk;
+        [Required]
+        public byte[] rk { get; set; }
         /// <summary>
         /// 32 byte Chain Keys for sending.
         /// </summary>
-        public byte[] ckS;
+        public byte[] ckS { get; set; }
         /// <summary>
         /// 32 byte Chain Keys for receiving.
         /// </summary>
-        public byte[] ckR;
+        public byte[] ckR { get; set; }
         /// <summary>
         /// Message numbers for sending.
         /// </summary>
-        public uint nS;
+        [Required]
+        public uint nS { get; set; }
         /// <summary>
         /// Message numbers for receiving.
         /// </summary>
-        public uint nR;
+        [Required]
+        public uint nR { get; set; }
         /// <summary>
         /// Number of messages in previous sending chain.
         /// </summary>
-        public uint pn;
+        [Required]
+        public uint pn { get; set; }
         /// <summary>
         /// Skipped-over message keys, indexed by ratchet <see cref="ECPubKey"/> and message number. Raises an exception if too many elements are stored.
         /// </summary>
-        public readonly SkippedMessageKeys MK_SKIPPED = new SkippedMessageKeys();
+        [Required]
+        public readonly SkippedMessageKeyGroups MK_SKIPPED = new SkippedMessageKeyGroups();
         /// <summary>
         /// The id of the PreKey used to create establish this session.
         /// </summary>
-        public uint preKeyId;
+        public uint preKeyId { get; set; }
         /// <summary>
         /// The id of the signed PreKey used to create establish this session.
         /// </summary>
-        public uint signedPreKeyId;
+        public uint signedPreKeyId { get; set; }
         /// <summary>
         /// The associated data is created by concatenating the IdentityKeys of Alice and Bob.
         /// <para/>
@@ -63,7 +75,8 @@ namespace Omemo.Classes
         /// <para/>
         /// Alice is the party that actively initiated the key exchange, while Bob is the party that passively accepted the key exchange.
         /// </summary>
-        public byte[] assData;
+        [Required]
+        public byte[] assData { get; set; }
 
         /// <summary>
         /// Max number of skipped message keys to prevent DOS attacks.
@@ -93,7 +106,7 @@ namespace Omemo.Classes
             rk = tmp.Item1;
             ckS = tmp.Item2;
             signedPreKeyId = receiverBundle.signedPreKeyId;
-            preKeyId = receiverBundle.preKeys[receiverPreKeyIndex].id;
+            preKeyId = receiverBundle.preKeys[receiverPreKeyIndex].keyId;
             assData = CryptoUtils.Concat(senderIdentityKeyPair.pubKey.key, receiverBundle.identityKey.key);
         }
 
