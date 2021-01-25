@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using Omemo.Classes;
+using Omemo.Classes.Keys;
 
 namespace XMPP_API.Classes.Network.XML.Messages.XEP_0384
 {
@@ -39,5 +40,12 @@ namespace XMPP_API.Classes.Network.XML.Messages.XEP_0384
         /// </summary>
         /// <param name="fingerprint">The <see cref="OmemoFingerprint"/> to store.</param>
         void StoreFingerprint(OmemoFingerprint fingerprint);
+
+        /// <summary>
+        /// Replaces the given <see cref="PreKeyModel"/> with a new one for the current account and returns it.
+        /// </summary>
+        /// <param name="preKey">The <see cref="PreKeyModel"/> that should be replaced by a new one.</param>
+        /// <returns>A fresh <see cref="PreKeyModel"/>.</returns>
+        PreKeyModel ReplaceOmemoPreKey(PreKeyModel preKey);
     }
 }

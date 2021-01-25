@@ -1,8 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Threading.Tasks;
 using Logging;
+using Omemo.Classes;
+using Omemo.Classes.Keys;
 using XMPP_API.Classes.Events;
 using XMPP_API.Classes.Network.Events;
 using XMPP_API.Classes.Network.XML.Messages;
@@ -123,6 +126,31 @@ namespace XMPP_API.Classes.Network
                     Logger.Error("Failed to build OMEMO session for: " + dstBareJid + " with: " + result.ERROR);
                 }
             }
+        }
+
+        public async Task decryptOmemoEncryptedMessageAsync(OmemoEncryptedMessage msg)
+        {
+            XMPPAccount account = CONNECTION.account;
+            OmemoProtocolAddress receiverAddress = new OmemoProtocolAddress(account.getBareJid(), account.omemoDeviceId);
+            // Try to decrypt the message, in case no exception occurred, everything went fine:
+            OmemoDecryptionContext decryptCtx = new OmemoDecryptionContext(receiverAddress, account.omemoIdentityKey, account.omemoSignedPreKey, account.OMEMO_PRE_KEYS, OMEMO_STORAGE);
+            msg.decrypt(decryptCtx);
+            Debug.Assert(!msg.ENCRYPTED);
+            Logger.Debug("Successfully decrypted an " + nameof(OmemoEncryptedMessage) + " for '" + receiverAddress.BARE_JID + "'.");
+
+            // Republish bundle information in case the message is a key exchange message and used a PreKey:
+            if (decryptCtx.keyExchange)
+            {
+                Logger.Info("Received a OMEMO key exchange message. Republishing bundle for '" + receiverAddress.BARE_JID + "'...");
+                PreKeyModel newPreKey = decryptCtx.STORAGE.ReplaceOmemoPreKey(decryptCtx.usedPreKey);
+                account.OMEMO_PRE_KEYS.Remove(decryptCtx.usedPreKey);
+                account.OMEMO_PRE_KEYS.Add(newPreKey);
+                await announceBundleInfoAsync();
+                Logger.Info("Bundle for '" + receiverAddress.BARE_JID + "' republished.");
+            }
+
+            // Reply with an empty message to confirm the successful key exchange:
+            // TODO: This is no good way, since there it would be possible to stalk people without them knowing.
         }
 
         #endregion

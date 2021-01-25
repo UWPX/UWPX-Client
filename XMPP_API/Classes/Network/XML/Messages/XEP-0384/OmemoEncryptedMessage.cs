@@ -160,23 +160,47 @@ namespace XMPP_API.Classes.Network.XML.Messages.XEP_0384
         /// <summary>
         /// Tries to decrypt the message and returns true on success.
         /// </summary>
-        /// <param name="receiverIdentityKey">The receives <see cref="IdentityKeyPairModel"/>.</param>
+        /// <param name="decryptCtx">The <see cref="OmemoDecryptionContext"/> containing all necessary information for decrypting the message.</param>
         /// <param name="storage">An instance of the <see cref="IOmemoStorage"/> interface.</param>
-        public void decrypt(OmemoProtocolAddress receiverAddress, IdentityKeyPairModel receiverIdentityKey, SignedPreKeyModel receiverSignedPreKey, PreKeyModel receiverPreKey, IOmemoStorage storage)
+        public void decrypt(OmemoDecryptionContext decryptCtx)
         {
             try
             {
                 // Check if the message has been encrypted for us:
-                OmemoKeys omemoKeys = keys.Where(k => string.Equals(k.BARE_JID, receiverAddress.BARE_JID)).FirstOrDefault();
+                OmemoKeys omemoKeys = keys.Where(k => string.Equals(k.BARE_JID, decryptCtx.RECEIVER_ADDRESS.BARE_JID)).FirstOrDefault();
                 if (keys is null)
                 {
                     throw new NotForDeviceException("Failed to decrypt message. Not encrypted for JID.");
                 }
-                OmemoKey key = omemoKeys.KEYS?.Where(k => k.DEVICE_ID == receiverAddress.DEVICE_ID).FirstOrDefault();
-                if (key is null)
+                decryptCtx.key = omemoKeys.KEYS?.Where(k => k.DEVICE_ID == decryptCtx.RECEIVER_ADDRESS.DEVICE_ID).FirstOrDefault();
+                if (decryptCtx.key is null)
                 {
                     throw new NotForDeviceException("Failed to decrypt message. Not encrypted for device.");
                 }
+                decryptCtx.keyExchange = decryptCtx.key.KEY_EXCHANGE;
+
+                // Check if the PreKey and SignedPreKey are still available in case the massage is a key exchange message:
+                byte[] data = Convert.FromBase64String(decryptCtx.key.BASE64_PAYLOAD);
+                if (decryptCtx.key.KEY_EXCHANGE)
+                {
+                    decryptCtx.keyExchangeMsg = new OmemoKeyExchangeMessage(data);
+                    decryptCtx.authMsg = decryptCtx.keyExchangeMsg.MESSAGE;
+                    if (decryptCtx.keyExchangeMsg.SPK_ID != decryptCtx.RECEIVER_SIGNED_PRE_KEY.preKey.keyId)
+                    {
+                        throw new NotForDeviceException("Failed to decrypt message. Signed PreKey with id " + decryptCtx.keyExchangeMsg.SPK_ID + " not available any more.");
+                    }
+
+                    decryptCtx.usedPreKey = decryptCtx.RECEIVER_PRE_KEYS.Where(k => k.keyId == decryptCtx.keyExchangeMsg.PK_ID).FirstOrDefault();
+                    if (decryptCtx.usedPreKey is null)
+                    {
+                        throw new NotForDeviceException("Failed to decrypt message. PreKey with id " + decryptCtx.keyExchangeMsg.PK_ID + " not available any more.");
+                    }
+                }
+                else
+                {
+                    decryptCtx.authMsg = new OmemoAuthenticatedMessage(data);
+                }
+
 
                 // Content can be null in case we have a pure keys exchange message:
                 byte[] contentEnc = null;
@@ -188,17 +212,17 @@ namespace XMPP_API.Classes.Network.XML.Messages.XEP_0384
                 {
                     IS_PURE_KEY_EXCHANGE_MESSAGE = true;
                 }
-                OmemoProtocolAddress senderAddress = new OmemoProtocolAddress(Utils.getBareJidFromFullJid(FROM), SID);
-                Tuple<byte[], OmemoSessionModel> contentDec = decryptContent(contentEnc, senderAddress, receiverAddress, receiverIdentityKey, receiverSignedPreKey, receiverPreKey, storage);
+                decryptCtx.senderAddress = new OmemoProtocolAddress(Utils.getBareJidFromFullJid(FROM), SID);
+                byte[] contentDec = decryptContent(contentEnc, decryptCtx);
                 if (!IS_PURE_KEY_EXCHANGE_MESSAGE)
                 {
-                    string contentStr = Encoding.UTF8.GetString(contentDec.Item1);
+                    string contentStr = Encoding.UTF8.GetString(contentDec);
                     XmlNode contentNode = getContentNode(contentStr);
                     parseContentNode(contentNode);
                 }
 
                 // In case nothing went wrong, store the session:
-                storage.StoreSession(senderAddress, contentDec.Item2);
+                decryptCtx.STORAGE.StoreSession(decryptCtx.senderAddress, decryptCtx.session);
                 ENCRYPTED = false;
             }
             catch (Exception e)
@@ -247,42 +271,22 @@ namespace XMPP_API.Classes.Network.XML.Messages.XEP_0384
             return contentNode;
         }
 
-        private Tuple<byte[], OmemoSessionModel> decryptContent(byte[] content, OmemoProtocolAddress senderAddress, OmemoProtocolAddress receiverAddress, IdentityKeyPairModel receiverIdentityKey, SignedPreKeyModel receiverSignedPreKey, PreKeyModel receiverPreKey, IOmemoStorage storage)
+        private byte[] decryptContent(byte[] content, OmemoDecryptionContext decryptCtx)
         {
-            OmemoAuthenticatedMessage msg = prepareSession(senderAddress, receiverAddress, receiverIdentityKey, receiverSignedPreKey, receiverPreKey, storage);
-            DoubleRachet rachet = new DoubleRachet(receiverIdentityKey);
-            OmemoSessionModel session = storage.LoadSession(senderAddress);
-            if (session is null)
+            if (decryptCtx.keyExchange)
             {
-                throw new InvalidOperationException("Failed to decrypt. No session found.");
-            }
-            return new Tuple<byte[], OmemoSessionModel>(rachet.DecryptMessage(msg, session, content), session);
-        }
-
-        private OmemoAuthenticatedMessage prepareSession(OmemoProtocolAddress senderAddress, OmemoProtocolAddress receiverAddress, IdentityKeyPairModel receiverIdentityKey, SignedPreKeyModel receiverSignedPreKey, PreKeyModel receiverPreKey, IOmemoStorage storage)
-        {
-            OmemoKey key = getOmemoKeyForAddress(receiverAddress);
-            if (key is null)
-            {
-                throw new InvalidOperationException("Unable to decrypt message content. No key for device found.");
-            }
-
-            byte[] data = Convert.FromBase64String(key.BASE64_PAYLOAD);
-            if (key.KEY_EXCHANGE)
-            {
-                OmemoKeyExchangeMessage msg = new OmemoKeyExchangeMessage(data);
-                storage.StoreSession(senderAddress, new OmemoSessionModel(receiverIdentityKey, receiverSignedPreKey, receiverPreKey, msg));
-                return msg.MESSAGE;
+                decryptCtx.session = new OmemoSessionModel(decryptCtx.RECEIVER_IDENTITY_KEY, decryptCtx.RECEIVER_SIGNED_PRE_KEY, decryptCtx.usedPreKey, decryptCtx.keyExchangeMsg);
             }
             else
             {
-                return new OmemoAuthenticatedMessage(data);
+                decryptCtx.session = decryptCtx.STORAGE.LoadSession(decryptCtx.senderAddress);
+                if (decryptCtx.session is null)
+                {
+                    throw new InvalidOperationException("Failed to decrypt. No session found.");
+                }
             }
-        }
-
-        private OmemoKey getOmemoKeyForAddress(OmemoProtocolAddress receiverAddress)
-        {
-            return keys.Where(k => string.Equals(k.BARE_JID, receiverAddress.BARE_JID)).FirstOrDefault()?.KEYS.Where(k => k.DEVICE_ID == receiverAddress.DEVICE_ID).FirstOrDefault();
+            DoubleRachet rachet = new DoubleRachet(decryptCtx.RECEIVER_IDENTITY_KEY);
+            return rachet.DecryptMessage(decryptCtx.authMsg, decryptCtx.session, content);
         }
 
         private XmlNode getContentNode(string contentNodeStr)

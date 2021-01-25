@@ -326,6 +326,7 @@
     <Compile Include="Classes\Network\XML\Messages\XEP-0384\IExtendedOmemoStorage.cs" />
     <Compile Include="Classes\Network\XML\Messages\XEP-0384\OmemoBundleInformation.cs" />
     <Compile Include="Classes\Network\XML\Messages\XEP-0384\OmemoBundleInformationResultMessage.cs" />
+    <Compile Include="Classes\Network\XML\Messages\XEP-0384\OmemoDecryptionContext.cs" />
     <Compile Include="Classes\Network\XML\Messages\XEP-0384\OmemoXmlDevice.cs" />
     <Compile Include="Classes\Network\XML\Messages\XEP-0384\OmemoDeviceListEventMessage.cs" />
     <Compile Include="Classes\Network\XML\Messages\XEP-0384\OmemoDeviceListResultMessage.cs" />
