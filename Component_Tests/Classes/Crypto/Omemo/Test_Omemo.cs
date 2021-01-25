@@ -84,7 +84,8 @@ namespace Component_Tests.Classes.Crypto.Omemo
 
             // Decrypt:
             // Throws an exception in case something goes wrong:
-            omemoEncryptedMessage.decrypt(BOB_ADDRESS, bobIdentKey, bobSignedPreKey, bobPreKeys[0], bobStorage);
+            OmemoDecryptionContext decryptCtx = new OmemoDecryptionContext(BOB_ADDRESS, bobIdentKey, bobSignedPreKey, bobPreKeys, bobStorage);
+            omemoEncryptedMessage.decrypt(decryptCtx);
             Assert.AreEqual(msg, omemoEncryptedMessage.MESSAGE);
             Assert.IsFalse(omemoEncryptedMessage.IS_PURE_KEY_EXCHANGE_MESSAGE);
             Assert.IsFalse(omemoEncryptedMessage.ENCRYPTED);

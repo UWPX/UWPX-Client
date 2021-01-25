@@ -131,6 +131,20 @@ namespace Manager.Classes
             await client.reconnectAsync();
         }
 
+        private async Task<bool> DecryptOmemoEncryptedMessageAsync(OmemoEncryptedMessage msg)
+        {
+            try
+            {
+                await client.connection.omemoHelper.decryptOmemoEncryptedMessageAsync(msg);
+                return true;
+            }
+            catch (Exception e)
+            {
+                Logger.Error("Failed to decrypt " + nameof(OmemoEncryptedMessage) + " for '" + account.bareJid + "' with: ", e);
+                return false;
+            }
+        }
+
         public async Task HandleNewChatMessageAsync(MessageMessage msg)
         {
             // Handel MUC room subject messages:
@@ -160,13 +174,13 @@ namespace Manager.Classes
                     Logger.Error("Failed to decrypt OMEMO message - keys are corrupted");
                     return;
                 }
-                else if (!await omemoMessage.decryptAsync(client.getOmemoHelper(), client.getXMPPAccount().omemoDeviceId))
+                else if (!await DecryptOmemoEncryptedMessageAsync(omemoMessage))
                 {
                     return;
                 }
             }
 
-            Chat chat = ChatDBManager.INSTANCE.getChat(id);
+            ChatModel chat = ChatDBManager.INSTANCE.getChat(id); // TODO Continue here
             bool chatChanged = false;
 
             // Spam detection:
