@@ -1,6 +1,8 @@
 ﻿using System;
 using System.ComponentModel.DataAnnotations;
-using Storage.Classes.Models.Account;
+using Omemo.Classes;
+using Omemo.Classes.Keys;
+using XMPP_API.Classes.Network.XML.Messages.XEP_0384;
 
 namespace Storage.Classes.Models.Omemo
 {
@@ -10,24 +12,24 @@ namespace Storage.Classes.Models.Omemo
         #region --Attributes--
         [Key]
         public int id { get; set; }
-        /// <summary>
-        /// The bare JID e.g. 'coven@chat.shakespeare.lit' we received the update from.
-        /// </summary>
-        [Required]
-        public OmemoDeviceModel device { get; set; }
-        [Required]
-        public JidModel bareJid { get; set; }
         [Required]
         public DateTime lastSeen { get; set; }
         [Required]
         public bool trusted { get; set; }
         [Required]
-        public byte[] identityPubKey { get; set; }
+        public ECPubKeyModel identityKey { get; set; }
 
         #endregion
         //--------------------------------------------------------Constructor:----------------------------------------------------------------\\
         #region --Constructors--
+        public OmemoFingerprintModel() { }
 
+        public OmemoFingerprintModel(OmemoFingerprint fingerprint)
+        {
+            lastSeen = fingerprint.lastSeen;
+            trusted = fingerprint.trusted;
+            identityKey = fingerprint.IDENTITY_KEY;
+        }
 
         #endregion
         //--------------------------------------------------------Set-, Get- Methods:---------------------------------------------------------\\
@@ -37,7 +39,10 @@ namespace Storage.Classes.Models.Omemo
         #endregion
         //--------------------------------------------------------Misc Methods:---------------------------------------------------------------\\
         #region --Misc Methods (Public)--
-
+        public OmemoFingerprint ToOmemoFingerprint(OmemoProtocolAddress address)
+        {
+            return new OmemoFingerprint(identityKey, address, lastSeen, trusted);
+        }
 
         #endregion
 
