@@ -208,8 +208,6 @@ namespace Manager.Classes
                     ctx.Update(device.fingerprint);
                 }
             }
-
-
         }
 
         public void StoreSession(OmemoProtocolAddress address, OmemoSessionModel session)
