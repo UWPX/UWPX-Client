@@ -83,7 +83,7 @@ namespace XMPP_API.Classes.Crypto
         /// <param name="identityKey">The identity public key.</param>
         /// <param name="account">The XMPP account the fingerprint belongs to.</param>
         /// <returns>A string representation of the fingerprint concatenated with JID and device id.</returns>
-        public static string generateOmemoQrCodeFingerprint(ECPubKey identityKey, XMPPAccount account)
+        public static string generateOmemoQrCodeFingerprint(ECPubKeyModel identityKey, XMPPAccount account)
         {
             return generateOmemoQrCodeFingerprint(identityKey, account.getBareJid(), account.omemoDeviceId);
         }
@@ -95,7 +95,7 @@ namespace XMPP_API.Classes.Crypto
         /// <param name="bareJid">The bare JID the fingerprint belongs to.</param>
         /// <param name="deviceId">The OMEMO device id the fingerprint belongs to.</param>
         /// <returns>A string representation of the fingerprint concatenated with JID and device id.</returns>
-        public static string generateOmemoQrCodeFingerprint(ECPubKey identityKey, string bareJid, uint deviceId)
+        public static string generateOmemoQrCodeFingerprint(ECPubKeyModel identityKey, string bareJid, uint deviceId)
         {
             StringBuilder sb = new StringBuilder("xmpp:");
             sb.Append(bareJid);

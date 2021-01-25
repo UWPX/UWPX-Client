@@ -24,7 +24,7 @@ namespace Omemo.Classes.Messages
         /// <summary>
         /// The sender public key part of the encryption key.
         /// </summary>
-        public readonly ECPubKey DH;
+        public readonly ECPubKeyModel DH;
         public byte[] cipherText;
 
         /// <summary>
@@ -39,7 +39,7 @@ namespace Omemo.Classes.Messages
         {
             N = (uint)BitConverter.ToInt32(data, 0);
             PN = (uint)BitConverter.ToInt32(data, 4);
-            DH = new ECPubKey(new byte[Ed25519.PublicKeySizeInBytes]);
+            DH = new ECPubKeyModel(new byte[Ed25519.PublicKeySizeInBytes]);
             Buffer.BlockCopy(data, 8, DH.key, 0, DH.key.Length);
             int cipherTextLenth = data.Length - (8 + DH.key.Length);
 
@@ -52,7 +52,7 @@ namespace Omemo.Classes.Messages
             Validate();
         }
 
-        public OmemoMessage(OmemoSession session)
+        public OmemoMessage(OmemoSessionModel session)
         {
             N = session.nS;
             PN = session.pn;

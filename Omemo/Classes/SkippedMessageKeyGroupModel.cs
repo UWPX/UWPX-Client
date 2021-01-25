@@ -1,25 +1,29 @@
-﻿using System.ComponentModel.DataAnnotations;
-using System.Diagnostics;
+﻿using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.Linq;
+using Omemo.Classes.Keys;
 
-namespace Omemo.Classes.Keys
+namespace Omemo.Classes
 {
-    public class ECKey
+    public class SkippedMessageKeyGroupModel
     {
         //--------------------------------------------------------Attributes:-----------------------------------------------------------------\\
         #region --Attributes--
         [Key]
         public int id { get; set; }
         [Required]
-        public readonly byte[] key { get; set; }
+        public ECPubKeyModel dh { get; set; }
+        [Required]
+        public HashSet<SkippedMessageKeyModel> messageKeys { get; set; } = new HashSet<SkippedMessageKeyModel>();
 
         #endregion
         //--------------------------------------------------------Constructor:----------------------------------------------------------------\\
         #region --Constructors--
-        public ECKey(byte[] key)
+        public SkippedMessageKeyGroupModel() { }
+
+        public SkippedMessageKeyGroupModel(ECPubKeyModel dh)
         {
-            Debug.Assert(!(key is null));
-            this.key = key;
+            this.dh = dh;
         }
 
         #endregion
@@ -30,14 +34,32 @@ namespace Omemo.Classes.Keys
         #endregion
         //--------------------------------------------------------Misc Methods:---------------------------------------------------------------\\
         #region --Misc Methods (Public)--
-        public override bool Equals(object obj)
+        public SkippedMessageKeyModel RemoveKey(uint nr)
         {
-            return obj is ECKey ecKey && ecKey.key.SequenceEqual(key);
+            SkippedMessageKeyModel skippedMessageKey = GetKey(nr);
+            if (!(skippedMessageKey is null))
+            {
+                messageKeys.Remove(skippedMessageKey);
+            }
+            return skippedMessageKey;
         }
 
-        public override int GetHashCode()
+        public SkippedMessageKeyModel GetKey(uint nr)
         {
-            return key.GetHashCode();
+            return messageKeys.Where(k => k.nr == nr).FirstOrDefault();
+        }
+
+        public void SetKey(uint nr, byte[] mk)
+        {
+            SkippedMessageKeyModel skippedMessageKey = GetKey(nr);
+            if (skippedMessageKey is null)
+            {
+                messageKeys.Add(new SkippedMessageKeyModel(nr, mk));
+            }
+            else
+            {
+                skippedMessageKey.mk = mk;
+            }
         }
 
         #endregion

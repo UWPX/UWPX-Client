@@ -79,14 +79,14 @@ namespace XMPP_API.Classes.Network
             get => _omemoKeysGenerated;
             set => SetProperty(ref _omemoKeysGenerated, value);
         }
-        private IdentityKeyPair _omemoIdentityKey;
-        public IdentityKeyPair omemoIdentityKey
+        private IdentityKeyPairModel _omemoIdentityKey;
+        public IdentityKeyPairModel omemoIdentityKey
         {
             get => _omemoIdentityKey;
             set => SetProperty(ref _omemoIdentityKey, value);
         }
-        private SignedPreKey _omemoSignedPreKey;
-        public SignedPreKey omemoSignedPreKey
+        private SignedPreKeyModel _omemoSignedPreKey;
+        public SignedPreKeyModel omemoSignedPreKey
         {
             get => _omemoSignedPreKey;
             set => SetProperty(ref _omemoSignedPreKey, value);
@@ -109,7 +109,7 @@ namespace XMPP_API.Classes.Network
             get => _omemoBundleInfoAnnounced;
             set => SetProperty(ref _omemoBundleInfoAnnounced, value);
         }
-        public readonly CustomObservableCollection<PreKey> OMEMO_PRE_KEYS;
+        public readonly CustomObservableCollection<PreKeyModel> OMEMO_PRE_KEYS;
 
         // XEP-0357 (Push Notifications):
         private string _pushNode;
@@ -164,7 +164,7 @@ namespace XMPP_API.Classes.Network
             CONNECTION_INFO.PropertyChanged += CONNECTION_INFO_PropertyChanged;
             omemoIdentityKey = null;
             omemoSignedPreKey = null;
-            OMEMO_PRE_KEYS = new CustomObservableCollection<PreKey>(false);
+            OMEMO_PRE_KEYS = new CustomObservableCollection<PreKeyModel>(false);
             OMEMO_PRE_KEYS.CollectionChanged += OMEMO_PRE_KEYS_CollectionChanged;
             omemoDeviceId = 0;
             omemoBundleInfoAnnounced = false;
@@ -198,7 +198,7 @@ namespace XMPP_API.Classes.Network
             Bundle bundle = new Bundle()
             {
                 identityKey = omemoIdentityKey.pubKey,
-                preKeys = OMEMO_PRE_KEYS.Select(key => new PreKey(null, key.pubKey, key.keyId)).ToList(),
+                preKeys = OMEMO_PRE_KEYS.Select(key => new PreKeyModel(null, key.pubKey, key.keyId)).ToList(),
                 preKeySignature = omemoSignedPreKey.signature,
                 signedPreKey = omemoSignedPreKey.preKey.pubKey,
                 signedPreKeyId = omemoSignedPreKey.preKey.keyId

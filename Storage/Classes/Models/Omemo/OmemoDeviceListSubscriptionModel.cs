@@ -4,7 +4,7 @@ using XMPP_API.Classes.Network.XML.Messages.XEP_0384;
 
 namespace Storage.Classes.Models.Omemo
 {
-    public class OmemoDeviceListSubscriptionModel: AbstractOmemoModel
+    public class OmemoDeviceListSubscriptionModel
     {
         //--------------------------------------------------------Attributes:-----------------------------------------------------------------\\
         #region --Attributes--

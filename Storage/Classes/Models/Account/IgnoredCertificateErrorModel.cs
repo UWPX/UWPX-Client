@@ -3,7 +3,7 @@ using Windows.Security.Cryptography.Certificates;
 
 namespace Storage.Classes.Models.Account
 {
-    public class IgnoredCertificateErrorModel: AbstractAccountModel
+    public class IgnoredCertificateErrorModel
     {
         //--------------------------------------------------------Attributes:-----------------------------------------------------------------\\
         #region --Attributes--

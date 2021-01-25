@@ -319,7 +319,7 @@ namespace XMPP_API.Classes.Network
                 DEVICES = msg.DEVICES;
             }
 
-            OMEMO_STORAGE.StoreDevices(msg.DEVICES.toOmemoProtocolAddress(senderBareJid));
+            OMEMO_STORAGE.StoreDevices(msg.DEVICES.toOmemoProtocolAddress(senderBareJid), senderBareJid);
             OMEMO_STORAGE.StoreDeviceListSubscription(senderBareJid, new Tuple<OmemoDeviceListSubscriptionState, DateTime>(OmemoDeviceListSubscriptionState.SUBSCRIBED, DateTime.Now));
         }
 

@@ -6,7 +6,7 @@ using XMPP_API.Classes;
 
 namespace Storage.Classes.Models.Chat
 {
-    public class ChatModel: AbstractChatModel, IComparable
+    public class ChatModel: IComparable
     {
         //--------------------------------------------------------Attributes:-----------------------------------------------------------------\\
         #region --Attributes--

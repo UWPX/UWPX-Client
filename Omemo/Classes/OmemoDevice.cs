@@ -5,12 +5,12 @@
         //--------------------------------------------------------Attributes:-----------------------------------------------------------------\\
         #region --Attributes--
         public readonly uint DEVICE_ID;
-        public readonly OmemoSession SESSION;
+        public readonly OmemoSessionModel SESSION;
 
         #endregion
         //--------------------------------------------------------Constructor:----------------------------------------------------------------\\
         #region --Constructors--
-        public OmemoDevice(uint deviceId, OmemoSession session)
+        public OmemoDevice(uint deviceId, OmemoSessionModel session)
         {
             DEVICE_ID = deviceId;
             SESSION = session;

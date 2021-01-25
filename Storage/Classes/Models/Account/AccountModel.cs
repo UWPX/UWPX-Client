@@ -1,13 +1,12 @@
 ﻿using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
-using System.Linq;
 using Storage.Classes.Models.Omemo;
 using XMPP_API.Classes;
 using XMPP_API.Classes.Network;
 
 namespace Storage.Classes.Models.Account
 {
-    public class AccountModel: AbstractAccountModel
+    public class AccountModel
     {
         //--------------------------------------------------------Attributes:-----------------------------------------------------------------\\
         #region --Attributes--
@@ -84,12 +83,12 @@ namespace Storage.Classes.Models.Account
                 status = status,
                 omemoKeysGenerated = omemoInfo.keysGenerated,
                 omemoDeviceId = omemoInfo.deviceId,
-                omemoIdentityKey = omemoInfo.identityKey.ToIdentityKeyPair(),
+                omemoIdentityKey = omemoInfo.identityKey,
                 omemoBundleInfoAnnounced = omemoInfo.bundleInfoAnnounced,
-                omemoSignedPreKey = omemoInfo.signedPreKey.ToSignedPreKey(),
+                omemoSignedPreKey = omemoInfo.signedPreKey,
                 omemoDeviceLabel = omemoInfo.deviceLabel,
             };
-            account.OMEMO_PRE_KEYS.AddRange(omemoInfo.preKeys.Select(k => k.ToPreKey()));
+            account.OMEMO_PRE_KEYS.AddRange(omemoInfo.preKeys);
             return account;
         }
 

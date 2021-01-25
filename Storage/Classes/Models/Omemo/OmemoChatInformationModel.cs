@@ -6,7 +6,7 @@ namespace Storage.Classes.Models.Omemo
     /// <summary>
     /// Information about the XEP-0384 (OMEMO Encryption) chat status.
     /// </summary>
-    public class OmemoChatInformationModel: AbstractOmemoModel
+    public class OmemoChatInformationModel
     {
         //--------------------------------------------------------Attributes:-----------------------------------------------------------------\\
         #region --Attributes--

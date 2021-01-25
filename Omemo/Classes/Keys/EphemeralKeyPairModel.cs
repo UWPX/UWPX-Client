@@ -1,21 +1,18 @@
-﻿using System.Linq;
-using Microsoft.EntityFrameworkCore;
-using Storage.Classes.Models.Account;
-using Storage.Classes.Models.Chat;
-
-namespace Storage.Classes.Contexts
+﻿namespace Omemo.Classes.Keys
 {
-    public class ChatDbContext: AbstractDbContext
+    /// <summary>
+    /// Represents a Ed25519 key pair.
+    /// </summary>
+    public class EphemeralKeyPairModel: ECKeyPairModel
     {
         //--------------------------------------------------------Attributes:-----------------------------------------------------------------\\
         #region --Attributes--
-        public DbSet<ChatModel> Chats { get; set; }
-        public DbSet<ChatMessageModel> ChatMessages { get; set; }
+
 
         #endregion
         //--------------------------------------------------------Constructor:----------------------------------------------------------------\\
         #region --Constructors--
-
+        public EphemeralKeyPairModel(ECPrivKeyModel privKey, ECPubKeyModel pubKey) : base(privKey, pubKey) { }
 
         #endregion
         //--------------------------------------------------------Set-, Get- Methods:---------------------------------------------------------\\
@@ -25,14 +22,7 @@ namespace Storage.Classes.Contexts
         #endregion
         //--------------------------------------------------------Misc Methods:---------------------------------------------------------------\\
         #region --Misc Methods (Public)--
-        public static void ResetMucSateForAccount(AccountModel account)
-        {
-            using (ChatDbContext ctx = new ChatDbContext())
-            {
-                ctx.Chats.Where(c => string.Equals(c.accountBareJid, account.bareJid)).Select(c => c.muc).ToList().ForEach(m => m.state = MucState.DISCONNECTED);
-                ctx.SaveChanges();
-            }
-        }
+
 
         #endregion
 

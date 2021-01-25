@@ -1,27 +1,15 @@
-﻿using System.ComponentModel.DataAnnotations;
-using System.Linq;
-
-namespace Omemo.Classes.Keys
+﻿namespace Omemo.Classes.Keys
 {
-    public class SignedPreKey
+    public class ECPubKeyModel: ECKeyModel
     {
         //--------------------------------------------------------Attributes:-----------------------------------------------------------------\\
         #region --Attributes--
-        [Key]
-        public int id { get; set; }
-        [Required]
-        public PreKey preKey;
-        [Required]
-        public byte[] signature;
+
 
         #endregion
         //--------------------------------------------------------Constructor:----------------------------------------------------------------\\
         #region --Constructors--
-        public SignedPreKey(PreKey preKey, byte[] signature)
-        {
-            this.preKey = preKey;
-            this.signature = signature;
-        }
+        public ECPubKeyModel(byte[] pubKey) : base(pubKey) { }
 
         #endregion
         //--------------------------------------------------------Set-, Get- Methods:---------------------------------------------------------\\
@@ -31,15 +19,7 @@ namespace Omemo.Classes.Keys
         #endregion
         //--------------------------------------------------------Misc Methods:---------------------------------------------------------------\\
         #region --Misc Methods (Public)--
-        public override bool Equals(object obj)
-        {
-            return obj is SignedPreKey signedPreKey && signedPreKey.preKey.Equals(preKey) && signedPreKey.signature.SequenceEqual(signature);
-        }
 
-        public override int GetHashCode()
-        {
-            return preKey.GetHashCode() ^ signature.GetHashCode();
-        }
 
         #endregion
 

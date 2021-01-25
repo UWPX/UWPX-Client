@@ -5,7 +5,7 @@ using Omemo.Classes.Messages;
 
 namespace Omemo.Classes
 {
-    public class OmemoSession
+    public class OmemoSessionModel
     {
         //--------------------------------------------------------Attributes:-----------------------------------------------------------------\\
         #region --Attributes--
@@ -17,16 +17,16 @@ namespace Omemo.Classes
         /// <summary>
         /// Key pair for the sending ratchet.
         /// </summary>
-        public ECKeyPair dhS { get; set; }
+        public ECKeyPairModel dhS { get; set; }
         /// <summary>
         /// Key pair for the receiving ratchet.
         /// </summary>
-        public ECKeyPair dhR { get; set; }
+        public ECKeyPairModel dhR { get; set; }
         /// <summary>
         /// Ephemeral key used for initiating this session. 
         /// </summary>
         [Required]
-        public ECPubKey ek { get; set; }
+        public ECPubKeyModel ek { get; set; }
         /// <summary>
         /// 32 byte root key for encryption.
         /// </summary>
@@ -56,10 +56,10 @@ namespace Omemo.Classes
         [Required]
         public uint pn { get; set; }
         /// <summary>
-        /// Skipped-over message keys, indexed by ratchet <see cref="ECPubKey"/> and message number. Raises an exception if too many elements are stored.
+        /// Skipped-over message keys, indexed by ratchet <see cref="ECPubKeyModel"/> and message number. Raises an exception if too many elements are stored.
         /// </summary>
         [Required]
-        public readonly SkippedMessageKeyGroups MK_SKIPPED = new SkippedMessageKeyGroups();
+        public readonly SkippedMessageKeyGroupsModel MK_SKIPPED = new SkippedMessageKeyGroupsModel();
         /// <summary>
         /// The id of the PreKey used to create establish this session.
         /// </summary>
@@ -88,20 +88,20 @@ namespace Omemo.Classes
         //--------------------------------------------------------Constructor:----------------------------------------------------------------\\
         #region --Constructors--
         /// <summary>
-        /// Creates a new <see cref="OmemoSession"/> for sending a new message and initiating a new key exchange.
+        /// Creates a new <see cref="OmemoSessionModel"/> for sending a new message and initiating a new key exchange.
         /// </summary>
         /// <param name="receiverBundle">The <see cref="Bundle"/> of the receiving end.</param>
         /// /// <param name="receiverPreKeyIndex">The index of the <see cref="Bundle.preKeys"/> to use.</param>
-        /// <param name="senderIdentityKeyPair">Our own <see cref="IdentityKeyPair"/>.</param>
-        public OmemoSession(Bundle receiverBundle, int receiverPreKeyIndex, IdentityKeyPair senderIdentityKeyPair)
+        /// <param name="senderIdentityKeyPair">Our own <see cref="IdentityKeyPairModel"/>.</param>
+        public OmemoSessionModel(Bundle receiverBundle, int receiverPreKeyIndex, IdentityKeyPairModel senderIdentityKeyPair)
         {
-            EphemeralKeyPair ephemeralKeyPair = KeyHelper.GenerateEphemeralKeyPair();
+            EphemeralKeyPairModel ephemeralKeyPair = KeyHelper.GenerateEphemeralKeyPair();
             byte[] sk = CryptoUtils.GenerateSenderSessionKey(senderIdentityKeyPair.privKey, ephemeralKeyPair.privKey, receiverBundle.identityKey, receiverBundle.signedPreKey, receiverBundle.preKeys[receiverPreKeyIndex].pubKey);
 
             // We are only interested in the public key and discard the private key.
             ek = ephemeralKeyPair.pubKey;
             dhS = KeyHelper.GenerateKeyPair();
-            dhR = new ECKeyPair(null, receiverBundle.identityKey);
+            dhR = new ECKeyPairModel(null, receiverBundle.identityKey);
             Tuple<byte[], byte[]> tmp = LibSignalUtils.KDF_RK(sk, CryptoUtils.SharedSecret(dhS.privKey, dhR.pubKey));
             rk = tmp.Item1;
             ckS = tmp.Item2;
@@ -111,20 +111,20 @@ namespace Omemo.Classes
         }
 
         /// <summary>
-        /// Creates a new <see cref="OmemoSession"/> for receiving a new message and accepting a new key exchange.
+        /// Creates a new <see cref="OmemoSessionModel"/> for receiving a new message and accepting a new key exchange.
         /// </summary>
-        /// <param name="receiverIdentityKey">The receivers <see cref="IdentityKeyPair"/>.</param>
-        /// <param name="receiverSignedPreKey">The receivers <see cref="SignedPreKey"/>.</param>
-        /// <param name="receiverPreKey">The receivers <see cref="PreKey"/> selected by the sender.</param>
+        /// <param name="receiverIdentityKey">The receivers <see cref="IdentityKeyPairModel"/>.</param>
+        /// <param name="receiverSignedPreKey">The receivers <see cref="SignedPreKeyModel"/>.</param>
+        /// <param name="receiverPreKey">The receivers <see cref="PreKeyModel"/> selected by the sender.</param>
         /// <param name="keyExchangeMsg">The received <see cref="OmemoKeyExchangeMessage"/>.</param>
-        public OmemoSession(IdentityKeyPair receiverIdentityKey, SignedPreKey receiverSignedPreKey, PreKey receiverPreKey, OmemoKeyExchangeMessage keyExchangeMsg)
+        public OmemoSessionModel(IdentityKeyPairModel receiverIdentityKey, SignedPreKeyModel receiverSignedPreKey, PreKeyModel receiverPreKey, OmemoKeyExchangeMessage keyExchangeMsg)
         {
             dhS = receiverIdentityKey;
             rk = CryptoUtils.GenerateReceiverSessionKey(keyExchangeMsg.IK, keyExchangeMsg.EK, receiverIdentityKey.privKey, receiverSignedPreKey.preKey.privKey, receiverPreKey.privKey);
             assData = CryptoUtils.Concat(keyExchangeMsg.IK.key, receiverIdentityKey.pubKey.key);
         }
 
-        public OmemoSession() { }
+        public OmemoSessionModel() { }
 
         #endregion
         //--------------------------------------------------------Set-, Get- Methods:---------------------------------------------------------\\
@@ -143,7 +143,7 @@ namespace Omemo.Classes
             pn = nS;
             nS = 0;
             nR = 0;
-            dhR = new ECKeyPair(null, msg.DH);
+            dhR = new ECKeyPairModel(null, msg.DH);
             Tuple<byte[], byte[]> tmp = LibSignalUtils.KDF_RK(rk, CryptoUtils.SharedSecret(dhS.privKey, dhR.pubKey));
             rk = tmp.Item1;
             ckR = tmp.Item2;

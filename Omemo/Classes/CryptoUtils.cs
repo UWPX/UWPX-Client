@@ -190,7 +190,7 @@ namespace Omemo.Classes
         /// </summary>
         /// <param name="a">An Ed25519 private key.</param>
         /// <param name="b">An Ed25519 public key.</param>
-        public static byte[] SharedSecret(ECPrivKey a, ECPubKey b)
+        public static byte[] SharedSecret(ECPrivKeyModel a, ECPubKeyModel b)
         {
 #pragma warning disable CS0618 // Type or member is obsolete but can be ignored here since this function just needs more testing.
             return Ed25519.KeyExchange(b.key, a.key);
@@ -241,13 +241,13 @@ namespace Omemo.Classes
         /// <para/>
         /// Documentation: https://www.signal.org/docs/specifications/x3dh/
         /// </summary>
-        /// <param name="senderIndentityKey">The private key part of the senders <see cref="IdentityKeyPair"/>.</param>
-        /// <param name="senderEphemeralKeyPair">The private key part of the senders <see cref="EphemeralKeyPair"/>.</param>
-        /// <param name="receiverIdentityKey">The public key part of the receivers <see cref="IdentityKeyPair"/>.</param>
-        /// <param name="receiverSignedPreKey">The public key part of the receivers <see cref="SignedPreKey"/>.</param>
-        /// <param name="receiverPreKey">The public key part of the receivers <see cref="PreKey"/>.</param>
+        /// <param name="senderIndentityKey">The private key part of the senders <see cref="IdentityKeyPairModel"/>.</param>
+        /// <param name="senderEphemeralKeyPair">The private key part of the senders <see cref="EphemeralKeyPairModel"/>.</param>
+        /// <param name="receiverIdentityKey">The public key part of the receivers <see cref="IdentityKeyPairModel"/>.</param>
+        /// <param name="receiverSignedPreKey">The public key part of the receivers <see cref="SignedPreKeyModel"/>.</param>
+        /// <param name="receiverPreKey">The public key part of the receivers <see cref="PreKeyModel"/>.</param>
         /// <returns>The session key (SK).</returns>
-        public static byte[] GenerateSenderSessionKey(ECPrivKey senderIndentityKey, ECPrivKey senderEphemeralKeyPair, ECPubKey receiverIdentityKey, ECPubKey receiverSignedPreKey, ECPubKey receiverPreKey)
+        public static byte[] GenerateSenderSessionKey(ECPrivKeyModel senderIndentityKey, ECPrivKeyModel senderEphemeralKeyPair, ECPubKeyModel receiverIdentityKey, ECPubKeyModel receiverSignedPreKey, ECPubKeyModel receiverPreKey)
         {
             byte[] dh1 = SharedSecret(senderIndentityKey, receiverSignedPreKey);
             byte[] dh2 = SharedSecret(senderEphemeralKeyPair, receiverIdentityKey);
@@ -261,13 +261,13 @@ namespace Omemo.Classes
         /// <para/>
         /// Documentation: https://www.signal.org/docs/specifications/x3dh/
         /// </summary>
-        /// <param name="senderIndentityKey">The public key part of the senders <see cref="IdentityKeyPair"/>.</param>
-        /// <param name="senderEphemeralKeyPair">The public key part of the senders <see cref="EphemeralKeyPair"/>.</param>
-        /// <param name="receiverIdentityKey">The private key part of the receivers <see cref="IdentityKeyPair"/>.</param>
-        /// <param name="receiverSignedPreKey">The private key part of the receivers <see cref="SignedPreKey"/>.</param>
-        /// <param name="receiverPreKey">The private key part of the receivers <see cref="PreKey"/>.</param>
+        /// <param name="senderIndentityKey">The public key part of the senders <see cref="IdentityKeyPairModel"/>.</param>
+        /// <param name="senderEphemeralKeyPair">The public key part of the senders <see cref="EphemeralKeyPairModel"/>.</param>
+        /// <param name="receiverIdentityKey">The private key part of the receivers <see cref="IdentityKeyPairModel"/>.</param>
+        /// <param name="receiverSignedPreKey">The private key part of the receivers <see cref="SignedPreKeyModel"/>.</param>
+        /// <param name="receiverPreKey">The private key part of the receivers <see cref="PreKeyModel"/>.</param>
         /// <returns>The session key (SK).</returns>
-        public static byte[] GenerateReceiverSessionKey(ECPubKey senderIndentityKey, ECPubKey senderEphemeralKeyPair, ECPrivKey receiverIdentityKey, ECPrivKey receiverSignedPreKey, ECPrivKey receiverPreKey)
+        public static byte[] GenerateReceiverSessionKey(ECPubKeyModel senderIndentityKey, ECPubKeyModel senderEphemeralKeyPair, ECPrivKeyModel receiverIdentityKey, ECPrivKeyModel receiverSignedPreKey, ECPrivKeyModel receiverPreKey)
         {
             byte[] dh1 = SharedSecret(receiverSignedPreKey, senderIndentityKey);
             byte[] dh2 = SharedSecret(receiverIdentityKey, senderEphemeralKeyPair);

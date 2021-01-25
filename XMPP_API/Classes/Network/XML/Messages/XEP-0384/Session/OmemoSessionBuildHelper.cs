@@ -124,7 +124,7 @@ namespace XMPP_API.Classes.Network.XML.Messages.XEP_0384.Session
 
             OmemoFingerprint fingerprint = OMEMO_HELPER.OMEMO_STORAGE.LoadFingerprint(device);
             // Check if there exists already a session for this device:
-            OmemoSession session = OMEMO_HELPER.OMEMO_STORAGE.LoadSession(device);
+            OmemoSessionModel session = OMEMO_HELPER.OMEMO_STORAGE.LoadSession(device);
             if (session is null)
             {
                 // Try to build a new session by requesting the devices bundle information:
@@ -132,7 +132,7 @@ namespace XMPP_API.Classes.Network.XML.Messages.XEP_0384.Session
                 if (!(bundleMsg is null))
                 {
                     int preKeyIndex = bundleMsg.BUNDLE_INFO.bundle.GetRandomPreKeyIndex();
-                    session = new OmemoSession(bundleMsg.BUNDLE_INFO.bundle, preKeyIndex, CONNECTION.account.omemoIdentityKey);
+                    session = new OmemoSessionModel(bundleMsg.BUNDLE_INFO.bundle, preKeyIndex, CONNECTION.account.omemoIdentityKey);
 
                     // Validate fingerprints:
                     if (fingerprint is null)
@@ -189,7 +189,7 @@ namespace XMPP_API.Classes.Network.XML.Messages.XEP_0384.Session
                 {
                     // Store the result in the DB:
                     List<OmemoProtocolAddress> devices = devMsg.DEVICES.toOmemoProtocolAddress(bareJid);
-                    OMEMO_HELPER.OMEMO_STORAGE.StoreDevices(devices);
+                    OMEMO_HELPER.OMEMO_STORAGE.StoreDevices(devices, bareJid);
 
                     if (devices.Count > 0)
                     {

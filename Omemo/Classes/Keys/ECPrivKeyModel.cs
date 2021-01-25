@@ -1,8 +1,6 @@
-﻿using Storage.Classes.Contexts;
-
-namespace Storage.Classes.Models.Omemo
+﻿namespace Omemo.Classes.Keys
 {
-    public abstract class AbstractOmemoModel: IModel
+    public class ECPrivKeyModel: ECKeyModel
     {
         //--------------------------------------------------------Attributes:-----------------------------------------------------------------\\
         #region --Attributes--
@@ -11,7 +9,7 @@ namespace Storage.Classes.Models.Omemo
         #endregion
         //--------------------------------------------------------Constructor:----------------------------------------------------------------\\
         #region --Constructors--
-
+        public ECPrivKeyModel(byte[] pubKey) : base(pubKey) { }
 
         #endregion
         //--------------------------------------------------------Set-, Get- Methods:---------------------------------------------------------\\
@@ -21,14 +19,7 @@ namespace Storage.Classes.Models.Omemo
         #endregion
         //--------------------------------------------------------Misc Methods:---------------------------------------------------------------\\
         #region --Misc Methods (Public)--
-        public void Save()
-        {
-            using (AccountDbContext ctx = new AccountDbContext())
-            {
-                ctx.Update(this);
-                ctx.SaveChanges();
-            }
-        }
+
 
         #endregion
 

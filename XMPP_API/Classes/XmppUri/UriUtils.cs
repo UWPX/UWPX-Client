@@ -185,11 +185,11 @@ namespace XMPP_API.Classes.XmppUri
                         IWwwFormUrlDecoderEntry entry = query.FirstOrDefault(x => x.Name.StartsWith("omemo-sid-"));
                         if (!(entry is null))
                         {
-                            ECPubKey pubKey = null;
+                            ECPubKeyModel pubKey = null;
                             try
                             {
                                 byte[] fingerprintBytes = Crypto.CryptoUtils.hexStringToByteArray(entry.Value);
-                                pubKey = new ECPubKey(fingerprintBytes);
+                                pubKey = new ECPubKeyModel(fingerprintBytes);
                             }
                             catch (Exception e)
                             {

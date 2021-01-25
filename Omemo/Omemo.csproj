@@ -128,14 +128,14 @@
     <Compile Include="Classes\IOmemoStorage.cs" />
     <Compile Include="Classes\KeyHelper.cs" />
     <Compile Include="Classes\Keys\Bundle.cs" />
-    <Compile Include="Classes\Keys\ECKey.cs" />
-    <Compile Include="Classes\Keys\ECKeyPair.cs" />
-    <Compile Include="Classes\Keys\ECPrivKey.cs" />
-    <Compile Include="Classes\Keys\ECPubKey.cs" />
-    <Compile Include="Classes\Keys\EphemeralKeyPair.cs" />
-    <Compile Include="Classes\Keys\IdentityKeyPair.cs" />
-    <Compile Include="Classes\Keys\PreKey.cs" />
-    <Compile Include="Classes\Keys\SignedPreKey.cs" />
+    <Compile Include="Classes\Keys\ECKeyModel.cs" />
+    <Compile Include="Classes\Keys\ECKeyPairModel.cs" />
+    <Compile Include="Classes\Keys\ECPrivKeyModel.cs" />
+    <Compile Include="Classes\Keys\ECPubKeyModel.cs" />
+    <Compile Include="Classes\Keys\EphemeralKeyPairModel.cs" />
+    <Compile Include="Classes\Keys\IdentityKeyPairModel.cs" />
+    <Compile Include="Classes\Keys\PreKeyModel.cs" />
+    <Compile Include="Classes\Keys\SignedPreKeyModel.cs" />
     <Compile Include="Classes\LibSignalUtils.cs" />
     <Compile Include="Classes\Messages\IOmemoMessage.cs" />
     <Compile Include="Classes\Messages\OmemoAuthenticatedMessage.cs" />
@@ -144,10 +144,10 @@
     <Compile Include="Classes\OmemoDevice.cs" />
     <Compile Include="Classes\OmemoDeviceGroup.cs" />
     <Compile Include="Classes\OmemoProtocolAddress.cs" />
-    <Compile Include="Classes\OmemoSession.cs" />
-    <Compile Include="Classes\SkippedMessageKey.cs" />
-    <Compile Include="Classes\SkippedMessageKeyGroup.cs" />
-    <Compile Include="Classes\SkippedMessageKeyGroups.cs" />
+    <Compile Include="Classes\OmemoSessionModel.cs" />
+    <Compile Include="Classes\SkippedMessageKeyModel.cs" />
+    <Compile Include="Classes\SkippedMessageKeyGroupModel.cs" />
+    <Compile Include="Classes\SkippedMessageKeyGroupsModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <EmbeddedResource Include="Properties\Omemo.rd.xml" />
   </ItemGroup>
