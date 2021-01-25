@@ -240,9 +240,13 @@ namespace Manager.Classes
             {
                 device.session = session;
             }
-
             using (MainDbContext ctx = new MainDbContext())
             {
+                if (device.session.id != session.id)
+                {
+                    ctx.Remove(device.session);
+                    device.session = session;
+                }
                 ctx.Update(device.session);
                 ctx.Update(device);
             }
