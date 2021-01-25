@@ -33,7 +33,12 @@ namespace Storage.Classes.Models.Omemo
         #endregion
         //--------------------------------------------------------Constructor:----------------------------------------------------------------\\
         #region --Constructors--
+        public OmemoDeviceModel() { }
 
+        public OmemoDeviceModel(OmemoProtocolAddress address)
+        {
+            deviceId = address.DEVICE_ID;
+        }
 
         #endregion
         //--------------------------------------------------------Set-, Get- Methods:---------------------------------------------------------\\
