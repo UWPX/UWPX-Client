@@ -121,28 +121,22 @@
   </PropertyGroup>
   <ItemGroup>
     <Compile Include="Classes\Contexts\AbstractDbContext.cs" />
-    <Compile Include="Classes\Contexts\AccountDbContext.cs" />
-    <Compile Include="Classes\Contexts\ChatDbContext.cs" />
-    <Compile Include="Classes\Models\Account\AbstractAccountModel.cs" />
+    <Compile Include="Classes\Contexts\MainDbContext.cs" />
     <Compile Include="Classes\Models\Account\AccountModel.cs" />
     <Compile Include="Classes\Models\Account\IgnoredCertificateErrorModel.cs" />
     <Compile Include="Classes\Models\Account\JidModel.cs" />
     <Compile Include="Classes\Models\Account\ServerModel.cs" />
-    <Compile Include="Classes\Models\Chat\AbstractChatModel.cs" />
     <Compile Include="Classes\Models\Chat\ChatModel.cs" />
     <Compile Include="Classes\Models\Chat\ChatMessageModel.cs" />
     <Compile Include="Classes\Models\Chat\ChatType.cs" />
     <Compile Include="Classes\Models\Chat\MessageState.cs" />
     <Compile Include="Classes\Models\Chat\MucInfoModel.cs" />
     <Compile Include="Classes\Models\Chat\MucState.cs" />
-    <Compile Include="Classes\Models\IModel.cs" />
-    <Compile Include="Classes\Models\Omemo\AbstractOmemoModel.cs" />
     <Compile Include="Classes\Models\Omemo\OmemoAccountInformationModel.cs" />
     <Compile Include="Classes\Models\Omemo\OmemoChatInformationModel.cs" />
     <Compile Include="Classes\Models\Omemo\OmemoDeviceModel.cs" />
     <Compile Include="Classes\Models\Omemo\OmemoDeviceListSubscriptionModel.cs" />
     <Compile Include="Classes\Models\Omemo\OmemoFingerprintModel.cs" />
-    <Compile Include="Classes\Models\Omemo\OmemoSessionModel.cs" />
     <Compile Include="Classes\Settings.cs" />
     <Compile Include="Classes\SettingsConsts.cs" />
     <Compile Include="Classes\Vault.cs" />

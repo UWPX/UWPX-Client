@@ -10,7 +10,7 @@ namespace Omemo.Classes
         //--------------------------------------------------------Attributes:-----------------------------------------------------------------\\
         #region --Attributes--
         public readonly string BARE_JID;
-        public readonly Dictionary<uint, OmemoSession> SESSIONS = new Dictionary<uint, OmemoSession>();
+        public readonly Dictionary<uint, OmemoSessionModel> SESSIONS = new Dictionary<uint, OmemoSessionModel>();
 
         #endregion
         //--------------------------------------------------------Constructor:----------------------------------------------------------------\\

@@ -1,17 +1,21 @@
-﻿using Storage.Classes.Contexts;
+﻿using System.ComponentModel.DataAnnotations;
 
-namespace Storage.Classes.Models.Account
+namespace Omemo.Classes.Keys
 {
-    public abstract class AbstractAccountModel: IModel
+    public class PreKeyModel: ECKeyPairModel
     {
         //--------------------------------------------------------Attributes:-----------------------------------------------------------------\\
         #region --Attributes--
-
+        [Required]
+        public uint keyId { get; set; }
 
         #endregion
         //--------------------------------------------------------Constructor:----------------------------------------------------------------\\
         #region --Constructors--
-
+        public PreKeyModel(ECPrivKeyModel privKey, ECPubKeyModel pubKey, uint keyId) : base(privKey, pubKey)
+        {
+            this.keyId = keyId;
+        }
 
         #endregion
         //--------------------------------------------------------Set-, Get- Methods:---------------------------------------------------------\\
@@ -21,13 +25,14 @@ namespace Storage.Classes.Models.Account
         #endregion
         //--------------------------------------------------------Misc Methods:---------------------------------------------------------------\\
         #region --Misc Methods (Public)--
-        public void Save()
+        public override bool Equals(object obj)
         {
-            using (AccountDbContext ctx = new AccountDbContext())
-            {
-                ctx.Update(this);
-                ctx.SaveChanges();
-            }
+            return obj is PreKeyModel preKey && preKey.keyId == keyId && base.Equals(obj);
+        }
+
+        public override int GetHashCode()
+        {
+            return base.GetHashCode() ^ (int)keyId;
         }
 
         #endregion

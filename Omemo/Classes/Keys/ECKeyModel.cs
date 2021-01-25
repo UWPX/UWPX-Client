@@ -1,23 +1,25 @@
 ﻿using System.ComponentModel.DataAnnotations;
+using System.Diagnostics;
+using System.Linq;
 
 namespace Omemo.Classes.Keys
 {
-    public class ECKeyPair
+    public class ECKeyModel
     {
         //--------------------------------------------------------Attributes:-----------------------------------------------------------------\\
         #region --Attributes--
         [Key]
         public int id { get; set; }
-        public readonly ECPrivKey privKey { get; set; }
-        public readonly ECPubKey pubKey { get; set; }
+        [Required]
+        public byte[] key { get; set; }
 
         #endregion
         //--------------------------------------------------------Constructor:----------------------------------------------------------------\\
         #region --Constructors--
-        public ECKeyPair(ECPrivKey privKey, ECPubKey pubKey)
+        public ECKeyModel(byte[] key)
         {
-            this.privKey = privKey;
-            this.pubKey = pubKey;
+            Debug.Assert(!(key is null));
+            this.key = key;
         }
 
         #endregion
@@ -30,23 +32,12 @@ namespace Omemo.Classes.Keys
         #region --Misc Methods (Public)--
         public override bool Equals(object obj)
         {
-            return obj is ECKeyPair pair && ((pair.privKey is null && privKey is null) || pair.privKey.Equals(privKey)) && ((pair.pubKey is null && pubKey is null) || pair.pubKey.Equals(pubKey));
+            return obj is ECKeyModel ecKey && ecKey.key.SequenceEqual(key);
         }
 
         public override int GetHashCode()
         {
-            int hash = 0;
-            if (!(privKey is null))
-            {
-                hash = privKey.GetHashCode();
-            }
-
-            if (!(privKey is null))
-            {
-                hash ^= pubKey.GetHashCode();
-            }
-
-            return hash;
+            return key.GetHashCode();
         }
 
         #endregion

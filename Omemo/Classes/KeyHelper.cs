@@ -24,24 +24,24 @@ namespace Omemo.Classes
         //--------------------------------------------------------Misc Methods:---------------------------------------------------------------\\
         #region --Misc Methods (Public)--
         /// <summary>
-        /// Generates a new Ed25519 <see cref="IdentityKeyPair"/> and returns it.
+        /// Generates a new Ed25519 <see cref="IdentityKeyPairModel"/> and returns it.
         /// </summary>
-        public static IdentityKeyPair GenerateIdentityKeyPair()
+        public static IdentityKeyPairModel GenerateIdentityKeyPair()
         {
-            ECKeyPair pair = GenerateKeyPair();
-            return new IdentityKeyPair(pair.privKey, pair.pubKey);
+            ECKeyPairModel pair = GenerateKeyPair();
+            return new IdentityKeyPairModel(pair.privKey, pair.pubKey);
         }
 
         /// <summary>
-        /// Generates a list of <see cref="PreKey"/>s and returns them.
+        /// Generates a list of <see cref="PreKeyModel"/>s and returns them.
         /// <para/>
-        /// To keep the <see cref="PreKey"/>-IDs unique ensure to set start to (start + count) of the last run.
+        /// To keep the <see cref="PreKeyModel"/>-IDs unique ensure to set start to (start + count) of the last run.
         /// </summary>
-        /// <param name="start">The start it of the new <see cref="PreKey"/>.</param>
-        /// <param name="count">How many <see cref="PreKey"/>s should be generated.</param>
-        public static List<PreKey> GeneratePreKeys(uint start, uint count)
+        /// <param name="start">The start it of the new <see cref="PreKeyModel"/>.</param>
+        /// <param name="count">How many <see cref="PreKeyModel"/>s should be generated.</param>
+        public static List<PreKeyModel> GeneratePreKeys(uint start, uint count)
         {
-            List<PreKey> preKeys = new List<PreKey>();
+            List<PreKeyModel> preKeys = new List<PreKeyModel>();
             for (uint i = start; i < (start + count); i++)
             {
                 preKeys.Add(GeneratePreKey(i));
@@ -50,43 +50,43 @@ namespace Omemo.Classes
         }
 
         /// <summary>
-        /// Generates a new Ed25519 <see cref="PreKey"/> and returns it.
+        /// Generates a new Ed25519 <see cref="PreKeyModel"/> and returns it.
         /// </summary>
-        /// <param name="id">The id of the <see cref="PreKey"/>.</param>
-        public static PreKey GeneratePreKey(uint id)
+        /// <param name="id">The id of the <see cref="PreKeyModel"/>.</param>
+        public static PreKeyModel GeneratePreKey(uint id)
         {
-            ECKeyPair pair = GenerateKeyPair();
-            return new PreKey(pair.privKey, pair.pubKey, id);
+            ECKeyPairModel pair = GenerateKeyPair();
+            return new PreKeyModel(pair.privKey, pair.pubKey, id);
         }
 
         /// <summary>
-        /// Generates a new Ed25519 <see cref="SignedPreKey"/> and returns it.
+        /// Generates a new Ed25519 <see cref="SignedPreKeyModel"/> and returns it.
         /// </summary>
-        /// <param name="id">The id of the <see cref="SignedPreKey"/>.</param>
-        /// <param name="identiyKey">The private part of an <see cref="IdentityKeyPair"/> used for signing.</param>
-        public static SignedPreKey GenerateSignedPreKey(uint id, ECPrivKey identiyKey)
+        /// <param name="id">The id of the <see cref="SignedPreKeyModel"/>.</param>
+        /// <param name="identiyKey">The private part of an <see cref="IdentityKeyPairModel"/> used for signing.</param>
+        public static SignedPreKeyModel GenerateSignedPreKey(uint id, ECPrivKeyModel identiyKey)
         {
-            PreKey preKey = GeneratePreKey(id);
+            PreKeyModel preKey = GeneratePreKey(id);
             byte[] signature = Ed25519.Sign(preKey.pubKey.key, identiyKey.key);
-            return new SignedPreKey(preKey, signature);
+            return new SignedPreKeyModel(preKey, signature);
         }
 
         /// <summary>
-        /// Generates a new Ed25519 <see cref="EphemeralKeyPair"/> and returns it.
+        /// Generates a new Ed25519 <see cref="EphemeralKeyPairModel"/> and returns it.
         /// </summary>
-        public static EphemeralKeyPair GenerateEphemeralKeyPair()
+        public static EphemeralKeyPairModel GenerateEphemeralKeyPair()
         {
-            ECKeyPair pair = GenerateKeyPair();
-            return new EphemeralKeyPair(pair.privKey, pair.pubKey);
+            ECKeyPairModel pair = GenerateKeyPair();
+            return new EphemeralKeyPairModel(pair.privKey, pair.pubKey);
         }
 
         /// <summary>
-        /// Generates a new Ed25519 <see cref="ECKeyPair"/> and returns it.
+        /// Generates a new Ed25519 <see cref="ECKeyPairModel"/> and returns it.
         /// </summary>
-        public static ECKeyPair GenerateKeyPair()
+        public static ECKeyPairModel GenerateKeyPair()
         {
             Ed25519.KeyPairFromSeed(out byte[] pubKey, out byte[] privKey, new byte[Ed25519.PrivateKeySeedSizeInBytes]);
-            return new ECKeyPair(new ECPrivKey(privKey), new ECPubKey(pubKey));
+            return new ECKeyPairModel(new ECPrivKeyModel(privKey), new ECPubKeyModel(pubKey));
         }
 
         /// <summary>

@@ -12,12 +12,12 @@ namespace Omemo.Classes
     {
         //--------------------------------------------------------Attributes:-----------------------------------------------------------------\\
         #region --Attributes--
-        private readonly IdentityKeyPair OWN_IDENTITY_KEY;
+        private readonly IdentityKeyPairModel OWN_IDENTITY_KEY;
 
         #endregion
         //--------------------------------------------------------Constructor:----------------------------------------------------------------\\
         #region --Constructors--
-        public DoubleRachet(IdentityKeyPair ownIdentityKey)
+        public DoubleRachet(IdentityKeyPairModel ownIdentityKey)
         {
             OWN_IDENTITY_KEY = ownIdentityKey;
         }
@@ -50,7 +50,7 @@ namespace Omemo.Classes
 
         /// <summary>
         /// Encrypts the given <paramref name="keyHmac"/> combination for all given devices and returns the resulting messages.
-        /// Uses the given <see cref="OmemoSession"/> for encrypting.
+        /// Uses the given <see cref="OmemoSessionModel"/> for encrypting.
         /// </summary>
         /// <param name="keyHmac">The key HMAC combination, that should be encrypted.</param>
         /// <param name="devices">A collection of devices, we should encrypt the message for.</param>
@@ -61,11 +61,11 @@ namespace Omemo.Classes
             foreach (OmemoDeviceGroup group in devices)
             {
                 List<Tuple<uint, IOmemoMessage>> groupMsgs = new List<Tuple<uint, IOmemoMessage>>();
-                foreach (KeyValuePair<uint, OmemoSession> device in group.SESSIONS)
+                foreach (KeyValuePair<uint, OmemoSessionModel> device in group.SESSIONS)
                 {
                     try
                     {
-                        OmemoSession session = device.Value;
+                        OmemoSessionModel session = device.Value;
                         OmemoAuthenticatedMessage authMsg = EncryptKeyHmacForDevices(keyHmac, device.Value, session.assData);
 
                         // To account for lost and out-of-order messages during the key exchange, OmemoKeyExchange structures are sent until a response by the recipient confirms that the key exchange was successfully completed.
@@ -93,10 +93,10 @@ namespace Omemo.Classes
         /// Tries to decrypt the given <paramref name="cipherContent"/>.
         /// </summary>
         /// <param name="authMsg">The <see cref="OmemoAuthenticatedMessage"/> that should be used for decrypting the <paramref name="cipherContent"/>.</param>
-        /// <param name="session">The <see cref="OmemoSession"/> that should be used for decryption.</param>
+        /// <param name="session">The <see cref="OmemoSessionModel"/> that should be used for decryption.</param>
         /// <param name="cipherContent">The cipher text that should be decrypted.</param>
         /// <returns>On success the plain text for the given <paramref name="cipherContent"/>.</returns>
-        public byte[] DecryptMessage(OmemoAuthenticatedMessage authMsg, OmemoSession session, byte[] cipherContent)
+        public byte[] DecryptMessage(OmemoAuthenticatedMessage authMsg, OmemoSessionModel session, byte[] cipherContent)
         {
             byte[] keyHmac = DecryptKeyHmacForDevice(authMsg, session);
             byte[] key = new byte[32];
@@ -123,9 +123,9 @@ namespace Omemo.Classes
         /// Encrypts the given key and HMAC concatenation and returns the result.
         /// </summary>
         /// <param name="keyHmac">The key, HMAC concatenation result.</param>
-        /// <param name="session">The <see cref="OmemoSession"/> between the sender and receiver.</param>
+        /// <param name="session">The <see cref="OmemoSessionModel"/> between the sender and receiver.</param>
         /// <param name="assData">Encode(IK_A) || Encode(IK_B) => Concatenation of Alices and Bobs public part of their identity key.</param>
-        private OmemoAuthenticatedMessage EncryptKeyHmacForDevices(byte[] keyHmac, OmemoSession session, byte[] assData)
+        private OmemoAuthenticatedMessage EncryptKeyHmacForDevices(byte[] keyHmac, OmemoSessionModel session, byte[] assData)
         {
             byte[] mk = LibSignalUtils.KDF_CK(session.ckS, 0x01);
             session.ckS = LibSignalUtils.KDF_CK(session.ckS, 0x02);
@@ -147,9 +147,9 @@ namespace Omemo.Classes
         /// </summary>
         /// <param name="msg">The <see cref="OmemoMessage"/> containing the key and HMAC concatenation (<see cref="OmemoMessage.cipherText"/>).</param>
         /// <param name="msgHmac">The HMAC of the <paramref name="msg"/>.</param>
-        /// <param name="session">The <see cref="OmemoSession"/> that should be used for decryption.</param>
+        /// <param name="session">The <see cref="OmemoSessionModel"/> that should be used for decryption.</param>
         /// <returns>key || HMAC on success, else null.</returns>
-        private byte[] TrySkippedMessageKeys(OmemoMessage msg, byte[] msgHmac, OmemoSession session)
+        private byte[] TrySkippedMessageKeys(OmemoMessage msg, byte[] msgHmac, OmemoSessionModel session)
         {
             byte[] mk = session.MK_SKIPPED.GetMessagekey(msg.DH, msg.N);
             return !(mk is null) ? DecryptKeyHmacForDevice(mk, msg, msgHmac, session.assData) : null;
@@ -158,13 +158,13 @@ namespace Omemo.Classes
         /// <summary>
         /// Skippes receiving message keys <paramref name="until"/>.
         /// </summary>
-        /// <param name="session">The <see cref="OmemoSession"/> the keys should be skipped for.</param>
+        /// <param name="session">The <see cref="OmemoSessionModel"/> the keys should be skipped for.</param>
         /// <param name="until">Until which key should be skipped.</param>
-        private void SkipMessageKeys(OmemoSession session, uint until)
+        private void SkipMessageKeys(OmemoSessionModel session, uint until)
         {
-            if (session.nR + OmemoSession.MAX_SKIP < until)
+            if (session.nR + OmemoSessionModel.MAX_SKIP < until)
             {
-                throw new OmemoException("Failed to decrypt. Would skip to many message keys from " + session.nR + " to " + until + ", which is more than " + OmemoSession.MAX_SKIP + '.');
+                throw new OmemoException("Failed to decrypt. Would skip to many message keys from " + session.nR + " to " + until + ", which is more than " + OmemoSessionModel.MAX_SKIP + '.');
             }
             if (!(session.ckR is null))
             {
@@ -205,9 +205,9 @@ namespace Omemo.Classes
         /// Decrypts the key and HMAC concatenation (<see cref="OmemoMessage.cipherText"/>) with the given <paramref name="session"/>.
         /// </summary>
         /// <param name="authMsg">The <see cref="OmemoAuthenticatedMessage"/> containing the key and HMAC.</param>
-        /// <param name="session">The <see cref="OmemoSession"/> that should be used for decryption.</param>
+        /// <param name="session">The <see cref="OmemoSessionModel"/> that should be used for decryption.</param>
         /// <returns>key || HMAC</returns>
-        private byte[] DecryptKeyHmacForDevice(OmemoAuthenticatedMessage authMsg, OmemoSession session)
+        private byte[] DecryptKeyHmacForDevice(OmemoAuthenticatedMessage authMsg, OmemoSessionModel session)
         {
             OmemoMessage msg = new OmemoMessage(authMsg.OMEMO_MESSAGE);
             byte[] plainText = TrySkippedMessageKeys(msg, authMsg.HMAC, session);

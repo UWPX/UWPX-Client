@@ -21,19 +21,19 @@ namespace Omemo.Classes.Messages
         /// </summary>
         public readonly uint SPK_ID;
         /// <summary>
-        /// The public key part of the senders <see cref="IdentityKeyPair"/>.
+        /// The public key part of the senders <see cref="IdentityKeyPairModel"/>.
         /// </summary>
-        public readonly ECPubKey IK;
+        public readonly ECPubKeyModel IK;
         /// <summary>
-        /// The public key part of the senders <see cref="EphemeralKeyPair"/>.
+        /// The public key part of the senders <see cref="EphemeralKeyPairModel"/>.
         /// </summary>
-        public readonly ECPubKey EK;
+        public readonly ECPubKeyModel EK;
         public readonly OmemoAuthenticatedMessage MESSAGE;
 
         #endregion
         //--------------------------------------------------------Constructor:----------------------------------------------------------------\\
         #region --Constructors--
-        public OmemoKeyExchangeMessage(uint pkId, uint spkId, ECPubKey ik, ECPubKey ek, OmemoAuthenticatedMessage message)
+        public OmemoKeyExchangeMessage(uint pkId, uint spkId, ECPubKeyModel ik, ECPubKeyModel ek, OmemoAuthenticatedMessage message)
         {
             PK_ID = pkId;
             SPK_ID = spkId;
@@ -46,9 +46,9 @@ namespace Omemo.Classes.Messages
         {
             PK_ID = BitConverter.ToUInt32(data, 0);
             SPK_ID = BitConverter.ToUInt32(data, 4);
-            IK = new ECPubKey(new byte[Ed25519.PublicKeySizeInBytes]);
+            IK = new ECPubKeyModel(new byte[Ed25519.PublicKeySizeInBytes]);
             Buffer.BlockCopy(data, 8, IK.key, 0, IK.key.Length);
-            EK = new ECPubKey(new byte[Ed25519.PublicKeySizeInBytes]);
+            EK = new ECPubKeyModel(new byte[Ed25519.PublicKeySizeInBytes]);
             Buffer.BlockCopy(data, 8 + IK.key.Length, EK.key, 0, EK.key.Length);
             byte[] msg = new byte[data.Length - 4 - 4 - IK.key.Length - EK.key.Length];
             Buffer.BlockCopy(data, 8 + IK.key.Length + EK.key.Length, msg, 0, msg.Length);

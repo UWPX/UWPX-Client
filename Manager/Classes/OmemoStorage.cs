@@ -93,12 +93,12 @@ namespace Manager.Classes
             {
                 return null;
             }
-            return new OmemoFingerprint(new ECPubKey(fingerprint.identityPubKey), address, fingerprint.lastSeen, fingerprint.trusted);
+            return new OmemoFingerprint(new ECPubKeyModel(fingerprint.identityPubKey), address, fingerprint.lastSeen, fingerprint.trusted);
         }
 
-        public OmemoSession LoadSession(OmemoProtocolAddress address)
+        public Omemo.Classes.OmemoSessionModel LoadSession(OmemoProtocolAddress address)
         {
-            OmemoSessionModel session;
+            Storage.Classes.Models.Omemo.OmemoSessionModel session;
             if (string.Equals(address.BARE_JID, dbAccount.bareJid))
             {
                 session = dbAccount.omemoInfo.devices.Where(d => d.deviceId == address.DEVICE_ID).FirstOrDefault()?.session;
@@ -151,7 +151,7 @@ namespace Manager.Classes
             throw new NotImplementedException();
         }
 
-        public void StoreSession(OmemoProtocolAddress address, OmemoSession session)
+        public void StoreSession(OmemoProtocolAddress address, Omemo.Classes.OmemoSessionModel session)
         {
             OmemoDeviceModel device;
             if (string.Equals(address.BARE_JID, dbAccount.bareJid))
@@ -177,7 +177,7 @@ namespace Manager.Classes
             }
             if (device.session is null)
             {
-                device.session = new OmemoSessionModel(session);
+                device.session = new Storage.Classes.Models.Omemo.OmemoSessionModel(session);
                 device.session.Save();
                 device.Save();
             }

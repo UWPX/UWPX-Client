@@ -1,17 +1,27 @@
-﻿using Storage.Classes.Contexts;
+﻿using System.ComponentModel.DataAnnotations;
+using System.Linq;
 
-namespace Storage.Classes.Models.Chat
+namespace Omemo.Classes.Keys
 {
-    public abstract class AbstractChatModel: IModel
+    public class SignedPreKeyModel
     {
         //--------------------------------------------------------Attributes:-----------------------------------------------------------------\\
         #region --Attributes--
-
+        [Key]
+        public int id { get; set; }
+        [Required]
+        public PreKeyModel preKey;
+        [Required]
+        public byte[] signature;
 
         #endregion
         //--------------------------------------------------------Constructor:----------------------------------------------------------------\\
         #region --Constructors--
-
+        public SignedPreKeyModel(PreKeyModel preKey, byte[] signature)
+        {
+            this.preKey = preKey;
+            this.signature = signature;
+        }
 
         #endregion
         //--------------------------------------------------------Set-, Get- Methods:---------------------------------------------------------\\
@@ -21,13 +31,14 @@ namespace Storage.Classes.Models.Chat
         #endregion
         //--------------------------------------------------------Misc Methods:---------------------------------------------------------------\\
         #region --Misc Methods (Public)--
-        public void Save()
+        public override bool Equals(object obj)
         {
-            using (ChatDbContext ctx = new ChatDbContext())
-            {
-                ctx.Update(this);
-                ctx.SaveChanges();
-            }
+            return obj is SignedPreKeyModel signedPreKey && signedPreKey.preKey.Equals(preKey) && signedPreKey.signature.SequenceEqual(signature);
+        }
+
+        public override int GetHashCode()
+        {
+            return preKey.GetHashCode() ^ signature.GetHashCode();
         }
 
         #endregion

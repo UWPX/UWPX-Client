@@ -9,7 +9,7 @@ namespace XMPP_API.Classes.Network.XML.Messages.XEP_0384
     {
         //--------------------------------------------------------Attributes:-----------------------------------------------------------------\\
         #region --Attributes--
-        public readonly ECPubKey IDENTITY_KEY;
+        public readonly ECPubKeyModel IDENTITY_KEY;
         public readonly OmemoProtocolAddress ADDRESS;
         public DateTime lastSeen;
         public bool trusted;
@@ -17,7 +17,7 @@ namespace XMPP_API.Classes.Network.XML.Messages.XEP_0384
         #endregion
         //--------------------------------------------------------Constructor:----------------------------------------------------------------\\
         #region --Constructors--
-        public OmemoFingerprint(ECPubKey identityKey, OmemoProtocolAddress address, DateTime lastSeen, bool trusted)
+        public OmemoFingerprint(ECPubKeyModel identityKey, OmemoProtocolAddress address, DateTime lastSeen, bool trusted)
         {
             IDENTITY_KEY = identityKey;
             ADDRESS = address;
@@ -25,7 +25,7 @@ namespace XMPP_API.Classes.Network.XML.Messages.XEP_0384
             this.trusted = trusted;
         }
 
-        public OmemoFingerprint(ECPubKey identityKey, OmemoProtocolAddress address) : this(identityKey, address, DateTime.MinValue, false) { }
+        public OmemoFingerprint(ECPubKeyModel identityKey, OmemoProtocolAddress address) : this(identityKey, address, DateTime.MinValue, false) { }
 
         #endregion
         //--------------------------------------------------------Set-, Get- Methods:---------------------------------------------------------\\
@@ -35,7 +35,7 @@ namespace XMPP_API.Classes.Network.XML.Messages.XEP_0384
         #endregion
         //--------------------------------------------------------Misc Methods:---------------------------------------------------------------\\
         #region --Misc Methods (Public)--
-        public bool checkIdentityKey(ECPubKey other)
+        public bool checkIdentityKey(ECPubKeyModel other)
         {
             return other.key.SequenceEqual(IDENTITY_KEY.key);
         }

@@ -4,7 +4,7 @@ using Storage.Classes.Models.Account;
 
 namespace Storage.Classes.Models.Omemo
 {
-    public class OmemoFingerprintModel: AbstractOmemoModel
+    public class OmemoFingerprintModel
     {
         //--------------------------------------------------------Attributes:-----------------------------------------------------------------\\
         #region --Attributes--

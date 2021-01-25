@@ -7,7 +7,7 @@ namespace Component_Tests.Classes.Crypto.Omemo
     {
         //--------------------------------------------------------Attributes:-----------------------------------------------------------------\\
         #region --Attributes--
-        public readonly Dictionary<OmemoProtocolAddress, OmemoSession> SESSIONS = new Dictionary<OmemoProtocolAddress, OmemoSession>();
+        public readonly Dictionary<OmemoProtocolAddress, OmemoSessionModel> SESSIONS = new Dictionary<OmemoProtocolAddress, OmemoSessionModel>();
 
         #endregion
         //--------------------------------------------------------Constructor:----------------------------------------------------------------\\
@@ -22,12 +22,12 @@ namespace Component_Tests.Classes.Crypto.Omemo
         #endregion
         //--------------------------------------------------------Misc Methods:---------------------------------------------------------------\\
         #region --Misc Methods (Public)--
-        public OmemoSession LoadSession(OmemoProtocolAddress address)
+        public OmemoSessionModel LoadSession(OmemoProtocolAddress address)
         {
             return SESSIONS.ContainsKey(address) ? SESSIONS[address] : null;
         }
 
-        public void StoreSession(OmemoProtocolAddress address, OmemoSession session)
+        public void StoreSession(OmemoProtocolAddress address, OmemoSessionModel session)
         {
             SESSIONS[address] = session;
         }

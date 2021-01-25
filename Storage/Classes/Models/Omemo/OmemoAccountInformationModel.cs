@@ -9,7 +9,7 @@ namespace Storage.Classes.Models.Omemo
     /// <summary>
     /// Information about the XEP-0384 (OMEMO Encryption) account status.
     /// </summary>
-    public class OmemoAccountInformationModel: AbstractOmemoModel
+    public class OmemoAccountInformationModel
     {
         //--------------------------------------------------------Attributes:-----------------------------------------------------------------\\
         #region --Attributes--
@@ -41,19 +41,20 @@ namespace Storage.Classes.Models.Omemo
         /// <summary>
         /// The private key pair.
         /// </summary>
-        public IdentityKeyPair identityKey { get; set; }
+        [Required]
+        public IdentityKeyPairModel identityKey { get; set; }
         /// <summary>
         /// The signed PreKey.
         /// Only valid in case <see cref="keysGenerated"/> is true.
         /// </summary>
         [Required]
-        public SignedPreKey signedPreKey { get; set; }
+        public SignedPreKeyModel signedPreKey { get; set; }
         /// <summary>
         /// A collection of PreKeys to publish.
         /// Only valid in case <see cref="keysGenerated"/> is true.
         /// </summary>
         [Required]
-        public List<PreKey> preKeys { get; set; } = new List<PreKey>();
+        public List<PreKeyModel> preKeys { get; set; } = new List<PreKeyModel>();
         /// <summary>
         /// A collection of OMEMO capable devices.
         /// </summary>

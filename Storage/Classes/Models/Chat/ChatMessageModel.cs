@@ -8,7 +8,7 @@ using XMPP_API.Classes.Network.XML.Messages.XEP_0384;
 
 namespace Storage.Classes.Models.Chat
 {
-    public class ChatMessageModel: AbstractChatModel
+    public class ChatMessageModel
     {
         //--------------------------------------------------------Attributes:-----------------------------------------------------------------\\
         #region --Attributes--

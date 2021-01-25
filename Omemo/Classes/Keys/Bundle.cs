@@ -12,7 +12,7 @@ namespace Omemo.Classes.Keys
         /// <summary>
         /// The public part of the signed PreKey.
         /// </summary>
-        public ECPubKey signedPreKey;
+        public ECPubKeyModel signedPreKey;
         /// <summary>
         /// The id of the signed PreKey.
         /// </summary>
@@ -24,11 +24,11 @@ namespace Omemo.Classes.Keys
         /// <summary>
         /// The public part of the identity key.
         /// </summary>
-        public ECPubKey identityKey;
+        public ECPubKeyModel identityKey;
         /// <summary>
-        /// A collection of public parts of the <see cref="PreKey"/>s and their ID.
+        /// A collection of public parts of the <see cref="PreKeyModel"/>s and their ID.
         /// </summary>
-        public List<PreKey> preKeys = new List<PreKey>();
+        public List<PreKeyModel> preKeys = new List<PreKeyModel>();
 
         #endregion
         //--------------------------------------------------------Constructor:----------------------------------------------------------------\\
@@ -49,7 +49,7 @@ namespace Omemo.Classes.Keys
         #endregion
         //--------------------------------------------------------Misc Methods:---------------------------------------------------------------\\
         #region --Misc Methods (Public)--
-        public PreKey getRandomPreKey()
+        public PreKeyModel getRandomPreKey()
         {
             Random r = new Random();
             return preKeys[r.Next(0, preKeys.Count)];

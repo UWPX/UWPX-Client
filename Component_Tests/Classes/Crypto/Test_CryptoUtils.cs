@@ -131,7 +131,7 @@ namespace Component_Tests.Classes.Crypto
         {
             string publicIdentKeySerializedHex = "3b6a27bcceb6a42d62a3a8d02a6f0d73653215771de243a63ac048a18b59da29";
             byte[] publicIdentKeySerialized = CryptoUtils.hexStringToByteArray(publicIdentKeySerializedHex);
-            ECPubKey identKeyPair = new ECPubKey(publicIdentKeySerialized);
+            ECPubKeyModel identKeyPair = new ECPubKeyModel(publicIdentKeySerialized);
 
             string outputRef = "3b6a27bc ceb6a42d 62a3a8d0 2a6f0d73 65321577 1de243a6 3ac048a1 8b59da29";
             string output = CryptoUtils.generateOmemoFingerprint(identKeyPair.key);

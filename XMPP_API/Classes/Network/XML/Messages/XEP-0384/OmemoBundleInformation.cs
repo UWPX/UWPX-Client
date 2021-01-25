@@ -52,7 +52,7 @@ namespace XMPP_API.Classes.Network.XML.Messages.XEP_0384
 
             XElement preKeysNode = new XElement(ns1 + "prekeys");
             XElement preKeyNode;
-            foreach (PreKey preKey in bundle.preKeys)
+            foreach (PreKeyModel preKey in bundle.preKeys)
             {
                 preKeyNode = new XElement(ns1 + "pk")
                 {
@@ -89,7 +89,7 @@ namespace XMPP_API.Classes.Network.XML.Messages.XEP_0384
                             {
                                 case "spk":
                                     byte[] pubSignedPreKey = Convert.FromBase64String(n.InnerText);
-                                    bundle.signedPreKey = new ECPubKey(pubSignedPreKey);
+                                    bundle.signedPreKey = new ECPubKeyModel(pubSignedPreKey);
 
                                     uint.TryParse(n.Attributes["id"]?.Value, out uint sigId);
                                     bundle.signedPreKeyId = sigId;
@@ -101,7 +101,7 @@ namespace XMPP_API.Classes.Network.XML.Messages.XEP_0384
 
                                 case "ik":
                                     byte[] identPubKey = Convert.FromBase64String(n.InnerText);
-                                    bundle.identityKey = new ECPubKey(identPubKey);
+                                    bundle.identityKey = new ECPubKeyModel(identPubKey);
                                     break;
 
                                 case "prekeys":
@@ -113,7 +113,7 @@ namespace XMPP_API.Classes.Network.XML.Messages.XEP_0384
                                                 if (uint.TryParse(n1.Attributes["id"]?.Value, out uint preKeyId))
                                                 {
                                                     byte[] pubPreKey = Convert.FromBase64String(n1.InnerText);
-                                                    bundle.preKeys.Add(new PreKey(null, new ECPubKey(pubPreKey), preKeyId));
+                                                    bundle.preKeys.Add(new PreKeyModel(null, new ECPubKeyModel(pubPreKey), preKeyId));
                                                 }
                                                 else
                                                 {

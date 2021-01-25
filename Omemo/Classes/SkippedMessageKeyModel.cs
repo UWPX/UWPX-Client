@@ -1,18 +1,27 @@
-﻿namespace Omemo.Classes.Keys
+﻿using System.ComponentModel.DataAnnotations;
+
+namespace Omemo.Classes
 {
-    /// <summary>
-    /// Represents a Ed25519 key pair.
-    /// </summary>
-    public class IdentityKeyPair: ECKeyPair
+    public class SkippedMessageKeyModel
     {
         //--------------------------------------------------------Attributes:-----------------------------------------------------------------\\
         #region --Attributes--
-
+        [Key]
+        public int id { get; set; }
+        [Required]
+        public uint nr { get; set; }
+        [Required]
+        public byte[] mk { get; set; }
 
         #endregion
         //--------------------------------------------------------Constructor:----------------------------------------------------------------\\
         #region --Constructors--
-        public IdentityKeyPair(ECPrivKey privKey, ECPubKey pubKey) : base(privKey, pubKey) { }
+        public SkippedMessageKeyModel() { }
+        public SkippedMessageKeyModel(uint nr, byte[] mk)
+        {
+            this.nr = nr;
+            this.mk = mk;
+        }
 
         #endregion
         //--------------------------------------------------------Set-, Get- Methods:---------------------------------------------------------\\
@@ -22,7 +31,10 @@
         #endregion
         //--------------------------------------------------------Misc Methods:---------------------------------------------------------------\\
         #region --Misc Methods (Public)--
-
+        public override int GetHashCode()
+        {
+            return (int)nr;
+        }
 
         #endregion
 

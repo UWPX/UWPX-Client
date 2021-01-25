@@ -5,13 +5,13 @@ using Omemo.Classes.Keys;
 
 namespace Omemo.Classes
 {
-    public class SkippedMessageKeyGroups
+    public class SkippedMessageKeyGroupsModel
     {
         //--------------------------------------------------------Attributes:-----------------------------------------------------------------\\
         #region --Attributes--
         [Key]
         public int id { get; set; }
-        public readonly List<SkippedMessageKeyGroup> MKS = new List<SkippedMessageKeyGroup>();
+        public readonly List<SkippedMessageKeyGroupModel> MKS = new List<SkippedMessageKeyGroupModel>();
 
         #endregion
         //--------------------------------------------------------Constructor:----------------------------------------------------------------\\
@@ -24,12 +24,12 @@ namespace Omemo.Classes
         /// <summary>
         /// Adds the given message key (<paramref name="mk"/>) to the stored message keys.
         /// </summary>
-        public void SetMessageKey(ECPubKey dhr, uint nr, byte[] mk)
+        public void SetMessageKey(ECPubKeyModel dhr, uint nr, byte[] mk)
         {
-            SkippedMessageKeyGroup group = MKS.Where(g => g.dh.Equals(dhr)).FirstOrDefault();
+            SkippedMessageKeyGroupModel group = MKS.Where(g => g.dh.Equals(dhr)).FirstOrDefault();
             if (group is null)
             {
-                group = new SkippedMessageKeyGroup(dhr);
+                group = new SkippedMessageKeyGroupModel(dhr);
                 MKS.Add(group);
             }
             group.SetKey(nr, mk);
@@ -38,9 +38,9 @@ namespace Omemo.Classes
         /// <summary>
         /// Tries to find the requested message key. If found it will be returned and removed.
         /// </summary>
-        public byte[] GetMessagekey(ECPubKey dhr, uint nr)
+        public byte[] GetMessagekey(ECPubKeyModel dhr, uint nr)
         {
-            SkippedMessageKeyGroup group = MKS.Where(g => g.dh.Equals(dhr)).FirstOrDefault();
+            SkippedMessageKeyGroupModel group = MKS.Where(g => g.dh.Equals(dhr)).FirstOrDefault();
             return group?.RemoveKey(nr)?.mk;
         }
 

@@ -3,7 +3,7 @@
     /// <summary>
     /// Represents a Ed25519 key pair.
     /// </summary>
-    public class EphemeralKeyPair: ECKeyPair
+    public class IdentityKeyPairModel: ECKeyPairModel
     {
         //--------------------------------------------------------Attributes:-----------------------------------------------------------------\\
         #region --Attributes--
@@ -12,7 +12,7 @@
         #endregion
         //--------------------------------------------------------Constructor:----------------------------------------------------------------\\
         #region --Constructors--
-        public EphemeralKeyPair(ECPrivKey privKey, ECPubKey pubKey) : base(privKey, pubKey) { }
+        public IdentityKeyPairModel(ECPrivKeyModel privKey, ECPubKeyModel pubKey) : base(privKey, pubKey) { }
 
         #endregion
         //--------------------------------------------------------Set-, Get- Methods:---------------------------------------------------------\\
