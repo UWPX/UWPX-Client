@@ -1,6 +1,5 @@
 ﻿using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
-using System.Diagnostics;
 using Omemo.Classes;
 using Omemo.Classes.Keys;
 
@@ -15,11 +14,6 @@ namespace Storage.Classes.Models.Omemo
         #region --Attributes--
         [Key]
         public int id { get; set; }
-        /// <summary>
-        /// Did we already successfully generate all XEP-0384 (OMEMO Encryption) keys?
-        /// </summary>
-        [Required]
-        public bool keysGenerated { get; set; }
         /// <summary>
         /// The local unique device id.
         /// </summary>
@@ -36,25 +30,23 @@ namespace Storage.Classes.Models.Omemo
         public bool bundleInfoAnnounced { get; set; }
         /// <summary>
         /// The identity key pair.
-        /// Only valid in case <see cref="keysGenerated"/> is true.
-        /// </summary>
-        /// <summary>
-        /// The private key pair.
         /// </summary>
         [Required]
         public IdentityKeyPairModel identityKey { get; set; }
         /// <summary>
         /// The signed PreKey.
-        /// Only valid in case <see cref="keysGenerated"/> is true.
         /// </summary>
         [Required]
         public SignedPreKeyModel signedPreKey { get; set; }
         /// <summary>
         /// A collection of PreKeys to publish.
-        /// Only valid in case <see cref="keysGenerated"/> is true.
         /// </summary>
         [Required]
         public List<PreKeyModel> preKeys { get; set; } = new List<PreKeyModel>();
+        /// <summary>
+        /// The highest PreKey id used until now.
+        /// </summary>
+        public uint maxPreKeyId { get; set; }
         /// <summary>
         /// A collection of OMEMO capable devices.
         /// </summary>
@@ -81,17 +73,16 @@ namespace Storage.Classes.Models.Omemo
         #region --Misc Methods (Public)--
         /// <summary>
         /// Generates all OMEMO keys and sets <see cref="keysGenerated"/> to true, as well as <see cref="bundleInfoAnnounced"/> to false.
-        /// Should only be called once, when a new account has been added to prevent overlapping PreKeys.
+        /// Should only be called once, when a new account has been added to prevent overlapping PreKeys and DB inconsistencies.
         /// </summary>
         public void GenerateOmemoKeys()
         {
-            Debug.Assert(!keysGenerated);
             deviceId = 0;
             bundleInfoAnnounced = false;
             identityKey = KeyHelper.GenerateIdentityKeyPair();
             signedPreKey = KeyHelper.GenerateSignedPreKey(0, identityKey.privKey);
-            preKeys = KeyHelper.GeneratePreKeys(0, 100);
-            keysGenerated = true;
+            preKeys = KeyHelper.GeneratePreKeys(maxPreKeyId, 100);
+            maxPreKeyId += 100;
         }
 
         #endregion

@@ -2,7 +2,6 @@
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Text.RegularExpressions;
-using Storage.Classes.Models.Account;
 using XMPP_API.Classes.Network.XML.Messages;
 using XMPP_API.Classes.Network.XML.Messages.XEP_0384;
 
@@ -32,10 +31,10 @@ namespace Storage.Classes.Models.Chat
         [Required]
         public string message { get; set; }
         /// <summary>
-        /// Represents the sender JID.
+        /// Represents the senders bare JID.
         /// </summary>
         [Required]
-        public JidModel from { get; set; }
+        public string fromBareJid { get; set; }
         /// <summary>
         /// The nickname of the sender. Useful for group chats e.g. MUC or MIX.
         /// </summary>
@@ -82,9 +81,11 @@ namespace Storage.Classes.Models.Chat
         #endregion
         //--------------------------------------------------------Constructor:----------------------------------------------------------------\\
         #region --Constructors--
+        public ChatMessageModel() { }
+
         public ChatMessageModel(MessageMessage msg, ChatModel chat)
         {
-            from = JidModel.FromString(msg.getFrom());
+            fromBareJid = XMPP_API.Classes.Utils.getBareJidFromFullJid(msg.getFrom());
             fromNickname = msg.FROM_NICK;
             stableId = msg.ID;
             this.chat = chat;

@@ -17,7 +17,10 @@ namespace Storage.Classes.Contexts
         public DbSet<IgnoredCertificateErrorModel> IgnoredCertificateErrors { get; set; }
 
         public DbSet<ChatModel> Chats { get; set; }
+        public DbSet<MucInfoModel> MucInfos { get; set; }
         public DbSet<ChatMessageModel> ChatMessages { get; set; }
+        public DbSet<SpamMessageModel> SpamMessages { get; set; }
+        public DbSet<MucDirectInvitationModel> MucDirectInvitations { get; set; }
 
         public DbSet<OmemoAccountInformationModel> AccountInfos { get; set; }
         public DbSet<OmemoChatInformationModel> ChatInfos { get; set; }

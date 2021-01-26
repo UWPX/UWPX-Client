@@ -131,6 +131,16 @@
     <Compile Include="Classes\MucJoinHelper.cs" />
     <Compile Include="Classes\OmemoStorage.cs" />
     <Compile Include="Classes\PostClientConnectedHandler.cs" />
+    <Compile Include="Classes\SpamHelper.cs" />
+    <Compile Include="Classes\Toast\AbstractToastActivation.cs" />
+    <Compile Include="Classes\Toast\ChatMessageToasterType.cs" />
+    <Compile Include="Classes\Toast\ChatToastActivation.cs" />
+    <Compile Include="Classes\Toast\MarkChatAsReadToastActivation.cs" />
+    <Compile Include="Classes\Toast\MarkMessageAsReadToastActivation.cs" />
+    <Compile Include="Classes\Toast\OnChatMessageToastEventArgs.cs" />
+    <Compile Include="Classes\Toast\SendReplyToastActivation.cs" />
+    <Compile Include="Classes\Toast\ToastActivationArgumentParser.cs" />
+    <Compile Include="Classes\Toast\ToastHelper.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <EmbeddedResource Include="Properties\Manager.rd.xml" />
   </ItemGroup>
@@ -140,6 +150,9 @@
     </PackageReference>
     <PackageReference Include="Microsoft.NETCore.UniversalWindowsPlatform">
       <Version>6.2.10</Version>
+    </PackageReference>
+    <PackageReference Include="Microsoft.Toolkit.Uwp.Notifications">
+      <Version>6.1.1</Version>
     </PackageReference>
   </ItemGroup>
   <ItemGroup />
