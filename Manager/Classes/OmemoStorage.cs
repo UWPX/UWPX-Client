@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using Omemo.Classes;
+using Omemo.Classes.Keys;
 using Storage.Classes.Contexts;
 using Storage.Classes.Models.Account;
 using Storage.Classes.Models.Chat;
@@ -106,6 +107,26 @@ namespace Manager.Classes
             }
         }
 
+        public PreKeyModel ReplaceOmemoPreKey(PreKeyModel preKey)
+        {
+            using (MainDbContext ctx = new MainDbContext())
+            {
+                // Remove the old key:
+                dbAccount.omemoInfo.preKeys.Remove(preKey);
+                ctx.Remove(preKey);
+
+                // Generate a new one:
+                PreKeyModel newPreKey = KeyHelper.GeneratePreKey(dbAccount.omemoInfo.maxPreKeyId++);
+                dbAccount.omemoInfo.preKeys.Add(newPreKey);
+                dbAccount.omemoInfo.bundleInfoAnnounced = false;
+
+                // Store everything in the DB:
+                ctx.Add(newPreKey);
+                ctx.Update(dbAccount.omemoInfo);
+                return newPreKey;
+            }
+        }
+
         public void StoreDeviceListSubscription(string bareJid, Tuple<OmemoDeviceListSubscriptionState, DateTime> lastUpdate)
         {
             if (string.Equals(bareJid, dbAccount.bareJid))
@@ -195,7 +216,7 @@ namespace Manager.Classes
                 device.fingerprint = new OmemoFingerprintModel(fingerprint);
                 using (MainDbContext ctx = new MainDbContext())
                 {
-                    ctx.Update(device.fingerprint);
+                    ctx.Add(device.fingerprint);
                     ctx.Update(device);
                 }
             }

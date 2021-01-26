@@ -1,6 +1,7 @@
 ﻿using System;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
+using Storage.Classes.Models.Account;
 using Storage.Classes.Models.Omemo;
 using XMPP_API.Classes;
 
@@ -81,7 +82,7 @@ namespace Storage.Classes.Models.Chat
         #endregion
         //--------------------------------------------------------Constructor:----------------------------------------------------------------\\
         #region --Constructors--
-        public ChatModel(string chatBareJid, Account.AccountModel account)
+        public ChatModel(string chatBareJid, AccountModel account)
         {
             bareJid = chatBareJid;
             accountBareJid = account.bareJid;
