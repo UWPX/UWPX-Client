@@ -658,11 +658,12 @@ namespace Manager.Classes
             foreach (ConferenceItem ci in args.BOOKMARKS_MESSAGE.STORAGE.CONFERENCES)
             {
                 ChatModel chat;
+                MucInfoModel info;
+                bool newMuc = false;
                 using (MainDbContext ctx = new MainDbContext())
                 {
                     chat = ctx.Chats.Where(c => string.Equals(c.accountBareJid, account.bareJid) && string.Equals(c.bareJid, ci.jid)).FirstOrDefault();
 
-                    bool newMuc = false;
                     if (chat is null)
                     {
                         chat = new ChatModel(ci.jid, account);
@@ -675,57 +676,33 @@ namespace Manager.Classes
                     if (newMuc)
                     {
                         ctx.Add(chat);
+                        info = new MucInfoModel()
+                        {
+                            chat = chat,
+                            subject = null,
+                            autoEnterRoom = ci.autoJoin,
+                            name = ci.name,
+                            nickname = ci.nick,
+                            password = ci.password,
+                            state = MucState.DISCONNECTED
+                        };
+                        ctx.Add(info);
                     }
                     else
                     {
                         ctx.Update(chat);
+                        info = ctx.MucInfos.Where(m => m.chat.id == chat.id).FirstOrDefault();
+                        info.autoEnterRoom = ci.autoJoin;
+                        info.name = ci.name;
+                        info.nickname = ci.nick;
+                        info.password = ci.password;
+                        ctx.Update(info);
                     }
-
-                    MucInfoModel info = ctx.MucInfos.Where(m => m.chat.id == chat.id).FirstOrDefault(); // TODO continue here
                 }
-
-                string to = GetBareJid();
-                string from = ci.jid;
-                string id = ChatTable.generateId(from, to);
-
-                // Create / update chat:
-                ChatTable chat = ChatDBManager.INSTANCE.getChat(id);
-                if (chat is null)
-                {
-                    chat = new ChatTable(from, to);
-                    newMuc = true;
-                }
-                chat.chatType = ChatType.MUC;
-                chat.inRoster = true;
-                chat.presence = Presence.Unavailable;
-                chat.isChatActive = true;
-
-                ChatDBManager.INSTANCE.setChat(chat, false, true);
-
-                // Create / update MUC info:
-                MUCChatInfoTable info = MUCDBManager.INSTANCE.getMUCInfo(chat.id);
-                if (info is null)
-                {
-                    info = new MUCChatInfoTable
-                    {
-                        chatId = chat.id,
-                        subject = null
-                    };
-                    newMuc = true;
-                }
-
-                info.autoEnterRoom = ci.autoJoin;
-                info.name = ci.name;
-                info.nickname = ci.nick;
-                info.password = ci.password;
-
-                MUCDBManager.INSTANCE.setMUCChatInfo(info, false, true);
-
-
                 // Enter MUC manually if the MUC is new for this client:
-                if (newMuc && info.autoEnterRoom && !Settings.getSettingBoolean(SettingsConsts.DISABLE_AUTO_JOIN_MUC))
+                if (newMuc && info.autoEnterRoom && !Settings.GetSettingBoolean(SettingsConsts.DISABLE_AUTO_JOIN_MUC))
                 {
-                    Task.Run(() => MUCHandler.INSTANCE.enterMUCAsync(client, chat, info));
+                    Task.Run(() => MucHandler.INSTANCE.enterMUCAsync(client, chat, info));
                 }
             }
         }
@@ -748,8 +725,8 @@ namespace Manager.Classes
             {
                 // Check if an OMEMO related account property changed.
                 // If so also update the OMEMO keys.
-                bool updateOmemoKeys = e.PropertyName.ToLowerInvariant().Contains("omemo");
-                AccountDBManager.INSTANCE.setAccount(account, updateOmemoKeys, false);
+                // bool updateOmemoKeys = e.PropertyName.ToLowerInvariant().Contains("omemo");
+                // AccountDBManager.INSTANCE.setAccount(account, updateOmemoKeys, false);
             }
         }
 

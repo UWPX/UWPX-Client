@@ -2,6 +2,8 @@
 using System.Threading.Tasks;
 using Logging;
 using Shared.Classes.Collections;
+using Storage.Classes.Contexts;
+using Storage.Classes.Models.Chat;
 using XMPP_API.Classes;
 using XMPP_API.Classes.Network.XML.Messages.XEP_0045;
 
@@ -17,8 +19,8 @@ namespace Manager.Classes
         /// <summary>
         /// The Full JID of the room e.g. 'coven@chat.shakespeare.lit'.
         /// </summary>
-        public readonly ChatTable MUC;
-        public readonly MUCChatInfoTable INFO;
+        public readonly ChatModel CHAT;
+        public readonly MucInfoModel INFO;
         public readonly XMPPClient CLIENT;
 
         #endregion
@@ -30,10 +32,10 @@ namespace Manager.Classes
         /// <history>
         /// 06/01/2018 Created [Fabian Sauter]
         /// </history>
-        public MucJoinHelper(XMPPClient client, ChatTable muc, MUCChatInfoTable info)
+        public MucJoinHelper(XMPPClient client, ChatModel chat, MucInfoModel info)
         {
             CLIENT = client;
-            MUC = muc;
+            CHAT = chat;
             INFO = info;
         }
 
@@ -47,21 +49,25 @@ namespace Manager.Classes
         #region --Misc Methods (Public)--
         public async Task requestReservedNicksAsync()
         {
-            DiscoReservedRoomNicknamesMessages msg = new DiscoReservedRoomNicknamesMessages(CLIENT.getXMPPAccount().getFullJid(), MUC.chatJabberId);
+            DiscoReservedRoomNicknamesMessages msg = new DiscoReservedRoomNicknamesMessages(CLIENT.getXMPPAccount().getFullJid(), CHAT.bareJid);
             await CLIENT.SendAsync(msg);
         }
 
         public async Task enterRoomAsync()
         {
             // Update MUC info:
-            INFO.state = MUCState.ENTERING;
+            INFO.state = MucState.ENTERING;
+            using (MainDbContext ctx = new MainDbContext()) // TODO: Continue here
+            {
+                ctx.Update(info);
+            }
             MUCDBManager.INSTANCE.setMUCState(INFO.chatId, INFO.state, true);
 
             // Clear MUC members:
-            MUCDBManager.INSTANCE.deleteAllOccupantsforChat(MUC.id);
+            MUCDBManager.INSTANCE.deleteAllOccupantsforChat(CHAT.id);
 
             // Create message:
-            JoinRoomRequestMessage msg = new JoinRoomRequestMessage(CLIENT.getXMPPAccount().getFullJid(), MUC.chatJabberId, INFO.nickname, INFO.password);
+            JoinRoomRequestMessage msg = new JoinRoomRequestMessage(CLIENT.getXMPPAccount().getFullJid(), CHAT.chatJabberId, INFO.nickname, INFO.password);
 
             // Subscribe to events for receiving answers:
             CLIENT.NewMUCMemberPresenceMessage -= CLIENT_NewMUCMemberPresenceMessage;
@@ -69,7 +75,7 @@ namespace Manager.Classes
 
             // Send message:
             await CLIENT.SendAsync(msg);
-            Logger.Info("Entering MUC room '" + MUC.chatJabberId + "' as '" + INFO.nickname + '\'');
+            Logger.Info("Entering MUC room '" + CHAT.chatJabberId + "' as '" + INFO.nickname + '\'');
         }
 
         public bool CanGetRemoved()
@@ -104,7 +110,7 @@ namespace Manager.Classes
         private void CLIENT_NewMUCMemberPresenceMessage(XMPPClient client, XMPP_API.Classes.Network.Events.NewMUCMemberPresenceMessageEventArgs args)
         {
             string roomJId = Utils.getBareJidFromFullJid(args.mucMemberPresenceMessage.getFrom());
-            if (!Equals(roomJId, MUC.chatJabberId))
+            if (!Equals(roomJId, CHAT.chatJabberId))
             {
                 return;
             }
