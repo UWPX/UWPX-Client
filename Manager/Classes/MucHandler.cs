@@ -1,11 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 using Logging;
 using Shared.Classes.Collections;
 using Storage.Classes;
 using Storage.Classes.Contexts;
+using Storage.Classes.Models.Chat;
 using XMPP_API.Classes;
 using XMPP_API.Classes.Network.XML.Messages;
 using XMPP_API.Classes.Network.XML.Messages.XEP_0045;
@@ -48,9 +50,7 @@ namespace Manager.Classes
             client.NewValidMessage -= Client_NewValidMessage;
             client.NewValidMessage += Client_NewValidMessage;
 
-            ChatDbContext.ResetMucSateForAccount();
-            MUCDBManager.INSTANCE.resetMUCState(client.getXMPPAccount().getBareJid(), true);
-
+            ResetMucState(client.getXMPPAccount().getBareJid());
             if (!Settings.GetSettingBoolean(SettingsConsts.DISABLE_AUTO_JOIN_MUC))
             {
                 Logger.Info("Entering all MUC rooms for '" + client.getXMPPAccount().getBareJid() + '\'');
@@ -58,9 +58,22 @@ namespace Manager.Classes
             }
         }
 
-        public void onClientDisconnected(XMPPClient client)
+        private void ResetMucState(string accountBareJid)
         {
+            using (MainDbContext ctx = new MainDbContext())
+            {
+                foreach (MucInfoModel info in ctx.MucInfos.Where(i => string.Equals(i.chat.accountBareJid, accountBareJid)))
+                {
+                    if (info.state != MucState.DISCONNECTED)
+                    {
+                        info.state = MucState.DISCONNECTED;
+                        ctx.Update(info);
+                    }
+                }
+            }
         }
+
+        public void onClientDisconnected(XMPPClient client) { }
 
         public void onClientDisconnecting(XMPPClient client)
         {
@@ -68,27 +81,30 @@ namespace Manager.Classes
             client.NewValidMessage -= Client_NewValidMessage;
 
             // Cancel the join delay:
-            string bareJid = client.getXMPPAccount().getBareJid();
-            if (joinDelayToken.TryGetValue(bareJid, out CancellationTokenSource token) && !(token is null) && !token.IsCancellationRequested)
+            string accountBareJid = client.getXMPPAccount().getBareJid();
+            if (joinDelayToken.TryGetValue(accountBareJid, out CancellationTokenSource token) && !(token is null) && !token.IsCancellationRequested)
             {
                 token.Cancel();
-                joinDelayToken.Remove(bareJid);
+                joinDelayToken.Remove(accountBareJid);
             }
 
             // Set all MUCs to disconnected:
-            MUCDBManager.INSTANCE.resetMUCState(client.getXMPPAccount().getBareJid(), true);
+            ResetMucState(accountBareJid);
         }
 
         public void onMUCRoomSubjectMessage(MUCRoomSubjectMessage mucRoomSubject)
         {
             string to = Utils.getBareJidFromFullJid(mucRoomSubject.getTo());
             string from = Utils.getBareJidFromFullJid(mucRoomSubject.getFrom());
-            string id = ChatTable.generateId(from, to);
-
-            MUCDBManager.INSTANCE.setMUCSubject(id, mucRoomSubject.SUBJECT, true);
+            using (MainDbContext ctx = new MainDbContext())
+            {
+                MucInfoModel info = ctx.MucInfos.Where(i => string.Equals(i.chat.accountBareJid, to) && string.Equals(i.chat.bareJid, from)).FirstOrDefault();
+                info.subject = mucRoomSubject.SUBJECT;
+                ctx.Update(info);
+            }
         }
 
-        public async Task enterMUCAsync(XMPPClient client, ChatTable muc, MUCChatInfoTable info)
+        public async Task enterMUCAsync(XMPPClient client, ChatModel muc, MucInfoModel info)
         {
             MucJoinHelper helper = new MucJoinHelper(client, muc, info);
             TIMED_LIST.AddTimed(helper);
@@ -96,12 +112,12 @@ namespace Manager.Classes
             await helper.enterRoomAsync();
         }
 
-        public async Task leaveRoomAsync(XMPPClient client, ChatTable muc, MUCChatInfoTable info)
+        public async Task leaveRoomAsync(XMPPClient client, ChatModel chat, MucInfoModel info)
         {
-            stopMUCJoinHelper(muc);
+            stopMUCJoinHelper(chat);
 
             MUCDBManager.INSTANCE.setMUCState(info.chatId, MUCState.DISCONNECTING, true);
-            await sendMUCLeaveMessageAsync(client, muc, info);
+            await sendMUCLeaveMessageAsync(client, chat, info);
             MUCDBManager.INSTANCE.setMUCState(info.chatId, MUCState.DISCONNECTED, true);
         }
 
@@ -112,17 +128,17 @@ namespace Manager.Classes
         {
             foreach (MucJoinHelper h in TIMED_LIST.GetEntries())
             {
-                if (Equals(h.MUC.id, muc.id))
+                if (Equals(h.CHAT.id, muc.id))
                 {
                     h.Dispose();
                 }
             }
         }
 
-        private async Task sendMUCLeaveMessageAsync(XMPPClient client, ChatTable muc, MUCChatInfoTable info)
+        private async Task sendMUCLeaveMessageAsync(XMPPClient client, ChatModel chat, MucInfoModel info)
         {
             string from = client.getXMPPAccount().getFullJid();
-            string to = muc.chatJabberId + '/' + info.nickname;
+            string to = chat.bareJid + '/' + info.nickname;
             LeaveRoomMessage msg = new LeaveRoomMessage(from, to);
             await client.SendAsync(msg);
         }
