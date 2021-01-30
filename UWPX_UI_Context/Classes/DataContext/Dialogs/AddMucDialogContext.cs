@@ -1,9 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Threading.Tasks;
-using Data_Manager2.Classes;
-using Data_Manager2.Classes.DBManager;
-using Data_Manager2.Classes.DBTables;
 using Logging;
+using Storage.Classes.Models.Chat;
 using UWPX_UI_Context.Classes.DataTemplates.Dialogs;
 using XMPP_API.Classes;
 using XMPP_API.Classes.Network.XML.Messages;
@@ -44,7 +42,7 @@ namespace UWPX_UI_Context.Classes.DataContext.Dialogs
             MODEL.Confirmed = false;
         }
 
-        public void FromDirectInvite(MUCDirectInvitationTable invite)
+        public void FromDirectInvite(MucDirectInvitationModel invite)
         {
             MODEL.Password = invite.roomPassword;
             MODEL.RoomBareJid = invite.roomJid;
@@ -55,7 +53,7 @@ namespace UWPX_UI_Context.Classes.DataContext.Dialogs
         #region --Misc Methods (Private)--
         private async Task AddMucAsync(XMPPClient client, string roomBareJid, string nickname, string password, bool bookmark, bool autoJoin)
         {
-            ChatTable muc = new ChatTable(roomBareJid, client.getXMPPAccount().getBareJid())
+            ChatModel muc = new ChatModel(roomBareJid, client.getXMPPAccount().getBareJid())
             {
                 chatType = ChatType.MUC,
                 inRoster = bookmark,
@@ -63,11 +61,11 @@ namespace UWPX_UI_Context.Classes.DataContext.Dialogs
                 isChatActive = true
             };
 
-            MUCChatInfoTable info = new MUCChatInfoTable()
+            MucInfoModel info = new MucInfoModel()
             {
                 chatId = muc.id,
                 subject = null,
-                state = MUCState.DISCONNECTED,
+                state = MucState.DISCONNECTED,
                 name = null,
                 password = string.IsNullOrEmpty(password) ? null : password,
                 nickname = nickname,
@@ -82,7 +80,7 @@ namespace UWPX_UI_Context.Classes.DataContext.Dialogs
 
             if (info.autoEnterRoom)
             {
-                await MUCHandler.INSTANCE.enterMUCAsync(client, muc, info);
+                await MucHandler.INSTANCE.enterMucAsync(client, muc, info);
             }
 
             if (bookmark)

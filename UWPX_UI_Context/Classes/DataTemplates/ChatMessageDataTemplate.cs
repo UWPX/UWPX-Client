@@ -1,5 +1,5 @@
-﻿using Data_Manager2.Classes.DBTables;
-using Shared.Classes;
+﻿using Shared.Classes;
+using Storage.Classes.Models.Chat;
 
 namespace UWPX_UI_Context.Classes.DataTemplates
 {
@@ -7,23 +7,23 @@ namespace UWPX_UI_Context.Classes.DataTemplates
     {
         //--------------------------------------------------------Attributes:-----------------------------------------------------------------\\
         #region --Attributes--
-        private ChatTable _Chat;
-        public ChatTable Chat
+        private ChatModel _Chat;
+        public ChatModel Chat
         {
             get => _Chat;
             set => SetProperty(ref _Chat, value);
         }
-        private ChatMessageTable _Message;
-        public ChatMessageTable Message
+        private ChatMessageModel _Message;
+        public ChatMessageModel Message
         {
             get => _Message;
             set => SetProperty(ref _Message, value);
         }
-        private MUCChatInfoTable _MUC;
+        private MucInfoModel _MUC;
         /// <summary>
         /// Only populate with valid if data the chat is of type MUC.
         /// </summary>
-        public MUCChatInfoTable MUC
+        public MucInfoModel MUC
         {
             get => _MUC;
             set => SetProperty(ref _MUC, value);

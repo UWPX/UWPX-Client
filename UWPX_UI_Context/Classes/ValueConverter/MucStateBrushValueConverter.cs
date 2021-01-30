@@ -1,5 +1,4 @@
 ﻿using System;
-using Data_Manager2.Classes;
 using Windows.UI.Xaml.Data;
 using XMPP_API.Classes;
 
@@ -26,23 +25,23 @@ namespace UWPX_UI_Context.Classes.ValueConverter
         #region --Misc Methods (Public)--
         public object Convert(object value, Type targetType, object parameter, string language)
         {
-            if (value is MUCState state)
+            if (value is MucState state)
             {
                 switch (state)
                 {
-                    case MUCState.ENTERING:
-                    case MUCState.DISCONNECTING:
+                    case MucState.ENTERING:
+                    case MucState.DISCONNECTING:
                         return UiUtils.GetPresenceBrush(Presence.Chat);
 
-                    case MUCState.ENTERD:
+                    case MucState.ENTERD:
                         return UiUtils.GetPresenceBrush(Presence.Online);
 
-                    case MUCState.ERROR:
-                    case MUCState.KICKED:
-                    case MUCState.BANED:
+                    case MucState.ERROR:
+                    case MucState.KICKED:
+                    case MucState.BANED:
                         return UiUtils.GetPresenceBrush(Presence.Xa);
 
-                    case MUCState.DISCONNECTED:
+                    case MucState.DISCONNECTED:
                     default:
                         return UiUtils.GetPresenceBrush(Presence.Unavailable);
                 }

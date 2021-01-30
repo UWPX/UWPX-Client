@@ -1,9 +1,8 @@
 ﻿using System.Collections.Generic;
 using System.Threading.Tasks;
-using Data_Manager2.Classes;
-using Data_Manager2.Classes.DBManager;
-using Data_Manager2.Classes.DBTables;
+using Manager.Classes;
 using Shared.Classes;
+using Storage.Classes.Models.Chat;
 using UWPX_UI_Context.Classes.DataTemplates;
 using UWPX_UI_Context.Classes.DataTemplates.Controls.Chat.MUC;
 using Windows.UI.Xaml;
@@ -48,7 +47,7 @@ namespace UWPX_UI_Context.Classes.DataContext.Controls.Chat.MUC
             }
         }
 
-        public async Task ToggleChatMutedAsync(ChatTable chat)
+        public async Task ToggleChatMutedAsync(ChatModel chat)
         {
             if (chat is null)
             {
@@ -63,7 +62,7 @@ namespace UWPX_UI_Context.Classes.DataContext.Controls.Chat.MUC
             }).ConfAwaitFalse();
         }
 
-        public async Task ToggleMucAutoJoinAsync(MUCChatInfoTable mucInfo)
+        public async Task ToggleMucAutoJoinAsync(MucInfoModel mucInfo)
         {
             if (mucInfo is null)
             {
@@ -78,42 +77,42 @@ namespace UWPX_UI_Context.Classes.DataContext.Controls.Chat.MUC
             }).ConfAwaitFalse();
         }
 
-        public void ToggleChatBookmarked(ChatTable chat, XMPPClient client)
+        public void ToggleChatBookmarked(ChatModel chat, XMPPClient client)
         {
             SetChatBookmarked(chat, client, !chat.inRoster);
         }
 
-        public async Task LeaveMucAsync(ChatTable chat, MUCChatInfoTable mucInfo, XMPPClient client)
+        public async Task LeaveMucAsync(ChatModel chat, MucInfoModel mucInfo, XMPPClient client)
         {
-            await MUCHandler.INSTANCE.leaveRoomAsync(client, chat, mucInfo);
+            await MucHandler.INSTANCE.leaveRoomAsync(client, chat, mucInfo);
         }
 
-        public async Task EnterMucAsync(ChatTable chat, MUCChatInfoTable mucInfo, XMPPClient client)
+        public async Task EnterMucAsync(ChatModel chat, MucInfoModel mucInfo, XMPPClient client)
         {
-            await MUCHandler.INSTANCE.enterMUCAsync(client, chat, mucInfo);
+            await MucHandler.INSTANCE.enterMucAsync(client, chat, mucInfo);
         }
 
         #endregion
 
         #region --Misc Methods (Private)--
-        private void UpdateView(ChatTable chat)
+        private void UpdateView(ChatModel chat)
         {
             MODEL.BookmarkText = chat.inRoster ? "Remove bookmark" : "Bookmark";
-            MODEL.ChatBareJid = chat.chatJabberId;
+            MODEL.ChatBareJid = chat.bareJid;
             MODEL.MuteGlyph = chat.muted ? "\uE74F" : "\uE767";
             MODEL.MuteTooltip = chat.muted ? "Unmute" : "Mute";
             if (string.IsNullOrEmpty(MODEL.MucName))
             {
-                MODEL.MucName = chat.chatJabberId;
+                MODEL.MucName = chat.bareJid;
                 MODEL.DifferentMucName = !string.Equals(MODEL.ChatBareJid, MODEL.MucName);
             }
         }
 
-        private void UpdateView(MUCChatInfoTable mucInfo)
+        private void UpdateView(MucInfoModel mucInfo)
         {
             MODEL.MucSubject = mucInfo.subject;
             MODEL.MucState = mucInfo.state;
-            MODEL.EnterMucAvailable = mucInfo.state != MUCState.ENTERD && mucInfo.state != MUCState.ENTERING;
+            MODEL.EnterMucAvailable = mucInfo.state != MucState.ENTERD && mucInfo.state != MucState.ENTERING;
             MODEL.AutoJoin = mucInfo.autoEnterRoom;
             MODEL.Nickname = mucInfo.nickname;
             if (!string.IsNullOrEmpty(mucInfo.name))
@@ -123,7 +122,7 @@ namespace UWPX_UI_Context.Classes.DataContext.Controls.Chat.MUC
             }
         }
 
-        private void SetChatBookmarked(ChatTable chat, XMPPClient client, bool bookmarked)
+        private void SetChatBookmarked(ChatModel chat, XMPPClient client, bool bookmarked)
         {
             if (chat.inRoster != bookmarked)
             {

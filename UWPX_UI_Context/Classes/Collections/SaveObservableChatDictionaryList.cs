@@ -3,8 +3,8 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Collections.Specialized;
 using System.ComponentModel;
-using Data_Manager2.Classes.DBTables;
 using Shared.Classes;
+using Storage.Classes.Models.Chat;
 using UWPX_UI_Context.Classes.DataTemplates;
 
 namespace UWPX_UI_Context.Classes.Collections
@@ -58,7 +58,7 @@ namespace UWPX_UI_Context.Classes.Collections
         #endregion
         //--------------------------------------------------------Misc Methods:---------------------------------------------------------------\\
         #region --Misc Methods (Public)--
-        public bool UpdateChat(ChatTable chat)
+        public bool UpdateChat(ChatModel chat)
         {
             lock (SyncRoot)
             {
@@ -66,7 +66,7 @@ namespace UWPX_UI_Context.Classes.Collections
             }
         }
 
-        public bool UpdateMUCInfo(MUCChatInfoTable mucInfo)
+        public bool UpdateMUCInfo(MucInfoModel mucInfo)
         {
             lock (SyncRoot)
             {
@@ -162,7 +162,7 @@ namespace UWPX_UI_Context.Classes.Collections
             }
         }
 
-        public bool RemoveId(string id)
+        public bool RemoveId(int id)
         {
             lock (SyncRoot)
             {

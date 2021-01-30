@@ -1,9 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using Data_Manager2.Classes;
-using Data_Manager2.Classes.DBManager;
-using Data_Manager2.Classes.DBTables;
 using Microsoft.Toolkit.Uwp.UI;
 using Shared.Classes;
 using Shared.Classes.Collections;
@@ -111,7 +108,7 @@ namespace UWPX_UI_Context.Classes.DataTemplates.Controls
                     return;
                 }
 
-                List<ChatTable> chats = ChatDBManager.INSTANCE.getNotStartedChatsForClient(client.getXMPPAccount().getBareJid(), ChatType.CHAT);
+                List<ChatModel> chats = ChatDBManager.INSTANCE.getNotStartedChatsForClient(client.getXMPPAccount().getBareJid(), ChatType.CHAT);
                 SUGGESTIONS.Clear();
                 SUGGESTIONS.AddRange(chats.Select((x) =>
                 {

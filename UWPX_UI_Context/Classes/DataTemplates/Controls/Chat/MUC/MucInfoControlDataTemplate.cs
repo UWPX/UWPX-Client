@@ -1,5 +1,5 @@
-﻿using Data_Manager2.Classes;
-using Shared.Classes;
+﻿using Shared.Classes;
+using Storage.Classes.Models.Chat;
 
 namespace UWPX_UI_Context.Classes.DataTemplates.Controls.Chat.MUC
 {
@@ -35,8 +35,8 @@ namespace UWPX_UI_Context.Classes.DataTemplates.Controls.Chat.MUC
             set => SetProperty(ref _BookmarkText, value);
         }
 
-        private MUCState _MucState;
-        public MUCState MucState
+        private MucState _MucState;
+        public MucState MucState
         {
             get => _MucState;
             set => SetProperty(ref _MucState, value);

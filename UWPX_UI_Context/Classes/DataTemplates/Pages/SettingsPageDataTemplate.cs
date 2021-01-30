@@ -1,5 +1,4 @@
 ﻿using System.Runtime.CompilerServices;
-using Data_Manager2.Classes;
 using Shared.Classes;
 
 namespace UWPX_UI_Context.Classes.DataTemplates.Pages
@@ -30,7 +29,7 @@ namespace UWPX_UI_Context.Classes.DataTemplates.Pages
         {
             if (SetProperty(ref storage, value, propertyName))
             {
-                Settings.setSetting(settingsToken, value);
+                Settings.SetSetting(settingsToken, value);
                 return true;
             }
             return false;

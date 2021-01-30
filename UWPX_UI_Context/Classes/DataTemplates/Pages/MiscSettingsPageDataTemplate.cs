@@ -1,6 +1,5 @@
 ﻿using System.Runtime.CompilerServices;
 using System.Threading.Tasks;
-using Data_Manager2.Classes;
 using Logging;
 using Shared.Classes;
 using Windows.Storage;
@@ -70,7 +69,7 @@ namespace UWPX_UI_Context.Classes.DataTemplates.Pages
         {
             if (SetProperty(ref _Analytics, value, nameof(Analytics)))
             {
-                Settings.setSetting(SettingsConsts.DISABLE_ANALYTICS, !value);
+                Settings.SetSetting(SettingsConsts.DISABLE_ANALYTICS, !value);
                 Task.Run(async () => await AppCenterHelper.SetAnalyticsEnabledAsync(value));
             }
         }
@@ -79,7 +78,7 @@ namespace UWPX_UI_Context.Classes.DataTemplates.Pages
         {
             if (SetProperty(ref _Crashreports, value, nameof(Crashreports)))
             {
-                Settings.setSetting(SettingsConsts.DISABLE_CRASH_REPORTING, !value);
+                Settings.SetSetting(SettingsConsts.DISABLE_CRASH_REPORTING, !value);
                 Task.Run(async () => await AppCenterHelper.SetCrashesEnabledAsync(value));
             }
         }
@@ -88,7 +87,7 @@ namespace UWPX_UI_Context.Classes.DataTemplates.Pages
         {
             if (SetProperty(ref storage, value, propertyName))
             {
-                Settings.setSetting(settingsToken, value);
+                Settings.SetSetting(settingsToken, value);
                 return true;
             }
             return false;
@@ -98,7 +97,7 @@ namespace UWPX_UI_Context.Classes.DataTemplates.Pages
         {
             if (SetProperty(ref storage, value, propertyName))
             {
-                Settings.setSetting(settingsToken, !value);
+                Settings.SetSetting(settingsToken, !value);
                 return true;
             }
             return false;

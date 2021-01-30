@@ -1,6 +1,4 @@
 ﻿using System.Threading.Tasks;
-using Data_Manager2.Classes.DBManager;
-using Data_Manager2.Classes.DBTables;
 using Shared.Classes;
 using XMPP_API.Classes;
 
@@ -107,7 +105,7 @@ namespace UWPX_UI_Context.Classes.DataTemplates.Dialogs
                 {
                     Task.Run(() =>
                     {
-                        ChatTable chat = ChatDBManager.INSTANCE.getChat(ChatTable.generateId(value, Client.getXMPPAccount().getBareJid()));
+                        ChatModel chat = ChatDBManager.INSTANCE.getChat(ChatModel.generateId(value, Client.getXMPPAccount().getBareJid()));
                         if (chat is null)
                         {
                             ChatExists = false;

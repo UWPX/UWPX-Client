@@ -1,10 +1,10 @@
 ﻿using System;
 using System.Threading.Tasks;
-using Data_Manager2.Classes;
-using Data_Manager2.Classes.DBManager;
-using Data_Manager2.Classes.DBTables;
-using Data_Manager2.Classes.Toast;
 using Logging;
+using Manager.Classes;
+using Manager.Classes.Toast;
+using Storage.Classes;
+using Storage.Classes.Models.Chat;
 using UWPX_UI_Context.Classes.DataTemplates;
 using UWPX_UI_Context.Classes.DataTemplates.Controls;
 using Windows.System;
@@ -85,7 +85,7 @@ namespace UWPX_UI_Context.Classes.DataContext.Controls
             {
                 if (chat.Chat.chatType == ChatType.CHAT)
                 {
-                    toSendMsg = new OmemoMessageMessage(from, to, message, chatType, reciptRequested);
+                    toSendMsg = new OmemoEncryptedMessage(from, to, message, chatType, reciptRequested);
                 }
                 else
                 {
@@ -101,9 +101,9 @@ namespace UWPX_UI_Context.Classes.DataContext.Controls
             }
 
             // Create a copy for the DB:
-            ChatMessageTable toSendMsgDB = new ChatMessageTable(toSendMsg, chat.Chat)
+            ChatMessageModel toSendMsgDB = new ChatMessageModel(toSendMsg, chat.Chat)
             {
-                state = toSendMsg is OmemoMessageMessage ? MessageState.TO_ENCRYPT : MessageState.SENDING
+                state = toSendMsg is OmemoEncryptedMessage ? MessageState.TO_ENCRYPT : MessageState.SENDING
             };
 
             // Set the chat message id for later identification:
@@ -120,7 +120,7 @@ namespace UWPX_UI_Context.Classes.DataContext.Controls
             });
 
             // Send the message:
-            if (toSendMsg is OmemoMessageMessage toSendOmemoMsg)
+            if (toSendMsg is OmemoEncryptedMessage toSendOmemoMsg)
             {
                 await chat.Client.sendOmemoMessageAsync(toSendOmemoMsg, chat.Chat.chatJabberId, chat.Client.getXMPPAccount().getBareJid());
             }
@@ -132,7 +132,7 @@ namespace UWPX_UI_Context.Classes.DataContext.Controls
 
         public void OnEnterKeyDown(KeyRoutedEventArgs args, ChatDataTemplate chat)
         {
-            if (Settings.getSettingBoolean(SettingsConsts.ENTER_TO_SEND_MESSAGES))
+            if (Settings.GetSettingBoolean(SettingsConsts.ENTER_TO_SEND_MESSAGES))
             {
                 if (UiUtils.IsVirtualKeyDown(VirtualKey.Shift))
                 {
@@ -153,7 +153,7 @@ namespace UWPX_UI_Context.Classes.DataContext.Controls
         {
             if (!MODEL.isDummy)
             {
-                await MUCHandler.INSTANCE.leaveRoomAsync(chatTemplate.Client, chatTemplate.Chat, chatTemplate.MucInfo);
+                await MucHandler.INSTANCE.leaveRoomAsync(chatTemplate.Client, chatTemplate.Chat, chatTemplate.MucInfo);
             }
         }
 
@@ -161,7 +161,7 @@ namespace UWPX_UI_Context.Classes.DataContext.Controls
         {
             if (!MODEL.isDummy)
             {
-                await MUCHandler.INSTANCE.enterMUCAsync(chatTemplate.Client, chatTemplate.Chat, chatTemplate.MucInfo);
+                await MucHandler.INSTANCE.enterMucAsync(chatTemplate.Client, chatTemplate.Chat, chatTemplate.MucInfo);
             }
         }
 
@@ -174,7 +174,7 @@ namespace UWPX_UI_Context.Classes.DataContext.Controls
             });
         }
 
-        public void MarkAsIotDevice(ChatTable chat)
+        public void MarkAsIotDevice(ChatModel chat)
         {
             chat.chatType = ChatType.IOT_DEVICE;
             Task.Run(() =>

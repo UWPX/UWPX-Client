@@ -3,12 +3,10 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Threading;
 using System.Threading.Tasks;
-using Data_Manager2.Classes.DBManager;
-using Data_Manager2.Classes.DBTables;
-using Data_Manager2.Classes.Events;
 using Logging;
 using Shared.Classes;
 using Shared.Classes.Collections;
+using Storage.Classes.Models.Chat;
 
 namespace UWPX_UI_Context.Classes.DataTemplates.Controls
 {
@@ -99,7 +97,7 @@ namespace UWPX_UI_Context.Classes.DataTemplates.Controls
             Chat = newChat;
         }
 
-        public async Task OnNewChatMessageAsync(ChatMessageTable msg, ChatTable chat, MUCChatInfoTable muc)
+        public async Task OnNewChatMessageAsync(ChatMessageModel msg, ChatModel chat, MucInfoModel muc)
         {
             await CHAT_MESSAGES_SEMA.WaitAsync();
             await SharedUtils.CallDispatcherAsync(() =>
@@ -114,7 +112,7 @@ namespace UWPX_UI_Context.Classes.DataTemplates.Controls
             CHAT_MESSAGES_SEMA.Release();
         }
 
-        public async Task OnChatMessageChangedAsync(ChatMessageTable msg, bool removed)
+        public async Task OnChatMessageChangedAsync(ChatMessageModel msg, bool removed)
         {
             await CHAT_MESSAGES_SEMA.WaitAsync();
             for (int i = 0; i < CHAT_MESSAGES.Count; i++)

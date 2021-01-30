@@ -1,7 +1,4 @@
 ﻿using System.Threading.Tasks;
-using Data_Manager2.Classes;
-using Data_Manager2.Classes.DBTables;
-using Data_Manager2.Classes.DBTables.Omemo;
 using Logging;
 using Shared.Classes.SQLite;
 using UWPX_UI_Context.Classes.DataTemplates.Dialogs;
@@ -37,11 +34,11 @@ namespace UWPX_UI_Context.Classes.DataContext.Dialogs
                     // General:
                     if (MODEL.ChatMessages)
                     {
-                        AbstractDBManager.dB.RecreateTable<ChatMessageTable>();
+                        AbstractDBManager.dB.RecreateTable<ChatMessageModel>();
                     }
                     if (MODEL.Chats)
                     {
-                        AbstractDBManager.dB.RecreateTable<ChatTable>();
+                        AbstractDBManager.dB.RecreateTable<ChatModel>();
                     }
                     if (MODEL.Images)
                     {
@@ -65,15 +62,15 @@ namespace UWPX_UI_Context.Classes.DataContext.Dialogs
                     // MUC:
                     if (MODEL.MucChatInfo)
                     {
-                        AbstractDBManager.dB.RecreateTable<MUCChatInfoTable>();
+                        AbstractDBManager.dB.RecreateTable<MucInfoModel>();
                     }
                     if (MODEL.MucOccupants)
                     {
-                        AbstractDBManager.dB.RecreateTable<MUCOccupantTable>();
+                        AbstractDBManager.dB.RecreateTable<MucOccupantModel>();
                     }
                     if (MODEL.MucDirectInvites)
                     {
-                        AbstractDBManager.dB.RecreateTable<MUCDirectInvitationTable>();
+                        AbstractDBManager.dB.RecreateTable<MucDirectInvitationModel>();
                     }
 
                     // Accounts:

@@ -1,10 +1,8 @@
 ﻿using System;
 using System.Threading.Tasks;
-using Data_Manager2.Classes;
-using Data_Manager2.Classes.DBManager;
-using Data_Manager2.Classes.DBTables;
-using Data_Manager2.Classes.Toast;
+using Manager.Classes.Toast;
 using Shared.Classes;
+using Storage.Classes.Models.Chat;
 
 namespace UWPX_UI_Context.Classes.DataTemplates.Controls
 {
@@ -74,7 +72,7 @@ namespace UWPX_UI_Context.Classes.DataTemplates.Controls
         #endregion
         //--------------------------------------------------------Misc Methods:---------------------------------------------------------------\\
         #region --Misc Methods (Public)--
-        public void UpdateView(ChatTable chat, ChatMessageTable message)
+        public void UpdateView(ChatModel chat, ChatMessageModel message)
         {
             if (chat is null || message is null)
             {
@@ -101,7 +99,7 @@ namespace UWPX_UI_Context.Classes.DataTemplates.Controls
 
             if (chat.chatType == ChatType.MUC)
             {
-                NicknameText = message.fromUser;
+                NicknameText = message.fromBareJid;
             }
             else
             {

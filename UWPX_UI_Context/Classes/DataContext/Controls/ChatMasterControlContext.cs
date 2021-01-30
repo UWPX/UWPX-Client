@@ -1,10 +1,11 @@
 ﻿using System.Collections.Generic;
 using System.Threading.Tasks;
-using Data_Manager2.Classes;
-using Data_Manager2.Classes.DBManager;
-using Data_Manager2.Classes.Toast;
 using Logging;
+using Manager.Classes;
+using Manager.Classes.Toast;
 using Microsoft.Toolkit.Uwp.UI.Helpers;
+using Storage.Classes;
+using Storage.Classes.Models.Chat;
 using UWPX_UI_Context.Classes.DataTemplates;
 using UWPX_UI_Context.Classes.DataTemplates.Controls;
 using UWPX_UI_Context.Classes.DataTemplates.Dialogs;
@@ -163,12 +164,12 @@ namespace UWPX_UI_Context.Classes.DataContext.Controls
 
         public async Task LeaveMucAsync(ChatDataTemplate chatTemplate)
         {
-            await MUCHandler.INSTANCE.leaveRoomAsync(chatTemplate.Client, chatTemplate.Chat, chatTemplate.MucInfo);
+            await MucHandler.INSTANCE.leaveRoomAsync(chatTemplate.Client, chatTemplate.Chat, chatTemplate.MucInfo);
         }
 
         public async Task EnterMucAsync(ChatDataTemplate chatTemplate)
         {
-            await MUCHandler.INSTANCE.enterMUCAsync(chatTemplate.Client, chatTemplate.Chat, chatTemplate.MucInfo);
+            await MucHandler.INSTANCE.enterMucAsync(chatTemplate.Client, chatTemplate.Chat, chatTemplate.MucInfo);
         }
 
         public async Task SendPresenceProbeAsync(ChatDataTemplate chatTemplate)
@@ -273,7 +274,7 @@ namespace UWPX_UI_Context.Classes.DataContext.Controls
 
         private void LoadSettings()
         {
-            int show = Settings.getSettingInt(SettingsConsts.CHAT_SHOW_ACCOUNT_COLOR);
+            int show = Settings.GetSettingInt(SettingsConsts.CHAT_SHOW_ACCOUNT_COLOR);
             switch (show)
             {
                 case 1:

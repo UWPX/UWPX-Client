@@ -1,6 +1,5 @@
 ﻿using System.Threading.Tasks;
-using Data_Manager2.Classes;
-using Data_Manager2.Classes.DBTables;
+using Storage.Classes.Models.Chat;
 using XMPP_API.Classes;
 
 namespace UWPX_UI_Context.Classes.DataContext.Controls
@@ -29,28 +28,28 @@ namespace UWPX_UI_Context.Classes.DataContext.Controls
             MODEL.isDummy = isDummy;
         }
 
-        public void LoadDummyContent(ChatTable chat)
+        public void LoadDummyContent(ChatModel chat)
         {
-            AddDummyMessage(chat, "Hi", chat.chatJabberId, MessageState.READ);
-            AddDummyMessage(chat, "Hey, what's up?", chat.userAccountId, MessageState.SEND);
-            AddDummyMessage(chat, "That's a great app.", chat.chatJabberId, MessageState.READ);
+            AddDummyMessage(chat, "Hi", chat.bareJid, MessageState.READ);
+            AddDummyMessage(chat, "Hey, what's up?", chat.accountBareJid, MessageState.SEND);
+            AddDummyMessage(chat, "That's a great app.", chat.bareJid, MessageState.READ);
             MODEL.MessageText = "Yes, its awesome :D !";
         }
 
         #endregion
 
         #region --Misc Methods (Private)--
-        private void AddDummyMessage(ChatTable chat, string msg, string fromUser, MessageState state)
+        private void AddDummyMessage(ChatModel chat, string msg, string fromUser, MessageState state)
         {
             AddDummyMessage(chat, msg, fromUser, state, MODEL.OmemoEnabled, false);
         }
 
-        private void AddDummyMessage(ChatTable chat, string msg, string fromUser, MessageState state, bool isEncrypted, bool isImage)
+        private void AddDummyMessage(ChatModel chat, string msg, string fromUser, MessageState state, bool isEncrypted, bool isImage)
         {
             /*MODEL.CHAT_MESSAGES.Add(new DataTemplates.ChatMessageDataTemplate
             {
                 Chat = chat,
-                Message = new ChatMessageTable
+                Message = new ChatMessageModel
                 {
                     message = msg,
                     chatId = chat.id,
@@ -65,22 +64,22 @@ namespace UWPX_UI_Context.Classes.DataContext.Controls
             });*/
         }
 
-        private void SendDelayedMessage(ChatTable chat, string msg, bool isEncrypted, bool isImage, int msDelay)
+        private void SendDelayedMessage(ChatModel chat, string msg, bool isEncrypted, bool isImage, int msDelay)
         {
             Task.Run(async () =>
             {
                 await Task.Delay(msDelay);
-                AddDummyMessage(chat, msg, chat.chatJabberId, MessageState.READ, isEncrypted, isImage);
+                AddDummyMessage(chat, msg, chat.bareJid, MessageState.READ, isEncrypted, isImage);
             });
         }
 
-        private void SendDummyMessage(ChatTable chat, string msg)
+        private void SendDummyMessage(ChatModel chat, string msg)
         {
-            AddDummyMessage(chat, msg, chat.userAccountId, MessageState.SEND);
+            AddDummyMessage(chat, msg, chat.accountBareJid, MessageState.SEND);
             OnDummyMessageSend(chat);
         }
 
-        private void OnDummyMessageSend(ChatTable chat)
+        private void OnDummyMessageSend(ChatModel chat)
         {
             switch (++dummyMessageCount)
             {
@@ -89,45 +88,45 @@ namespace UWPX_UI_Context.Classes.DataContext.Controls
                     break;
 
                 case 3:
-                    SendDelayedMessage(chat, Localisation.GetLocalizedString("chat_details_dummy_answer_3_img"), chat.omemoEnabled, true, 3000);
-                    SendDelayedMessage(chat, Localisation.GetLocalizedString("chat_details_dummy_answer_3"), chat.omemoEnabled, false, 4000);
+                    SendDelayedMessage(chat, Localisation.GetLocalizedString("chat_details_dummy_answer_3_img"), chat.omemo.enabled, true, 3000);
+                    SendDelayedMessage(chat, Localisation.GetLocalizedString("chat_details_dummy_answer_3"), chat.omemo.enabled, false, 4000);
                     MODEL.AccountPresence = Presence.Chat;
                     break;
 
                 case 4:
-                    SendDelayedMessage(chat, Localisation.GetLocalizedString("chat_details_dummy_answer_4"), chat.omemoEnabled, false, 3000);
+                    SendDelayedMessage(chat, Localisation.GetLocalizedString("chat_details_dummy_answer_4"), chat.omemo.enabled, false, 3000);
                     MODEL.AccountPresence = Presence.Online;
                     break;
 
                 case 7:
-                    SendDelayedMessage(chat, Localisation.GetLocalizedString("chat_details_dummy_answer_7"), chat.omemoEnabled, false, 3000);
+                    SendDelayedMessage(chat, Localisation.GetLocalizedString("chat_details_dummy_answer_7"), chat.omemo.enabled, false, 3000);
                     break;
 
                 case 11:
-                    SendDelayedMessage(chat, Localisation.GetLocalizedString("chat_details_dummy_answer_11"), chat.omemoEnabled, false, 3000);
+                    SendDelayedMessage(chat, Localisation.GetLocalizedString("chat_details_dummy_answer_11"), chat.omemo.enabled, false, 3000);
                     break;
 
                 case 15:
-                    SendDelayedMessage(chat, Localisation.GetLocalizedString("chat_details_dummy_answer_15"), chat.omemoEnabled, false, 3000);
+                    SendDelayedMessage(chat, Localisation.GetLocalizedString("chat_details_dummy_answer_15"), chat.omemo.enabled, false, 3000);
                     MODEL.AccountPresence = Presence.Xa;
                     break;
 
                 case 20:
-                    SendDelayedMessage(chat, Localisation.GetLocalizedString("chat_details_dummy_answer_20"), chat.omemoEnabled, false, 3000);
+                    SendDelayedMessage(chat, Localisation.GetLocalizedString("chat_details_dummy_answer_20"), chat.omemo.enabled, false, 3000);
                     break;
 
                 case 30:
-                    SendDelayedMessage(chat, Localisation.GetLocalizedString("chat_details_dummy_answer_30"), chat.omemoEnabled, false, 3000);
+                    SendDelayedMessage(chat, Localisation.GetLocalizedString("chat_details_dummy_answer_30"), chat.omemo.enabled, false, 3000);
                     break;
 
                 case 50:
-                    SendDelayedMessage(chat, Localisation.GetLocalizedString("chat_details_dummy_answer_50_1"), chat.omemoEnabled, false, 3000);
-                    SendDelayedMessage(chat, Localisation.GetLocalizedString("chat_details_dummy_answer_50_2"), chat.omemoEnabled, false, 4000);
-                    SendDelayedMessage(chat, Localisation.GetLocalizedString("chat_details_dummy_answer_50_3"), chat.omemoEnabled, false, 5000);
-                    SendDelayedMessage(chat, Localisation.GetLocalizedString("chat_details_dummy_answer_50_4"), chat.omemoEnabled, false, 6000);
-                    SendDelayedMessage(chat, Localisation.GetLocalizedString("chat_details_dummy_answer_50_5"), chat.omemoEnabled, false, 7000);
-                    SendDelayedMessage(chat, Localisation.GetLocalizedString("chat_details_dummy_answer_50_6"), chat.omemoEnabled, false, 8000);
-                    SendDelayedMessage(chat, Localisation.GetLocalizedString("chat_details_dummy_answer_50_7"), chat.omemoEnabled, true, 9000);
+                    SendDelayedMessage(chat, Localisation.GetLocalizedString("chat_details_dummy_answer_50_1"), chat.omemo.enabled, false, 3000);
+                    SendDelayedMessage(chat, Localisation.GetLocalizedString("chat_details_dummy_answer_50_2"), chat.omemo.enabled, false, 4000);
+                    SendDelayedMessage(chat, Localisation.GetLocalizedString("chat_details_dummy_answer_50_3"), chat.omemo.enabled, false, 5000);
+                    SendDelayedMessage(chat, Localisation.GetLocalizedString("chat_details_dummy_answer_50_4"), chat.omemo.enabled, false, 6000);
+                    SendDelayedMessage(chat, Localisation.GetLocalizedString("chat_details_dummy_answer_50_5"), chat.omemo.enabled, false, 7000);
+                    SendDelayedMessage(chat, Localisation.GetLocalizedString("chat_details_dummy_answer_50_6"), chat.omemo.enabled, false, 8000);
+                    SendDelayedMessage(chat, Localisation.GetLocalizedString("chat_details_dummy_answer_50_7"), chat.omemo.enabled, true, 9000);
                     Task.Run(async () =>
                     {
                         await Task.Delay(9000);

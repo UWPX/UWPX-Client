@@ -1,4 +1,4 @@
-﻿using Data_Manager2.Classes.DBTables;
+﻿using Storage.Classes.Models.Chat;
 using XMPP_API.Classes;
 
 namespace UWPX_UI_Context.Classes.Events
@@ -7,13 +7,13 @@ namespace UWPX_UI_Context.Classes.Events
     {
         //--------------------------------------------------------Attributes:-----------------------------------------------------------------\\
         #region --Attributes--
-        public readonly ChatTable CHAT;
+        public readonly ChatModel CHAT;
         public readonly XMPPClient CLIENT;
 
         #endregion
         //--------------------------------------------------------Constructor:----------------------------------------------------------------\\
         #region --Constructors--
-        public NavigatedToContactInfoPageEventArgs(XMPPClient client, ChatTable chat)
+        public NavigatedToContactInfoPageEventArgs(XMPPClient client, ChatModel chat)
         {
             CHAT = chat;
             CLIENT = client;

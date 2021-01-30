@@ -1,5 +1,4 @@
 ﻿using System;
-using Data_Manager2.Classes;
 using Windows.UI.Xaml.Data;
 
 namespace UWPX_UI_Context.Classes.ValueConverter
@@ -25,12 +24,12 @@ namespace UWPX_UI_Context.Classes.ValueConverter
         #region --Misc Methods (Public)--
         public object Convert(object value, Type targetType, object parameter, string language)
         {
-            return value is MUCState state ? state.ToString().ToLowerInvariant() : MUCState.DISCONNECTED.ToString().ToLowerInvariant();
+            return value is MucState state ? state.ToString().ToLowerInvariant() : MucState.DISCONNECTED.ToString().ToLowerInvariant();
         }
 
         public object ConvertBack(object value, Type targetType, object parameter, string language)
         {
-            MUCState state = MUCState.DISCONNECTED;
+            MucState state = MucState.DISCONNECTED;
             if (value is string s)
             {
                 Enum.TryParse(s.ToUpperInvariant(), out state);

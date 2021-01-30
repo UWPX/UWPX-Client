@@ -1,14 +1,11 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using Data_Manager2.Classes;
-using Data_Manager2.Classes.DBManager;
-using Data_Manager2.Classes.DBTables;
-using Data_Manager2.Classes.Toast;
+using Manager.Classes;
 using Microsoft.Toolkit.Uwp.UI;
 using Shared.Classes;
+using Storage.Classes.Models.Chat;
 using UWPX_UI_Context.Classes.Collections;
-using XMPP_API.Classes;
 
 namespace UWPX_UI_Context.Classes.DataTemplates.Pages
 {
@@ -97,7 +94,7 @@ namespace UWPX_UI_Context.Classes.DataTemplates.Pages
             List<ChatDataTemplate> list = new List<ChatDataTemplate>();
             foreach (ClientConnectionHandler c in ConnectionHandler.INSTANCE.GetClients())
             {
-                foreach (ChatTable chat in ChatDBManager.INSTANCE.getAllChatsForClient(c.GetBareJid()))
+                foreach (ChatModel chat in ChatDBManager.INSTANCE.getAllChatsForClient(c.GetBareJid()))
                 {
                     // Only show chats with at least 1 chat message or that have been started:
                     if (chat.chatType == ChatType.CHAT && !chat.isChatActive)
@@ -162,7 +159,7 @@ namespace UWPX_UI_Context.Classes.DataTemplates.Pages
                 // Add the new chat to the list of chats:
                 foreach (ClientConnectionHandler c in ConnectionHandler.INSTANCE.GetClients())
                 {
-                    if (Equals(args.CHAT.userAccountId, c.GetBareJid()))
+                    if (string.Equals(args.CHAT.userAccountId, c.account.bareJid))
                     {
                         if (args.CHAT.chatType == ChatType.MUC)
                         {

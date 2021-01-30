@@ -1,8 +1,6 @@
 ﻿using System.Threading.Tasks;
-using Data_Manager2.Classes;
-using Data_Manager2.Classes.DBManager;
-using Data_Manager2.Classes.DBTables;
 using Shared.Classes;
+using Storage.Classes.Models.Chat;
 using Windows.UI;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Media;
@@ -124,8 +122,8 @@ namespace UWPX_UI_Context.Classes.DataTemplates.Controls
             get => _BareJid;
             set => SetProperty(ref _BareJid, value);
         }
-        private MUCState _MucState;
-        public MUCState MucState
+        private MucState _MucState;
+        public MucState MucState
         {
             get => _MucState;
             set => SetProperty(ref _MucState, value);
@@ -192,7 +190,7 @@ namespace UWPX_UI_Context.Classes.DataTemplates.Controls
             }
         }
 
-        public void UpdateViewChat(ChatTable chat)
+        public void UpdateViewChat(ChatModel chat)
         {
             if (!(chat is null))
             {
@@ -200,7 +198,7 @@ namespace UWPX_UI_Context.Classes.DataTemplates.Controls
                 if (chat.chatType != ChatType.MUC)
                 {
                     // Chat jabber id:
-                    NameText = chat.chatJabberId;
+                    NameText = chat.bareJid;
 
                     // Subscription state:
                     ProbePresenceVisibility = Visibility.Collapsed;
@@ -266,16 +264,16 @@ namespace UWPX_UI_Context.Classes.DataTemplates.Controls
 
                 // Account image:
                 AccountPresence = chat.presence;
-                BareJid = chat.chatJabberId;
+                BareJid = chat.bareJid;
                 ChatType = chat.chatType;
             }
         }
 
-        public void UpdateViewMuc(ChatTable chat, MUCChatInfoTable muc)
+        public void UpdateViewMuc(ChatModel chat, MucInfoModel muc)
         {
             if (!(muc is null) && !(chat is null))
             {
-                NameText = string.IsNullOrWhiteSpace(muc.name) ? chat.chatJabberId : muc.name;
+                NameText = string.IsNullOrWhiteSpace(muc.name) ? chat.bareJid : muc.name;
                 RemoveFromRosterText = chat.inRoster ? "Remove bookmark" : "Bookmark";
 
                 // Account image:
@@ -285,7 +283,7 @@ namespace UWPX_UI_Context.Classes.DataTemplates.Controls
             }
         }
 
-        public void UpdateUnreadCount(ChatTable chat)
+        public void UpdateUnreadCount(ChatModel chat)
         {
             Task.Run(() =>
             {
@@ -293,11 +291,11 @@ namespace UWPX_UI_Context.Classes.DataTemplates.Controls
             });
         }
 
-        public void UpdateLastAction(ChatTable chat)
+        public void UpdateLastAction(ChatModel chat)
         {
             Task.Run(() =>
             {
-                ChatMessageTable lastMsg = ChatDBManager.INSTANCE.getLatestChatMessageForChat(chat.id);
+                ChatMessageModel lastMsg = ChatDBManager.INSTANCE.getLatestChatMessageForChat(chat.id);
                 if (lastMsg is null)
                 {
                     LastActionIconText = "";
@@ -326,7 +324,7 @@ namespace UWPX_UI_Context.Classes.DataTemplates.Controls
                                 LastActionText = lastMsg.message ?? "You received an error message";
                                 break;
 
-                            case MUCHandler.TYPE_CHAT_INFO:
+                            case MucHandler.TYPE_CHAT_INFO:
                                 LastActionIconText = "\uE946";
                                 LastActionText = lastMsg.message ?? "-";
                                 break;

@@ -1,7 +1,6 @@
-﻿using Data_Manager2.Classes.DBManager;
-using Data_Manager2.Classes.DBTables;
-using Shared.Classes;
+﻿using Shared.Classes;
 using Shared.Classes.Collections;
+using Storage.Classes.Models.Chat;
 using XMPP_API.Classes;
 using XMPP_API.Classes.Network.XML.Messages.XEP_0384;
 
@@ -18,8 +17,8 @@ namespace UWPX_UI_Context.Classes.DataTemplates.Controls.Chat
             set => SetProperty(ref _Loading, value);
         }
 
-        private ChatTable _Chat;
-        public ChatTable Chat
+        private ChatModel _Chat;
+        public ChatModel Chat
         {
             get => _Chat;
             set => SetChatProperty(value);
@@ -75,7 +74,7 @@ namespace UWPX_UI_Context.Classes.DataTemplates.Controls.Chat
             }
         }
 
-        private void SetChatProperty(ChatTable value)
+        private void SetChatProperty(ChatModel value)
         {
             if (SetProperty(ref _Chat, value, nameof(Chat)))
             {

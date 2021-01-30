@@ -1,12 +1,9 @@
 ﻿using System.Collections.Generic;
 using System.Threading;
 using System.Threading.Tasks;
-using Data_Manager2.Classes;
-using Data_Manager2.Classes.DBManager;
-using Data_Manager2.Classes.DBTables;
-using Data_Manager2.Classes.Events;
-using Data_Manager2.Classes.Toast;
 using Logging;
+using Manager.Classes.Toast;
+using Storage.Classes.Models.Chat;
 using UWPX_UI_Context.Classes.DataTemplates;
 using UWPX_UI_Context.Classes.DataTemplates.Controls;
 using XMPP_API.Classes;
@@ -170,7 +167,7 @@ namespace UWPX_UI_Context.Classes.DataContext.Controls
                 {
                     ChatMessageDataTemplate tmp = new ChatMessageDataTemplate
                     {
-                        Message = new ChatMessageTable(msg.MESSAGE, MODEL.Chat.Chat),
+                        Message = new ChatMessageModel(msg.MESSAGE, MODEL.Chat.Chat),
                         Chat = MODEL.Chat.Chat,
                         MUC = MODEL.Chat.MucInfo
                     };
@@ -189,7 +186,7 @@ namespace UWPX_UI_Context.Classes.DataContext.Controls
         private List<ChatMessageDataTemplate> LoadMoreLocalMessages()
         {
             List<ChatMessageDataTemplate> tmpMsgs = new List<ChatMessageDataTemplate>();
-            IList<ChatMessageTable> list = ChatDBManager.INSTANCE.getNextNChatMessages(MODEL.Chat.Chat.id, MODEL.GetLastMessageId(), MAX_MESSAGES_PER_REQUEST + 1); // Load one item more than we use laster to determine if there are more items available
+            IList<ChatMessageModel> list = ChatDBManager.INSTANCE.getNextNChatMessages(MODEL.Chat.Chat.id, MODEL.GetLastMessageId(), MAX_MESSAGES_PER_REQUEST + 1); // Load one item more than we use laster to determine if there are more items available
             for (int i = 0; i < list.Count && i < MAX_MESSAGES_PER_REQUEST && !loadMoreMessagesToken.IsCancellationRequested; i++)
             {
                 tmpMsgs.Add(new ChatMessageDataTemplate
