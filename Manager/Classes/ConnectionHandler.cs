@@ -49,7 +49,7 @@ namespace Manager.Classes
         {
             foreach (ClientConnectionHandler client in CLIENTS)
             {
-                if (client.GetBareJid().Equals(bareJid))
+                if (client.account.bareJid.Equals(bareJid))
                 {
                     return client.client;
                 }
@@ -76,7 +76,7 @@ namespace Manager.Classes
         {
             Parallel.ForEach(CLIENTS, (c) =>
             {
-                if (!c.IsDisabled())
+                if (!c.account.disabled)
                 {
                     c.Connect();
                 }
@@ -121,7 +121,7 @@ namespace Manager.Classes
                 CLIENT_SEMA.Wait();
                 for (int i = 0; i < CLIENTS.Count; i++)
                 {
-                    if (string.Equals(CLIENTS[i].GetBareJid(), accountId))
+                    if (string.Equals(CLIENTS[i].account.bareJid, accountId))
                     {
                         CLIENTS[i].DisconnectAsync().Wait();
                         CLIENTS.RemoveAt(i);
@@ -158,7 +158,7 @@ namespace Manager.Classes
         /// </summary>
         private void LoadClients()
         {
-            using (AccountDbContext ctx = new AccountDbContext())
+            using (MainDbContext ctx = new MainDbContext())
             {
                 CLIENT_SEMA.Wait();
                 CLIENTS.Clear();
@@ -179,7 +179,7 @@ namespace Manager.Classes
         /// <returns></returns>
         private async Task ReconnectClientAsync(ClientConnectionHandler client)
         {
-            if (client.IsDisabled())
+            if (client.account.disabled)
             {
                 // Only disconnect if the client is disabled:
                 await client.DisconnectAsync();
@@ -198,12 +198,12 @@ namespace Manager.Classes
         #endregion
         //--------------------------------------------------------Events:---------------------------------------------------------------------\\
         #region --Events--
-        private async void INSTANCE_AccountChanged(AccountDBManager handler, AccountChangedEventArgs args)
+        /*private async void INSTANCE_AccountChanged(AccountDBManager handler, AccountChangedEventArgs args)
         {
             await CLIENT_SEMA.WaitAsync();
             for (int i = 0; i < CLIENTS.Count; i++)
             {
-                if (Equals(CLIENTS[i].GetBareJid(), args.ACCOUNT.getBareJid()))
+                if (Equals(CLIENTS[i].account.bareJid, args.ACCOUNT.getBareJid()))
                 {
                     // Disconnect first:
                     CLIENTS[i].DisconnectAsync().Wait();
@@ -216,7 +216,7 @@ namespace Manager.Classes
                     else
                     {
                         CLIENTS[i].SetAccount(args.ACCOUNT);
-                        if (!CLIENTS[i].IsDisabled())
+                        if (!CLIENTS[i].account.disabled)
                         {
                             await CLIENTS[i].ConnectAsync();
                         }
@@ -237,7 +237,7 @@ namespace Manager.Classes
                 CLIENTS.Add(client);
             }
             CLIENT_SEMA.Release();
-        }
+        }*/
 
         private void CLIENTS_CollectionChanged(object sender, NotifyCollectionChangedEventArgs e)
         {

@@ -1,4 +1,5 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using System.Linq;
+using Microsoft.EntityFrameworkCore;
 using Omemo.Classes;
 using Omemo.Classes.Keys;
 using Storage.Classes.Models.Account;
@@ -15,10 +16,13 @@ namespace Storage.Classes.Contexts
         public DbSet<JidModel> Jids { get; set; }
         public DbSet<ServerModel> Servers { get; set; }
         public DbSet<IgnoredCertificateErrorModel> IgnoredCertificateErrors { get; set; }
+        public DbSet<MamRequestModel> MamRequests { get; set; }
 
         public DbSet<ChatModel> Chats { get; set; }
         public DbSet<MucInfoModel> MucInfos { get; set; }
+        public DbSet<MucOccupantModel> MucOccupants { get; set; }
         public DbSet<ChatMessageModel> ChatMessages { get; set; }
+        public DbSet<ChatMessageImageModel> ChatMessageImages { get; set; }
         public DbSet<SpamMessageModel> SpamMessages { get; set; }
         public DbSet<MucDirectInvitationModel> MucDirectInvitations { get; set; }
 
@@ -44,7 +48,15 @@ namespace Storage.Classes.Contexts
         #endregion
         //--------------------------------------------------------Set-, Get- Methods:---------------------------------------------------------\\
         #region --Set-, Get- Methods--
+        public ChatModel GetChat(string accountBareJid, string chatBareJid)
+        {
+            return Chats.Where(c => string.Equals(c.accountBareJid, accountBareJid) && string.Equals(c.bareJid, chatBareJid)).FirstOrDefault();
+        }
 
+        public MucInfoModel GetMucInfo(string accountBareJid, string chatBareJid)
+        {
+            return MucInfos.Where(c => string.Equals(c.chat.accountBareJid, accountBareJid) && string.Equals(c.chat.bareJid, chatBareJid)).FirstOrDefault();
+        }
 
         #endregion
         //--------------------------------------------------------Misc Methods:---------------------------------------------------------------\\

@@ -1,25 +1,22 @@
-﻿using System.Diagnostics;
-using System.Linq;
-using System.Threading;
-using System.Threading.Tasks;
-using Shared.Classes.Collections;
-using Storage.Classes.Contexts;
+﻿using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
+using Shared.Classes.Network;
 
-namespace Manager.Classes.Client
+namespace Storage.Classes.Models.Chat
 {
-    public class ClientHandler
+    public class ChatMessageImageModel: AbstractDownloadableObject
     {
         //--------------------------------------------------------Attributes:-----------------------------------------------------------------\\
         #region --Attributes--
-        public static readonly ClientHandler INSTANCE = new ClientHandler();
-        private bool initialized = false;
+        [Key]
+        public int id { get; set; }
+        [ForeignKey("ChatMessageForeignKey"), Required]
+        public int msgId { get; set; }
 
-        private readonly CustomObservableCollection<Client> CLIENTS = new CustomObservableCollection<Client>(false);
-        private readonly SemaphoreSlim CLIENTS_SEMA = new SemaphoreSlim(1);
         #endregion
         //--------------------------------------------------------Constructor:----------------------------------------------------------------\\
         #region --Constructors--
-        public ClientHandler() { }
+
 
         #endregion
         //--------------------------------------------------------Set-, Get- Methods:---------------------------------------------------------\\
@@ -29,25 +26,12 @@ namespace Manager.Classes.Client
         #endregion
         //--------------------------------------------------------Misc Methods:---------------------------------------------------------------\\
         #region --Misc Methods (Public)--
-        public async Task InitAsync()
-        {
-            Debug.Assert(!initialized);
-            initialized = true;
-            await LoadClientsAsync();
-        }
+
 
         #endregion
 
         #region --Misc Methods (Private)--
-        private async Task LoadClientsAsync()
-        {
-            using (MainDbContext ctx = new MainDbContext())
-            {
-                await CLIENTS_SEMA.WaitAsync();
-                CLIENTS.AddRange(ctx.Accounts.Select(dbAccount => new Client(dbAccount)));
-                CLIENTS_SEMA.Release();
-            }
-        }
+
 
         #endregion
 

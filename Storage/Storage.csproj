@@ -125,7 +125,9 @@
     <Compile Include="Classes\Models\Account\AccountModel.cs" />
     <Compile Include="Classes\Models\Account\IgnoredCertificateErrorModel.cs" />
     <Compile Include="Classes\Models\Account\JidModel.cs" />
+    <Compile Include="Classes\Models\Account\MamRequestModel.cs" />
     <Compile Include="Classes\Models\Account\ServerModel.cs" />
+    <Compile Include="Classes\Models\Chat\ChatMessageImageModel.cs" />
     <Compile Include="Classes\Models\Chat\ChatModel.cs" />
     <Compile Include="Classes\Models\Chat\ChatMessageModel.cs" />
     <Compile Include="Classes\Models\Chat\ChatType.cs" />
@@ -133,6 +135,7 @@
     <Compile Include="Classes\Models\Chat\MucDirectInvitationModel.cs" />
     <Compile Include="Classes\Models\Chat\MucDirectInvitationState.cs" />
     <Compile Include="Classes\Models\Chat\MucInfoModel.cs" />
+    <Compile Include="Classes\Models\Chat\MucOccupantModel.cs" />
     <Compile Include="Classes\Models\Chat\MucState.cs" />
     <Compile Include="Classes\Models\Chat\SpamMessageModel.cs" />
     <Compile Include="Classes\Models\Omemo\OmemoAccountInformationModel.cs" />

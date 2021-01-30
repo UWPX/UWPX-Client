@@ -74,12 +74,7 @@ namespace XMPP_API.Classes.Network
         #region --Misc Methods (Public)--
         public async Task initAsync()
         {
-            if (!CONNECTION.account.checkOmemoKeys())
-            {
-                setState(OmemoHelperState.ERROR);
-                Logger.Error("[OMEMO HELPER](" + CONNECTION.account.getBareJid() + ") Failed - no keys!");
-            }
-            else if (STATE == OmemoHelperState.DISABLED)
+            if (STATE == OmemoHelperState.DISABLED)
             {
                 CONNECTION.ConnectionStateChanged -= OnConnectionStateChanged;
                 CONNECTION.ConnectionStateChanged += OnConnectionStateChanged;

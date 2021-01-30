@@ -37,9 +37,9 @@ namespace Storage.Classes.Models.Account
         #endregion
         //--------------------------------------------------------Misc Methods:---------------------------------------------------------------\\
         #region --Misc Methods (Public)--
-        public static JidModel FromString(string bareJid)
+        public string FullJid()
         {
-            return new JidModel();
+            return userPart + '@' + domainPart + '/' + resourcePart;
         }
 
         #endregion

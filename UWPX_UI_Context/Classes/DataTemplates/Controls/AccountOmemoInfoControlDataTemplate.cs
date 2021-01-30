@@ -51,11 +51,6 @@ namespace UWPX_UI_Context.Classes.DataTemplates.Controls
             {
                 OmemoState = account.Client.getOmemoHelper()?.STATE ?? OmemoHelperState.DISABLED;
                 DeviceId = account.Account.omemoDeviceId;
-
-                if (!account.Account.checkOmemoKeys())
-                {
-                    ErrorText = "OMEMO keys are corrupted. Please remove and add your account again!";
-                }
             }
         }
 

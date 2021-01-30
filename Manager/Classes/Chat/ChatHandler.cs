@@ -48,7 +48,7 @@ namespace Manager.Classes.Chat
         #region --Misc Methods (Private)--
         private async Task LoadChatsAsync()
         {
-            using (ChatDbContext ctx = new ChatDbContext())
+            using (MainDbContext ctx = new MainDbContext())
             {
                 await CHATS_SEMA.WaitAsync();
                 CHATS.AddRange(ctx.Chats);

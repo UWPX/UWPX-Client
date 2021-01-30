@@ -1,25 +1,29 @@
-﻿using System.Diagnostics;
-using System.Linq;
-using System.Threading;
-using System.Threading.Tasks;
-using Shared.Classes.Collections;
-using Storage.Classes.Contexts;
+﻿using System;
+using System.ComponentModel.DataAnnotations;
 
-namespace Manager.Classes.Client
+namespace Storage.Classes.Models.Account
 {
-    public class ClientHandler
+    public class MamRequestModel
     {
         //--------------------------------------------------------Attributes:-----------------------------------------------------------------\\
         #region --Attributes--
-        public static readonly ClientHandler INSTANCE = new ClientHandler();
-        private bool initialized = false;
+        [Key]
+        public int id { get; set; }
+        /// <summary>
+        /// The date and time of the last refresh.
+        /// </summary>
+        [Required]
+        public DateTime lastUpdate { get; set; } = DateTime.MinValue;
+        /// <summary>
+        /// The message ID of the last message.
+        /// </summary>
+        [Required]
+        public string lastMsgId { get; set; }
 
-        private readonly CustomObservableCollection<Client> CLIENTS = new CustomObservableCollection<Client>(false);
-        private readonly SemaphoreSlim CLIENTS_SEMA = new SemaphoreSlim(1);
         #endregion
         //--------------------------------------------------------Constructor:----------------------------------------------------------------\\
         #region --Constructors--
-        public ClientHandler() { }
+
 
         #endregion
         //--------------------------------------------------------Set-, Get- Methods:---------------------------------------------------------\\
@@ -29,25 +33,12 @@ namespace Manager.Classes.Client
         #endregion
         //--------------------------------------------------------Misc Methods:---------------------------------------------------------------\\
         #region --Misc Methods (Public)--
-        public async Task InitAsync()
-        {
-            Debug.Assert(!initialized);
-            initialized = true;
-            await LoadClientsAsync();
-        }
+
 
         #endregion
 
         #region --Misc Methods (Private)--
-        private async Task LoadClientsAsync()
-        {
-            using (MainDbContext ctx = new MainDbContext())
-            {
-                await CLIENTS_SEMA.WaitAsync();
-                CLIENTS.AddRange(ctx.Accounts.Select(dbAccount => new Client(dbAccount)));
-                CLIENTS_SEMA.Release();
-            }
-        }
+
 
         #endregion
 
