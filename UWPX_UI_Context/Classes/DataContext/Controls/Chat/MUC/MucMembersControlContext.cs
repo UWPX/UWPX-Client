@@ -2,8 +2,6 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using Data_Manager2.Classes.DBManager;
-using Data_Manager2.Classes.DBTables;
 using Shared.Classes;
 using UWPX_UI_Context.Classes.DataTemplates;
 using UWPX_UI_Context.Classes.DataTemplates.Controls.Chat.MUC;
@@ -53,7 +51,7 @@ namespace UWPX_UI_Context.Classes.DataContext.Controls.Chat.MUC
             Task.Run(async () =>
             {
                 MODEL.IsLoading = true;
-                List<MUCOccupantTable> members = MUCDBManager.INSTANCE.getAllMUCMembers(chat.Chat.id);
+                List<MucOccupantModel> members = MUCDBManager.INSTANCE.getAllMUCMembers(chat.Chat.id);
                 MODEL.MEMBERS.Clear();
                 MODEL.MEMBERS.AddRange(members.Select((x) => new MucMemberDataTemplate() { Member = x, Chat = chat }));
                 MODEL.MembersFound = members.Count > 0;

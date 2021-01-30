@@ -1,7 +1,4 @@
 ﻿using System.Threading.Tasks;
-using Data_Manager2.Classes;
-using Data_Manager2.Classes.DBManager;
-using Data_Manager2.Classes.DBTables;
 using UWPX_UI_Context.Classes.DataTemplates.Controls.IoT;
 using UWPX_UI_Context.Classes.DataTemplates.Pages;
 using XMPP_API.Classes;
@@ -52,7 +49,7 @@ namespace UWPX_UI_Context.Classes.DataContext.Pages
             await Task.Run(async () =>
             {
                 // Add to DB:
-                ChatTable chat = new ChatTable(deviceBareJid, client.getXMPPAccount().getBareJid())
+                ChatModel chat = new ChatModel(deviceBareJid, client.getXMPPAccount().getBareJid())
                 {
                     chatType = ChatType.IOT_DEVICE,
                     isChatActive = true

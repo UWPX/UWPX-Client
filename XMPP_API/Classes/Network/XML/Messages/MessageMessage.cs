@@ -17,7 +17,7 @@ namespace XMPP_API.Classes.Network.XML.Messages
         public readonly CarbonCopyType CC_TYPE;
         public DateTime delay { get; protected set; }
         // The unique DB id of the message. Only required for send messages:
-        public string chatMessageId;
+        public int chatMessageId;
         protected bool includeBody;
 
         public const string TYPE_CHAT = "chat";
@@ -44,7 +44,6 @@ namespace XMPP_API.Classes.Network.XML.Messages
         public MessageMessage(XmlNode node, string type) : this(node, CarbonCopyType.NONE)
         {
             TYPE = type;
-            chatMessageId = null;
         }
 
         public MessageMessage(XmlNode node, CarbonCopyType ccType) : base(node.Attributes["from"]?.Value, node.Attributes["to"]?.Value, loadMessageId(node))

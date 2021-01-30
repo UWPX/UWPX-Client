@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Runtime.CompilerServices;
-using Data_Manager2.Classes;
 using Microsoft.Toolkit.Uwp.UI;
 using Shared.Classes;
 using XMPP_API.Classes;
@@ -138,7 +137,7 @@ namespace UWPX_UI_Context.Classes.DataTemplates
         {
             if (SetProperty(ref storage, value, propertyName))
             {
-                Settings.setSetting(settingsToken, value);
+                Settings.SetSetting(settingsToken, value);
                 return true;
             }
             return false;
@@ -148,7 +147,7 @@ namespace UWPX_UI_Context.Classes.DataTemplates
         {
             if (SetProperty(ref storage, value, propertyName))
             {
-                Settings.setSetting(settingsToken, !value);
+                Settings.SetSetting(settingsToken, !value);
                 return true;
             }
             return false;
@@ -322,7 +321,7 @@ namespace UWPX_UI_Context.Classes.DataTemplates
                 }
                 else
                 {
-                    return chat.MucInfo != null && chat.MucInfo.state != MUCState.ENTERD;
+                    return chat.MucInfo != null && chat.MucInfo.state != MucState.ENTERD;
                 }
             }
             else if (NotUnavailable)
@@ -333,7 +332,7 @@ namespace UWPX_UI_Context.Classes.DataTemplates
                 }
                 else
                 {
-                    return chat.MucInfo != null && chat.MucInfo.state != MUCState.DISCONNECTED;
+                    return chat.MucInfo != null && chat.MucInfo.state != MucState.DISCONNECTED;
                 }
             }
 

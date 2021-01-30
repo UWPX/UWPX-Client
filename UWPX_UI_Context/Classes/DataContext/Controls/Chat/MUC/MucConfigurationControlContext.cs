@@ -1,5 +1,4 @@
 ﻿using System.Threading.Tasks;
-using Data_Manager2.Classes;
 using Logging;
 using UWPX_UI_Context.Classes.DataTemplates;
 using UWPX_UI_Context.Classes.DataTemplates.Controls.Chat.MUC;
@@ -94,7 +93,7 @@ namespace UWPX_UI_Context.Classes.DataContext.Controls.Chat.MUC
         #region --Misc Methods (Private)--
         private void OnChatChanged(ChatDataTemplate chat)
         {
-            if (!(chat.MucInfo is null) && chat.MucInfo.affiliation == MUCAffiliation.OWNER && chat.MucInfo.state == MUCState.ENTERD)
+            if (!(chat.MucInfo is null) && chat.MucInfo.affiliation == MUCAffiliation.OWNER && chat.MucInfo.state == MucState.ENTERD)
             {
                 MODEL.IsAvailable = true;
                 RequestConfiguartion(chat);

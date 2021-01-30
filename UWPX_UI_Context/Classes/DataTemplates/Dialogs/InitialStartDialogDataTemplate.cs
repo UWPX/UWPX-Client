@@ -1,5 +1,4 @@
-﻿using Data_Manager2.Classes;
-using Shared.Classes;
+﻿using Shared.Classes;
 
 namespace UWPX_UI_Context.Classes.DataTemplates.Dialogs
 {
@@ -29,7 +28,7 @@ namespace UWPX_UI_Context.Classes.DataTemplates.Dialogs
         {
             if (SetProperty(ref _ShowOnStartup, value, nameof(ShowOnStartup)))
             {
-                Settings.setSetting(SettingsConsts.HIDE_INITIAL_START_DIALOG_ALPHA, !value);
+                Settings.SetSetting(SettingsConsts.HIDE_INITIAL_START_DIALOG_ALPHA, !value);
             }
         }
 

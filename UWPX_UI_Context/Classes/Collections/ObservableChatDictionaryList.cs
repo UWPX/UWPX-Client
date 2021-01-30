@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using System.Collections.Specialized;
 using System.ComponentModel;
 using System.Linq;
-using Data_Manager2.Classes.DBTables;
+using Storage.Classes.Models.Chat;
 using UWPX_UI_Context.Classes.DataTemplates;
 
 namespace UWPX_UI_Context.Classes.Collections
@@ -13,7 +13,7 @@ namespace UWPX_UI_Context.Classes.Collections
     {
         //--------------------------------------------------------Attributes:-----------------------------------------------------------------\\
         #region --Attributes--
-        private readonly Dictionary<string, ChatDataTemplate> DICTIONARY;
+        private readonly Dictionary<int, ChatDataTemplate> DICTIONARY;
         private readonly List<ChatDataTemplate> LIST;
 
         public int Count => LIST.Count;
@@ -43,7 +43,7 @@ namespace UWPX_UI_Context.Classes.Collections
         #region --Constructors--
         public ObservableChatDictionaryList()
         {
-            DICTIONARY = new Dictionary<string, ChatDataTemplate>();
+            DICTIONARY = new Dictionary<int, ChatDataTemplate>();
             LIST = new List<ChatDataTemplate>();
         }
 
@@ -58,7 +58,7 @@ namespace UWPX_UI_Context.Classes.Collections
         #endregion
         //--------------------------------------------------------Misc Methods:---------------------------------------------------------------\\
         #region --Misc Methods (Public)--
-        public bool UpdateChat(ChatTable chat)
+        public bool UpdateChat(ChatModel chat)
         {
             if (DICTIONARY.ContainsKey(chat.id))
             {
@@ -71,11 +71,11 @@ namespace UWPX_UI_Context.Classes.Collections
             }
         }
 
-        public bool UpdateMUCInfo(MUCChatInfoTable mucInfo)
+        public bool UpdateMUCInfo(MucInfoModel mucInfo)
         {
-            if (DICTIONARY.ContainsKey(mucInfo.chatId))
+            if (DICTIONARY.ContainsKey(mucInfo.chat.id))
             {
-                ChatDataTemplate node = DICTIONARY[mucInfo.chatId];
+                ChatDataTemplate node = DICTIONARY[mucInfo.chat.id];
                 node.MucInfo = mucInfo;
                 return true;
             }
@@ -182,7 +182,7 @@ namespace UWPX_UI_Context.Classes.Collections
             RemoveId(((ChatDataTemplate)value).Chat.id);
         }
 
-        public bool RemoveId(string id)
+        public bool RemoveId(int id)
         {
             if (DICTIONARY.ContainsKey(id))
             {

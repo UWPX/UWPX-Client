@@ -1,5 +1,5 @@
 ﻿using System.Threading.Tasks;
-using Data_Manager2.Classes;
+using Storage.Classes;
 using Windows.ApplicationModel;
 
 namespace UWPX_UI_Context.Classes
@@ -33,10 +33,10 @@ namespace UWPX_UI_Context.Classes
         /// <param name="version">The package version, that should get saved.</param>
         private static void SetVersion(PackageVersion version)
         {
-            Settings.setSetting(SettingsConsts.VERSION_MAJOR, version.Major);
-            Settings.setSetting(SettingsConsts.VERSION_MINOR, version.Minor);
-            Settings.setSetting(SettingsConsts.VERSION_BUILD, version.Build);
-            Settings.setSetting(SettingsConsts.VERSION_REVISION, version.Revision);
+            Settings.SetSetting(SettingsConsts.VERSION_MAJOR, version.Major);
+            Settings.SetSetting(SettingsConsts.VERSION_MINOR, version.Minor);
+            Settings.SetSetting(SettingsConsts.VERSION_BUILD, version.Build);
+            Settings.SetSetting(SettingsConsts.VERSION_REVISION, version.Revision);
         }
 
         /// <summary>
@@ -48,10 +48,10 @@ namespace UWPX_UI_Context.Classes
         {
             return new PackageVersion()
             {
-                Major = Settings.getSettingUshort(SettingsConsts.VERSION_MAJOR),
-                Minor = Settings.getSettingUshort(SettingsConsts.VERSION_MINOR),
-                Build = Settings.getSettingUshort(SettingsConsts.VERSION_BUILD),
-                Revision = Settings.getSettingUshort(SettingsConsts.VERSION_REVISION),
+                Major = Settings.GetSettingUshort(SettingsConsts.VERSION_MAJOR),
+                Minor = Settings.GetSettingUshort(SettingsConsts.VERSION_MINOR),
+                Build = Settings.GetSettingUshort(SettingsConsts.VERSION_BUILD),
+                Revision = Settings.GetSettingUshort(SettingsConsts.VERSION_REVISION),
             };
         }
 
@@ -68,7 +68,7 @@ namespace UWPX_UI_Context.Classes
             PackageVersion versionLastStart = GetLastStartedVersion();
 
             // Check if version != 0.0.0.0 => first ever start of the App:
-            if (!(versionLastStart.Major == 0 && versionLastStart.Major == versionLastStart.Minor && versionLastStart.Minor == versionLastStart.Revision && versionLastStart.Revision == versionLastStart.Build) || Settings.getSettingBoolean(SettingsConsts.INITIALLY_STARTED))
+            if (!(versionLastStart.Major == 0 && versionLastStart.Major == versionLastStart.Minor && versionLastStart.Minor == versionLastStart.Revision && versionLastStart.Revision == versionLastStart.Build) || Settings.GetSettingBoolean(SettingsConsts.INITIALLY_STARTED))
             {
                 if (!Compare(versionLastStart, GetPackageVersion()))
                 {
@@ -78,7 +78,7 @@ namespace UWPX_UI_Context.Classes
                         try
                         {
                             Logger.Info("Started updating DB to version 0.2.0.0.");
-                            AbstractDBManager.dB.RecreateTable<ChatTable>();
+                            AbstractDBManager.dB.RecreateTable<ChatModel>();
                             Logger.Info("Finished updating DB to version 0.2.0.0.");
                         }
                         catch (Exception e)

@@ -1,5 +1,4 @@
-﻿using Data_Manager2.Classes;
-using Windows.UI.Xaml;
+﻿using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using XMPP_API.Classes.Network.XML.Messages;
 using XMPP_API.Classes.Network.XML.Messages.XEP_0249;
@@ -60,7 +59,7 @@ namespace UWPX_UI_Context.Classes.DataTemplates.Selectors
                     case DirectMUCInvitationMessage.TYPE_MUC_DIRECT_INVITATION:
                         return SpeechBubbleMucDirectInvitationTemplate;
 
-                    case MUCHandler.TYPE_CHAT_INFO:
+                    case MucHandler.TYPE_CHAT_INFO:
                         return SpeechBubbleInfoTemplate;
 
                     default:

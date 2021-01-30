@@ -1,5 +1,4 @@
-﻿using Data_Manager2.Classes.DBTables;
-using Shared.Classes;
+﻿using Shared.Classes;
 
 namespace UWPX_UI_Context.Classes.DataTemplates.Controls.Chat.SpeechBubbles
 {
@@ -49,8 +48,8 @@ namespace UWPX_UI_Context.Classes.DataTemplates.Controls.Chat.SpeechBubbles
             set => SetProperty(ref _Declined, value);
         }
 
-        private MUCDirectInvitationTable _Invite;
-        public MUCDirectInvitationTable Invite
+        private MucDirectInvitationModel _Invite;
+        public MucDirectInvitationModel Invite
         {
             get => _Invite;
             set => SetProperty(ref _Invite, value);

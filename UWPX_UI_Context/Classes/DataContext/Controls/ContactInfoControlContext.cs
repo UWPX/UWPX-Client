@@ -1,7 +1,6 @@
 ﻿using System.Threading.Tasks;
-using Data_Manager2.Classes.DBManager;
-using Data_Manager2.Classes.DBTables;
 using Shared.Classes;
+using Storage.Classes.Models.Chat;
 using UWPX_UI_Context.Classes.DataTemplates.Controls;
 using Windows.UI.Xaml;
 using XMPP_API.Classes;
@@ -29,7 +28,7 @@ namespace UWPX_UI_Context.Classes.DataContext.Controls
         #region --Misc Methods (Public)--
         public void UpdateView(DependencyPropertyChangedEventArgs e)
         {
-            if (e.NewValue is ChatTable chat)
+            if (e.NewValue is ChatModel chat)
             {
                 MODEL.UpdateView(chat);
             }
@@ -39,34 +38,34 @@ namespace UWPX_UI_Context.Classes.DataContext.Controls
             }
         }
 
-        public async Task SendPresenceProbeAsync(XMPPClient client, ChatTable chat)
+        public async Task SendPresenceProbeAsync(XMPPClient client, ChatModel chat)
         {
             if (client is null || chat is null)
             {
                 return;
             }
 
-            await client.GENERAL_COMMAND_HELPER.sendPresenceProbeAsync(client.getXMPPAccount().getFullJid(), chat.chatJabberId);
+            await client.GENERAL_COMMAND_HELPER.sendPresenceProbeAsync(client.getXMPPAccount().getFullJid(), chat.bareJid);
         }
 
-        public async Task RequestPresenceSubscriptionAsync(XMPPClient client, ChatTable chat)
+        public async Task RequestPresenceSubscriptionAsync(XMPPClient client, ChatModel chat)
         {
             if (client is null || chat is null)
             {
                 return;
             }
 
-            await client.GENERAL_COMMAND_HELPER.requestPresenceSubscriptionAsync(chat.chatJabberId);
+            await client.GENERAL_COMMAND_HELPER.requestPresenceSubscriptionAsync(chat.bareJid);
         }
 
-        public async Task CancelPresenceSubscriptionAsync(XMPPClient client, ChatTable chat)
+        public async Task CancelPresenceSubscriptionAsync(XMPPClient client, ChatModel chat)
         {
             if (client is null || chat is null)
             {
                 return;
             }
 
-            await client.GENERAL_COMMAND_HELPER.unsubscribeFromPresenceAsync(chat.chatJabberId).ConfAwaitFalse();
+            await client.GENERAL_COMMAND_HELPER.unsubscribeFromPresenceAsync(chat.bareJid).ConfAwaitFalse();
             await Task.Run(() =>
             {
                 switch (chat.subscription)
@@ -83,14 +82,14 @@ namespace UWPX_UI_Context.Classes.DataContext.Controls
             }).ConfAwaitFalse();
         }
 
-        public async Task RejectPresenceSubscriptionAsync(XMPPClient client, ChatTable chat)
+        public async Task RejectPresenceSubscriptionAsync(XMPPClient client, ChatModel chat)
         {
             if (client is null || chat is null)
             {
                 return;
             }
 
-            await client.GENERAL_COMMAND_HELPER.answerPresenceSubscriptionRequestAsync(chat.chatJabberId, false).ConfAwaitFalse();
+            await client.GENERAL_COMMAND_HELPER.answerPresenceSubscriptionRequestAsync(chat.bareJid, false).ConfAwaitFalse();
             await Task.Run(() =>
             {
                 switch (chat.subscription)
@@ -107,7 +106,7 @@ namespace UWPX_UI_Context.Classes.DataContext.Controls
             }).ConfAwaitFalse();
         }
 
-        public async Task SwitchChatInRosterAsync(XMPPClient client, ChatTable chat)
+        public async Task SwitchChatInRosterAsync(XMPPClient client, ChatModel chat)
         {
             if (client is null || chat is null)
             {
@@ -117,7 +116,7 @@ namespace UWPX_UI_Context.Classes.DataContext.Controls
             await SetChatInRosterAsync(client, chat, !chat.inRoster).ConfAwaitFalse();
         }
 
-        private async Task SetChatInRosterAsync(XMPPClient client, ChatTable chat, bool inRoster)
+        private async Task SetChatInRosterAsync(XMPPClient client, ChatModel chat, bool inRoster)
         {
             if (chat.inRoster != inRoster)
             {
@@ -131,15 +130,15 @@ namespace UWPX_UI_Context.Classes.DataContext.Controls
 
             if (inRoster)
             {
-                await client.GENERAL_COMMAND_HELPER.addToRosterAsync(chat.chatJabberId).ConfAwaitFalse();
+                await client.GENERAL_COMMAND_HELPER.addToRosterAsync(chat.bareJid).ConfAwaitFalse();
             }
             else
             {
-                await client.GENERAL_COMMAND_HELPER.removeFromRosterAsync(chat.chatJabberId).ConfAwaitFalse();
+                await client.GENERAL_COMMAND_HELPER.removeFromRosterAsync(chat.bareJid).ConfAwaitFalse();
             }
         }
 
-        public async Task ToggleChatMutedAsync(ChatTable chat)
+        public async Task ToggleChatMutedAsync(ChatModel chat)
         {
             if (chat is null)
             {

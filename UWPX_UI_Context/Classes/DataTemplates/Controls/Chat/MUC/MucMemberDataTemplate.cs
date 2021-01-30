@@ -1,6 +1,6 @@
 ﻿using System;
-using Data_Manager2.Classes.DBTables;
 using Shared.Classes;
+using Storage.Classes.Models.Chat;
 
 namespace UWPX_UI_Context.Classes.DataTemplates.Controls.Chat.MUC
 {
@@ -8,8 +8,8 @@ namespace UWPX_UI_Context.Classes.DataTemplates.Controls.Chat.MUC
     {
         //--------------------------------------------------------Attributes:-----------------------------------------------------------------\\
         #region --Attributes--
-        private MUCOccupantTable _Member;
-        public MUCOccupantTable Member
+        private MucOccupantModel _Member;
+        public MucOccupantModel Member
         {
             get => _Member;
             set => SetProperty(ref _Member, value);

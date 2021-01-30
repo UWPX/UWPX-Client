@@ -1,8 +1,6 @@
 ﻿using System;
-using Data_Manager2.Classes.DBManager;
-using Data_Manager2.Classes.DBTables;
-using Data_Manager2.Classes.Events;
 using Shared.Classes;
+using Storage.Classes.Models.Chat;
 using Windows.UI.Xaml.Media.Imaging;
 using XMPP_API.Classes;
 
@@ -18,14 +16,14 @@ namespace UWPX_UI_Context.Classes.DataTemplates
             get => _Image;
             set => SetProperty(ref _Image, value);
         }
-        private ChatTable _Chat;
-        public ChatTable Chat
+        private ChatModel _Chat;
+        public ChatModel Chat
         {
             get => _Chat;
             set => SetProperty(ref _Chat, value);
         }
-        private MUCChatInfoTable _MucInfo;
-        public MUCChatInfoTable MucInfo
+        private MucInfoModel _MucInfo;
+        public MucInfoModel MucInfo
         {
             get => _MucInfo;
             set => SetProperty(ref _MucInfo, value);

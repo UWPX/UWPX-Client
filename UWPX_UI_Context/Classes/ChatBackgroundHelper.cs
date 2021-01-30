@@ -1,8 +1,8 @@
 ﻿using System;
 using System.Threading.Tasks;
-using Data_Manager2.Classes;
 using Logging;
 using Shared.Classes;
+using Storage.Classes;
 using Windows.Storage;
 
 namespace UWPX_UI_Context.Classes
@@ -49,7 +49,7 @@ namespace UWPX_UI_Context.Classes
         {
             if (SetProperty(ref _ImagePath, value, nameof(ImagePath)))
             {
-                Settings.setSetting(SettingsConsts.CHAT_BACKGROUND_IMAGE_PATH, value);
+                Settings.SetSetting(SettingsConsts.CHAT_BACKGROUND_IMAGE_PATH, value);
             }
         }
 
@@ -57,7 +57,7 @@ namespace UWPX_UI_Context.Classes
         {
             if (SetProperty(ref _CustomImagePath, value, nameof(CustomImagePath)))
             {
-                Settings.setSetting(SettingsConsts.CHAT_CUSTOM_BACKGROUND_IMAGE_PATH, value);
+                Settings.SetSetting(SettingsConsts.CHAT_CUSTOM_BACKGROUND_IMAGE_PATH, value);
             }
         }
 
@@ -65,7 +65,7 @@ namespace UWPX_UI_Context.Classes
         {
             if (SetProperty(ref _BackgroundMode, value, nameof(BackgroundMode)))
             {
-                Settings.setSetting(SettingsConsts.CHAT_BACKGROUND_MODE, (int)value);
+                Settings.SetSetting(SettingsConsts.CHAT_BACKGROUND_MODE, (int)value);
             }
         }
 
@@ -74,15 +74,15 @@ namespace UWPX_UI_Context.Classes
         #region --Misc Methods (Public)--
         public void Init()
         {
-            ImagePath = Settings.getSettingString(SettingsConsts.CHAT_BACKGROUND_IMAGE_PATH);
-            CustomImagePath = Settings.getSettingString(SettingsConsts.CHAT_CUSTOM_BACKGROUND_IMAGE_PATH);
+            ImagePath = Settings.GetSettingString(SettingsConsts.CHAT_BACKGROUND_IMAGE_PATH);
+            CustomImagePath = Settings.GetSettingString(SettingsConsts.CHAT_CUSTOM_BACKGROUND_IMAGE_PATH);
             try
             {
-                BackgroundMode = (ChatBackgroundMode)Settings.getSettingInt(SettingsConsts.CHAT_BACKGROUND_MODE, 0);
+                BackgroundMode = (ChatBackgroundMode)Settings.GetSettingInt(SettingsConsts.CHAT_BACKGROUND_MODE, 0);
             }
             catch (Exception)
             {
-                Settings.setSetting(SettingsConsts.CHAT_BACKGROUND_MODE, (int)ChatBackgroundMode.SplashImage);
+                Settings.SetSetting(SettingsConsts.CHAT_BACKGROUND_MODE, (int)ChatBackgroundMode.SplashImage);
                 BackgroundMode = ChatBackgroundMode.SplashImage;
             }
         }

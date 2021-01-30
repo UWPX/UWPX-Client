@@ -1,8 +1,5 @@
 ﻿using System;
 using System.Threading.Tasks;
-using Data_Manager2.Classes.DBManager;
-using Data_Manager2.Classes.DBTables;
-using Data_Manager2.Classes.Toast;
 using Logging;
 using UWPX_UI_Context.Classes.DataTemplates.Dialogs;
 using UWPX_UI_Context.Classes.DataTemplates.Pages;
@@ -73,11 +70,11 @@ namespace UWPX_UI_Context.Classes.DataContext.Pages
 
             await Task.Run(async () =>
             {
-                ChatTable chat = ChatDBManager.INSTANCE.getChat(ChatTable.generateId(bareJid, client.getXMPPAccount().getBareJid()));
+                ChatModel chat = ChatDBManager.INSTANCE.getChat(ChatModel.generateId(bareJid, client.getXMPPAccount().getBareJid()));
 
                 if (chat is null)
                 {
-                    chat = new ChatTable(bareJid, client.getXMPPAccount().getBareJid());
+                    chat = new ChatModel(bareJid, client.getXMPPAccount().getBareJid());
                 }
 
                 // Set chat active:

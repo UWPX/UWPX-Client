@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.ObjectModel;
-using Data_Manager2.Classes;
 using Logging;
 using Shared.Classes;
 
@@ -33,7 +32,7 @@ namespace UWPX_UI_Context.Classes.DataTemplates.Controls
         {
             if (SetProperty(ref _LogLevelSelectedItem, value, nameof(LogLevelSelectedItem)))
             {
-                Settings.setSetting(SettingsConsts.LOG_LEVEL, (int)value.LogLevel);
+                Settings.SetSetting(SettingsConsts.LOG_LEVEL, (int)value.LogLevel);
                 Logger.logLevel = value.LogLevel;
             }
         }

@@ -1,6 +1,4 @@
-﻿using Data_Manager2.Classes;
-using Data_Manager2.Classes.DBTables;
-using Shared.Classes;
+﻿using Shared.Classes;
 
 namespace UWPX_UI_Context.Classes.DataTemplates.Dialogs
 {
@@ -36,7 +34,7 @@ namespace UWPX_UI_Context.Classes.DataTemplates.Dialogs
         #endregion
         //--------------------------------------------------------Constructor:----------------------------------------------------------------\\
         #region --Constructors--
-        public DeleteChatConfirmDialogDataTemplate(ChatTable chat)
+        public DeleteChatConfirmDialogDataTemplate(ChatModel chat)
         {
             KeepChatMessages = false;
             Confirmed = false;

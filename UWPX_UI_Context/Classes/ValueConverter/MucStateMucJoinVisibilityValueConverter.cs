@@ -1,5 +1,4 @@
 ﻿using System;
-using Data_Manager2.Classes;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Data;
 
@@ -26,7 +25,7 @@ namespace UWPX_UI_Context.Classes.ValueConverter
         #region --Misc Methods (Public)--
         public object Convert(object value, Type targetType, object parameter, string language)
         {
-            if (value is MUCState s && s != MUCState.ENTERING && s != MUCState.ENTERD)
+            if (value is MucState s && s != MucState.ENTERING && s != MucState.ENTERD)
             {
                 return Visibility.Visible;
             }

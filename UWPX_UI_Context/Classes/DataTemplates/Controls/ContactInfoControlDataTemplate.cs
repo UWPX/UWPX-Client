@@ -1,5 +1,5 @@
-﻿using Data_Manager2.Classes.DBTables;
-using Shared.Classes;
+﻿using Shared.Classes;
+using Storage.Classes.Models.Chat;
 using Windows.UI.Xaml;
 using XMPP_API.Classes;
 
@@ -132,7 +132,7 @@ namespace UWPX_UI_Context.Classes.DataTemplates.Controls
             AccountBareJid = client.getXMPPAccount().getBareJid();
         }
 
-        public void UpdateView(ChatTable chat)
+        public void UpdateView(ChatModel chat)
         {
             Presence = chat.presence;
 
@@ -174,8 +174,8 @@ namespace UWPX_UI_Context.Classes.DataTemplates.Controls
             RemoveFromRosterText = chat.inRoster ? "Remove from roster" : "Add to roster";
 
             // Info:
-            ChatBareJid = chat.chatJabberId;
-            Nickname = chat.chatJabberId;
+            ChatBareJid = chat.bareJid;
+            Nickname = chat.bareJid;
             ChatStatus = chat.status;
             ChatState = chat.chatState;
             MuteGlyph = chat.muted ? "\uE74F" : "\uE767";

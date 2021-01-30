@@ -1,8 +1,7 @@
 ﻿using System.Threading.Tasks;
-using Data_Manager2.Classes;
-using Data_Manager2.Classes.DBManager;
-using Data_Manager2.Classes.DBTables;
 using Shared.Classes;
+using Storage.Classes;
+using Storage.Classes.Models.Chat;
 using Windows.UI.Xaml;
 using XMPP_API.Classes;
 
@@ -104,8 +103,8 @@ namespace UWPX_UI_Context.Classes.DataTemplates.Controls
             set => SetEnterToSendProperty(value);
         }
 
-        private ChatTable chat;
-        private MUCChatInfoTable muc;
+        private ChatModel chat;
+        private MucInfoModel muc;
         internal bool isDummy = false;
 
         #endregion
@@ -123,7 +122,7 @@ namespace UWPX_UI_Context.Classes.DataTemplates.Controls
         {
             if (SetProperty(ref _OmemoEnabled, value, nameof(OmemoEnabled)) && !(chat is null))
             {
-                chat.omemoEnabled = value;
+                chat.omemo.enabled = value;
                 if (!isDummy)
                 {
                     Task.Run(() => ChatDBManager.INSTANCE.setChat(chat, false, true));
@@ -135,7 +134,7 @@ namespace UWPX_UI_Context.Classes.DataTemplates.Controls
         {
             if (SetProperty(ref _EnterToSend, value, nameof(EnterToSend)))
             {
-                Settings.setSetting(SettingsConsts.ENTER_TO_SEND_MESSAGES, value);
+                Settings.SetSetting(SettingsConsts.ENTER_TO_SEND_MESSAGES, value);
             }
         }
 
@@ -150,7 +149,7 @@ namespace UWPX_UI_Context.Classes.DataTemplates.Controls
             }
         }
 
-        public void UpdateViewChat(ChatTable chat, MUCChatInfoTable muc)
+        public void UpdateViewChat(ChatModel chat, MucInfoModel muc)
         {
             if (!(chat is null))
             {
@@ -165,7 +164,7 @@ namespace UWPX_UI_Context.Classes.DataTemplates.Controls
                 {
                     OmemoVisibility = Visibility.Collapsed;
 
-                    if (muc.state != MUCState.ENTERD && muc.state != MUCState.ENTERING)
+                    if (muc.state != MucState.ENTERD && muc.state != MucState.ENTERING)
                     {
                         EnterMucVisibility = Visibility.Visible;
                         LeaveMucVisibility = Visibility.Collapsed;
@@ -178,7 +177,7 @@ namespace UWPX_UI_Context.Classes.DataTemplates.Controls
                 }
                 else
                 {
-                    NameText = chat.chatJabberId ?? "";
+                    NameText = chat.bareJid ?? "";
                     StatusText = chat.chatState ?? chat.status ?? "";
                     EnterMucVisibility = Visibility.Collapsed;
                     LeaveMucVisibility = Visibility.Collapsed;
@@ -188,7 +187,7 @@ namespace UWPX_UI_Context.Classes.DataTemplates.Controls
 
                 // Account image:
                 AccountPresence = chat.presence;
-                BareJid = chat.chatJabberId;
+                BareJid = chat.bareJid;
                 ChatType = chat.chatType;
             }
             else
@@ -197,11 +196,11 @@ namespace UWPX_UI_Context.Classes.DataTemplates.Controls
             }
         }
 
-        public void UpdateViewMuc(ChatTable chat, MUCChatInfoTable muc)
+        public void UpdateViewMuc(ChatModel chat, MucInfoModel muc)
         {
             if (!(muc is null) && !(chat is null) && string.Equals(chat.id, muc.chatId))
             {
-                NameText = string.IsNullOrWhiteSpace(muc.name) ? chat.chatJabberId : muc.name;
+                NameText = string.IsNullOrWhiteSpace(muc.name) ? chat.bareJid : muc.name;
                 StatusText = muc.subject ?? "";
 
                 // Account image:

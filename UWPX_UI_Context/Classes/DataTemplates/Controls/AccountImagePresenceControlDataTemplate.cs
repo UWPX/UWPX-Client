@@ -1,5 +1,5 @@
-﻿using Data_Manager2.Classes;
-using Shared.Classes;
+﻿using Shared.Classes;
+using Storage.Classes.Models.Chat;
 
 namespace UWPX_UI_Context.Classes.DataTemplates.Controls
 {

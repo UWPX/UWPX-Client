@@ -1,5 +1,4 @@
 ﻿using System;
-using Data_Manager2.Classes;
 using Microsoft.Toolkit.Uwp.UI.Helpers;
 using Windows.UI;
 using Windows.UI.Xaml;
@@ -20,7 +19,7 @@ namespace UWPX_UI_Context.Classes
             set
             {
                 _RootTheme = value;
-                Settings.setSetting(SettingsConsts.APP_REQUESTED_THEME, value.ToString());
+                Settings.SetSetting(SettingsConsts.APP_REQUESTED_THEME, value.ToString());
 
                 if (Window.Current.Content is FrameworkElement rootElement)
                 {

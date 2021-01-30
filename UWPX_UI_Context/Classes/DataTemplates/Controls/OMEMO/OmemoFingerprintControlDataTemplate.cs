@@ -1,5 +1,4 @@
-﻿using libsignal.ecc;
-using Shared.Classes;
+﻿using Shared.Classes;
 using XMPP_API.Classes.Crypto;
 
 namespace UWPX_UI_Context.Classes.DataTemplates.Controls.OMEMO
@@ -28,7 +27,7 @@ namespace UWPX_UI_Context.Classes.DataTemplates.Controls.OMEMO
         #endregion
         //--------------------------------------------------------Misc Methods:---------------------------------------------------------------\\
         #region --Misc Methods (Public)--
-        public void UpdateView(ECPublicKey identityPubKey)
+        public void UpdateView(ECPubKey identityPubKey)
         {
             Fingerprint = !(identityPubKey is null) ? CryptoUtils.getRawFromECPublicKey(identityPubKey) : null;
         }

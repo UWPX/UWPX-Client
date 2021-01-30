@@ -2,8 +2,6 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using Data_Manager2.Classes.DBManager.Omemo;
-using Data_Manager2.Classes.DBTables;
 using Logging;
 using UWPX_UI_Context.Classes.DataTemplates.Controls.Chat;
 using UWPX_UI_Context.Classes.DataTemplates.Dialogs;
@@ -35,7 +33,7 @@ namespace UWPX_UI_Context.Classes.DataContext.Controls.Chat
         #region --Misc Methods (Public)--
         public void UpdateView(DependencyPropertyChangedEventArgs e)
         {
-            if (e.NewValue is ChatTable chat)
+            if (e.NewValue is ChatModel chat)
             {
                 MODEL.Chat = chat;
 

@@ -1,5 +1,4 @@
 ﻿using System.Runtime.CompilerServices;
-using Data_Manager2.Classes;
 using Push.Classes;
 using Shared.Classes;
 
@@ -56,7 +55,7 @@ namespace UWPX_UI_Context.Classes.DataTemplates.Pages
         {
             if (SetProperty(ref storage, value, propertyName) && Settings.getSettingBoolean(settingsToken) != value)
             {
-                Settings.setSetting(settingsToken, value);
+                Settings.SetSetting(settingsToken, value);
                 return true;
             }
             return false;

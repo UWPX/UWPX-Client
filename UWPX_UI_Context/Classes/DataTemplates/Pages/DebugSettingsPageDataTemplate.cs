@@ -1,7 +1,5 @@
 ﻿
 using System.Runtime.CompilerServices;
-using Data_Manager2.Classes;
-using Data_Manager2.Classes.DBManager;
 using Shared.Classes;
 
 namespace UWPX_UI_Context.Classes.DataTemplates.Pages
@@ -56,7 +54,7 @@ namespace UWPX_UI_Context.Classes.DataTemplates.Pages
         {
             if (SetProperty(ref _SpamRegex, value, nameof(SpamRegex)))
             {
-                Settings.setSetting(SettingsConsts.SPAM_REGEX, value);
+                Settings.SetSetting(SettingsConsts.SPAM_REGEX, value);
                 SpamDBManager.INSTANCE.updateSpamRegex(value);
                 return true;
             }
@@ -67,7 +65,7 @@ namespace UWPX_UI_Context.Classes.DataTemplates.Pages
         {
             if (SetProperty(ref storage, value, propertyName))
             {
-                Settings.setSetting(settingsToken, value);
+                Settings.SetSetting(settingsToken, value);
                 return true;
             }
             return false;
@@ -77,7 +75,7 @@ namespace UWPX_UI_Context.Classes.DataTemplates.Pages
         {
             if (SetProperty(ref storage, value, propertyName))
             {
-                Settings.setSetting(settingsToken, !value);
+                Settings.SetSetting(settingsToken, !value);
                 return true;
             }
             return false;
