@@ -155,12 +155,6 @@ namespace Manager.Classes
                     Logger.Error("Failed to decrypt OMEMO message - OmemoHelper is null");
                     return;
                 }
-                else if (!client.getXMPPAccount().checkOmemoKeys())
-                {
-                    OnOmemoSessionBuildError(client, new OmemoSessionBuildErrorEventArgs(from, OmemoSessionBuildError.KEY_ERROR, new List<OmemoEncryptedMessage> { omemoMessage }));
-                    Logger.Error("Failed to decrypt OMEMO message - keys are corrupted");
-                    return;
-                }
                 else if (!await DecryptOmemoEncryptedMessageAsync(omemoMessage) || omemoMessage.IS_PURE_KEY_EXCHANGE_MESSAGE)
                 {
                     return;
@@ -702,7 +696,7 @@ namespace Manager.Classes
                 // Enter MUC manually if the MUC is new for this client:
                 if (newMuc && info.autoEnterRoom && !Settings.GetSettingBoolean(SettingsConsts.DISABLE_AUTO_JOIN_MUC))
                 {
-                    Task.Run(() => MucHandler.INSTANCE.enterMUCAsync(client, chat, info));
+                    Task.Run(() => MucHandler.INSTANCE.enterMucAsync(client, info));
                 }
             }
         }

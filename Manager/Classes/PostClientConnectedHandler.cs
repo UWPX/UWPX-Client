@@ -1,8 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Diagnostics;
+using System.Linq;
 using System.Threading.Tasks;
 using Logging;
+using Storage.Classes.Contexts;
+using Storage.Classes.Models.Chat;
 using XMPP_API.Classes;
 using XMPP_API.Classes.Network;
 using XMPP_API.Classes.Network.Events;
@@ -155,14 +158,10 @@ namespace Manager.Classes
             bool extendedMamSupport = ccHandler.client.connection.DISCO_HELPER.HasFeature(Consts.XML_XEP_0313_EXTENDED_NAMESPACE, ccHandler.client.getXMPPAccount().getBareJid());
             Logger.Info("Extended MAM support for " + ccHandler.client.getXMPPAccount().getBareJid() + ": " + extendedMamSupport);
 
-            MamRequestTable mamRequest = MamDBManager.INSTANCE.getLastRequest(ccHandler.client.getXMPPAccount().getBareJid());
             string lastMsgId = null;
             DateTime lastMsgDate = DateTime.MinValue;
-            if (!(mamRequest is null))
-            {
-                lastMsgId = mamRequest.lastMsgId;
-                lastMsgDate = mamRequest.lastUpdate;
-            }
+            lastMsgId = ccHandler.account.mamRequest.lastMsgId;
+            lastMsgDate = ccHandler.account.mamRequest.lastUpdate;
 
             // Request all MAM messages:
             bool done = false;
@@ -191,14 +190,10 @@ namespace Manager.Classes
                 MessageResponseHelperResult<MamResult> result = await RequestMamWithRetry(filter, 2);
                 if (result.STATE == MessageResponseHelperResultState.SUCCESS)
                 {
-                    mamRequest = new MamRequestTable
-                    {
-                        accountId = ccHandler.client.getXMPPAccount().getBareJid(),
-                        lastUpdate = DateTime.Now
-                    };
+                    ccHandler.account.mamRequest.lastUpdate = DateTime.Now;
                     if (result.RESULT.RESULTS.Count > 0)
                     {
-                        mamRequest.lastMsgId = result.RESULT.LAST;
+                        ccHandler.account.mamRequest.lastMsgId = result.RESULT.LAST;
                         lastMsgId = result.RESULT.LAST;
                         HandleMamMessages(result.RESULT);
                         Logger.Info("MAM request for " + ccHandler.client.getXMPPAccount().getBareJid() + " received " + result.RESULT.RESULTS.Count + " messages in iteration " + iteration + '.');
@@ -211,7 +206,7 @@ namespace Manager.Classes
                     }
 
                     DateTime newDate = GetLastMessageDate(result.RESULT);
-                    if (newDate == mamRequest.lastUpdate)
+                    if (newDate == ccHandler.account.mamRequest.lastUpdate)
                     {
                         done = true;
                         Logger.Info("MAM request for " + ccHandler.client.getXMPPAccount().getBareJid());
@@ -220,7 +215,10 @@ namespace Manager.Classes
                     {
                         lastMsgDate = newDate;
                     }
-                    MamDBManager.INSTANCE.setLastRequest(mamRequest);
+                    using (MainDbContext ctx = new MainDbContext())
+                    {
+                        ctx.Update(ccHandler.account.mamRequest);
+                    }
                 }
                 else if (state == SetupState.REQUESTING_MAM)
                 {
@@ -279,15 +277,23 @@ namespace Manager.Classes
         private async Task SendOutsandingChatMessagesAsync()
         {
             state = SetupState.SENDING_OUTSTANDING_MESSAGES;
-            IList<ChatMessageTable> toSend = ChatDBManager.INSTANCE.getChatMessages(ccHandler.client.getXMPPAccount().getBareJid(), MessageState.SENDING);
-            Logger.Info("Sending " + toSend.Count + " outstanding chat messages for: " + ccHandler.client.getXMPPAccount().getBareJid());
+            IEnumerable<ChatMessageModel> toSend;
+            using (MainDbContext ctx = new MainDbContext())
+            {
+                toSend = ctx.ChatMessages.Where(m => m.state == MessageState.SENDING && string.Equals(m.chat.accountBareJid, ccHandler.account.bareJid));
+            }
+            Logger.Info("Sending " + toSend.Count() + " outstanding chat messages for: " + ccHandler.account.bareJid);
             await SendOutsandingChatMessagesAsync(toSend);
-            Logger.Info("Finished sending outstanding chat messages for: " + ccHandler.client.getXMPPAccount().getBareJid());
+            Logger.Info("Finished sending outstanding chat messages for: " + ccHandler.account.bareJid);
 
-            IList<ChatMessageTable> toEncrypt = ChatDBManager.INSTANCE.getChatMessages(ccHandler.client.getXMPPAccount().getBareJid(), MessageState.TO_ENCRYPT);
-            Logger.Info("Sending " + toSend.Count + " outstanding OMEMO chat messages for: " + ccHandler.client.getXMPPAccount().getBareJid());
+            IEnumerable<ChatMessageModel> toEncrypt;
+            using (MainDbContext ctx = new MainDbContext())
+            {
+                toEncrypt = ctx.ChatMessages.Where(m => m.state == MessageState.TO_ENCRYPT && string.Equals(m.chat.accountBareJid, ccHandler.account.bareJid));
+            }
+            Logger.Info("Sending " + toEncrypt.Count() + " outstanding OMEMO chat messages for: " + ccHandler.account.bareJid);
             await SendOutsandingChatMessagesAsync(toEncrypt);
-            Logger.Info("Finished sending outstanding OMEMO chat messages for: " + ccHandler.client.getXMPPAccount().getBareJid());
+            Logger.Info("Finished sending outstanding OMEMO chat messages for: " + ccHandler.account.bareJid);
             Continue();
         }
 
@@ -295,26 +301,15 @@ namespace Manager.Classes
         /// Sends all chat messages passed to it.
         /// </summary>
         /// <param name="messages">A list of chat messages to send. They SHOULD be sorted by their chatId for optimal performance.</param>
-        private async Task SendOutsandingChatMessagesAsync(IList<ChatMessageTable> messages)
+        private async Task SendOutsandingChatMessagesAsync(IEnumerable<ChatMessageModel> messages)
         {
-            ChatTable chat = null;
-            foreach (ChatMessageTable msgDb in messages)
+            foreach (ChatMessageModel msgDb in messages)
             {
-                if (chat is null || !string.Equals(chat.id, msgDb.chatId))
-                {
-                    chat = ChatDBManager.INSTANCE.getChat(msgDb.chatId);
+                MessageMessage msg = msgDb.ToMessageMessage(ccHandler.account.fullJid.FullJid(), msgDb.chat.bareJid);
 
-                    if (chat is null)
-                    {
-                        Logger.Warn("Unable to send outstanding chat message for: " + msgDb.chatId + " - no such chat.");
-                        continue;
-                    }
-                }
-                MessageMessage msg = msgDb.toXmppMessage(ccHandler.client.getXMPPAccount().getFullJid(), chat);
-
-                if (msg is OmemoMessageMessage omemoMsg)
+                if (msg is OmemoEncryptedMessage omemoMsg)
                 {
-                    await ccHandler.client.sendOmemoMessageAsync(omemoMsg, chat.chatJabberId, ccHandler.client.getXMPPAccount().getBareJid());
+                    await ccHandler.client.sendOmemoMessageAsync(omemoMsg, msgDb.chat.bareJid, ccHandler.client.getXMPPAccount().getBareJid());
                 }
                 else
                 {

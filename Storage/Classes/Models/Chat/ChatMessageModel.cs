@@ -120,7 +120,31 @@ namespace Storage.Classes.Models.Chat
         #endregion
         //--------------------------------------------------------Misc Methods:---------------------------------------------------------------\\
         #region --Misc Methods (Public)--
+        public MessageMessage ToMessageMessage(string fromFullJid, string toBareJid)
+        {
+            MessageMessage msg;
+            switch (type)
+            {
+                case MessageMessage.TYPE_GROUPCHAT:
+                    msg = new MessageMessage(fromFullJid, toBareJid, message, type, fromNickname, true);
+                    break;
 
+                default:
+                    if (isEncrypted)
+                    {
+                        msg = new OmemoEncryptedMessage(fromFullJid, toBareJid, message, type, true);
+                    }
+                    else
+                    {
+                        msg = new MessageMessage(fromFullJid, toBareJid, message, type, true);
+                    }
+                    break;
+            }
+
+            msg.addDelay(date);
+            msg.chatMessageId = stableId;
+            return msg;
+        }
 
         #endregion
 

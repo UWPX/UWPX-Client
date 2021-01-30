@@ -1,4 +1,5 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using XMPP_API.Classes.Network.XML.Messages.XEP_0045;
 
 namespace Storage.Classes.Models.Chat
@@ -51,6 +52,11 @@ namespace Storage.Classes.Models.Chat
         /// The room password.
         /// </summary>
         public string password { get; set; }
+        /// <summary>
+        /// A list of all currently known MUC occupants.
+        /// </summary>
+        [Required]
+        public List<MucOccupantModel> occupants { get; set; } = new List<MucOccupantModel>();
 
         #endregion
         //--------------------------------------------------------Constructor:----------------------------------------------------------------\\

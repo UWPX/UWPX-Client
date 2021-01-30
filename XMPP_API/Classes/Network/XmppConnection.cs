@@ -234,14 +234,6 @@ namespace XMPP_API.Classes.Network
             {
                 throw new InvalidOperationException(LOGGER_TAG + "Unable to enable OMEMO. state != " + ConnectionState.DISCONNECTED.ToString() + " - " + state.ToString());
             }
-
-            // Load OMEMO keys for the current account:
-            if (!account.omemoKeysGenerated)
-            {
-                Logger.Error(LOGGER_TAG + "Failed to enable OMEMO for account: " + account.getBareJid() + " - generate OMEMO keys first!");
-                omemoHelper = null;
-                return false;
-            }
             omemoHelper = new OmemoHelper(this, omemoStore);
             return true;
         }

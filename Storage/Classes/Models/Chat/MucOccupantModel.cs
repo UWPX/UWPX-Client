@@ -1,25 +1,38 @@
-﻿using System.Diagnostics;
-using System.Linq;
-using System.Threading;
-using System.Threading.Tasks;
-using Shared.Classes.Collections;
-using Storage.Classes.Contexts;
+﻿using System.ComponentModel.DataAnnotations;
+using XMPP_API.Classes.Network.XML.Messages.XEP_0045;
 
-namespace Manager.Classes.Client
+namespace Storage.Classes.Models.Chat
 {
-    public class ClientHandler
+    public class MucOccupantModel
     {
         //--------------------------------------------------------Attributes:-----------------------------------------------------------------\\
         #region --Attributes--
-        public static readonly ClientHandler INSTANCE = new ClientHandler();
-        private bool initialized = false;
+        [Key]
+        public int id { get; set; }
+        /// <summary>
+        /// The user nickname e.g. 'thirdwitch'.
+        /// </summary>
+        [Required]
+        public string nickname { get; set; }
+        /// <summary>
+        /// The full jabber id of the user e.g. 'coven@chat.shakespeare.lit/thirdwitch'.
+        /// </summary>
+        public string fullJid { get; set; }
+        /// <summary>
+        /// The affiliation of the user e.g. 'owner', 'admin', 'member' or 'none'.
+        /// </summary>
+        [Required]
+        public MUCAffiliation affiliation { get; set; }
+        /// <summary>
+        /// The role of the user e.g. 'moderator', 'participant' or 'visitor'.
+        /// </summary>
+        [Required]
+        public MUCRole role { get; set; }
 
-        private readonly CustomObservableCollection<Client> CLIENTS = new CustomObservableCollection<Client>(false);
-        private readonly SemaphoreSlim CLIENTS_SEMA = new SemaphoreSlim(1);
         #endregion
         //--------------------------------------------------------Constructor:----------------------------------------------------------------\\
         #region --Constructors--
-        public ClientHandler() { }
+
 
         #endregion
         //--------------------------------------------------------Set-, Get- Methods:---------------------------------------------------------\\
@@ -29,25 +42,12 @@ namespace Manager.Classes.Client
         #endregion
         //--------------------------------------------------------Misc Methods:---------------------------------------------------------------\\
         #region --Misc Methods (Public)--
-        public async Task InitAsync()
-        {
-            Debug.Assert(!initialized);
-            initialized = true;
-            await LoadClientsAsync();
-        }
+
 
         #endregion
 
         #region --Misc Methods (Private)--
-        private async Task LoadClientsAsync()
-        {
-            using (MainDbContext ctx = new MainDbContext())
-            {
-                await CLIENTS_SEMA.WaitAsync();
-                CLIENTS.AddRange(ctx.Accounts.Select(dbAccount => new Client(dbAccount)));
-                CLIENTS_SEMA.Release();
-            }
-        }
+
 
         #endregion
 

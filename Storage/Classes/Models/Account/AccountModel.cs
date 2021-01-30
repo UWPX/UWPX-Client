@@ -56,6 +56,11 @@ namespace Storage.Classes.Models.Account
         /// </summary>
         [Required]
         public OmemoAccountInformationModel omemoInfo { get; set; } = new OmemoAccountInformationModel();
+        /// <summary>
+        /// The status of the last time a MAM request happened.
+        /// </summary>
+        [Required]
+        public MamRequestModel mamRequest { get; set; }
 
         #endregion
         //--------------------------------------------------------Constructor:----------------------------------------------------------------\\
@@ -81,7 +86,6 @@ namespace Storage.Classes.Models.Account
                 disabled = disabled,
                 presence = presence,
                 status = status,
-                omemoKeysGenerated = omemoInfo.keysGenerated,
                 omemoDeviceId = omemoInfo.deviceId,
                 omemoIdentityKey = omemoInfo.identityKey,
                 omemoBundleInfoAnnounced = omemoInfo.bundleInfoAnnounced,

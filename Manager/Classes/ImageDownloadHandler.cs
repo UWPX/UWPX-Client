@@ -1,9 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 using Logging;
 using Shared.Classes.Network;
+using Storage.Classes;
+using Storage.Classes.Contexts;
+using Storage.Classes.Models.Chat;
 using Windows.Storage;
 
 namespace Manager.Classes
@@ -21,7 +25,7 @@ namespace Manager.Classes
         public ImageDownloadHandler(DownloadHandler downloadHandler)
         {
             DOWNLOAD_HANDLER = downloadHandler;
-            DOWNLOAD_HANDLER.DownloadStateChanged += DOWNLOAD_HANDLER_DownloadStateChanged;
+            DOWNLOAD_HANDLER.DownloadStateChanged += OnDownloadStateChanged;
         }
 
         #endregion
@@ -29,7 +33,7 @@ namespace Manager.Classes
         #region --Set-, Get- Methods--
         public async Task<StorageFolder> GetCacheFolderAsync()
         {
-            if (Settings.getSettingBoolean(SettingsConsts.DISABLE_DOWNLOAD_IMAGES_TO_LIBARY))
+            if (Settings.GetSettingBoolean(SettingsConsts.DISABLE_DOWNLOAD_IMAGES_TO_LIBARY))
             {
                 return await ApplicationData.Current.LocalFolder.CreateFolderAsync("cachedImages", CreationCollisionOption.OpenIfExists);
             }
@@ -39,7 +43,7 @@ namespace Manager.Classes
         #endregion
         //--------------------------------------------------------Misc Methods:---------------------------------------------------------------\\
         #region --Misc Methods (Public)--
-        public async Task StartDownloadAsync(ImageTable image)
+        public async Task StartDownloadAsync(ChatMessageImageModel image)
         {
             await DOWNLOAD_SEMA.WaitAsync();
             if (image.State != DownloadState.DOWNLOADING && image.State != DownloadState.QUEUED)
@@ -49,12 +53,12 @@ namespace Manager.Classes
             DOWNLOAD_SEMA.Release();
         }
 
-        public async Task RedownloadAsync(ImageTable image)
+        public async Task RedownloadAsync(ChatMessageImageModel image)
         {
             await DOWNLOAD_HANDLER.EnqueueDownloadAsync(image);
         }
 
-        public void CancelDownload(ImageTable image)
+        public void CancelDownload(ChatMessageImageModel image)
         {
             DOWNLOAD_HANDLER.CancelDownload(image);
         }
@@ -69,15 +73,22 @@ namespace Manager.Classes
 
         public async Task ContinueDownloadsAsync()
         {
-            if (!Settings.getSettingBoolean(SettingsConsts.DISABLE_IMAGE_AUTO_DOWNLOAD))
+            if (!Settings.GetSettingBoolean(SettingsConsts.DISABLE_IMAGE_AUTO_DOWNLOAD))
             {
-                List<ImageTable> images = ImageDBManager.INSTANCE.getAllUndownloadedImages();
-                foreach (ImageTable image in images)
+                IEnumerable<ChatMessageImageModel> images;
+                using (MainDbContext ctx = new MainDbContext())
+                {
+                    images = ctx.ChatMessageImages.Where(i => i.State != DownloadState.DONE && i.State != DownloadState.ERROR && i.State != DownloadState.CANCELED);
+                }
+                foreach (ChatMessageImageModel image in images)
                 {
                     if (image.State == DownloadState.DOWNLOADING || image.State == DownloadState.QUEUED)
                     {
                         image.State = DownloadState.NOT_QUEUED;
-                        ImageDBManager.INSTANCE.setImage(image);
+                        using (MainDbContext ctx = new MainDbContext())
+                        {
+                            ctx.Update(image);
+                        }
                     }
                     await StartDownloadAsync(image);
                 }
@@ -128,11 +139,14 @@ namespace Manager.Classes
         #endregion
         //--------------------------------------------------------Events:---------------------------------------------------------------------\\
         #region --Events--
-        private void DOWNLOAD_HANDLER_DownloadStateChanged(AbstractDownloadableObject o, DownloadStateChangedEventArgs args)
+        private void OnDownloadStateChanged(AbstractDownloadableObject o, DownloadStateChangedEventArgs args)
         {
-            if (o is ImageTable image)
+            if (o is ChatMessageImageModel image)
             {
-                ImageDBManager.INSTANCE.setImage(image);
+                using (MainDbContext ctx = new MainDbContext())
+                {
+                    ctx.Update(image);
+                }
             }
         }
 

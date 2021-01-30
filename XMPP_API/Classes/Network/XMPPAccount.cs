@@ -73,12 +73,6 @@ namespace XMPP_API.Classes.Network
         public readonly ConnectionInformation CONNECTION_INFO;
 
         // XEP-0384 (OMEMO Encryption):
-        private bool _omemoKeysGenerated;
-        public bool omemoKeysGenerated
-        {
-            get => _omemoKeysGenerated;
-            set => SetProperty(ref _omemoKeysGenerated, value);
-        }
         private IdentityKeyPairModel _omemoIdentityKey;
         public IdentityKeyPairModel omemoIdentityKey
         {
@@ -178,11 +172,6 @@ namespace XMPP_API.Classes.Network
         #endregion
         //--------------------------------------------------------Set-, Get- Methods:---------------------------------------------------------\\
         #region --Set-, Get- Methods--
-        public bool checkOmemoKeys()
-        {
-            return omemoKeysGenerated && !(omemoIdentityKey is null || OMEMO_PRE_KEYS.Count <= 0 || omemoSignedPreKey is null);
-        }
-
         public string getBareJid()
         {
             return user.getBareJid();
@@ -251,7 +240,6 @@ namespace XMPP_API.Classes.Network
                     connectionConfiguration.Equals(o.connectionConfiguration) &&
                     o.omemoDeviceId == omemoDeviceId &&
                     string.Equals(o.omemoDeviceLabel, omemoDeviceLabel) &&
-                    o.omemoKeysGenerated == omemoKeysGenerated &&
                     o.omemoBundleInfoAnnounced == omemoBundleInfoAnnounced &&
                     Equals(o.omemoIdentityKey, omemoIdentityKey) &&
                     Equals(o.omemoSignedPreKey, omemoSignedPreKey) &&

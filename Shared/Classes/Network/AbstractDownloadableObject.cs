@@ -1,4 +1,5 @@
-﻿using System.IO;
+﻿using System.ComponentModel.DataAnnotations;
+using System.IO;
 
 namespace Shared.Classes.Network
 {
@@ -10,6 +11,7 @@ namespace Shared.Classes.Network
         /// <summary>
         /// The current state of the download.
         /// </summary>
+        [Required]
         public DownloadState State
         {
             get => _State;
@@ -20,6 +22,7 @@ namespace Shared.Classes.Network
         /// <summary>
         /// The download progress in percent.
         /// </summary>
+        [Required]
         public double Progress
         {
             get => _Progress;
@@ -28,8 +31,9 @@ namespace Shared.Classes.Network
 
         protected string _SourceUrl;
         /// <summary>
-        /// The url where the object should get downloaded from.
+        /// The URL where the object should get downloaded from.
         /// </summary>
+        [Required]
         public string SourceUrl
         {
             get => _SourceUrl;
@@ -41,6 +45,7 @@ namespace Shared.Classes.Network
         /// The target folder path, where the downloaded object should get saved to.
         /// E.g.: C:\Program Files\Git
         /// </summary>
+        [Required]
         public string TargetFolderPath
         {
             get => _TargetFolderPath;
@@ -52,16 +57,18 @@ namespace Shared.Classes.Network
         /// The name of the downloaded object with extension.
         /// E.g.: file.png
         /// </summary>
+        [Required]
         public string TargetFileName
         {
             get => _TargetFileName;
             set => SetProperty(ref _TargetFileName, value);
         }
 
-        protected DownloadError _Error;
+        protected DownloadError _Error = DownloadError.NONE;
         /// <summary>
         /// The error code if one occurred.
         /// </summary>
+        [Required]
         public DownloadError Error
         {
             get => _Error;

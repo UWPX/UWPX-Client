@@ -185,11 +185,6 @@ namespace XMPP_API.Classes
                 OmemoSessionBuildError?.Invoke(this, new OmemoSessionBuildErrorEventArgs(chatJid, Network.XML.Messages.XEP_0384.Session.OmemoSessionBuildError.KEY_ERROR, new List<OmemoEncryptedMessage> { msg }));
                 Logger.Error("Failed to send OMEMO message - OmemoHelper is null");
             }
-            else if (!connection.account.checkOmemoKeys())
-            {
-                OmemoSessionBuildError?.Invoke(this, new OmemoSessionBuildErrorEventArgs(chatJid, Network.XML.Messages.XEP_0384.Session.OmemoSessionBuildError.KEY_ERROR, new List<OmemoEncryptedMessage> { msg }));
-                Logger.Error("Failed to send OMEMO message - keys are corrupted");
-            }
             else
             {
                 await connection.omemoHelper.sendOmemoMessageAsync(msg, accountJid, chatJid);
