@@ -1,11 +1,11 @@
 ﻿using System.Threading.Tasks;
-using Data_Manager2.Classes;
+using Manager.Classes.Chat;
 using Shared.Classes;
+using Storage.Classes.Models.Chat;
 using UWPX_UI.Dialogs;
 using UWPX_UI.Pages;
 using UWPX_UI_Context.Classes;
 using UWPX_UI_Context.Classes.DataContext.Controls;
-using UWPX_UI_Context.Classes.DataTemplates;
 using UWPX_UI_Context.Classes.Events;
 using Windows.UI;
 using Windows.UI.Xaml;
@@ -108,9 +108,9 @@ namespace UWPX_UI.Controls.Chat
             }
         }
 
-        private async void Mute_tmfo_Click(object sender, RoutedEventArgs e)
+        private void Mute_tmfo_Click(object sender, RoutedEventArgs e)
         {
-            await VIEW_MODEL.SetChatMutedAsync(Chat, mute_tmfo.IsChecked);
+            VIEW_MODEL.SetChatMuted(Chat, mute_tmfo.IsChecked);
         }
 
         private async void RemoveFromRoster_mfo_Click(object sender, RoutedEventArgs e)
@@ -143,9 +143,9 @@ namespace UWPX_UI.Controls.Chat
             VIEW_MODEL.ToggleChatBookmarked(Chat);
         }
 
-        private async void MuteMUC_tmfo_Click(object sender, RoutedEventArgs e)
+        private void MuteMUC_tmfo_Click(object sender, RoutedEventArgs e)
         {
-            await VIEW_MODEL.SetChatMutedAsync(Chat, muteMUC_tmfo.IsChecked);
+            VIEW_MODEL.SetChatMuted(Chat, muteMUC_tmfo.IsChecked);
         }
 
         private async void DeleteMUC_mfo_Click(object sender, RoutedEventArgs e)
@@ -155,7 +155,7 @@ namespace UWPX_UI.Controls.Chat
 
         private void ShowProfile_mfo_Click(object sender, RoutedEventArgs e)
         {
-            UiUtils.NavigateToPage(typeof(ContactInfoPage), new NavigatedToContactInfoPageEventArgs(Chat.Client, Chat.Chat));
+            UiUtils.NavigateToPage(typeof(ContactInfoPage), new NavigatedToContactInfoPageEventArgs(Chat));
         }
 
         private static void ChatPropertyChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)

@@ -1,6 +1,7 @@
-﻿using System.Threading.Tasks;
+﻿using Manager.Classes;
 using Shared.Classes;
 using Storage.Classes;
+using Storage.Classes.Contexts;
 using Storage.Classes.Models.Chat;
 using Windows.UI.Xaml;
 using XMPP_API.Classes;
@@ -104,7 +105,6 @@ namespace UWPX_UI_Context.Classes.DataTemplates.Controls
         }
 
         private ChatModel chat;
-        private MucInfoModel muc;
         internal bool isDummy = false;
 
         #endregion
@@ -125,7 +125,10 @@ namespace UWPX_UI_Context.Classes.DataTemplates.Controls
                 chat.omemo.enabled = value;
                 if (!isDummy)
                 {
-                    Task.Run(() => ChatDBManager.INSTANCE.setChat(chat, false, true));
+                    using (MainDbContext ctx = new MainDbContext())
+                    {
+                        ctx.Update(chat);
+                    }
                 }
             }
         }
@@ -141,30 +144,29 @@ namespace UWPX_UI_Context.Classes.DataTemplates.Controls
         #endregion
         //--------------------------------------------------------Misc Methods:---------------------------------------------------------------\\
         #region --Misc Methods (Public)--
-        public void UpdateViewClient(XMPPClient client)
+        public void UpdateViewClient(Client client)
         {
             if (!(client is null))
             {
-                AccountText = client.getXMPPAccount().getBareJid();
+                AccountText = client.dbAccount.bareJid;
             }
         }
 
-        public void UpdateViewChat(ChatModel chat, MucInfoModel muc)
+        public void UpdateViewChat(ChatModel chat)
         {
             if (!(chat is null))
             {
                 this.chat = chat;
-                this.muc = muc;
                 if (isDummy)
                 {
-                    AccountText = chat.userAccountId;
+                    AccountText = chat.accountBareJid;
                 }
 
                 if (chat.chatType == ChatType.MUC)
                 {
                     OmemoVisibility = Visibility.Collapsed;
 
-                    if (muc.state != MucState.ENTERD && muc.state != MucState.ENTERING)
+                    if (chat.muc.state != MucState.ENTERD && chat.muc.state != MucState.ENTERING)
                     {
                         EnterMucVisibility = Visibility.Visible;
                         LeaveMucVisibility = Visibility.Collapsed;
@@ -181,7 +183,7 @@ namespace UWPX_UI_Context.Classes.DataTemplates.Controls
                     StatusText = chat.chatState ?? chat.status ?? "";
                     EnterMucVisibility = Visibility.Collapsed;
                     LeaveMucVisibility = Visibility.Collapsed;
-                    OmemoEnabled = chat.omemoEnabled;
+                    OmemoEnabled = chat.omemo.enabled;
                     OmemoVisibility = Visibility.Visible;
                 }
 
@@ -196,15 +198,15 @@ namespace UWPX_UI_Context.Classes.DataTemplates.Controls
             }
         }
 
-        public void UpdateViewMuc(ChatModel chat, MucInfoModel muc)
+        public void UpdateViewMuc(ChatModel chat)
         {
-            if (!(muc is null) && !(chat is null) && string.Equals(chat.id, muc.chatId))
+            if (!(chat is null))
             {
-                NameText = string.IsNullOrWhiteSpace(muc.name) ? chat.bareJid : muc.name;
-                StatusText = muc.subject ?? "";
+                NameText = string.IsNullOrWhiteSpace(chat.muc.name) ? chat.bareJid : chat.muc.name;
+                StatusText = chat.muc.subject ?? "";
 
                 // Account image:
-                AccountPresence = muc.getMUCPresence();
+                AccountPresence = chat.muc.GetMucPresence();
 
                 OmemoEnabled = false;
             }
@@ -212,9 +214,9 @@ namespace UWPX_UI_Context.Classes.DataTemplates.Controls
 
         public void LoadSettings()
         {
-            IsEmojiFlyoutEnabled = Settings.getSettingBoolean(SettingsConsts.CHAT_ENABLE_EMOJI_BUTTON);
-            DebugSettingsEnabled = Settings.getSettingBoolean(SettingsConsts.DEBUG_SETTINGS_ENABLED);
-            EnterToSend = Settings.getSettingBoolean(SettingsConsts.ENTER_TO_SEND_MESSAGES);
+            IsEmojiFlyoutEnabled = Settings.GetSettingBoolean(SettingsConsts.CHAT_ENABLE_EMOJI_BUTTON);
+            DebugSettingsEnabled = Settings.GetSettingBoolean(SettingsConsts.DEBUG_SETTINGS_ENABLED);
+            EnterToSend = Settings.GetSettingBoolean(SettingsConsts.ENTER_TO_SEND_MESSAGES);
         }
 
         #endregion

@@ -1,6 +1,8 @@
 ﻿using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using XMPP_API.Classes;
 using XMPP_API.Classes.Network.XML.Messages.XEP_0045;
+using XMPP_API.Classes.Network.XML.Messages.XEP_0048;
 
 namespace Storage.Classes.Models.Chat
 {
@@ -66,12 +68,42 @@ namespace Storage.Classes.Models.Chat
         #endregion
         //--------------------------------------------------------Set-, Get- Methods:---------------------------------------------------------\\
         #region --Set-, Get- Methods--
+        public Presence GetMucPresence()
+        {
+            switch (state)
+            {
+                case MucState.ENTERING:
+                case MucState.DISCONNECTING:
+                    return Presence.Chat;
 
+                case MucState.ENTERD:
+                    return Presence.Online;
+
+                case MucState.ERROR:
+                case MucState.KICKED:
+                case MucState.BANED:
+                    return Presence.Xa;
+
+                case MucState.DISCONNECTED:
+                default:
+                    return Presence.Unavailable;
+            }
+        }
 
         #endregion
         //--------------------------------------------------------Misc Methods:---------------------------------------------------------------\\
         #region --Misc Methods (Public)--
-
+        public ConferenceItem ToConferenceItem()
+        {
+            return new ConferenceItem
+            {
+                autoJoin = autoEnterRoom,
+                name = name,
+                nick = nickname,
+                password = password,
+                jid = chat.bareJid
+            };
+        }
 
         #endregion
 

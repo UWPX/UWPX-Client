@@ -2,10 +2,10 @@
 using System.Threading.Tasks;
 using Logging;
 using Manager.Classes;
-using Manager.Classes.Toast;
+using Manager.Classes.Chat;
 using Storage.Classes;
+using Storage.Classes.Contexts;
 using Storage.Classes.Models.Chat;
-using UWPX_UI_Context.Classes.DataTemplates;
 using UWPX_UI_Context.Classes.DataTemplates.Controls;
 using Windows.System;
 using Windows.UI.Xaml;
@@ -76,12 +76,12 @@ namespace UWPX_UI_Context.Classes.DataContext.Controls
         {
             MessageMessage toSendMsg;
 
-            string from = chat.Client.getXMPPAccount().getFullJid();
-            string to = chat.Chat.chatJabberId;
+            string from = chat.Client.dbAccount.fullJid.FullJid();
+            string to = chat.Chat.bareJid;
             string chatType = chat.Chat.chatType == ChatType.CHAT ? MessageMessage.TYPE_CHAT : MessageMessage.TYPE_GROUPCHAT;
             bool reciptRequested = true;
 
-            if (chat.Chat.omemoEnabled)
+            if (chat.Chat.omemo.enabled)
             {
                 if (chat.Chat.chatType == ChatType.CHAT)
                 {
@@ -97,7 +97,7 @@ namespace UWPX_UI_Context.Classes.DataContext.Controls
             {
                 toSendMsg = chat.Chat.chatType == ChatType.CHAT
                     ? new MessageMessage(from, to, message, chatType, reciptRequested)
-                    : new MessageMessage(from, to, message, chatType, chat.MucInfo.nickname, reciptRequested);
+                    : new MessageMessage(from, to, message, chatType, chat.Chat.muc.nickname, reciptRequested);
             }
 
             // Create a copy for the DB:
@@ -113,20 +113,16 @@ namespace UWPX_UI_Context.Classes.DataContext.Controls
             chat.Chat.lastActive = DateTime.Now;
 
             // Update DB:
-            await Task.Run(async () =>
-            {
-                await ChatDBManager.INSTANCE.setChatMessageAsync(toSendMsgDB, true, false);
-                ChatDBManager.INSTANCE.setChat(chat.Chat, false, true);
-            });
+            DataCache.INSTANCE.AddChatMessage(toSendMsgDB, chat.Chat);
 
             // Send the message:
             if (toSendMsg is OmemoEncryptedMessage toSendOmemoMsg)
             {
-                await chat.Client.sendOmemoMessageAsync(toSendOmemoMsg, chat.Chat.chatJabberId, chat.Client.getXMPPAccount().getBareJid());
+                await chat.Client.xmppClient.sendOmemoMessageAsync(toSendOmemoMsg, chat.Chat.bareJid, chat.Client.dbAccount.bareJid);
             }
             else
             {
-                await chat.Client.SendAsync(toSendMsg);
+                await chat.Client.xmppClient.SendAsync(toSendMsg);
             }
         }
 
@@ -153,7 +149,7 @@ namespace UWPX_UI_Context.Classes.DataContext.Controls
         {
             if (!MODEL.isDummy)
             {
-                await MucHandler.INSTANCE.leaveRoomAsync(chatTemplate.Client, chatTemplate.Chat, chatTemplate.MucInfo);
+                await MucHandler.INSTANCE.LeaveRoomAsync(chatTemplate.Client.xmppClient, chatTemplate.Chat.muc);
             }
         }
 
@@ -161,26 +157,22 @@ namespace UWPX_UI_Context.Classes.DataContext.Controls
         {
             if (!MODEL.isDummy)
             {
-                await MucHandler.INSTANCE.enterMucAsync(chatTemplate.Client, chatTemplate.Chat, chatTemplate.MucInfo);
+                await MucHandler.INSTANCE.EnterMucAsync(chatTemplate.Client.xmppClient, chatTemplate.Chat.muc);
             }
         }
 
         public void MarkAsRead(ChatDataTemplate chat)
         {
-            Task.Run(() =>
-            {
-                ChatDBManager.INSTANCE.markAllMessagesAsRead(chat.Chat.id);
-                ToastHelper.UpdateBadgeNumber();
-            });
+            DataCache.INSTANCE.MarkAllChatMessagesAsRead(chat.Chat.id);
         }
 
         public void MarkAsIotDevice(ChatModel chat)
         {
             chat.chatType = ChatType.IOT_DEVICE;
-            Task.Run(() =>
+            using (MainDbContext ctx = new MainDbContext())
             {
-                ChatDBManager.INSTANCE.setChat(chat, false, true);
-            });
+                ctx.Update(chat);
+            }
         }
 
         #endregion
@@ -191,15 +183,11 @@ namespace UWPX_UI_Context.Classes.DataContext.Controls
             if (!(chatTemplate is null))
             {
                 MODEL.UpdateViewClient(chatTemplate.Client);
+                MODEL.UpdateViewChat(chatTemplate.Chat);
                 if (chatTemplate.Chat.chatType == ChatType.MUC)
                 {
-                    MODEL.UpdateViewChat(chatTemplate.Chat, chatTemplate.MucInfo);
+                    MODEL.UpdateViewMuc(chatTemplate.Chat);
                 }
-                else
-                {
-                    MODEL.UpdateViewChat(chatTemplate.Chat, null);
-                }
-                MODEL.UpdateViewMuc(chatTemplate.Chat, chatTemplate.MucInfo);
             }
             MODEL.LoadSettings();
         }

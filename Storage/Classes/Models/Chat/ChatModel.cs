@@ -1,6 +1,7 @@
 ﻿using System;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
+using Storage.Classes.Contexts;
 using Storage.Classes.Models.Account;
 using Storage.Classes.Models.Omemo;
 using XMPP_API.Classes;
@@ -109,6 +110,14 @@ namespace Storage.Classes.Models.Chat
         public int CompareTo(object obj)
         {
             return obj is ChatModel c ? lastActive.CompareTo(c.lastActive) : -1;
+        }
+
+        public void Save()
+        {
+            using (MainDbContext ctx = new MainDbContext())
+            {
+                ctx.Update(this);
+            }
         }
 
         #endregion

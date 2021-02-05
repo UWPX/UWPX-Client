@@ -1,10 +1,12 @@
-﻿using System.Linq;
+﻿using System.Collections.Generic;
+using System.Linq;
 using Microsoft.EntityFrameworkCore;
 using Omemo.Classes;
 using Omemo.Classes.Keys;
 using Storage.Classes.Models.Account;
 using Storage.Classes.Models.Chat;
 using Storage.Classes.Models.Omemo;
+using XMPP_API.Classes.Network.XML.Messages.XEP_0048;
 
 namespace Storage.Classes.Contexts
 {
@@ -58,10 +60,23 @@ namespace Storage.Classes.Contexts
             return MucInfos.Where(c => string.Equals(c.chat.accountBareJid, accountBareJid) && string.Equals(c.chat.bareJid, chatBareJid)).FirstOrDefault();
         }
 
+        public int GetUnreadMessageCount(int chatId)
+        {
+            return ChatMessages.Where(m => m.chat.id == chatId).Count();
+        }
+
+        public List<ConferenceItem> GetXEP0048ConferenceItemsForAccount(string accountBareJid)
+        {
+            return MucInfos.Where(muc => muc.chat.inRoster && string.Equals(muc.chat.accountBareJid, accountBareJid)).Select(muc => muc.ToConferenceItem()).ToList();
+        }
+
         #endregion
         //--------------------------------------------------------Misc Methods:---------------------------------------------------------------\\
         #region --Misc Methods (Public)--
-
+        protected override void OnModelCreating(ModelBuilder modelBuilder)
+        {
+            modelBuilder.Entity<ChatMessageModel>().Has // TODO: Continue here
+        }
 
         #endregion
 

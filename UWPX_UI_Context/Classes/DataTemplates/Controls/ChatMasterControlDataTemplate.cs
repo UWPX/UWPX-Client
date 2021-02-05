@@ -1,5 +1,6 @@
-﻿using System.Threading.Tasks;
+﻿using Manager.Classes;
 using Shared.Classes;
+using Storage.Classes.Contexts;
 using Storage.Classes.Models.Chat;
 using Windows.UI;
 using Windows.UI.Xaml;
@@ -255,8 +256,6 @@ namespace UWPX_UI_Context.Classes.DataTemplates.Controls
                     InfoTextVisibility = Visibility.Collapsed;
                 }
 
-                // Last chat message:
-                UpdateLastAction(chat);
                 UpdateUnreadCount(chat);
 
                 // Status icons:
@@ -269,74 +268,70 @@ namespace UWPX_UI_Context.Classes.DataTemplates.Controls
             }
         }
 
-        public void UpdateViewMuc(ChatModel chat, MucInfoModel muc)
+        public void UpdateViewMuc(ChatModel chat)
         {
-            if (!(muc is null) && !(chat is null))
+            if (!(chat is null))
             {
-                NameText = string.IsNullOrWhiteSpace(muc.name) ? chat.bareJid : muc.name;
+                NameText = string.IsNullOrWhiteSpace(chat.muc.name) ? chat.bareJid : chat.muc.name;
                 RemoveFromRosterText = chat.inRoster ? "Remove bookmark" : "Bookmark";
 
                 // Account image:
-                AccountPresence = muc.getMUCPresence();
+                AccountPresence = chat.muc.GetMucPresence();
 
-                MucState = muc.state;
+                MucState = chat.muc.state;
             }
         }
 
         public void UpdateUnreadCount(ChatModel chat)
         {
-            Task.Run(() =>
+            using (MainDbContext ctx = new MainDbContext())
             {
-                UnreadCount = ChatDBManager.INSTANCE.getUnreadCount(chat.id);
-            });
+                UnreadCount = ctx.GetUnreadMessageCount(chat.id);
+            }
         }
 
-        public void UpdateLastAction(ChatModel chat)
+        public void UpdateLastAction(ChatMessageModel msg)
         {
-            Task.Run(() =>
+            if (msg is null)
             {
-                ChatMessageModel lastMsg = ChatDBManager.INSTANCE.getLatestChatMessageForChat(chat.id);
-                if (lastMsg is null)
+                LastActionIconText = "";
+                LastActionState = MessageState.READ;
+            }
+            else
+            {
+                // Text and icon:
+                LastActionState = msg.state;
+                if (msg.isImage)
                 {
-                    LastActionIconText = "";
-                    LastActionState = MessageState.READ;
+                    LastActionIconText = "\uE722";
+                    LastActionText = msg.message ?? "You received an image";
                 }
                 else
                 {
-                    // Text and icon:
-                    LastActionState = lastMsg.state;
-                    if (lastMsg.isImage)
+                    switch (msg.type)
                     {
-                        LastActionIconText = "\uE722";
-                        LastActionText = lastMsg.message ?? "You received an image";
-                    }
-                    else
-                    {
-                        switch (lastMsg.type)
-                        {
-                            case DirectMUCInvitationMessage.TYPE_MUC_DIRECT_INVITATION:
-                                LastActionIconText = "\uE8F2";
-                                LastActionText = "You have been invited to a MUC room";
-                                break;
+                        case DirectMUCInvitationMessage.TYPE_MUC_DIRECT_INVITATION:
+                            LastActionIconText = "\uE8F2";
+                            LastActionText = "You have been invited to a MUC room";
+                            break;
 
-                            case MessageMessage.TYPE_ERROR:
-                                LastActionIconText = "\xE7BA";
-                                LastActionText = lastMsg.message ?? "You received an error message";
-                                break;
+                        case MessageMessage.TYPE_ERROR:
+                            LastActionIconText = "\xE7BA";
+                            LastActionText = msg.message ?? "You received an error message";
+                            break;
 
-                            case MucHandler.TYPE_CHAT_INFO:
-                                LastActionIconText = "\uE946";
-                                LastActionText = lastMsg.message ?? "-";
-                                break;
+                        case MucHandler.TYPE_CHAT_INFO:
+                            LastActionIconText = "\uE946";
+                            LastActionText = msg.message ?? "-";
+                            break;
 
-                            default:
-                                LastActionText = lastMsg.message ?? "";
-                                LastActionIconText = "";
-                                break;
-                        }
+                        default:
+                            LastActionText = msg.message ?? "";
+                            LastActionIconText = "";
+                            break;
                     }
                 }
-            });
+            }
         }
 
         #endregion
