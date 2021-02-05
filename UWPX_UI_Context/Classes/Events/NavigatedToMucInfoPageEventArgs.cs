@@ -1,5 +1,5 @@
 ﻿using System;
-using UWPX_UI_Context.Classes.DataTemplates;
+using Manager.Classes.Chat;
 
 namespace UWPX_UI_Context.Classes.Events
 {

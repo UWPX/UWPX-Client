@@ -2,6 +2,7 @@
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
+using Logging;
 using Shared.Classes;
 using Shared.Classes.Collections;
 using Storage.Classes.Contexts;
@@ -186,6 +187,43 @@ namespace Manager.Classes.Chat
             {
                 ctx.Add(msg);
                 ctx.Update(chat);
+            }
+        }
+
+        public void DeleteChat(ChatModel chat, bool keepChatMessages, bool removeFromRoster)
+        {
+            // Update the cache:
+            if (initialized)
+            {
+                CHATS_SEMA.Wait();
+                if (!(SelectedChat is null) && SelectedChat.Chat.id == chat.id)
+                {
+                    SelectedChat = null;
+                }
+                CHATS.RemoveId(chat.id);
+                CHATS_SEMA.Release();
+            }
+
+            // Update the DB:
+            using (MainDbContext ctx = new MainDbContext())
+            {
+                if (!keepChatMessages)
+                {
+                    ctx.Remove(ctx.ChatMessages.Where(msg => msg.chat.id == chat.id));
+                    Logger.Info("Deleted chat messages for: " + chat.bareJid);
+                }
+
+                if (chat.chatType == ChatType.MUC || removeFromRoster)
+                {
+                    ctx.Remove(chat);
+                    Logger.Info("Deleted chat: " + chat.bareJid);
+                }
+                else
+                {
+                    chat.isChatActive = false;
+                    chat.Save();
+                    Logger.Info("Marked chat as not active: " + chat.bareJid);
+                }
             }
         }
 

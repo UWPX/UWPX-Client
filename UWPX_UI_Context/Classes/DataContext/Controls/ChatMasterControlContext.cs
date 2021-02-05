@@ -1,12 +1,14 @@
 ﻿using System.Collections.Generic;
+using System.ComponentModel;
 using System.Threading.Tasks;
 using Logging;
 using Manager.Classes;
+using Manager.Classes.Chat;
 using Manager.Classes.Toast;
 using Microsoft.Toolkit.Uwp.UI.Helpers;
 using Storage.Classes;
+using Storage.Classes.Contexts;
 using Storage.Classes.Models.Chat;
-using UWPX_UI_Context.Classes.DataTemplates;
 using UWPX_UI_Context.Classes.DataTemplates.Controls;
 using UWPX_UI_Context.Classes.DataTemplates.Dialogs;
 using UWPX_UI_Context.Classes.Events;
@@ -49,16 +51,16 @@ namespace UWPX_UI_Context.Classes.DataContext.Controls
             {
                 chat.Chat.inRoster = inRoster;
                 UpdateView(chat);
-                ChatDBManager.INSTANCE.setChat(chat.Chat, false, true);
+                chat.Chat.Save();
             }
 
             if (inRoster)
             {
-                await chat.Client.GENERAL_COMMAND_HELPER.addToRosterAsync(chat.Chat.chatJabberId);
+                await chat.Client.xmppClient.GENERAL_COMMAND_HELPER.addToRosterAsync(chat.Chat.bareJid);
             }
             else
             {
-                await chat.Client.GENERAL_COMMAND_HELPER.removeFromRosterAsync(chat.Chat.chatJabberId);
+                await chat.Client.xmppClient.GENERAL_COMMAND_HELPER.removeFromRosterAsync(chat.Chat.bareJid);
             }
         }
 
@@ -68,21 +70,18 @@ namespace UWPX_UI_Context.Classes.DataContext.Controls
             {
                 chat.Chat.inRoster = bookmarked;
                 UpdateView(chat);
-                ChatDBManager.INSTANCE.setChat(chat.Chat, false, true);
+                chat.Chat.Save();
             }
-            UpdateBookmarks(chat.Client);
+            UpdateBookmarks(chat.Client.xmppClient);
         }
 
-        public async Task SetChatMutedAsync(ChatDataTemplate chat, bool muted)
+        public void SetChatMuted(ChatDataTemplate chat, bool muted)
         {
             if (chat.Chat.muted != muted)
             {
-                await Task.Run(() =>
-                {
-                    chat.Chat.muted = muted;
-                    UpdateView(chat);
-                    ChatDBManager.INSTANCE.setChat(chat.Chat, false, true);
-                });
+                chat.Chat.muted = muted;
+                UpdateView(chat);
+                chat.Chat.Save();
             }
         }
 
@@ -94,17 +93,13 @@ namespace UWPX_UI_Context.Classes.DataContext.Controls
             ChatDataTemplate newChat = null;
             if (args.OldValue is ChatDataTemplate oldChat)
             {
-                oldChat.PropertyChanged -= Chat_PropertyChanged;
-                oldChat.ChatMessageChanged -= Chat_ChatMessageChanged;
-                oldChat.NewChatMessage -= Chat_NewChatMessage;
+                oldChat.PropertyChanged -= OnChatPropertyChanged;
             }
 
             if (args.NewValue is ChatDataTemplate)
             {
                 newChat = args.NewValue as ChatDataTemplate;
-                newChat.PropertyChanged += Chat_PropertyChanged;
-                newChat.ChatMessageChanged += Chat_ChatMessageChanged;
-                newChat.NewChatMessage += Chat_NewChatMessage;
+                newChat.PropertyChanged += OnChatPropertyChanged;
             }
 
             UpdateView(newChat);
@@ -129,9 +124,6 @@ namespace UWPX_UI_Context.Classes.DataContext.Controls
                     if (chat.Chat.chatType == ChatType.MUC)
                     {
                         SetChatBookmarked(chat, false);
-
-                        MUCDBManager.INSTANCE.setMUCChatInfo(chat.MucInfo, true, false);
-                        Logger.Info("Deleted MUC info for: " + chat.Chat.id);
                     }
                     else
                     {
@@ -141,50 +133,34 @@ namespace UWPX_UI_Context.Classes.DataContext.Controls
                         }
                     }
 
-                    if (!confirmDialogModel.KeepChatMessages)
-                    {
-                        await ChatDBManager.INSTANCE.deleteAllChatMessagesForChatAsync(chat.Chat.id);
-                        Logger.Info("Deleted chat messages for: " + chat.Chat.id);
-                    }
-
-                    if (chat.Chat.chatType == ChatType.MUC || confirmDialogModel.RemoveFromRoster)
-                    {
-                        ChatDBManager.INSTANCE.setChat(chat.Chat, true, true);
-                        Logger.Info("Deleted chat: " + chat.Chat.id);
-                    }
-                    else
-                    {
-                        chat.Chat.isChatActive = false;
-                        ChatDBManager.INSTANCE.setChat(chat.Chat, false, true);
-                        Logger.Info("Marked chat as not active: " + chat.Chat.id);
-                    }
+                    DataCache.INSTANCE.DeleteChat(chat.Chat, confirmDialogModel.KeepChatMessages, confirmDialogModel.RemoveFromRoster);
                 });
             }
         }
 
         public async Task LeaveMucAsync(ChatDataTemplate chatTemplate)
         {
-            await MucHandler.INSTANCE.leaveRoomAsync(chatTemplate.Client, chatTemplate.Chat, chatTemplate.MucInfo);
+            await MucHandler.INSTANCE.LeaveRoomAsync(chatTemplate.Client.xmppClient, chatTemplate.Chat.muc);
         }
 
         public async Task EnterMucAsync(ChatDataTemplate chatTemplate)
         {
-            await MucHandler.INSTANCE.enterMucAsync(chatTemplate.Client, chatTemplate.Chat, chatTemplate.MucInfo);
+            await MucHandler.INSTANCE.EnterMucAsync(chatTemplate.Client.xmppClient, chatTemplate.Chat.muc);
         }
 
         public async Task SendPresenceProbeAsync(ChatDataTemplate chatTemplate)
         {
-            await chatTemplate.Client.GENERAL_COMMAND_HELPER.sendPresenceProbeAsync(chatTemplate.Client.getXMPPAccount().getFullJid(), chatTemplate.Chat.chatJabberId);
+            await chatTemplate.Client.xmppClient.GENERAL_COMMAND_HELPER.sendPresenceProbeAsync(chatTemplate.Client.dbAccount.fullJid.FullJid(), chatTemplate.Chat.bareJid);
         }
 
         public async Task RequestPresenceSubscriptionAsync(ChatDataTemplate chatTemplate)
         {
-            await chatTemplate.Client.GENERAL_COMMAND_HELPER.requestPresenceSubscriptionAsync(chatTemplate.Chat.chatJabberId);
+            await chatTemplate.Client.xmppClient.GENERAL_COMMAND_HELPER.requestPresenceSubscriptionAsync(chatTemplate.Chat.bareJid);
         }
 
         public async Task CancelPresenceSubscriptionAsync(ChatDataTemplate chatTemplate)
         {
-            await chatTemplate.Client.GENERAL_COMMAND_HELPER.unsubscribeFromPresenceAsync(chatTemplate.Chat.chatJabberId);
+            await chatTemplate.Client.xmppClient.GENERAL_COMMAND_HELPER.unsubscribeFromPresenceAsync(chatTemplate.Chat.bareJid);
             await Task.Run(() =>
             {
                 switch (chatTemplate.Chat.subscription)
@@ -197,7 +173,7 @@ namespace UWPX_UI_Context.Classes.DataContext.Controls
                         chatTemplate.Chat.subscription = "from";
                         break;
                 }
-                ChatDBManager.INSTANCE.setChat(chatTemplate.Chat, false, true);
+                chatTemplate.Chat.Save();
             });
         }
 
@@ -205,38 +181,32 @@ namespace UWPX_UI_Context.Classes.DataContext.Controls
         {
             Task.Run(() =>
             {
-                ChatDBManager.INSTANCE.markAllMessagesAsRead(chat.Chat.id);
+                DataCache.INSTANCE.MarkAllChatMessagesAsRead(chat.Chat.id);
                 ToastHelper.UpdateBadgeNumber();
             });
         }
 
         public async Task RejectPresenceSubscriptionAsync(ChatDataTemplate chatTemplate)
         {
-            await chatTemplate.Client.GENERAL_COMMAND_HELPER.answerPresenceSubscriptionRequestAsync(chatTemplate.Chat.chatJabberId, false);
-            await Task.Run(() =>
+            await chatTemplate.Client.xmppClient.GENERAL_COMMAND_HELPER.answerPresenceSubscriptionRequestAsync(chatTemplate.Chat.bareJid, false);
+            switch (chatTemplate.Chat.subscription)
             {
-                switch (chatTemplate.Chat.subscription)
-                {
-                    case "from":
-                        chatTemplate.Chat.subscription = "none";
-                        break;
+                case "from":
+                    chatTemplate.Chat.subscription = "none";
+                    break;
 
-                    case "both":
-                        chatTemplate.Chat.subscription = "to";
-                        break;
-                }
-                ChatDBManager.INSTANCE.setChat(chatTemplate.Chat, false, true);
-            });
+                case "both":
+                    chatTemplate.Chat.subscription = "to";
+                    break;
+            }
+            chatTemplate.Chat.Save();
         }
 
         public async Task AnswerPresenceSubscriptionRequestAsync(ChatDataTemplate chatTemplate, bool accepted)
         {
-            await chatTemplate.Client.GENERAL_COMMAND_HELPER.answerPresenceSubscriptionRequestAsync(chatTemplate.Chat.chatJabberId, accepted);
-            await Task.Run(() =>
-            {
-                chatTemplate.Chat.subscription = accepted ? "to" : "none";
-                ChatDBManager.INSTANCE.setChat(chatTemplate.Chat, false, true);
-            });
+            await chatTemplate.Client.xmppClient.GENERAL_COMMAND_HELPER.answerPresenceSubscriptionRequestAsync(chatTemplate.Chat.bareJid, accepted);
+            chatTemplate.Chat.subscription = accepted ? "to" : "none";
+            chatTemplate.Chat.Save();
         }
 
         #endregion
@@ -244,21 +214,22 @@ namespace UWPX_UI_Context.Classes.DataContext.Controls
         #region --Misc Methods (Private)--
         private void UpdateView(ChatDataTemplate chatTemplate)
         {
-            if (chatTemplate is null)
+            if (!(chatTemplate is null))
             {
-
-            }
-            else
-            {
-                MODEL.UpdateViewClient(chatTemplate.Client);
+                MODEL.UpdateViewClient(chatTemplate.Client.xmppClient);
                 MODEL.UpdateViewChat(chatTemplate.Chat);
-                MODEL.UpdateViewMuc(chatTemplate.Chat, chatTemplate.MucInfo);
+                MODEL.UpdateLastAction(chatTemplate.LastMsg);
+                MODEL.UpdateViewMuc(chatTemplate.Chat);
             }
         }
 
         private void UpdateBookmarks(XMPPClient client)
         {
-            List<ConferenceItem> conferences = MUCDBManager.INSTANCE.getXEP0048ConferenceItemsForAccount(client.getXMPPAccount().getBareJid());
+            List<ConferenceItem> conferences;
+            using (MainDbContext ctx = new MainDbContext())
+            {
+                conferences = ctx.GetXEP0048ConferenceItemsForAccount(client.getXMPPAccount().getBareJid());
+            }
             if (updateBookmarksHelper != null)
             {
                 updateBookmarksHelper.Dispose();
@@ -301,7 +272,7 @@ namespace UWPX_UI_Context.Classes.DataContext.Controls
         #endregion
         //--------------------------------------------------------Events:---------------------------------------------------------------------\\
         #region --Events--
-        private void Chat_PropertyChanged(object sender, System.ComponentModel.PropertyChangedEventArgs e)
+        private void OnChatPropertyChanged(object sender, PropertyChangedEventArgs e)
         {
             if (sender is ChatDataTemplate chat)
             {
@@ -314,19 +285,7 @@ namespace UWPX_UI_Context.Classes.DataContext.Controls
             MODEL.OnThemeChanged();
         }
 
-        private void Chat_NewChatMessage(ChatDataTemplate chat, Data_Manager2.Classes.Events.NewChatMessageEventArgs args)
-        {
-            MODEL.UpdateLastAction(chat.Chat);
-            MODEL.UpdateUnreadCount(chat.Chat);
-        }
-
-        private void Chat_ChatMessageChanged(ChatDataTemplate chat, Data_Manager2.Classes.Events.ChatMessageChangedEventArgs args)
-        {
-            MODEL.UpdateLastAction(chat.Chat);
-            MODEL.UpdateUnreadCount(chat.Chat);
-        }
-
-        private void Settings_SettingChanged(object sender, System.ComponentModel.PropertyChangedEventArgs e)
+        private void Settings_SettingChanged(object sender, PropertyChangedEventArgs e)
         {
             switch (e.PropertyName)
             {
