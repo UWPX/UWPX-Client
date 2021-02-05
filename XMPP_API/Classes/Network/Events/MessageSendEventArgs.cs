@@ -13,7 +13,7 @@ namespace XMPP_API.Classes.Network.Events
         /// <summary>
         /// A unique ID for chat messages to identify them in the DB.
         /// </summary>
-        public readonly string CHAT_MESSAGE_ID;
+        public readonly int CHAT_MESSAGE_ID;
         /// <summary>
         /// Did the message got send with a delay?
         /// </summary>
@@ -28,7 +28,7 @@ namespace XMPP_API.Classes.Network.Events
         /// <history>
         /// 01/01/2018 Created [Fabian Sauter]
         /// </history>
-        public MessageSendEventArgs(string id, string chatMessageId, bool delayed)
+        public MessageSendEventArgs(string id, int chatMessageId, bool delayed)
         {
             ID = id;
             CHAT_MESSAGE_ID = chatMessageId;

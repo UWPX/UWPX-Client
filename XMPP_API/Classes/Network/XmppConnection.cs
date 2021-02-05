@@ -460,7 +460,7 @@ namespace XMPP_API.Classes.Network
         /// </summary>
         /// <param name="id">The id of the message that got send.</param>
         /// <param name="delayed">If the message got send delayed (e.g. stored in message cache).</param>
-        private void OnMessageSend(string id, string chatMessageId, bool delayed)
+        private void OnMessageSend(string id, int chatMessageId, bool delayed)
         {
             Task.Run(() => MessageSend?.Invoke(this, new MessageSendEventArgs(id, chatMessageId, delayed)));
         }

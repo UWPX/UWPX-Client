@@ -142,7 +142,7 @@ namespace Storage.Classes.Models.Chat
             }
 
             msg.addDelay(date);
-            msg.chatMessageId = stableId;
+            msg.chatMessageId = id;
             return msg;
         }
 

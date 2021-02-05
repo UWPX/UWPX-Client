@@ -1,4 +1,5 @@
 ﻿using System;
+using Manager.Classes;
 
 namespace UWPX_UI.Classes.Events
 {
