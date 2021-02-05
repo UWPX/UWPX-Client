@@ -1,15 +1,18 @@
 ﻿using System;
 using System.Diagnostics;
+using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using Data_Manager2.Classes;
-using Data_Manager2.Classes.DBManager;
-using Data_Manager2.Classes.DBTables;
-using Data_Manager2.Classes.Toast;
 using Logging;
+using Manager.Classes;
+using Manager.Classes.Chat;
+using Manager.Classes.Toast;
 using Push.Classes;
 using Push.Classes.Events;
 using Shared.Classes;
+using Storage.Classes;
+using Storage.Classes.Contexts;
+using Storage.Classes.Models.Chat;
 using UWPX_UI.Dialogs;
 using UWPX_UI.Pages;
 using UWPX_UI_Context.Classes;
@@ -71,7 +74,7 @@ namespace UWPX_UI
         /// </summary>
         private void InitLogger()
         {
-            object o = Settings.getSetting(SettingsConsts.LOG_LEVEL);
+            object o = Settings.GetSetting(SettingsConsts.LOG_LEVEL);
             if (o is int)
             {
                 try
@@ -81,13 +84,13 @@ namespace UWPX_UI
                 catch (Exception e)
                 {
                     Logger.Error("Failed to parse log level (" + o.ToString() + "). Resetting it to LogLevel.INFO: " + e.Message);
-                    Settings.setSetting(SettingsConsts.LOG_LEVEL, (int)LogLevel.INFO);
+                    Settings.SetSetting(SettingsConsts.LOG_LEVEL, (int)LogLevel.INFO);
                     Logger.logLevel = LogLevel.INFO;
                 }
             }
             else
             {
-                Settings.setSetting(SettingsConsts.LOG_LEVEL, (int)LogLevel.INFO);
+                Settings.SetSetting(SettingsConsts.LOG_LEVEL, (int)LogLevel.INFO);
                 Logger.logLevel = LogLevel.INFO;
             }
         }
@@ -117,7 +120,7 @@ namespace UWPX_UI
 
             // Do not repeat app initialization when the Window already has content,
             // just ensure that the window is active
-            if (!(Window.Current.Content is Frame rootFrame))
+            if (Window.Current.Content is not Frame rootFrame)
             {
                 // Create a Frame to act as the navigation context and navigate to the first page:
                 rootFrame = new Frame();
@@ -134,27 +137,30 @@ namespace UWPX_UI
             Window.Current.Activate();
         }
 
-        private async Task SendChatMessageAsync(ChatTable chat, string message)
+        private async Task SendChatMessageAsync(ChatModel chat, string message)
         {
-            AccountTable account = AccountDBManager.INSTANCE.getAccount(chat.userAccountId);
-            if (account is null)
+            string fromFullJid;
+            using (MainDbContext ctx = new MainDbContext())
             {
-                Logger.Warn("Unable to send message - no such account: " + chat.userAccountId);
+                fromFullJid = ctx.Accounts.Where(a => string.Equals(a.bareJid, chat.accountBareJid)).Select(a => a.fullJid.FullJid()).FirstOrDefault();
+            }
+
+            if (fromFullJid is null)
+            {
+                Logger.Error($"Failed to send message from background. Account '{chat.bareJid}' does not exist.");
                 return;
             }
 
-            string fromBareJid = account.userId + '@' + account.domain;
-            string fromFullJid = fromBareJid + '/' + account.resource;
-            string to = chat.chatJabberId;
+            string to = chat.bareJid;
             string chatType = chat.chatType == ChatType.CHAT ? MessageMessage.TYPE_CHAT : MessageMessage.TYPE_GROUPCHAT;
             bool reciptRequested = true;
 
             MessageMessage toSendMsg;
-            if (chat.omemoEnabled)
+            if (chat.omemo.enabled)
             {
                 if (chat.chatType == ChatType.CHAT)
                 {
-                    toSendMsg = new OmemoMessageMessage(fromFullJid, to, message, chatType, reciptRequested);
+                    toSendMsg = new OmemoEncryptedMessage(fromFullJid, to, message, chatType, reciptRequested);
                 }
                 else
                 {
@@ -168,14 +174,13 @@ namespace UWPX_UI
             }
             else
             {
-                MUCChatInfoTable mucInfo = MUCDBManager.INSTANCE.getMUCInfo(chat.id);
-                toSendMsg = new MessageMessage(fromFullJid, to, message, chatType, mucInfo.nickname, reciptRequested);
+                toSendMsg = new MessageMessage(fromFullJid, to, message, chatType, chat.muc.nickname, reciptRequested);
             }
 
             // Create a copy for the DB:
-            ChatMessageTable toSendMsgDB = new ChatMessageTable(toSendMsg, chat)
+            ChatMessageModel toSendMsgDB = new ChatMessageModel(toSendMsg, chat)
             {
-                state = toSendMsg is OmemoMessageMessage ? MessageState.TO_ENCRYPT : MessageState.SENDING
+                state = toSendMsg is OmemoEncryptedMessage ? MessageState.TO_ENCRYPT : MessageState.SENDING
             };
 
             // Set the chat message id for later identification:
@@ -185,22 +190,21 @@ namespace UWPX_UI
             chat.lastActive = DateTime.Now;
 
             // Update DB:
-            await ChatDBManager.INSTANCE.setChatMessageAsync(toSendMsgDB, true, false);
-            ChatDBManager.INSTANCE.setChat(chat, false, true);
+            DataCache.INSTANCE.AddChatMessage(toSendMsgDB, chat);
 
             Logger.Info("Added to send message in background");
 
             if (isRunning)
             {
-                XMPPClient client = ConnectionHandler.INSTANCE.GetClient(fromBareJid);
+                XMPPClient client = ConnectionHandler.INSTANCE.GetClient(chat.bareJid);
                 if (client is null)
                 {
-                    Logger.Error("Unable to send message in background - no such client: " + fromBareJid);
+                    Logger.Error($"Failed to send message from background. Client '{chat.bareJid}' does not exist.");
                 }
                 // Send the message:
-                else if (toSendMsg is OmemoMessageMessage toSendOmemoMsg)
+                else if (toSendMsg is OmemoEncryptedMessage toSendOmemoMsg)
                 {
-                    await client.sendOmemoMessageAsync(toSendOmemoMsg, chat.chatJabberId, client.getXMPPAccount().getBareJid());
+                    await client.sendOmemoMessageAsync(toSendOmemoMsg, chat.bareJid, client.getXMPPAccount().getBareJid());
                 }
                 else
                 {
@@ -209,7 +213,7 @@ namespace UWPX_UI
             }
             else
             {
-                ToastHelper.showWillBeSendLaterToast(chat);
+                ToastHelper.ShowWillBeSendLaterToast(chat);
             }
         }
 
@@ -231,7 +235,7 @@ namespace UWPX_UI
                         ValueSet userInput = details.UserInput;
 
                         Logger.Debug("App activated in background through toast with: " + arguments);
-                        AbstractToastActivation abstractToastActivation = ToastActivationArgumentParser.parseArguments(arguments);
+                        AbstractToastActivation abstractToastActivation = ToastActivationArgumentParser.ParseArguments(arguments);
 
                         if (abstractToastActivation is null)
                         {
@@ -239,22 +243,22 @@ namespace UWPX_UI
                         }
                         else if (abstractToastActivation is MarkChatAsReadToastActivation markChatAsRead)
                         {
-                            ToastHelper.removeToastGroup(markChatAsRead.CHAT_ID);
-                            ChatDBManager.INSTANCE.markAllMessagesAsRead(markChatAsRead.CHAT_ID);
+                            ToastHelper.RemoveToastGroup(markChatAsRead.CHAT_ID.ToString());
+                            DataCache.INSTANCE.MarkAllChatMessagesAsRead(markChatAsRead.CHAT_ID);
                         }
                         else if (abstractToastActivation is MarkMessageAsReadToastActivation markMessageAsRead)
                         {
-                            ChatDBManager.INSTANCE.markMessageAsRead(markMessageAsRead.CHAT_MESSAGE_ID);
+                            DataCache.INSTANCE.MarkChatMessageAsRead(markMessageAsRead.CHAT_ID, markMessageAsRead.CHAT_MESSAGE_ID);
                         }
                         else if (abstractToastActivation is SendReplyToastActivation sendReply)
                         {
-                            ChatTable chat = ChatDBManager.INSTANCE.getChat(sendReply.CHAT_ID);
-                            if (!(chat is null) && userInput[ToastHelper.TEXT_BOX_ID] is string text)
+                            ChatModel chat = DataCache.INSTANCE.GetChat(sendReply.CHAT_ID);
+                            if (chat is not null && userInput[ToastHelper.TEXT_BOX_ID] is string text)
                             {
                                 string trimedText = text.Trim(UiUtils.TRIM_CHARS);
                                 await SendChatMessageAsync(chat, trimedText);
                             }
-                            ChatDBManager.INSTANCE.markMessageAsRead(sendReply.CHAT_MESSAGE_ID);
+                            DataCache.INSTANCE.MarkChatMessageAsRead(sendReply.CHAT_ID, sendReply.CHAT_MESSAGE_ID);
                         }
 
                         ToastHelper.UpdateBadgeNumber();
@@ -391,7 +395,7 @@ namespace UWPX_UI
             if (args.NotificationType == PushNotificationType.Raw)
             {
                 RawNotification notification = args.RawNotification;
-                ToastHelper.showSimpleToast(notification.Content);
+                ToastHelper.ShowSimpleToast(notification.Content);
             }
         }
 

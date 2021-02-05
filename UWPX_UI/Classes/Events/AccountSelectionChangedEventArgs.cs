@@ -1,5 +1,4 @@
 ﻿using System;
-using XMPP_API.Classes;
 
 namespace UWPX_UI.Classes.Events
 {
@@ -7,12 +6,12 @@ namespace UWPX_UI.Classes.Events
     {
         //--------------------------------------------------------Attributes:-----------------------------------------------------------------\\
         #region --Attributes--
-        public readonly XMPPClient CLIENT;
+        public readonly Client CLIENT;
 
         #endregion
         //--------------------------------------------------------Constructor:----------------------------------------------------------------\\
         #region --Constructors--
-        public AccountSelectionChangedEventArgs(XMPPClient client)
+        public AccountSelectionChangedEventArgs(Client client)
         {
             CLIENT = client;
         }

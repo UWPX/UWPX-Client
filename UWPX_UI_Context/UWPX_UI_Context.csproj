@@ -212,7 +212,6 @@
     <Compile Include="Classes\DataContext\Pages\MiscSettingsPageContext.cs" />
     <Compile Include="Classes\DataContext\Pages\SettingsPageContext.cs" />
     <Compile Include="Classes\DataTemplates\AccountDataTemplate.cs" />
-    <Compile Include="Classes\DataTemplates\ChatDataTemplate.cs" />
     <Compile Include="Classes\DataTemplates\ChatFilterDataTemplate.cs" />
     <Compile Include="Classes\DataTemplates\ChatMessageDataTemplate.cs" />
     <Compile Include="Classes\DataTemplates\Controls\AccountImagePresenceControlDataTemplate.cs" />
@@ -301,7 +300,7 @@
     <Compile Include="Classes\DataTemplates\Selectors\SpeechBubbleDataTemplateSelector.cs" />
     <Compile Include="Classes\DataTemplates\SettingsPageButtonDataTemplate.cs" />
     <Compile Include="Classes\DataTemplates\UintDataTemplate.cs" />
-    <Compile Include="Classes\DataTemplates\XMPPClientDataTemplate.cs" />
+    <Compile Include="Classes\DataTemplates\ClientDataTemplate.cs" />
     <Compile Include="Classes\Events\FieldValueChangedByUserEventArgs.cs" />
     <Compile Include="Classes\Events\FrameArrivedEventArgs.cs" />
     <Compile Include="Classes\Events\NavigatedToMucInfoPageEventArgs.cs" />

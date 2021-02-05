@@ -1,8 +1,9 @@
 ﻿using Storage.Classes;
 using Storage.Classes.Models.Account;
 using XMPP_API.Classes;
+using XMPP_API.Classes.Network;
 
-namespace Manager.Classes.Client
+namespace Manager.Classes
 {
     public class Client
     {
@@ -33,12 +34,33 @@ namespace Manager.Classes.Client
         #endregion
 
         #region --Misc Methods (Private)--
-        private static XMPPClient LoadXmppClient(AccountModel dbAccount)
+        /// <summary>
+        /// Loads one specific XMPPAccount and subscribes to all its events.
+        /// </summary>
+        /// <param name="account">The account which should get loaded.</param>
+        /// <returns>Returns a new XMPPClient instance.</returns>
+        private XMPPClient LoadXmppClient(AccountModel account)
         {
-            XMPPClient client = new XMPPClient(dbAccount.ToXMPPAccount());
+            XMPPClient client = new XMPPClient(account.ToXMPPAccount());
             client.connection.TCP_CONNECTION.disableConnectionTimeout = Settings.GetSettingBoolean(SettingsConsts.DEBUG_DISABLE_TCP_TIMEOUT);
             client.connection.TCP_CONNECTION.disableTlsUpgradeTimeout = Settings.GetSettingBoolean(SettingsConsts.DEBUG_DISABLE_TLS_TIMEOUT);
+
+            // Enable OMEMO:
+            EnableOmemo(account, client);
             return client;
+        }
+
+        private void EnableOmemo(AccountModel account, XMPPClient client)
+        {
+            XMPPAccount xmppAccount = client.getXMPPAccount();
+            xmppAccount.omemoDeviceId = account.omemoInfo.deviceId;
+            xmppAccount.omemoDeviceLabel = account.omemoInfo.deviceLabel;
+            xmppAccount.omemoIdentityKey = account.omemoInfo.identityKey;
+            xmppAccount.omemoSignedPreKey = account.omemoInfo.signedPreKey;
+            xmppAccount.OMEMO_PRE_KEYS.Clear();
+            xmppAccount.OMEMO_PRE_KEYS.AddRange(account.omemoInfo.preKeys);
+            xmppAccount.omemoBundleInfoAnnounced = account.omemoInfo.bundleInfoAnnounced;
+            client.enableOmemo(new OmemoStorage(account));
         }
 
         #endregion

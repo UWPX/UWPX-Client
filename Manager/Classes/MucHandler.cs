@@ -44,18 +44,18 @@ namespace Manager.Classes
         #endregion
         //--------------------------------------------------------Misc Methods:---------------------------------------------------------------\\
         #region --Misc Methods (Public)--
-        public void onClientConnected(XMPPClient client)
+        public void OnClientConnected(XMPPClient client)
         {
             client.NewMUCMemberPresenceMessage -= OnNewMucMemberPresenceMessage;
             client.NewMUCMemberPresenceMessage += OnNewMucMemberPresenceMessage;
-            client.NewValidMessage -= Client_NewValidMessage;
-            client.NewValidMessage += Client_NewValidMessage;
+            client.NewValidMessage -= OnNewValidMessage;
+            client.NewValidMessage += OnNewValidMessage;
 
             ResetMucState(client.getXMPPAccount().getBareJid());
             if (!Settings.GetSettingBoolean(SettingsConsts.DISABLE_AUTO_JOIN_MUC))
             {
                 Logger.Info("Entering all MUC rooms for '" + client.getXMPPAccount().getBareJid() + '\'');
-                enterAllMucs(client);
+                EnterAllMucs(client);
             }
         }
 
@@ -74,12 +74,12 @@ namespace Manager.Classes
             }
         }
 
-        public void onClientDisconnected(XMPPClient client) { }
+        public void OnClientDisconnected(XMPPClient client) { }
 
-        public void onClientDisconnecting(XMPPClient client)
+        public void OnClientDisconnecting(XMPPClient client)
         {
             client.NewMUCMemberPresenceMessage -= OnNewMucMemberPresenceMessage;
-            client.NewValidMessage -= Client_NewValidMessage;
+            client.NewValidMessage -= OnNewValidMessage;
 
             // Cancel the join delay:
             string accountBareJid = client.getXMPPAccount().getBareJid();
@@ -93,7 +93,7 @@ namespace Manager.Classes
             ResetMucState(accountBareJid);
         }
 
-        public void onMUCRoomSubjectMessage(MUCRoomSubjectMessage mucRoomSubject)
+        public void OnMUCRoomSubjectMessage(MUCRoomSubjectMessage mucRoomSubject)
         {
             string to = Utils.getBareJidFromFullJid(mucRoomSubject.getTo());
             string from = Utils.getBareJidFromFullJid(mucRoomSubject.getFrom());
@@ -105,23 +105,23 @@ namespace Manager.Classes
             }
         }
 
-        public async Task enterMucAsync(XMPPClient client, MucInfoModel info)
+        public async Task EnterMucAsync(XMPPClient client, MucInfoModel info)
         {
             MucJoinHelper helper = new MucJoinHelper(client, info);
             TIMED_LIST.AddTimed(helper);
 
-            await helper.enterRoomAsync();
+            await helper.EnterRoomAsync();
         }
 
-        public async Task leaveRoomAsync(XMPPClient client, MucInfoModel info)
+        public async Task LeaveRoomAsync(XMPPClient client, MucInfoModel info)
         {
-            stopMucJoinHelper(info.chat);
+            StopMucJoinHelper(info.chat);
             info.state = MucState.DISCONNECTING;
             using (MainDbContext ctx = new MainDbContext())
             {
                 ctx.Update(info);
             }
-            await sendMucLeaveMessageAsync(client, info);
+            await SendMucLeaveMessageAsync(client, info);
             info.state = MucState.DISCONNECTED;
             using (MainDbContext ctx = new MainDbContext())
             {
@@ -132,7 +132,7 @@ namespace Manager.Classes
         #endregion
 
         #region --Misc Methods (Private)--
-        private void stopMucJoinHelper(ChatModel chat)
+        private void StopMucJoinHelper(ChatModel chat)
         {
             foreach (MucJoinHelper h in TIMED_LIST.GetEntries())
             {
@@ -143,7 +143,7 @@ namespace Manager.Classes
             }
         }
 
-        private async Task sendMucLeaveMessageAsync(XMPPClient client, MucInfoModel info)
+        private async Task SendMucLeaveMessageAsync(XMPPClient client, MucInfoModel info)
         {
             string from = client.getXMPPAccount().getFullJid();
             string to = info.chat.bareJid + '/' + info.nickname;
@@ -151,7 +151,7 @@ namespace Manager.Classes
             await client.SendAsync(msg);
         }
 
-        private async Task<bool> delayAsync(string bareJid)
+        private async Task<bool> DelayAsync(string bareJid)
         {
             CancellationTokenSource token;
             try
@@ -182,12 +182,12 @@ namespace Manager.Classes
             return false;
         }
 
-        private void enterAllMucs(XMPPClient client)
+        private void EnterAllMucs(XMPPClient client)
         {
             Task.Run(async () =>
             {
                 // Delay joining MUCs for a couple of seconds to prevent a message overload:
-                if (!await delayAsync(client.getXMPPAccount().getBareJid()))
+                if (!await DelayAsync(client.getXMPPAccount().getBareJid()))
                 {
                     // Delay has been canceled:
                     return;
@@ -197,13 +197,13 @@ namespace Manager.Classes
                 {
                     foreach (MucInfoModel info in ctx.MucInfos.Where(i => string.Equals(i.chat.accountBareJid, client.getXMPPAccount().getBareJid()) && i.autoEnterRoom))
                     {
-                        await enterMucAsync(client, info);
+                        await EnterMucAsync(client, info);
                     }
                 }
             });
         }
 
-        private async Task onMucErrorMessageAsync(XMPPClient client, MUCErrorMessage errorMessage)
+        private async Task OnMucErrorMessageAsync(XMPPClient client, MUCErrorMessage errorMessage)
         {
             string room = Utils.getBareJidFromFullJid(errorMessage.getFrom());
             if (room is null)
@@ -220,17 +220,17 @@ namespace Manager.Classes
                 return;
             }
             Logger.Error("Received an error message for MUC: " + info.chat.bareJid + "\n" + errorMessage.ERROR_MESSAGE);
-            stopMucJoinHelper(info.chat);
+            StopMucJoinHelper(info.chat);
             if (info.state != MucState.DISCONNECTED)
             {
-                await sendMucLeaveMessageAsync(client, info);
+                await SendMucLeaveMessageAsync(client, info);
             }
             switch (errorMessage.ERROR_CODE)
             {
                 // No access - user got baned:
                 case 403:
                     info.state = MucState.BANED;
-                    addChatInfoMessage(info.chat, room, "Unable to join room!\nYou are baned from this room.");
+                    AddChatInfoMessage(info.chat, room, "Unable to join room!\nYou are baned from this room.");
                     using (MainDbContext ctx = new MainDbContext())
                     {
                         ctx.Update(info);
@@ -261,19 +261,19 @@ namespace Manager.Classes
             }
         }
 
-        private void addOccupantKickedMessage(ChatModel chat, string roomJid, string nickname)
+        private void AddOccupantKickedMessage(ChatModel chat, string roomJid, string nickname)
         {
             string msg = nickname + " got kicked from the room.";
-            addChatInfoMessage(chat, roomJid, msg);
+            AddChatInfoMessage(chat, roomJid, msg);
         }
 
-        private void addOccupantBanedMessage(ChatModel chat, string roomJid, string nickname)
+        private void AddOccupantBanedMessage(ChatModel chat, string roomJid, string nickname)
         {
             string msg = nickname + " got baned from the room.";
-            addChatInfoMessage(chat, roomJid, msg);
+            AddChatInfoMessage(chat, roomJid, msg);
         }
 
-        private void addChatInfoMessage(ChatModel chat, string fromBareJid, string message)
+        private void AddChatInfoMessage(ChatModel chat, string fromBareJid, string message)
         {
             ChatMessageModel msg = new ChatMessageModel
             {
@@ -369,13 +369,13 @@ namespace Manager.Classes
                     if (msg.STATUS_CODES.Contains(MUCPresenceStatusCode.MEMBER_GOT_KICKED))
                     {
                         // Add kicked chat message:
-                        addOccupantKickedMessage(info.chat, roomJid, occupant.nickname);
+                        AddOccupantKickedMessage(info.chat, roomJid, occupant.nickname);
                     }
 
                     if (msg.STATUS_CODES.Contains(MUCPresenceStatusCode.MEMBER_GOT_BANED))
                     {
                         // Add baned chat message:
-                        addOccupantBanedMessage(info.chat, roomJid, occupant.nickname);
+                        AddOccupantBanedMessage(info.chat, roomJid, occupant.nickname);
                     }
                 }
 
@@ -407,11 +407,11 @@ namespace Manager.Classes
             });
         }
 
-        private async void Client_NewValidMessage(IMessageSender sender, XMPP_API.Classes.Network.Events.NewValidMessageEventArgs args)
+        private async void OnNewValidMessage(IMessageSender sender, NewValidMessageEventArgs args)
         {
             if (args.MESSAGE is MUCErrorMessage)
             {
-                await onMucErrorMessageAsync((XMPPClient)sender, args.MESSAGE as MUCErrorMessage);
+                await OnMucErrorMessageAsync((XMPPClient)sender, args.MESSAGE as MUCErrorMessage);
             }
         }
 

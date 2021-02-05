@@ -37,13 +37,13 @@ namespace Manager.Classes
         #endregion
         //--------------------------------------------------------Misc Methods:---------------------------------------------------------------\\
         #region --Misc Methods (Public)--
-        public async Task requestReservedNicksAsync()
+        public async Task RequestReservedNicksAsync()
         {
             DiscoReservedRoomNicknamesMessages msg = new DiscoReservedRoomNicknamesMessages(CLIENT.getXMPPAccount().getFullJid(), INFO.chat.bareJid);
             await CLIENT.SendAsync(msg);
         }
 
-        public async Task enterRoomAsync()
+        public async Task EnterRoomAsync()
         {
             // Update MUC info:
             INFO.state = MucState.ENTERING;
@@ -59,8 +59,8 @@ namespace Manager.Classes
             JoinRoomRequestMessage msg = new JoinRoomRequestMessage(CLIENT.getXMPPAccount().getFullJid(), INFO.chat.bareJid, INFO.nickname, INFO.password);
 
             // Subscribe to events for receiving answers:
-            CLIENT.NewMUCMemberPresenceMessage -= CLIENT_NewMUCMemberPresenceMessage;
-            CLIENT.NewMUCMemberPresenceMessage += CLIENT_NewMUCMemberPresenceMessage;
+            CLIENT.NewMUCMemberPresenceMessage -= OnMucMemberPresenceMessage;
+            CLIENT.NewMUCMemberPresenceMessage += OnMucMemberPresenceMessage;
 
             // Send message:
             await CLIENT.SendAsync(msg);
@@ -87,7 +87,7 @@ namespace Manager.Classes
         #endregion
         //--------------------------------------------------------Events:---------------------------------------------------------------------\\
         #region --Events--
-        private void CLIENT_NewMUCMemberPresenceMessage(XMPPClient client, NewMUCMemberPresenceMessageEventArgs args)
+        private void OnMucMemberPresenceMessage(XMPPClient client, NewMUCMemberPresenceMessageEventArgs args)
         {
             string roomJId = Utils.getBareJidFromFullJid(args.mucMemberPresenceMessage.getFrom());
             if (!Equals(roomJId, INFO.chat.bareJid))
@@ -105,7 +105,7 @@ namespace Manager.Classes
                         {
                             case MUCPresenceStatusCode.PRESENCE_SELFE_REFERENCE:
                                 // Remove event subscription:
-                                CLIENT.NewMUCMemberPresenceMessage -= CLIENT_NewMUCMemberPresenceMessage;
+                                CLIENT.NewMUCMemberPresenceMessage -= OnMucMemberPresenceMessage;
 
                                 // Update MUC info:
                                 INFO.state = MucState.ENTERD;

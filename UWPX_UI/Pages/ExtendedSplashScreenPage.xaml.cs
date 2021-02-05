@@ -1,11 +1,12 @@
 ﻿using System;
 using System.Threading.Tasks;
-using Data_Manager2.Classes;
-using Data_Manager2.Classes.DBManager;
-using Data_Manager2.Classes.Toast;
 using Logging;
+using Manager.Classes;
+using Manager.Classes.Chat;
+using Manager.Classes.Toast;
 using Microsoft.AppCenter.Push;
 using Shared.Classes;
+using Storage.Classes;
 using UWPX_UI.Classes;
 using UWPX_UI.Dialogs;
 using UWPX_UI_Context.Classes;
@@ -166,30 +167,33 @@ namespace UWPX_UI.Pages
             // Init the chat background helper:
             ChatBackgroundHelper.INSTANCE.Init();
 
+            // Load all chats:
+            await DataCache.INSTANCE.InitAsync();
+
             // Connect to all clients:
             ConnectionHandler.INSTANCE.ConnectAll();
 
             // Remove the messages will be send later toast:
-            ToastHelper.removeToastGroup(ToastHelper.WILL_BE_SEND_LATER_TOAST_GROUP);
+            ToastHelper.RemoveToastGroup(ToastHelper.WILL_BE_SEND_LATER_TOAST_GROUP);
 
             // Update badge notification count:
             ToastHelper.UpdateBadgeNumber();
 
             // Show initial start dialog:
-            if (!Data_Manager2.Classes.Settings.getSettingBoolean(SettingsConsts.HIDE_INITIAL_START_DIALOG_ALPHA))
+            if (!Storage.Classes.Settings.GetSettingBoolean(SettingsConsts.HIDE_INITIAL_START_DIALOG_ALPHA))
             {
                 InitialStartDialog initialStartDialog = new InitialStartDialog();
                 await UiUtils.ShowDialogAsync(initialStartDialog);
             }
 
             // Show what's new dialog:
-            if (!Data_Manager2.Classes.Settings.getSettingBoolean(SettingsConsts.HIDE_WHATS_NEW_DIALOG))
+            if (!Storage.Classes.Settings.GetSettingBoolean(SettingsConsts.HIDE_WHATS_NEW_DIALOG))
             {
                 WhatsNewDialog whatsNewDialog = new WhatsNewDialog();
                 await UiUtils.ShowDialogAsync(whatsNewDialog);
                 if (whatsNewDialog.VIEW_MODEL.MODEL.ToDonatePageNavigated)
                 {
-                    if (!Data_Manager2.Classes.Settings.getSettingBoolean(SettingsConsts.INITIALLY_STARTED))
+                    if (!Storage.Classes.Settings.GetSettingBoolean(SettingsConsts.INITIALLY_STARTED))
                     {
                         PerformInitialStartSetup();
                     }
@@ -203,16 +207,16 @@ namespace UWPX_UI.Pages
         private void PerformInitialStartSetup()
         {
             // By default enable the emoji button for all non mobile devices since the touch keyboard already adds an emoji keyboard:
-            Data_Manager2.Classes.Settings.setSetting(SettingsConsts.CHAT_ENABLE_EMOJI_BUTTON, DeviceFamilyHelper.GetDeviceFamilyType() != DeviceFamilyType.Mobile);
+            Storage.Classes.Settings.SetSetting(SettingsConsts.CHAT_ENABLE_EMOJI_BUTTON, DeviceFamilyHelper.GetDeviceFamilyType() != DeviceFamilyType.Mobile);
             // By default enter to send is enabled for all devices:
-            Data_Manager2.Classes.Settings.setSetting(SettingsConsts.ENTER_TO_SEND_MESSAGES, true);
-            Data_Manager2.Classes.Settings.setSetting(SettingsConsts.INITIALLY_STARTED, true);
+            Storage.Classes.Settings.SetSetting(SettingsConsts.ENTER_TO_SEND_MESSAGES, true);
+            Storage.Classes.Settings.SetSetting(SettingsConsts.INITIALLY_STARTED, true);
         }
 
         private void EvaluateActivationArgs()
         {
             // Initially started?
-            if (!Data_Manager2.Classes.Settings.getSettingBoolean(SettingsConsts.INITIALLY_STARTED))
+            if (!Storage.Classes.Settings.GetSettingBoolean(SettingsConsts.INITIALLY_STARTED))
             {
                 PerformInitialStartSetup();
 
@@ -243,7 +247,7 @@ namespace UWPX_UI.Pages
                 }
                 else
                 {
-                    ROOT_FRAME.Navigate(typeof(ChatPage), ToastActivationArgumentParser.parseArguments(toastActivationArgs.Argument));
+                    ROOT_FRAME.Navigate(typeof(ChatPage), ToastActivationArgumentParser.ParseArguments(toastActivationArgs.Argument));
                 }
                 if (ROOT_FRAME.BackStack.Count == 0)
                 {
@@ -265,23 +269,6 @@ namespace UWPX_UI.Pages
                 // If we're currently not on a page, navigate to the main page
                 ROOT_FRAME.Navigate(typeof(ChatPage));
             }
-        }
-
-        /// <summary>
-        /// Inits all DB managers to force event subscriptions.
-        /// </summary>
-        private async Task InitDBManagersAsync()
-        {
-            // await AbstractDBManager.exportDBAsync();
-            await Task.Run(() =>
-            {
-                AccountDBManager.INSTANCE.initManager();
-                ChatDBManager.INSTANCE.initManager();
-                DiscoDBManager.INSTANCE.initManager();
-                ImageDBManager.INSTANCE.initManager();
-                MUCDBManager.INSTANCE.initManager();
-                SpamDBManager.INSTANCE.initManager();
-            });
         }
 
         #endregion

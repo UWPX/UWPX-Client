@@ -65,12 +65,12 @@ namespace Manager.Classes.Toast
         #endregion
         //--------------------------------------------------------Misc Methods:---------------------------------------------------------------\\
         #region --Misc Methods (Public)--
-        public static void removeToastGroup(string group)
+        public static void RemoveToastGroup(string group)
         {
             ToastNotificationManager.History.RemoveGroup(group);
         }
 
-        public static void showWillBeSendLaterToast(ChatModel chat)
+        public static void ShowWillBeSendLaterToast(ChatModel chat)
         {
             ToastContent toastContent = new ToastContent
             {
@@ -91,11 +91,11 @@ namespace Manager.Classes.Toast
                 DisplayTimestamp = DateTime.Now,
             };
 
-            removeToastGroup(WILL_BE_SEND_LATER_TOAST_GROUP);
+            RemoveToastGroup(WILL_BE_SEND_LATER_TOAST_GROUP);
             PopToast(toastContent, chat, WILL_BE_SEND_LATER_TOAST_GROUP);
         }
 
-        public static void showChatTextToast(ChatMessageModel msg, ChatModel chat)
+        public static void ShowChatTextToast(ChatMessageModel msg, ChatModel chat)
         {
             ToastContent toastContent = new ToastContent
             {
@@ -294,7 +294,7 @@ namespace Manager.Classes.Toast
                     {
                         ActivationType = ToastActivationType.Background
                     },
-                    new ToastButton("Mark as read", new MarkMessageAsReadToastActivation(msg.id).Generate())
+                    new ToastButton("Mark as read", new MarkMessageAsReadToastActivation(chat.id, msg.id).Generate())
                     {
                         ActivationType = ToastActivationType.Background
                     }

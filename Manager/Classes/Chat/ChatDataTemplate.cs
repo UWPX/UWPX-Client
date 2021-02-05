@@ -1,12 +1,10 @@
-﻿using System;
-using Shared.Classes;
+﻿using Shared.Classes;
 using Storage.Classes.Models.Chat;
 using Windows.UI.Xaml.Media.Imaging;
-using XMPP_API.Classes;
 
-namespace UWPX_UI_Context.Classes.DataTemplates
+namespace Manager.Classes.Chat
 {
-    public sealed class ChatDataTemplate: AbstractDataTemplate, IDisposable
+    public sealed class ChatDataTemplate: AbstractDataTemplate
     {
         //--------------------------------------------------------Attributes:-----------------------------------------------------------------\\
         #region --Attributes--
@@ -22,14 +20,14 @@ namespace UWPX_UI_Context.Classes.DataTemplates
             get => _Chat;
             set => SetProperty(ref _Chat, value);
         }
-        private MucInfoModel _MucInfo;
-        public MucInfoModel MucInfo
+        private ChatMessageModel _LastMsg;
+        public ChatMessageModel LastMsg
         {
-            get => _MucInfo;
-            set => SetProperty(ref _MucInfo, value);
+            get => _LastMsg;
+            set => SetProperty(ref _LastMsg, value);
         }
-        private XMPPClient _Client;
-        public XMPPClient Client
+        private Client _Client;
+        public Client Client
         {
             get => _Client;
             set => SetProperty(ref _Client, value);
@@ -40,19 +38,15 @@ namespace UWPX_UI_Context.Classes.DataTemplates
         /// </summary>
         public int Index { get; set; }
 
-        public delegate void NewChatMessageHandler(ChatDataTemplate chat, NewChatMessageEventArgs args);
-        public delegate void ChatMessageChangedHandler(ChatDataTemplate chat, ChatMessageChangedEventArgs args);
-
-        public event ChatMessageChangedHandler ChatMessageChanged;
-        public event NewChatMessageHandler NewChatMessage;
-
         #endregion
         //--------------------------------------------------------Constructor:----------------------------------------------------------------\\
         #region --Constructors--
-        public ChatDataTemplate()
+        public ChatDataTemplate(ChatModel chat, Client client, ChatMessageModel lastMsg, BitmapImage image)
         {
-            ChatDBManager.INSTANCE.NewChatMessage += INSTANCE_NewChatMessage;
-            ChatDBManager.INSTANCE.ChatMessageChanged += INSTANCE_ChatMessageChanged;
+            _Chat = chat;
+            _Client = client;
+            _LastMsg = lastMsg;
+            _Image = image;
         }
 
         #endregion
@@ -63,11 +57,7 @@ namespace UWPX_UI_Context.Classes.DataTemplates
         #endregion
         //--------------------------------------------------------Misc Methods:---------------------------------------------------------------\\
         #region --Misc Methods (Public)--
-        public void Dispose()
-        {
-            ChatDBManager.INSTANCE.NewChatMessage -= INSTANCE_NewChatMessage;
-            ChatDBManager.INSTANCE.ChatMessageChanged -= INSTANCE_ChatMessageChanged;
-        }
+
 
         #endregion
 
@@ -82,21 +72,7 @@ namespace UWPX_UI_Context.Classes.DataTemplates
         #endregion
         //--------------------------------------------------------Events:---------------------------------------------------------------------\\
         #region --Events--
-        private void INSTANCE_ChatMessageChanged(ChatDBManager handler, ChatMessageChangedEventArgs args)
-        {
-            if (string.Equals(Chat?.id, args.MESSAGE.chatId))
-            {
-                ChatMessageChanged?.Invoke(this, args);
-            }
-        }
 
-        private void INSTANCE_NewChatMessage(ChatDBManager handler, NewChatMessageEventArgs args)
-        {
-            if (string.Equals(Chat?.id, args.MESSAGE.chatId))
-            {
-                NewChatMessage?.Invoke(this, args);
-            }
-        }
 
         #endregion
     }

@@ -1,4 +1,4 @@
-﻿using UWPX_UI_Context.Classes.DataTemplates;
+﻿using Manager.Classes.Chat;
 using UWPX_UI_Context.Classes.DataTemplates.Dialogs;
 
 namespace UWPX_UI_Context.Classes.DataContext.Dialogs

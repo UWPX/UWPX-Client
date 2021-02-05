@@ -7,7 +7,6 @@ using Shared.Classes.Network;
 using Storage.Classes.Contexts;
 using Storage.Classes.Events;
 using Storage.Classes.Models.Account;
-using XMPP_API.Classes;
 
 namespace Manager.Classes
 {
@@ -45,13 +44,13 @@ namespace Manager.Classes
         /// Returns the XMPPClient that matches the given bare JID.
         /// </summary>
         /// <param name="bareJid">The bare JID of the requested XMPPClient. e.g. 'alice@jabber.org'</param>
-        public XMPPClient GetClient(string bareJid)
+        public Client GetClient(string bareJid)
         {
-            foreach (ClientConnectionHandler client in CLIENTS)
+            foreach (ClientConnectionHandler handler in CLIENTS)
             {
-                if (client.account.bareJid.Equals(bareJid))
+                if (handler.client.dbAccount.bareJid.Equals(bareJid))
                 {
-                    return client.client;
+                    return handler.client;
                 }
             }
             return null;
@@ -74,11 +73,11 @@ namespace Manager.Classes
         /// </summary>
         public void ConnectAll()
         {
-            Parallel.ForEach(CLIENTS, (c) =>
+            Parallel.ForEach(CLIENTS, (handler) =>
             {
-                if (!c.account.disabled)
+                if (!handler.client.dbAccount.disabled)
                 {
-                    c.Connect();
+                    handler.Connect();
                 }
             });
         }
@@ -88,7 +87,7 @@ namespace Manager.Classes
         /// </summary>
         public void DisconnectAll()
         {
-            Parallel.ForEach(CLIENTS, async (c) => await c.DisconnectAsync());
+            Parallel.ForEach(CLIENTS, async (handler) => await handler.DisconnectAsync());
         }
 
         /// <summary>
@@ -121,7 +120,7 @@ namespace Manager.Classes
                 CLIENT_SEMA.Wait();
                 for (int i = 0; i < CLIENTS.Count; i++)
                 {
-                    if (string.Equals(CLIENTS[i].account.bareJid, accountId))
+                    if (string.Equals(CLIENTS[i].client.dbAccount.bareJid, accountId))
                     {
                         CLIENTS[i].DisconnectAsync().Wait();
                         CLIENTS.RemoveAt(i);
@@ -175,18 +174,18 @@ namespace Manager.Classes
         /// <summary>
         /// Reconnects a given client.
         /// </summary>
-        /// <param name="client">The client, for which a reconnect should get performed.</param>
+        /// <param name="handler">The client, for which a reconnect should get performed.</param>
         /// <returns></returns>
-        private async Task ReconnectClientAsync(ClientConnectionHandler client)
+        private async Task ReconnectClientAsync(ClientConnectionHandler handler)
         {
-            if (client.account.disabled)
+            if (handler.client.dbAccount.disabled)
             {
                 // Only disconnect if the client is disabled:
-                await client.DisconnectAsync();
+                await handler.DisconnectAsync();
             }
             else
             {
-                await client.ReconnectAsync();
+                await handler.ReconnectAsync();
             }
         }
 
@@ -198,47 +197,6 @@ namespace Manager.Classes
         #endregion
         //--------------------------------------------------------Events:---------------------------------------------------------------------\\
         #region --Events--
-        /*private async void INSTANCE_AccountChanged(AccountDBManager handler, AccountChangedEventArgs args)
-        {
-            await CLIENT_SEMA.WaitAsync();
-            for (int i = 0; i < CLIENTS.Count; i++)
-            {
-                if (Equals(CLIENTS[i].account.bareJid, args.ACCOUNT.getBareJid()))
-                {
-                    // Disconnect first:
-                    CLIENTS[i].DisconnectAsync().Wait();
-
-                    if (args.REMOVED)
-                    {
-                        CLIENTS[i].ClientConnected -= OnClientConnected;
-                        CLIENTS.RemoveAt(i);
-                    }
-                    else
-                    {
-                        CLIENTS[i].SetAccount(args.ACCOUNT);
-                        if (!CLIENTS[i].account.disabled)
-                        {
-                            await CLIENTS[i].ConnectAsync();
-                        }
-                    }
-                    CLIENT_SEMA.Release();
-                    return;
-                }
-            }
-
-            // Account got added:
-            if (!args.REMOVED)
-            {
-                ClientConnectionHandler client = new ClientConnectionHandler(args.ACCOUNT);
-                if (!client.IsDisabled())
-                {
-                    client.ConnectAsync().Wait();
-                }
-                CLIENTS.Add(client);
-            }
-            CLIENT_SEMA.Release();
-        }*/
-
         private void CLIENTS_CollectionChanged(object sender, NotifyCollectionChangedEventArgs e)
         {
             ClientsCollectionChanged?.Invoke(this, e);

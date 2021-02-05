@@ -1,6 +1,9 @@
 ﻿using System;
 using System.Threading.Tasks;
 using Logging;
+using Manager.Classes.Chat;
+using Manager.Classes.Toast;
+using Storage.Classes.Models.Chat;
 using UWPX_UI_Context.Classes.DataTemplates.Dialogs;
 using UWPX_UI_Context.Classes.DataTemplates.Pages;
 using XMPP_API.Classes;
@@ -70,7 +73,7 @@ namespace UWPX_UI_Context.Classes.DataContext.Pages
 
             await Task.Run(async () =>
             {
-                ChatModel chat = ChatDBManager.INSTANCE.getChat(ChatModel.generateId(bareJid, client.getXMPPAccount().getBareJid()));
+                ChatModel chat = DataCache.INSTANCE.GetChat(client.getXMPPAccount().getBareJid(), bareJid);
 
                 if (chat is null)
                 {

@@ -120,11 +120,13 @@
     <RestoreProjectStyle>PackageReference</RestoreProjectStyle>
   </PropertyGroup>
   <ItemGroup>
-    <Compile Include="Classes\Chat\ChatHandler.cs" />
-    <Compile Include="Classes\Client\Client.cs" />
+    <Compile Include="Classes\Chat\ChatDataTemplate.cs" />
+    <Compile Include="Classes\Chat\ObservableChatDictionaryList.cs" />
+    <Compile Include="Classes\Chat\SaveObservableChatDictionaryList.cs" />
+    <Compile Include="Classes\Client.cs" />
     <Compile Include="Classes\ClientConnectionHandler.cs" />
-    <Compile Include="Classes\Client\ClientHandler.cs" />
     <Compile Include="Classes\ConnectionHandler.cs" />
+    <Compile Include="Classes\Chat\DataCache.cs" />
     <Compile Include="Classes\Events\ClientConnectedEventArgs.cs" />
     <Compile Include="Classes\ImageDownloadHandler.cs" />
     <Compile Include="Classes\MucHandler.cs" />
@@ -155,7 +157,9 @@
       <Version>6.1.1</Version>
     </PackageReference>
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <Folder Include="Classes\Client\" />
+  </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Logging\Logging.csproj">
       <Project>{0c1fb090-4492-441d-b182-c999df71f917}</Project>

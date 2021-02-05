@@ -1,15 +1,17 @@
-﻿using Shared.Classes;
+﻿using Manager.Classes.Client;
+using Shared.Classes;
 using XMPP_API.Classes;
 using XMPP_API.Classes.Network;
+using XMPP_API.Classes.Network.Events;
 
 namespace UWPX_UI_Context.Classes.DataTemplates
 {
-    public sealed class XMPPClientDataTemplate: AbstractDataTemplate
+    public sealed class ClientDataTemplate: AbstractDataTemplate
     {
         //--------------------------------------------------------Attributes:-----------------------------------------------------------------\\
         #region --Attributes--
-        private XMPPClient _Client;
-        public XMPPClient Client
+        private Client _Client;
+        public Client Client
         {
             get => _Client;
             set => SetClientProperty(value);
@@ -32,7 +34,7 @@ namespace UWPX_UI_Context.Classes.DataTemplates
         #endregion
         //--------------------------------------------------------Constructor:----------------------------------------------------------------\\
         #region --Constructors--
-        public XMPPClientDataTemplate(XMPPClient client)
+        public ClientDataTemplate(Client client)
         {
             Client = client;
         }
@@ -40,21 +42,21 @@ namespace UWPX_UI_Context.Classes.DataTemplates
         #endregion
         //--------------------------------------------------------Set-, Get- Methods:---------------------------------------------------------\\
         #region --Set-, Get- Methods--
-        private void SetClientProperty(XMPPClient value)
+        private void SetClientProperty(Client value)
         {
-            XMPPClient oldValue = Client;
+            Client oldValue = Client;
             if (SetProperty(ref _Client, value, nameof(Client)))
             {
                 if (!(oldValue is null))
                 {
-                    oldValue.ConnectionStateChanged -= Client_ConnectionStateChanged;
+                    oldValue.xmppClient.ConnectionStateChanged -= Client_ConnectionStateChanged;
                 }
 
                 if (!(value is null))
                 {
-                    value.ConnectionStateChanged += Client_ConnectionStateChanged;
-                    Account = value.getXMPPAccount();
-                    ConnectionState = value.getConnetionState();
+                    value.xmppClient.ConnectionStateChanged += Client_ConnectionStateChanged;
+                    Account = value.xmppClient.getXMPPAccount();
+                    ConnectionState = value.xmppClient.getConnetionState();
                 }
                 else
                 {
@@ -82,7 +84,7 @@ namespace UWPX_UI_Context.Classes.DataTemplates
         #endregion
         //--------------------------------------------------------Events:---------------------------------------------------------------------\\
         #region --Events--
-        private void Client_ConnectionStateChanged(XMPPClient client, XMPP_API.Classes.Network.Events.ConnectionStateChangedEventArgs args)
+        private void Client_ConnectionStateChanged(XMPPClient client, ConnectionStateChangedEventArgs args)
         {
             ConnectionState = client.getConnetionState();
         }

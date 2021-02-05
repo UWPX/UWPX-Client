@@ -1,5 +1,4 @@
-﻿using Data_Manager2.Classes;
-using UWPX_UI.Pages;
+﻿using UWPX_UI.Pages;
 using UWPX_UI.Pages.Settings;
 using UWPX_UI_Context.Classes;
 using UWPX_UI_Context.Classes.DataContext.Controls;
@@ -90,7 +89,7 @@ namespace UWPX_UI.Controls.Chat
             if (VIEW_MODEL.MODEL.EnterToSend && !Data_Manager2.Classes.Settings.getSettingBoolean(SettingsConsts.CHAT_ENTER_TO_SEND_TIP_SHOWN))
             {
                 enterToSend_tt.IsOpen = true;
-                Data_Manager2.Classes.Settings.setSetting(SettingsConsts.CHAT_ENTER_TO_SEND_TIP_SHOWN, true);
+                Data_Manager2.Classes.Settings.SetSetting(SettingsConsts.CHAT_ENTER_TO_SEND_TIP_SHOWN, true);
             }
         }
 
