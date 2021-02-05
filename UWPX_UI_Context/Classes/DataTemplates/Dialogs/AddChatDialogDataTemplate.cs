@@ -1,4 +1,5 @@
 ﻿using System.Threading.Tasks;
+using Manager.Classes.Chat;
 using Shared.Classes;
 using XMPP_API.Classes;
 

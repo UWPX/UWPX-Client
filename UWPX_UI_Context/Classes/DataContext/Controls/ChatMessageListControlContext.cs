@@ -116,7 +116,7 @@ namespace UWPX_UI_Context.Classes.DataContext.Controls
                 List<ChatMessageDataTemplate> msgs = await loadMoreMessagesTask;
                 if (!loadMoreMessagesToken.IsCancellationRequested && msgs.Count > 0)
                 {
-                    ToastHelper.removeToastGroup(MODEL.Chat.Chat.id);
+                    ToastHelper.RemoveToastGroup(MODEL.Chat.Chat.id);
 
                     await MODEL.InsertChatMessagesAsync(msgs);
                 }
@@ -144,7 +144,7 @@ namespace UWPX_UI_Context.Classes.DataContext.Controls
                     filter.End(MODEL.CHAT_MESSAGES[0].Message.date);
                 }
             }
-            filter.With(MODEL.Chat.Chat.chatJabberId);
+            filter.With(MODEL.Chat.Chat.bareJid);
             return filter;
         }
 

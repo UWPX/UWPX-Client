@@ -1,5 +1,5 @@
 ﻿using System.Linq;
-using Data_Manager2.Classes;
+using Manager.Classes;
 using Shared.Classes;
 using Shared.Classes.Collections;
 using XMPP_API.Classes.Network;
@@ -10,10 +10,10 @@ namespace UWPX_UI_Context.Classes.DataTemplates.Dialogs
     {
         //--------------------------------------------------------Attributes:-----------------------------------------------------------------\\
         #region --Attributes--
-        public readonly CustomObservableCollection<XMPPClientDataTemplate> CLIENTS = new CustomObservableCollection<XMPPClientDataTemplate>(true);
+        public readonly CustomObservableCollection<ClientDataTemplate> CLIENTS = new CustomObservableCollection<ClientDataTemplate>(true);
 
-        private XMPPClientDataTemplate _SelectedItem;
-        public XMPPClientDataTemplate SelectedItem
+        private ClientDataTemplate _SelectedItem;
+        public ClientDataTemplate SelectedItem
         {
             get => _SelectedItem;
             set => SetProperty(ref _SelectedItem, value);
@@ -42,7 +42,7 @@ namespace UWPX_UI_Context.Classes.DataTemplates.Dialogs
         #region --Set-, Get- Methods--
         private void SetSelectedItem()
         {
-            foreach (XMPPClientDataTemplate client in CLIENTS)
+            foreach (ClientDataTemplate client in CLIENTS)
             {
                 if (client.ConnectionState == ConnectionState.CONNECTED)
                 {
@@ -68,7 +68,7 @@ namespace UWPX_UI_Context.Classes.DataTemplates.Dialogs
         private void LoadClients()
         {
             CLIENTS.Clear();
-            CLIENTS.AddRange(ConnectionHandler.INSTANCE.GetClients().Select((x) => new XMPPClientDataTemplate(x.client)));
+            CLIENTS.AddRange(ConnectionHandler.INSTANCE.GetClients().Select((x) => new ClientDataTemplate(x.client)));
         }
 
         #endregion

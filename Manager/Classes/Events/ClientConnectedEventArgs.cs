@@ -1,5 +1,5 @@
 ﻿using System;
-using XMPP_API.Classes;
+using Manager.Classes;
 
 namespace Storage.Classes.Events
 {
@@ -7,12 +7,12 @@ namespace Storage.Classes.Events
     {
         //--------------------------------------------------------Attributes:-----------------------------------------------------------------\\
         #region --Attributes--
-        public readonly XMPPClient CLIENT;
+        public readonly Client CLIENT;
 
         #endregion
         //--------------------------------------------------------Constructor:----------------------------------------------------------------\\
         #region --Constructors--
-        public ClientConnectedEventArgs(XMPPClient client)
+        public ClientConnectedEventArgs(Client client)
         {
             CLIENT = client;
         }

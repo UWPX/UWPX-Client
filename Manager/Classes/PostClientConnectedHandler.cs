@@ -44,7 +44,7 @@ namespace Manager.Classes
         public PostClientConnectedHandler(ClientConnectionHandler ccHandler)
         {
             this.ccHandler = ccHandler;
-            this.ccHandler.client.ConnectionStateChanged += OnConnectionStateChanged;
+            this.ccHandler.client.xmppClient.ConnectionStateChanged += OnConnectionStateChanged;
         }
 
         #endregion
@@ -68,7 +68,7 @@ namespace Manager.Classes
             switch (state)
             {
                 case SetupState.NOT_STARTED:
-                    Logger.Info("Starting post client connected process for: " + ccHandler.client.getXMPPAccount().getBareJid());
+                    Logger.Info("Starting post client connected process for: " + ccHandler.client.dbAccount.bareJid);
                     _ = DiscoAsync();
                     break;
 
@@ -98,38 +98,38 @@ namespace Manager.Classes
                     break;
 
                 case SetupState.DONE:
-                    Logger.Info("Post client connected process done for: " + ccHandler.client.getXMPPAccount().getBareJid());
+                    Logger.Info("Post client connected process done for: " + ccHandler.client.dbAccount.bareJid);
                     return;
 
                 case SetupState.CANCELED:
-                    Logger.Info("Post client connected process canceled for: " + ccHandler.client.getXMPPAccount().getBareJid());
+                    Logger.Info("Post client connected process canceled for: " + ccHandler.client.dbAccount.bareJid);
                     break;
 
                 default:
                     Debug.Assert(false); // Should not happen
                     break;
             }
-            Logger.Debug("PostClientConnectedHandler for " + ccHandler.client.getXMPPAccount().getBareJid() + " now in state: " + state.ToString());
+            Logger.Debug("PostClientConnectedHandler for " + ccHandler.client.dbAccount.bareJid + " now in state: " + state.ToString());
         }
 
         private async Task DiscoAsync()
         {
             state = SetupState.DISCO;
-            await ccHandler.client.connection.DISCO_HELPER.DiscoAsync();
+            await ccHandler.client.xmppClient.connection.DISCO_HELPER.DiscoAsync();
             Continue();
         }
 
         private async Task RequestBookmarksAsync()
         {
             state = SetupState.REQUESTING_BOOKMARKS;
-            await ccHandler.client.PUB_SUB_COMMAND_HELPER.requestBookmars_xep_0048Async();
+            await ccHandler.client.xmppClient.PUB_SUB_COMMAND_HELPER.requestBookmars_xep_0048Async();
             Continue();
         }
 
         private async Task RequestRosterAsync()
         {
             state = SetupState.REQUESTING_ROSTER;
-            await ccHandler.client.GENERAL_COMMAND_HELPER.sendRequestRosterMessageAsync();
+            await ccHandler.client.xmppClient.GENERAL_COMMAND_HELPER.sendRequestRosterMessageAsync();
             Continue();
         }
 
@@ -148,20 +148,20 @@ namespace Manager.Classes
         {
             state = SetupState.REQUESTING_MAM;
 
-            if (!ccHandler.client.connection.DISCO_HELPER.HasFeature(Consts.XML_XEP_0313_NAMESPACE, ccHandler.client.getXMPPAccount().getBareJid()))
+            if (!ccHandler.client.xmppClient.connection.DISCO_HELPER.HasFeature(Consts.XML_XEP_0313_NAMESPACE, ccHandler.client.dbAccount.bareJid))
             {
-                Logger.Info("No need to request MAM for " + ccHandler.client.getXMPPAccount().getBareJid() + " - not supported.");
+                Logger.Info("No need to request MAM for " + ccHandler.client.dbAccount.bareJid + " - not supported.");
                 Continue();
                 return;
             }
 
-            bool extendedMamSupport = ccHandler.client.connection.DISCO_HELPER.HasFeature(Consts.XML_XEP_0313_EXTENDED_NAMESPACE, ccHandler.client.getXMPPAccount().getBareJid());
-            Logger.Info("Extended MAM support for " + ccHandler.client.getXMPPAccount().getBareJid() + ": " + extendedMamSupport);
+            bool extendedMamSupport = ccHandler.client.xmppClient.connection.DISCO_HELPER.HasFeature(Consts.XML_XEP_0313_EXTENDED_NAMESPACE, ccHandler.client.dbAccount.bareJid);
+            Logger.Info("Extended MAM support for " + ccHandler.client.dbAccount.bareJid + ": " + extendedMamSupport);
 
             string lastMsgId = null;
             DateTime lastMsgDate = DateTime.MinValue;
-            lastMsgId = ccHandler.account.mamRequest.lastMsgId;
-            lastMsgDate = ccHandler.account.mamRequest.lastUpdate;
+            lastMsgId = ccHandler.client.dbAccount.mamRequest.lastMsgId;
+            lastMsgDate = ccHandler.client.dbAccount.mamRequest.lastUpdate;
 
             // Request all MAM messages:
             bool done = false;
@@ -190,26 +190,26 @@ namespace Manager.Classes
                 MessageResponseHelperResult<MamResult> result = await RequestMamWithRetry(filter, 2);
                 if (result.STATE == MessageResponseHelperResultState.SUCCESS)
                 {
-                    ccHandler.account.mamRequest.lastUpdate = DateTime.Now;
+                    ccHandler.client.dbAccount.mamRequest.lastUpdate = DateTime.Now;
                     if (result.RESULT.RESULTS.Count > 0)
                     {
-                        ccHandler.account.mamRequest.lastMsgId = result.RESULT.LAST;
+                        ccHandler.client.dbAccount.mamRequest.lastMsgId = result.RESULT.LAST;
                         lastMsgId = result.RESULT.LAST;
                         HandleMamMessages(result.RESULT);
-                        Logger.Info("MAM request for " + ccHandler.client.getXMPPAccount().getBareJid() + " received " + result.RESULT.RESULTS.Count + " messages in iteration " + iteration + '.');
+                        Logger.Info("MAM request for " + ccHandler.client.dbAccount.bareJid + " received " + result.RESULT.RESULTS.Count + " messages in iteration " + iteration + '.');
                         Logger.Debug("First: " + result.RESULT.RESULTS[result.RESULT.RESULTS.Count - 1].QUERY_ID + " Last: " + result.RESULT.RESULTS[0].QUERY_ID);
                     }
                     if (result.RESULT.COMPLETE || result.RESULT.RESULTS.Count <= 0)
                     {
                         done = true;
-                        Logger.Info("MAM request for " + ccHandler.client.getXMPPAccount().getBareJid());
+                        Logger.Info("MAM request for " + ccHandler.client.dbAccount.bareJid);
                     }
 
                     DateTime newDate = GetLastMessageDate(result.RESULT);
-                    if (newDate == ccHandler.account.mamRequest.lastUpdate)
+                    if (newDate == ccHandler.client.dbAccount.mamRequest.lastUpdate)
                     {
                         done = true;
-                        Logger.Info("MAM request for " + ccHandler.client.getXMPPAccount().getBareJid());
+                        Logger.Info("MAM request for " + ccHandler.client.dbAccount.bareJid);
                     }
                     else
                     {
@@ -217,13 +217,13 @@ namespace Manager.Classes
                     }
                     using (MainDbContext ctx = new MainDbContext())
                     {
-                        ctx.Update(ccHandler.account.mamRequest);
+                        ctx.Update(ccHandler.client.dbAccount.mamRequest);
                     }
                 }
                 else if (state == SetupState.REQUESTING_MAM)
                 {
                     done = true;
-                    Logger.Warn("Failed to request MAM archive for " + ccHandler.client.getXMPPAccount().getBareJid() + " with: " + result.STATE);
+                    Logger.Warn("Failed to request MAM archive for " + ccHandler.client.dbAccount.bareJid + " with: " + result.STATE);
                 }
                 ++iteration;
             }
@@ -237,7 +237,7 @@ namespace Manager.Classes
 
         private async Task<MessageResponseHelperResult<MamResult>> RequestMamWithRetry(QueryFilter filter, int numOfTries)
         {
-            MessageResponseHelperResult<MamResult> result = await ccHandler.client.GENERAL_COMMAND_HELPER.requestMamAsync(filter);
+            MessageResponseHelperResult<MamResult> result = await ccHandler.client.xmppClient.GENERAL_COMMAND_HELPER.requestMamAsync(filter);
             if (result.STATE == MessageResponseHelperResultState.SUCCESS || numOfTries <= 0 || state != SetupState.REQUESTING_MAM)
             {
                 return result;
@@ -248,7 +248,7 @@ namespace Manager.Classes
         private async Task InitOmemoAsync()
         {
             state = SetupState.INITIALISING_OMEMO_KEYS;
-            OmemoHelper omemoHelper = ccHandler.client.getOmemoHelper();
+            OmemoHelper omemoHelper = ccHandler.client.xmppClient.getOmemoHelper();
             if (!(omemoHelper is null))
             {
                 await omemoHelper.initAsync();
@@ -280,20 +280,20 @@ namespace Manager.Classes
             IEnumerable<ChatMessageModel> toSend;
             using (MainDbContext ctx = new MainDbContext())
             {
-                toSend = ctx.ChatMessages.Where(m => m.state == MessageState.SENDING && string.Equals(m.chat.accountBareJid, ccHandler.account.bareJid));
+                toSend = ctx.ChatMessages.Where(m => m.state == MessageState.SENDING && string.Equals(m.chat.accountBareJid, ccHandler.client.dbAccount.bareJid));
             }
-            Logger.Info("Sending " + toSend.Count() + " outstanding chat messages for: " + ccHandler.account.bareJid);
+            Logger.Info("Sending " + toSend.Count() + " outstanding chat messages for: " + ccHandler.client.dbAccount.bareJid);
             await SendOutsandingChatMessagesAsync(toSend);
-            Logger.Info("Finished sending outstanding chat messages for: " + ccHandler.account.bareJid);
+            Logger.Info("Finished sending outstanding chat messages for: " + ccHandler.client.dbAccount.bareJid);
 
             IEnumerable<ChatMessageModel> toEncrypt;
             using (MainDbContext ctx = new MainDbContext())
             {
-                toEncrypt = ctx.ChatMessages.Where(m => m.state == MessageState.TO_ENCRYPT && string.Equals(m.chat.accountBareJid, ccHandler.account.bareJid));
+                toEncrypt = ctx.ChatMessages.Where(m => m.state == MessageState.TO_ENCRYPT && string.Equals(m.chat.accountBareJid, ccHandler.client.dbAccount.bareJid));
             }
-            Logger.Info("Sending " + toEncrypt.Count() + " outstanding OMEMO chat messages for: " + ccHandler.account.bareJid);
+            Logger.Info("Sending " + toEncrypt.Count() + " outstanding OMEMO chat messages for: " + ccHandler.client.dbAccount.bareJid);
             await SendOutsandingChatMessagesAsync(toEncrypt);
-            Logger.Info("Finished sending outstanding OMEMO chat messages for: " + ccHandler.account.bareJid);
+            Logger.Info("Finished sending outstanding OMEMO chat messages for: " + ccHandler.client.dbAccount.bareJid);
             Continue();
         }
 
@@ -305,15 +305,15 @@ namespace Manager.Classes
         {
             foreach (ChatMessageModel msgDb in messages)
             {
-                MessageMessage msg = msgDb.ToMessageMessage(ccHandler.account.fullJid.FullJid(), msgDb.chat.bareJid);
+                MessageMessage msg = msgDb.ToMessageMessage(ccHandler.client.dbAccount.fullJid.FullJid(), msgDb.chat.bareJid);
 
                 if (msg is OmemoEncryptedMessage omemoMsg)
                 {
-                    await ccHandler.client.sendOmemoMessageAsync(omemoMsg, msgDb.chat.bareJid, ccHandler.client.getXMPPAccount().getBareJid());
+                    await ccHandler.client.xmppClient.sendOmemoMessageAsync(omemoMsg, msgDb.chat.bareJid, ccHandler.client.dbAccount.bareJid);
                 }
                 else
                 {
-                    await ccHandler.client.SendAsync(msg);
+                    await ccHandler.client.xmppClient.SendAsync(msg);
                 }
             }
         }

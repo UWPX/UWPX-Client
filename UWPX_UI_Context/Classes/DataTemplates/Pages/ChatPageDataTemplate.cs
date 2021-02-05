@@ -1,11 +1,9 @@
-﻿using System.Collections.Generic;
+﻿using System.Collections;
 using System.Linq;
-using System.Threading.Tasks;
-using Manager.Classes;
+using Manager.Classes.Chat;
+using Manager.Classes.Toast;
 using Microsoft.Toolkit.Uwp.UI;
 using Shared.Classes;
-using Storage.Classes.Models.Chat;
-using UWPX_UI_Context.Classes.Collections;
 
 namespace UWPX_UI_Context.Classes.DataTemplates.Pages
 {
@@ -13,7 +11,6 @@ namespace UWPX_UI_Context.Classes.DataTemplates.Pages
     {
         //--------------------------------------------------------Attributes:-----------------------------------------------------------------\\
         #region --Attributes--
-        private readonly SaveObservableChatDictionaryList CHATS = new SaveObservableChatDictionaryList();
         public readonly ChatFilterDataTemplate CHAT_FILTER;
 
         public readonly AdvancedCollectionView CHATS_ACV;
@@ -22,7 +19,7 @@ namespace UWPX_UI_Context.Classes.DataTemplates.Pages
         public ChatDataTemplate SelectedItem
         {
             get => _SelectedItem;
-            set => SetProperty(ref _SelectedItem, value);
+            set => SetSelectedItem(value);
         }
 
         #endregion
@@ -30,7 +27,7 @@ namespace UWPX_UI_Context.Classes.DataTemplates.Pages
         #region --Constructors--
         public ChatPageDataTemplate()
         {
-            CHATS_ACV = new AdvancedCollectionView(CHATS, true)
+            CHATS_ACV = new AdvancedCollectionView((IList)DataCache.INSTANCE.CHATS, true)
             {
                 Filter = AcvFilter
             };
@@ -39,13 +36,19 @@ namespace UWPX_UI_Context.Classes.DataTemplates.Pages
             CHATS_ACV.SortDescriptions.Add(new SortDescription(nameof(ChatDataTemplate.Chat), SortDirection.Descending));
             CHAT_FILTER = new ChatFilterDataTemplate(CHATS_ACV);
 
-            LoadChats();
+            SelectedItem = DataCache.INSTANCE.SelectedChat;
         }
 
         #endregion
         //--------------------------------------------------------Set-, Get- Methods:---------------------------------------------------------\\
         #region --Set-, Get- Methods--
-
+        private void SetSelectedItem(ChatDataTemplate value)
+        {
+            if (SetProperty(ref _SelectedItem, value, nameof(SelectedItem)))
+            {
+                DataCache.INSTANCE.SelectedChat = value;
+            }
+        }
 
         #endregion
         //--------------------------------------------------------Misc Methods:---------------------------------------------------------------\\
@@ -54,7 +57,7 @@ namespace UWPX_UI_Context.Classes.DataTemplates.Pages
         {
             if (parameter is ChatToastActivation args)
             {
-                SelectedItem = (ChatDataTemplate)CHATS_ACV.First((x) => x is ChatDataTemplate chat && string.Equals(chat?.Chat.id, args.CHAT_ID));
+                SelectedItem = (ChatDataTemplate)CHATS_ACV.First((x) => x is ChatDataTemplate chat && chat?.Chat.id == args.CHAT_ID);
             }
         }
 
@@ -66,64 +69,6 @@ namespace UWPX_UI_Context.Classes.DataTemplates.Pages
             return CHAT_FILTER.Filter(o);
         }
 
-        private void LoadChats()
-        {
-            // Subscribe to chat and MUC info changed events:
-            ChatDBManager.INSTANCE.ChatChanged += INSTANCE_ChatChanged;
-            MUCDBManager.INSTANCE.MUCInfoChanged += INSTANCE_MUCInfoChanged;
-
-            ChatDataTemplate selectedChat = null;
-            List<ChatDataTemplate> chats = LoadChatsFromDB();
-
-            // Clear list:
-            CHATS.Clear();
-
-            // Add chats:
-            using (CHATS_ACV.DeferRefresh())
-            {
-                CHATS.AddRange(chats, false);
-            }
-            if (SelectedItem is null && selectedChat != null)
-            {
-                SelectedItem = selectedChat;
-            }
-        }
-
-        private List<ChatDataTemplate> LoadChatsFromDB()
-        {
-            List<ChatDataTemplate> list = new List<ChatDataTemplate>();
-            foreach (ClientConnectionHandler c in ConnectionHandler.INSTANCE.GetClients())
-            {
-                foreach (ChatModel chat in ChatDBManager.INSTANCE.getAllChatsForClient(c.GetBareJid()))
-                {
-                    // Only show chats with at least 1 chat message or that have been started:
-                    if (chat.chatType == ChatType.CHAT && !chat.isChatActive)
-                    {
-                        continue;
-                    }
-
-                    if (chat.chatType == ChatType.MUC)
-                    {
-                        list.Add(new ChatDataTemplate()
-                        {
-                            Chat = chat,
-                            Client = c.client,
-                            MucInfo = MUCDBManager.INSTANCE.getMUCInfo(chat.id)
-                        });
-                    }
-                    else
-                    {
-                        list.Add(new ChatDataTemplate()
-                        {
-                            Chat = chat,
-                            Client = c.client
-                        });
-                    }
-                }
-            }
-            return list;
-        }
-
         #endregion
 
         #region --Misc Methods (Protected)--
@@ -132,62 +77,7 @@ namespace UWPX_UI_Context.Classes.DataTemplates.Pages
         #endregion
         //--------------------------------------------------------Events:---------------------------------------------------------------------\\
         #region --Events--
-        private void INSTANCE_MUCInfoChanged(MUCDBManager handler, Data_Manager2.Classes.Events.MUCInfoChangedEventArgs args)
-        {
-            CHATS.UpdateMUCInfo(args.MUC_INFO);
-        }
 
-        private async void INSTANCE_ChatChanged(ChatDBManager handler, Data_Manager2.Classes.Events.ChatChangedEventArgs args)
-        {
-            if (args.REMOVED || !args.CHAT.isChatActive)
-            {
-                CHATS.RemoveId(args.CHAT.id);
-                args.Cancel = args.REMOVED;
-                return;
-            }
-            else
-            {
-                if (CHATS.UpdateChat(args.CHAT))
-                {
-                    args.Cancel = true;
-                    return;
-                }
-            }
-
-            ChatDataTemplate newChat = await Task.Run(() =>
-            {
-                // Add the new chat to the list of chats:
-                foreach (ClientConnectionHandler c in ConnectionHandler.INSTANCE.GetClients())
-                {
-                    if (string.Equals(args.CHAT.userAccountId, c.account.bareJid))
-                    {
-                        if (args.CHAT.chatType == ChatType.MUC)
-                        {
-                            return new ChatDataTemplate()
-                            {
-                                Chat = args.CHAT,
-                                Client = c.client,
-                                MucInfo = MUCDBManager.INSTANCE.getMUCInfo(args.CHAT.id)
-                            };
-                        }
-                        else
-                        {
-                            return new ChatDataTemplate()
-                            {
-                                Chat = args.CHAT,
-                                Client = c.client
-                            };
-                        }
-                    }
-                }
-                return null;
-            });
-
-            if (!(newChat is null))
-            {
-                CHATS.Add(newChat);
-            }
-        }
 
         #endregion
     }

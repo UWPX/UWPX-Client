@@ -597,6 +597,9 @@
     <None Include="UWPX_UI_TemporaryKey.pfx" />
   </ItemGroup>
   <ItemGroup>
+    <PackageReference Include="Microsoft.EntityFrameworkCore">
+      <Version>3.1.10</Version>
+    </PackageReference>
     <PackageReference Include="Microsoft.NETCore.UniversalWindowsPlatform">
       <Version>6.2.11</Version>
     </PackageReference>
@@ -1120,13 +1123,13 @@
     </Page>
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\Data_Manager2\Data_Manager2.csproj">
-      <Project>{58925bf1-5b7d-48d9-b411-126cbefda98a}</Project>
-      <Name>Data_Manager2</Name>
-    </ProjectReference>
     <ProjectReference Include="..\Logging\Logging.csproj">
       <Project>{0c1fb090-4492-441d-b182-c999df71f917}</Project>
       <Name>Logging</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Manager\Manager.csproj">
+      <Project>{e06e9cca-7196-497e-a129-8ffb4a30a3f8}</Project>
+      <Name>Manager</Name>
     </ProjectReference>
     <ProjectReference Include="..\Push\Push.csproj">
       <Project>{e15572a6-ad1a-4ecc-8920-4070dd779516}</Project>
@@ -1139,6 +1142,10 @@
     <ProjectReference Include="..\Shared\Shared.csproj">
       <Project>{c4af94da-11cf-4147-b5b7-4b2dc7c624a0}</Project>
       <Name>Shared</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Storage\Storage.csproj">
+      <Project>{9f088dac-a37a-469c-afbc-12be2ebfdd2d}</Project>
+      <Name>Storage</Name>
     </ProjectReference>
     <ProjectReference Include="..\Unicode\Unicode.csproj">
       <Project>{0e93f94c-a663-4eb6-a6de-6a853d162375}</Project>

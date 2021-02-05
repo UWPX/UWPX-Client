@@ -1,4 +1,4 @@
-﻿using Data_Manager2.Classes;
+﻿using Manager.Classes;
 using UWPX_UI.Controls.Chat;
 using UWPX_UI.Dialogs;
 using UWPX_UI.Pages.Settings;

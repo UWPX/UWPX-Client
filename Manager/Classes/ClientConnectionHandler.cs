@@ -29,8 +29,7 @@ namespace Manager.Classes
     {
         //--------------------------------------------------------Attributes:-----------------------------------------------------------------\\
         #region --Attributes--
-        public readonly XMPPClient client;
-        public readonly AccountModel account;
+        public readonly Client client;
         private readonly PostClientConnectedHandler postClientConnectedHandler;
 
         public event ClientConnectedHandler ClientConnected;
@@ -39,10 +38,9 @@ namespace Manager.Classes
         #endregion
         //--------------------------------------------------------Constructor:----------------------------------------------------------------\\
         #region --Constructors--
-        public ClientConnectionHandler(AccountModel account)
+        public ClientConnectionHandler(AccountModel dbAccount)
         {
-            this.account = account;
-            client = LoadAccount(account);
+            client = new Client(dbAccount);
             postClientConnectedHandler = new PostClientConnectedHandler(this);
 
             // Ensure no event gets bound multiple times:
@@ -58,7 +56,7 @@ namespace Manager.Classes
         /// </summary>
         public void SetAccount(XMPPAccount account)
         {
-            client.setAccount(account);
+            client.xmppClient.setAccount(account);
         }
 
         #endregion
@@ -75,7 +73,7 @@ namespace Manager.Classes
         /// </summary>
         public void Connect()
         {
-            switch (client.getConnetionState())
+            switch (client.xmppClient.getConnetionState())
             {
                 case ConnectionState.DISCONNECTED:
                 case ConnectionState.DISCONNECTING:
@@ -99,7 +97,7 @@ namespace Manager.Classes
         /// </summary>
         public async Task ConnectAsync()
         {
-            await client.connectAsync();
+            await client.xmppClient.connectAsync();
         }
 
         /// <summary>
@@ -107,7 +105,7 @@ namespace Manager.Classes
         /// </summary>
         public async Task DisconnectAsync()
         {
-            await client.disconnectAsync();
+            await client.xmppClient.disconnectAsync();
         }
 
         /// <summary>
@@ -115,19 +113,19 @@ namespace Manager.Classes
         /// </summary>
         public async Task ReconnectAsync()
         {
-            await client.reconnectAsync();
+            await client.xmppClient.reconnectAsync();
         }
 
         private async Task<bool> DecryptOmemoEncryptedMessageAsync(OmemoEncryptedMessage msg)
         {
             try
             {
-                await client.connection.omemoHelper.decryptOmemoEncryptedMessageAsync(msg);
+                await client.xmppClient.connection.omemoHelper.decryptOmemoEncryptedMessageAsync(msg);
                 return true;
             }
             catch (Exception e)
             {
-                Logger.Error("Failed to decrypt " + nameof(OmemoEncryptedMessage) + " for '" + account.bareJid + "' with: ", e);
+                Logger.Error("Failed to decrypt " + nameof(OmemoEncryptedMessage) + " for '" + client.dbAccount.bareJid + "' with: ", e);
                 return false;
             }
         }
@@ -137,7 +135,7 @@ namespace Manager.Classes
             // Handel MUC room subject messages:
             if (msg is MUCRoomSubjectMessage)
             {
-                MucHandler.INSTANCE.onMUCRoomSubjectMessage(msg as MUCRoomSubjectMessage);
+                MucHandler.INSTANCE.OnMUCRoomSubjectMessage(msg as MUCRoomSubjectMessage);
                 return;
             }
 
@@ -148,10 +146,10 @@ namespace Manager.Classes
             // Check if device id is valid and if, decrypt the OMEMO messages:
             if (msg is OmemoEncryptedMessage omemoMessage)
             {
-                OmemoHelper helper = client.getOmemoHelper();
+                OmemoHelper helper = client.xmppClient.getOmemoHelper();
                 if (helper is null)
                 {
-                    OnOmemoSessionBuildError(client, new OmemoSessionBuildErrorEventArgs(from, OmemoSessionBuildError.KEY_ERROR, new List<OmemoEncryptedMessage> { omemoMessage }));
+                    OnOmemoSessionBuildError(client.xmppClient, new OmemoSessionBuildErrorEventArgs(from, OmemoSessionBuildError.KEY_ERROR, new List<OmemoEncryptedMessage> { omemoMessage }));
                     Logger.Error("Failed to decrypt OMEMO message - OmemoHelper is null");
                     return;
                 }
@@ -185,7 +183,7 @@ namespace Manager.Classes
             if (newChat)
             {
                 chatChanged = true;
-                chat = new ChatModel(from, account)
+                chat = new ChatModel(from, client.dbAccount)
                 {
                     lastActive = msg.delay,
                     chatType = string.Equals(msg.TYPE, MessageMessage.TYPE_GROUPCHAT) ? ChatType.MUC : ChatType.CHAT
@@ -198,7 +196,7 @@ namespace Manager.Classes
             ChatMessageModel message;
             using (MainDbContext ctx = new MainDbContext())
             {
-                message = ctx.ChatMessages.Where(m => string.Equals(m.stableId, msg.ID) && string.Equals(m.fromBareJid, from) && string.Equals(m.chat.accountBareJid, account.bareJid)).FirstOrDefault();
+                message = ctx.ChatMessages.Where(m => string.Equals(m.stableId, msg.ID) && string.Equals(m.fromBareJid, from) && string.Equals(m.chat.accountBareJid, client.dbAccount.bareJid)).FirstOrDefault();
             }
             // Filter messages that already exist:
             // ToDo: Allow MUC messages being edited and detect it
@@ -251,8 +249,8 @@ namespace Manager.Classes
             {
                 await Task.Run(async () =>
                 {
-                    DeliveryReceiptMessage receiptMessage = new DeliveryReceiptMessage(client.getXMPPAccount().getFullJid(), from, msg.ID);
-                    await client.SendAsync(receiptMessage);
+                    DeliveryReceiptMessage receiptMessage = new DeliveryReceiptMessage(client.dbAccount.fullJid.FullJid(), from, msg.ID);
+                    await client.xmppClient.SendAsync(receiptMessage);
                 });
             }
 
@@ -285,7 +283,7 @@ namespace Manager.Classes
                                     }
                                     else
                                     {
-                                        ToastHelper.showChatTextToast(message, chat);
+                                        ToastHelper.ShowChatTextToast(message, chat);
                                     }
 
                                     // Update badge notification count:
@@ -308,42 +306,13 @@ namespace Manager.Classes
         #endregion
 
         #region --Misc Methods (Private)--
-        /// <summary>
-        /// Loads one specific XMPPAccount and subscribes to all its events.
-        /// </summary>
-        /// <param name="account">The account which should get loaded.</param>
-        /// <returns>Returns a new XMPPClient instance.</returns>
-        private XMPPClient LoadAccount(AccountModel account)
-        {
-            XMPPClient client = new XMPPClient(account.ToXMPPAccount());
-            client.connection.TCP_CONNECTION.disableConnectionTimeout = Settings.GetSettingBoolean(SettingsConsts.DEBUG_DISABLE_TCP_TIMEOUT);
-            client.connection.TCP_CONNECTION.disableTlsUpgradeTimeout = Settings.GetSettingBoolean(SettingsConsts.DEBUG_DISABLE_TLS_TIMEOUT);
-
-            // Enable OMEMO:
-            EnableOmemo(account, client);
-            return client;
-        }
-
-        private void EnableOmemo(AccountModel account, XMPPClient client)
-        {
-            XMPPAccount xmppAccount = client.getXMPPAccount();
-            xmppAccount.omemoDeviceId = account.omemoInfo.deviceId;
-            xmppAccount.omemoDeviceLabel = account.omemoInfo.deviceLabel;
-            xmppAccount.omemoIdentityKey = account.omemoInfo.identityKey;
-            xmppAccount.omemoSignedPreKey = account.omemoInfo.signedPreKey;
-            xmppAccount.OMEMO_PRE_KEYS.Clear();
-            xmppAccount.OMEMO_PRE_KEYS.AddRange(account.omemoInfo.preKeys);
-            xmppAccount.omemoBundleInfoAnnounced = account.omemoInfo.bundleInfoAnnounced;
-            client.enableOmemo(new OmemoStorage(account));
-        }
-
         private void SetOmemoChatMessagesSendFailed(IEnumerable<OmemoEncryptedMessage> messages, ChatModel chat)
         {
             foreach (OmemoEncryptedMessage msg in messages)
             {
                 using (MainDbContext ctx = new MainDbContext())
                 {
-                    foreach (ChatMessageModel msgModel in ctx.ChatMessages.Where(m => string.Equals(m.stableId, msg.ID) && string.Equals(m.chat.accountBareJid, account.bareJid)))
+                    foreach (ChatMessageModel msgModel in ctx.ChatMessages.Where(m => string.Equals(m.stableId, msg.ID) && string.Equals(m.chat.accountBareJid, client.dbAccount.bareJid)))
                     {
                         msgModel.state = MessageState.ENCRYPT_FAILED;
                         ctx.Update(msgModel);
@@ -359,13 +328,13 @@ namespace Manager.Classes
         {
             using (MainDbContext ctx = new MainDbContext())
             {
-                foreach (ChatModel chat in ctx.Chats.Where(c => string.Equals(c.accountBareJid, account.bareJid)))
+                foreach (ChatModel chat in ctx.Chats.Where(c => string.Equals(c.accountBareJid, client.dbAccount.bareJid)))
                 {
                     chat.presence = Presence.Unavailable;
                     ctx.Update(chat);
                 }
             }
-            MucHandler.INSTANCE.onClientDisconnected(client);
+            MucHandler.INSTANCE.OnClientDisconnected(client.xmppClient);
         }
 
         /// <summary>
@@ -373,7 +342,7 @@ namespace Manager.Classes
         /// </summary>
         private void OnDisconneting()
         {
-            MucHandler.INSTANCE.onClientDisconnecting(client);
+            MucHandler.INSTANCE.OnClientDisconnecting(client.xmppClient);
         }
 
         /// <summary>
@@ -381,13 +350,12 @@ namespace Manager.Classes
         /// </summary>
         private void OnConnected()
         {
-            MucHandler.INSTANCE.onClientConnected(client);
+            MucHandler.INSTANCE.OnClientConnected(client.xmppClient);
             ClientConnected?.Invoke(this, new ClientConnectedEventArgs(client));
         }
 
         private async Task AnswerPresenceProbeAsync(string from, string to, ChatModel chat, PresenceMessage msg)
         {
-            XMPPAccount account = client.getXMPPAccount();
             PresenceMessage answer;
             if (chat is null)
             {
@@ -400,23 +368,23 @@ namespace Manager.Classes
                 {
                     case "both":
                     case "from":
-                        answer = new PresenceMessage(account.getBareJid(), from, account.presence, account.status, account.presencePriorety);
+                        answer = new PresenceMessage(client.dbAccount.fullJid.FullJid(), from, client.dbAccount.presence, client.dbAccount.status, client.dbAccount.presencePriorety);
                         Logger.Debug("Answered presence probe from: " + from);
                         break;
 
                     case "none" when chat.inRoster:
                     case "to" when chat.inRoster:
-                        answer = new PresenceErrorMessage(account.getFullJid(), from, PresenceErrorType.FORBIDDEN);
+                        answer = new PresenceErrorMessage(client.dbAccount.fullJid.FullJid(), from, PresenceErrorType.FORBIDDEN);
                         Logger.Warn("Received a presence probe but chat has no subscription: " + from + ", to: " + to + " subscription: " + chat.subscription);
                         break;
 
                     default:
-                        answer = new PresenceErrorMessage(account.getFullJid(), from, PresenceErrorType.NOT_AUTHORIZED);
+                        answer = new PresenceErrorMessage(client.dbAccount.fullJid.FullJid(), from, PresenceErrorType.NOT_AUTHORIZED);
                         Logger.Warn("Received a presence probe but chat has no subscription: " + from + ", to: " + to + " subscription: " + chat.subscription);
                         break;
                 }
             }
-            await client.SendAsync(answer);
+            await client.xmppClient.SendAsync(answer);
         }
 
         /// <summary>
@@ -424,15 +392,14 @@ namespace Manager.Classes
         /// </summary>
         private void UnsubscribeFromEvents()
         {
-            client.NewChatMessage -= OnNewChatMessage;
-            client.NewRoosterMessage -= OnNewRoosterMessage;
-            client.NewPresence -= OnNewPresence;
-            client.ConnectionStateChanged -= OnConnectionStateChanged;
-            client.MessageSend -= OnMessageSend;
-            client.NewBookmarksResultMessage -= OnNewBookmarksResultMessage;
-            client.NewDeliveryReceipt -= OnNewDeliveryReceipt;
-            client.getXMPPAccount().PropertyChanged -= ConnectionHandler_PropertyChanged;
-            client.OmemoSessionBuildError -= OnOmemoSessionBuildError;
+            client.xmppClient.NewChatMessage -= OnNewChatMessage;
+            client.xmppClient.NewRoosterMessage -= OnNewRoosterMessage;
+            client.xmppClient.NewPresence -= OnNewPresence;
+            client.xmppClient.ConnectionStateChanged -= OnConnectionStateChanged;
+            client.xmppClient.MessageSend -= OnMessageSend;
+            client.xmppClient.NewBookmarksResultMessage -= OnNewBookmarksResultMessage;
+            client.xmppClient.NewDeliveryReceipt -= OnNewDeliveryReceipt;
+            client.xmppClient.OmemoSessionBuildError -= OnOmemoSessionBuildError;
         }
 
         /// <summary>
@@ -440,15 +407,14 @@ namespace Manager.Classes
         /// </summary>
         private void SubscribeToEvents()
         {
-            client.NewChatMessage += OnNewChatMessage;
-            client.NewRoosterMessage += OnNewRoosterMessage;
-            client.NewPresence += OnNewPresence;
-            client.ConnectionStateChanged += OnConnectionStateChanged;
-            client.MessageSend += OnMessageSend;
-            client.NewBookmarksResultMessage += OnNewBookmarksResultMessage;
-            client.NewDeliveryReceipt += OnNewDeliveryReceipt;
-            client.getXMPPAccount().PropertyChanged += ConnectionHandler_PropertyChanged;
-            client.OmemoSessionBuildError += OnOmemoSessionBuildError;
+            client.xmppClient.NewChatMessage += OnNewChatMessage;
+            client.xmppClient.NewRoosterMessage += OnNewRoosterMessage;
+            client.xmppClient.NewPresence += OnNewPresence;
+            client.xmppClient.ConnectionStateChanged += OnConnectionStateChanged;
+            client.xmppClient.MessageSend += OnMessageSend;
+            client.xmppClient.NewBookmarksResultMessage += OnNewBookmarksResultMessage;
+            client.xmppClient.NewDeliveryReceipt += OnNewDeliveryReceipt;
+            client.xmppClient.OmemoSessionBuildError += OnOmemoSessionBuildError;
         }
 
         #endregion
@@ -459,14 +425,14 @@ namespace Manager.Classes
         #endregion
         //--------------------------------------------------------Events:---------------------------------------------------------------------\\
         #region --Events--
-        private void OnOmemoSessionBuildError(XMPPClient client, OmemoSessionBuildErrorEventArgs args)
+        private void OnOmemoSessionBuildError(XMPPClient xmppClient, OmemoSessionBuildErrorEventArgs args)
         {
             Task.Run(() =>
             {
                 ChatModel chat;
                 using (MainDbContext ctx = new MainDbContext())
                 {
-                    chat = ctx.Chats.Where(c => string.Equals(c.accountBareJid, account.bareJid) && string.Equals(c.bareJid, args.CHAT_JID)).FirstOrDefault();
+                    chat = ctx.Chats.Where(c => string.Equals(c.accountBareJid, xmppClient.getXMPPAccount().getBareJid()) && string.Equals(c.bareJid, args.CHAT_JID)).FirstOrDefault();
                     if (!(chat is null))
                     {
                         // Add an error chat message:
@@ -494,17 +460,17 @@ namespace Manager.Classes
             });
         }
 
-        private async void OnNewChatMessage(XMPPClient client, XMPP_API.Classes.Network.Events.NewChatMessageEventArgs args)
+        private async void OnNewChatMessage(XMPPClient xmppClient, NewChatMessageEventArgs args)
         {
             await HandleNewChatMessageAsync(args.getMessage());
         }
 
-        private async void OnNewPresence(XMPPClient client, NewPresenceMessageEventArgs args)
+        private async void OnNewPresence(XMPPClient xmppClient, NewPresenceMessageEventArgs args)
         {
             string from = Utils.getBareJidFromFullJid(args.PRESENCE_MESSAGE.getFrom());
 
             // If received a presence message from your own account, ignore it:
-            if (string.Equals(from, account.bareJid))
+            if (string.Equals(from, client.dbAccount.bareJid))
             {
                 return;
             }
@@ -512,7 +478,7 @@ namespace Manager.Classes
             ChatModel chat;
             using (MainDbContext ctx = new MainDbContext())
             {
-                chat = ctx.Chats.Where(c => string.Equals(c.accountBareJid, account.bareJid) && string.Equals(c.bareJid, from)).FirstOrDefault();
+                chat = ctx.Chats.Where(c => string.Equals(c.accountBareJid, client.dbAccount.bareJid) && string.Equals(c.bareJid, from)).FirstOrDefault();
             }
             switch (args.PRESENCE_MESSAGE.TYPE)
             {
@@ -520,14 +486,14 @@ namespace Manager.Classes
                 case "unsubscribed":
                     if (chat is null)
                     {
-                        chat = new ChatModel(from, account);
+                        chat = new ChatModel(from, client.dbAccount);
                     }
                     chat.subscription = args.PRESENCE_MESSAGE.TYPE;
                     break;
 
                 // Answer presence probes:
                 case "probe":
-                    await AnswerPresenceProbeAsync(from, account.bareJid, chat, args.PRESENCE_MESSAGE);
+                    await AnswerPresenceProbeAsync(from, client.dbAccount.bareJid, chat, args.PRESENCE_MESSAGE);
                     return;
 
                 default:
@@ -545,13 +511,13 @@ namespace Manager.Classes
             }
             else
             {
-                Logger.Warn("Received a presence message for an unknown chat from: " + from + ", to: " + account.bareJid);
+                Logger.Warn("Received a presence message for an unknown chat from: " + from + ", to: " + client.dbAccount.bareJid);
             }
         }
 
         private void OnNewRoosterMessage(IMessageSender sender, NewValidMessageEventArgs args)
         {
-            if (args.MESSAGE is RosterResultMessage msg && sender is XMPPClient client)
+            if (args.MESSAGE is RosterResultMessage msg && sender is XMPPClient xmppClient)
             {
                 string type = msg.TYPE;
                 if (!string.Equals(type, IQMessage.SET))
@@ -561,7 +527,7 @@ namespace Manager.Classes
                 }
                 using (MainDbContext ctx = new MainDbContext())
                 {
-                    IEnumerable<ChatModel> chats = ctx.Chats.Where(c => string.Equals(c.accountBareJid, account.bareJid));
+                    IEnumerable<ChatModel> chats = ctx.Chats.Where(c => string.Equals(c.accountBareJid, client.dbAccount.bareJid));
                     foreach (ChatModel chat in chats)
                     {
                         chat.inRoster = false;
@@ -576,7 +542,7 @@ namespace Manager.Classes
                         }
                         else if (!string.Equals(item.SUBSCRIPTION, "remove"))
                         {
-                            chat = new ChatModel(item.JID, account)
+                            chat = new ChatModel(item.JID, client.dbAccount)
                             {
                                 inRoster = true,
                                 chatType = ChatType.CHAT
@@ -614,7 +580,7 @@ namespace Manager.Classes
             }
         }
 
-        private void OnConnectionStateChanged(XMPPClient client, ConnectionStateChangedEventArgs args)
+        private void OnConnectionStateChanged(XMPPClient xmppClient, ConnectionStateChangedEventArgs args)
         {
             switch (args.newState)
             {
@@ -636,18 +602,18 @@ namespace Manager.Classes
             }
         }
 
-        private void OnMessageSend(XMPPClient client, MessageSendEventArgs args)
+        private void OnMessageSend(XMPPClient xmppClient, MessageSendEventArgs args)
         {
             using (MainDbContext ctx = new MainDbContext())
             {
-                ChatMessageModel msg = ctx.ChatMessages.Where(m => string.Equals(m.stableId, args.CHAT_MESSAGE_ID) && string.Equals(m.chat.accountBareJid, account.bareJid)).FirstOrDefault();
+                ChatMessageModel msg = ctx.ChatMessages.Where(m => string.Equals(m.stableId, args.CHAT_MESSAGE_ID) && string.Equals(m.chat.accountBareJid, client.dbAccount.bareJid)).FirstOrDefault();
                 Debug.Assert(!(msg is null));
                 msg.state = MessageState.SEND;
                 ctx.Update(msg);
             }
         }
 
-        private void OnNewBookmarksResultMessage(XMPPClient client, NewBookmarksResultMessageEventArgs args)
+        private void OnNewBookmarksResultMessage(XMPPClient xmppClient, NewBookmarksResultMessageEventArgs args)
         {
             foreach (ConferenceItem ci in args.BOOKMARKS_MESSAGE.STORAGE.CONFERENCES)
             {
@@ -656,11 +622,11 @@ namespace Manager.Classes
                 bool newMuc = false;
                 using (MainDbContext ctx = new MainDbContext())
                 {
-                    chat = ctx.Chats.Where(c => string.Equals(c.accountBareJid, account.bareJid) && string.Equals(c.bareJid, ci.jid)).FirstOrDefault();
+                    chat = ctx.Chats.Where(c => string.Equals(c.accountBareJid, client.dbAccount.bareJid) && string.Equals(c.bareJid, ci.jid)).FirstOrDefault();
 
                     if (chat is null)
                     {
-                        chat = new ChatModel(ci.jid, account);
+                        chat = new ChatModel(ci.jid, client.dbAccount);
                     }
                     chat.chatType = ChatType.MUC;
                     chat.inRoster = true;
@@ -696,31 +662,20 @@ namespace Manager.Classes
                 // Enter MUC manually if the MUC is new for this client:
                 if (newMuc && info.autoEnterRoom && !Settings.GetSettingBoolean(SettingsConsts.DISABLE_AUTO_JOIN_MUC))
                 {
-                    Task.Run(() => MucHandler.INSTANCE.enterMucAsync(client, info));
+                    Task.Run(() => MucHandler.INSTANCE.EnterMucAsync(xmppClient, info));
                 }
             }
         }
 
-        private void OnNewDeliveryReceipt(XMPPClient client, NewDeliveryReceiptEventArgs args)
+        private void OnNewDeliveryReceipt(XMPPClient xmppClient, NewDeliveryReceiptEventArgs args)
         {
             using (MainDbContext ctx = new MainDbContext())
             {
                 string from = Utils.getBareJidFromFullJid(args.MSG.getFrom());
-                ChatMessageModel msg = ctx.ChatMessages.Where(m => string.Equals(m.stableId, args.MSG.RECEIPT_ID) && string.Equals(m.fromBareJid, from) && string.Equals(m.chat.accountBareJid, account.bareJid)).FirstOrDefault();
+                ChatMessageModel msg = ctx.ChatMessages.Where(m => string.Equals(m.stableId, args.MSG.RECEIPT_ID) && string.Equals(m.fromBareJid, from) && string.Equals(m.chat.accountBareJid, client.dbAccount.bareJid)).FirstOrDefault();
                 Debug.Assert(!(msg is null));
                 msg.state = MessageState.SEND;
                 ctx.Update(msg);
-            }
-        }
-
-        private void ConnectionHandler_PropertyChanged(object sender, System.ComponentModel.PropertyChangedEventArgs e)
-        {
-            if (sender is XMPPAccount account)
-            {
-                // Check if an OMEMO related account property changed.
-                // If so also update the OMEMO keys.
-                // bool updateOmemoKeys = e.PropertyName.ToLowerInvariant().Contains("omemo");
-                // AccountDBManager.INSTANCE.setAccount(account, updateOmemoKeys, false);
             }
         }
 
