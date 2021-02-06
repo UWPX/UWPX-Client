@@ -1,4 +1,4 @@
-﻿using Manager.Classes.Client;
+﻿using Manager.Classes;
 using Shared.Classes;
 using XMPP_API.Classes;
 using XMPP_API.Classes.Network;

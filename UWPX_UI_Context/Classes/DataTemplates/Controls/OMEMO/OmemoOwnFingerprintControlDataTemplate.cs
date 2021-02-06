@@ -1,5 +1,4 @@
-﻿using libsignal;
-using libsignal.ecc;
+﻿using Omemo.Classes.Keys;
 using Shared.Classes;
 using XMPP_API.Classes.Crypto;
 using XMPP_API.Classes.Network;
@@ -10,8 +9,8 @@ namespace UWPX_UI_Context.Classes.DataTemplates.Controls.OMEMO
     {
         //--------------------------------------------------------Attributes:-----------------------------------------------------------------\\
         #region --Attributes--
-        private ECPublicKey _IdentPubKey;
-        public ECPublicKey IdentPubKey
+        private ECPubKeyModel _IdentPubKey;
+        public ECPubKeyModel IdentPubKey
         {
             get => _IdentPubKey;
             set => SetProperty(ref _IdentPubKey, value);
@@ -40,9 +39,8 @@ namespace UWPX_UI_Context.Classes.DataTemplates.Controls.OMEMO
         {
             if (!(account is null))
             {
-                IdentityKey key = account.omemoIdentityKey?.getPublicKey();
-                IdentPubKey = key.getPublicKey();
-                QrCodeFingerprint = !(key is null) ? CryptoUtils.generateOmemoQrCodeFingerprint(key, account) : null;
+                IdentPubKey = account.omemoIdentityKey.pubKey;
+                QrCodeFingerprint = CryptoUtils.generateOmemoQrCodeFingerprint(IdentPubKey, account);
                 return;
             }
             IdentPubKey = null;

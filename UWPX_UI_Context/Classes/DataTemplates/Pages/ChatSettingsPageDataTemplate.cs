@@ -110,24 +110,24 @@ namespace UWPX_UI_Context.Classes.DataTemplates.Pages
         private void LoadSettings()
         {
             // General:
-            EnterToSend = Settings.getSettingBoolean(SettingsConsts.ENTER_TO_SEND_MESSAGES);
-            SendChatState = !Settings.getSettingBoolean(SettingsConsts.DONT_SEND_CHAT_STATE);
-            SendReceivedMarkers = !Settings.getSettingBoolean(SettingsConsts.DONT_SEND_CHAT_MESSAGE_RECEIVED_MARKERS);
-            AdvancedChatMessageProcessing = !Settings.getSettingBoolean(SettingsConsts.DISABLE_ADVANCED_CHAT_MESSAGE_PROCESSING);
-            VibrateForNewChatMessages = !Settings.getSettingBoolean(SettingsConsts.DISABLE_VIBRATION_FOR_NEW_CHAT_MESSAGES);
-            PlaySoundForNewChatMessages = !Settings.getSettingBoolean(SettingsConsts.DISABLE_PLAY_SOUND_FOR_NEW_CHAT_MESSAGES);
-            IsEmojiButtonEnabled = Settings.getSettingBoolean(SettingsConsts.CHAT_ENABLE_EMOJI_BUTTON);
-            ShowAccountColor = Settings.getSettingInt(SettingsConsts.CHAT_SHOW_ACCOUNT_COLOR, 0);
+            EnterToSend = Settings.GetSettingBoolean(SettingsConsts.ENTER_TO_SEND_MESSAGES);
+            SendChatState = !Settings.GetSettingBoolean(SettingsConsts.DONT_SEND_CHAT_STATE);
+            SendReceivedMarkers = !Settings.GetSettingBoolean(SettingsConsts.DONT_SEND_CHAT_MESSAGE_RECEIVED_MARKERS);
+            AdvancedChatMessageProcessing = !Settings.GetSettingBoolean(SettingsConsts.DISABLE_ADVANCED_CHAT_MESSAGE_PROCESSING);
+            VibrateForNewChatMessages = !Settings.GetSettingBoolean(SettingsConsts.DISABLE_VIBRATION_FOR_NEW_CHAT_MESSAGES);
+            PlaySoundForNewChatMessages = !Settings.GetSettingBoolean(SettingsConsts.DISABLE_PLAY_SOUND_FOR_NEW_CHAT_MESSAGES);
+            IsEmojiButtonEnabled = Settings.GetSettingBoolean(SettingsConsts.CHAT_ENABLE_EMOJI_BUTTON);
+            ShowAccountColor = Settings.GetSettingInt(SettingsConsts.CHAT_SHOW_ACCOUNT_COLOR, 0);
 
             // MUC:
-            AutoJoinMucs = !Settings.getSettingBoolean(SettingsConsts.DISABLE_AUTO_JOIN_MUC);
+            AutoJoinMucs = !Settings.GetSettingBoolean(SettingsConsts.DISABLE_AUTO_JOIN_MUC);
 
             // Media:
-            ImageAutoDownload = !Settings.getSettingBoolean(SettingsConsts.DISABLE_IMAGE_AUTO_DOWNLOAD);
-            StoreImagesInLibrary = !Settings.getSettingBoolean(SettingsConsts.DISABLE_DOWNLOAD_IMAGES_TO_LIBARY);
+            ImageAutoDownload = !Settings.GetSettingBoolean(SettingsConsts.DISABLE_IMAGE_AUTO_DOWNLOAD);
+            StoreImagesInLibrary = !Settings.GetSettingBoolean(SettingsConsts.DISABLE_DOWNLOAD_IMAGES_TO_LIBARY);
 
             // OMEMO:
-            EnableOmemoForNewChats = Settings.getSettingBoolean(SettingsConsts.ENABLE_OMEMO_BY_DEFAULT_FOR_NEW_CHATS);
+            EnableOmemoForNewChats = Settings.GetSettingBoolean(SettingsConsts.ENABLE_OMEMO_BY_DEFAULT_FOR_NEW_CHATS);
 
             // Misc:
             VibrationSupported = DeviceFamilyHelper.SupportsVibration();

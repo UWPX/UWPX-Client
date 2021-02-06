@@ -1,8 +1,8 @@
 ﻿using System.Collections.Generic;
 using System.Threading.Tasks;
-using Data_Manager2.Classes.DBManager;
 using Logging;
-using UWPX_UI_Context.Classes.DataTemplates;
+using Manager.Classes.Chat;
+using Storage.Classes.Contexts;
 using UWPX_UI_Context.Classes.DataTemplates.Dialogs;
 using XMPP_API.Classes;
 using XMPP_API.Classes.Network.XML.Messages;
@@ -33,8 +33,8 @@ namespace UWPX_UI_Context.Classes.DataContext.Dialogs
         #region --Misc Methods (Public)--
         public void UpdateView(ChatDataTemplate chat)
         {
-            MODEL.MucName = string.IsNullOrEmpty(chat.MucInfo.name) ? chat.Chat.chatJabberId : chat.MucInfo.name;
-            MODEL.Nickname = chat.MucInfo.nickname;
+            MODEL.MucName = string.IsNullOrEmpty(chat.Chat.muc.name) ? chat.Chat.bareJid : chat.Chat.muc.name;
+            MODEL.Nickname = chat.Chat.muc.nickname;
         }
 
         /// <summary>
@@ -47,7 +47,7 @@ namespace UWPX_UI_Context.Classes.DataContext.Dialogs
             MODEL.IsSaving = true;
             bool success = await Task.Run(async () =>
             {
-                chat.MucInfo.nickname = MODEL.Nickname;
+                chat.Chat.muc.nickname = MODEL.Nickname;
 
                 // Try to update the nickname at the chat room:
                 bool result = await UpdateNicknameAsync(chat);
@@ -57,7 +57,7 @@ namespace UWPX_UI_Context.Classes.DataContext.Dialogs
                 }
 
                 // Update the DB entry since the server could respond with a different nickname:
-                MUCDBManager.INSTANCE.setMUCChatInfo(chat.MucInfo, false, true);
+                chat.Chat.muc.Save();
 
                 // Update bookmarks:
                 return chat.Chat.inRoster ? await UpdateBookmarksAsync(chat) : true;
@@ -80,8 +80,12 @@ namespace UWPX_UI_Context.Classes.DataContext.Dialogs
         #region --Misc Methods (Private)--
         private async Task<bool> UpdateBookmarksAsync(ChatDataTemplate chat)
         {
-            List<ConferenceItem> conferences = MUCDBManager.INSTANCE.getXEP0048ConferenceItemsForAccount(chat.Client.getXMPPAccount().getBareJid());
-            MessageResponseHelperResult<IQMessage> result = await chat.Client.PUB_SUB_COMMAND_HELPER.setBookmars_xep_0048Async(conferences);
+            List<ConferenceItem> conferences;
+            using (MainDbContext ctx = new MainDbContext())
+            {
+                conferences = ctx.GetXEP0048ConferenceItemsForAccount(chat.Chat.accountBareJid);
+            }
+            MessageResponseHelperResult<IQMessage> result = await chat.Client.xmppClient.PUB_SUB_COMMAND_HELPER.setBookmars_xep_0048Async(conferences);
             if (string.Equals(result.RESULT.TYPE, IQMessage.RESULT))
             {
                 return true;
@@ -99,10 +103,10 @@ namespace UWPX_UI_Context.Classes.DataContext.Dialogs
 
         private async Task<bool> UpdateNicknameAsync(ChatDataTemplate chat)
         {
-            MessageResponseHelperResult<MUCMemberPresenceMessage> result = await chat.Client.MUC_COMMAND_HELPER.changeNicknameAsync(chat.Chat.chatJabberId, chat.MucInfo.nickname);
+            MessageResponseHelperResult<MUCMemberPresenceMessage> result = await chat.Client.xmppClient.MUC_COMMAND_HELPER.changeNicknameAsync(chat.Chat.bareJid, chat.Chat.muc.nickname);
             if (!string.IsNullOrEmpty(result.RESULT.ERROR_TYPE))
             {
-                Logger.Warn("Failed to change nickname for room \"" + chat.Chat.chatJabberId + "\" to \"" + chat.MucInfo.nickname + "\" with: " + result.RESULT.ERROR_MESSAGE);
+                Logger.Warn("Failed to change nickname for room \"" + chat.Chat.bareJid + "\" to \"" + chat.Chat.muc.nickname + "\" with: " + result.RESULT.ERROR_MESSAGE);
                 return false;
             }
             // Nickname has been updated successfully:
@@ -118,7 +122,7 @@ namespace UWPX_UI_Context.Classes.DataContext.Dialogs
                     Logger.Error("Expected a full JID as a MUC nickname changed message with status code 210, but received: " + result.RESULT.JID);
                     return false;
                 }
-                chat.MucInfo.nickname = Utils.getJidResourcePart(result.RESULT.JID);
+                chat.Chat.muc.nickname = Utils.getJidResourcePart(result.RESULT.JID);
                 return true;
             }
             // Should not happen:

@@ -1,8 +1,10 @@
-﻿using UWPX_UI.Pages;
+﻿using Manager.Classes.Chat;
+using Storage.Classes;
+using Storage.Classes.Models.Chat;
+using UWPX_UI.Pages;
 using UWPX_UI.Pages.Settings;
 using UWPX_UI_Context.Classes;
 using UWPX_UI_Context.Classes.DataContext.Controls;
-using UWPX_UI_Context.Classes.DataTemplates;
 using UWPX_UI_Context.Classes.Events;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
@@ -63,15 +65,15 @@ namespace UWPX_UI.Controls.Chat
         #region --Misc Methods (Private)--
         private void LoadDummyContent()
         {
-            Chat = new ChatDataTemplate
+            ChatModel tmp = new ChatModel
             {
-                Chat = new Data_Manager2.Classes.DBTables.ChatTable("dave@xmpp.uwpx.org", "alice@xmpp.uwpx.org")
-                {
-                    presence = XMPP_API.Classes.Presence.Away,
-                    status = "ʕノ•ᴥ•ʔノ ︵ ┻━┻",
-                    omemoEnabled = true
-                }
+                accountBareJid = "alice@xmpp.uwpx.org",
+                bareJid = "dave@xmpp.uwpx.org",
+                presence = XMPP_API.Classes.Presence.Away,
+                status = "ʕノ•ᴥ•ʔノ ︵ ┻━┻"
             };
+            tmp.omemo.enabled = true;
+            Chat = new ChatDataTemplate(tmp, null, null, null);
             VIEW_MODEL.LoadDummyContent(Chat.Chat);
         }
 
@@ -86,10 +88,10 @@ namespace UWPX_UI.Controls.Chat
 
         private void ShowEnterToSendTip()
         {
-            if (VIEW_MODEL.MODEL.EnterToSend && !Data_Manager2.Classes.Settings.getSettingBoolean(SettingsConsts.CHAT_ENTER_TO_SEND_TIP_SHOWN))
+            if (VIEW_MODEL.MODEL.EnterToSend && !Storage.Classes.Settings.GetSettingBoolean(SettingsConsts.CHAT_ENTER_TO_SEND_TIP_SHOWN))
             {
                 enterToSend_tt.IsOpen = true;
-                Data_Manager2.Classes.Settings.SetSetting(SettingsConsts.CHAT_ENTER_TO_SEND_TIP_SHOWN, true);
+                Storage.Classes.Settings.SetSetting(SettingsConsts.CHAT_ENTER_TO_SEND_TIP_SHOWN, true);
             }
         }
 
@@ -142,7 +144,7 @@ namespace UWPX_UI.Controls.Chat
                 }
                 else
                 {
-                    UiUtils.NavigateToPage(typeof(ContactInfoPage), new NavigatedToContactInfoPageEventArgs(Chat.Client, Chat.Chat));
+                    UiUtils.NavigateToPage(typeof(ContactInfoPage), new NavigatedToContactInfoPageEventArgs(Chat));
                 }
             }
         }
@@ -162,8 +164,8 @@ namespace UWPX_UI.Controls.Chat
             if (!IsDummy)
             {
                 QueryFilter filter = new QueryFilter();
-                filter.With(Chat.Chat.chatJabberId);
-                MessageResponseHelperResult<MamResult> result = await Chat.Client.GENERAL_COMMAND_HELPER.requestMamAsync(filter);
+                filter.With(Chat.Chat.bareJid);
+                MessageResponseHelperResult<MamResult> result = await Chat.Client.xmppClient.GENERAL_COMMAND_HELPER.requestMamAsync(filter);
             }
         }
 

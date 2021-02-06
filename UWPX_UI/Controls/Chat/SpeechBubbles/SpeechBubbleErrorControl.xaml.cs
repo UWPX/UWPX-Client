@@ -1,5 +1,5 @@
-﻿using UWPX_UI_Context.Classes.DataContext.Controls;
-using UWPX_UI_Context.Classes.DataTemplates;
+﻿using Manager.Classes.Chat;
+using UWPX_UI_Context.Classes.DataContext.Controls;
 using Windows.Foundation;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
@@ -81,9 +81,9 @@ namespace UWPX_UI.Controls.Chat.SpeechBubbles
             }
         }
 
-        private async void DeleteMsg_mfi_Click(object sender, RoutedEventArgs e)
+        private void DeleteMsg_mfi_Click(object sender, RoutedEventArgs e)
         {
-            await VIEW_MODEL.DeleteMessageAsync();
+            VIEW_MODEL.DeleteMessage();
         }
 
         private void UserControl_RightTapped(object sender, Windows.UI.Xaml.Input.RightTappedRoutedEventArgs e)

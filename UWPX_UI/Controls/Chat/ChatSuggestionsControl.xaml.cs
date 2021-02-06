@@ -1,8 +1,8 @@
 ﻿using System.Threading.Tasks;
+using Manager.Classes;
 using UWPX_UI_Context.Classes.DataContext.Controls;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
-using XMPP_API.Classes;
 
 namespace UWPX_UI.Controls.Chat
 {
@@ -10,12 +10,12 @@ namespace UWPX_UI.Controls.Chat
     {
         //--------------------------------------------------------Attributes:-----------------------------------------------------------------\\
         #region --Attributes--
-        public XMPPClient Client
+        public Client Client
         {
-            get => (XMPPClient)GetValue(ClientProperty);
+            get => (Client)GetValue(ClientProperty);
             set => SetValue(ClientProperty, value);
         }
-        public static readonly DependencyProperty ClientProperty = DependencyProperty.Register(nameof(Client), typeof(XMPPClient), typeof(ChatSuggestionsControl), new PropertyMetadata(null, OnClientChanged));
+        public static readonly DependencyProperty ClientProperty = DependencyProperty.Register(nameof(Client), typeof(Client), typeof(ChatSuggestionsControl), new PropertyMetadata(null, OnClientChanged));
 
         public string FilterText
         {

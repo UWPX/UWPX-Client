@@ -26,9 +26,7 @@ namespace Storage.Classes.Models.Omemo
 
         public OmemoFingerprintModel(OmemoFingerprint fingerprint)
         {
-            lastSeen = fingerprint.lastSeen;
-            trusted = fingerprint.trusted;
-            identityKey = fingerprint.IDENTITY_KEY;
+            FromOmemoFingerprint(fingerprint);
         }
 
         #endregion
@@ -42,6 +40,13 @@ namespace Storage.Classes.Models.Omemo
         public OmemoFingerprint ToOmemoFingerprint(OmemoProtocolAddress address)
         {
             return new OmemoFingerprint(identityKey, address, lastSeen, trusted);
+        }
+
+        public void FromOmemoFingerprint(OmemoFingerprint fingerprint)
+        {
+            lastSeen = fingerprint.lastSeen;
+            trusted = fingerprint.trusted;
+            identityKey = fingerprint.IDENTITY_KEY;
         }
 
         #endregion

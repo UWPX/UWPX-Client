@@ -1,6 +1,7 @@
 ﻿using System.Runtime.CompilerServices;
 using Push.Classes;
 using Shared.Classes;
+using Storage.Classes;
 
 namespace UWPX_UI_Context.Classes.DataTemplates.Pages
 {
@@ -53,7 +54,7 @@ namespace UWPX_UI_Context.Classes.DataTemplates.Pages
         #region --Set-, Get- Methods--
         private bool SetBoolProperty(ref bool storage, bool value, string settingsToken, [CallerMemberName] string propertyName = null)
         {
-            if (SetProperty(ref storage, value, propertyName) && Settings.getSettingBoolean(settingsToken) != value)
+            if (SetProperty(ref storage, value, propertyName) && Settings.GetSettingBoolean(settingsToken) != value)
             {
                 Settings.SetSetting(settingsToken, value);
                 return true;

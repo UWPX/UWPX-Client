@@ -196,7 +196,7 @@ namespace Manager.Classes
             ChatMessageModel message;
             using (MainDbContext ctx = new MainDbContext())
             {
-                message = ctx.ChatMessages.Where(m => string.Equals(m.stableId, msg.ID) && string.Equals(m.fromBareJid, from) && string.Equals(m.chat.accountBareJid, client.dbAccount.bareJid)).FirstOrDefault();
+                message = ctx.ChatMessages.Where(m => !newChat && m.chatId == chat.id && string.Equals(m.stableId, msg.ID) && string.Equals(m.fromBareJid, from)).FirstOrDefault();
             }
             // Filter messages that already exist:
             // ToDo: Allow MUC messages being edited and detect it
@@ -312,7 +312,7 @@ namespace Manager.Classes
             {
                 using (MainDbContext ctx = new MainDbContext())
                 {
-                    foreach (ChatMessageModel msgModel in ctx.ChatMessages.Where(m => string.Equals(m.stableId, msg.ID) && string.Equals(m.chat.accountBareJid, client.dbAccount.bareJid)))
+                    foreach (ChatMessageModel msgModel in ctx.ChatMessages.Where(m => m.chatId == chat.id && string.Equals(m.stableId, msg.ID)))
                     {
                         msgModel.state = MessageState.ENCRYPT_FAILED;
                         ctx.Update(msgModel);
@@ -438,7 +438,7 @@ namespace Manager.Classes
                         // Add an error chat message:
                         ChatMessageModel msg = new ChatMessageModel()
                         {
-                            chat = chat,
+                            chatId = chat.id,
                             date = DateTime.Now,
                             fromBareJid = args.CHAT_JID,
                             isCC = false,
@@ -606,7 +606,7 @@ namespace Manager.Classes
         {
             using (MainDbContext ctx = new MainDbContext())
             {
-                ChatMessageModel msg = ctx.ChatMessages.Where(m => string.Equals(m.stableId, args.CHAT_MESSAGE_ID) && string.Equals(m.chat.accountBareJid, client.dbAccount.bareJid)).FirstOrDefault();
+                ChatMessageModel msg = ctx.ChatMessages.Where(m => m.id == args.CHAT_MESSAGE_ID).FirstOrDefault();
                 Debug.Assert(!(msg is null));
                 msg.state = MessageState.SEND;
                 ctx.Update(msg);
@@ -671,9 +671,19 @@ namespace Manager.Classes
         {
             using (MainDbContext ctx = new MainDbContext())
             {
-                string from = Utils.getBareJidFromFullJid(args.MSG.getFrom());
-                ChatMessageModel msg = ctx.ChatMessages.Where(m => string.Equals(m.stableId, args.MSG.RECEIPT_ID) && string.Equals(m.fromBareJid, from) && string.Equals(m.chat.accountBareJid, client.dbAccount.bareJid)).FirstOrDefault();
-                Debug.Assert(!(msg is null));
+                string fromBareJid = Utils.getBareJidFromFullJid(args.MSG.getFrom());
+                ChatModel chat = ctx.Chats.Where(c => string.Equals(c.accountBareJid, client.dbAccount.bareJid) && string.Equals(c.bareJid, fromBareJid)).FirstOrDefault();
+                if (chat is null)
+                {
+                    Logger.Warn($"Delivery receipt for an unknown chat ({fromBareJid}) on account '{client.dbAccount.bareJid}' received.");
+                    return;
+                }
+                ChatMessageModel msg = ctx.ChatMessages.Where(m => m.chatId == chat.id && string.Equals(m.stableId, args.MSG.RECEIPT_ID) && string.Equals(m.fromBareJid, fromBareJid)).FirstOrDefault();
+                if (msg is null)
+                {
+                    Logger.Warn($"Delivery receipt for an chat message ({args.MSG.RECEIPT_ID}) on account '{client.dbAccount.bareJid}' received.");
+                    return;
+                }
                 msg.state = MessageState.SEND;
                 ctx.Update(msg);
             }

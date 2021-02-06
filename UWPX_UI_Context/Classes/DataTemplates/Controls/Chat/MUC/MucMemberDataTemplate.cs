@@ -1,4 +1,5 @@
 ﻿using System;
+using Manager.Classes.Chat;
 using Shared.Classes;
 using Storage.Classes.Models.Chat;
 

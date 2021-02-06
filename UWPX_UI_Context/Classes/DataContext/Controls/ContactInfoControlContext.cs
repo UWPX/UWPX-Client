@@ -1,9 +1,8 @@
 ﻿using System.Threading.Tasks;
+using Manager.Classes.Chat;
 using Shared.Classes;
-using Storage.Classes.Models.Chat;
 using UWPX_UI_Context.Classes.DataTemplates.Controls;
 using Windows.UI.Xaml;
-using XMPP_API.Classes;
 
 namespace UWPX_UI_Context.Classes.DataContext.Controls
 {
@@ -28,117 +27,114 @@ namespace UWPX_UI_Context.Classes.DataContext.Controls
         #region --Misc Methods (Public)--
         public void UpdateView(DependencyPropertyChangedEventArgs e)
         {
-            if (e.NewValue is ChatModel chat)
+            if (e.NewValue is ChatDataTemplate chat)
             {
-                MODEL.UpdateView(chat);
-            }
-            else if (e.NewValue is XMPPClient client)
-            {
-                MODEL.UpdateView(client);
+                MODEL.UpdateView(chat.Chat);
+                MODEL.UpdateView(chat.Client);
             }
         }
 
-        public async Task SendPresenceProbeAsync(XMPPClient client, ChatModel chat)
+        public async Task SendPresenceProbeAsync(ChatDataTemplate chat)
         {
-            if (client is null || chat is null)
+            if (chat is null)
             {
                 return;
             }
 
-            await client.GENERAL_COMMAND_HELPER.sendPresenceProbeAsync(client.getXMPPAccount().getFullJid(), chat.bareJid);
+            await chat.Client.xmppClient.GENERAL_COMMAND_HELPER.sendPresenceProbeAsync(chat.Client.xmppClient.getXMPPAccount().getFullJid(), chat.Chat.bareJid);
         }
 
-        public async Task RequestPresenceSubscriptionAsync(XMPPClient client, ChatModel chat)
+        public async Task RequestPresenceSubscriptionAsync(ChatDataTemplate chat)
         {
-            if (client is null || chat is null)
+            if (chat is null)
             {
                 return;
             }
 
-            await client.GENERAL_COMMAND_HELPER.requestPresenceSubscriptionAsync(chat.bareJid);
+            await chat.Client.xmppClient.GENERAL_COMMAND_HELPER.requestPresenceSubscriptionAsync(chat.Chat.bareJid);
         }
 
-        public async Task CancelPresenceSubscriptionAsync(XMPPClient client, ChatModel chat)
+        public async Task CancelPresenceSubscriptionAsync(ChatDataTemplate chat)
         {
-            if (client is null || chat is null)
+            if (chat is null)
             {
                 return;
             }
 
-            await client.GENERAL_COMMAND_HELPER.unsubscribeFromPresenceAsync(chat.bareJid).ConfAwaitFalse();
+            await chat.Client.xmppClient.GENERAL_COMMAND_HELPER.unsubscribeFromPresenceAsync(chat.Chat.bareJid).ConfAwaitFalse();
             await Task.Run(() =>
             {
-                switch (chat.subscription)
+                switch (chat.Chat.subscription)
                 {
                     case "to":
-                        chat.subscription = "none";
+                        chat.Chat.subscription = "none";
                         break;
 
                     case "both":
-                        chat.subscription = "from";
+                        chat.Chat.subscription = "from";
                         break;
                 }
-                ChatDBManager.INSTANCE.setChat(chat, false, true);
+                chat.Chat.Save();
             }).ConfAwaitFalse();
         }
 
-        public async Task RejectPresenceSubscriptionAsync(XMPPClient client, ChatModel chat)
+        public async Task RejectPresenceSubscriptionAsync(ChatDataTemplate chat)
         {
-            if (client is null || chat is null)
+            if (chat is null)
             {
                 return;
             }
 
-            await client.GENERAL_COMMAND_HELPER.answerPresenceSubscriptionRequestAsync(chat.bareJid, false).ConfAwaitFalse();
+            await chat.Client.xmppClient.GENERAL_COMMAND_HELPER.answerPresenceSubscriptionRequestAsync(chat.Chat.bareJid, false).ConfAwaitFalse();
             await Task.Run(() =>
             {
-                switch (chat.subscription)
+                switch (chat.Chat.subscription)
                 {
                     case "from":
-                        chat.subscription = "none";
+                        chat.Chat.subscription = "none";
                         break;
 
                     case "both":
-                        chat.subscription = "to";
+                        chat.Chat.subscription = "to";
                         break;
                 }
-                ChatDBManager.INSTANCE.setChat(chat, false, true);
+                chat.Chat.Save();
             }).ConfAwaitFalse();
         }
 
-        public async Task SwitchChatInRosterAsync(XMPPClient client, ChatModel chat)
+        public async Task SwitchChatInRosterAsync(ChatDataTemplate chat)
         {
-            if (client is null || chat is null)
+            if (chat is null)
             {
                 return;
             }
 
-            await SetChatInRosterAsync(client, chat, !chat.inRoster).ConfAwaitFalse();
+            await SetChatInRosterAsync(chat, !chat.Chat.inRoster).ConfAwaitFalse();
         }
 
-        private async Task SetChatInRosterAsync(XMPPClient client, ChatModel chat, bool inRoster)
+        private async Task SetChatInRosterAsync(ChatDataTemplate chat, bool inRoster)
         {
-            if (chat.inRoster != inRoster)
+            if (chat.Chat.inRoster != inRoster)
             {
                 await Task.Run(() =>
                 {
-                    chat.inRoster = inRoster;
-                    MODEL.UpdateView(chat);
-                    ChatDBManager.INSTANCE.setChat(chat, false, true);
+                    chat.Chat.inRoster = inRoster;
+                    MODEL.UpdateView(chat.Chat);
+                    chat.Chat.Save();
                 }).ConfAwaitFalse();
             }
 
             if (inRoster)
             {
-                await client.GENERAL_COMMAND_HELPER.addToRosterAsync(chat.bareJid).ConfAwaitFalse();
+                await chat.Client.xmppClient.GENERAL_COMMAND_HELPER.addToRosterAsync(chat.Chat.bareJid).ConfAwaitFalse();
             }
             else
             {
-                await client.GENERAL_COMMAND_HELPER.removeFromRosterAsync(chat.bareJid).ConfAwaitFalse();
+                await chat.Client.xmppClient.GENERAL_COMMAND_HELPER.removeFromRosterAsync(chat.Chat.bareJid).ConfAwaitFalse();
             }
         }
 
-        public async Task ToggleChatMutedAsync(ChatModel chat)
+        public async Task ToggleChatMutedAsync(ChatDataTemplate chat)
         {
             if (chat is null)
             {
@@ -147,9 +143,9 @@ namespace UWPX_UI_Context.Classes.DataContext.Controls
 
             await Task.Run(() =>
             {
-                chat.muted = !chat.muted;
-                MODEL.UpdateView(chat);
-                ChatDBManager.INSTANCE.setChat(chat, false, true);
+                chat.Chat.muted = !chat.Chat.muted;
+                MODEL.UpdateView(chat.Chat);
+                chat.Chat.Save();
             }).ConfAwaitFalse();
         }
 

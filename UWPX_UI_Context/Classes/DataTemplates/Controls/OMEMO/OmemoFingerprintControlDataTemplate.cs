@@ -1,5 +1,5 @@
-﻿using Shared.Classes;
-using XMPP_API.Classes.Crypto;
+﻿using Omemo.Classes.Keys;
+using Shared.Classes;
 
 namespace UWPX_UI_Context.Classes.DataTemplates.Controls.OMEMO
 {
@@ -27,9 +27,9 @@ namespace UWPX_UI_Context.Classes.DataTemplates.Controls.OMEMO
         #endregion
         //--------------------------------------------------------Misc Methods:---------------------------------------------------------------\\
         #region --Misc Methods (Public)--
-        public void UpdateView(ECPubKey identityPubKey)
+        public void UpdateView(ECPubKeyModel identityPubKey)
         {
-            Fingerprint = !(identityPubKey is null) ? CryptoUtils.getRawFromECPublicKey(identityPubKey) : null;
+            Fingerprint = identityPubKey?.key;
         }
 
         #endregion

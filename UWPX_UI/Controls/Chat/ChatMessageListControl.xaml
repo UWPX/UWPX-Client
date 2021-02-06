@@ -9,7 +9,7 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              xmlns:selectors="using:UWPX_UI_Context.Classes.DataTemplates.Selectors"
              xmlns:speechbubbles="using:UWPX_UI.Controls.Chat.SpeechBubbles"
-             xmlns:templates="using:UWPX_UI_Context.Classes.DataTemplates"
+             xmlns:templates="using:Manager.Classes.Chat"
              xmlns:valueConverter="using:UWPX_UI_Context.Classes.ValueConverter"
              mc:Ignorable="d">
 
@@ -78,13 +78,13 @@
                                       Width="20"
                                       Height="20"
                                       VerticalAlignment="Center"
-                                      IsActive="{x:Bind VIEW_MODEL.MODEL.IsLoading, Mode=OneWay}"/>
+                                      IsActive="{x:Bind VIEW_MODEL.MODEL.CHAT_MESSAGES.IsLoading, Mode=OneWay}"/>
                         <TextBlock Grid.Column="1"
                                    Margin="10,0,0,0"
                                    VerticalAlignment="Center"
                                    Style="{StaticResource TitleTextBlockStyle}"
                                    Text="Loading more messages..."
-                                   Visibility="{x:Bind VIEW_MODEL.MODEL.IsLoading, Mode=OneWay, Converter={StaticResource BoolVisibilityValueConverter}}"/>
+                                   Visibility="{x:Bind VIEW_MODEL.MODEL.CHAT_MESSAGES.IsLoading, Mode=OneWay, Converter={StaticResource BoolVisibilityValueConverter}}"/>
                     </Grid>
                 </Grid>
             </ListView.Header>
@@ -138,12 +138,12 @@
                     BorderThickness="1"
                     CornerRadius="11"
                     ToolTipService.ToolTip="Unread messages"
-                    Visibility="{x:Bind VIEW_MODEL.MODEL.UnreadCount, Mode=OneWay, Converter={StaticResource StringEmptyVisibilityValueConverter}}">
+                    Visibility="{x:Bind VIEW_MODEL.MODEL.CHAT_MESSAGES.UnreadCount, Mode=OneWay, Converter={StaticResource StringEmptyVisibilityValueConverter}}">
                 <TextBlock Margin="2,0,2,0"
                            HorizontalAlignment="Center"
                            FontSize="11"
                            Foreground="White"
-                           Text="{x:Bind VIEW_MODEL.MODEL.UnreadCount, Mode=OneWay}"/>
+                           Text="{x:Bind VIEW_MODEL.MODEL.CHAT_MESSAGES.UnreadCount, Mode=OneWay}"/>
             </Border>
 
             <animations:Implicit.ShowAnimations>

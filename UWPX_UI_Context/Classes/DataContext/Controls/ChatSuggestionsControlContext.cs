@@ -1,6 +1,6 @@
 ﻿using System.Threading.Tasks;
+using Manager.Classes;
 using UWPX_UI_Context.Classes.DataTemplates.Controls;
-using XMPP_API.Classes;
 
 namespace UWPX_UI_Context.Classes.DataContext.Controls
 {
@@ -23,7 +23,7 @@ namespace UWPX_UI_Context.Classes.DataContext.Controls
         #endregion
         //--------------------------------------------------------Misc Methods:---------------------------------------------------------------\\
         #region --Misc Methods (Public)--
-        public async Task UpdateViewAsync(XMPPClient client)
+        public async Task UpdateViewAsync(Client client)
         {
             await MODEL.UpdateViewAsync(client);
         }

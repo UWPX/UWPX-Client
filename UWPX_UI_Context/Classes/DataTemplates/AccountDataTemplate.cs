@@ -1,8 +1,9 @@
 ﻿using System.Threading.Tasks;
-using Data_Manager2.Classes.DBManager;
+using Manager.Classes;
 using Shared.Classes;
 using XMPP_API.Classes;
 using XMPP_API.Classes.Network;
+using XMPP_API.Classes.Network.Events;
 
 namespace UWPX_UI_Context.Classes.DataTemplates
 {
@@ -10,17 +11,11 @@ namespace UWPX_UI_Context.Classes.DataTemplates
     {
         //--------------------------------------------------------Attributes:-----------------------------------------------------------------\\
         #region --Attributes--
-        private XMPPClient _Client;
-        public XMPPClient Client
+        private Client _Client;
+        public Client Client
         {
             get => _Client;
             set => SetClient(value);
-        }
-        private XMPPAccount _Account;
-        public XMPPAccount Account
-        {
-            get => _Account;
-            private set => SetAccount(value);
         }
         private bool _Enabled;
         public bool Enabled
@@ -57,37 +52,23 @@ namespace UWPX_UI_Context.Classes.DataTemplates
         #endregion
         //--------------------------------------------------------Set-, Get- Methods:---------------------------------------------------------\\
         #region --Set-, Get- Methods--
-        private void SetAccount(XMPPAccount value)
-        {
-            if (!(Account is null))
-            {
-                Account.PropertyChanged -= Account_PropertyChanged;
-            }
-            SetProperty(ref _Account, value, nameof(Account));
-            Enabled = !value.disabled;
-            if (!(Account is null))
-            {
-                Account.PropertyChanged += Account_PropertyChanged;
-            }
-        }
-
-        private void SetClient(XMPPClient value)
+        private void SetClient(Client value)
         {
             if (!(Client is null))
             {
-                Client.ConnectionStateChanged -= Client_ConnectionStateChanged;
+                Client.xmppClient.ConnectionStateChanged -= ConnectionStateChanged;
             }
 
             if (SetProperty(ref _Client, value, nameof(Client)))
             {
-                Account = value?.getXMPPAccount();
-                State = value.getConnetionState();
-                ProcessLastConnectionError(value.getLastConnectionError());
+                State = value.xmppClient.getConnetionState();
+                Enabled = !value.dbAccount.disabled;
+                ProcessLastConnectionError(value.xmppClient.getLastConnectionError());
             }
 
             if (!(Client is null))
             {
-                Client.ConnectionStateChanged += Client_ConnectionStateChanged;
+                Client.xmppClient.ConnectionStateChanged += ConnectionStateChanged;
             }
         }
 
@@ -109,23 +90,23 @@ namespace UWPX_UI_Context.Classes.DataTemplates
         #region --Misc Methods (Private)--
         private void OnEnabledChanged(bool value)
         {
-            if (Account is null || Client is null || !value == Account.disabled)
+            if (Client is null || !value == Client.dbAccount.disabled)
             {
                 return;
             }
 
             Task.Run(async () =>
             {
-                Account.disabled = !value;
-                AccountDBManager.INSTANCE.setAccountDisabled(Account);
+                Client.dbAccount.disabled = !value;
+                Client.dbAccount.Save();
 
-                if (value && !Client.isConnected())
+                if (value && !Client.xmppClient.isConnected())
                 {
-                    _ = Client.connectAsync();
+                    _ = Client.xmppClient.connectAsync();
                 }
-                else if (value && Client.isConnected())
+                else if (value && Client.xmppClient.isConnected())
                 {
-                    await Client.disconnectAsync();
+                    await Client.xmppClient.disconnectAsync();
                 }
             });
         }
@@ -165,18 +146,7 @@ namespace UWPX_UI_Context.Classes.DataTemplates
         #endregion
         //--------------------------------------------------------Events:---------------------------------------------------------------------\\
         #region --Events--
-        private void Account_PropertyChanged(object sender, System.ComponentModel.PropertyChangedEventArgs e)
-        {
-            if (sender is XMPPAccount account)
-            {
-                if (string.Equals(e.PropertyName, nameof(account.disabled)))
-                {
-                    Enabled = !account.disabled;
-                }
-            }
-        }
-
-        private void Client_ConnectionStateChanged(XMPPClient client, XMPP_API.Classes.Network.Events.ConnectionStateChangedEventArgs args)
+        private void ConnectionStateChanged(XMPPClient client, ConnectionStateChangedEventArgs args)
         {
             State = args.newState;
 

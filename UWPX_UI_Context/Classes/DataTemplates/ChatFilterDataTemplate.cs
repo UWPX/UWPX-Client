@@ -1,7 +1,10 @@
 ﻿using System;
 using System.Runtime.CompilerServices;
+using Manager.Classes.Chat;
 using Microsoft.Toolkit.Uwp.UI;
 using Shared.Classes;
+using Storage.Classes;
+using Storage.Classes.Models.Chat;
 using XMPP_API.Classes;
 
 namespace UWPX_UI_Context.Classes.DataTemplates
@@ -97,20 +100,20 @@ namespace UWPX_UI_Context.Classes.DataTemplates
             {
                 CHATS_ACV = chatsACV;
 
-                _PresenceOnline = Settings.getSettingBoolean(SettingsConsts.CHAT_FILTER_PRESENCE_ONLINE);
-                _PresenceAway = Settings.getSettingBoolean(SettingsConsts.CHAT_FILTER_PRESENCE_AWAY);
-                _PresenceUnavailable = Settings.getSettingBoolean(SettingsConsts.CHAT_FILTER_NOT_UNAVAILABLE);
-                _PresenceXa = Settings.getSettingBoolean(SettingsConsts.CHAT_FILTER_PRESENCE_XA);
-                _PresenceDnd = Settings.getSettingBoolean(SettingsConsts.CHAT_FILTER_PRESENCE_DND);
-                _PresenceChat = Settings.getSettingBoolean(SettingsConsts.CHAT_FILTER_PRESENCE_CHAT);
+                _PresenceOnline = Settings.GetSettingBoolean(SettingsConsts.CHAT_FILTER_PRESENCE_ONLINE);
+                _PresenceAway = Settings.GetSettingBoolean(SettingsConsts.CHAT_FILTER_PRESENCE_AWAY);
+                _PresenceUnavailable = Settings.GetSettingBoolean(SettingsConsts.CHAT_FILTER_NOT_UNAVAILABLE);
+                _PresenceXa = Settings.GetSettingBoolean(SettingsConsts.CHAT_FILTER_PRESENCE_XA);
+                _PresenceDnd = Settings.GetSettingBoolean(SettingsConsts.CHAT_FILTER_PRESENCE_DND);
+                _PresenceChat = Settings.GetSettingBoolean(SettingsConsts.CHAT_FILTER_PRESENCE_CHAT);
 
 
-                _ChatQuery = Settings.getSettingString(SettingsConsts.CHAT_FILTER_QUERY, string.Empty);
-                _ChatQueryEnabled = Settings.getSettingBoolean(SettingsConsts.CHAT_FILTER_QUERY_ENABLED);
-                _NotOnline = Settings.getSettingBoolean(SettingsConsts.CHAT_FILTER_NOT_ONLINE);
-                _NotUnavailable = Settings.getSettingBoolean(SettingsConsts.CHAT_FILTER_NOT_UNAVAILABLE);
-                _ChatsOnly = Settings.getSettingBoolean(SettingsConsts.CHAT_FILTER_CHATS_ONLY);
-                _MucsOnly = Settings.getSettingBoolean(SettingsConsts.CHAT_FILTER_MUCS_ONLY);
+                _ChatQuery = Settings.GetSettingString(SettingsConsts.CHAT_FILTER_QUERY, string.Empty);
+                _ChatQueryEnabled = Settings.GetSettingBoolean(SettingsConsts.CHAT_FILTER_QUERY_ENABLED);
+                _NotOnline = Settings.GetSettingBoolean(SettingsConsts.CHAT_FILTER_NOT_ONLINE);
+                _NotUnavailable = Settings.GetSettingBoolean(SettingsConsts.CHAT_FILTER_NOT_UNAVAILABLE);
+                _ChatsOnly = Settings.GetSettingBoolean(SettingsConsts.CHAT_FILTER_CHATS_ONLY);
+                _MucsOnly = Settings.GetSettingBoolean(SettingsConsts.CHAT_FILTER_MUCS_ONLY);
             }
         }
 
@@ -305,10 +308,10 @@ namespace UWPX_UI_Context.Classes.DataTemplates
         private bool FilterChatQuery(ChatDataTemplate chat)
         {
             // For searching we could also use something like this: https://www.codeproject.com/Articles/11157/An-improvement-on-capturing-similarity-between-str
-            return chat.Chat.chatJabberId.ToLowerInvariant().Contains(ChatQuery)
-                || (chat.MucInfo != null
-                    && chat.MucInfo.name != null
-                    && chat.MucInfo.name.ToLowerInvariant().Contains(ChatQuery));
+            return chat.Chat.bareJid.ToLowerInvariant().Contains(ChatQuery)
+                || (chat.Chat.muc != null
+                    && chat.Chat.muc.name != null
+                    && chat.Chat.muc.name.ToLowerInvariant().Contains(ChatQuery));
         }
 
         private bool FilterPresence(ChatDataTemplate chat)
@@ -321,7 +324,7 @@ namespace UWPX_UI_Context.Classes.DataTemplates
                 }
                 else
                 {
-                    return chat.MucInfo != null && chat.MucInfo.state != MucState.ENTERD;
+                    return chat.Chat.muc != null && chat.Chat.muc.state != MucState.ENTERD;
                 }
             }
             else if (NotUnavailable)
@@ -332,7 +335,7 @@ namespace UWPX_UI_Context.Classes.DataTemplates
                 }
                 else
                 {
-                    return chat.MucInfo != null && chat.MucInfo.state != MucState.DISCONNECTED;
+                    return chat.Chat.muc != null && chat.Chat.muc.state != MucState.DISCONNECTED;
                 }
             }
 

@@ -120,6 +120,8 @@
     <RestoreProjectStyle>PackageReference</RestoreProjectStyle>
   </PropertyGroup>
   <ItemGroup>
+    <Compile Include="Classes\Chat\ChatMessageCacheList.cs" />
+    <Compile Include="Classes\Chat\ChatMessageDataTemplate.cs" />
     <Compile Include="Classes\Chat\ChatDataTemplate.cs" />
     <Compile Include="Classes\Chat\ObservableChatDictionaryList.cs" />
     <Compile Include="Classes\Chat\SaveObservableChatDictionaryList.cs" />

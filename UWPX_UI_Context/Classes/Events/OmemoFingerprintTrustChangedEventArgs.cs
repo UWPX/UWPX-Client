@@ -1,5 +1,5 @@
 ﻿using System;
-using XMPP_API.Classes.Network.XML.Messages.XEP_0384;
+using Storage.Classes.Models.Omemo;
 
 namespace UWPX_UI_Context.Classes.Events
 {
@@ -7,12 +7,12 @@ namespace UWPX_UI_Context.Classes.Events
     {
         //--------------------------------------------------------Attributes:-----------------------------------------------------------------\\
         #region --Attributes--
-        public readonly OmemoFingerprint FINGERPRINT;
+        public readonly OmemoFingerprintModel FINGERPRINT;
 
         #endregion
         //--------------------------------------------------------Constructor:----------------------------------------------------------------\\
         #region --Constructors--
-        public OmemoFingerprintTrustChangedEventArgs(OmemoFingerprint fingerprint)
+        public OmemoFingerprintTrustChangedEventArgs(OmemoFingerprintModel fingerprint)
         {
             FINGERPRINT = fingerprint;
         }

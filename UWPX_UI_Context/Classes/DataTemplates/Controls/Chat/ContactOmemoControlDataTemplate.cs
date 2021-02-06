@@ -1,8 +1,7 @@
-﻿using Shared.Classes;
+﻿using Manager.Classes.Chat;
+using Shared.Classes;
 using Shared.Classes.Collections;
-using Storage.Classes.Models.Chat;
-using XMPP_API.Classes;
-using XMPP_API.Classes.Network.XML.Messages.XEP_0384;
+using Storage.Classes.Models.Omemo;
 
 namespace UWPX_UI_Context.Classes.DataTemplates.Controls.Chat
 {
@@ -17,18 +16,11 @@ namespace UWPX_UI_Context.Classes.DataTemplates.Controls.Chat
             set => SetProperty(ref _Loading, value);
         }
 
-        private ChatModel _Chat;
-        public ChatModel Chat
+        private ChatDataTemplate _Chat;
+        public ChatDataTemplate Chat
         {
             get => _Chat;
             set => SetChatProperty(value);
-        }
-
-        private XMPPClient _Client;
-        public XMPPClient Client
-        {
-            get => _Client;
-            set => SetProperty(ref _Client, value);
         }
 
         private bool _TrustedOnly;
@@ -45,7 +37,7 @@ namespace UWPX_UI_Context.Classes.DataTemplates.Controls.Chat
             set => SetProperty(ref _NoFingerprintsFound, value);
         }
 
-        public readonly CustomObservableCollection<OmemoFingerprint> FINGERPRINTS = new CustomObservableCollection<OmemoFingerprint>(true);
+        public readonly CustomObservableCollection<OmemoFingerprintModel> FINGERPRINTS = new CustomObservableCollection<OmemoFingerprintModel>(true);
 
         #endregion
         //--------------------------------------------------------Constructor:----------------------------------------------------------------\\
@@ -67,18 +59,18 @@ namespace UWPX_UI_Context.Classes.DataTemplates.Controls.Chat
         #region --Misc Methods (Private)--
         private void SetTrustedOnlyPropery(bool value)
         {
-            if (SetProperty(ref _TrustedOnly, value, nameof(TrustedOnly)) && !(Chat is null) && Chat.omemoTrustedKeysOnly != value)
+            if (SetProperty(ref _TrustedOnly, value, nameof(TrustedOnly)) && !(Chat is null) && Chat.Chat.omemo.trustedKeysOnly != value)
             {
-                Chat.omemoTrustedKeysOnly = value;
-                ChatDBManager.INSTANCE.setChatTableValue(nameof(Chat.id), Chat.id, nameof(Chat.omemoTrustedKeysOnly), Chat.omemoTrustedKeysOnly);
+                Chat.Chat.omemo.trustedKeysOnly = value;
+                Chat.Chat.omemo.Save();
             }
         }
 
-        private void SetChatProperty(ChatModel value)
+        private void SetChatProperty(ChatDataTemplate value)
         {
             if (SetProperty(ref _Chat, value, nameof(Chat)))
             {
-                TrustedOnly = !(Chat is null) && Chat.omemoTrustedKeysOnly;
+                TrustedOnly = !(Chat is null) && Chat.Chat.omemo.trustedKeysOnly;
             }
         }
 

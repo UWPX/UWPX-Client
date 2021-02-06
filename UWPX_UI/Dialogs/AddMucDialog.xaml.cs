@@ -1,5 +1,5 @@
 ﻿using System.ComponentModel;
-using Data_Manager2.Classes.DBTables;
+using Storage.Classes.Models.Chat;
 using UWPX_UI.Classes.Events;
 using UWPX_UI.Controls;
 using UWPX_UI_Context.Classes.DataContext.Dialogs;
@@ -21,7 +21,7 @@ namespace UWPX_UI.Dialogs
             InitializeComponent();
         }
 
-        public AddMucDialog(MUCDirectInvitationTable invite, string accountBareJid) : this()
+        public AddMucDialog(MucDirectInvitationModel invite, string accountBareJid) : this()
         {
             VIEW_MODEL.FromDirectInvite(invite);
             accounts_asc.SelectAccount(accountBareJid);

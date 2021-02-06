@@ -210,7 +210,7 @@ namespace UWPX_UI_Context.Classes
         {
             ElementTheme theme = ElementTheme.Default;
 
-            string themeString = Settings.getSettingString(SettingsConsts.APP_REQUESTED_THEME);
+            string themeString = Settings.GetSettingString(SettingsConsts.APP_REQUESTED_THEME);
             if (themeString != null)
             {
                 Enum.TryParse(themeString, out theme);

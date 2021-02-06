@@ -1,5 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
+using Storage.Classes.Contexts;
 using Storage.Classes.Models.Omemo;
 using XMPP_API.Classes;
 using XMPP_API.Classes.Network;
@@ -83,7 +84,6 @@ namespace Storage.Classes.Models.Account
                 port = server.port,
                 color = color,
                 presencePriorety = presencePriorety,
-                disabled = disabled,
                 presence = presence,
                 status = status,
                 omemoDeviceId = omemoInfo.deviceId,
@@ -94,6 +94,14 @@ namespace Storage.Classes.Models.Account
             };
             account.OMEMO_PRE_KEYS.AddRange(omemoInfo.preKeys);
             return account;
+        }
+
+        public void Save()
+        {
+            using (MainDbContext ctx = new MainDbContext())
+            {
+                ctx.Update(this);
+            }
         }
 
         #endregion

@@ -1,4 +1,4 @@
-﻿using libsignal.ecc;
+﻿using Omemo.Classes.Keys;
 using UWPX_UI_Context.Classes.DataTemplates.Controls.OMEMO;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
@@ -9,12 +9,12 @@ namespace UWPX_UI.Controls.OMEMO
     {
         //--------------------------------------------------------Attributes:-----------------------------------------------------------------\\
         #region --Attributes--
-        public ECPublicKey IdentityPubKey
+        public ECPubKeyModel IdentityPubKey
         {
-            get => (ECPublicKey)GetValue(IdentityPubKeyProperty);
+            get => (ECPubKeyModel)GetValue(IdentityPubKeyProperty);
             set => SetValue(IdentityPubKeyProperty, value);
         }
-        public static readonly DependencyProperty IdentityPubKeyProperty = DependencyProperty.Register(nameof(IdentityPubKey), typeof(ECPublicKey), typeof(OmemoFingerprintControl), new PropertyMetadata(null, OnIdentityPubKeyChanged));
+        public static readonly DependencyProperty IdentityPubKeyProperty = DependencyProperty.Register(nameof(IdentityPubKey), typeof(ECPubKeyModel), typeof(OmemoFingerprintControl), new PropertyMetadata(null, OnIdentityPubKeyChanged));
 
         public Visibility CopyButtonVisibility
         {

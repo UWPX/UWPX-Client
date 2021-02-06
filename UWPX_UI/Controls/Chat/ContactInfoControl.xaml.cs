@@ -1,4 +1,4 @@
-﻿using Data_Manager2.Classes.DBTables;
+﻿using Manager.Classes.Chat;
 using Shared.Classes;
 using UWPX_UI_Context.Classes.DataContext.Controls;
 using Windows.UI.Xaml;
@@ -13,12 +13,12 @@ namespace UWPX_UI.Controls.Chat
         #region --Attributes--
         public readonly ContactInfoControlContext VIEW_MODEL = new ContactInfoControlContext();
 
-        public ChatTable Chat
+        public ChatDataTemplate Chat
         {
-            get => (ChatTable)GetValue(ChatProperty);
+            get => (ChatDataTemplate)GetValue(ChatProperty);
             set => SetValue(ChatProperty, value);
         }
-        public static readonly DependencyProperty ChatProperty = DependencyProperty.Register(nameof(Chat), typeof(ChatTable), typeof(ContactInfoControl), new PropertyMetadata(null, OnChatChanged));
+        public static readonly DependencyProperty ChatProperty = DependencyProperty.Register(nameof(Chat), typeof(ChatDataTemplate), typeof(ContactInfoControl), new PropertyMetadata(null, OnChatChanged));
 
         public XMPPClient Client
         {
@@ -79,27 +79,27 @@ namespace UWPX_UI.Controls.Chat
 
         private async void ProbePresence_mfo_Click(object sender, RoutedEventArgs e)
         {
-            await VIEW_MODEL.SendPresenceProbeAsync(Client, Chat).ConfAwaitFalse();
+            await VIEW_MODEL.SendPresenceProbeAsync(Chat).ConfAwaitFalse();
         }
 
         private async void RejectPresenceSubscription_mfo_Click(object sender, RoutedEventArgs e)
         {
-            await VIEW_MODEL.RejectPresenceSubscriptionAsync(Client, Chat).ConfAwaitFalse();
+            await VIEW_MODEL.RejectPresenceSubscriptionAsync(Chat).ConfAwaitFalse();
         }
 
         private async void RemoveFromRoster_mfo_Click(object sender, RoutedEventArgs e)
         {
-            await VIEW_MODEL.SwitchChatInRosterAsync(Client, Chat).ConfAwaitFalse();
+            await VIEW_MODEL.SwitchChatInRosterAsync(Chat).ConfAwaitFalse();
         }
 
         private async void CancelPresenceSubscription_mfo_Click(object sender, RoutedEventArgs e)
         {
-            await VIEW_MODEL.CancelPresenceSubscriptionAsync(Client, Chat).ConfAwaitFalse();
+            await VIEW_MODEL.CancelPresenceSubscriptionAsync(Chat).ConfAwaitFalse();
         }
 
         private async void RequestPresenceSubscription_mfo_Click(object sender, RoutedEventArgs e)
         {
-            await VIEW_MODEL.RequestPresenceSubscriptionAsync(Client, Chat).ConfAwaitFalse();
+            await VIEW_MODEL.RequestPresenceSubscriptionAsync(Chat).ConfAwaitFalse();
         }
 
         private async void Mute_btn_Click(object sender, RoutedEventArgs e)

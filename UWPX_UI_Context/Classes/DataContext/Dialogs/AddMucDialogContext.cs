@@ -1,9 +1,11 @@
 ﻿using System.Collections.Generic;
 using System.Threading.Tasks;
 using Logging;
+using Manager.Classes;
+using Manager.Classes.Chat;
+using Storage.Classes.Contexts;
 using Storage.Classes.Models.Chat;
 using UWPX_UI_Context.Classes.DataTemplates.Dialogs;
-using XMPP_API.Classes;
 using XMPP_API.Classes.Network.XML.Messages;
 using XMPP_API.Classes.Network.XML.Messages.Helper;
 using XMPP_API.Classes.Network.XML.Messages.XEP_0048;
@@ -51,42 +53,41 @@ namespace UWPX_UI_Context.Classes.DataContext.Dialogs
         #endregion
 
         #region --Misc Methods (Private)--
-        private async Task AddMucAsync(XMPPClient client, string roomBareJid, string nickname, string password, bool bookmark, bool autoJoin)
+        private async Task AddMucAsync(Client client, string roomBareJid, string nickname, string password, bool bookmark, bool autoJoin)
         {
-            ChatModel muc = new ChatModel(roomBareJid, client.getXMPPAccount().getBareJid())
+            ChatModel chat = new ChatModel(roomBareJid, client.dbAccount)
             {
                 chatType = ChatType.MUC,
                 inRoster = bookmark,
                 subscription = "none",
                 isChatActive = true
             };
-
-            MucInfoModel info = new MucInfoModel()
+            MucInfoModel muc = new MucInfoModel()
             {
-                chatId = muc.id,
+                chat = chat,
                 subject = null,
-                state = MucState.DISCONNECTED,
-                name = null,
-                password = string.IsNullOrEmpty(password) ? null : password,
-                nickname = nickname,
                 autoEnterRoom = autoJoin,
+                name = null,
+                nickname = nickname,
+                password = string.IsNullOrEmpty(password) ? null : password,
+                state = MucState.DISCONNECTED
             };
+            chat.muc = muc;
+            DataCache.INSTANCE.AddChat(chat, client);
 
-            await Task.Run(() =>
+            if (muc.autoEnterRoom)
             {
-                ChatDBManager.INSTANCE.setChat(muc, false, true);
-                MUCDBManager.INSTANCE.setMUCChatInfo(info, false, true);
-            });
-
-            if (info.autoEnterRoom)
-            {
-                await MucHandler.INSTANCE.enterMucAsync(client, muc, info);
+                await MucHandler.INSTANCE.EnterMucAsync(client.xmppClient, muc);
             }
 
             if (bookmark)
             {
-                List<ConferenceItem> conferenceItems = MUCDBManager.INSTANCE.getXEP0048ConferenceItemsForAccount(client.getXMPPAccount().getBareJid());
-                MessageResponseHelperResult<IQMessage> result = await client.PUB_SUB_COMMAND_HELPER.setBookmars_xep_0048Async(conferenceItems);
+                List<ConferenceItem> conferenceItems;
+                using (MainDbContext ctx = new MainDbContext())
+                {
+                    conferenceItems = ctx.GetXEP0048ConferenceItemsForAccount(client.dbAccount.bareJid);
+                }
+                MessageResponseHelperResult<IQMessage> result = await client.xmppClient.PUB_SUB_COMMAND_HELPER.setBookmars_xep_0048Async(conferenceItems);
                 if (result.STATE == MessageResponseHelperResultState.SUCCESS)
                 {
                     if (result.RESULT is IQErrorMessage errMsg)

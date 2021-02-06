@@ -1,7 +1,7 @@
 ﻿using System.Threading;
 using System.Threading.Tasks;
 using Logging;
-using UWPX_UI_Context.Classes.DataTemplates;
+using Manager.Classes.Chat;
 using UWPX_UI_Context.Classes.DataTemplates.Dialogs;
 using XMPP_API.Classes.Network.XML.Messages.XEP_0249;
 
@@ -30,9 +30,9 @@ namespace UWPX_UI_Context.Classes.DataContext.Dialogs
         #region --Misc Methods (Public)--
         public void UpdateView(ChatDataTemplate chat)
         {
-            MODEL.RoomIsPasswordProtected = !string.IsNullOrEmpty(chat.MucInfo.password);
+            MODEL.RoomIsPasswordProtected = !string.IsNullOrEmpty(chat.Chat.muc.password);
             MODEL.IncludePassword = MODEL.RoomIsPasswordProtected;
-            MODEL.Title = "Invite to: " + (string.IsNullOrEmpty(chat.MucInfo.name) ? chat.Chat.chatJabberId : chat.MucInfo.name);
+            MODEL.Title = "Invite to: " + (string.IsNullOrEmpty(chat.Chat.muc.name) ? chat.Chat.chatJabberId : chat.Chat.muc.name);
         }
 
         public async Task InviteAsync(ChatDataTemplate chat)
@@ -44,7 +44,7 @@ namespace UWPX_UI_Context.Classes.DataContext.Dialogs
             {
                 MODEL.IsInviting = true;
                 Logger.Info("Sending an XEP-0249: Direct MUC Invitation to " + MODEL.TargetBareJid + " for room " + chat.Chat.chatJabberId + ".");
-                string pw = MODEL.IncludePassword ? chat.MucInfo.password : null;
+                string pw = MODEL.IncludePassword ? chat.Chat.muc.password : null;
                 await chat.Client.SendAsync(new DirectMUCInvitationMessage(chat.Client.getXMPPAccount().getBareJid(), MODEL.TargetBareJid, chat.Chat.chatJabberId, pw, MODEL.Reason));
                 MODEL.IsInviting = false;
             }, inviteCTS.Token);

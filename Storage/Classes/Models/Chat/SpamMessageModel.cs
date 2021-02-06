@@ -19,7 +19,12 @@ namespace Storage.Classes.Models.Chat
         #endregion
         //--------------------------------------------------------Constructor:----------------------------------------------------------------\\
         #region --Constructors--
+        public SpamMessageModel() { }
 
+        public SpamMessageModel(string text)
+        {
+            this.text = text;
+        }
 
         #endregion
         //--------------------------------------------------------Set-, Get- Methods:---------------------------------------------------------\\

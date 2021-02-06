@@ -3,11 +3,12 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Logging;
+using Manager.Classes.Chat;
+using Storage.Classes.Contexts;
+using Storage.Classes.Models.Omemo;
 using UWPX_UI_Context.Classes.DataTemplates.Controls.Chat;
 using UWPX_UI_Context.Classes.DataTemplates.Dialogs;
 using Windows.UI.Xaml;
-using XMPP_API.Classes;
-using XMPP_API.Classes.Network.XML.Messages.XEP_0384;
 using XMPP_API.Classes.XmppUri;
 
 namespace UWPX_UI_Context.Classes.DataContext.Controls.Chat
@@ -33,36 +34,26 @@ namespace UWPX_UI_Context.Classes.DataContext.Controls.Chat
         #region --Misc Methods (Public)--
         public void UpdateView(DependencyPropertyChangedEventArgs e)
         {
-            if (e.NewValue is ChatModel chat)
+            if (e.NewValue is ChatDataTemplate chat)
             {
                 MODEL.Chat = chat;
 
-                if (!(MODEL.Client is null))
-                {
-                    LoadFingerprints();
-                }
-            }
-            else if (e.NewValue is XMPPClient client)
-            {
-                MODEL.Client = client;
-
-                if (!(MODEL.Chat is null))
+                if (!(chat is null))
                 {
                     LoadFingerprints();
                 }
             }
         }
 
-        public void OnFingerprintTrustedChanged(OmemoFingerprint fingerprint)
+        public void OnFingerprintTrustedChanged(OmemoFingerprintModel fingerprint)
         {
             if (fingerprint.trusted)
             {
                 MODEL.TrustedOnly = true;
             }
-
-            if (!(MODEL.Client is null))
+            using (MainDbContext ctx = new MainDbContext())
             {
-                OmemoSignalKeyDBManager.INSTANCE.setFingerprint(fingerprint, MODEL.Client.getXMPPAccount().getBareJid());
+                ctx.Update(fingerprint);
             }
         }
 
@@ -81,21 +72,41 @@ namespace UWPX_UI_Context.Classes.DataContext.Controls.Chat
                     return;
                 }
 
-                if (string.Equals(uri.LocalPath.ToLowerInvariant(), MODEL.Chat.chatJabberId.ToLowerInvariant()))
+                if (string.Equals(uri.LocalPath.ToLowerInvariant(), MODEL.Chat.Chat.bareJid.ToLowerInvariant()))
                 {
                     IUriAction action = UriUtils.parse(uri);
 
                     if (action is OmemoFingerprintUriAction fingerprintUriAction)
                     {
-                        OmemoFingerprint fingerprint = OmemoSignalKeyDBManager.INSTANCE.getFingerprint(fingerprintUriAction.FINGERPRINT.ADDRESS, MODEL.Client.getXMPPAccount().getBareJid());
-                        if (fingerprint is null)
+                        OmemoDeviceModel device = MODEL.Chat.Chat.omemo.devices.Where(d => d.deviceId == fingerprintUriAction.FINGERPRINT.ADDRESS.DEVICE_ID).FirstOrDefault();
+                        using (MainDbContext ctx = new MainDbContext())
                         {
-                            fingerprint = fingerprintUriAction.FINGERPRINT;
+                            if (device is null)
+                            {
+                                device = new OmemoDeviceModel(fingerprintUriAction.FINGERPRINT.ADDRESS)
+                                {
+                                    fingerprint = new OmemoFingerprintModel(fingerprintUriAction.FINGERPRINT)
+                                    {
+                                        trusted = true
+                                    }
+                                };
+                                ctx.Add(device.fingerprint.identityKey);
+                                ctx.Add(device.fingerprint);
+                                ctx.Add(device);
+                                MODEL.Chat.Chat.omemo.devices.Add(device);
+                                ctx.Update(MODEL.Chat.Chat.omemo);
+                            }
+                            else
+                            {
+                                device.fingerprint.FromOmemoFingerprint(fingerprintUriAction.FINGERPRINT);
+                                device.fingerprint.trusted = true;
+                                ctx.Update(device.fingerprint.identityKey);
+                                ctx.Update(device.fingerprint);
+                            }
                         }
-                        fingerprint.trusted = true;
-                        OmemoSignalKeyDBManager.INSTANCE.setFingerprint(fingerprint, MODEL.Client.getXMPPAccount().getBareJid());
+
                         Logger.Info("Scanned OMEMO fingerprint successful.");
-                        Logger.Debug("Fingerprint: " + fingerprint.ADDRESS.ToString());
+                        Logger.Debug("Fingerprint: " + fingerprintUriAction.FINGERPRINT.ADDRESS.ToString());
                         LoadFingerprints();
                     }
                     else
@@ -122,7 +133,7 @@ namespace UWPX_UI_Context.Classes.DataContext.Controls.Chat
             Task.Run(() =>
             {
                 MODEL.Loading = true;
-                List<OmemoFingerprint> fingerprints = OmemoSignalKeyDBManager.INSTANCE.getFingerprints(MODEL.Chat.id).ToList();
+                List<OmemoFingerprintModel> fingerprints = MODEL.Chat.Chat.omemo.devices.Select(d => d.fingerprint).ToList();
                 // Sort based on the last seen date. If it's the same prefer trusted ones:
                 fingerprints.Sort((x, y) =>
                 {

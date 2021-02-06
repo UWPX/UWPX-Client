@@ -1,5 +1,5 @@
-﻿using Shared.Classes;
-using XMPP_API.Classes;
+﻿using Manager.Classes;
+using Shared.Classes;
 
 namespace UWPX_UI_Context.Classes.DataTemplates.Dialogs
 {
@@ -56,8 +56,8 @@ namespace UWPX_UI_Context.Classes.DataTemplates.Dialogs
             set => SetProperty(ref _Password, value);
         }
 
-        private XMPPClient _Client;
-        public XMPPClient Client
+        private Client _Client;
+        public Client Client
         {
             get => _Client;
             set => SetClientProperty(value);
@@ -127,11 +127,11 @@ namespace UWPX_UI_Context.Classes.DataTemplates.Dialogs
             }
         }
 
-        private void SetClientProperty(XMPPClient value)
+        private void SetClientProperty(Client value)
         {
             if (SetProperty(ref _Client, value, nameof(Client)) && !(value is null))
             {
-                Nickname = value.getXMPPAccount().user.localPart;
+                Nickname = value.dbAccount.fullJid.userPart;
             }
         }
         #endregion

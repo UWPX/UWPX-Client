@@ -6,17 +6,15 @@ using System.ComponentModel;
 
 namespace Shared.Classes.Collections
 {
-    public interface IObservableList<T>: IList<T>, IList, INotifyCollectionChanged, INotifyPropertyChanged { }
-    public class CustomObservableCollection<T>: IObservableList<T>
+    public interface IObservableList<T>: IList<T>, IList, INotifyCollectionChanged { }
+    public class CustomObservableCollection<T>: AbstractDataTemplate, IObservableList<T>
     {
         //--------------------------------------------------------Attributes:-----------------------------------------------------------------\\
         #region --Attributes--
         private readonly List<T> LIST = new List<T>();
         private bool deferNotifyCollectionChanged = false;
 
-        private const string COUNT_NAME = nameof(List<T>.Count);
         private const string INDEXER_NAME = "Item[]";
-        public readonly bool INVOKE_IN_UI_THREAD;
 
         public int Count => LIST.Count;
         public bool IsReadOnly => false;
@@ -44,14 +42,13 @@ namespace Shared.Classes.Collections
         }
 
         public event NotifyCollectionChangedEventHandler CollectionChanged;
-        public event PropertyChangedEventHandler PropertyChanged;
 
         #endregion
         //--------------------------------------------------------Constructor:----------------------------------------------------------------\\
         #region --Constructors--
         public CustomObservableCollection(bool invokeInUiThread) : base()
         {
-            INVOKE_IN_UI_THREAD = invokeInUiThread;
+            this.invokeInUiThread = invokeInUiThread;
         }
 
         #endregion
@@ -254,9 +251,9 @@ namespace Shared.Classes.Collections
         {
             if (count)
             {
-                OnPropertyChanged(new PropertyChangedEventArgs(COUNT_NAME));
+                OnPropertyChanged(nameof(Count));
             }
-            OnPropertyChanged(new PropertyChangedEventArgs(INDEXER_NAME));
+            OnPropertyChanged(INDEXER_NAME);
         }
 
         #endregion
@@ -284,25 +281,13 @@ namespace Shared.Classes.Collections
                 return;
             }
 
-            if (INVOKE_IN_UI_THREAD)
+            if (invokeInUiThread)
             {
                 await SharedUtils.CallDispatcherAsync(() => CollectionChanged?.Invoke(this, e));
             }
             else
             {
                 CollectionChanged?.Invoke(this, e);
-            }
-        }
-
-        protected async void OnPropertyChanged(PropertyChangedEventArgs e)
-        {
-            if (INVOKE_IN_UI_THREAD)
-            {
-                await SharedUtils.CallDispatcherAsync(() => PropertyChanged?.Invoke(this, e));
-            }
-            else
-            {
-                PropertyChanged?.Invoke(this, e);
             }
         }
 

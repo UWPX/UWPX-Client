@@ -1,9 +1,9 @@
 ﻿using System.Collections.Generic;
 using System.Threading.Tasks;
 using Manager.Classes;
+using Manager.Classes.Chat;
 using Shared.Classes;
 using Storage.Classes.Models.Chat;
-using UWPX_UI_Context.Classes.DataTemplates;
 using UWPX_UI_Context.Classes.DataTemplates.Controls.Chat.MUC;
 using Windows.UI.Xaml;
 using XMPP_API.Classes;
@@ -159,7 +159,7 @@ namespace UWPX_UI_Context.Classes.DataContext.Controls.Chat.MUC
                 switch (e.PropertyName)
                 {
                     case nameof(ChatDataTemplate.MucInfo):
-                        UpdateView(chat.MucInfo);
+                        UpdateView(chat.Chat.muc);
                         break;
 
                     case nameof(ChatDataTemplate.Chat):

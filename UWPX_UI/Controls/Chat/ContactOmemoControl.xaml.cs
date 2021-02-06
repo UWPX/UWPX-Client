@@ -1,11 +1,10 @@
-﻿using Data_Manager2.Classes.DBTables;
+﻿using Manager.Classes.Chat;
 using UWPX_UI.Dialogs;
 using UWPX_UI_Context.Classes;
 using UWPX_UI_Context.Classes.DataContext.Controls.Chat;
 using UWPX_UI_Context.Classes.Events;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
-using XMPP_API.Classes;
 
 namespace UWPX_UI.Controls.Chat
 {
@@ -13,19 +12,12 @@ namespace UWPX_UI.Controls.Chat
     {
         //--------------------------------------------------------Attributes:-----------------------------------------------------------------\\
         #region --Attributes--
-        public ChatTable Chat
+        public ChatDataTemplate Chat
         {
-            get => (ChatTable)GetValue(ChatProperty);
+            get => (ChatDataTemplate)GetValue(ChatProperty);
             set => SetValue(ChatProperty, value);
         }
-        public static readonly DependencyProperty ChatProperty = DependencyProperty.Register(nameof(Chat), typeof(ChatTable), typeof(ContactOmemoControl), new PropertyMetadata(null, OnChatChanged));
-
-        public XMPPClient Client
-        {
-            get => (XMPPClient)GetValue(ClientProperty);
-            set => SetValue(ClientProperty, value);
-        }
-        public static readonly DependencyProperty ClientProperty = DependencyProperty.Register(nameof(Client), typeof(XMPPClient), typeof(ContactOmemoControl), new PropertyMetadata(null, OnClientChanged));
+        public static readonly DependencyProperty ChatProperty = DependencyProperty.Register(nameof(Chat), typeof(ChatDataTemplate), typeof(ContactOmemoControl), new PropertyMetadata(null, OnChatChanged));
 
         public readonly ContactOmemoControlContext VIEW_MODEL = new ContactOmemoControlContext();
         #endregion
@@ -89,7 +81,7 @@ namespace UWPX_UI.Controls.Chat
         {
             OmemoOwnFingerprintDialog dialog = new OmemoOwnFingerprintDialog()
             {
-                Account = Client.getXMPPAccount()
+                Account = Chat.Client.xmppClient.getXMPPAccount()
             };
             await UiUtils.ShowDialogAsync(dialog);
         }

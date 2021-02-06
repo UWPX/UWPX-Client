@@ -42,7 +42,7 @@
                            Height="40"
                            Margin="5,0,0,0"
                            VerticalAlignment="Center"
-                           Fill="{x:Bind Account.Account.color, Mode=OneWay, Converter={StaticResource HexColorToSolidColorBrushValueConverter}, TargetNullValue='Transparent'}"/>
+                           Fill="{x:Bind Account.Client.dbAccount.color, Mode=OneWay, Converter={StaticResource HexColorToSolidColorBrushValueConverter}, TargetNullValue='Transparent'}"/>
                 <Button x:Name="edit_btn"
                         Grid.Column="1"
                         Width="40"
@@ -57,7 +57,7 @@
                 <controls:AccountImagePresenceControl Grid.Column="2"
                                                       Width="40"
                                                       Height="40"
-                                                      BareJid="{x:Bind Account.Account.getBareJid(), Mode=OneWay}"
+                                                      BareJid="{x:Bind Account.Client.dbAccount.bareJid, Mode=OneWay}"
                                                       ChatType="CHAT"
                                                       PresenceProp="{x:Bind Account.State, Mode=OneWay, Converter={StaticResource ConnectionStatePresenceValueConverter}}"/>
                 <Button x:Name="info_btn"
@@ -83,7 +83,7 @@
                                Grid.Row="0"
                                HorizontalAlignment="Center"
                                Style="{ThemeResource BodyTextBlockStyle}"
-                               Text="{x:Bind Account.Account.user.localPart, Mode=OneWay}"
+                               Text="{x:Bind Account.Client.dbAccount.fullJid.userPart, Mode=OneWay}"
                                TextTrimming="CharacterEllipsis"/>
                     <TextBlock x:Name="secondaryInfo_tblck"
                                Grid.Row="1"
@@ -91,7 +91,7 @@
                                FontSize="10"
                                Foreground="{ThemeResource CaptionTextBrush}"
                                Style="{ThemeResource CaptionTextBlockStyle}"
-                               Text="{x:Bind Account.Account.user.domainPart, Mode=OneWay}"
+                               Text="{x:Bind Account.Client.dbAccount.fullJid.domainPart, Mode=OneWay}"
                                TextTrimming="CharacterEllipsis"/>
                     <TextBlock x:Name="error_tblck"
                                Grid.Row="2"

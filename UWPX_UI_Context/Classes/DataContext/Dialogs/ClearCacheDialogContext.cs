@@ -42,7 +42,7 @@ namespace UWPX_UI_Context.Classes.DataContext.Dialogs
                     }
                     if (MODEL.Images)
                     {
-                        AbstractDBManager.dB.RecreateTable<ImageTable>();
+                        AbstractDBManager.dB.RecreateTable<ChatMessageImageModel>();
                     }
 
                     // Disco:

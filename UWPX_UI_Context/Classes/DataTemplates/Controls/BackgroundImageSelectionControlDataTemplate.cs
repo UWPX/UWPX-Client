@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Threading.Tasks;
-using Data_Manager2.Classes;
 using Shared.Classes;
 using Shared.Classes.Collections;
 using Windows.Storage;
@@ -139,7 +138,7 @@ namespace UWPX_UI_Context.Classes.DataTemplates.Controls
         {
             Task.Run(async () =>
             {
-                string curBackgroundImagePath = Settings.getSettingString(SettingsConsts.CHAT_BACKGROUND_IMAGE_PATH, SPLASH_SCREEN_IMAGE_PATH);
+                string curBackgroundImagePath = Settings.GetSettingString(SettingsConsts.CHAT_BACKGROUND_IMAGE_PATH, SPLASH_SCREEN_IMAGE_PATH);
 
                 IMAGES.Clear();
                 AddImage(new BackgroundImageSelectionControlItemDataTemplate
