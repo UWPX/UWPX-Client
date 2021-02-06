@@ -4,7 +4,6 @@ using System.Threading;
 using System.Threading.Tasks;
 using Logging;
 using Shared.Classes;
-using Shared.Classes.Collections;
 using Storage.Classes.Contexts;
 using Storage.Classes.Models.Chat;
 
@@ -34,7 +33,7 @@ namespace Manager.Classes.Chat
         /// <summary>
         /// All currently displayed chat messages.
         /// </summary>
-        public readonly CustomObservableCollection<ChatMessageModel> CHAT_MESSAGES = new CustomObservableCollection<ChatMessageModel>(false);
+        public readonly ChatMessageCacheList CHAT_MESSAGES = new ChatMessageCacheList();
 
         private ChatDataTemplate _SelectedChat;
         /// <summary>
@@ -43,7 +42,7 @@ namespace Manager.Classes.Chat
         public ChatDataTemplate SelectedChat
         {
             get => _SelectedChat;
-            set => SetProperty(ref _SelectedChat, value);
+            set => SetSelectedChatProperty(value);
         }
 
         private readonly SemaphoreSlim CHATS_SEMA = new SemaphoreSlim(1);
@@ -52,7 +51,15 @@ namespace Manager.Classes.Chat
         #endregion
         //--------------------------------------------------------Constructor:----------------------------------------------------------------\\
         #region --Constructors--
-
+        public void SetSelectedChatProperty(ChatDataTemplate value)
+        {
+            if (SetProperty(ref _SelectedChat, value, nameof(SelectedChat)))
+            {
+                CHATS_MESSAGES_SEMA.Wait();
+                CHAT_MESSAGES.SetChat(value);
+                CHATS_MESSAGES_SEMA.Release();
+            }
+        }
 
         #endregion
         //--------------------------------------------------------Set-, Get- Methods:---------------------------------------------------------\\
@@ -112,11 +119,11 @@ namespace Manager.Classes.Chat
                 if (!(SelectedChat is null) && SelectedChat.Chat.id == chatId)
                 {
                     CHATS_MESSAGES_SEMA.Wait();
-                    foreach (ChatMessageModel msg in CHAT_MESSAGES)
+                    foreach (ChatMessageDataTemplate msg in CHAT_MESSAGES)
                     {
-                        if (msg.state == MessageState.UNREAD)
+                        if (msg.Message.state == MessageState.UNREAD)
                         {
-                            msg.state = MessageState.READ;
+                            msg.Message.state = MessageState.READ;
                         }
                     }
                     CHATS_MESSAGES_SEMA.Release();
@@ -127,7 +134,7 @@ namespace Manager.Classes.Chat
             // Update the DB:
             using (MainDbContext ctx = new MainDbContext())
             {
-                foreach (ChatMessageModel msg in ctx.ChatMessages.Where(msg => msg.chat.id == chatId && msg.state == MessageState.UNREAD))
+                foreach (ChatMessageModel msg in ctx.ChatMessages.Where(msg => msg.chatId == chatId && msg.state == MessageState.UNREAD))
                 {
                     msg.state = MessageState.READ;
                     ctx.Update(msg);
@@ -144,9 +151,9 @@ namespace Manager.Classes.Chat
                 if (!(SelectedChat is null) && SelectedChat.Chat.id == chatId)
                 {
                     CHATS_MESSAGES_SEMA.Wait();
-                    foreach (ChatMessageModel msg in CHAT_MESSAGES.Where(msg => msg.id == msgId && msg.state == MessageState.UNREAD))
+                    foreach (ChatMessageDataTemplate msg in CHAT_MESSAGES.Where(msg => msg.Message.id == msgId && msg.Message.state == MessageState.UNREAD))
                     {
-                        msg.state = MessageState.READ;
+                        msg.Message.state = MessageState.READ;
                     }
                     CHATS_MESSAGES_SEMA.Release();
                 }
@@ -176,7 +183,7 @@ namespace Manager.Classes.Chat
                 if (!(SelectedChat is null) && SelectedChat.Chat.id == chat.id)
                 {
                     CHATS_MESSAGES_SEMA.Wait();
-                    CHAT_MESSAGES.Add(msg);
+                    CHAT_MESSAGES.Add(new ChatMessageDataTemplate(msg, chat));
                     CHATS_MESSAGES_SEMA.Release();
                 }
                 CHATS_SEMA.Release();
@@ -209,7 +216,7 @@ namespace Manager.Classes.Chat
             {
                 if (!keepChatMessages)
                 {
-                    ctx.Remove(ctx.ChatMessages.Where(msg => msg.chat.id == chat.id));
+                    ctx.Remove(ctx.ChatMessages.Where(msg => msg.chatId == chat.id));
                     Logger.Info("Deleted chat messages for: " + chat.bareJid);
                 }
 
@@ -224,6 +231,51 @@ namespace Manager.Classes.Chat
                     chat.Save();
                     Logger.Info("Marked chat as not active: " + chat.bareJid);
                 }
+            }
+        }
+
+        public void RemoveChatMessage(ChatMessageDataTemplate msg)
+        {
+            // Update the cache:
+            if (initialized)
+            {
+                CHATS_SEMA.Wait();
+                if (!(SelectedChat is null) && SelectedChat.Chat.id == msg.Chat.id)
+                {
+                    CHATS_MESSAGES_SEMA.Wait();
+                    CHAT_MESSAGES.Remove(msg);
+                    CHATS_MESSAGES_SEMA.Release();
+                }
+                CHATS_SEMA.Release();
+            }
+
+            // Update the DB:
+            using (MainDbContext ctx = new MainDbContext())
+            {
+                ctx.Remove(msg.Message);
+            }
+        }
+
+        public void AddChat(ChatModel chat, Client client)
+        {
+            // Update the cache:
+            if (initialized)
+            {
+                CHATS_SEMA.Wait();
+                CHATS.Add(new ChatDataTemplate(chat, client, null, null));
+                CHATS_SEMA.Release();
+            }
+
+            // Update the DB:
+            using (MainDbContext ctx = new MainDbContext())
+            {
+                if (chat.chatType == ChatType.MUC)
+                {
+                    ctx.Add(chat.muc);
+                }
+                ctx.Add(chat.omemo.deviceListSubscription);
+                ctx.Add(chat.omemo);
+                ctx.Add(chat);
             }
         }
 
@@ -244,7 +296,7 @@ namespace Manager.Classes.Chat
         private ChatDataTemplate LoadChat(ChatModel chat, MainDbContext ctx)
         {
             Client client = ConnectionHandler.INSTANCE.GetClient(chat.accountBareJid);
-            ChatMessageModel lastMsg = ctx.ChatMessages.Where(m => m.chat.id == chat.id).OrderByDescending(m => m.date).FirstOrDefault();
+            ChatMessageModel lastMsg = ctx.ChatMessages.Where(m => m.chatId == chat.id).OrderByDescending(m => m.date).FirstOrDefault();
             return new ChatDataTemplate(chat, client, lastMsg, null);
         }
 

@@ -1,6 +1,7 @@
 ﻿using System.Threading.Tasks;
-using Data_Manager2.Classes;
+using Manager.Classes;
 using Push.Classes;
+using Storage.Classes;
 using UWPX_UI_Context.Classes.DataTemplates.Pages;
 
 namespace UWPX_UI_Context.Classes.DataContext.Pages
@@ -27,9 +28,9 @@ namespace UWPX_UI_Context.Classes.DataContext.Pages
         #endregion
         //--------------------------------------------------------Misc Methods:---------------------------------------------------------------\\
         #region --Misc Methods (Public)--
-        public async Task ReconnectAllAsync()
+        public void ReconnectAll()
         {
-            await Task.Run(() => ConnectionHandler.INSTANCE.ReconnectAll());
+            ConnectionHandler.INSTANCE.ReconnectAll();
         }
 
         public void OnLoaded()
@@ -64,10 +65,10 @@ namespace UWPX_UI_Context.Classes.DataContext.Pages
         #region --Misc Methods (Private)--
         private void LoadSettings()
         {
-            MODEL.DebugSettingsEnabled = Settings.getSettingBoolean(SettingsConsts.DEBUG_SETTINGS_ENABLED);
-            MODEL.PushEnabled = Settings.getSettingBoolean(SettingsConsts.PUSH_ENABLED);
-            MODEL.ChannelUri = Settings.getSettingString(SettingsConsts.PUSH_CHANNEL_URI);
-            MODEL.ChannelCreatedDate = Settings.getSettingDateTime(SettingsConsts.PUSH_CHANNEL_CREATED_DATE_TIME).ToString("MM/dd/yy H:mm:ss");
+            MODEL.DebugSettingsEnabled = Settings.GetSettingBoolean(SettingsConsts.DEBUG_SETTINGS_ENABLED);
+            MODEL.PushEnabled = Settings.GetSettingBoolean(SettingsConsts.PUSH_ENABLED);
+            MODEL.ChannelUri = Settings.GetSettingString(SettingsConsts.PUSH_CHANNEL_URI);
+            MODEL.ChannelCreatedDate = Settings.GetSettingDateTime(SettingsConsts.PUSH_CHANNEL_CREATED_DATE_TIME).ToString("MM/dd/yy H:mm:ss");
         }
 
         #endregion

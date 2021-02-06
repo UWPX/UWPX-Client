@@ -73,14 +73,14 @@ namespace UWPX_UI_Context.Classes
             {
 #if !DEBUG
                 AppCenter.Start(APP_CENTER_SECRET, typeof(Crashes));
-                if (Settings.getSettingBoolean(SettingsConsts.DISABLE_CRASH_REPORTING))
+                if (Settings.GetSettingBoolean(SettingsConsts.DISABLE_CRASH_REPORTING))
                 {
                     Crashes.Instance.InstanceEnabled = false;
                     Logger.Info("AppCenter crash reporting is disabled.");
                 }
 
                 AppCenter.Start(APP_CENTER_SECRET, typeof(Analytics));
-                if (Settings.getSettingBoolean(SettingsConsts.DISABLE_ANALYTICS))
+                if (Settings.GetSettingBoolean(SettingsConsts.DISABLE_ANALYTICS))
                 {
                     Analytics.SetEnabledAsync(false);
                     Logger.Info("AppCenter analytics are disabled.");

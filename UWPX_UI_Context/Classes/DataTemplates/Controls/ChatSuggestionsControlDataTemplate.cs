@@ -1,11 +1,12 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Manager.Classes;
+using Manager.Classes.Chat;
 using Microsoft.Toolkit.Uwp.UI;
 using Shared.Classes;
 using Shared.Classes.Collections;
 using Windows.Foundation.Collections;
-using XMPP_API.Classes;
 
 namespace UWPX_UI_Context.Classes.DataTemplates.Controls
 {
@@ -68,7 +69,7 @@ namespace UWPX_UI_Context.Classes.DataTemplates.Controls
         #endregion
         //--------------------------------------------------------Misc Methods:---------------------------------------------------------------\\
         #region --Misc Methods (Public)--
-        public async Task UpdateViewAsync(XMPPClient client)
+        public async Task UpdateViewAsync(Client client)
         {
             await LoadSuggestionsAsync(client);
         }
@@ -88,11 +89,11 @@ namespace UWPX_UI_Context.Classes.DataTemplates.Controls
         #region --Misc Methods (Private)--
         private void UpdateSelectedItme()
         {
-            IEnumerable<object> result = SUGGESTIONS_ACV.Where((x) => x is ChatDataTemplate chat && string.Equals(chat.Chat.chatJabberId, filterText));
+            IEnumerable<object> result = SUGGESTIONS_ACV.Where((x) => x is ChatDataTemplate chat && string.Equals(chat.Chat.bareJid, filterText));
             SelectedItem = result.Count() > 0 ? result.First() as ChatDataTemplate : null;
         }
 
-        private async Task LoadSuggestionsAsync(XMPPClient client)
+        private async Task LoadSuggestionsAsync(Client client)
         {
             if (!(loadingTask is null))
             {
@@ -108,16 +109,9 @@ namespace UWPX_UI_Context.Classes.DataTemplates.Controls
                     return;
                 }
 
-                List<ChatModel> chats = ChatDBManager.INSTANCE.getNotStartedChatsForClient(client.getXMPPAccount().getBareJid(), ChatType.CHAT);
+                IEnumerable<ChatDataTemplate> chats = DataCache.INSTANCE.CHATS.Where(c => !c.Chat.isChatActive && string.Equals(c.Client.dbAccount.bareJid, client.dbAccount.bareJid));
                 SUGGESTIONS.Clear();
-                SUGGESTIONS.AddRange(chats.Select((x) =>
-                {
-                    return new ChatDataTemplate
-                    {
-                        Chat = x,
-                        Client = client
-                    };
-                }));
+                SUGGESTIONS.AddRange(chats);
                 SUGGESTIONS_ACV.RefreshFilter();
             });
 
@@ -127,7 +121,7 @@ namespace UWPX_UI_Context.Classes.DataTemplates.Controls
 
         private bool AcvFilter(object o)
         {
-            return o is ChatDataTemplate chat && (string.IsNullOrWhiteSpace(filterText) || chat.Chat.chatJabberId.Contains(filterText));
+            return o is ChatDataTemplate chat && (string.IsNullOrWhiteSpace(filterText) || chat.Chat.bareJid.Contains(filterText));
         }
 
         #endregion

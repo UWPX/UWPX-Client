@@ -1,9 +1,6 @@
 ﻿using System;
 using System.Text;
 using System.Threading.Tasks;
-using Data_Manager2.Classes;
-using Data_Manager2.Classes.DBManager;
-using Data_Manager2.Classes.DBTables;
 using Logging;
 using Shared.Classes.Network;
 using UWPX_UI_Context.Classes.DataTemplates.Controls;
@@ -115,7 +112,7 @@ namespace UWPX_UI_Context.Classes.DataContext.Controls
             {
                 return;
             }
-            ImageTable image = await ImageDBManager.INSTANCE.getImageAsync(SpeechBubbleViewModel.ChatMessageModel.Message);
+            ChatMessageImageModel image = await ImageDBManager.INSTANCE.getImageAsync(SpeechBubbleViewModel.ChatMessageModel.Message);
             MODEL.UpdateView(image);
         }
 

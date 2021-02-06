@@ -78,10 +78,7 @@ namespace Manager.Classes
                 SpamMessageModel spamMsg = ctx.SpamMessages.Where(m => m.text.Contains(msg)).FirstOrDefault();
                 if (spamMsg is null)
                 {
-                    spamMsg = new SpamMessageModel()
-                    {
-                        text = msg
-                    };
+                    spamMsg = new SpamMessageModel(msg);
                 }
                 spamMsg.lastReceived = DateTime.Now;
                 ++spamMsg.count;

@@ -1,11 +1,11 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using Data_Manager2.Classes;
 using Microsoft.Toolkit.Uwp.UI;
 using NeoSmart.Unicode;
 using Shared.Classes;
 using Shared.Classes.Collections;
+using Storage.Classes;
 
 namespace UWPX_UI_Context.Classes.DataTemplates.Controls
 {

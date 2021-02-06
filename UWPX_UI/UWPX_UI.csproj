@@ -1131,6 +1131,10 @@
       <Project>{e06e9cca-7196-497e-a129-8ffb4a30a3f8}</Project>
       <Name>Manager</Name>
     </ProjectReference>
+    <ProjectReference Include="..\Omemo\Omemo.csproj">
+      <Project>{e8d1b7b3-548a-4f0f-a703-48ab327b9340}</Project>
+      <Name>Omemo</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Push\Push.csproj">
       <Project>{e15572a6-ad1a-4ecc-8920-4070dd779516}</Project>
       <Name>Push</Name>

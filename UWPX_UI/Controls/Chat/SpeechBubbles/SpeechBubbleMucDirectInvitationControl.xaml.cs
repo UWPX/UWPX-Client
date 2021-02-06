@@ -1,8 +1,8 @@
-﻿using UWPX_UI.Dialogs;
+﻿using Manager.Classes.Chat;
+using UWPX_UI.Dialogs;
 using UWPX_UI_Context.Classes;
 using UWPX_UI_Context.Classes.DataContext.Controls;
 using UWPX_UI_Context.Classes.DataContext.Controls.Chat.SpeechBubbles;
-using UWPX_UI_Context.Classes.DataTemplates;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 
@@ -70,17 +70,17 @@ namespace UWPX_UI.Controls.Chat.SpeechBubbles
 
         private async void Accept_btn_Click(object sender, RoutedEventArgs e)
         {
-            AddMucDialog dialog = new AddMucDialog(INVITE_VIEW_MODEL.MODEL.Invite, ChatMessage.Chat.userAccountId);
+            AddMucDialog dialog = new AddMucDialog(INVITE_VIEW_MODEL.MODEL.Invite, ChatMessage.Chat.accountBareJid);
             await UiUtils.ShowDialogAsync(dialog);
             if (dialog.VIEW_MODEL.MODEL.Confirmed)
             {
-                await INVITE_VIEW_MODEL.AcceptAsync(ChatMessage);
+                INVITE_VIEW_MODEL.Accept(ChatMessage);
             }
         }
 
-        private async void Decline_btn_Click(object sender, RoutedEventArgs e)
+        private void Decline_btn_Click(object sender, RoutedEventArgs e)
         {
-            await INVITE_VIEW_MODEL.DeclineAsync(ChatMessage);
+            INVITE_VIEW_MODEL.Decline(ChatMessage);
         }
 
         #endregion

@@ -13,7 +13,7 @@ namespace Storage.Classes.Models.Chat
         /// The <see cref="ChatMessageModel"/> associated with this invitation.
         /// </summary>
         [Required]
-        public ChatMessageModel msg { get; set; }
+        public int messageId { get; set; }
         /// <summary>
         /// A small comment about why somebody invited you.
         /// </summary>
@@ -40,7 +40,7 @@ namespace Storage.Classes.Models.Chat
 
         public MucDirectInvitationModel(DirectMUCInvitationMessage invitationMessage, ChatMessageModel msg)
         {
-            this.msg = msg;
+            messageId = msg.id;
             reason = invitationMessage.REASON;
             roomJid = invitationMessage.ROOM_JID;
             roomPassword = invitationMessage.ROOM_PASSWORD;

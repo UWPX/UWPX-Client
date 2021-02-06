@@ -1,9 +1,9 @@
 ﻿using System.Collections.Specialized;
 using System.ComponentModel;
 using System.Threading.Tasks;
+using Manager.Classes.Chat;
 using Microsoft.Toolkit.Uwp.UI.Extensions;
 using UWPX_UI_Context.Classes.DataContext.Controls;
-using UWPX_UI_Context.Classes.DataTemplates;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 

@@ -2,6 +2,7 @@
 using System.Threading.Tasks;
 using Manager.Classes.Toast;
 using Shared.Classes;
+using Storage.Classes.Contexts;
 using Storage.Classes.Models.Chat;
 
 namespace UWPX_UI_Context.Classes.DataTemplates.Controls
@@ -86,26 +87,20 @@ namespace UWPX_UI_Context.Classes.DataTemplates.Controls
             MessageType = message.type;
             IsImage = message.isImage;
             State = message.state;
+            NicknameText = chat.chatType == ChatType.MUC ? message.fromBareJid : string.Empty;
 
             if (State == MessageState.UNREAD)
             {
                 // Mark message as read and update the badge notification count:
                 Task.Run(() =>
                 {
-                    ChatDBManager.INSTANCE.markMessageAsRead(message);
+                    using (MainDbContext ctx = new MainDbContext())
+                    {
+                        ctx.Update(message);
+                    }
                     ToastHelper.UpdateBadgeNumber();
                 });
             }
-
-            if (chat.chatType == ChatType.MUC)
-            {
-                NicknameText = message.fromBareJid;
-            }
-            else
-            {
-                NicknameText = string.Empty;
-            }
-
         }
 
         #endregion

@@ -1,8 +1,9 @@
-﻿using System.Threading.Tasks;
-using Data_Manager2.Classes;
-using Data_Manager2.Classes.DBManager;
+﻿using System.Linq;
+using System.Threading.Tasks;
 using Logging;
-using UWPX_UI_Context.Classes.DataTemplates;
+using Manager.Classes.Chat;
+using Storage.Classes.Contexts;
+using Storage.Classes.Models.Chat;
 using UWPX_UI_Context.Classes.DataTemplates.Controls.Chat.SpeechBubbles;
 using Windows.UI.Xaml;
 
@@ -33,7 +34,10 @@ namespace UWPX_UI_Context.Classes.DataContext.Controls.Chat.SpeechBubbles
             {
                 Task.Run(() =>
                 {
-                    MODEL.Invite = ChatDBManager.INSTANCE.getMUCDirectInvitation(msg.Message.id);
+                    using (MainDbContext ctx = new MainDbContext())
+                    {
+                        MODEL.Invite = ctx.MucDirectInvitations.Where(i => i.id == msg.Message.id).FirstOrDefault();
+                    }
                     if (MODEL.Invite is null)
                     {
                         Logger.Error("Failed to load MUC direct invite for: " + msg.Message.id);
@@ -42,16 +46,16 @@ namespace UWPX_UI_Context.Classes.DataContext.Controls.Chat.SpeechBubbles
 
                     MODEL.Header = "You have been invited to: " + MODEL.Invite.roomJid;
                     MODEL.Room = MODEL.Invite.roomJid;
-                    MODEL.Sender = msg.Chat.chatJabberId;
+                    MODEL.Sender = msg.Chat.bareJid;
                     MODEL.Reason = MODEL.Invite.reason;
                     switch (MODEL.Invite.state)
                     {
-                        case MUCDirectInvitationState.ACCEPTED:
+                        case MucDirectInvitationState.ACCEPTED:
                             MODEL.Declined = false;
                             MODEL.Accepted = true;
                             break;
 
-                        case MUCDirectInvitationState.DECLINED:
+                        case MucDirectInvitationState.DECLINED:
                             MODEL.Declined = true;
                             MODEL.Accepted = false;
                             break;
@@ -65,14 +69,22 @@ namespace UWPX_UI_Context.Classes.DataContext.Controls.Chat.SpeechBubbles
             }
         }
 
-        public async Task AcceptAsync(ChatMessageDataTemplate msg)
+        public void Accept(ChatMessageDataTemplate msg)
         {
-            await Task.Run(() => ChatDBManager.INSTANCE.setMUCDirectInvitationState(msg.Message.id, MUCDirectInvitationState.ACCEPTED));
+            MODEL.Invite.state = MucDirectInvitationState.ACCEPTED;
+            using (MainDbContext ctx = new MainDbContext())
+            {
+                ctx.Update(MODEL.Invite);
+            }
         }
 
-        public async Task DeclineAsync(ChatMessageDataTemplate msg)
+        public void Decline(ChatMessageDataTemplate msg)
         {
-            await Task.Run(async () => await ChatDBManager.INSTANCE.deleteChatMessageAsync(msg.Message, true));
+            MODEL.Invite.state = MucDirectInvitationState.DECLINED;
+            using (MainDbContext ctx = new MainDbContext())
+            {
+                ctx.Update(MODEL.Invite);
+            }
         }
 
         #endregion

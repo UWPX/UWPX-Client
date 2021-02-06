@@ -1,8 +1,8 @@
-﻿using UWPX_UI_Context.Classes.DataContext.Controls.OMEMO;
+﻿using Storage.Classes.Models.Omemo;
+using UWPX_UI_Context.Classes.DataContext.Controls.OMEMO;
 using UWPX_UI_Context.Classes.Events;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
-using XMPP_API.Classes.Network.XML.Messages.XEP_0384;
 
 namespace UWPX_UI.Controls.OMEMO
 {
@@ -10,12 +10,12 @@ namespace UWPX_UI.Controls.OMEMO
     {
         //--------------------------------------------------------Attributes:-----------------------------------------------------------------\\
         #region --Attributes--
-        public OmemoFingerprint Fingerprint
+        public OmemoFingerprintModel Fingerprint
         {
-            get => (OmemoFingerprint)GetValue(FingerprintProperty);
+            get => (OmemoFingerprintModel)GetValue(FingerprintProperty);
             set => SetValue(FingerprintProperty, value);
         }
-        public static readonly DependencyProperty FingerprintProperty = DependencyProperty.Register(nameof(Fingerprint), typeof(OmemoFingerprint), typeof(OmemoTrustFingerprintControl), new PropertyMetadata(null, OnFingerprintChanged));
+        public static readonly DependencyProperty FingerprintProperty = DependencyProperty.Register(nameof(Fingerprint), typeof(OmemoFingerprintModel), typeof(OmemoTrustFingerprintControl), new PropertyMetadata(null, OnFingerprintChanged));
 
         public delegate void OmemoFingerprintTrustChangedEventHandler(object sender, OmemoFingerprintTrustChangedEventArgs e);
         public event OmemoFingerprintTrustChangedEventHandler OmemoFingerprintTrustChanged;

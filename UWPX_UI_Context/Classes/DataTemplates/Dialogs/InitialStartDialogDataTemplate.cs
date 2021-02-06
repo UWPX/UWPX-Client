@@ -37,7 +37,7 @@ namespace UWPX_UI_Context.Classes.DataTemplates.Dialogs
         #region --Misc Methods (Public)--
         public void LoadSettings()
         {
-            ShowOnStartup = !Settings.getSettingBoolean(SettingsConsts.HIDE_INITIAL_START_DIALOG_ALPHA);
+            ShowOnStartup = !Settings.GetSettingBoolean(SettingsConsts.HIDE_INITIAL_START_DIALOG_ALPHA);
         }
 
         #endregion

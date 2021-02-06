@@ -19,7 +19,7 @@ namespace Storage.Classes.Models.Chat
         [Required]
         public string stableId { get; set; }
         [Required]
-        public ChatModel chat { get; set; }
+        public int chatId { get; set; }
         /// <summary>
         /// The type of the message e.g. 'error', 'chat', 'groupchat', ...
         /// </summary>
@@ -88,7 +88,7 @@ namespace Storage.Classes.Models.Chat
             fromBareJid = XMPP_API.Classes.Utils.getBareJidFromFullJid(msg.getFrom());
             fromNickname = msg.FROM_NICK;
             stableId = msg.ID;
-            this.chat = chat;
+            chatId = chat.id;
             type = msg.TYPE;
             message = msg.MESSAGE;
             date = msg.delay;

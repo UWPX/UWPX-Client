@@ -667,7 +667,7 @@ namespace XMPP_API.Classes.Network
         {
             if (NetworkHelper.Instance.ConnectionInformation.IsInternetAvailable)
             {
-                if (!account.disabled && (state == ConnectionState.DISCONNECTED || state == ConnectionState.ERROR))
+                if (state == ConnectionState.DISCONNECTED || state == ConnectionState.ERROR)
                 {
                     await ReconnectAsync(true);
                 }

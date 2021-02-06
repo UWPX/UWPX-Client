@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Threading.Tasks;
 using Logging;
-using UWPX_UI_Context.Classes.DataTemplates;
+using Manager.Classes.Chat;
 using UWPX_UI_Context.Classes.DataTemplates.Controls.IoT;
 using XMPP_API.Classes;
 using XMPP_API.Classes.Network.Events;

@@ -1,4 +1,5 @@
-﻿using Shared.Classes;
+﻿using Manager.Classes.Chat;
+using Shared.Classes;
 
 namespace UWPX_UI_Context.Classes.DataTemplates.Controls.IoT
 {

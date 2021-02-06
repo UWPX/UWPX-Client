@@ -83,6 +83,8 @@ namespace Storage.Classes.Models.Chat
         #endregion
         //--------------------------------------------------------Constructor:----------------------------------------------------------------\\
         #region --Constructors--
+        public ChatModel() { }
+
         public ChatModel(string chatBareJid, AccountModel account)
         {
             bareJid = chatBareJid;

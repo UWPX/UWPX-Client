@@ -39,12 +39,6 @@ namespace XMPP_API.Classes.Network
             get => _presencePriorety;
             set => SetProperty(ref _presencePriorety, value);
         }
-        private bool _disabled;
-        public bool disabled
-        {
-            get => _disabled;
-            set => SetProperty(ref _disabled, value);
-        }
         private string _color;
         public string color
         {
@@ -150,7 +144,6 @@ namespace XMPP_API.Classes.Network
             this.port = port;
             this.connectionConfiguration = connectionConfiguration;
             presencePriorety = 0;
-            disabled = false;
             color = null;
             presence = Presence.Online;
             status = null;
@@ -229,8 +222,7 @@ namespace XMPP_API.Classes.Network
             if (obj is XMPPAccount)
             {
                 XMPPAccount o = obj as XMPPAccount;
-                return o.disabled == disabled &&
-                    o.port == port &&
+                return o.port == port &&
                     o.presencePriorety == presencePriorety &&
                     string.Equals(o.serverAddress, serverAddress) &&
                     Equals(o.user, user) &&

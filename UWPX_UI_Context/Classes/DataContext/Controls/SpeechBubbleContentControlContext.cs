@@ -1,8 +1,8 @@
-﻿using System;
-using System.Threading.Tasks;
-using Data_Manager2.Classes.DBManager;
+﻿using System.Threading.Tasks;
 using Logging;
-using UWPX_UI_Context.Classes.DataTemplates;
+using Manager.Classes.Chat;
+using Storage.Classes.Contexts;
+using Storage.Classes.Models.Chat;
 using UWPX_UI_Context.Classes.DataTemplates.Controls;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Data;
@@ -58,7 +58,7 @@ namespace UWPX_UI_Context.Classes.DataContext.Controls
 
         public void SetFromUserAsClipboardText()
         {
-            UiUtils.SetClipboardText(ChatMessageModel.Message.fromUser);
+            UiUtils.SetClipboardText(ChatMessageModel.Message.fromBareJid);
         }
 
         public void SetMessageAsClipboardText()
@@ -75,14 +75,17 @@ namespace UWPX_UI_Context.Classes.DataContext.Controls
         {
             await Task.Run(() =>
             {
-                SpamDBManager.INSTANCE.addSpamMessage(ChatMessageModel.Message.message, DateTime.Now);
+                using (MainDbContext ctx = new MainDbContext())
+                {
+                    ctx.Add(new SpamMessageModel(ChatMessageModel.Message.message));
+                }
                 Logger.Info("Marked message as spam: " + ChatMessageModel.Message.message);
             });
         }
 
-        public async Task DeleteMessageAsync()
+        public void DeleteMessage()
         {
-            await Task.Run(() => ChatDBManager.INSTANCE.deleteChatMessageAsync(ChatMessageModel.Message, true));
+            DataCache.INSTANCE.RemoveChatMessage(ChatMessageModel);
         }
 
         #endregion

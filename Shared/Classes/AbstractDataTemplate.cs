@@ -65,6 +65,19 @@ namespace Shared.Classes
             }
         }
 
+        protected virtual async void OnPropertyChanged(PropertyChangedEventArgs args)
+        {
+            if (invokeInUiThread)
+            {
+                // Make sure we call the PropertyChanged event from the UI thread:
+                await SharedUtils.CallDispatcherAsync(() => PropertyChanged?.Invoke(this, args));
+            }
+            else
+            {
+                PropertyChanged?.Invoke(this, args);
+            }
+        }
+
         #endregion
         //--------------------------------------------------------Events:---------------------------------------------------------------------\\
         #region --Events--

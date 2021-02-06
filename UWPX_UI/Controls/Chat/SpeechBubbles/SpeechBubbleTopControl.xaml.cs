@@ -1,8 +1,9 @@
-﻿using UWPX_UI.Controls.Chat.SpeechBubbles.Content;
+﻿using Manager.Classes.Chat;
+using UWPX_UI.Controls.Chat.SpeechBubbles.Content;
 using UWPX_UI_Context.Classes.DataContext.Controls;
-using UWPX_UI_Context.Classes.DataTemplates;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
+using Windows.UI.Xaml.Input;
 
 namespace UWPX_UI.Controls.Chat.SpeechBubbles
 {
@@ -55,7 +56,7 @@ namespace UWPX_UI.Controls.Chat.SpeechBubbles
         #endregion
         //--------------------------------------------------------Events:---------------------------------------------------------------------\\
         #region --Events--
-        private void UserControl_RightTapped(object sender, Windows.UI.Xaml.Input.RightTappedRoutedEventArgs e)
+        private void UserControl_RightTapped(object sender, RightTappedRoutedEventArgs e)
         {
             if (sender is SpeechBubbleTopControl speechBubble)
             {

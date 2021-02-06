@@ -62,7 +62,7 @@ namespace Storage.Classes.Contexts
 
         public int GetUnreadMessageCount(int chatId)
         {
-            return ChatMessages.Where(m => m.chat.id == chatId).Count();
+            return ChatMessages.Where(m => m.chatId == chatId).Count();
         }
 
         public List<ConferenceItem> GetXEP0048ConferenceItemsForAccount(string accountBareJid)
@@ -70,12 +70,26 @@ namespace Storage.Classes.Contexts
             return MucInfos.Where(muc => muc.chat.inRoster && string.Equals(muc.chat.accountBareJid, accountBareJid)).Select(muc => muc.ToConferenceItem()).ToList();
         }
 
+        public IEnumerable<ChatMessageModel> GetNextNChatMessages(ChatModel chat, int n)
+        {
+            return ChatMessages.Where(msg => msg.chatId == chat.id).OrderBy(msg => msg.date).Take(n);
+        }
+
+        public IEnumerable<ChatMessageModel> GetNextNChatMessages(ChatModel chat, ChatMessageModel lastMessage, int n)
+        {
+            if (lastMessage is null)
+            {
+                return GetNextNChatMessages(chat, n);
+            }
+            return ChatMessages.Where(msg => msg.chatId == chat.id).OrderBy(msg => msg.date).SkipWhile(msg => msg.id != lastMessage.id).Skip(1).Take(n);
+        }
+
         #endregion
         //--------------------------------------------------------Misc Methods:---------------------------------------------------------------\\
         #region --Misc Methods (Public)--
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-            modelBuilder.Entity<ChatMessageModel>().Has // TODO: Continue here
+            // modelBuilder.Entity<ChatMessageModel>().
         }
 
         #endregion

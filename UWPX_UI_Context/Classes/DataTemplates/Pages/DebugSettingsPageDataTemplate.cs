@@ -95,13 +95,13 @@ namespace UWPX_UI_Context.Classes.DataTemplates.Pages
         private void LoadSettings()
         {
             // Debug:
-            DisableTcpTimeout = Settings.getSettingBoolean(SettingsConsts.DEBUG_DISABLE_TCP_TIMEOUT);
-            DisableTlsTimeout = Settings.getSettingBoolean(SettingsConsts.DEBUG_DISABLE_TLS_TIMEOUT);
+            DisableTcpTimeout = Settings.GetSettingBoolean(SettingsConsts.DEBUG_DISABLE_TCP_TIMEOUT);
+            DisableTlsTimeout = Settings.GetSettingBoolean(SettingsConsts.DEBUG_DISABLE_TLS_TIMEOUT);
 
             // Spam:
-            SpamRegex = Settings.getSettingString(SettingsConsts.SPAM_REGEX, SpamDBManager.DEFAULT_SPAM_REGEX);
-            SpamDetectionNewChatsOnly = !Settings.getSettingBoolean(SettingsConsts.SPAM_DETECTION_FOR_ALL_CHAT_MESSAGES);
-            SpamDetectionEnabled = Settings.getSettingBoolean(SettingsConsts.SPAM_DETECTION_ENABLED);
+            SpamRegex = Settings.GetSettingString(SettingsConsts.SPAM_REGEX, SpamDBManager.DEFAULT_SPAM_REGEX);
+            SpamDetectionNewChatsOnly = !Settings.GetSettingBoolean(SettingsConsts.SPAM_DETECTION_FOR_ALL_CHAT_MESSAGES);
+            SpamDetectionEnabled = Settings.GetSettingBoolean(SettingsConsts.SPAM_DETECTION_ENABLED);
         }
 
         #endregion

@@ -1,5 +1,5 @@
-﻿using Data_Manager2.Classes;
-using Microsoft.Toolkit.Uwp.UI.Extensions;
+﻿using Microsoft.Toolkit.Uwp.UI.Extensions;
+using Storage.Classes;
 using UWPX_UI_Context.Classes.DataContext.Controls;
 using Windows.Foundation;
 using Windows.UI.Xaml;
@@ -42,7 +42,7 @@ namespace UWPX_UI.Controls.Chat.SpeechBubbles.Content
                 flyout.ShowAt(sender, point);
 
                 // Spam detection is currently under development:
-                if (Data_Manager2.Classes.Settings.getSettingBoolean(SettingsConsts.DEBUG_SETTINGS_ENABLED))
+                if (Storage.Classes.Settings.GetSettingBoolean(SettingsConsts.DEBUG_SETTINGS_ENABLED))
                 {
                     markAsSpam_mfi.Visibility = Visibility.Visible;
                     markAsSpam_mfs.Visibility = Visibility.Visible;
@@ -108,9 +108,9 @@ namespace UWPX_UI.Controls.Chat.SpeechBubbles.Content
             await SpeechBubbleContentViewModel.MarkAsSpamAsync();
         }
 
-        private async void DeleteMsg_mfi_Click(object sender, RoutedEventArgs e)
+        private void DeleteMsg_mfi_Click(object sender, RoutedEventArgs e)
         {
-            await SpeechBubbleContentViewModel.DeleteMessageAsync();
+            SpeechBubbleContentViewModel.DeleteMessage();
         }
 
         #endregion

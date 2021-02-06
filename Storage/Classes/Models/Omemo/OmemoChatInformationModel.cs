@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using Storage.Classes.Contexts;
 
 namespace Storage.Classes.Models.Omemo
 {
@@ -52,7 +53,13 @@ namespace Storage.Classes.Models.Omemo
         #endregion
         //--------------------------------------------------------Misc Methods:---------------------------------------------------------------\\
         #region --Misc Methods (Public)--
-
+        public void Save()
+        {
+            using (MainDbContext ctx = new MainDbContext())
+            {
+                ctx.Update(this);
+            }
+        }
 
         #endregion
 

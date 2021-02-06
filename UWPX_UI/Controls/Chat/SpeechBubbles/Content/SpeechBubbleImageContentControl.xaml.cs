@@ -208,9 +208,9 @@ namespace UWPX_UI.Controls.Chat.SpeechBubbles.Content
             }
         }
 
-        private async void DeleteMsg_mfi_Click(object sender, RoutedEventArgs e)
+        private void DeleteMsg_mfi_Click(object sender, RoutedEventArgs e)
         {
-            await SpeechBubbleContentViewModel.DeleteMessageAsync();
+            SpeechBubbleContentViewModel.DeleteMessage();
         }
 
         #endregion

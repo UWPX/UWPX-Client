@@ -30,7 +30,7 @@ namespace UWPX_UI_Context.Classes.DataContext.Pages
             {
                 versionTappCount = 0;
 
-                bool debugSettingsEnabled = !Settings.getSettingBoolean(SettingsConsts.DEBUG_SETTINGS_ENABLED);
+                bool debugSettingsEnabled = !Settings.GetSettingBoolean(SettingsConsts.DEBUG_SETTINGS_ENABLED);
                 Settings.SetSetting(SettingsConsts.DEBUG_SETTINGS_ENABLED, debugSettingsEnabled);
                 MODEL.DebugSettingsEnabled = debugSettingsEnabled;
                 if (debugSettingsEnabled)

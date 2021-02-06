@@ -1,4 +1,5 @@
 ﻿using Shared.Classes;
+using Storage.Classes.Models.Chat;
 
 namespace UWPX_UI_Context.Classes.DataTemplates.Controls.Chat.SpeechBubbles
 {

@@ -1,10 +1,10 @@
 ﻿using System;
 using System.Threading;
 using System.Threading.Tasks;
-using Data_Manager2.Classes.DBTables;
 using Logging;
 using Shared.Classes;
 using Shared.Classes.Network;
+using Storage.Classes.Models.Chat;
 using Windows.Storage;
 using Windows.UI.Xaml.Media.Imaging;
 
@@ -44,8 +44,8 @@ namespace UWPX_UI_Context.Classes.DataTemplates.Controls
             get => _State;
             set => SetProperty(ref _State, value);
         }
-        private ImageTable _Image;
-        public ImageTable Image
+        private ChatMessageImageModel _Image;
+        public ChatMessageImageModel Image
         {
             get => _Image;
             set => SetImage(value);
@@ -72,9 +72,9 @@ namespace UWPX_UI_Context.Classes.DataTemplates.Controls
             }
         }
 
-        private void SetImage(ImageTable value)
+        private void SetImage(ChatMessageImageModel value)
         {
-            ImageTable oldImage = Image;
+            ChatMessageImageModel oldImage = Image;
             if (SetProperty(ref _Image, value, nameof(Image)))
             {
                 if (!(oldImage is null))
@@ -114,7 +114,7 @@ namespace UWPX_UI_Context.Classes.DataTemplates.Controls
             }, loadImageCancellationSource.Token);
         }
 
-        public void UpdateView(ImageTable image)
+        public void UpdateView(ChatMessageImageModel image)
         {
             Image = image;
         }
@@ -190,12 +190,12 @@ namespace UWPX_UI_Context.Classes.DataTemplates.Controls
         #region --Events--
         private void Image_PropertyChanged(object sender, System.ComponentModel.PropertyChangedEventArgs e)
         {
-            if (!(sender is ImageTable image))
+            if (!(sender is ChatMessageImageModel image))
             {
                 return;
             }
 
-            if (string.Equals(e.PropertyName, nameof(ImageTable.State)))
+            if (string.Equals(e.PropertyName, nameof(ChatMessageImageModel.State)))
             {
                 State = image.State;
                 if (image.State == DownloadState.DONE)
@@ -209,7 +209,7 @@ namespace UWPX_UI_Context.Classes.DataTemplates.Controls
                     ImagePath = null;
                 }
             }
-            else if (string.Equals(e.PropertyName, nameof(ImageTable.Error)))
+            else if (string.Equals(e.PropertyName, nameof(ChatMessageImageModel.Error)))
             {
                 ErrorText = image.Error.ToString();
             }

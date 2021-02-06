@@ -40,7 +40,7 @@ namespace UWPX_UI_Context.Classes.DataTemplates.Pages
         #region --Misc Methods (Public)--
         public void LoadSettings()
         {
-            DebugSettingsEnabled = Settings.getSettingBoolean(SettingsConsts.DEBUG_SETTINGS_ENABLED);
+            DebugSettingsEnabled = Settings.GetSettingBoolean(SettingsConsts.DEBUG_SETTINGS_ENABLED);
         }
 
         #endregion

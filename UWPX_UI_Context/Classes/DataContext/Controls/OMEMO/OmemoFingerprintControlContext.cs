@@ -1,4 +1,4 @@
-﻿using libsignal.ecc;
+﻿using Omemo.Classes.Keys;
 using Windows.UI.Xaml;
 using XMPP_API.Classes.Crypto;
 
@@ -25,7 +25,7 @@ namespace UWPX_UI_Context.Classes.DataTemplates.Controls.OMEMO
         #region --Misc Methods (Public)--
         public void UpdateView(DependencyPropertyChangedEventArgs e)
         {
-            if (e.NewValue is ECPublicKey identityPubKey)
+            if (e.NewValue is ECPubKeyModel identityPubKey)
             {
                 MODEL.UpdateView(identityPubKey);
             }

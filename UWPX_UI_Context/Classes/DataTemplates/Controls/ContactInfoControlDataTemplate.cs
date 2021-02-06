@@ -1,4 +1,5 @@
-﻿using Shared.Classes;
+﻿using Manager.Classes;
+using Shared.Classes;
 using Storage.Classes.Models.Chat;
 using Windows.UI.Xaml;
 using XMPP_API.Classes;
@@ -127,9 +128,9 @@ namespace UWPX_UI_Context.Classes.DataTemplates.Controls
         #endregion
         //--------------------------------------------------------Misc Methods:---------------------------------------------------------------\\
         #region --Misc Methods (Public)--
-        public void UpdateView(XMPPClient client)
+        public void UpdateView(Client client)
         {
-            AccountBareJid = client.getXMPPAccount().getBareJid();
+            AccountBareJid = client.dbAccount.bareJid;
         }
 
         public void UpdateView(ChatModel chat)
