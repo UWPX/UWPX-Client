@@ -2,11 +2,10 @@
 using System.Threading.Tasks;
 using Manager.Classes;
 using Manager.Classes.Chat;
-using Shared.Classes;
+using Storage.Classes.Contexts;
 using Storage.Classes.Models.Chat;
 using UWPX_UI_Context.Classes.DataTemplates.Controls.Chat.MUC;
 using Windows.UI.Xaml;
-using XMPP_API.Classes;
 using XMPP_API.Classes.Network.XML.Messages;
 using XMPP_API.Classes.Network.XML.Messages.XEP_0048;
 
@@ -42,54 +41,47 @@ namespace UWPX_UI_Context.Classes.DataContext.Controls.Chat.MUC
             if (e.NewValue is ChatDataTemplate newChat)
             {
                 UpdateView(newChat.Chat);
-                UpdateView(newChat.MucInfo);
+                UpdateView(newChat.Chat.muc);
                 newChat.PropertyChanged += Chat_PropertyChanged;
             }
         }
 
-        public async Task ToggleChatMutedAsync(ChatModel chat)
+        public void ToggleChatMuted(ChatDataTemplate chat)
+        {
+            if (chat is null)
+            {
+                return;
+            }
+            chat.Chat.muted = !chat.Chat.muted;
+            UpdateView(chat.Chat);
+            chat.Chat.Save();
+        }
+
+        public void ToggleMucAutoJoin(ChatDataTemplate chat)
         {
             if (chat is null)
             {
                 return;
             }
 
-            await Task.Run(() =>
-            {
-                chat.muted = !chat.muted;
-                UpdateView(chat);
-                ChatDBManager.INSTANCE.setChat(chat, false, true);
-            }).ConfAwaitFalse();
+            chat.Chat.muc.autoEnterRoom = !chat.Chat.muc.autoEnterRoom;
+            UpdateView(chat.Chat.muc);
+            chat.Chat.muc.Save();
         }
 
-        public async Task ToggleMucAutoJoinAsync(MucInfoModel mucInfo)
+        public void ToggleChatBookmarked(ChatDataTemplate chat)
         {
-            if (mucInfo is null)
-            {
-                return;
-            }
-
-            await Task.Run(() =>
-            {
-                mucInfo.autoEnterRoom = !mucInfo.autoEnterRoom;
-                UpdateView(mucInfo);
-                MUCDBManager.INSTANCE.setMUCChatInfo(mucInfo, false, true);
-            }).ConfAwaitFalse();
+            SetChatBookmarked(chat, !chat.Chat.inRoster);
         }
 
-        public void ToggleChatBookmarked(ChatModel chat, XMPPClient client)
+        public async Task LeaveMucAsync(ChatDataTemplate chat)
         {
-            SetChatBookmarked(chat, client, !chat.inRoster);
+            await MucHandler.INSTANCE.LeaveRoomAsync(chat.Client.xmppClient, chat.Chat.muc);
         }
 
-        public async Task LeaveMucAsync(ChatModel chat, MucInfoModel mucInfo, XMPPClient client)
+        public async Task EnterMucAsync(ChatDataTemplate chat)
         {
-            await MucHandler.INSTANCE.leaveRoomAsync(client, chat, mucInfo);
-        }
-
-        public async Task EnterMucAsync(ChatModel chat, MucInfoModel mucInfo, XMPPClient client)
-        {
-            await MucHandler.INSTANCE.enterMucAsync(client, chat, mucInfo);
+            await MucHandler.INSTANCE.EnterMucAsync(chat.Client.xmppClient, chat.Chat.muc);
         }
 
         #endregion
@@ -122,26 +114,30 @@ namespace UWPX_UI_Context.Classes.DataContext.Controls.Chat.MUC
             }
         }
 
-        private void SetChatBookmarked(ChatModel chat, XMPPClient client, bool bookmarked)
+        private void SetChatBookmarked(ChatDataTemplate chat, bool bookmarked)
         {
-            if (chat.inRoster != bookmarked)
+            if (chat.Chat.inRoster != bookmarked)
             {
-                chat.inRoster = bookmarked;
-                UpdateView(chat);
-                ChatDBManager.INSTANCE.setChat(chat, false, true);
+                chat.Chat.inRoster = bookmarked;
+                UpdateView(chat.Chat);
+                chat.Chat.Save();
             }
-            UpdateBookmarks(client);
+            UpdateBookmarks(chat);
         }
 
-        private void UpdateBookmarks(XMPPClient client)
+        private void UpdateBookmarks(ChatDataTemplate chat)
         {
-            List<ConferenceItem> conferences = MUCDBManager.INSTANCE.getXEP0048ConferenceItemsForAccount(client.getXMPPAccount().getBareJid());
+            List<ConferenceItem> conferences;
+            using (MainDbContext ctx = new MainDbContext())
+            {
+                conferences = ctx.GetXEP0048ConferenceItemsForAccount(chat.Client.dbAccount.bareJid);
+            }
             if (updateBookmarksHelper != null)
             {
                 updateBookmarksHelper.Dispose();
             }
             // TODO: Register callbacks for once an error occurred and show a notification to the user
-            updateBookmarksHelper = client.PUB_SUB_COMMAND_HELPER.setBookmars_xep_0048(conferences, null, null);
+            updateBookmarksHelper = chat.Client.xmppClient.PUB_SUB_COMMAND_HELPER.setBookmars_xep_0048(conferences, null, null);
         }
 
         #endregion
@@ -158,12 +154,9 @@ namespace UWPX_UI_Context.Classes.DataContext.Controls.Chat.MUC
             {
                 switch (e.PropertyName)
                 {
-                    case nameof(ChatDataTemplate.MucInfo):
-                        UpdateView(chat.Chat.muc);
-                        break;
-
                     case nameof(ChatDataTemplate.Chat):
                         UpdateView(chat.Chat);
+                        UpdateView(chat.Chat.muc);
                         break;
 
                     default:

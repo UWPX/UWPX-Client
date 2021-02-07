@@ -9,10 +9,10 @@ namespace Storage.Classes.Models.Account
         [Key]
         public int id { get; set; }
         /// <summary>
-        /// The user part of a bare or full Jabber ID e.g. 'coven' in 'coven@chat.shakespeare.lit'.
+        /// The local part of a bare or full Jabber ID e.g. 'coven' in 'coven@chat.shakespeare.lit'.
         /// </summary>
         [Required]
-        public string userPart { get; set; }
+        public string localPart { get; set; }
         /// <summary>
         /// The domain part of a bare or full Jabber ID e.g. 'chat.shakespeare.lit' in 'coven@chat.shakespeare.lit'.
         /// </summary>
@@ -37,9 +37,14 @@ namespace Storage.Classes.Models.Account
         #endregion
         //--------------------------------------------------------Misc Methods:---------------------------------------------------------------\\
         #region --Misc Methods (Public)--
+        public string BareJid()
+        {
+            return localPart + '@' + domainPart;
+        }
+
         public string FullJid()
         {
-            return userPart + '@' + domainPart + '/' + resourcePart;
+            return BareJid() + '/' + resourcePart;
         }
 
         #endregion

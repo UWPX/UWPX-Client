@@ -49,8 +49,8 @@ namespace UWPX_UI_Context.Classes.DataTemplates.Controls
             }
             else
             {
-                OmemoState = account.Client.getOmemoHelper()?.STATE ?? OmemoHelperState.DISABLED;
-                DeviceId = account.Account.omemoDeviceId;
+                OmemoState = account.Client.xmppClient.getOmemoHelper()?.STATE ?? OmemoHelperState.DISABLED;
+                DeviceId = account.Client.dbAccount.omemoInfo.deviceId;
             }
         }
 

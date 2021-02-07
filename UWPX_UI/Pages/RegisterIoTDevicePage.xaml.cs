@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.ObjectModel;
 using Logging;
+using Manager.Classes;
 using Microsoft.Toolkit.Uwp.UI.Animations;
 using Shared.Classes;
 using UWPX_UI.Controls;
@@ -64,13 +65,13 @@ namespace UWPX_UI.Pages
                 Logger.Debug(nameof(RegisterIoTDevicePage) + " state changed: " + curViewState + " -> " + state);
                 if (string.Equals(curViewState, State_5.Name))
                 {
-                    btDeviceInfo_btdic.VIEW_MODEL.MODEL.Client.NewChatMessage -= Client_NewChatMessage;
+                    btDeviceInfo_btdic.VIEW_MODEL.MODEL.Client.xmppClient.NewChatMessage -= Client_NewChatMessage;
                 }
                 curViewState = state;
                 if (string.Equals(curViewState, State_5.Name) || string.Equals(curViewState, State_4.Name))
                 {
-                    btDeviceInfo_btdic.VIEW_MODEL.MODEL.Client.NewChatMessage -= Client_NewChatMessage;
-                    btDeviceInfo_btdic.VIEW_MODEL.MODEL.Client.NewChatMessage += Client_NewChatMessage;
+                    btDeviceInfo_btdic.VIEW_MODEL.MODEL.Client.xmppClient.NewChatMessage -= Client_NewChatMessage;
+                    btDeviceInfo_btdic.VIEW_MODEL.MODEL.Client.xmppClient.NewChatMessage += Client_NewChatMessage;
                 }
             }
         }
@@ -192,7 +193,7 @@ namespace UWPX_UI.Pages
 
         private async void Client_NewChatMessage(XMPPClient client, NewChatMessageEventArgs args)
         {
-            if (await VIEW_MODEL.OnNewChatMessage(args.getMessage(), btDeviceInfo_btdic.VIEW_MODEL.MODEL.Jid, client))
+            if (await VIEW_MODEL.OnNewChatMessage(args.getMessage(), btDeviceInfo_btdic.VIEW_MODEL.MODEL.Jid, ConnectionHandler.INSTANCE.GetClient(client.getXMPPAccount().getBareJid())))
             {
                 await SharedUtils.CallDispatcherAsync(() => UpdateViewState(State_6.Name));
             }

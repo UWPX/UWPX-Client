@@ -1,4 +1,4 @@
-﻿using Data_Manager2.Classes.Toast;
+﻿using Manager.Classes.Toast;
 using Windows.ApplicationModel.Background;
 using Windows.Networking.PushNotifications;
 
@@ -28,7 +28,7 @@ namespace Push_BackgroundTask.Classes
             deferral = taskInstance.GetDeferral();
             if (taskInstance.TriggerDetails is RawNotification notification)
             {
-                ToastHelper.showSimpleToast(notification.Content);
+                ToastHelper.ShowSimpleToast(notification.Content);
             }
             deferral.Complete();
         }

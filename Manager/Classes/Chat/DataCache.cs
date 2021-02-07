@@ -1,10 +1,12 @@
-﻿using System.Diagnostics;
+﻿using System;
+using System.Diagnostics;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 using Logging;
 using Shared.Classes;
 using Storage.Classes.Contexts;
+using Storage.Classes.Models.Account;
 using Storage.Classes.Models.Chat;
 
 namespace Manager.Classes.Chat
@@ -193,6 +195,10 @@ namespace Manager.Classes.Chat
             using (MainDbContext ctx = new MainDbContext())
             {
                 ctx.Add(msg);
+                if (msg.isImage)
+                {
+                    ctx.Add(msg.image);
+                }
                 ctx.Update(chat);
             }
         }
@@ -279,6 +285,50 @@ namespace Manager.Classes.Chat
             }
         }
 
+        public async Task DeleteAccountAsync(AccountModel account)
+        {
+            await Task.Run(async () =>
+            {
+                CHATS_SEMA.Wait();
+                CHATS_MESSAGES_SEMA.Wait();
+                try
+                {
+                    Logger.Info($"Deleting account '{account.bareJid}'...");
+                    Logger.Info($"Making sure the account '{account.bareJid}' is disconnected before removing...");
+                    try
+                    {
+                        await ConnectionHandler.INSTANCE.RemoveAccountAsync(account.bareJid);
+                    }
+                    catch (Exception e)
+                    {
+                        Logger.Error($"Failed to disconnect account '{account.bareJid}' for deletion.", e);
+                        return;
+                    }
+                    Logger.Info($"Account '{account.bareJid}' disconnected.");
+
+                    using (MainDbContext ctx = new MainDbContext())
+                    {
+                        Logger.Info($"Deleting chats and chat messages for '{account.bareJid}'...");
+                        foreach (ChatModel chat in ctx.Chats.Where(c => string.Equals(c.accountBareJid, account.bareJid)))
+                        {
+                            ctx.RemoveRange(ctx.ChatMessages.Where(c => c.chatId == chat.id));
+                            ctx.Remove(chat);
+                        }
+                        Logger.Info($"Chats and chat messages for '{account.bareJid}' deleted.");
+                        ctx.Remove(account);
+                    }
+                    Logger.Info($"Account '{account.bareJid}' deleted.");
+                }
+                catch (Exception e)
+                {
+                    Logger.Error($"Failed to delete account '{account.bareJid}'.", e);
+                }
+                CHATS_MESSAGES_SEMA.Release();
+                CHATS_SEMA.Release();
+                await LoadChatsAsync();
+            });
+        }
+
         #endregion
 
         #region --Misc Methods (Private)--
@@ -288,6 +338,7 @@ namespace Manager.Classes.Chat
             {
                 await CHATS_SEMA.WaitAsync();
                 CHATS.Clear();
+                SelectedChat = null;
                 CHATS.AddRange(ctx.Chats.Select(c => LoadChat(c, ctx)), true);
                 CHATS_SEMA.Release();
             }

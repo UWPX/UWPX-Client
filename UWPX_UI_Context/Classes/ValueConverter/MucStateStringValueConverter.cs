@@ -1,4 +1,5 @@
 ﻿using System;
+using Storage.Classes.Models.Chat;
 using Windows.UI.Xaml.Data;
 
 namespace UWPX_UI_Context.Classes.ValueConverter

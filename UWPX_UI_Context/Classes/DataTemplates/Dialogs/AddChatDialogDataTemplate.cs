@@ -1,7 +1,8 @@
 ﻿using System.Threading.Tasks;
+using Manager.Classes;
 using Manager.Classes.Chat;
 using Shared.Classes;
-using XMPP_API.Classes;
+using Storage.Classes.Models.Chat;
 
 namespace UWPX_UI_Context.Classes.DataTemplates.Dialogs
 {
@@ -72,8 +73,8 @@ namespace UWPX_UI_Context.Classes.DataTemplates.Dialogs
             set => SetProperty(ref _IsSubscribedToPresence, value);
         }
 
-        private XMPPClient _Client;
-        public XMPPClient Client
+        private Client _Client;
+        public Client Client
         {
             get => _Client;
             set => SetProperty(ref _Client, value);
@@ -106,7 +107,7 @@ namespace UWPX_UI_Context.Classes.DataTemplates.Dialogs
                 {
                     Task.Run(() =>
                     {
-                        ChatModel chat = ChatDBManager.INSTANCE.getChat(ChatModel.generateId(value, Client.getXMPPAccount().getBareJid()));
+                        ChatModel chat = DataCache.INSTANCE.GetChat(Client.dbAccount.bareJid, value);
                         if (chat is null)
                         {
                             ChatExists = false;
@@ -145,7 +146,7 @@ namespace UWPX_UI_Context.Classes.DataTemplates.Dialogs
         #region --Misc Methods (Public)--
         public void OnChatSelected(ChatDataTemplate chat)
         {
-            ChatBareJid = chat.Chat.chatJabberId;
+            ChatBareJid = chat.Chat.bareJid;
         }
 
         #endregion

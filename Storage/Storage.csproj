@@ -123,7 +123,6 @@
     <Compile Include="Classes\Contexts\AbstractDbContext.cs" />
     <Compile Include="Classes\Contexts\MainDbContext.cs" />
     <Compile Include="Classes\Models\Account\AccountModel.cs" />
-    <Compile Include="Classes\Models\Account\IgnoredCertificateErrorModel.cs" />
     <Compile Include="Classes\Models\Account\JidModel.cs" />
     <Compile Include="Classes\Models\Account\MamRequestModel.cs" />
     <Compile Include="Classes\Models\Account\ServerModel.cs" />

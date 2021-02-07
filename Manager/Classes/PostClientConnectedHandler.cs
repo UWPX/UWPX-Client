@@ -277,19 +277,19 @@ namespace Manager.Classes
         private async Task SendOutsandingChatMessagesAsync()
         {
             state = SetupState.SENDING_OUTSTANDING_MESSAGES;
-            IEnumerable<ChatMessageModel> toSend;
+            IEnumerable<Tuple<ChatMessageModel, string>> toSend;
             using (MainDbContext ctx = new MainDbContext())
             {
-                toSend = ctx.ChatMessages.Where(m => m.state == MessageState.SENDING && string.Equals(m.chat.accountBareJid, ccHandler.client.dbAccount.bareJid));
+                toSend = ctx.ChatMessages.Where(m => m.state == MessageState.SENDING).Join(ctx.Chats, m => m.chatId, c => c.id, (m, c) => new Tuple<ChatMessageModel, string>(m, c.bareJid)).Where(t => string.Equals(t.Item2, ccHandler.client.dbAccount.bareJid));
             }
             Logger.Info("Sending " + toSend.Count() + " outstanding chat messages for: " + ccHandler.client.dbAccount.bareJid);
             await SendOutsandingChatMessagesAsync(toSend);
             Logger.Info("Finished sending outstanding chat messages for: " + ccHandler.client.dbAccount.bareJid);
 
-            IEnumerable<ChatMessageModel> toEncrypt;
+            IEnumerable<Tuple<ChatMessageModel, string>> toEncrypt;
             using (MainDbContext ctx = new MainDbContext())
             {
-                toEncrypt = ctx.ChatMessages.Where(m => m.state == MessageState.TO_ENCRYPT && string.Equals(m.chat.accountBareJid, ccHandler.client.dbAccount.bareJid));
+                toEncrypt = ctx.ChatMessages.Where(m => m.state == MessageState.TO_ENCRYPT).Join(ctx.Chats, m => m.chatId, c => c.id, (m, c) => new Tuple<ChatMessageModel, string>(m, c.bareJid)).Where(t => string.Equals(t.Item2, ccHandler.client.dbAccount.bareJid));
             }
             Logger.Info("Sending " + toEncrypt.Count() + " outstanding OMEMO chat messages for: " + ccHandler.client.dbAccount.bareJid);
             await SendOutsandingChatMessagesAsync(toEncrypt);
@@ -301,15 +301,15 @@ namespace Manager.Classes
         /// Sends all chat messages passed to it.
         /// </summary>
         /// <param name="messages">A list of chat messages to send. They SHOULD be sorted by their chatId for optimal performance.</param>
-        private async Task SendOutsandingChatMessagesAsync(IEnumerable<ChatMessageModel> messages)
+        private async Task SendOutsandingChatMessagesAsync(IEnumerable<Tuple<ChatMessageModel, string>> messages)
         {
-            foreach (ChatMessageModel msgDb in messages)
+            foreach (Tuple<ChatMessageModel, string> msgDb in messages)
             {
-                MessageMessage msg = msgDb.ToMessageMessage(ccHandler.client.dbAccount.fullJid.FullJid(), msgDb.chat.bareJid);
+                MessageMessage msg = msgDb.Item1.ToMessageMessage(ccHandler.client.dbAccount.fullJid.FullJid(), msgDb.Item2);
 
                 if (msg is OmemoEncryptedMessage omemoMsg)
                 {
-                    await ccHandler.client.xmppClient.sendOmemoMessageAsync(omemoMsg, msgDb.chat.bareJid, ccHandler.client.dbAccount.bareJid);
+                    await ccHandler.client.xmppClient.sendOmemoMessageAsync(omemoMsg, msgDb.Item2, ccHandler.client.dbAccount.bareJid);
                 }
                 else
                 {

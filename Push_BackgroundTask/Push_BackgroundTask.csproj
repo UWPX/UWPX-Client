@@ -130,9 +130,9 @@
     </PackageReference>
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\Data_Manager2\Data_Manager2.csproj">
-      <Project>{58925bf1-5b7d-48d9-b411-126cbefda98a}</Project>
-      <Name>Data_Manager2</Name>
+    <ProjectReference Include="..\Manager\Manager.csproj">
+      <Project>{e06e9cca-7196-497e-a129-8ffb4a30a3f8}</Project>
+      <Name>Manager</Name>
     </ProjectReference>
   </ItemGroup>
   <PropertyGroup Condition=" '$(VisualStudioVersion)' == '' or '$(VisualStudioVersion)' &lt; '14.0' ">

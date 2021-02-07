@@ -1,4 +1,5 @@
-﻿using Shared.Classes;
+﻿using Manager.Classes;
+using Shared.Classes;
 using XMPP_API.Classes;
 using XMPP_API_IoT.Classes.Bluetooth;
 
@@ -81,8 +82,8 @@ namespace UWPX_UI_Context.Classes.DataTemplates.Controls.IoT
         }
 
         // Client:
-        private XMPPClient _Client;
-        public XMPPClient Client
+        private Client _Client;
+        public Client Client
         {
             get => _Client;
             set => SetClientProperty(value);
@@ -120,7 +121,7 @@ namespace UWPX_UI_Context.Classes.DataTemplates.Controls.IoT
             }
         }
 
-        private void SetClientProperty(XMPPClient value)
+        private void SetClientProperty(Client value)
         {
             if (SetProperty(ref _Client, value, nameof(Client)))
             {

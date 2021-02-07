@@ -1,7 +1,9 @@
 ﻿using System.Runtime.CompilerServices;
 using System.Threading.Tasks;
 using Logging;
+using Manager.Classes;
 using Shared.Classes;
+using Storage.Classes;
 using Windows.Storage;
 
 namespace UWPX_UI_Context.Classes.DataTemplates.Pages

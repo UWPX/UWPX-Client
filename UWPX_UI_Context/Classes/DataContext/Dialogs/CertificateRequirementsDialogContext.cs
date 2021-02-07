@@ -1,5 +1,5 @@
-﻿using UWPX_UI_Context.Classes.DataTemplates.Dialogs;
-using XMPP_API.Classes.Network;
+﻿using Storage.Classes.Models.Account;
+using UWPX_UI_Context.Classes.DataTemplates.Dialogs;
 
 namespace UWPX_UI_Context.Classes.DataContext.Dialogs
 {
@@ -12,7 +12,7 @@ namespace UWPX_UI_Context.Classes.DataContext.Dialogs
         #endregion
         //--------------------------------------------------------Constructor:----------------------------------------------------------------\\
         #region --Constructors--
-        public CertificateRequirementsDialogContext(XMPPAccount account)
+        public CertificateRequirementsDialogContext(AccountModel account)
         {
             MODEL = new CertificateRequirementsDialogDataTemplate(account);
         }

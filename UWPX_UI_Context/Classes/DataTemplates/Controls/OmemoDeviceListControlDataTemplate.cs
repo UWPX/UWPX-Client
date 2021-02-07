@@ -1,5 +1,4 @@
-﻿using System.Collections.Generic;
-using System.Linq;
+﻿using System.Linq;
 using Shared.Classes;
 using Shared.Classes.Collections;
 
@@ -45,11 +44,7 @@ namespace UWPX_UI_Context.Classes.DataTemplates.Controls
                 return;
             }
 
-            IEnumerable<uint> devices = account.Client.getOmemoHelper()?.DEVICES?.IDS;
-            if (!(devices is null))
-            {
-                DEVICES.AddRange(devices.Select(x => new UintDataTemplate { Value = x }));
-            }
+            DEVICES.AddRange(account.Client.xmppClient.getOmemoHelper().DEVICES.DEVICES.Select(d => new UintDataTemplate { Value = d.ID }));
         }
 
         #endregion

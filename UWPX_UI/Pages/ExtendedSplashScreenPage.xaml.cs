@@ -161,9 +161,6 @@ namespace UWPX_UI.Pages
             await BackgroundTaskHelper.RegisterBackgroundTasksAsync();
             Logger.Info("Finished registering background tasks.");
 
-            // Init all db managers to force event subscriptions:
-            await InitDBManagersAsync();
-
             // Init the chat background helper:
             ChatBackgroundHelper.INSTANCE.Init();
 

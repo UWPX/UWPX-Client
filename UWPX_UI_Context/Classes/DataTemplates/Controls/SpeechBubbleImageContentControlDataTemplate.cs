@@ -1,4 +1,5 @@
 ﻿using System;
+using System.ComponentModel;
 using System.Threading;
 using System.Threading.Tasks;
 using Logging;
@@ -114,11 +115,6 @@ namespace UWPX_UI_Context.Classes.DataTemplates.Controls
             }, loadImageCancellationSource.Token);
         }
 
-        public void UpdateView(ChatMessageImageModel image)
-        {
-            Image = image;
-        }
-
         #endregion
 
         #region --Misc Methods (Private)--
@@ -188,9 +184,9 @@ namespace UWPX_UI_Context.Classes.DataTemplates.Controls
         #endregion
         //--------------------------------------------------------Events:---------------------------------------------------------------------\\
         #region --Events--
-        private void Image_PropertyChanged(object sender, System.ComponentModel.PropertyChangedEventArgs e)
+        private void Image_PropertyChanged(object sender, PropertyChangedEventArgs e)
         {
-            if (!(sender is ChatMessageImageModel image))
+            if (sender is not ChatMessageImageModel image)
             {
                 return;
             }

@@ -64,11 +64,11 @@ namespace UWPX_UI_Context.Classes.DataTemplates.Controls
             if (e.NewValue is AccountDataTemplate accountNew)
             {
                 Subscribe(accountNew);
-                ParserStats = accountNew.Client.getMessageParserStats();
-                MsgCarbonsState = accountNew.Account.CONNECTION_INFO.msgCarbonsState;
-                PushState = accountNew.Account.CONNECTION_INFO.pushState;
-                SocketInfo = accountNew.Account.CONNECTION_INFO.socketInfo;
-                TlsConnected = accountNew.Account.CONNECTION_INFO.tlsConnected;
+                ParserStats = accountNew.Client.xmppClient.getMessageParserStats();
+                MsgCarbonsState = accountNew.Client.xmppClient.getXMPPAccount().CONNECTION_INFO.msgCarbonsState;
+                PushState = accountNew.Client.xmppClient.getXMPPAccount().CONNECTION_INFO.pushState;
+                SocketInfo = accountNew.Client.xmppClient.getXMPPAccount().CONNECTION_INFO.socketInfo;
+                TlsConnected = accountNew.Client.xmppClient.getXMPPAccount().CONNECTION_INFO.tlsConnected;
             }
             else
             {
@@ -81,12 +81,12 @@ namespace UWPX_UI_Context.Classes.DataTemplates.Controls
         #region --Misc Methods (Private)--
         private void Unsubscribe(AccountDataTemplate account)
         {
-            account.Account.CONNECTION_INFO.PropertyChanged -= CONNECTION_INFO_PropertyChanged;
+            account.Client.xmppClient.getXMPPAccount().CONNECTION_INFO.PropertyChanged -= CONNECTION_INFO_PropertyChanged;
         }
 
         private void Subscribe(AccountDataTemplate account)
         {
-            account.Account.CONNECTION_INFO.PropertyChanged += CONNECTION_INFO_PropertyChanged;
+            account.Client.xmppClient.getXMPPAccount().CONNECTION_INFO.PropertyChanged += CONNECTION_INFO_PropertyChanged;
         }
 
         #endregion

@@ -1,4 +1,4 @@
-﻿using Data_Manager2.Classes;
+﻿using Storage.Classes.Models.Chat;
 using UWPX_UI_Context.Classes.DataContext.Controls;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;

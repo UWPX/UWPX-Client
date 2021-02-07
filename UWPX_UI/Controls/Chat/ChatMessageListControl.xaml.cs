@@ -1,5 +1,4 @@
 ﻿using System.Collections.Specialized;
-using System.ComponentModel;
 using System.Threading.Tasks;
 using Manager.Classes.Chat;
 using Microsoft.Toolkit.Uwp.UI.Extensions;
@@ -66,16 +65,6 @@ namespace UWPX_UI.Controls.Chat
 
         #region --Misc Methods (Private)--
         /// <summary>
-        /// Updates the view and changes all properties.
-        /// </summary>
-        private void UpdateView(DependencyPropertyChangedEventArgs args)
-        {
-            ChatDataTemplate oldChat = args.OldValue is ChatDataTemplate ? args.OldValue as ChatDataTemplate : null;
-            ChatDataTemplate newChat = args.NewValue is ChatDataTemplate ? args.NewValue as ChatDataTemplate : null;
-            VIEW_MODEL.UpdateView(oldChat, newChat);
-        }
-
-        /// <summary>
         /// Returns the last <see cref="UIElement"/> from the <see cref="ListView"/> or null if there is none.
         /// </summary>
         private UIElement GetLastListUiElement()
@@ -137,12 +126,12 @@ namespace UWPX_UI.Controls.Chat
         /// </summary>
         private async Task LoadMoreMessagesAsync()
         {
-            if (VIEW_MODEL.MODEL.HasMoreMessages)
+            if (VIEW_MODEL.MODEL.CHAT_MESSAGES.HasMoreMessages)
             {
                 do
                 {
-                    await VIEW_MODEL.LoadMoreMessagesAsync();
-                } while (VIEW_MODEL.MODEL.HasMoreMessages && scrollViewer.DesiredSize.Height < scrollViewer.ViewportHeight);
+                    await VIEW_MODEL.MODEL.CHAT_MESSAGES.LoadMoreMessagesAsync();
+                } while (VIEW_MODEL.MODEL.CHAT_MESSAGES.HasMoreMessages && scrollViewer.DesiredSize.Height < scrollViewer.ViewportHeight);
             }
         }
         #endregion
@@ -157,7 +146,7 @@ namespace UWPX_UI.Controls.Chat
         {
             if (d is ChatMessageListControl control)
             {
-                control.UpdateView(args);
+                control.scrolledToTheTop = true;
             }
         }
 
@@ -184,7 +173,6 @@ namespace UWPX_UI.Controls.Chat
             scrollViewer = mainListView.FindDescendant<ScrollViewer>();
             scrollViewer.ViewChanged += OnScrollViewerViewChanged;
             VIEW_MODEL.MODEL.CHAT_MESSAGES.CollectionChanged += OnChatMessagesCollectionChanged;
-            VIEW_MODEL.MODEL.ChatChanged += OnChatChanged;
             UpdateBehavior();
             await LoadMoreMessagesAsync();
         }
@@ -205,13 +193,6 @@ namespace UWPX_UI.Controls.Chat
                 itemsStackPanel.ItemsUpdatingScrollMode = ItemsUpdatingScrollMode.KeepLastItemInView;
                 return;
             }
-        }
-
-        private async void OnChatChanged(object sender, PropertyChangedEventArgs e)
-        {
-            scrolledToTheTop = true;
-            VIEW_MODEL.MODEL.CHAT_MESSAGES.Clear();
-            await LoadMoreMessagesAsync();
         }
         #endregion
     }

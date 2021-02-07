@@ -2,6 +2,7 @@
 using System.Threading.Tasks;
 using Shared.Classes;
 using Shared.Classes.Collections;
+using Storage.Classes;
 using Windows.Storage;
 
 namespace UWPX_UI_Context.Classes.DataTemplates.Controls

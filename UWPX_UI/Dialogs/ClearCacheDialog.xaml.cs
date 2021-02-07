@@ -42,6 +42,7 @@ namespace UWPX_UI.Dialogs
             VIEW_MODEL.MODEL.ChatMessages = tree_tv.SelectedNodes.Contains(chatMessages_tvn);
             VIEW_MODEL.MODEL.Chats = tree_tv.SelectedNodes.Contains(chats_tvn);
             VIEW_MODEL.MODEL.Images = tree_tv.SelectedNodes.Contains(images_tvn);
+            VIEW_MODEL.MODEL.SpamMessages = tree_tv.SelectedNodes.Contains(spamMessages_tvn);
 
             // Disco:
             VIEW_MODEL.MODEL.DiscoFeatures = tree_tv.SelectedNodes.Contains(discoFeatures_tvn);
@@ -56,8 +57,9 @@ namespace UWPX_UI.Dialogs
             // Accounts:
             VIEW_MODEL.MODEL.Accounts = tree_tv.SelectedNodes.Contains(accounts_tvn);
             VIEW_MODEL.MODEL.PasswordVault = tree_tv.SelectedNodes.Contains(passwordVault_tvn);
-            VIEW_MODEL.MODEL.IgnoredCertErrors = tree_tv.SelectedNodes.Contains(ignoredCertificateErrors_tvn);
-            VIEW_MODEL.MODEL.ConnectionOptions = tree_tv.SelectedNodes.Contains(connectionOptions_tvn);
+            VIEW_MODEL.MODEL.Jids = tree_tv.SelectedNodes.Contains(jids_tvn);
+            VIEW_MODEL.MODEL.Servers = tree_tv.SelectedNodes.Contains(servers_tvn);
+            VIEW_MODEL.MODEL.MamRequests = tree_tv.SelectedNodes.Contains(mamRequests_tvn);
 
             // OMEMO:
             VIEW_MODEL.MODEL.OmemoDeviceListSubscriptions = tree_tv.SelectedNodes.Contains(omemoDeviceListSubscriptions_tvn);
@@ -67,6 +69,9 @@ namespace UWPX_UI.Dialogs
             VIEW_MODEL.MODEL.OmemoSignedPreKeys = tree_tv.SelectedNodes.Contains(omemoSignedPreKeys_tvn);
             VIEW_MODEL.MODEL.OmemoSessions = tree_tv.SelectedNodes.Contains(omemoSessions_tvn);
             VIEW_MODEL.MODEL.OmemoFingerprints = tree_tv.SelectedNodes.Contains(omemoFingerprints_tvn);
+            VIEW_MODEL.MODEL.SkippedMessageKeyGroup = tree_tv.SelectedNodes.Contains(omemoSkippedMessageKeyGroup_tvn);
+            VIEW_MODEL.MODEL.SkippedMessageKeyGroups = tree_tv.SelectedNodes.Contains(omemoSkippedMessageKeyGroups_tvn);
+            VIEW_MODEL.MODEL.SkippedMessageKeys = tree_tv.SelectedNodes.Contains(omemoSkippedMessageKeys_tvn);
 
             // Clients:
             VIEW_MODEL.MODEL.ReloadClients = tree_tv.SelectedNodes.Contains(reloadClients_tvn);

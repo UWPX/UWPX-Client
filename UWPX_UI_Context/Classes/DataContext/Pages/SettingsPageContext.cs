@@ -1,4 +1,5 @@
 ﻿using Logging;
+using Storage.Classes;
 using UWPX_UI_Context.Classes.DataTemplates.Pages;
 
 namespace UWPX_UI_Context.Classes.DataContext.Pages

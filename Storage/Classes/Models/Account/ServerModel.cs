@@ -1,4 +1,6 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
+using Windows.Security.Cryptography.Certificates;
 using XMPP_API.Classes.Network.TCP;
 
 namespace Storage.Classes.Models.Account
@@ -18,12 +20,12 @@ namespace Storage.Classes.Models.Account
         /// The server port e.g. '5222'.
         /// </summary>
         [Required]
-        public short port { get; set; }
+        public ushort port { get; set; } = 5222;
         /// <summary>
         /// Defines how to handle the TLS connection.
         /// </summary>
         [Required]
-        public TLSConnectionMode tlsMode { get; set; }
+        public TLSConnectionMode tlsMode { get; set; } = TLSConnectionMode.FORCE;
         /// <summary>
         /// True in case XEP-0198 (Stream Management) should be disabled.
         /// </summary>
@@ -38,19 +40,17 @@ namespace Storage.Classes.Models.Account
         /// A collection of certificate errors that should be ignored during connecting to a server.
         /// </summary>
         [Required]
-        public IgnoredCertificateErrorModel ignoredCertificateErrors { get; set; }
+        public List<ChainValidationResult> ignoredCertificateErrors { get; set; } = new List<ChainValidationResult>();
 
 
         #endregion
         //--------------------------------------------------------Constructor:----------------------------------------------------------------\\
         #region --Constructors--
-        public ServerModel()
+        public ServerModel() { }
+
+        public ServerModel(string address)
         {
-            port = 5222;
-            tlsMode = TLSConnectionMode.FORCE;
-            disableStreamManagement = false;
-            disableMessageCarbons = false;
-            ignoredCertificateErrors = new IgnoredCertificateErrorModel();
+            this.address = address;
         }
 
         #endregion

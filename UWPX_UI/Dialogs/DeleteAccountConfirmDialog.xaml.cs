@@ -1,4 +1,5 @@
 ﻿using UWPX_UI_Context.Classes.DataContext.Dialogs;
+using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 
 namespace UWPX_UI.Dialogs
@@ -40,13 +41,13 @@ namespace UWPX_UI.Dialogs
         #endregion
         //--------------------------------------------------------Events:---------------------------------------------------------------------\\
         #region --Events--
-        private void yes_btn_Click(Controls.IconButtonControl sender, Windows.UI.Xaml.RoutedEventArgs args)
+        private void yes_btn_Click(Controls.IconButtonControl sender, RoutedEventArgs args)
         {
             VIEW_MODEL.Confirm();
             Hide();
         }
 
-        private void no_btn_Click(Controls.IconButtonControl sender, Windows.UI.Xaml.RoutedEventArgs args)
+        private void no_btn_Click(Controls.IconButtonControl sender, RoutedEventArgs args)
         {
             VIEW_MODEL.Cancel();
             Hide();

@@ -2,6 +2,7 @@
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Text.RegularExpressions;
+using XMPP_API.Classes.Network.XML;
 using XMPP_API.Classes.Network.XML.Messages;
 using XMPP_API.Classes.Network.XML.Messages.XEP_0384;
 
@@ -69,6 +70,10 @@ namespace Storage.Classes.Models.Chat
         /// </summary>
         [Required]
         public bool isFavorite { get; set; }
+        /// <summary>
+        /// In case <see cref="isImage"/> is true, this holds the image model representing the download status and path to the image.
+        /// </summary>
+        public ChatMessageImageModel image { get; set; }
 
         /// <summary>
         /// True in case the message is a dummy message used for the personalize settings page chat preview.
@@ -97,9 +102,13 @@ namespace Storage.Classes.Models.Chat
             {
                 date = DateTime.Now;
             }
-            state = msg.CC_TYPE == XMPP_API.Classes.Network.XML.CarbonCopyType.SENT ? MessageState.SEND : MessageState.UNREAD;
+            state = msg.CC_TYPE == CarbonCopyType.SENT ? MessageState.SEND : MessageState.UNREAD;
             isImage = IsImageUrl(msg.MESSAGE);
-            isCC = msg.CC_TYPE != XMPP_API.Classes.Network.XML.CarbonCopyType.NONE;
+            if (isImage)
+            {
+                image = new ChatMessageImageModel();
+            }
+            isCC = msg.CC_TYPE != CarbonCopyType.NONE;
             isEncrypted = msg is OmemoEncryptedMessage;
             isFavorite = false;
         }

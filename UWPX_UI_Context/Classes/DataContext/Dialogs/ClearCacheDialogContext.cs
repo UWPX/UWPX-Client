@@ -1,6 +1,8 @@
 ﻿using System.Threading.Tasks;
 using Logging;
-using Shared.Classes.SQLite;
+using Manager.Classes;
+using Storage.Classes;
+using Storage.Classes.Contexts;
 using UWPX_UI_Context.Classes.DataTemplates.Dialogs;
 
 namespace UWPX_UI_Context.Classes.DataContext.Dialogs
@@ -31,100 +33,124 @@ namespace UWPX_UI_Context.Classes.DataContext.Dialogs
             {
                 try
                 {
-                    // General:
-                    if (MODEL.ChatMessages)
+                    using (MainDbContext ctx = new MainDbContext())
                     {
-                        AbstractDBManager.dB.RecreateTable<ChatMessageModel>();
-                    }
-                    if (MODEL.Chats)
-                    {
-                        AbstractDBManager.dB.RecreateTable<ChatModel>();
-                    }
-                    if (MODEL.Images)
-                    {
-                        AbstractDBManager.dB.RecreateTable<ChatMessageImageModel>();
-                    }
+                        // Chats:
+                        if (MODEL.ChatMessages)
+                        {
+                            ctx.RemoveRange(ctx.ChatMessages);
+                        }
+                        if (MODEL.Chats)
+                        {
+                            ctx.RemoveRange(ctx.Chats);
+                        }
+                        if (MODEL.Images)
+                        {
+                            ctx.RemoveRange(ctx.ChatMessageImages);
+                        }
+                        if (MODEL.SpamMessages)
+                        {
+                            ctx.RemoveRange(ctx.SpamMessages);
+                        }
 
-                    // Disco:
-                    if (MODEL.DiscoFeatures)
-                    {
-                        AbstractDBManager.dB.RecreateTable<DiscoFeatureTable>();
-                    }
-                    if (MODEL.DiscoIdentities)
-                    {
-                        AbstractDBManager.dB.RecreateTable<DiscoIdentityTable>();
-                    }
-                    if (MODEL.DiscoItems)
-                    {
-                        AbstractDBManager.dB.RecreateTable<DiscoItemTable>();
-                    }
+                        // Disco:
+                        /*if (MODEL.DiscoFeatures)
+                        {
+                            ctx.Remove(ctx.Disc);
+                            AbstractDBManager.dB.RecreateTable<DiscoFeatureTable>();
+                        }
+                        if (MODEL.DiscoIdentities)
+                        {
+                            AbstractDBManager.dB.RecreateTable<DiscoIdentityTable>();
+                        }
+                        if (MODEL.DiscoItems)
+                        {
+                            AbstractDBManager.dB.RecreateTable<DiscoItemTable>();
+                        }*/
 
-                    // MUC:
-                    if (MODEL.MucChatInfo)
-                    {
-                        AbstractDBManager.dB.RecreateTable<MucInfoModel>();
-                    }
-                    if (MODEL.MucOccupants)
-                    {
-                        AbstractDBManager.dB.RecreateTable<MucOccupantModel>();
-                    }
-                    if (MODEL.MucDirectInvites)
-                    {
-                        AbstractDBManager.dB.RecreateTable<MucDirectInvitationModel>();
-                    }
+                        // MUC:
+                        if (MODEL.MucChatInfo)
+                        {
+                            ctx.RemoveRange(ctx.MucInfos);
+                        }
+                        if (MODEL.MucOccupants)
+                        {
+                            ctx.RemoveRange(ctx.MucOccupants);
+                        }
+                        if (MODEL.MucDirectInvites)
+                        {
+                            ctx.RemoveRange(ctx.MucDirectInvitations);
+                        }
 
-                    // Accounts:
-                    if (MODEL.Accounts)
-                    {
-                        AbstractDBManager.dB.RecreateTable<AccountTable>();
-                    }
-                    if (MODEL.PasswordVault)
-                    {
-                        Vault.deleteAllVaults();
-                    }
-                    if (MODEL.IgnoredCertErrors)
-                    {
-                        AbstractDBManager.dB.RecreateTable<IgnoredCertificateErrorTable>();
-                    }
-                    if (MODEL.ConnectionOptions)
-                    {
-                        AbstractDBManager.dB.RecreateTable<ConnectionOptionsTable>();
-                    }
+                        // Accounts:
+                        if (MODEL.Accounts)
+                        {
+                            ctx.RemoveRange(ctx.Accounts);
+                        }
+                        if (MODEL.PasswordVault)
+                        {
+                            Vault.DeleteAllVaults();
+                        }
+                        if (MODEL.Jids)
+                        {
+                            ctx.RemoveRange(ctx.Jids);
+                        }
+                        if (MODEL.Servers)
+                        {
+                            ctx.RemoveRange(ctx.Servers);
+                        }
+                        if (MODEL.MamRequests)
+                        {
+                            ctx.RemoveRange(ctx.MamRequests);
+                        }
 
-                    // OMEMO:
-                    if (MODEL.OmemoDeviceListSubscriptions)
-                    {
-                        AbstractDBManager.dB.RecreateTable<OmemoDeviceListSubscriptionTable>();
-                    }
-                    if (MODEL.OmemoDevices)
-                    {
-                        AbstractDBManager.dB.RecreateTable<OmemoDeviceTable>();
-                    }
-                    if (MODEL.DiscoIdentities)
-                    {
-                        AbstractDBManager.dB.RecreateTable<OmemoIdentityKeyTable>();
-                    }
-                    if (MODEL.OmemoPreKeys)
-                    {
-                        AbstractDBManager.dB.RecreateTable<OmemoPreKeyTable>();
-                    }
-                    if (MODEL.OmemoSignedPreKeys)
-                    {
-                        AbstractDBManager.dB.RecreateTable<OmemoSignedPreKeyTable>();
-                    }
-                    if (MODEL.OmemoSessions)
-                    {
-                        AbstractDBManager.dB.RecreateTable<OmemoSessionStoreTable>();
-                    }
-                    if (MODEL.OmemoFingerprints)
-                    {
-                        AbstractDBManager.dB.RecreateTable<OmemoFingerprintTable>();
-                    }
+                        // OMEMO:
+                        if (MODEL.OmemoDeviceListSubscriptions)
+                        {
+                            ctx.RemoveRange(ctx.DeviceListSubscriptions);
+                        }
+                        if (MODEL.OmemoDevices)
+                        {
+                            ctx.RemoveRange(ctx.Devices);
+                        }
+                        if (MODEL.DiscoIdentities)
+                        {
+                            ctx.RemoveRange(ctx.IdentityKeyPairs);
+                        }
+                        if (MODEL.OmemoPreKeys)
+                        {
+                            ctx.RemoveRange(ctx.PreKeys);
+                        }
+                        if (MODEL.OmemoSignedPreKeys)
+                        {
+                            ctx.RemoveRange(ctx.SignedPreKeys);
+                        }
+                        if (MODEL.OmemoSessions)
+                        {
+                            ctx.RemoveRange(ctx.Sessions);
+                        }
+                        if (MODEL.OmemoFingerprints)
+                        {
+                            ctx.RemoveRange(ctx.Fingerprints);
+                        }
+                        if (MODEL.SkippedMessageKeyGroup)
+                        {
+                            ctx.RemoveRange(ctx.SkippedMessageKeyGroup);
+                        }
+                        if (MODEL.SkippedMessageKeyGroups)
+                        {
+                            ctx.RemoveRange(ctx.SkippedMessageKeyGroups);
+                        }
+                        if (MODEL.SkippedMessageKeys)
+                        {
+                            ctx.RemoveRange(ctx.SkippedMessageKeys);
+                        }
 
-                    // Clients:
-                    if (MODEL.ReloadClients)
-                    {
-                        ConnectionHandler.INSTANCE.ReloadClients();
+                        // Clients:
+                        if (MODEL.ReloadClients)
+                        {
+                            ConnectionHandler.INSTANCE.ReloadClients();
+                        }
                     }
                     return true;
                 }

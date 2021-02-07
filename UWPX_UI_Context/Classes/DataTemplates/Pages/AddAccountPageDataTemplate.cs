@@ -1,6 +1,8 @@
-﻿using Shared.Classes;
+﻿using System.Linq;
+using Shared.Classes;
+using Storage.Classes.Contexts;
+using Storage.Classes.Models.Account;
 using XMPP_API.Classes;
-using XMPP_API.Classes.Network;
 
 namespace UWPX_UI_Context.Classes.DataTemplates.Pages
 {
@@ -20,11 +22,17 @@ namespace UWPX_UI_Context.Classes.DataTemplates.Pages
             get => _IsValidBareJid;
             set => SetIsValidBareJidProperty(value);
         }
-        private XMPPAccount _Account;
-        public XMPPAccount Account
+        private AccountModel _Account;
+        public AccountModel Account
         {
             get => _Account;
             internal set => SetAccountProperty(value);
+        }
+        private AccountModel _OldAccount;
+        public AccountModel OldAccount
+        {
+            get => _OldAccount;
+            set => SetOldAccountProperty(value);
         }
 
         #endregion
@@ -35,11 +43,23 @@ namespace UWPX_UI_Context.Classes.DataTemplates.Pages
         #endregion
         //--------------------------------------------------------Set-, Get- Methods:---------------------------------------------------------\\
         #region --Set-, Get- Methods--
-        private void SetAccountProperty(XMPPAccount value)
+        private void SetAccountProperty(AccountModel value)
         {
             if (SetProperty(ref _Account, value, nameof(Account)))
             {
-                BareJidText = Account.getBareJid();
+                BareJidText = Account.bareJid;
+            }
+        }
+
+        private void SetOldAccountProperty(AccountModel value)
+        {
+            if (SetProperty(ref _OldAccount, value, nameof(OldAccount)))
+            {
+                // Load a copy of the account for editing it:
+                using (MainDbContext ctx = new MainDbContext())
+                {
+                    ctx.Accounts.Where(a => string.Equals(a.bareJid, value.bareJid));
+                }
             }
         }
 
@@ -57,12 +77,12 @@ namespace UWPX_UI_Context.Classes.DataTemplates.Pages
             {
                 // Update domain and local part if needed:
                 string domainPart = Utils.getJidDomainPart(BareJidText);
-                if (string.Equals(Account.serverAddress, Account.user.domainPart))
+                if (string.Equals(Account.server.address, Account.fullJid.domainPart))
                 {
-                    Account.serverAddress = domainPart;
+                    Account.server.address = domainPart;
                 }
-                Account.user.domainPart = domainPart;
-                Account.user.localPart = Utils.getJidLocalPart(BareJidText);
+                Account.fullJid.domainPart = domainPart;
+                Account.fullJid.localPart = Utils.getJidLocalPart(BareJidText);
             }
         }
 

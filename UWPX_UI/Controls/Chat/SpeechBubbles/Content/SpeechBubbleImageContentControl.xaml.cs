@@ -59,9 +59,9 @@ namespace UWPX_UI.Controls.Chat.SpeechBubbles.Content
         #endregion
 
         #region --Misc Methods (Private)--
-        private async Task UpdateViewAsync(DependencyPropertyChangedEventArgs args)
+        private void UpdateView(DependencyPropertyChangedEventArgs args)
         {
-            await VIEW_MODEL.UpdateViewAsync(args);
+            VIEW_MODEL.UpdateView(args);
         }
 
         private async Task OpenImageWithDefaultImageViewerAsync()
@@ -110,11 +110,11 @@ namespace UWPX_UI.Controls.Chat.SpeechBubbles.Content
         #endregion
         //--------------------------------------------------------Events:---------------------------------------------------------------------\\
         #region --Events--
-        private static async void OnSpeechBubbleContentViewModelChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
+        private static void OnSpeechBubbleContentViewModelChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
             if (d is SpeechBubbleImageContentControl speechBubbleImageContent)
             {
-                await speechBubbleImageContent.UpdateViewAsync(e);
+                speechBubbleImageContent.UpdateView(e);
             }
         }
 

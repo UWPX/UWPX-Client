@@ -1,4 +1,5 @@
 ﻿using System.Linq;
+using Manager.Classes;
 using Shared.Classes;
 using Shared.Classes.Collections;
 using XMPP_API.Classes;
@@ -34,8 +35,8 @@ namespace UWPX_UI_Context.Classes.DataTemplates.Dialogs
             set => SetProperty(ref _Status, value);
         }
 
-        private XMPPClient _Client;
-        public XMPPClient Client
+        private Client _Client;
+        public Client Client
         {
             get => _Client;
             set => SetClientProperty(value);
@@ -73,20 +74,20 @@ namespace UWPX_UI_Context.Classes.DataTemplates.Dialogs
         #endregion
         //--------------------------------------------------------Set-, Get- Methods:---------------------------------------------------------\\
         #region --Set-, Get- Methods--
-        private void SetClientProperty(XMPPClient value)
+        private void SetClientProperty(Client value)
         {
-            XMPPClient old = Client;
+            Client old = Client;
             if (SetProperty(ref _Client, value, nameof(Client)))
             {
                 if (!(old is null))
                 {
-                    old.ConnectionStateChanged -= Client_ConnectionStateChanged;
+                    old.xmppClient.ConnectionStateChanged -= Client_ConnectionStateChanged;
                 }
                 if (!(value is null))
                 {
-                    SelectedItem = PRESENCES.Where(x => value.getXMPPAccount().presence == x.Presence).FirstOrDefault();
-                    Status = Client.getXMPPAccount().status;
-                    value.ConnectionStateChanged += Client_ConnectionStateChanged;
+                    SelectedItem = PRESENCES.Where(x => value.xmppClient.getXMPPAccount().presence == x.Presence).FirstOrDefault();
+                    Status = Client.xmppClient.getXMPPAccount().status;
+                    value.xmppClient.ConnectionStateChanged += Client_ConnectionStateChanged;
                 }
                 CheckForErrors();
             }
@@ -106,7 +107,7 @@ namespace UWPX_UI_Context.Classes.DataTemplates.Dialogs
             {
                 ErrorText = "No valid account selected!";
             }
-            else if (Client.getConnetionState() != ConnectionState.CONNECTED)
+            else if (Client.xmppClient.getConnetionState() != ConnectionState.CONNECTED)
             {
                 ErrorText = "Account not connected!";
             }
