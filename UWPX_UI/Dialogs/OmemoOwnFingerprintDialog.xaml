@@ -16,7 +16,7 @@
 
         <ScrollViewer Grid.Row="0"
                       HorizontalScrollMode="Disabled">
-            <controlsOmemo:OmemoOwnFingerprintControl Account="{x:Bind Account, Mode=OneWay}"/>
+            <controlsOmemo:OmemoOwnFingerprintControl Client="{x:Bind Client, Mode=OneWay}"/>
         </ScrollViewer>
 
         <Grid x:Name="buttons_grid"

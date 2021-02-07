@@ -1,6 +1,6 @@
 ﻿using System;
 using System.Threading.Tasks;
-using Storage.Classes.Models.Account;
+using Manager.Classes;
 using UWPX_UI.Controls;
 using UWPX_UI.Dialogs;
 using UWPX_UI.Pages.Settings;
@@ -106,11 +106,12 @@ namespace UWPX_UI.Pages
 
         protected override void OnNavigatedTo(NavigationEventArgs e)
         {
-            if (e.Parameter is AccountModel account)
+            if (e.Parameter is Client client)
             {
                 UpdateViewState(State_Edit.Name);
                 UpdateViewState(State_2.Name);
-                VIEW_MODEL.MODEL.OldAccount = account;
+                VIEW_MODEL.MODEL.OldAccount = client.dbAccount;
+                VIEW_MODEL.MODEL.Password = client.xmppClient.getXMPPAccount().user.password;
             }
             else
             {

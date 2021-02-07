@@ -1,7 +1,7 @@
-﻿using UWPX_UI_Context.Classes.DataContext.Controls.OMEMO;
+﻿using Manager.Classes;
+using UWPX_UI_Context.Classes.DataContext.Controls.OMEMO;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
-using XMPP_API.Classes.Network;
 
 namespace UWPX_UI.Controls.OMEMO
 {
@@ -9,12 +9,12 @@ namespace UWPX_UI.Controls.OMEMO
     {
         //--------------------------------------------------------Attributes:-----------------------------------------------------------------\\
         #region --Attributes--
-        public XMPPAccount Account
+        public Client Client
         {
-            get => (XMPPAccount)GetValue(AccountProperty);
-            set => SetValue(AccountProperty, value);
+            get => (Client)GetValue(ClientProperty);
+            set => SetValue(ClientProperty, value);
         }
-        public static readonly DependencyProperty AccountProperty = DependencyProperty.Register(nameof(Account), typeof(XMPPAccount), typeof(OmemoOwnFingerprintControl), new PropertyMetadata(null, OnAccountChanged));
+        public static readonly DependencyProperty ClientProperty = DependencyProperty.Register(nameof(Client), typeof(Client), typeof(OmemoOwnFingerprintControl), new PropertyMetadata(null, OnClientChanged));
 
         public readonly OmemoOwnFingerprintControlContext VIEW_MODEL = new OmemoOwnFingerprintControlContext();
 
@@ -52,7 +52,7 @@ namespace UWPX_UI.Controls.OMEMO
         #endregion
         //--------------------------------------------------------Events:---------------------------------------------------------------------\\
         #region --Events--
-        private static void OnAccountChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
+        private static void OnClientChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
             if (d is OmemoOwnFingerprintControl omemoFingerprintControl)
             {

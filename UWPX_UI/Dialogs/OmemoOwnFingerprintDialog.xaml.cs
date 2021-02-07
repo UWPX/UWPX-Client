@@ -1,7 +1,7 @@
-﻿using UWPX_UI_Context.Classes.DataContext.Dialogs;
+﻿using Manager.Classes;
+using UWPX_UI_Context.Classes.DataContext.Dialogs;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
-using XMPP_API.Classes.Network;
 
 namespace UWPX_UI.Dialogs
 {
@@ -11,12 +11,12 @@ namespace UWPX_UI.Dialogs
         #region --Attributes--
         public readonly OmemoOwnFingerprintDialogContext VIEW_MODEL = new OmemoOwnFingerprintDialogContext();
 
-        public XMPPAccount Account
+        public Client Client
         {
-            get => (XMPPAccount)GetValue(AccountProperty);
-            set => SetValue(AccountProperty, value);
+            get => (Client)GetValue(ClientProperty);
+            set => SetValue(ClientProperty, value);
         }
-        public static readonly DependencyProperty AccountProperty = DependencyProperty.Register(nameof(Account), typeof(XMPPAccount), typeof(OmemoOwnFingerprintDialog), new PropertyMetadata(null));
+        public static readonly DependencyProperty ClientProperty = DependencyProperty.Register(nameof(Client), typeof(Client), typeof(OmemoOwnFingerprintDialog), new PropertyMetadata(null));
 
         #endregion
         //--------------------------------------------------------Constructor:----------------------------------------------------------------\\

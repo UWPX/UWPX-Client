@@ -6,7 +6,7 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              xmlns:omemo="using:UWPX_UI.Controls.OMEMO"
-             xmlns:xep_0384="using:XMPP_API.Classes.Network.XML.Messages.XEP_0384"
+             xmlns:omemoModels="using:Storage.Classes.Models.Omemo"
              MinHeight="100"
              mc:Ignorable="d">
 
@@ -18,7 +18,7 @@
             </ResourceDictionary.MergedDictionaries>
 
             <DataTemplate x:Name="FingerprintTemplate"
-                          x:DataType="xep_0384:OmemoFingerprint">
+                          x:DataType="omemoModels:OmemoFingerprintModel">
                 <omemo:OmemoTrustFingerprintControl Fingerprint="{x:Bind}"
                                                     OmemoFingerprintTrustChanged="OmemoTrustFingerprintControl_OmemoFingerprintTrustChanged"/>
             </DataTemplate>

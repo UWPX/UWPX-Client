@@ -81,7 +81,7 @@ namespace UWPX_UI.Controls.Chat
         {
             OmemoOwnFingerprintDialog dialog = new OmemoOwnFingerprintDialog()
             {
-                Account = Chat.Client.xmppClient.getXMPPAccount()
+                Client = Chat.Client
             };
             await UiUtils.ShowDialogAsync(dialog);
         }

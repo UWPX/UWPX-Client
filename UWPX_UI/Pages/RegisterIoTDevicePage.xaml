@@ -6,7 +6,7 @@
       xmlns:controls1="using:Microsoft.Toolkit.Uwp.UI.Controls"
       xmlns:controlsSettings="using:UWPX_UI.Controls.Settings"
       xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-      xmlns:datatemplates="using:Manager.Classes.Chat"
+      xmlns:datatemplates="using:UWPX_UI_Context.Classes.DataTemplates"
       xmlns:iot="using:UWPX_UI.Controls.IoT"
       xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
       Background="{ThemeResource AppBackgroundAcrylicWindowBrush}"

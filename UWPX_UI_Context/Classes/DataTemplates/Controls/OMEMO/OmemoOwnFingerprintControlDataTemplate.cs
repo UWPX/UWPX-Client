@@ -1,7 +1,7 @@
-﻿using Omemo.Classes.Keys;
+﻿using Manager.Classes;
+using Omemo.Classes.Keys;
 using Shared.Classes;
 using XMPP_API.Classes.Crypto;
-using XMPP_API.Classes.Network;
 
 namespace UWPX_UI_Context.Classes.DataTemplates.Controls.OMEMO
 {
@@ -35,12 +35,12 @@ namespace UWPX_UI_Context.Classes.DataTemplates.Controls.OMEMO
         #endregion
         //--------------------------------------------------------Misc Methods:---------------------------------------------------------------\\
         #region --Misc Methods (Public)--
-        public void UpdateView(XMPPAccount account)
+        public void UpdateView(Client client)
         {
-            if (!(account is null))
+            if (!(client is null))
             {
-                IdentPubKey = account.omemoIdentityKey.pubKey;
-                QrCodeFingerprint = CryptoUtils.generateOmemoQrCodeFingerprint(IdentPubKey, account);
+                IdentPubKey = client.dbAccount.omemoInfo.identityKey.pubKey;
+                QrCodeFingerprint = CryptoUtils.generateOmemoQrCodeFingerprint(IdentPubKey, client.xmppClient.getXMPPAccount());
                 return;
             }
             IdentPubKey = null;

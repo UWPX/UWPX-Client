@@ -1,6 +1,6 @@
-﻿using UWPX_UI_Context.Classes.DataTemplates.Controls.OMEMO;
+﻿using Manager.Classes;
+using UWPX_UI_Context.Classes.DataTemplates.Controls.OMEMO;
 using Windows.UI.Xaml;
-using XMPP_API.Classes.Network;
 
 namespace UWPX_UI_Context.Classes.DataContext.Controls.OMEMO
 {
@@ -25,9 +25,9 @@ namespace UWPX_UI_Context.Classes.DataContext.Controls.OMEMO
         #region --Misc Methods (Public)--
         public void UpdateView(DependencyPropertyChangedEventArgs e)
         {
-            if (e.NewValue is XMPPAccount account)
+            if (e.NewValue is Client client)
             {
-                MODEL.UpdateView(account);
+                MODEL.UpdateView(client);
             }
             else
             {
