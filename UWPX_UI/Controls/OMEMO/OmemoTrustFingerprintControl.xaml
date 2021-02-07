@@ -36,7 +36,7 @@
                                        HorizontalAlignment="Right"
                                        VerticalAlignment="Center"
                                        CopyButtonVisibility="Collapsed"
-                                       IdentityPubKey="{x:Bind Fingerprint.IDENTITY_PUB_KEY, Mode=OneWay}"/>
+                                       IdentityPubKey="{x:Bind Fingerprint.identityKey, Mode=OneWay}"/>
         <StackPanel Grid.Row="2"
                     Grid.Column="0"
                     Grid.ColumnSpan="2"

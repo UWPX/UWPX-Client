@@ -64,7 +64,7 @@ namespace Storage.Classes
         /// If no password got found, an empty string will get set as the password property.
         /// </summary>
         /// <param name="account">The XMPPAccount, the password should get loaded for.</param>
-        public static void loadPassword(XMPPAccount account)
+        public static void LoadPassword(XMPPAccount account)
         {
             PasswordCredential passwordCredential = GetPasswordCredentialForAccount(account);
             if (passwordCredential is null)

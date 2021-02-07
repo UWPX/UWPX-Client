@@ -1,5 +1,6 @@
 ﻿using System.Threading.Tasks;
 using Manager.Classes.Chat;
+using Storage.Classes;
 using Storage.Classes.Contexts;
 using Storage.Classes.Models.Account;
 using UWPX_UI_Context.Classes.DataTemplates.Dialogs;
@@ -79,6 +80,11 @@ namespace UWPX_UI_Context.Classes.DataContext.Pages
                         ctx.Update(MODEL.Account.server);
                         ctx.Update(MODEL.Account);
                     }
+
+                    // Update the password:
+                    XMPPAccount account = MODEL.Account.ToXMPPAccount();
+                    account.user.password = MODEL.Password;
+                    Vault.StorePassword(account);
                 }
             });
         }

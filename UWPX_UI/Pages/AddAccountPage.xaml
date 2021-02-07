@@ -163,7 +163,7 @@
                                          Margin="0,10,0,0"
                                          Header="Password"
                                          KeyUp="Password_pwb_KeyUp"
-                                         Password="{x:Bind VIEW_MODEL.MODEL.Account.user.password, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
+                                         Password="{x:Bind VIEW_MODEL.MODEL.Password, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
                             <TextBlock Margin="0,10,0,4"
                                        Style="{ThemeResource BodyTextBlockStyle}"
                                        Text="Color"/>
@@ -291,7 +291,7 @@
                                          Header="Resource (device name)"
                                          InputScope="ChatWithoutEmoji"
                                          IsSpellCheckEnabled="False"
-                                         Text="{x:Bind VIEW_MODEL.MODEL.Account.user.resourcePart, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
+                                         Text="{x:Bind VIEW_MODEL.MODEL.Account.fullJid.resourcePart, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
                                 <Button Grid.Row="1"
                                         Grid.Column="1"
                                         HorizontalAlignment="Right"
@@ -342,7 +342,7 @@
                                          Margin="0,10,0,0"
                                          Header="Server address"
                                          InputScope="Url"
-                                         Text="{x:Bind VIEW_MODEL.MODEL.Account.serverAddress, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
+                                         Text="{x:Bind VIEW_MODEL.MODEL.Account.server.address, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
 
                                 <!--  Port:  -->
                                 <TextBox Grid.Row="5"
@@ -353,7 +353,7 @@
                                          extensions:TextBoxRegex.ValidationType="Number"
                                          Header="Port"
                                          InputScope="Number"
-                                         Text="{x:Bind VIEW_MODEL.MODEL.Account.port, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, Converter={StaticResource StringIntValueConverter}}"/>
+                                         Text="{x:Bind VIEW_MODEL.MODEL.Account.server.port, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, Converter={StaticResource StringIntValueConverter}}"/>
 
                                 <controls:SeperatorControl Grid.Row="6"
                                                            Grid.Column="0"
@@ -367,7 +367,7 @@
                                           Grid.ColumnSpan="2"
                                           Margin="0,10,0,0"
                                           Header="TLS mode"
-                                          SelectedIndex="{x:Bind VIEW_MODEL.MODEL.Account.connectionConfiguration.tlsMode, Mode=TwoWay, FallbackValue=0, Converter={StaticResource TLSConnectionModeIntValueConverter}}">
+                                          SelectedIndex="{x:Bind VIEW_MODEL.MODEL.Account.server.tlsMode, Mode=TwoWay, FallbackValue=0, Converter={StaticResource TLSConnectionModeIntValueConverter}}">
                                     <x:String>Enforce</x:String>
                                     <x:String>Use if available</x:String>
                                     <x:String>Prohibit</x:String>
@@ -393,7 +393,7 @@
                                               Grid.ColumnSpan="2"
                                               Margin="0,10,0,0"
                                               Header="Message carbons"
-                                              IsOn="{x:Bind VIEW_MODEL.MODEL.Account.connectionConfiguration.disableMessageCarbons, Mode=TwoWay, Converter={StaticResource BoolInverterValueConverter}}"
+                                              IsOn="{x:Bind VIEW_MODEL.MODEL.Account.server.disableMessageCarbons, Mode=TwoWay, Converter={StaticResource BoolInverterValueConverter}}"
                                               OffContent="Disabled"
                                               OnContent="Enabled"/>
 
@@ -404,7 +404,7 @@
                                               Margin="0,10,0,0"
                                               Header="Stream management"
                                               IsEnabled="False"
-                                              IsOn="{x:Bind VIEW_MODEL.MODEL.Account.connectionConfiguration.disableStreamManagement, Mode=TwoWay, Converter={StaticResource BoolInverterValueConverter}}"
+                                              IsOn="{x:Bind VIEW_MODEL.MODEL.Account.server.disableStreamManagement, Mode=TwoWay, Converter={StaticResource BoolInverterValueConverter}}"
                                               OffContent="Disabled"
                                               OnContent="Enabled"/>
                             </Grid>

@@ -83,7 +83,7 @@
                                Grid.Row="0"
                                HorizontalAlignment="Center"
                                Style="{ThemeResource BodyTextBlockStyle}"
-                               Text="{x:Bind Account.Client.dbAccount.fullJid.userPart, Mode=OneWay}"
+                               Text="{x:Bind Account.Client.dbAccount.fullJid.localPart, Mode=OneWay}"
                                TextTrimming="CharacterEllipsis"/>
                     <TextBlock x:Name="secondaryInfo_tblck"
                                Grid.Row="1"

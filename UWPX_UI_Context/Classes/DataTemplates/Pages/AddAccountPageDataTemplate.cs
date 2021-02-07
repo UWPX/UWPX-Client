@@ -22,6 +22,12 @@ namespace UWPX_UI_Context.Classes.DataTemplates.Pages
             get => _IsValidBareJid;
             set => SetIsValidBareJidProperty(value);
         }
+        private string _Password;
+        public string Password
+        {
+            get => _Password;
+            set => SetProperty(ref _Password, value);
+        }
         private AccountModel _Account;
         public AccountModel Account
         {
