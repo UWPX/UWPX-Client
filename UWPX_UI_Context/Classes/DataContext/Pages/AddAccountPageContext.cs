@@ -1,7 +1,7 @@
-﻿using System.Collections.Generic;
-using System.Threading.Tasks;
-using Logging;
-using Manager.Classes;
+﻿using System.Threading.Tasks;
+using Manager.Classes.Chat;
+using Storage.Classes.Contexts;
+using Storage.Classes.Models.Account;
 using UWPX_UI_Context.Classes.DataTemplates.Dialogs;
 using UWPX_UI_Context.Classes.DataTemplates.Pages;
 using XMPP_API.Classes;
@@ -23,25 +23,7 @@ namespace UWPX_UI_Context.Classes.DataContext.Pages
         #endregion
         //--------------------------------------------------------Set-, Get- Methods:---------------------------------------------------------\\
         #region --Set-, Get- Methods--
-        public void SetAccount(string fullJid)
-        {
-            IList<XMPPAccount> accounts = AccountDBManager.INSTANCE.loadAllAccounts();
 
-            foreach (XMPPAccount account in accounts)
-            {
-                if (string.Equals(account.getFullJid(), fullJid))
-                {
-                    SetAccount(account);
-                    return;
-                }
-            }
-            Logger.Error("Failed to load account for full JID: " + fullJid);
-        }
-
-        public void SetAccount(XMPPAccount account)
-        {
-            MODEL.Account = account;
-        }
 
         #endregion
         //--------------------------------------------------------Misc Methods:---------------------------------------------------------------\\
@@ -50,21 +32,55 @@ namespace UWPX_UI_Context.Classes.DataContext.Pages
         {
             await Task.Run(async () =>
             {
-                XMPPUser user = new XMPPUser(MODEL.BareJidText, Utils.getRandomResourcePart());
-                XMPPAccount account = new XMPPAccount(user)
+                JidModel jid = new JidModel
                 {
-                    color = UiUtils.GenRandomHexColor(),
+                    localPart = Utils.getJidLocalPart(MODEL.BareJidText),
+                    domainPart = Utils.getJidDomainPart(MODEL.BareJidText),
+                    resourcePart = Utils.getRandomResourcePart()
                 };
+                AccountModel account = new AccountModel(jid, UiUtils.GenRandomHexColor());
+                account.omemoInfo.GenerateOmemoKeys();
 
                 // Look up the DNS SRV record:
-                await account.dnsSrvLookupAsync();
-                SetAccount(account);
+                SRVLookupResult result = await XMPPAccount.dnsSrvLookupAsync(jid.domainPart);
+                if (result.SUCCESS)
+                {
+                    account.server.address = result.SERVER_ADDRESS;
+                    account.server.port = result.PORT;
+                }
+                MODEL.Account = account;
             });
         }
 
         public async Task SaveAccountAsync()
         {
-            await Task.Run(() => AccountDBManager.INSTANCE.setAccount(MODEL.Account, true, true));
+            await Task.Run(() =>
+            {
+                using (MainDbContext ctx = new MainDbContext())
+                {
+                    // New account add it to the DB:
+                    if (MODEL.OldAccount is null)
+                    {
+                        ctx.Add(MODEL.Account.fullJid);
+                        ctx.Add(MODEL.Account.mamRequest);
+                        ctx.Add(MODEL.Account.omemoInfo.deviceListSubscription);
+                        ctx.AddRange(MODEL.Account.omemoInfo.devices);
+                        ctx.Add(MODEL.Account.omemoInfo.identityKey);
+                        ctx.AddRange(MODEL.Account.omemoInfo.preKeys);
+                        ctx.Add(MODEL.Account.omemoInfo.signedPreKey);
+                        ctx.Add(MODEL.Account.omemoInfo);
+                        ctx.Add(MODEL.Account.server);
+                        ctx.Add(MODEL.Account);
+                    }
+                    // Update the old account:
+                    else
+                    {
+                        ctx.Update(MODEL.Account.fullJid);
+                        ctx.Update(MODEL.Account.server);
+                        ctx.Update(MODEL.Account);
+                    }
+                }
+            });
         }
 
         public void ColorSelected(ColorPickerDialogDataTemplate dataTemplate)
@@ -79,29 +95,7 @@ namespace UWPX_UI_Context.Classes.DataContext.Pages
         {
             if (dataTemplate.Confirmed)
             {
-                await Task.Run(async () =>
-                {
-                    Logger.Info("Deleting account: " + MODEL.Account.getBareJid());
-                    try
-                    {
-                        await ConnectionHandler.INSTANCE.RemoveAccountAsync(MODEL.Account.getBareJid());
-                    }
-                    catch (System.Exception e)
-                    {
-                        Logger.Error("Failed to disconnect account for deletion.", e);
-                    }
-
-                    if (!dataTemplate.KeepChatMessages)
-                    {
-                        await ChatDBManager.INSTANCE.deleteAllChatMessagesForAccountAsync(MODEL.Account.getBareJid());
-                    }
-                    if (!dataTemplate.KeepChats)
-                    {
-                        ChatDBManager.INSTANCE.deleteAllChatsForAccount(MODEL.Account.getBareJid());
-                    }
-                    AccountDBManager.INSTANCE.deleteAccount(MODEL.Account, true, true);
-                    Logger.Info("Finished deleting account: " + MODEL.Account.getBareJid());
-                });
+                await DataCache.INSTANCE.DeleteAccountAsync(MODEL.Account);
             }
         }
 
@@ -109,12 +103,12 @@ namespace UWPX_UI_Context.Classes.DataContext.Pages
         {
             if (dataTemplate.Confirmed)
             {
-                MODEL.Account.connectionConfiguration.IGNORED_CERTIFICATE_ERRORS.Clear();
+                MODEL.Account.server.ignoredCertificateErrors.Clear();
                 foreach (CertificateRequirementDataTemplate item in dataTemplate.ITEMS)
                 {
                     if (!item.Required)
                     {
-                        MODEL.Account.connectionConfiguration.IGNORED_CERTIFICATE_ERRORS.Add(item.CertError);
+                        MODEL.Account.server.ignoredCertificateErrors.Add(item.CertError);
                     }
                 }
             }

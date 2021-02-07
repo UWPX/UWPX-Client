@@ -1,4 +1,6 @@
-﻿using Windows.UI.Xaml;
+﻿using Manager.Classes.Chat;
+using Storage.Classes.Models.Chat;
+using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 
 namespace UWPX_UI_Context.Classes.DataTemplates.Selectors
@@ -44,8 +46,8 @@ namespace UWPX_UI_Context.Classes.DataTemplates.Selectors
             {
                 switch (chat.Chat.chatType)
                 {
-                    case Data_Manager2.Classes.ChatType.IOT_DEVICE:
-                    case Data_Manager2.Classes.ChatType.IOT_HUB:
+                    case ChatType.IOT_DEVICE:
+                    case ChatType.IOT_HUB:
                         return IotTemplate;
 
                     default:

@@ -12,7 +12,7 @@
         <valueConverter:ConnectionStatePresenceValueConverter x:Key="ConnectionStatePresenceValueConverter"/>
         <valueConverter:HexColorToSolidColorBrushValueConverter x:Key="HexColorToSolidColorBrushValueConverter"/>
         <DataTemplate x:Key="AccountTemplate"
-                      x:DataType="datatemplates:XMPPClientDataTemplate">
+                      x:DataType="datatemplates:ClientDataTemplate">
             <Grid>
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="Auto"/>

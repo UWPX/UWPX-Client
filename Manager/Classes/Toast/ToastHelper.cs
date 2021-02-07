@@ -173,7 +173,7 @@ namespace Manager.Classes.Toast
         {
             using (MainDbContext ctx = new MainDbContext())
             {
-                int count = ctx.ChatMessages.Where(m => !m.chat.muted && m.state == MessageState.UNREAD).Join(ctx.Accounts, m => m.chat.accountBareJid, a => a.bareJid, (m, a) => string.Equals(m.chat.accountBareJid, a.bareJid)).Count();
+                int count = ctx.ChatMessages.Where(m => m.state == MessageState.UNREAD).Join(ctx.Chats, m => m.chatId, c => c.id, (m, c) => new Tuple<ChatMessageModel, bool>(m, c.muted)).Where(t => !t.Item2).Count();
                 SetBadgeNumber(count);
             }
         }

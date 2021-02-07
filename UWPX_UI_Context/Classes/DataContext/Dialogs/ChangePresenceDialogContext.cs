@@ -30,16 +30,16 @@ namespace UWPX_UI_Context.Classes.DataContext.Dialogs
             {
                 MODEL.IsSaving = true;
                 // Save presence and status:
-                MODEL.Client.getXMPPAccount().presence = MODEL.SelectedItem.Presence;
-                MODEL.Client.getXMPPAccount().status = MODEL.Status;
+                MODEL.Client.xmppClient.getXMPPAccount().presence = MODEL.SelectedItem.Presence;
+                MODEL.Client.xmppClient.getXMPPAccount().status = MODEL.Status;
                 try
                 {
                     // Send the updated presence and status to the server:
-                    await MODEL.Client.GENERAL_COMMAND_HELPER.setPreseceAsync(MODEL.SelectedItem.Presence, MODEL.Status);
+                    await MODEL.Client.xmppClient.GENERAL_COMMAND_HELPER.setPreseceAsync(MODEL.SelectedItem.Presence, MODEL.Status);
                 }
                 catch (Exception e)
                 {
-                    Logger.Error("Failed to update presence for account: " + MODEL.Client.getXMPPAccount().getBareJid(), e);
+                    Logger.Error("Failed to update presence for account: " + MODEL.Client.dbAccount.bareJid, e);
                     MODEL.ErrorText = "Saving presence failed - view logs!";
                     return false;
                 }

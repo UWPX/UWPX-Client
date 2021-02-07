@@ -37,6 +37,8 @@
                                                    Content="Chats"/>
                             <controls:TreeViewNode x:Name="images_tvn"
                                                    Content="Images"/>
+                            <controls:TreeViewNode x:Name="spamMessages_tvn"
+                                                   Content="Spam messages"/>
                         </controls:TreeViewNode.Children>
                     </controls:TreeViewNode>
 
@@ -73,10 +75,12 @@
                                                    Content="Accounts"/>
                             <controls:TreeViewNode x:Name="passwordVault_tvn"
                                                    Content="Password vault"/>
-                            <controls:TreeViewNode x:Name="ignoredCertificateErrors_tvn"
-                                                   Content="Ignored certificate errors"/>
-                            <controls:TreeViewNode x:Name="connectionOptions_tvn"
-                                                   Content="Connection options"/>
+                            <controls:TreeViewNode x:Name="servers_tvn"
+                                                   Content="Servers"/>
+                            <controls:TreeViewNode x:Name="jids_tvn"
+                                                   Content="JIDs"/>
+                            <controls:TreeViewNode x:Name="mamRequests_tvn"
+                                                   Content="MAM requests"/>
                             <controls:TreeViewNode x:Name="omemo_tvn"
                                                    Content="OMEMO">
                                 <controls:TreeViewNode.Children>
@@ -94,6 +98,12 @@
                                                            Content="OMEMO Sessions"/>
                                     <controls:TreeViewNode x:Name="omemoFingerprints_tvn"
                                                            Content="OMEMO Fingerprints"/>
+                                    <controls:TreeViewNode x:Name="omemoSkippedMessageKeyGroup_tvn"
+                                                           Content="Skipped message key group"/>
+                                    <controls:TreeViewNode x:Name="omemoSkippedMessageKeyGroups_tvn"
+                                                           Content="Skipped message key groups"/>
+                                    <controls:TreeViewNode x:Name="omemoSkippedMessageKeys_tvn"
+                                                           Content="Skipped message keys"/>
                                 </controls:TreeViewNode.Children>
                             </controls:TreeViewNode>
                         </controls:TreeViewNode.Children>

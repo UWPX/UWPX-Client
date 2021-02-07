@@ -108,7 +108,7 @@ namespace Manager.Classes.Chat
             Insert(index, msg);
         }
 
-        public async void LoadMoreMessagesAsync()
+        public async Task LoadMoreMessagesAsync()
         {
             await Task.Run(async () =>
             {
@@ -159,15 +159,25 @@ namespace Manager.Classes.Chat
             // Load the initial bunch of messages and reset all properties:
             IsLoading = true;
             Clear();
-            IEnumerable<ChatMessageDataTemplate> msgs;
-            using (MainDbContext ctx = new MainDbContext())
+            if (!(chat is null))
             {
-                msgs = ctx.GetNextNChatMessages(chat.Chat, MAX_MESSAGES_PER_REQUEST).Select(msg => new ChatMessageDataTemplate(msg, chat.Chat));
+                IEnumerable<ChatMessageDataTemplate> msgs;
+                using (MainDbContext ctx = new MainDbContext())
+                {
+                    msgs = ctx.GetNextNChatMessages(chat.Chat, MAX_MESSAGES_PER_REQUEST).Select(msg => new ChatMessageDataTemplate(msg, chat.Chat));
+                }
+                AddRange(msgs);
+                HasMoreMessages = true;
+                loadedAllLocalMessages = false;
+                mamRequested = false;
+                UpdateUnreadCount();
             }
-            AddRange(msgs);
-            HasMoreMessages = true;
-            loadedAllLocalMessages = false;
-            mamRequested = false;
+            else
+            {
+                HasMoreMessages = false;
+                loadedAllLocalMessages = true;
+                mamRequested = true;
+            }
             UpdateUnreadCount();
             IsLoading = false;
         }
@@ -224,6 +234,10 @@ namespace Manager.Classes.Chat
 
                         ChatMessageDataTemplate tmp = new ChatMessageDataTemplate(new ChatMessageModel(msg.MESSAGE, chat.Chat), chat.Chat);
                         ctx.Add(tmp.Message);
+                        if (tmp.Message.isImage)
+                        {
+                            ctx.Add(tmp.Message.image);
+                        }
                         msgs.Add(tmp);
                     }
                 }
@@ -267,6 +281,11 @@ namespace Manager.Classes.Chat
 
         private void UpdateUnreadCount()
         {
+            if (chat is null)
+            {
+                UnreadCount = 0;
+                return;
+            }
             using (MainDbContext ctx = new MainDbContext())
             {
                 UnreadCount = ctx.GetUnreadMessageCount(chat.Chat.id);

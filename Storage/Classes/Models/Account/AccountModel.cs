@@ -61,12 +61,20 @@ namespace Storage.Classes.Models.Account
         /// The status of the last time a MAM request happened.
         /// </summary>
         [Required]
-        public MamRequestModel mamRequest { get; set; }
+        public MamRequestModel mamRequest { get; set; } = new MamRequestModel();
 
         #endregion
         //--------------------------------------------------------Constructor:----------------------------------------------------------------\\
         #region --Constructors--
+        public AccountModel() { }
 
+        public AccountModel(JidModel fullJid, string color)
+        {
+            bareJid = fullJid.BareJid();
+            this.fullJid = fullJid;
+            this.color = color;
+            server = new ServerModel(fullJid.domainPart);
+        }
 
         #endregion
         //--------------------------------------------------------Set-, Get- Methods:---------------------------------------------------------\\
@@ -78,7 +86,7 @@ namespace Storage.Classes.Models.Account
         #region --Misc Methods (Public)--
         public XMPPAccount ToXMPPAccount()
         {
-            XMPPAccount account = new XMPPAccount(new XMPPUser(fullJid.userPart, fullJid.domainPart, fullJid.resourcePart))
+            XMPPAccount account = new XMPPAccount(new XMPPUser(fullJid.localPart, fullJid.domainPart, fullJid.resourcePart))
             {
                 serverAddress = server.address,
                 port = server.port,

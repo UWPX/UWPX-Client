@@ -17,7 +17,6 @@ namespace Storage.Classes.Contexts
         public DbSet<AccountModel> Accounts { get; set; }
         public DbSet<JidModel> Jids { get; set; }
         public DbSet<ServerModel> Servers { get; set; }
-        public DbSet<IgnoredCertificateErrorModel> IgnoredCertificateErrors { get; set; }
         public DbSet<MamRequestModel> MamRequests { get; set; }
 
         public DbSet<ChatModel> Chats { get; set; }
@@ -37,7 +36,6 @@ namespace Storage.Classes.Contexts
         public DbSet<PreKeyModel> PreKeys { get; set; }
         public DbSet<OmemoSessionModel> Sessions { get; set; }
         public DbSet<SignedPreKeyModel> SignedPreKeys { get; set; }
-        public DbSet<ECKeyPairModel> ECKeyPairs { get; set; }
         public DbSet<SkippedMessageKeyGroupModel> SkippedMessageKeyGroup { get; set; }
         public DbSet<SkippedMessageKeyGroupsModel> SkippedMessageKeyGroups { get; set; }
         public DbSet<SkippedMessageKeyModel> SkippedMessageKeys { get; set; }

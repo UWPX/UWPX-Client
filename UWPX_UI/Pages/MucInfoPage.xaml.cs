@@ -1,6 +1,5 @@
-﻿using Data_Manager2.Classes.DBTables;
+﻿using Manager.Classes.Chat;
 using UWPX_UI_Context.Classes.DataContext.Pages;
-using UWPX_UI_Context.Classes.DataTemplates;
 using UWPX_UI_Context.Classes.Events;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
@@ -19,10 +18,7 @@ namespace UWPX_UI.Pages
             get => (ChatDataTemplate)GetValue(ChatProperty);
             set => SetValue(ChatProperty, value);
         }
-        public static readonly DependencyProperty ChatProperty = DependencyProperty.Register(nameof(Chat), typeof(ChatDataTemplate), typeof(MucInfoPage), new PropertyMetadata(null, OnChatChanged));
-
-        // So we don't have to always interrupt the main task when a chat changed:
-        private string chatId = null;
+        public static readonly DependencyProperty ChatProperty = DependencyProperty.Register(nameof(Chat), typeof(ChatDataTemplate), typeof(MucInfoPage), new PropertyMetadata(null));
 
         #endregion
         //--------------------------------------------------------Constructor:----------------------------------------------------------------\\
@@ -68,14 +64,6 @@ namespace UWPX_UI.Pages
         protected override void OnNavigatedFrom(NavigationEventArgs e)
         {
             titleBar.OnPageNavigatedFrom();
-        }
-
-        private static void OnChatChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
-        {
-            if (d is MucInfoPage mucInfoPage)
-            {
-                mucInfoPage.chatId = e.NewValue is ChatTable chat ? chat.id : null;
-            }
         }
 
         #endregion

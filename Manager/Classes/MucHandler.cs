@@ -246,7 +246,7 @@ namespace Manager.Classes
             ChatMessageModel msg = new ChatMessageModel()
             {
                 stableId = errorMessage.ID ?? AbstractMessage.getRandomId(),
-                chat = info.chat,
+                chatId = info.chat.id,
                 date = DateTime.Now,
                 fromBareJid = Utils.getBareJidFromFullJid(errorMessage.getFrom()),
                 isImage = false,
@@ -277,7 +277,7 @@ namespace Manager.Classes
         {
             ChatMessageModel msg = new ChatMessageModel
             {
-                chat = chat,
+                chatId = chat.id,
                 fromBareJid = fromBareJid,
                 fromNickname = fromBareJid,
                 date = DateTime.Now,

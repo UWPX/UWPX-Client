@@ -3,13 +3,12 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
-using Data_Manager2.Classes;
-using Data_Manager2.Classes.DBManager;
 using Logging;
+using Manager.Classes;
 using Push.Classes.Events;
 using Push.Classes.Messages;
+using Storage.Classes;
 using Windows.Networking.PushNotifications;
-using XMPP_API.Classes;
 using XMPP_API.Classes.Network;
 using XMPP_API.Classes.Network.TCP;
 
@@ -80,9 +79,9 @@ namespace Push.Classes
         /// </summary>
         private static int GetAccountsHash()
         {
-            IEnumerable<string> accounts = ConnectionHandler.INSTANCE.GetClients().Select(x => x.GetBareJid());
+            IEnumerable<string> accounts = ConnectionHandler.INSTANCE.GetClients().Select(x => x.client.dbAccount.bareJid);
             // The last bit always indicates push enabled:
-            return unchecked(GetOrderIndependentHashCode(accounts) << 1) ^ Settings.getSettingBoolean(SettingsConsts.PUSH_ENABLED).GetHashCode();
+            return unchecked(GetOrderIndependentHashCode(accounts) << 1) ^ Settings.GetSettingBoolean(SettingsConsts.PUSH_ENABLED).GetHashCode();
         }
 
         /// <summary>
@@ -154,7 +153,7 @@ namespace Push.Classes
             Task.Run(async () =>
             {
                 // Push is disabled:
-                if (!Settings.getSettingBoolean(SettingsConsts.PUSH_ENABLED))
+                if (!Settings.GetSettingBoolean(SettingsConsts.PUSH_ENABLED))
                 {
                     await SetStateAsync(PushManagerState.DEAKTIVATED);
                     Logger.Info("Push is disabled. Discarding initialization.");
@@ -201,16 +200,15 @@ namespace Push.Classes
             Logger.Debug("Updating push settings for " + accounts.Count + " accounts.");
             foreach (PushAccount pushAccount in accounts)
             {
-                XMPPClient client = ConnectionHandler.INSTANCE.GetClient(pushAccount.bareJid);
+                Client client = ConnectionHandler.INSTANCE.GetClient(pushAccount.bareJid);
                 if (!(client is null))
                 {
-                    XMPPAccount account = client.getXMPPAccount();
+                    XMPPAccount account = client.xmppClient.getXMPPAccount();
                     account.pushNodePublished = account.pushNodePublished && string.Equals(account.pushNode, pushAccount.node) && string.Equals(account.pushNodeSecret, pushAccount.secret);
                     account.pushNode = pushAccount.node;
                     account.pushNodeSecret = pushAccount.secret;
                     account.pushServerBareJid = pushServerBareJid;
                     account.pushEnabled = true;
-                    AccountDBManager.INSTANCE.setAccount(account, false, true);
                     Logger.Info("Push node and secret updated for: " + pushAccount.bareJid);
                     Logger.Debug("Node: '" + pushAccount.node + "', secret: '" + pushAccount.secret + "'");
                 }
@@ -229,7 +227,7 @@ namespace Push.Classes
                 {
                     await connection.ConnectAsync();
                     // If push is disabled, send an empty list:
-                    SetPushAccountsMessage msg = Settings.getSettingBoolean(SettingsConsts.PUSH_ENABLED) ? new SetPushAccountsMessage(ConnectionHandler.INSTANCE.GetClients().Select(x => x.GetBareJid()).ToList()) : new SetPushAccountsMessage(new List<string>());
+                    SetPushAccountsMessage msg = Settings.GetSettingBoolean(SettingsConsts.PUSH_ENABLED) ? new SetPushAccountsMessage(ConnectionHandler.INSTANCE.GetClients().Select(x => x.client.dbAccount.bareJid).ToList()) : new SetPushAccountsMessage(new List<string>());
                     await connection.SendAsync(msg.ToString());
                 }
                 catch (Exception e)
@@ -252,7 +250,7 @@ namespace Push.Classes
                     if (message is SuccessSetPushAccountsMessage msg)
                     {
                         UpdatePushForAccounts(msg.accounts, msg.pushServerBareJid);
-                        Settings.setSetting(SettingsConsts.PUSH_LAST_ACCOUNT_HASH, GetAccountsHash());
+                        Settings.SetSetting(SettingsConsts.PUSH_LAST_ACCOUNT_HASH, GetAccountsHash());
                         Logger.Info("Setting push accounts successful.");
                         return;
                     }
@@ -333,7 +331,7 @@ namespace Push.Classes
         /// <returns></returns>
         public static bool ShouldUpdatePushForAccounts()
         {
-            return Settings.getSettingInt(SettingsConsts.PUSH_LAST_ACCOUNT_HASH) != GetAccountsHash();
+            return Settings.GetSettingInt(SettingsConsts.PUSH_LAST_ACCOUNT_HASH) != GetAccountsHash();
         }
 
         #endregion
@@ -376,15 +374,15 @@ namespace Push.Classes
 
         private bool StoreAndCompareChannel()
         {
-            string oldChannelUri = Settings.getSettingString(SettingsConsts.PUSH_CHANNEL_URI);
+            string oldChannelUri = Settings.GetSettingString(SettingsConsts.PUSH_CHANNEL_URI);
             if (string.Equals(channel.Uri, oldChannelUri))
             {
-                channelCreated = Settings.getSettingDateTime(SettingsConsts.PUSH_CHANNEL_CREATED_DATE_TIME);
+                channelCreated = Settings.GetSettingDateTime(SettingsConsts.PUSH_CHANNEL_CREATED_DATE_TIME);
                 return true;
             }
 
-            Settings.setSetting(SettingsConsts.PUSH_CHANNEL_URI, channel.Uri);
-            Settings.setSetting(SettingsConsts.PUSH_CHANNEL_CREATED_DATE_TIME, channelCreated);
+            Settings.SetSetting(SettingsConsts.PUSH_CHANNEL_URI, channel.Uri);
+            Settings.SetSetting(SettingsConsts.PUSH_CHANNEL_CREATED_DATE_TIME, channelCreated);
             return false;
         }
 
@@ -423,7 +421,7 @@ namespace Push.Classes
                     {
                         Logger.Info("Send the push channel to the push server.");
                         // Mark the channel URI as send to the push server:
-                        Settings.setSetting(SettingsConsts.PUSH_CHANNEL_URI_SEND_TO_PUSH_SERVER, channel.Uri);
+                        Settings.SetSetting(SettingsConsts.PUSH_CHANNEL_URI_SEND_TO_PUSH_SERVER, channel.Uri);
                         return true;
                     }
 
@@ -449,7 +447,7 @@ namespace Push.Classes
         /// </summary>
         private bool ShouldSendChannelUriToPushServer()
         {
-            string remoteUri = Settings.getSettingString(SettingsConsts.PUSH_CHANNEL_URI_SEND_TO_PUSH_SERVER);
+            string remoteUri = Settings.GetSettingString(SettingsConsts.PUSH_CHANNEL_URI_SEND_TO_PUSH_SERVER);
             return !string.Equals(channel.Uri, remoteUri);
         }
 

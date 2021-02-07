@@ -1,4 +1,5 @@
 ﻿using System;
+using Storage.Classes.Models.Chat;
 using Windows.UI;
 using Windows.UI.Xaml.Data;
 using Windows.UI.Xaml.Media;

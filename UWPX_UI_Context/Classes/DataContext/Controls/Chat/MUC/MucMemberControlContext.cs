@@ -25,12 +25,12 @@ namespace UWPX_UI_Context.Classes.DataContext.Controls.Chat.MUC
         #region --Misc Methods (Public)--
         public void UpdateView(MucMemberDataTemplate member)
         {
-            MODEL.BareJid = Utils.getBareJidFromFullJid(member.Member.jid);
+            MODEL.BareJid = Utils.getBareJidFromFullJid(member.Member.fullJid);
             MODEL.Nickname = member.Member.nickname;
             MODEL.Role = member.Member.role;
             MODEL.Affiliation = member.Member.affiliation;
             MODEL.ImageBareJid = string.IsNullOrEmpty(MODEL.BareJid) ? MODEL.Nickname : MODEL.BareJid;
-            MODEL.YouVisible = string.Equals(member.Chat.Client.getXMPPAccount().getBareJid(), MODEL.BareJid) ? Visibility.Visible : Visibility.Collapsed;
+            MODEL.YouVisible = string.Equals(member.Chat.Client.dbAccount.bareJid, MODEL.BareJid) ? Visibility.Visible : Visibility.Collapsed;
         }
 
         #endregion

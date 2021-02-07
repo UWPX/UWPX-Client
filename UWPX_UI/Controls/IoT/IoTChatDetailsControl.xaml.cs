@@ -1,5 +1,5 @@
-﻿using UWPX_UI_Context.Classes.DataContext.Controls.IoT;
-using UWPX_UI_Context.Classes.DataTemplates;
+﻿using Manager.Classes.Chat;
+using UWPX_UI_Context.Classes.DataContext.Controls.IoT;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 

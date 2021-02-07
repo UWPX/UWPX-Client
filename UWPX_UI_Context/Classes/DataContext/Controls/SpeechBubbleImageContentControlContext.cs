@@ -2,6 +2,7 @@
 using System.Text;
 using System.Threading.Tasks;
 using Logging;
+using Manager.Classes;
 using Shared.Classes.Network;
 using UWPX_UI_Context.Classes.DataTemplates.Controls;
 using Windows.Storage;
@@ -29,12 +30,12 @@ namespace UWPX_UI_Context.Classes.DataContext.Controls
         #endregion
         //--------------------------------------------------------Misc Methods:---------------------------------------------------------------\\
         #region --Misc Methods (Public)--
-        public async Task UpdateViewAsync(DependencyPropertyChangedEventArgs args)
+        public void UpdateView(DependencyPropertyChangedEventArgs args)
         {
             if (args.NewValue is SpeechBubbleContentControlContext newValue)
             {
                 SpeechBubbleViewModel = newValue;
-                await LoadImageAsync();
+                LoadImage();
             }
             else
             {
@@ -96,24 +97,19 @@ namespace UWPX_UI_Context.Classes.DataContext.Controls
 
         public async Task StartImageDownloadAsync()
         {
-            if (MODEL.Image is null)
-            {
-                MODEL.Image = await ImageDBManager.INSTANCE.getImageAsync(SpeechBubbleViewModel.ChatMessageModel.Message);
-            }
             await ConnectionHandler.INSTANCE.IMAGE_DOWNLOAD_HANDLER.StartDownloadAsync(MODEL.Image);
         }
 
         #endregion
 
         #region --Misc Methods (Private)--
-        private async Task LoadImageAsync()
+        private void LoadImage()
         {
-            if (SpeechBubbleViewModel is null || SpeechBubbleViewModel.ChatMessageModel.Message is null)
+            if (SpeechBubbleViewModel is null)
             {
                 return;
             }
-            ChatMessageImageModel image = await ImageDBManager.INSTANCE.getImageAsync(SpeechBubbleViewModel.ChatMessageModel.Message);
-            MODEL.UpdateView(image);
+            MODEL.Image = SpeechBubbleViewModel.ChatMessageModel.Message.image;
         }
 
         #endregion

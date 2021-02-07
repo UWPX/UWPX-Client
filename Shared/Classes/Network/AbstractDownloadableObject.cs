@@ -78,7 +78,11 @@ namespace Shared.Classes.Network
         #endregion
         //--------------------------------------------------------Constructor:----------------------------------------------------------------\\
         #region --Constructors--
-
+        public AbstractDownloadableObject()
+        {
+            State = DownloadState.NOT_QUEUED;
+            Error = DownloadError.NONE;
+        }
 
         #endregion
         //--------------------------------------------------------Set-, Get- Methods:---------------------------------------------------------\\

@@ -1,6 +1,6 @@
-﻿using UWPX_UI.Controls.Chat.SpeechBubbles.Content;
+﻿using Manager.Classes.Chat;
+using UWPX_UI.Controls.Chat.SpeechBubbles.Content;
 using UWPX_UI_Context.Classes.DataContext.Controls;
-using UWPX_UI_Context.Classes.DataTemplates;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 

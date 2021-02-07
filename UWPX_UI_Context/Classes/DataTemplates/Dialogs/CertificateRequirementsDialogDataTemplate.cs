@@ -1,7 +1,7 @@
 ﻿using System.Collections.ObjectModel;
 using Shared.Classes;
+using Storage.Classes.Models.Account;
 using Windows.Security.Cryptography.Certificates;
-using XMPP_API.Classes.Network;
 
 namespace UWPX_UI_Context.Classes.DataTemplates.Dialogs
 {
@@ -10,7 +10,7 @@ namespace UWPX_UI_Context.Classes.DataTemplates.Dialogs
         //--------------------------------------------------------Attributes:-----------------------------------------------------------------\\
         #region --Attributes--
         public readonly ObservableCollection<CertificateRequirementDataTemplate> ITEMS = new ObservableCollection<CertificateRequirementDataTemplate>();
-        private readonly XMPPAccount ACCOUNT;
+        private readonly AccountModel ACCOUNT;
 
         private bool _Confirmed;
         public bool Confirmed
@@ -22,7 +22,7 @@ namespace UWPX_UI_Context.Classes.DataTemplates.Dialogs
         #endregion
         //--------------------------------------------------------Constructor:----------------------------------------------------------------\\
         #region --Constructors--
-        public CertificateRequirementsDialogDataTemplate(XMPPAccount account)
+        public CertificateRequirementsDialogDataTemplate(AccountModel account)
         {
             ACCOUNT = account;
             LoadRequirements();
@@ -73,7 +73,7 @@ namespace UWPX_UI_Context.Classes.DataTemplates.Dialogs
             });
 
             // Load ignored errors:
-            foreach (ChainValidationResult ignored in ACCOUNT.connectionConfiguration.IGNORED_CERTIFICATE_ERRORS)
+            foreach (ChainValidationResult ignored in ACCOUNT.server.ignoredCertificateErrors)
             {
                 foreach (CertificateRequirementDataTemplate item in ITEMS)
                 {

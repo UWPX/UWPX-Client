@@ -1,5 +1,6 @@
 ﻿using System.Runtime.CompilerServices;
 using Shared.Classes;
+using Storage.Classes;
 
 namespace UWPX_UI_Context.Classes.DataTemplates.Pages
 {

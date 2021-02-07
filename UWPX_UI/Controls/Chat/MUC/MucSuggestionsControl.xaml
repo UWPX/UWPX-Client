@@ -3,7 +3,7 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:controls="using:UWPX_UI.Controls"
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-             xmlns:datatemplates="using:UWPX_UI_Context.Classes.DataTemplates"
+             xmlns:datatemplates="using:Manager.Classes.Chat"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              mc:Ignorable="d">
 
@@ -17,7 +17,7 @@
                 </Grid.ColumnDefinitions>
 
                 <controls:AccountImagePresenceControl Grid.Column="0"
-                                                      BareJid="{x:Bind Chat.chatJabberId}"
+                                                      BareJid="{x:Bind Chat.bareJid}"
                                                       ChatType="CHAT"
                                                       Image="{x:Bind Image}"
                                                       PresenceProp="{x:Bind Chat.presence}"/>
@@ -26,7 +26,7 @@
                            Margin="10,0,0,0"
                            VerticalAlignment="Center"
                            Style="{ThemeResource BodyLineTextBlockStyle}"
-                           Text="{x:Bind Chat.chatJabberId}"
+                           Text="{x:Bind Chat.bareJid}"
                            TextTrimming="CharacterEllipsis"/>
             </Grid>
         </DataTemplate>

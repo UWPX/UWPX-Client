@@ -60,7 +60,7 @@ namespace UWPX_UI.Controls.Settings
 
         private void Edit_btn_Click(object sender, RoutedEventArgs e)
         {
-            UiUtils.NavigateToPage(typeof(AddAccountPage), Account.Account.getFullJid());
+            UiUtils.NavigateToPage(typeof(AddAccountPage), Account.Client.dbAccount);
         }
 
         #endregion

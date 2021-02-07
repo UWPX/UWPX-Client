@@ -80,8 +80,8 @@ namespace UWPX_UI_Context.Classes.DataTemplates.Controls
             if (e.NewValue is AccountDataTemplate accountNew)
             {
                 Subscribe(accountNew);
-                SocketInfo = accountNew.Account?.CONNECTION_INFO?.socketInfo;
-                LoadValuesFromCert(accountNew.Account?.CONNECTION_INFO?.socketInfo?.ServerCertificate);
+                SocketInfo = accountNew.Client.xmppClient.getXMPPAccount().CONNECTION_INFO?.socketInfo;
+                LoadValuesFromCert(accountNew.Client.xmppClient.getXMPPAccount().CONNECTION_INFO?.socketInfo?.ServerCertificate);
             }
         }
 
@@ -131,12 +131,12 @@ namespace UWPX_UI_Context.Classes.DataTemplates.Controls
 
         private void Unsubscribe(AccountDataTemplate account)
         {
-            account.Account.CONNECTION_INFO.PropertyChanged -= CONNECTION_INFO_PropertyChanged;
+            account.Client.xmppClient.getXMPPAccount().CONNECTION_INFO.PropertyChanged -= CONNECTION_INFO_PropertyChanged;
         }
 
         private void Subscribe(AccountDataTemplate account)
         {
-            account.Account.CONNECTION_INFO.PropertyChanged += CONNECTION_INFO_PropertyChanged;
+            account.Client.xmppClient.getXMPPAccount().CONNECTION_INFO.PropertyChanged += CONNECTION_INFO_PropertyChanged;
         }
 
         private void LoadValuesFromCert(Certificate cert)

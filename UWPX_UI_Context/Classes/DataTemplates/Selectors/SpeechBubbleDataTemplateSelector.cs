@@ -1,4 +1,6 @@
-﻿using Windows.UI.Xaml;
+﻿using Manager.Classes;
+using Manager.Classes.Chat;
+using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using XMPP_API.Classes.Network.XML.Messages;
 using XMPP_API.Classes.Network.XML.Messages.XEP_0249;
@@ -54,7 +56,7 @@ namespace UWPX_UI_Context.Classes.DataTemplates.Selectors
                         return SpeechBubbleErrorTemplate;
 
                     case MessageMessage.TYPE_GROUPCHAT:
-                        return string.Equals(model.MUC?.nickname, model.Message.fromUser) ? SpeechBubbleDownTemplate : SpeechBubbleTopTemplate;
+                        return string.Equals(model.Chat.muc?.nickname, model.Message.fromBareJid) ? SpeechBubbleDownTemplate : SpeechBubbleTopTemplate;
 
                     case DirectMUCInvitationMessage.TYPE_MUC_DIRECT_INVITATION:
                         return SpeechBubbleMucDirectInvitationTemplate;
@@ -63,7 +65,7 @@ namespace UWPX_UI_Context.Classes.DataTemplates.Selectors
                         return SpeechBubbleInfoTemplate;
 
                     default:
-                        return string.Equals(model.Chat.userAccountId, model.Message.fromUser) ? SpeechBubbleDownTemplate : SpeechBubbleTopTemplate;
+                        return string.Equals(model.Chat.accountBareJid, model.Message.fromBareJid) ? SpeechBubbleDownTemplate : SpeechBubbleTopTemplate;
                 }
             }
             return base.SelectTemplateCore(item, container);

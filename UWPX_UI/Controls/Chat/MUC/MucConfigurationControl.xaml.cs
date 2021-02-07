@@ -1,9 +1,9 @@
 ﻿using System.ComponentModel;
 using System.Threading.Tasks;
+using Manager.Classes.Chat;
 using UWPX_UI.Dialogs;
 using UWPX_UI_Context.Classes;
 using UWPX_UI_Context.Classes.DataContext.Controls.Chat.MUC;
-using UWPX_UI_Context.Classes.DataTemplates;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 

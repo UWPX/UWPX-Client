@@ -163,6 +163,7 @@
     <Compile Include="Classes\Network\MessageCarbonsState.cs" />
     <Compile Include="Classes\Network\OmemoHelper.cs" />
     <Compile Include="Classes\Network\OmemoHelperState.cs" />
+    <Compile Include="Classes\Network\SRVLookupResult.cs" />
     <Compile Include="Classes\Network\StreamManagementHelper.cs" />
     <Compile Include="Classes\Network\TCP\TcpConnection.cs" />
     <Compile Include="Classes\Network\TCP\TCPReadResult.cs" />

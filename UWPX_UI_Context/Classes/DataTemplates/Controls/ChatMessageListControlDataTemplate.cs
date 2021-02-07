@@ -1,5 +1,4 @@
-﻿using System.ComponentModel;
-using Manager.Classes.Chat;
+﻿using Manager.Classes.Chat;
 using Shared.Classes;
 
 namespace UWPX_UI_Context.Classes.DataTemplates.Controls
@@ -16,8 +15,6 @@ namespace UWPX_UI_Context.Classes.DataTemplates.Controls
             get => _IsDummy;
             set => SetProperty(ref _IsDummy, value);
         }
-
-        public event PropertyChangedEventHandler ChatChanged;
 
         #endregion
         //--------------------------------------------------------Constructor:----------------------------------------------------------------\\

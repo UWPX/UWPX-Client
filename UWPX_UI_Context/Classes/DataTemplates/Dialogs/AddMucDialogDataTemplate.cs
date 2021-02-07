@@ -131,7 +131,7 @@ namespace UWPX_UI_Context.Classes.DataTemplates.Dialogs
         {
             if (SetProperty(ref _Client, value, nameof(Client)) && !(value is null))
             {
-                Nickname = value.dbAccount.fullJid.userPart;
+                Nickname = value.dbAccount.fullJid.localPart;
             }
         }
         #endregion

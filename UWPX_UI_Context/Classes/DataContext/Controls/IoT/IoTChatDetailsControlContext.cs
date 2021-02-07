@@ -37,34 +37,34 @@ namespace UWPX_UI_Context.Classes.DataContext.Controls.IoT
         {
             MODEL.IsLoading = true;
             // Unsubscribe while we are loading:
-            MODEL.Chat.Client.NewPubSubEvent -= Client_NewPubSubEvent;
+            MODEL.Chat.Client.xmppClient.NewPubSubEvent -= Client_NewPubSubEvent;
 
             // Request nodes:
-            string targetBareJid = MODEL.Chat.Chat.chatJabberId;
-            MessageResponseHelperResult<IQMessage> result = await MODEL.Chat.Client.PUB_SUB_COMMAND_HELPER.discoNodesAsync(targetBareJid);
+            string targetBareJid = MODEL.Chat.Chat.bareJid;
+            MessageResponseHelperResult<IQMessage> result = await MODEL.Chat.Client.xmppClient.PUB_SUB_COMMAND_HELPER.discoNodesAsync(targetBareJid);
             if (result.STATE == MessageResponseHelperResultState.SUCCESS && result.RESULT is DiscoResponseMessage discoResponse)
             {
-                await SubscribeToIoTNodesAsync(discoResponse.ITEMS, MODEL.Chat.Client, targetBareJid);
-                await RequestUiNodeAsync(MODEL.Chat.Client, targetBareJid);
-                await RequestSensorsNodeAsync(MODEL.Chat.Client, targetBareJid);
-                await RequestActuatorsNodeAsync(MODEL.Chat.Client, targetBareJid);
+                await SubscribeToIoTNodesAsync(discoResponse.ITEMS, MODEL.Chat.Client.xmppClient, targetBareJid);
+                await RequestUiNodeAsync(MODEL.Chat.Client.xmppClient, targetBareJid);
+                await RequestSensorsNodeAsync(MODEL.Chat.Client.xmppClient, targetBareJid);
+                await RequestActuatorsNodeAsync(MODEL.Chat.Client.xmppClient, targetBareJid);
             }
             else
             {
                 // Workaround since prosody does not allow us to query all nodes:
-                await SubscribeToNodeAsync(IoTConsts.NODE_NAME_UI, MODEL.Chat.Client, targetBareJid);
-                await SubscribeToNodeAsync(IoTConsts.NODE_NAME_SENSORS, MODEL.Chat.Client, targetBareJid);
-                await SubscribeToNodeAsync(IoTConsts.NODE_NAME_ACTUATORS, MODEL.Chat.Client, targetBareJid);
+                await SubscribeToNodeAsync(IoTConsts.NODE_NAME_UI, MODEL.Chat.Client.xmppClient, targetBareJid);
+                await SubscribeToNodeAsync(IoTConsts.NODE_NAME_SENSORS, MODEL.Chat.Client.xmppClient, targetBareJid);
+                await SubscribeToNodeAsync(IoTConsts.NODE_NAME_ACTUATORS, MODEL.Chat.Client.xmppClient, targetBareJid);
 
                 // Request Nodes:
-                await RequestUiNodeAsync(MODEL.Chat.Client, targetBareJid);
-                await RequestSensorsNodeAsync(MODEL.Chat.Client, targetBareJid);
-                await RequestActuatorsNodeAsync(MODEL.Chat.Client, targetBareJid);
+                await RequestUiNodeAsync(MODEL.Chat.Client.xmppClient, targetBareJid);
+                await RequestSensorsNodeAsync(MODEL.Chat.Client.xmppClient, targetBareJid);
+                await RequestActuatorsNodeAsync(MODEL.Chat.Client.xmppClient, targetBareJid);
 
                 Logger.Warn("Failed to request PubSub nodes from: " + targetBareJid);
             }
             // Subscribe again:
-            MODEL.Chat.Client.NewPubSubEvent += Client_NewPubSubEvent;
+            MODEL.Chat.Client.xmppClient.NewPubSubEvent += Client_NewPubSubEvent;
             MODEL.IsLoading = false;
         }
 
@@ -204,8 +204,8 @@ namespace UWPX_UI_Context.Classes.DataContext.Controls.IoT
         {
             IoTValue value = new IoTValue(field);
             IoTPubSubItem item = new IoTPubSubItem(value, field.var);
-            PublishIoTNodeMessage msg = new PublishIoTNodeMessage(MODEL.Chat.Client.getXMPPAccount().getFullJid(), MODEL.Chat.Chat.chatJabberId, IoTConsts.NODE_NAME_ACTUATORS, item);
-            await MODEL.Chat.Client.SendAsync(msg);
+            PublishIoTNodeMessage msg = new PublishIoTNodeMessage(MODEL.Chat.Client.dbAccount.fullJid.FullJid(), MODEL.Chat.Chat.bareJid, IoTConsts.NODE_NAME_ACTUATORS, item);
+            await MODEL.Chat.Client.xmppClient.SendAsync(msg);
         }
 
         private void UpdateFields(List<IoTValue> values)

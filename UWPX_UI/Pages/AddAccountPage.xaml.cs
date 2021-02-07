@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Threading.Tasks;
+using Storage.Classes.Models.Account;
 using UWPX_UI.Controls;
 using UWPX_UI.Dialogs;
 using UWPX_UI.Pages.Settings;
@@ -105,11 +106,11 @@ namespace UWPX_UI.Pages
 
         protected override void OnNavigatedTo(NavigationEventArgs e)
         {
-            if (e.Parameter is string fullJid)
+            if (e.Parameter is AccountModel account)
             {
                 UpdateViewState(State_Edit.Name);
                 UpdateViewState(State_2.Name);
-                VIEW_MODEL.SetAccount(fullJid);
+                VIEW_MODEL.MODEL.OldAccount = account;
             }
             else
             {

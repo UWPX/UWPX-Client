@@ -1,6 +1,8 @@
 ﻿
 using System.Runtime.CompilerServices;
+using Manager.Classes;
 using Shared.Classes;
+using Storage.Classes;
 
 namespace UWPX_UI_Context.Classes.DataTemplates.Pages
 {
@@ -55,7 +57,7 @@ namespace UWPX_UI_Context.Classes.DataTemplates.Pages
             if (SetProperty(ref _SpamRegex, value, nameof(SpamRegex)))
             {
                 Settings.SetSetting(SettingsConsts.SPAM_REGEX, value);
-                SpamDBManager.INSTANCE.updateSpamRegex(value);
+                SpamHelper.INSTANCE.UpdateSpamRegex(value);
                 return true;
             }
             return false;
@@ -86,7 +88,7 @@ namespace UWPX_UI_Context.Classes.DataTemplates.Pages
         #region --Misc Methods (Public)--
         public void ResetSpamRegex()
         {
-            SpamRegex = SpamDBManager.DEFAULT_SPAM_REGEX;
+            SpamRegex = SpamHelper.DEFAULT_SPAM_REGEX;
         }
 
         #endregion
@@ -99,7 +101,7 @@ namespace UWPX_UI_Context.Classes.DataTemplates.Pages
             DisableTlsTimeout = Settings.GetSettingBoolean(SettingsConsts.DEBUG_DISABLE_TLS_TIMEOUT);
 
             // Spam:
-            SpamRegex = Settings.GetSettingString(SettingsConsts.SPAM_REGEX, SpamDBManager.DEFAULT_SPAM_REGEX);
+            SpamRegex = Settings.GetSettingString(SettingsConsts.SPAM_REGEX, SpamHelper.DEFAULT_SPAM_REGEX);
             SpamDetectionNewChatsOnly = !Settings.GetSettingBoolean(SettingsConsts.SPAM_DETECTION_FOR_ALL_CHAT_MESSAGES);
             SpamDetectionEnabled = Settings.GetSettingBoolean(SettingsConsts.SPAM_DETECTION_ENABLED);
         }

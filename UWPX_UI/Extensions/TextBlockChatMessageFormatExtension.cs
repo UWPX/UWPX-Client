@@ -2,8 +2,8 @@
 using System.Linq;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
-using Data_Manager2.Classes;
 using NeoSmart.Unicode;
+using Storage.Classes;
 using UWPX_UI_Context.Classes;
 using Windows.ApplicationModel.Contacts;
 using Windows.UI.Xaml;
@@ -177,7 +177,7 @@ namespace UWPX_UI.Extensions
             }
 
             // Check if advanced chat message processing is disabled:
-            if (Settings.getSettingBoolean(SettingsConsts.DISABLE_ADVANCED_CHAT_MESSAGE_PROCESSING))
+            if (Settings.GetSettingBoolean(SettingsConsts.DISABLE_ADVANCED_CHAT_MESSAGE_PROCESSING))
             {
                 textBlock.Inlines.Add(new Run { Text = text });
                 return;

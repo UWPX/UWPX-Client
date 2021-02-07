@@ -1,5 +1,5 @@
-﻿using UWPX_UI_Context.Classes.DataContext.Dialogs;
-using UWPX_UI_Context.Classes.DataTemplates;
+﻿using Manager.Classes.Chat;
+using UWPX_UI_Context.Classes.DataContext.Dialogs;
 using Windows.UI.Xaml.Controls;
 
 namespace UWPX_UI.Dialogs

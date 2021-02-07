@@ -196,7 +196,7 @@ namespace UWPX_UI
 
             if (isRunning)
             {
-                XMPPClient client = ConnectionHandler.INSTANCE.GetClient(chat.bareJid);
+                Client client = ConnectionHandler.INSTANCE.GetClient(chat.bareJid);
                 if (client is null)
                 {
                     Logger.Error($"Failed to send message from background. Client '{chat.bareJid}' does not exist.");
@@ -204,11 +204,11 @@ namespace UWPX_UI
                 // Send the message:
                 else if (toSendMsg is OmemoEncryptedMessage toSendOmemoMsg)
                 {
-                    await client.sendOmemoMessageAsync(toSendOmemoMsg, chat.bareJid, client.getXMPPAccount().getBareJid());
+                    await client.xmppClient.sendOmemoMessageAsync(toSendOmemoMsg, chat.bareJid, client.dbAccount.bareJid);
                 }
                 else
                 {
-                    await client.SendAsync(toSendMsg);
+                    await client.xmppClient.SendAsync(toSendMsg);
                 }
             }
             else

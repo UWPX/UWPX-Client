@@ -4,6 +4,7 @@ using System.Diagnostics;
 using System.Linq;
 using System.Threading.Tasks;
 using Logging;
+using Manager.Classes.Chat;
 using Manager.Classes.Toast;
 using Storage.Classes;
 using Storage.Classes.Contexts;
@@ -230,8 +231,11 @@ namespace Manager.Classes
                         }
                         chatChanged = false;
                     }
-                    // Ensure we add the message to the DB before we add the invite since the invite has the message as a foreign key:
-                    ctx.Add(message);
+                }
+                // Ensure we add the message to the DB before we add the invite since the invite has the message as a foreign key:
+                DataCache.INSTANCE.AddChatMessage(message, chat);
+                using (MainDbContext ctx = new MainDbContext())
+                {
                     ctx.Add(new MucDirectInvitationModel(inviteMessage, message));
                 }
             }

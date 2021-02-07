@@ -32,6 +32,12 @@ namespace UWPX_UI_Context.Classes.DataTemplates.Dialogs
             get => _Images;
             set => SetProperty(ref _Images, value);
         }
+        private bool _SpamMessages;
+        public bool SpamMessages
+        {
+            get => _SpamMessages;
+            set => SetProperty(ref _SpamMessages, value);
+        }
 
         // Disco:
         private bool _DiscoFeatures;
@@ -86,17 +92,23 @@ namespace UWPX_UI_Context.Classes.DataTemplates.Dialogs
             get => _PasswordVault;
             set => SetProperty(ref _PasswordVault, value);
         }
-        private bool _IgnoredCertErrors;
-        public bool IgnoredCertErrors
+        private bool _Servers;
+        public bool Servers
         {
-            get => _IgnoredCertErrors;
-            set => SetProperty(ref _IgnoredCertErrors, value);
+            get => _Servers;
+            set => SetProperty(ref _Servers, value);
         }
-        private bool _ConnectionOptions;
-        public bool ConnectionOptions
+        private bool _Jids;
+        public bool Jids
         {
-            get => _ConnectionOptions;
-            set => SetProperty(ref _ConnectionOptions, value);
+            get => _Jids;
+            set => SetProperty(ref _Jids, value);
+        }
+        private bool _MamRequests;
+        public bool MamRequests
+        {
+            get => _MamRequests;
+            set => SetProperty(ref _MamRequests, value);
         }
 
         // OMEMO:
@@ -141,6 +153,24 @@ namespace UWPX_UI_Context.Classes.DataTemplates.Dialogs
         {
             get => _OmemoFingerprints;
             set => SetProperty(ref _OmemoFingerprints, value);
+        }
+        private bool _SkippedMessageKeyGroup;
+        public bool SkippedMessageKeyGroup
+        {
+            get => _SkippedMessageKeyGroup;
+            set => SetProperty(ref _SkippedMessageKeyGroup, value);
+        }
+        private bool _SkippedMessageKeyGroups;
+        public bool SkippedMessageKeyGroups
+        {
+            get => _SkippedMessageKeyGroups;
+            set => SetProperty(ref _SkippedMessageKeyGroups, value);
+        }
+        private bool _SkippedMessageKeys;
+        public bool SkippedMessageKeys
+        {
+            get => _SkippedMessageKeys;
+            set => SetProperty(ref _SkippedMessageKeys, value);
         }
 
         // Clients:

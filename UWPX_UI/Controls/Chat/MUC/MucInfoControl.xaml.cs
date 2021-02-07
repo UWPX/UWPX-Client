@@ -1,8 +1,8 @@
-﻿using Shared.Classes;
+﻿using Manager.Classes.Chat;
+using Shared.Classes;
 using UWPX_UI.Dialogs;
 using UWPX_UI_Context.Classes;
 using UWPX_UI_Context.Classes.DataContext.Controls.Chat.MUC;
-using UWPX_UI_Context.Classes.DataTemplates;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 
@@ -79,29 +79,29 @@ namespace UWPX_UI.Controls.Chat.MUC
             }
         }
 
-        private async void Mute_btn_Click(object sender, RoutedEventArgs e)
+        private void Mute_btn_Click(object sender, RoutedEventArgs e)
         {
-            await VIEW_MODEL.ToggleChatMutedAsync(Chat.Chat).ConfAwaitFalse();
+            VIEW_MODEL.ToggleChatMuted(Chat);
         }
 
         private async void Enter_mfo_Click(object sender, RoutedEventArgs e)
         {
-            await VIEW_MODEL.EnterMucAsync(Chat.Chat, Chat.MucInfo, Chat.Client).ConfAwaitFalse();
+            await VIEW_MODEL.EnterMucAsync(Chat).ConfAwaitFalse();
         }
 
         private async void Leave_mfo_Click(object sender, RoutedEventArgs e)
         {
-            await VIEW_MODEL.LeaveMucAsync(Chat.Chat, Chat.MucInfo, Chat.Client).ConfAwaitFalse();
+            await VIEW_MODEL.LeaveMucAsync(Chat).ConfAwaitFalse();
         }
 
         private void Bookmark_mfo_Click(object sender, RoutedEventArgs e)
         {
-            VIEW_MODEL.ToggleChatBookmarked(Chat.Chat, Chat.Client);
+            VIEW_MODEL.ToggleChatBookmarked(Chat);
         }
 
-        private async void AutoJoin_tmfo_Click(object sender, RoutedEventArgs e)
+        private void AutoJoin_tmfo_Click(object sender, RoutedEventArgs e)
         {
-            await VIEW_MODEL.ToggleMucAutoJoinAsync(Chat.MucInfo).ConfAwaitFalse();
+            VIEW_MODEL.ToggleMucAutoJoin(Chat);
         }
 
         private async void ChangeNickname_mfo_Click(object sender, RoutedEventArgs e)

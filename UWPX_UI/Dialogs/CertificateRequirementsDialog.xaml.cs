@@ -1,8 +1,8 @@
-﻿using UWPX_UI.Controls;
+﻿using Storage.Classes.Models.Account;
+using UWPX_UI.Controls;
 using UWPX_UI_Context.Classes.DataContext.Dialogs;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
-using XMPP_API.Classes.Network;
 
 namespace UWPX_UI.Dialogs
 {
@@ -15,7 +15,7 @@ namespace UWPX_UI.Dialogs
         #endregion
         //--------------------------------------------------------Constructor:----------------------------------------------------------------\\
         #region --Constructors--
-        public CertificateRequirementsDialog(XMPPAccount account)
+        public CertificateRequirementsDialog(AccountModel account)
         {
             VIEW_MODEL = new CertificateRequirementsDialogContext(account);
             InitializeComponent();

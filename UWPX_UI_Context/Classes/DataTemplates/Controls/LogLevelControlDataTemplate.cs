@@ -2,6 +2,7 @@
 using System.Collections.ObjectModel;
 using Logging;
 using Shared.Classes;
+using Storage.Classes;
 
 namespace UWPX_UI_Context.Classes.DataTemplates.Controls
 {

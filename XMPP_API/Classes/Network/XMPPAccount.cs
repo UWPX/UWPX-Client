@@ -15,8 +15,8 @@ namespace XMPP_API.Classes.Network
     {
         //--------------------------------------------------------Attributes:-----------------------------------------------------------------\\
         #region --Attributes--
-        private int _port;
-        public int port
+        private ushort _port;
+        public ushort port
         {
             get => _port;
             set => SetProperty(ref _port, value);
@@ -136,7 +136,7 @@ namespace XMPP_API.Classes.Network
         #region --Constructors--
         public XMPPAccount(XMPPUser user) : this(user, user?.domainPart ?? "", 5222, new ConnectionConfiguration()) { }
 
-        public XMPPAccount(XMPPUser user, string serverAddress, int port, ConnectionConfiguration connectionConfiguration)
+        public XMPPAccount(XMPPUser user, string serverAddress, ushort port, ConnectionConfiguration connectionConfiguration)
         {
             invokeInUiThread = false;
             this.user = user;
@@ -251,16 +251,15 @@ namespace XMPP_API.Classes.Network
         }
 
         /// <summary>
-        /// Performs a DNS lookup and sets the first entry (highest priority).
-        /// Updates <see cref="port"/> and <see cref="serverAddress"/>.
+        /// Performs a DNS lookup for the XMPP SRV record and returns the result of the first (highest priority) entry.
         /// </summary>
-        /// <returns>Returns true if the request was successful and the new values differ from the old values.</returns>
-        public async Task<bool> dnsSrvLookupAsync()
+        /// <param name="host">The address to perform the SRV lookup for.</param>
+        public static async Task<SRVLookupResult> dnsSrvLookupAsync(string host)
         {
-            List<SrvRecord> records = await TcpConnection.DnsSrvLookupAsync(user.domainPart);
+            List<SrvRecord> records = await TcpConnection.DnsSrvLookupAsync(host);
             if (records.Count <= 0)
             {
-                return false;
+                return new SRVLookupResult();
             }
 
             SrvRecord record = records[0];
@@ -269,17 +268,8 @@ namespace XMPP_API.Classes.Network
             {
                 serverAddress = serverAddress.Substring(0, serverAddress.Length - 1);
             }
-            if ((ushort)port == record.Port && this.serverAddress.Equals(serverAddress))
-            {
-                return false;
-            }
-            else
-            {
-                port = record.Port;
-                this.serverAddress = serverAddress;
-                Logger.Info("Updated the port and server address for: " + user.domainPart + " to: " + this.serverAddress + ":" + port);
-                return true;
-            }
+            Logger.Info("Updated the port and server address for: " + host + " to: " + serverAddress + ":" + record.Port);
+            return new SRVLookupResult(serverAddress, record.Port);
         }
 
         #endregion

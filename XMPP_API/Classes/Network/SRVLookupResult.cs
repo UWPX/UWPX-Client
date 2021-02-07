@@ -1,24 +1,28 @@
-﻿using System.ComponentModel.DataAnnotations;
-using Windows.Security.Cryptography.Certificates;
-
-namespace Storage.Classes.Models.Account
+﻿namespace XMPP_API.Classes.Network
 {
-    public class IgnoredCertificateErrorModel
+    public class SRVLookupResult
     {
         //--------------------------------------------------------Attributes:-----------------------------------------------------------------\\
         #region --Attributes--
-        [Key]
-        public int id { get; set; }
-        /// <summary>
-        /// The certificate error that should be ignored during connecting to the server.
-        /// </summary>
-        [Required]
-        public ChainValidationResult certificateError { get; set; }
+        public readonly bool SUCCESS;
+
+        public readonly string SERVER_ADDRESS;
+        public readonly ushort PORT;
 
         #endregion
         //--------------------------------------------------------Constructor:----------------------------------------------------------------\\
         #region --Constructors--
+        public SRVLookupResult()
+        {
+            SUCCESS = false;
+        }
 
+        public SRVLookupResult(string serverAddress, ushort port)
+        {
+            SUCCESS = true;
+            SERVER_ADDRESS = serverAddress;
+            PORT = port;
+        }
 
         #endregion
         //--------------------------------------------------------Set-, Get- Methods:---------------------------------------------------------\\
