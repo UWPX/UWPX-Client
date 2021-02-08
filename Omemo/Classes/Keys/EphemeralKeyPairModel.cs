@@ -12,6 +12,8 @@
         #endregion
         //--------------------------------------------------------Constructor:----------------------------------------------------------------\\
         #region --Constructors--
+        public EphemeralKeyPairModel() { }
+
         public EphemeralKeyPairModel(ECPrivKeyModel privKey, ECPubKeyModel pubKey) : base(privKey, pubKey) { }
 
         #endregion

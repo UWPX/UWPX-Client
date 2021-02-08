@@ -280,7 +280,7 @@ namespace Manager.Classes
             IEnumerable<Tuple<ChatMessageModel, string>> toSend;
             using (MainDbContext ctx = new MainDbContext())
             {
-                toSend = ctx.ChatMessages.Where(m => m.state == MessageState.SENDING).Join(ctx.Chats, m => m.chatId, c => c.id, (m, c) => new Tuple<ChatMessageModel, string>(m, c.bareJid)).Where(t => string.Equals(t.Item2, ccHandler.client.dbAccount.bareJid));
+                toSend = ctx.ChatMessages.Where(m => m.state == MessageState.SENDING).Join(ctx.Chats, m => m.chatId, c => c.id, (m, c) => new { m, c.bareJid }).Where(t => string.Equals(t.bareJid, ccHandler.client.dbAccount.bareJid)).Select(t => new Tuple<ChatMessageModel, string>(t.m, t.bareJid));
             }
             Logger.Info("Sending " + toSend.Count() + " outstanding chat messages for: " + ccHandler.client.dbAccount.bareJid);
             await SendOutsandingChatMessagesAsync(toSend);
@@ -289,7 +289,7 @@ namespace Manager.Classes
             IEnumerable<Tuple<ChatMessageModel, string>> toEncrypt;
             using (MainDbContext ctx = new MainDbContext())
             {
-                toEncrypt = ctx.ChatMessages.Where(m => m.state == MessageState.TO_ENCRYPT).Join(ctx.Chats, m => m.chatId, c => c.id, (m, c) => new Tuple<ChatMessageModel, string>(m, c.bareJid)).Where(t => string.Equals(t.Item2, ccHandler.client.dbAccount.bareJid));
+                toEncrypt = ctx.ChatMessages.Where(m => m.state == MessageState.TO_ENCRYPT).Join(ctx.Chats, m => m.chatId, c => c.id, (m, c) => new { m, c.bareJid }).Where(t => string.Equals(t.bareJid, ccHandler.client.dbAccount.bareJid)).Select(t => new Tuple<ChatMessageModel, string>(t.m, t.bareJid));
             }
             Logger.Info("Sending " + toEncrypt.Count() + " outstanding OMEMO chat messages for: " + ccHandler.client.dbAccount.bareJid);
             await SendOutsandingChatMessagesAsync(toEncrypt);

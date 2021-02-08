@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 using Storage.Classes.Contexts;
 using XMPP_API.Classes;
 using XMPP_API.Classes.Network.XML.Messages.XEP_0045;
@@ -16,7 +17,7 @@ namespace Storage.Classes.Models.Chat
         /// <summary>
         /// The <see cref="ChatModel"/> associated with this MUC.
         /// </summary>
-        [Required]
+        [Required, ForeignKey(nameof(ChatModel.muc))]
         public ChatModel chat { get; set; }
         /// <summary>
         /// The users nickname for the chat.

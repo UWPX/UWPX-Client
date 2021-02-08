@@ -14,6 +14,8 @@ namespace Omemo.Classes.Keys
         #endregion
         //--------------------------------------------------------Constructor:----------------------------------------------------------------\\
         #region --Constructors--
+        public ECKeyPairModel() { }
+
         public ECKeyPairModel(ECPrivKeyModel privKey, ECPubKeyModel pubKey)
         {
             this.privKey = privKey;

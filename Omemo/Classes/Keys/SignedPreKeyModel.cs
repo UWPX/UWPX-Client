@@ -17,6 +17,8 @@ namespace Omemo.Classes.Keys
         #endregion
         //--------------------------------------------------------Constructor:----------------------------------------------------------------\\
         #region --Constructors--
+        public SignedPreKeyModel() { }
+
         public SignedPreKeyModel(PreKeyModel preKey, byte[] signature)
         {
             this.preKey = preKey;

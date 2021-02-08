@@ -16,6 +16,8 @@ namespace Omemo.Classes.Keys
         #endregion
         //--------------------------------------------------------Constructor:----------------------------------------------------------------\\
         #region --Constructors--
+        public ECKeyModel() { }
+
         public ECKeyModel(byte[] key)
         {
             Debug.Assert(!(key is null));
