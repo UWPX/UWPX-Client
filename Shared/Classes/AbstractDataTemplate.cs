@@ -1,4 +1,5 @@
-﻿using System.ComponentModel;
+﻿using System;
+using System.ComponentModel;
 using System.Runtime.CompilerServices;
 
 namespace Shared.Classes
@@ -57,7 +58,17 @@ namespace Shared.Classes
             if (invokeInUiThread)
             {
                 // Make sure we call the PropertyChanged event from the UI thread:
-                await SharedUtils.CallDispatcherAsync(() => PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(name)));
+                await SharedUtils.CallDispatcherAsync(() =>
+                {
+                    try
+                    {
+                        PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(name));
+                    }
+                    catch (Exception e)
+                    {
+                        throw e;
+                    }
+                });
             }
             else
             {
@@ -70,7 +81,17 @@ namespace Shared.Classes
             if (invokeInUiThread)
             {
                 // Make sure we call the PropertyChanged event from the UI thread:
-                await SharedUtils.CallDispatcherAsync(() => PropertyChanged?.Invoke(this, args));
+                await SharedUtils.CallDispatcherAsync(() =>
+                {
+                    try
+                    {
+                        PropertyChanged?.Invoke(this, args);
+                    }
+                    catch (Exception e)
+                    {
+                        throw e;
+                    }
+                });
             }
             else
             {

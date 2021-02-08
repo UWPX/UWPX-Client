@@ -73,6 +73,7 @@ namespace Storage.Classes.Models.Account
             bareJid = fullJid.BareJid();
             this.fullJid = fullJid;
             this.color = color;
+            omemoInfo.deviceListSubscription = new OmemoDeviceListSubscriptionModel(bareJid);
             server = new ServerModel(fullJid.domainPart);
         }
 

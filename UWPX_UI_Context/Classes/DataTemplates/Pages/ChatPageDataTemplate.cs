@@ -1,5 +1,4 @@
-﻿using System.Collections;
-using System.Linq;
+﻿using System.Linq;
 using Manager.Classes.Chat;
 using Manager.Classes.Toast;
 using Microsoft.Toolkit.Uwp.UI;
@@ -27,7 +26,7 @@ namespace UWPX_UI_Context.Classes.DataTemplates.Pages
         #region --Constructors--
         public ChatPageDataTemplate()
         {
-            CHATS_ACV = new AdvancedCollectionView((IList)DataCache.INSTANCE.CHATS, true)
+            CHATS_ACV = new AdvancedCollectionView(DataCache.INSTANCE.CHATS, true)
             {
                 Filter = AcvFilter
             };

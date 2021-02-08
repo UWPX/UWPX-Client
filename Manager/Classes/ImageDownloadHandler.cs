@@ -78,7 +78,7 @@ namespace Manager.Classes
                 IEnumerable<ChatMessageImageModel> images;
                 using (MainDbContext ctx = new MainDbContext())
                 {
-                    images = ctx.ChatMessageImages.Where(i => i.State != DownloadState.DONE && i.State != DownloadState.ERROR && i.State != DownloadState.CANCELED);
+                    images = ctx.ChatMessageImages.Where(i => i.State != DownloadState.DONE && i.State != DownloadState.ERROR && i.State != DownloadState.CANCELED).ToList();
                 }
                 foreach (ChatMessageImageModel image in images)
                 {

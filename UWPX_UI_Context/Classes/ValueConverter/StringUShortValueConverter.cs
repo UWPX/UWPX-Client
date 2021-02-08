@@ -1,6 +1,9 @@
-﻿namespace Omemo.Classes.Keys
+﻿using System;
+using Windows.UI.Xaml.Data;
+
+namespace UWPX_UI_Context.Classes.ValueConverter
 {
-    public class ECPrivKeyModel: ECKeyModel
+    public sealed class StringUShortValueConverter: IValueConverter
     {
         //--------------------------------------------------------Attributes:-----------------------------------------------------------------\\
         #region --Attributes--
@@ -9,9 +12,7 @@
         #endregion
         //--------------------------------------------------------Constructor:----------------------------------------------------------------\\
         #region --Constructors--
-        public ECPrivKeyModel() { }
 
-        public ECPrivKeyModel(byte[] pubKey) : base(pubKey) { }
 
         #endregion
         //--------------------------------------------------------Set-, Get- Methods:---------------------------------------------------------\\
@@ -21,7 +22,23 @@
         #endregion
         //--------------------------------------------------------Misc Methods:---------------------------------------------------------------\\
         #region --Misc Methods (Public)--
+        public object Convert(object value, Type targetType, object parameter, string language)
+        {
+            if (value is ushort i)
+            {
+                return i.ToString();
+            }
+            return "0";
+        }
 
+        public object ConvertBack(object value, Type targetType, object parameter, string language)
+        {
+            if (value is string s && ushort.TryParse(s, out ushort i))
+            {
+                return i;
+            }
+            return (ushort)0;
+        }
 
         #endregion
 

@@ -9,6 +9,8 @@
         #endregion
         //--------------------------------------------------------Constructor:----------------------------------------------------------------\\
         #region --Constructors--
+        public ECPubKeyModel() { }
+
         public ECPubKeyModel(byte[] pubKey) : base(pubKey) { }
 
         #endregion

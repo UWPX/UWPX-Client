@@ -35,9 +35,9 @@ namespace UWPX_UI_Context.Classes.ValueConverter
         {
             if (value is string s && int.TryParse(s, out int i))
             {
-                return i;
+                return (ushort)i;
             }
-            return 0;
+            return (ushort)0;
         }
 
         #endregion

@@ -8,7 +8,7 @@ using Storage.Classes.Models.Chat;
 
 namespace Manager.Classes.Chat
 {
-    public class ObservableChatDictionaryList: ICollection<ChatDataTemplate>, INotifyCollectionChanged, INotifyPropertyChanged, IDisposable, IList<ChatDataTemplate>
+    public class ObservableChatDictionaryList: ICollection<ChatDataTemplate>, INotifyCollectionChanged, INotifyPropertyChanged, IDisposable, IList<ChatDataTemplate>, IList
     {
         //--------------------------------------------------------Attributes:-----------------------------------------------------------------\\
         #region --Attributes--
@@ -23,6 +23,13 @@ namespace Manager.Classes.Chat
         public object SyncRoot => false;
         public bool IsFixedSize => false;
         public bool IsReadOnly => false;
+
+        object IList.this[int index]
+        {
+            get => this[index];
+            set => this[index] = (ChatDataTemplate)value;
+        }
+
         public ChatDataTemplate this[int index]
         {
             get => LIST[index];
@@ -192,6 +199,38 @@ namespace Manager.Classes.Chat
         public void RemoveAt(int index)
         {
             InternalRemoveAt(index, LIST[index]);
+        }
+
+        public int Add(object value)
+        {
+            int index = InternalAdd((ChatDataTemplate)value);
+            OnCollectionChanged(new NotifyCollectionChangedEventArgs(NotifyCollectionChangedAction.Add, (ChatDataTemplate)value, index));
+            return index;
+        }
+
+        public bool Contains(object value)
+        {
+            return Contains((ChatDataTemplate)value);
+        }
+
+        public int IndexOf(object value)
+        {
+            return IndexOf((ChatDataTemplate)value);
+        }
+
+        public void Insert(int index, object value)
+        {
+            Insert(index, (ChatDataTemplate)value);
+        }
+
+        public void Remove(object value)
+        {
+            Remove((ChatDataTemplate)value);
+        }
+
+        public void CopyTo(Array array, int index)
+        {
+            CopyTo((ChatDataTemplate[])array, index);
         }
 
         #endregion

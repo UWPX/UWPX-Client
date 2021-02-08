@@ -29,7 +29,7 @@
             <x:String x:Key="AnimationOpacityMax">1</x:String>
 
             <valueConverter:HexColorToSolidColorBrushValueConverter x:Key="HexColorToSolidColorBrushValueConverter"/>
-            <valueConverter:StringIntValueConverter x:Key="StringIntValueConverter"/>
+            <valueConverter:StringUShortValueConverter x:Key="StringUShortValueConverter"/>
             <valueConverter:TLSConnectionModeIntValueConverter x:Key="TLSConnectionModeIntValueConverter"/>
         </ResourceDictionary>
     </Page.Resources>
@@ -353,7 +353,7 @@
                                          extensions:TextBoxRegex.ValidationType="Number"
                                          Header="Port"
                                          InputScope="Number"
-                                         Text="{x:Bind VIEW_MODEL.MODEL.Account.server.port, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, Converter={StaticResource StringIntValueConverter}}"/>
+                                         Text="{x:Bind VIEW_MODEL.MODEL.Account.server.port, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, Converter={StaticResource StringUShortValueConverter}}"/>
 
                                 <controls:SeperatorControl Grid.Row="6"
                                                            Grid.Column="0"

@@ -68,6 +68,7 @@ namespace UWPX_UI_Context.Classes.DataContext.Pages
                         ctx.AddRange(MODEL.Account.omemoInfo.devices);
                         ctx.Add(MODEL.Account.omemoInfo.identityKey);
                         ctx.AddRange(MODEL.Account.omemoInfo.preKeys);
+                        ctx.Add(MODEL.Account.omemoInfo.signedPreKey.preKey);
                         ctx.Add(MODEL.Account.omemoInfo.signedPreKey);
                         ctx.Add(MODEL.Account.omemoInfo);
                         ctx.Add(MODEL.Account.server);

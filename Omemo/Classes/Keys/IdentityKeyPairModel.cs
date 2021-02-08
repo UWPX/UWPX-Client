@@ -12,6 +12,8 @@
         #endregion
         //--------------------------------------------------------Constructor:----------------------------------------------------------------\\
         #region --Constructors--
+        public IdentityKeyPairModel() { }
+
         public IdentityKeyPairModel(ECPrivKeyModel privKey, ECPubKeyModel pubKey) : base(privKey, pubKey) { }
 
         #endregion

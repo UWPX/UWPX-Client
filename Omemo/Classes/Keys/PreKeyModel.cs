@@ -12,6 +12,8 @@ namespace Omemo.Classes.Keys
         #endregion
         //--------------------------------------------------------Constructor:----------------------------------------------------------------\\
         #region --Constructors--
+        public PreKeyModel() { }
+
         public PreKeyModel(ECPrivKeyModel privKey, ECPubKeyModel pubKey, uint keyId) : base(privKey, pubKey)
         {
             this.keyId = keyId;

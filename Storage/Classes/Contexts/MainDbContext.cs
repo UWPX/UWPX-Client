@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using Microsoft.EntityFrameworkCore;
 using Omemo.Classes;
@@ -6,6 +7,7 @@ using Omemo.Classes.Keys;
 using Storage.Classes.Models.Account;
 using Storage.Classes.Models.Chat;
 using Storage.Classes.Models.Omemo;
+using Windows.Security.Cryptography.Certificates;
 using XMPP_API.Classes.Network.XML.Messages.XEP_0048;
 
 namespace Storage.Classes.Contexts
@@ -87,7 +89,8 @@ namespace Storage.Classes.Contexts
         #region --Misc Methods (Public)--
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-            // modelBuilder.Entity<ChatMessageModel>().
+            // Store the list of ChainValidationResults as a string separated by ',':
+            modelBuilder.Entity<ServerModel>().Property(l => l.ignoredCertificateErrors).HasConversion(v => string.Join(',', v.Select(i => (int)i)), v => v.Split(',', StringSplitOptions.RemoveEmptyEntries).Select(i => (ChainValidationResult)int.Parse(i)).ToList());
         }
 
         #endregion

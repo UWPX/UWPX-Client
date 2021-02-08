@@ -19,16 +19,18 @@ namespace Storage.Classes.Models.Omemo
         /// The <see cref="DateTime"/> we received the last update for this entry.
         /// </summary>
         [Required]
-        public DateTime lastUpdateReceived { get; set; }
+        public DateTime lastUpdateReceived { get; set; } = DateTime.MinValue;
         /// <summary>
         /// The current state of the subscription.
         /// </summary>
-        public OmemoDeviceListSubscriptionState state { get; set; }
+        public OmemoDeviceListSubscriptionState state { get; set; } = OmemoDeviceListSubscriptionState.NONE;
 
         #endregion
         //--------------------------------------------------------Constructor:----------------------------------------------------------------\\
         #region --Constructors--
+        public OmemoDeviceListSubscriptionModel() { }
 
+        public OmemoDeviceListSubscriptionModel(string bareJid) { this.bareJid = bareJid; }
 
         #endregion
         //--------------------------------------------------------Set-, Get- Methods:---------------------------------------------------------\\

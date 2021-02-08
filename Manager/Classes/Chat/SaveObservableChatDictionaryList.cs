@@ -6,7 +6,7 @@ using System.ComponentModel;
 
 namespace Manager.Classes.Chat
 {
-    public class SaveObservableChatDictionaryList: ICollection<ChatDataTemplate>, INotifyCollectionChanged, INotifyPropertyChanged, IDisposable, IList<ChatDataTemplate>
+    public class SaveObservableChatDictionaryList: ICollection<ChatDataTemplate>, INotifyCollectionChanged, INotifyPropertyChanged, IDisposable, IList<ChatDataTemplate>, IList
     {
         public ChatDataTemplate this[int index]
         {
@@ -24,6 +24,12 @@ namespace Manager.Classes.Chat
                     CHATS[index] = value;
                 }
             }
+        }
+
+        object IList.this[int index]
+        {
+            get => this[index];
+            set => this[index] = (ChatDataTemplate)value;
         }
 
         //--------------------------------------------------------Attributes:-----------------------------------------------------------------\\
@@ -172,6 +178,54 @@ namespace Manager.Classes.Chat
             lock (SyncRoot)
             {
                 return CHATS.RemoveId(id);
+            }
+        }
+
+        public int Add(object value)
+        {
+            lock (SyncRoot)
+            {
+                return CHATS.Add(value);
+            }
+        }
+
+        public bool Contains(object value)
+        {
+            lock (SyncRoot)
+            {
+                return CHATS.Contains(value);
+            }
+        }
+
+        public int IndexOf(object value)
+        {
+            lock (SyncRoot)
+            {
+                return CHATS.IndexOf(value);
+            }
+        }
+
+        public void Insert(int index, object value)
+        {
+            lock (SyncRoot)
+            {
+                CHATS.Insert(index, value);
+            }
+        }
+
+        public void Remove(object value)
+        {
+            lock (SyncRoot)
+            {
+                CHATS.Remove(value);
+            }
+        }
+
+        public void CopyTo(Array array, int index)
+        {
+            lock (SyncRoot)
+            {
+                CHATS.CopyTo(array, index);
             }
         }
 
