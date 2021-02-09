@@ -99,7 +99,8 @@ namespace Storage.Classes.Models.Chat
             status = null;
             presence = Presence.Unavailable;
             chatType = ChatType.CHAT;
-            omemo = new OmemoChatInformationModel();
+            omemo = new OmemoChatInformationModel(chatBareJid);
+
         }
 
         #endregion

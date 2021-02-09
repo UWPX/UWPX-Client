@@ -4,6 +4,7 @@ using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 using Logging;
+using Manager.Classes.Chat;
 using Shared.Classes.Collections;
 using Storage.Classes;
 using Storage.Classes.Contexts;
@@ -61,14 +62,15 @@ namespace Manager.Classes
 
         private void ResetMucState(string accountBareJid)
         {
+            IEnumerable<MucInfoModel> mucs = DataCache.INSTANCE.GetMucs(accountBareJid);
             using (MainDbContext ctx = new MainDbContext())
             {
-                foreach (MucInfoModel info in ctx.MucInfos.Where(i => string.Equals(i.chat.accountBareJid, accountBareJid)))
+                foreach (MucInfoModel muc in mucs)
                 {
-                    if (info.state != MucState.DISCONNECTED)
+                    if (muc.state != MucState.DISCONNECTED)
                     {
-                        info.state = MucState.DISCONNECTED;
-                        ctx.Update(info);
+                        muc.state = MucState.DISCONNECTED;
+                        ctx.Update(muc);
                     }
                 }
             }
@@ -97,11 +99,16 @@ namespace Manager.Classes
         {
             string to = Utils.getBareJidFromFullJid(mucRoomSubject.getTo());
             string from = Utils.getBareJidFromFullJid(mucRoomSubject.getFrom());
+            ChatModel chat = DataCache.INSTANCE.GetChat(to, from);
+            if (chat is null || chat.muc is null || (chat.muc.state == MucState.DISCONNECTED && string.Equals(chat.muc.subject, mucRoomSubject.SUBJECT)))
+            {
+                return;
+            }
+            chat.muc.state = MucState.DISCONNECTED;
+            chat.muc.subject = mucRoomSubject.SUBJECT;
             using (MainDbContext ctx = new MainDbContext())
             {
-                MucInfoModel info = ctx.MucInfos.Where(i => string.Equals(i.chat.accountBareJid, to) && string.Equals(i.chat.bareJid, from)).FirstOrDefault();
-                info.subject = mucRoomSubject.SUBJECT;
-                ctx.Update(info);
+                ctx.Update(chat.muc);
             }
         }
 
@@ -193,12 +200,10 @@ namespace Manager.Classes
                     return;
                 }
 
-                using (MainDbContext ctx = new MainDbContext())
+                IEnumerable<MucInfoModel> mucs = DataCache.INSTANCE.GetMucs(client.getXMPPAccount().getBareJid());
+                foreach (MucInfoModel muc in mucs)
                 {
-                    foreach (MucInfoModel info in ctx.MucInfos.Where(i => string.Equals(i.chat.accountBareJid, client.getXMPPAccount().getBareJid()) && i.autoEnterRoom))
-                    {
-                        await EnterMucAsync(client, info);
-                    }
+                    await EnterMucAsync(client, muc);
                 }
             });
         }
@@ -210,35 +215,31 @@ namespace Manager.Classes
             {
                 return;
             }
-            MucInfoModel info;
-            using (MainDbContext ctx = new MainDbContext())
-            {
-                info = ctx.GetMucInfo(client.getXMPPAccount().getBareJid(), room);
-            }
-            if (info is null)
+            ChatModel chat = DataCache.INSTANCE.GetChat(client.getXMPPAccount().getBareJid(), room);
+            if (chat is null || chat.muc is null)
             {
                 return;
             }
-            Logger.Error("Received an error message for MUC: " + info.chat.bareJid + "\n" + errorMessage.ERROR_MESSAGE);
-            StopMucJoinHelper(info.chat);
-            if (info.state != MucState.DISCONNECTED)
+            Logger.Error("Received an error message for MUC: " + chat.bareJid + "\n" + errorMessage.ERROR_MESSAGE);
+            StopMucJoinHelper(chat);
+            if (chat.muc.state != MucState.DISCONNECTED)
             {
-                await SendMucLeaveMessageAsync(client, info);
+                await SendMucLeaveMessageAsync(client, chat.muc);
             }
             switch (errorMessage.ERROR_CODE)
             {
                 // No access - user got baned:
                 case 403:
-                    info.state = MucState.BANED;
-                    AddChatInfoMessage(info.chat, room, "Unable to join room!\nYou are baned from this room.");
+                    chat.muc.state = MucState.BANED;
+                    AddChatInfoMessage(chat, room, "Unable to join room!\nYou are baned from this room.");
                     using (MainDbContext ctx = new MainDbContext())
                     {
-                        ctx.Update(info);
+                        ctx.Update(chat.muc);
                     }
                     return;
 
                 default:
-                    info.state = MucState.ERROR;
+                    chat.muc.state = MucState.ERROR;
                     break;
             }
 
@@ -246,7 +247,7 @@ namespace Manager.Classes
             ChatMessageModel msg = new ChatMessageModel()
             {
                 stableId = errorMessage.ID ?? AbstractMessage.getRandomId(),
-                chatId = info.chat.id,
+                chatId = chat.id,
                 date = DateTime.Now,
                 fromBareJid = Utils.getBareJidFromFullJid(errorMessage.getFrom()),
                 isImage = false,
@@ -254,11 +255,7 @@ namespace Manager.Classes
                 state = MessageState.UNREAD,
                 type = MessageMessage.TYPE_ERROR
             };
-            using (MainDbContext ctx = new MainDbContext())
-            {
-                ctx.Update(info);
-                ctx.Add(msg);
-            }
+            DataCache.INSTANCE.AddChatMessage(msg, chat);
         }
 
         private void AddOccupantKickedMessage(ChatModel chat, string roomJid, string nickname)
@@ -287,10 +284,7 @@ namespace Manager.Classes
                 type = TYPE_CHAT_INFO,
                 stableId = AbstractMessage.getRandomId()
             };
-            using (MainDbContext ctx = new MainDbContext())
-            {
-                ctx.Add(msg);
-            }
+            DataCache.INSTANCE.AddChatMessage(msg, chat);
         }
 
         #endregion
@@ -311,16 +305,12 @@ namespace Manager.Classes
                 {
                     return;
                 }
-                MucInfoModel info;
-                using (MainDbContext ctx = new MainDbContext())
-                {
-                    info = ctx.GetMucInfo(client.getXMPPAccount().getBareJid(), roomJid);
-                }
-                if (info is null)
+                ChatModel chat = DataCache.INSTANCE.GetChat(client.getXMPPAccount().getBareJid(), roomJid);
+                if (chat is null || chat.muc is null)
                 {
                     return;
                 }
-                MucOccupantModel occupant = info.occupants.Where(o => string.Equals(o.nickname, msg.FROM_NICKNAME)).FirstOrDefault();
+                MucOccupantModel occupant = chat.muc.occupants.Where(o => string.Equals(o.nickname, msg.FROM_NICKNAME)).FirstOrDefault();
                 bool newOccupant = occupant is null;
                 if (newOccupant)
                 {
@@ -345,7 +335,7 @@ namespace Manager.Classes
                             nicknameChanged = true;
 
                             // Update MUC info:
-                            info.nickname = msg.NICKNAME;
+                            chat.muc.nickname = msg.NICKNAME;
 
                             // Update the user nickname:
                             occupant.nickname = msg.NICKNAME;
@@ -353,15 +343,15 @@ namespace Manager.Classes
                         // Occupant got kicked:
                         else if (msg.STATUS_CODES.Contains(MUCPresenceStatusCode.MEMBER_GOT_KICKED))
                         {
-                            info.state = MucState.KICKED;
+                            chat.muc.state = MucState.KICKED;
                         }
                         else if (msg.STATUS_CODES.Contains(MUCPresenceStatusCode.MEMBER_GOT_BANED))
                         {
-                            info.state = MucState.BANED;
+                            chat.muc.state = MucState.BANED;
                         }
                         else
                         {
-                            info.state = MucState.DISCONNECTED;
+                            chat.muc.state = MucState.DISCONNECTED;
                         }
                     }
 
@@ -369,13 +359,13 @@ namespace Manager.Classes
                     if (msg.STATUS_CODES.Contains(MUCPresenceStatusCode.MEMBER_GOT_KICKED))
                     {
                         // Add kicked chat message:
-                        AddOccupantKickedMessage(info.chat, roomJid, occupant.nickname);
+                        AddOccupantKickedMessage(chat, roomJid, occupant.nickname);
                     }
 
                     if (msg.STATUS_CODES.Contains(MUCPresenceStatusCode.MEMBER_GOT_BANED))
                     {
                         // Add baned chat message:
-                        AddOccupantBanedMessage(info.chat, roomJid, occupant.nickname);
+                        AddOccupantBanedMessage(chat, roomJid, occupant.nickname);
                     }
                 }
 
@@ -386,7 +376,7 @@ namespace Manager.Classes
                     {
                         if (!newOccupant)
                         {
-                            info.occupants.Remove(occupant);
+                            chat.muc.occupants.Remove(occupant);
                             ctx.Remove(occupant);
                         }
                     }
@@ -395,7 +385,7 @@ namespace Manager.Classes
                         if (newOccupant)
                         {
                             ctx.Add(occupant);
-                            info.occupants.Add(occupant);
+                            chat.muc.occupants.Add(occupant);
                         }
                         else
                         {

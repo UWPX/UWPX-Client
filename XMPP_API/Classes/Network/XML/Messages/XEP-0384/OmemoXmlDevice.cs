@@ -42,7 +42,10 @@ namespace XMPP_API.Classes.Network.XML.Messages.XEP_0384
         {
             XElement node = new XElement(ns + "device");
             node.Add(new XAttribute("id", ID));
-            node.Add(new XAttribute("label", LABEL));
+            if (!(LABEL is null))
+            {
+                node.Add(new XAttribute("label", LABEL));
+            }
             return node;
         }
 
