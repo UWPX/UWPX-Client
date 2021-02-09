@@ -1,4 +1,5 @@
 ﻿using System.Threading.Tasks;
+using Manager.Classes;
 using Manager.Classes.Chat;
 using Storage.Classes;
 using Storage.Classes.Contexts;
@@ -62,17 +63,8 @@ namespace UWPX_UI_Context.Classes.DataContext.Pages
                     // New account add it to the DB:
                     if (MODEL.OldAccount is null)
                     {
-                        ctx.Add(MODEL.Account.fullJid);
-                        ctx.Add(MODEL.Account.mamRequest);
-                        ctx.Add(MODEL.Account.omemoInfo.deviceListSubscription);
-                        ctx.AddRange(MODEL.Account.omemoInfo.devices);
-                        ctx.Add(MODEL.Account.omemoInfo.identityKey);
-                        ctx.AddRange(MODEL.Account.omemoInfo.preKeys);
-                        ctx.Add(MODEL.Account.omemoInfo.signedPreKey.preKey);
-                        ctx.Add(MODEL.Account.omemoInfo.signedPreKey);
-                        ctx.Add(MODEL.Account.omemoInfo);
-                        ctx.Add(MODEL.Account.server);
                         ctx.Add(MODEL.Account);
+                        ConnectionHandler.INSTANCE.AddAccount(MODEL.Account);
                     }
                     // Update the old account:
                     else
@@ -80,6 +72,9 @@ namespace UWPX_UI_Context.Classes.DataContext.Pages
                         ctx.Update(MODEL.Account.fullJid);
                         ctx.Update(MODEL.Account.server);
                         ctx.Update(MODEL.Account);
+
+                        // Reconnect the client:
+                        ConnectionHandler.INSTANCE.ReloadClients();
                     }
 
                     // Update the password:

@@ -160,11 +160,7 @@ namespace Manager.Classes
                 }
             }
 
-            ChatModel chat;
-            using (MainDbContext ctx = new MainDbContext())
-            {
-                chat = ctx.Chats.Where(c => string.Equals(c.accountBareJid, to) && string.Equals(c.bareJid, from)).FirstOrDefault();
-            }
+            ChatModel chat = DataCache.INSTANCE.GetChat(to, from);
             bool chatChanged = false;
 
             // Spam detection:
@@ -194,10 +190,10 @@ namespace Manager.Classes
             // Mark chat as active:
             chat.isChatActive = true;
 
-            ChatMessageModel message;
-            using (MainDbContext ctx = new MainDbContext())
+            ChatMessageModel message = null;
+            if (!newChat)
             {
-                message = ctx.ChatMessages.Where(m => !newChat && m.chatId == chat.id && string.Equals(m.stableId, msg.ID) && string.Equals(m.fromBareJid, from)).FirstOrDefault();
+                message = DataCache.INSTANCE.GetChatMessage(chat.id, msg.ID);
             }
             // Filter messages that already exist:
             // ToDo: Allow MUC messages being edited and detect it
@@ -216,21 +212,22 @@ namespace Manager.Classes
                     Logger.Info("Ignoring received MUC direct invitation form '" + from + "' since we already joined this MUC (" + inviteMessage.ROOM_JID + ").");
                     return;
                 }
-                using (MainDbContext ctx = new MainDbContext())
+                if (chatChanged)
                 {
-                    if (chatChanged)
+                    if (newChat)
                     {
-                        if (newChat)
-                        {
-                            ctx.Add(chat);
-                            newChat = false;
-                        }
-                        else
+                        DataCache.INSTANCE.AddChat(chat, client);
+                        newChat = false;
+                    }
+                    else
+                    {
+                        using (MainDbContext ctx = new MainDbContext())
                         {
                             ctx.Update(chat);
                         }
-                        chatChanged = false;
+
                     }
+                    chatChanged = false;
                 }
                 // Ensure we add the message to the DB before we add the invite since the invite has the message as a foreign key:
                 DataCache.INSTANCE.AddChatMessage(message, chat);
@@ -312,14 +309,15 @@ namespace Manager.Classes
         #region --Misc Methods (Private)--
         private void SetOmemoChatMessagesSendFailed(IEnumerable<OmemoEncryptedMessage> messages, ChatModel chat)
         {
-            foreach (OmemoEncryptedMessage msg in messages)
+            foreach (OmemoEncryptedMessage omemoMsg in messages)
             {
-                using (MainDbContext ctx = new MainDbContext())
+                ChatMessageModel msg = DataCache.INSTANCE.GetChatMessage(chat.id, omemoMsg.ID);
+                if (!(msg is null))
                 {
-                    foreach (ChatMessageModel msgModel in ctx.ChatMessages.Where(m => m.chatId == chat.id && string.Equals(m.stableId, msg.ID)))
+                    msg.state = MessageState.ENCRYPT_FAILED;
+                    using (MainDbContext ctx = new MainDbContext())
                     {
-                        msgModel.state = MessageState.ENCRYPT_FAILED;
-                        ctx.Update(msgModel);
+                        ctx.Update(msg);
                     }
                 }
             }
@@ -330,9 +328,10 @@ namespace Manager.Classes
         /// </summary>
         private void OnDisconnectedOrError()
         {
+            IEnumerable<ChatModel> chats = DataCache.INSTANCE.GetChats(client.dbAccount.bareJid);
             using (MainDbContext ctx = new MainDbContext())
             {
-                foreach (ChatModel chat in ctx.Chats.Where(c => string.Equals(c.accountBareJid, client.dbAccount.bareJid)))
+                foreach (ChatModel chat in chats)
                 {
                     chat.presence = Presence.Unavailable;
                     ctx.Update(chat);
@@ -433,33 +432,29 @@ namespace Manager.Classes
         {
             Task.Run(() =>
             {
-                ChatModel chat;
-                using (MainDbContext ctx = new MainDbContext())
+                ChatModel chat = DataCache.INSTANCE.GetChat(xmppClient.getXMPPAccount().getBareJid(), args.CHAT_JID);
+                if (!(chat is null))
                 {
-                    chat = ctx.Chats.Where(c => string.Equals(c.accountBareJid, xmppClient.getXMPPAccount().getBareJid()) && string.Equals(c.bareJid, args.CHAT_JID)).FirstOrDefault();
-                    if (!(chat is null))
+                    // Add an error chat message:
+                    ChatMessageModel msg = new ChatMessageModel()
                     {
-                        // Add an error chat message:
-                        ChatMessageModel msg = new ChatMessageModel()
-                        {
-                            chatId = chat.id,
-                            date = DateTime.Now,
-                            fromBareJid = args.CHAT_JID,
-                            isCC = false,
-                            isDummyMessage = false,
-                            isEncrypted = false,
-                            isFavorite = false,
-                            isImage = false,
-                            message = "Failed to encrypt and send " + args.MESSAGES.Count + " OMEMO message(s) with:\n" + args.ERROR,
-                            stableId = AbstractMessage.getRandomId(),
-                            state = MessageState.UNREAD,
-                            type = MessageMessage.TYPE_ERROR
-                        };
-                        ctx.Add(msg);
+                        chatId = chat.id,
+                        date = DateTime.Now,
+                        fromBareJid = args.CHAT_JID,
+                        isCC = false,
+                        isDummyMessage = false,
+                        isEncrypted = false,
+                        isFavorite = false,
+                        isImage = false,
+                        message = "Failed to encrypt and send " + args.MESSAGES.Count + " OMEMO message(s) with:\n" + args.ERROR,
+                        stableId = AbstractMessage.getRandomId(),
+                        state = MessageState.UNREAD,
+                        type = MessageMessage.TYPE_ERROR
+                    };
+                    DataCache.INSTANCE.AddChatMessage(msg, chat);
 
-                        // Set chat messages to encrypted failed:
-                        SetOmemoChatMessagesSendFailed(args.MESSAGES, chat);
-                    }
+                    // Set chat messages to encrypted failed:
+                    SetOmemoChatMessagesSendFailed(args.MESSAGES, chat);
                 }
             });
         }
@@ -479,43 +474,26 @@ namespace Manager.Classes
                 return;
             }
 
-            ChatModel chat;
-            using (MainDbContext ctx = new MainDbContext())
-            {
-                chat = ctx.Chats.Where(c => string.Equals(c.accountBareJid, client.dbAccount.bareJid) && string.Equals(c.bareJid, from)).FirstOrDefault();
-            }
-            switch (args.PRESENCE_MESSAGE.TYPE)
-            {
-                case "subscribe":
-                case "unsubscribed":
-                    if (chat is null)
-                    {
-                        chat = new ChatModel(from, client.dbAccount);
-                    }
-                    chat.subscription = args.PRESENCE_MESSAGE.TYPE;
-                    break;
-
-                // Answer presence probes:
-                case "probe":
-                    await AnswerPresenceProbeAsync(from, client.dbAccount.bareJid, chat, args.PRESENCE_MESSAGE);
-                    return;
-
-                default:
-                    break;
-            }
-
-            if (chat != null)
-            {
-                chat.status = args.PRESENCE_MESSAGE.STATUS;
-                chat.presence = args.PRESENCE_MESSAGE.PRESENCE;
-                using (MainDbContext ctx = new MainDbContext())
-                {
-                    ctx.Add(chat);
-                }
-            }
-            else
+            ChatModel chat = DataCache.INSTANCE.GetChat(xmppClient.getXMPPAccount().getBareJid(), from);
+            if (chat is null)
             {
                 Logger.Warn("Received a presence message for an unknown chat from: " + from + ", to: " + client.dbAccount.bareJid);
+                return;
+            }
+
+            // Answer presence probes:
+            // TODO: answer those only for chats we are subscribed to.
+            if (string.Equals(args.PRESENCE_MESSAGE.TYPE, "probe"))
+            {
+                await AnswerPresenceProbeAsync(from, client.dbAccount.bareJid, chat, args.PRESENCE_MESSAGE);
+                return;
+            }
+
+            chat.status = args.PRESENCE_MESSAGE.STATUS;
+            chat.presence = args.PRESENCE_MESSAGE.PRESENCE;
+            using (MainDbContext ctx = new MainDbContext())
+            {
+                ctx.Update(chat);
             }
         }
 
@@ -529,14 +507,15 @@ namespace Manager.Classes
                     // No roster result or set => return
                     return;
                 }
+
+                IEnumerable<ChatModel> chats = DataCache.INSTANCE.GetChats(client.dbAccount.bareJid);
+                foreach (ChatModel chat in chats)
+                {
+                    chat.inRoster = false;
+                }
+
                 using (MainDbContext ctx = new MainDbContext())
                 {
-                    IEnumerable<ChatModel> chats = ctx.Chats.Where(c => string.Equals(c.accountBareJid, client.dbAccount.bareJid));
-                    foreach (ChatModel chat in chats)
-                    {
-                        chat.inRoster = false;
-                    }
-
                     foreach (RosterItem item in msg.ITEMS)
                     {
                         ChatModel chat = chats.Where(c => string.Equals(c.bareJid, item.JID)).FirstOrDefault();
@@ -608,12 +587,15 @@ namespace Manager.Classes
 
         private void OnMessageSend(XMPPClient xmppClient, MessageSendEventArgs args)
         {
-            using (MainDbContext ctx = new MainDbContext())
+            ChatMessageModel msg = DataCache.INSTANCE.GetChatMessage(args.CHAT_MESSAGE_ID);
+            Debug.Assert(!(msg is null));
+            if (!(msg is null))
             {
-                ChatMessageModel msg = ctx.ChatMessages.Where(m => m.id == args.CHAT_MESSAGE_ID).FirstOrDefault();
-                Debug.Assert(!(msg is null));
                 msg.state = MessageState.SEND;
-                ctx.Update(msg);
+                using (MainDbContext ctx = new MainDbContext())
+                {
+                    ctx.Update(msg);
+                }
             }
         }
 
@@ -621,74 +603,70 @@ namespace Manager.Classes
         {
             foreach (ConferenceItem ci in args.BOOKMARKS_MESSAGE.STORAGE.CONFERENCES)
             {
-                ChatModel chat;
-                MucInfoModel info;
-                bool newMuc = false;
-                using (MainDbContext ctx = new MainDbContext())
+                ChatModel chat = DataCache.INSTANCE.GetChat(client.dbAccount.bareJid, ci.jid);
+                bool newMuc = chat is null;
+                if (newMuc)
                 {
-                    chat = ctx.Chats.Where(c => string.Equals(c.accountBareJid, client.dbAccount.bareJid) && string.Equals(c.bareJid, ci.jid)).FirstOrDefault();
-
-                    if (chat is null)
+                    chat = new ChatModel(ci.jid, client.dbAccount)
                     {
-                        chat = new ChatModel(ci.jid, client.dbAccount);
-                    }
-                    chat.chatType = ChatType.MUC;
-                    chat.inRoster = true;
-                    chat.presence = Presence.Unavailable;
-                    chat.isChatActive = true;
-
-                    if (newMuc)
+                        chatType = ChatType.MUC
+                    };
+                    chat.muc = new MucInfoModel(chat)
                     {
-                        ctx.Add(chat);
-                        info = new MucInfoModel()
-                        {
-                            chat = chat,
-                            subject = null,
-                            autoEnterRoom = ci.autoJoin,
-                            name = ci.name,
-                            nickname = ci.nick,
-                            password = ci.password,
-                            state = MucState.DISCONNECTED
-                        };
-                        ctx.Add(info);
-                    }
-                    else
+                        state = MucState.DISCONNECTED
+                    };
+                }
+                // Update chat:
+                chat.inRoster = true;
+                chat.presence = Presence.Unavailable;
+                chat.isChatActive = true;
+
+                // Update MUC info:
+                chat.muc.autoEnterRoom = ci.autoJoin;
+                chat.muc.name = ci.name;
+                chat.muc.nickname = ci.nick;
+                chat.muc.password = ci.password;
+
+                if (newMuc)
+                {
+                    DataCache.INSTANCE.AddChat(chat, client);
+                }
+                else
+                {
+                    using (MainDbContext ctx = new MainDbContext())
                     {
                         ctx.Update(chat);
-                        info = ctx.MucInfos.Where(m => m.chat.id == chat.id).FirstOrDefault();
-                        info.autoEnterRoom = ci.autoJoin;
-                        info.name = ci.name;
-                        info.nickname = ci.nick;
-                        info.password = ci.password;
-                        ctx.Update(info);
+                        ctx.Update(chat.muc);
                     }
                 }
+
                 // Enter MUC manually if the MUC is new for this client:
-                if (newMuc && info.autoEnterRoom && !Settings.GetSettingBoolean(SettingsConsts.DISABLE_AUTO_JOIN_MUC))
+                if (newMuc && chat.muc.autoEnterRoom && !Settings.GetSettingBoolean(SettingsConsts.DISABLE_AUTO_JOIN_MUC))
                 {
-                    Task.Run(() => MucHandler.INSTANCE.EnterMucAsync(xmppClient, info));
+                    Task.Run(() => MucHandler.INSTANCE.EnterMucAsync(xmppClient, chat.muc));
                 }
             }
         }
 
         private void OnNewDeliveryReceipt(XMPPClient xmppClient, NewDeliveryReceiptEventArgs args)
         {
+            string fromBareJid = Utils.getBareJidFromFullJid(args.MSG.getFrom());
+            ChatModel chat = DataCache.INSTANCE.GetChat(client.dbAccount.bareJid, fromBareJid);
+            if (chat is null)
+            {
+                Logger.Warn($"Delivery receipt for an unknown chat ({fromBareJid}) on account '{client.dbAccount.bareJid}' received.");
+                return;
+            }
+
+            ChatMessageModel msg = DataCache.INSTANCE.GetChatMessage(chat.id, args.MSG.RECEIPT_ID);
+            if (msg is null)
+            {
+                Logger.Warn($"Delivery receipt for an chat message ({args.MSG.RECEIPT_ID}) on account '{client.dbAccount.bareJid}' received.");
+                return;
+            }
+            msg.state = MessageState.DELIVERED;
             using (MainDbContext ctx = new MainDbContext())
             {
-                string fromBareJid = Utils.getBareJidFromFullJid(args.MSG.getFrom());
-                ChatModel chat = ctx.Chats.Where(c => string.Equals(c.accountBareJid, client.dbAccount.bareJid) && string.Equals(c.bareJid, fromBareJid)).FirstOrDefault();
-                if (chat is null)
-                {
-                    Logger.Warn($"Delivery receipt for an unknown chat ({fromBareJid}) on account '{client.dbAccount.bareJid}' received.");
-                    return;
-                }
-                ChatMessageModel msg = ctx.ChatMessages.Where(m => m.chatId == chat.id && string.Equals(m.stableId, args.MSG.RECEIPT_ID) && string.Equals(m.fromBareJid, fromBareJid)).FirstOrDefault();
-                if (msg is null)
-                {
-                    Logger.Warn($"Delivery receipt for an chat message ({args.MSG.RECEIPT_ID}) on account '{client.dbAccount.bareJid}' received.");
-                    return;
-                }
-                msg.state = MessageState.SEND;
                 ctx.Update(msg);
             }
         }

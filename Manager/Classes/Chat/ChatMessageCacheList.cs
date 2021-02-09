@@ -231,13 +231,8 @@ namespace Manager.Classes.Chat
                 {
                     foreach (QueryArchiveResultMessage msg in result.RESULT.RESULTS)
                     {
-
                         ChatMessageDataTemplate tmp = new ChatMessageDataTemplate(new ChatMessageModel(msg.MESSAGE, chat.Chat), chat.Chat);
                         ctx.Add(tmp.Message);
-                        if (tmp.Message.isImage)
-                        {
-                            ctx.Add(tmp.Message.image);
-                        }
                         msgs.Add(tmp);
                     }
                 }

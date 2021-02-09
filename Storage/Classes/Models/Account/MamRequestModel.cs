@@ -15,9 +15,8 @@ namespace Storage.Classes.Models.Account
         [Required]
         public DateTime lastUpdate { get; set; } = DateTime.MinValue;
         /// <summary>
-        /// The message ID of the last message.
+        /// The message ID of the last message or null in case the request has never been run before.
         /// </summary>
-        [Required]
         public string lastMsgId { get; set; }
 
         #endregion

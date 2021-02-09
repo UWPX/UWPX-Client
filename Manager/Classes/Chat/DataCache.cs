@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
 using System.Threading;
@@ -82,7 +83,93 @@ namespace Manager.Classes.Chat
 
             using (MainDbContext ctx = new MainDbContext())
             {
-                return ctx.Chats.Where(c => c.id == chatId).FirstOrDefault();
+                return ctx.Chats.Where(c => c.id == chatId).Include(ctx.GetIncludePaths(typeof(ChatModel))).FirstOrDefault();
+            }
+        }
+
+        public ChatMessageModel GetChatMessage(int chatId, string stableId)
+        {
+            if (initialized)
+            {
+                CHATS_SEMA.Wait();
+                if (!(SelectedChat is null) && SelectedChat.Chat.id == chatId)
+                {
+                    ChatMessageModel msg;
+                    CHATS_MESSAGES_SEMA.Wait();
+                    msg = CHAT_MESSAGES.Where(m => string.Equals(m.Message.stableId, stableId)).FirstOrDefault().Message;
+                    CHATS_MESSAGES_SEMA.Release();
+                    // In case the message is null try loading it from the DB since it might not be shown currently:
+                    if (!(msg is null))
+                    {
+                        CHATS_SEMA.Release();
+                        return msg;
+                    }
+                }
+                CHATS_SEMA.Release();
+            }
+
+            using (MainDbContext ctx = new MainDbContext())
+            {
+                return ctx.ChatMessages.Where(m => m.chatId == chatId && string.Equals(m.stableId, stableId)).Include(ctx.GetIncludePaths(typeof(ChatMessageModel))).FirstOrDefault();
+            }
+        }
+
+        public ChatMessageModel GetChatMessage(int msgDbId)
+        {
+            if (initialized)
+            {
+                CHATS_SEMA.Wait();
+                if (!(SelectedChat is null))
+                {
+                    ChatMessageModel msg;
+                    CHATS_MESSAGES_SEMA.Wait();
+                    msg = CHAT_MESSAGES.Where(m => m.Message.id == msgDbId).FirstOrDefault().Message;
+                    CHATS_MESSAGES_SEMA.Release();
+                    // In case the message is null try loading it from the DB since it might not be shown currently:
+                    if (!(msg is null))
+                    {
+                        CHATS_SEMA.Release();
+                        return msg;
+                    }
+                }
+                CHATS_SEMA.Release();
+            }
+
+            using (MainDbContext ctx = new MainDbContext())
+            {
+                return ctx.ChatMessages.Where(m => m.id == msgDbId).Include(ctx.GetIncludePaths(typeof(ChatMessageModel))).FirstOrDefault();
+            }
+        }
+
+        public IEnumerable<MucInfoModel> GetMucs(string accountBareJid)
+        {
+            if (initialized)
+            {
+                CHATS_SEMA.Wait();
+                IEnumerable<MucInfoModel> mucs = CHATS.Where(c => string.Equals(c.Chat.bareJid, accountBareJid)).Select(c => c.Chat.muc);
+                CHATS_SEMA.Release();
+                return mucs;
+            }
+
+            using (MainDbContext ctx = new MainDbContext())
+            {
+                return ctx.Chats.Where(c => c.chatType == ChatType.MUC && string.Equals(c.accountBareJid, accountBareJid)).Select(c => c.muc).Include(ctx.GetIncludePaths(typeof(MucInfoModel)));
+            }
+        }
+
+        public IEnumerable<ChatModel> GetChats(string accountBareJid)
+        {
+            if (initialized)
+            {
+                CHATS_SEMA.Wait();
+                IEnumerable<ChatModel> chats = CHATS.Where(c => string.Equals(c.Chat.bareJid, accountBareJid)).Select(c => c.Chat);
+                CHATS_SEMA.Release();
+                return chats;
+            }
+
+            using (MainDbContext ctx = new MainDbContext())
+            {
+                return ctx.Chats.Where(c => c.chatType == ChatType.MUC && string.Equals(c.accountBareJid, accountBareJid)).Include(ctx.GetIncludePaths(typeof(ChatModel)));
             }
         }
 
@@ -98,7 +185,7 @@ namespace Manager.Classes.Chat
 
             using (MainDbContext ctx = new MainDbContext())
             {
-                return ctx.Chats.Where(c => string.Equals(c.accountBareJid, accountBareJid) && string.Equals(c.bareJid, chatBareJid)).FirstOrDefault();
+                return ctx.Chats.Where(c => string.Equals(c.accountBareJid, accountBareJid) && string.Equals(c.bareJid, chatBareJid)).Include(ctx.GetIncludePaths(typeof(ChatModel))).FirstOrDefault();
             }
         }
 
@@ -194,11 +281,6 @@ namespace Manager.Classes.Chat
             // Update the DB:
             using (MainDbContext ctx = new MainDbContext())
             {
-                ctx.Add(msg);
-                if (msg.isImage)
-                {
-                    ctx.Add(msg.image);
-                }
                 ctx.Update(chat);
             }
         }
@@ -264,24 +346,31 @@ namespace Manager.Classes.Chat
 
         public void AddChat(ChatModel chat, Client client)
         {
+            // Update the DB:
+            using (MainDbContext ctx = new MainDbContext())
+            {
+                if (!(chat.muc is null))
+                {
+                    MucInfoModel muc = chat.muc;
+                    chat.muc = null;
+                    ctx.Add(muc);
+                    //ctx.SaveChanges();
+                    ctx.SaveChanges();
+                    chat.muc = muc;
+                    ctx.Update(chat);
+                }
+                else
+                {
+                    ctx.Add(chat);
+                }
+            }
+
             // Update the cache:
             if (initialized)
             {
                 CHATS_SEMA.Wait();
                 CHATS.Add(new ChatDataTemplate(chat, client, null, null));
                 CHATS_SEMA.Release();
-            }
-
-            // Update the DB:
-            using (MainDbContext ctx = new MainDbContext())
-            {
-                if (chat.chatType == ChatType.MUC)
-                {
-                    ctx.Add(chat.muc);
-                }
-                ctx.Add(chat.omemo.deviceListSubscription);
-                ctx.Add(chat.omemo);
-                ctx.Add(chat);
             }
         }
 
@@ -339,7 +428,7 @@ namespace Manager.Classes.Chat
                 await CHATS_SEMA.WaitAsync();
                 CHATS.Clear();
                 SelectedChat = null;
-                CHATS.AddRange(ctx.Chats.Select(c => LoadChat(c, ctx)), true);
+                CHATS.AddRange(ctx.Chats.Include(ctx.GetIncludePaths(typeof(ChatModel))).Select(c => LoadChat(c, ctx)), true);
                 CHATS_SEMA.Release();
             }
         }

@@ -17,7 +17,7 @@ namespace Storage.Classes.Models.Omemo
         /// The device list subscription states for this chat.
         /// </summary>
         [Required]
-        public OmemoDeviceListSubscriptionModel deviceListSubscription { get; set; }
+        public OmemoDeviceListSubscriptionModel deviceListSubscription { get; set; } = new OmemoDeviceListSubscriptionModel();
         /// <summary>
         /// A collection of devices involved in this chat.
         /// </summary>
@@ -43,6 +43,11 @@ namespace Storage.Classes.Models.Omemo
             devices = new List<OmemoDeviceModel>();
             enabled = Settings.GetSettingBoolean(SettingsConsts.ENABLE_OMEMO_BY_DEFAULT_FOR_NEW_CHATS);
             trustedKeysOnly = false;
+        }
+
+        public OmemoChatInformationModel(string chatBareJid)
+        {
+            deviceListSubscription.bareJid = chatBareJid;
         }
 
         #endregion

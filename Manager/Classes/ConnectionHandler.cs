@@ -1,7 +1,10 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Collections.Specialized;
+using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
+using Microsoft.EntityFrameworkCore;
 using Shared.Classes.Collections;
 using Shared.Classes.Network;
 using Storage.Classes.Contexts;
@@ -41,7 +44,7 @@ namespace Manager.Classes
         //--------------------------------------------------------Set-, Get- Methods:---------------------------------------------------------\\
         #region --Set-, Get- Methods--
         /// <summary>
-        /// Returns the XMPPClient that matches the given bare JID.
+        /// Returns the <see cref="Client"/> that matches the given bare JID.
         /// </summary>
         /// <param name="bareJid">The bare JID of the requested XMPPClient. e.g. 'alice@jabber.org'</param>
         public Client GetClient(string bareJid)
@@ -51,6 +54,22 @@ namespace Manager.Classes
                 if (handler.client.dbAccount.bareJid.Equals(bareJid))
                 {
                     return handler.client;
+                }
+            }
+            return null;
+        }
+
+        /// <summary>
+        /// Returns the <see cref="ClientConnectedHandler"/> that matches the given bare JID.
+        /// </summary>
+        /// <param name="bareJid">The bare JID of the requested XMPPClient. e.g. 'alice@jabber.org'</param>
+        public ClientConnectionHandler GetClientConnection(string bareJid)
+        {
+            foreach (ClientConnectionHandler handler in CLIENTS)
+            {
+                if (handler.client.dbAccount.bareJid.Equals(bareJid))
+                {
+                    return handler;
                 }
             }
             return null;
@@ -149,6 +168,17 @@ namespace Manager.Classes
             ConnectAll();
         }
 
+        /// <summary>
+        /// Loads the given account and adds it to the list of clients (<see cref="CLIENTS"/>).
+        /// </summary>
+        /// <param name="account">The <see cref="AccountModel"/> that should be added.</param>
+        public void AddAccount(AccountModel account)
+        {
+            CLIENT_SEMA.Wait();
+            LoadClient(account);
+            CLIENT_SEMA.Release();
+        }
+
         #endregion
 
         #region --Misc Methods (Private)--
@@ -161,14 +191,24 @@ namespace Manager.Classes
             {
                 CLIENT_SEMA.Wait();
                 CLIENTS.Clear();
-                foreach (AccountModel account in ctx.Accounts)
+                IEnumerable<AccountModel> accounts = ctx.Accounts.Where(x => true).Include(ctx.GetIncludePaths(typeof(AccountModel)));
+                foreach (AccountModel account in accounts)
                 {
-                    ClientConnectionHandler client = new ClientConnectionHandler(account);
-                    client.ClientConnected += OnClientConnected;
-                    CLIENTS.Add(client);
+                    LoadClient(account);
                 }
                 CLIENT_SEMA.Release();
             }
+        }
+
+        /// <summary>
+        /// Loads the given account and adds it to the list of clients (<see cref="CLIENTS"/>).
+        /// </summary>
+        /// <param name="account">The <see cref="AccountModel"/> that should be added.</param>
+        private void LoadClient(AccountModel account)
+        {
+            ClientConnectionHandler client = new ClientConnectionHandler(account);
+            client.ClientConnected += OnClientConnected;
+            CLIENTS.Add(client);
         }
 
         /// <summary>

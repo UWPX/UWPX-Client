@@ -41,7 +41,9 @@ namespace Manager.Classes
         /// <returns>Returns a new XMPPClient instance.</returns>
         private XMPPClient LoadXmppClient(AccountModel account)
         {
-            XMPPClient client = new XMPPClient(account.ToXMPPAccount());
+            XMPPAccount xmppAccount = account.ToXMPPAccount();
+            Vault.LoadPassword(xmppAccount);
+            XMPPClient client = new XMPPClient(xmppAccount);
             client.connection.TCP_CONNECTION.disableConnectionTimeout = Settings.GetSettingBoolean(SettingsConsts.DEBUG_DISABLE_TCP_TIMEOUT);
             client.connection.TCP_CONNECTION.disableTlsUpgradeTimeout = Settings.GetSettingBoolean(SettingsConsts.DEBUG_DISABLE_TLS_TIMEOUT);
 
@@ -50,6 +52,9 @@ namespace Manager.Classes
             return client;
         }
 
+        /// <summary>
+        /// Enables OMEMO by setting all OMEMO keys.
+        /// </summary>
         private void EnableOmemo(AccountModel account, XMPPClient client)
         {
             XMPPAccount xmppAccount = client.getXMPPAccount();

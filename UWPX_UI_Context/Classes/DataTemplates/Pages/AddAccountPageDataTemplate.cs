@@ -64,7 +64,7 @@ namespace UWPX_UI_Context.Classes.DataTemplates.Pages
                 // Load a copy of the account for editing it:
                 using (MainDbContext ctx = new MainDbContext())
                 {
-                    ctx.Accounts.Where(a => string.Equals(a.bareJid, value.bareJid));
+                    ctx.Accounts.Where(a => string.Equals(a.bareJid, value.bareJid)).Include(ctx.GetIncludePaths(typeof(AccountModel)));
                 }
             }
         }

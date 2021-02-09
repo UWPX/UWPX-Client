@@ -65,7 +65,12 @@ namespace Storage.Classes.Models.Chat
         #endregion
         //--------------------------------------------------------Constructor:----------------------------------------------------------------\\
         #region --Constructors--
+        public MucInfoModel() { }
 
+        public MucInfoModel(ChatModel chat)
+        {
+            this.chat = chat;
+        }
 
         #endregion
         //--------------------------------------------------------Set-, Get- Methods:---------------------------------------------------------\\
