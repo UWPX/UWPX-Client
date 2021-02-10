@@ -13,6 +13,7 @@ namespace Storage.Classes.Models.Chat
         //--------------------------------------------------------Attributes:-----------------------------------------------------------------\\
         #region --Attributes--
         [Key]
+        [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public int id { get; set; }
         /// <summary>
         /// The unique and stable stanza ID (XEP-0359) used for MAM (XEP-0313).

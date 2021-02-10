@@ -1,4 +1,5 @@
 ﻿using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 using Omemo.Classes;
 
 namespace Storage.Classes.Models.Omemo
@@ -11,6 +12,7 @@ namespace Storage.Classes.Models.Omemo
         //--------------------------------------------------------Attributes:-----------------------------------------------------------------\\
         #region --Attributes--
         [Key]
+        [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public int id { get; set; }
         /// <summary>
         /// The unique ID of the device

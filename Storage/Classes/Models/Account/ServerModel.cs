@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 using Windows.Security.Cryptography.Certificates;
 using XMPP_API.Classes.Network.TCP;
 
@@ -10,6 +11,7 @@ namespace Storage.Classes.Models.Account
         //--------------------------------------------------------Attributes:-----------------------------------------------------------------\\
         #region --Attributes--
         [Key]
+        [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public int id { get; set; }
         /// <summary>
         /// The address of the server e.g. 'xmpp.jabber.org'.

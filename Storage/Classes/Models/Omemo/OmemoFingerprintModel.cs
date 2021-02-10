@@ -1,5 +1,6 @@
 ﻿using System;
 using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 using Omemo.Classes;
 using Omemo.Classes.Keys;
 using XMPP_API.Classes.Network.XML.Messages.XEP_0384;
@@ -11,6 +12,7 @@ namespace Storage.Classes.Models.Omemo
         //--------------------------------------------------------Attributes:-----------------------------------------------------------------\\
         #region --Attributes--
         [Key]
+        [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public int id { get; set; }
         [Required]
         public DateTime lastSeen { get; set; }

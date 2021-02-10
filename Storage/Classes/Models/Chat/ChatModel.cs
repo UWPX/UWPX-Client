@@ -13,6 +13,7 @@ namespace Storage.Classes.Models.Chat
         //--------------------------------------------------------Attributes:-----------------------------------------------------------------\\
         #region --Attributes--
         [Key]
+        [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public int id { get; set; }
         /// <summary>
         /// The bare JID of the chat/room e.g. 'coven@chat.shakespeare.lit'.

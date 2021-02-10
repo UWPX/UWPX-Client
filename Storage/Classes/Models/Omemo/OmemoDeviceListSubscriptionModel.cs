@@ -1,5 +1,6 @@
 ﻿using System;
 using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 using XMPP_API.Classes.Network.XML.Messages.XEP_0384;
 
 namespace Storage.Classes.Models.Omemo
@@ -9,6 +10,7 @@ namespace Storage.Classes.Models.Omemo
         //--------------------------------------------------------Attributes:-----------------------------------------------------------------\\
         #region --Attributes--
         [Key]
+        [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public int id { get; set; }
         /// <summary>
         /// The bare JID e.g. 'coven@chat.shakespeare.lit' we received the update from.

@@ -1,4 +1,5 @@
 ﻿using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 using XMPP_API.Classes.Network.XML.Messages.XEP_0249;
 
 namespace Storage.Classes.Models.Chat
@@ -8,6 +9,7 @@ namespace Storage.Classes.Models.Chat
         //--------------------------------------------------------Attributes:-----------------------------------------------------------------\\
         #region --Attributes--
         [Key]
+        [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public int id { get; set; }
         /// <summary>
         /// The <see cref="ChatMessageModel"/> associated with this invitation.

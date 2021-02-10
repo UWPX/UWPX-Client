@@ -1,5 +1,6 @@
 ﻿using System;
 using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 using Omemo.Classes.Keys;
 using Omemo.Classes.Messages;
 
@@ -13,6 +14,7 @@ namespace Omemo.Classes
         /// DB key for storing a session in a DB.
         /// </summary>
         [Key]
+        [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public int id { get; set; }
         /// <summary>
         /// Key pair for the sending ratchet.

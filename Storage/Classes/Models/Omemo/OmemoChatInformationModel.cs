@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 using Storage.Classes.Contexts;
 
 namespace Storage.Classes.Models.Omemo
@@ -12,6 +13,7 @@ namespace Storage.Classes.Models.Omemo
         //--------------------------------------------------------Attributes:-----------------------------------------------------------------\\
         #region --Attributes--
         [Key]
+        [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public int id { get; set; }
         /// <summary>
         /// The device list subscription states for this chat.
