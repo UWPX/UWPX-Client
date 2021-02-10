@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using Manager.Classes.Chat;
 using Omemo.Classes;
 using Omemo.Classes.Keys;
 using Storage.Classes.Contexts;
@@ -42,10 +43,7 @@ namespace Manager.Classes
             }
             else
             {
-                using (MainDbContext ctx = new MainDbContext())
-                {
-                    subscription = ctx.Chats.Where(c => string.Equals(c.accountBareJid, dbAccount.bareJid) && string.Equals(c.bareJid, bareJid)).FirstOrDefault()?.omemo?.deviceListSubscription;
-                }
+                subscription = DataCache.INSTANCE.GetChat(dbAccount.bareJid, bareJid)?.omemo?.deviceListSubscription;
             }
             if (subscription is null)
             {
@@ -63,10 +61,7 @@ namespace Manager.Classes
             }
             else
             {
-                using (MainDbContext ctx = new MainDbContext())
-                {
-                    devices = ctx.Chats.Where(c => string.Equals(c.accountBareJid, dbAccount.bareJid) && string.Equals(c.bareJid, bareJid)).FirstOrDefault()?.omemo?.devices;
-                }
+                devices = DataCache.INSTANCE.GetChat(dbAccount.bareJid, bareJid)?.omemo?.devices;
             }
             if (devices is null)
             {
@@ -84,10 +79,7 @@ namespace Manager.Classes
             }
             else
             {
-                using (MainDbContext ctx = new MainDbContext())
-                {
-                    fingerprint = ctx.Chats.Where(c => string.Equals(c.accountBareJid, dbAccount.bareJid) && string.Equals(c.bareJid, address.BARE_JID)).FirstOrDefault()?.omemo?.devices?.Where(d => d.deviceId == address.DEVICE_ID).FirstOrDefault().fingerprint;
-                }
+                fingerprint = DataCache.INSTANCE.GetChat(dbAccount.bareJid, address.BARE_JID)?.omemo?.devices?.Where(d => d.deviceId == address.DEVICE_ID).FirstOrDefault()?.fingerprint;
             }
             return fingerprint?.ToOmemoFingerprint(address);
         }
@@ -100,10 +92,7 @@ namespace Manager.Classes
             }
             else
             {
-                using (MainDbContext ctx = new MainDbContext())
-                {
-                    return ctx.Chats.Where(c => string.Equals(c.accountBareJid, dbAccount.bareJid) && string.Equals(c.bareJid, address.BARE_JID)).FirstOrDefault()?.omemo?.devices?.Where(d => d.deviceId == address.DEVICE_ID).FirstOrDefault()?.session;
-                }
+                return DataCache.INSTANCE.GetChat(dbAccount.bareJid, address.BARE_JID)?.omemo?.devices?.Where(d => d.deviceId == address.DEVICE_ID).FirstOrDefault()?.session;
             }
         }
 
@@ -141,16 +130,16 @@ namespace Manager.Classes
             }
             else
             {
+                ChatModel chat = DataCache.INSTANCE.GetChat(dbAccount.bareJid, dbAccount.bareJid);
+                if (chat is null)
+                {
+                    throw new InvalidOperationException("Failed to store device list subscription. Chat '" + bareJid + "' does not exist.");
+                }
+                OmemoDeviceListSubscriptionModel subscription = chat.omemo.deviceListSubscription;
+                subscription.lastUpdateReceived = lastUpdate.Item2;
+                subscription.state = lastUpdate.Item1;
                 using (MainDbContext ctx = new MainDbContext())
                 {
-                    ChatModel chat = ctx.Chats.Where(c => string.Equals(c.accountBareJid, dbAccount.bareJid) && string.Equals(c.bareJid, bareJid)).FirstOrDefault();
-                    if (chat is null)
-                    {
-                        throw new InvalidOperationException("Failed to store device list subscription. Chat '" + bareJid + "' does not exist.");
-                    }
-                    OmemoDeviceListSubscriptionModel subscription = chat.omemo.deviceListSubscription;
-                    subscription.lastUpdateReceived = lastUpdate.Item2;
-                    subscription.state = lastUpdate.Item1;
                     ctx.Update(subscription);
                 }
             }
@@ -172,13 +161,13 @@ namespace Manager.Classes
             }
             else
             {
+                OmemoChatInformationModel omemoChatInfo = DataCache.INSTANCE.GetChat(dbAccount.bareJid, dbAccount.bareJid)?.omemo;
+                if (omemoChatInfo is null)
+                {
+                    throw new InvalidOperationException("Failed to store devices. Chat '" + bareJid + "' does not exist.");
+                }
                 using (MainDbContext ctx = new MainDbContext())
                 {
-                    OmemoChatInformationModel omemoChatInfo = ctx.Chats.Where(c => string.Equals(c.accountBareJid, dbAccount.bareJid) && string.Equals(c.bareJid, bareJid)).FirstOrDefault()?.omemo;
-                    if (omemoChatInfo is null)
-                    {
-                        throw new InvalidOperationException("Failed to store devices. Chat '" + bareJid + "' does not exist.");
-                    }
                     ctx.RemoveRange(omemoChatInfo.devices);
                     ctx.AddRange(newDevices);
                     omemoChatInfo.devices.AddRange(newDevices);
@@ -196,15 +185,12 @@ namespace Manager.Classes
             }
             else
             {
-                using (MainDbContext ctx = new MainDbContext())
+                ChatModel chat = DataCache.INSTANCE.GetChat(dbAccount.bareJid, dbAccount.bareJid);
+                if (chat is null)
                 {
-                    ChatModel chat = ctx.Chats.Where(c => string.Equals(c.accountBareJid, dbAccount.bareJid) && string.Equals(c.bareJid, fingerprint.ADDRESS.BARE_JID)).FirstOrDefault();
-                    if (chat is null)
-                    {
-                        throw new InvalidOperationException("Failed to store fingerprint. Chat '" + fingerprint.ADDRESS.BARE_JID + "' does not exist.");
-                    }
-                    device = chat.omemo.devices.Where(d => d.deviceId == fingerprint.ADDRESS.DEVICE_ID).FirstOrDefault();
+                    throw new InvalidOperationException("Failed to store fingerprint. Chat '" + fingerprint.ADDRESS.BARE_JID + "' does not exist.");
                 }
+                device = chat.omemo.devices.Where(d => d.deviceId == fingerprint.ADDRESS.DEVICE_ID).FirstOrDefault();
             }
 
             if (device is null)
@@ -240,15 +226,12 @@ namespace Manager.Classes
             }
             else
             {
-                using (MainDbContext ctx = new MainDbContext())
+                ChatModel chat = DataCache.INSTANCE.GetChat(dbAccount.bareJid, dbAccount.bareJid);
+                if (chat is null)
                 {
-                    ChatModel chat = ctx.Chats.Where(c => string.Equals(c.accountBareJid, dbAccount.bareJid) && string.Equals(c.bareJid, address.BARE_JID)).FirstOrDefault();
-                    if (chat is null)
-                    {
-                        throw new InvalidOperationException("Failed to store session. Chat '" + address.BARE_JID + "' does not exist.");
-                    }
-                    device = chat.omemo.devices.Where(d => d.deviceId == address.DEVICE_ID).FirstOrDefault();
+                    throw new InvalidOperationException("Failed to store session. Chat '" + address.BARE_JID + "' does not exist.");
                 }
+                device = chat.omemo.devices.Where(d => d.deviceId == address.DEVICE_ID).FirstOrDefault();
             }
 
             if (device is null)

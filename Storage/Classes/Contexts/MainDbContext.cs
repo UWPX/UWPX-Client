@@ -63,6 +63,11 @@ namespace Storage.Classes.Contexts
             return ChatMessages.Where(m => m.chatId == chatId).Count();
         }
 
+        public int GetUnreadMessageCount()
+        {
+            return ChatMessages.Where(m => m.state == MessageState.UNREAD).Join(Chats, m => m.chatId, c => c.id, (m, c) => new { m, c.muted }).Where(t => !t.muted).Count();
+        }
+
         public List<ConferenceItem> GetXEP0048ConferenceItemsForAccount(string accountBareJid)
         {
             return MucInfos.Where(muc => muc.chat.inRoster && string.Equals(muc.chat.accountBareJid, accountBareJid)).Select(muc => muc.ToConferenceItem()).ToList();

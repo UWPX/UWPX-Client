@@ -90,8 +90,6 @@ namespace UWPX_UI_Context.Classes.DataContext.Controls.Chat
                                         trusted = true
                                     }
                                 };
-                                ctx.Add(device.fingerprint.identityKey);
-                                ctx.Add(device.fingerprint);
                                 ctx.Add(device);
                                 MODEL.Chat.Chat.omemo.devices.Add(device);
                                 ctx.Update(MODEL.Chat.Chat.omemo);
