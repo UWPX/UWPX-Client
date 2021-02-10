@@ -491,10 +491,7 @@ namespace Manager.Classes
 
             chat.status = args.PRESENCE_MESSAGE.STATUS;
             chat.presence = args.PRESENCE_MESSAGE.PRESENCE;
-            using (MainDbContext ctx = new MainDbContext())
-            {
-                ctx.Update(chat);
-            }
+            chat.Save();
         }
 
         private void OnNewRoosterMessage(IMessageSender sender, NewValidMessageEventArgs args)

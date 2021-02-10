@@ -37,6 +37,7 @@ namespace Storage.Classes.Contexts
         public DbSet<OmemoFingerprintModel> Fingerprints { get; set; }
         public DbSet<IdentityKeyPairModel> IdentityKeyPairs { get; set; }
         public DbSet<PreKeyModel> PreKeys { get; set; }
+        public DbSet<ECKeyModel> ECKeys { get; set; }
         public DbSet<ECPubKeyModel> ECPubKeys { get; set; }
         public DbSet<ECPrivKeyModel> ECPrivKeys { get; set; }
         public DbSet<OmemoSessionModel> Sessions { get; set; }
@@ -102,69 +103,44 @@ namespace Storage.Classes.Contexts
             base.Dispose();
         }
 
-        /// <summary>
-        /// Based on: https://stackoverflow.com/questions/49593482/entity-framework-core-2-0-1-eager-loading-on-all-nested-related-entities/49597502#49597502
-        /// </summary>
         public IEnumerable<string> GetIncludePaths(Type clrEntityType, int maxDepth = int.MaxValue)
         {
-            if (maxDepth < 0)
-            {
-                throw new ArgumentOutOfRangeException(nameof(maxDepth));
-            }
-
             IEntityType entityType = Model.FindEntityType(clrEntityType);
-            HashSet<INavigation> includedNavigations = new HashSet<INavigation>();
-            Stack<IEnumerator<INavigation>> stack = new Stack<IEnumerator<INavigation>>();
-            while (true)
-            {
-                List<INavigation> entityNavigations = new List<INavigation>();
-                if (stack.Count <= maxDepth)
-                {
-                    foreach (INavigation navigation in entityType.GetNavigations())
-                    {
-                        if (includedNavigations.Add(navigation))
-                        {
-                            entityNavigations.Add(navigation);
-                        }
-                    }
-                }
-                if (entityNavigations.Count == 0)
-                {
-                    if (stack.Count > 0)
-                    {
-                        yield return string.Join(".", stack.Reverse().Select(e => e.Current.Name));
-                    }
-                }
-                else
-                {
-                    foreach (INavigation navigation in entityNavigations)
-                    {
-                        INavigation inverseNavigation = navigation.FindInverse();
-                        if (inverseNavigation != null)
-                        {
-                            includedNavigations.Add(inverseNavigation);
-                        }
-                    }
-                    stack.Push(entityNavigations.GetEnumerator());
-                }
-                while (stack.Count > 0 && !stack.Peek().MoveNext())
-                {
-                    stack.Pop();
-                }
+            Stack<INavigation> navHirar = new Stack<INavigation>();
+            HashSet<INavigation> navHirarProps = new HashSet<INavigation>();
 
-                if (stack.Count == 0)
-                {
-                    break;
-                }
-
-                entityType = stack.Peek().Current.GetTargetType();
-            }
+            List<string> paths = new List<string>();
+            GetIncludePathsRec(navHirar, navHirarProps, entityType, paths, 0, maxDepth);
+            return paths;
         }
 
         #endregion
 
         #region --Misc Methods (Private)--
-
+        private void GetIncludePathsRec(Stack<INavigation> navHirar, HashSet<INavigation> navHirarProps, IEntityType entityType, List<string> paths, int curDepth, int maxDepth)
+        {
+            if (curDepth < maxDepth)
+            {
+                IEnumerable<INavigation> tmp = entityType.GetNavigations();
+                foreach (INavigation navigation in entityType.GetNavigations())
+                {
+                    if (navHirarProps.Add(navigation))
+                    {
+                        navHirar.Push(navigation);
+                        GetIncludePathsRec(navHirar, navHirarProps, navigation.GetTargetType(), paths, curDepth + 1, maxDepth);
+                        navHirar.Pop();
+                    }
+                }
+                if (!(entityType.BaseType is null))
+                {
+                    GetIncludePathsRec(navHirar, navHirarProps, entityType.BaseType, paths, curDepth + 1, maxDepth);
+                }
+            }
+            if (navHirar.Count > 0)
+            {
+                paths.Add(string.Join(".", navHirar.Reverse().Select(e => e.Name)));
+            }
+        }
 
         #endregion
 
