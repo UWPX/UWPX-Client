@@ -13,6 +13,7 @@ namespace Storage.Classes.Models.Chat
         //--------------------------------------------------------Attributes:-----------------------------------------------------------------\\
         #region --Attributes--
         [Key]
+        [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public int id { get; set; }
         /// <summary>
         /// The <see cref="ChatModel"/> associated with this MUC.

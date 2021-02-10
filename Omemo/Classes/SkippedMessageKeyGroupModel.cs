@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using Omemo.Classes.Keys;
 
@@ -10,6 +11,7 @@ namespace Omemo.Classes
         //--------------------------------------------------------Attributes:-----------------------------------------------------------------\\
         #region --Attributes--
         [Key]
+        [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public int id { get; set; }
         [Required]
         public ECPubKeyModel dh { get; set; }

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace Storage.Classes.Models.Chat
 {
@@ -8,6 +9,7 @@ namespace Storage.Classes.Models.Chat
         //--------------------------------------------------------Attributes:-----------------------------------------------------------------\\
         #region --Attributes--
         [Key]
+        [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public int id { get; set; }
         [Required]
         public DateTime lastReceived { get; set; }

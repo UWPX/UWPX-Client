@@ -1,4 +1,5 @@
 ﻿using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace Omemo.Classes.Keys
 {
@@ -7,6 +8,7 @@ namespace Omemo.Classes.Keys
         //--------------------------------------------------------Attributes:-----------------------------------------------------------------\\
         #region --Attributes--
         [Key]
+        [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public int id { get; set; }
         public ECPrivKeyModel privKey { get; set; }
         public ECPubKeyModel pubKey { get; set; }

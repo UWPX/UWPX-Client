@@ -1,5 +1,6 @@
 ﻿using System;
 using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace Storage.Classes.Models.Account
 {
@@ -8,6 +9,7 @@ namespace Storage.Classes.Models.Account
         //--------------------------------------------------------Attributes:-----------------------------------------------------------------\\
         #region --Attributes--
         [Key]
+        [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public int id { get; set; }
         /// <summary>
         /// The date and time of the last refresh.
