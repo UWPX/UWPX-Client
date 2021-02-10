@@ -329,13 +329,13 @@ namespace Manager.Classes
         private void OnDisconnectedOrError()
         {
             IEnumerable<ChatModel> chats = DataCache.INSTANCE.GetChats(client.dbAccount.bareJid);
+            foreach (ChatModel chat in chats)
+            {
+                chat.presence = Presence.Unavailable;
+            }
             using (MainDbContext ctx = new MainDbContext())
             {
-                foreach (ChatModel chat in chats)
-                {
-                    chat.presence = Presence.Unavailable;
-                    ctx.Update(chat);
-                }
+                ctx.UpdateRange(chats);
             }
             MucHandler.INSTANCE.OnClientDisconnected(client.xmppClient);
         }
@@ -514,51 +514,62 @@ namespace Manager.Classes
                     chat.inRoster = false;
                 }
 
+                List<ChatModel> addedChats = new List<ChatModel>();
+                List<ChatModel> updatedChats = new List<ChatModel>();
+
+                foreach (RosterItem item in msg.ITEMS)
+                {
+                    ChatModel chat = chats.Where(c => string.Equals(c.bareJid, item.JID)).FirstOrDefault();
+                    if (!(chat is null))
+                    {
+                        chat.inRoster = !string.Equals(item.SUBSCRIPTION, "remove");
+                        updatedChats.Add(chat);
+                    }
+                    else if (!string.Equals(item.SUBSCRIPTION, "remove"))
+                    {
+                        chat = new ChatModel(item.JID, client.dbAccount)
+                        {
+                            inRoster = true,
+                            chatType = ChatType.CHAT
+                        };
+                        addedChats.Add(chat);
+                    }
+                    else
+                    {
+                        continue;
+                    }
+
+                    // Only update the subscription state, if not set to subscribe:
+                    if (!string.Equals(chat.subscription, "subscribe"))
+                    {
+                        chat.subscription = item.SUBSCRIPTION;
+                    }
+                    chat.subscriptionRequested = string.Equals(item.ASK, "subscribe");
+
+                    switch (chat.subscription)
+                    {
+                        case "unsubscribe":
+                        case "from":
+                        case "none":
+                        case "pending":
+                        case null:
+                            chat.presence = Presence.Unavailable;
+                            break;
+
+                        default:
+                            break;
+                    }
+                }
+
+                // Update all existing chats:
                 using (MainDbContext ctx = new MainDbContext())
                 {
-                    foreach (RosterItem item in msg.ITEMS)
-                    {
-                        ChatModel chat = chats.Where(c => string.Equals(c.bareJid, item.JID)).FirstOrDefault();
-                        if (!(chat is null))
-                        {
-                            chat.inRoster = !string.Equals(item.SUBSCRIPTION, "remove");
-                        }
-                        else if (!string.Equals(item.SUBSCRIPTION, "remove"))
-                        {
-                            chat = new ChatModel(item.JID, client.dbAccount)
-                            {
-                                inRoster = true,
-                                chatType = ChatType.CHAT
-                            };
-                            ctx.Add(chat);
-                        }
-                        else
-                        {
-                            continue;
-                        }
-
-                        // Only update the subscription state, if not set to subscribe:
-                        if (!string.Equals(chat.subscription, "subscribe"))
-                        {
-                            chat.subscription = item.SUBSCRIPTION;
-                        }
-                        chat.subscriptionRequested = string.Equals(item.ASK, "subscribe");
-
-                        switch (chat.subscription)
-                        {
-                            case "unsubscribe":
-                            case "from":
-                            case "none":
-                            case "pending":
-                            case null:
-                                chat.presence = Presence.Unavailable;
-                                break;
-
-                            default:
-                                break;
-                        }
-                        ctx.Update(chat);
-                    }
+                    ctx.UpdateRange(updatedChats);
+                }
+                // Add all new chats:
+                foreach (ChatModel chat in addedChats)
+                {
+                    DataCache.INSTANCE.AddChat(chat, client);
                 }
             }
         }
@@ -636,7 +647,6 @@ namespace Manager.Classes
                     using (MainDbContext ctx = new MainDbContext())
                     {
                         ctx.Update(chat);
-                        ctx.Update(chat.muc);
                     }
                 }
 

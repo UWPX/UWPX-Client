@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Linq;
 using Logging;
 using Microsoft.Toolkit.Uwp.Notifications;
 using Shared.Classes;
@@ -171,11 +170,12 @@ namespace Manager.Classes.Toast
 
         public static void UpdateBadgeNumber()
         {
+            int count;
             using (MainDbContext ctx = new MainDbContext())
             {
-                int count = ctx.ChatMessages.Where(m => m.state == MessageState.UNREAD).Join(ctx.Chats, m => m.chatId, c => c.id, (m, c) => new { m, c.muted }).Where(t => !t.muted).Count();
-                SetBadgeNumber(count);
+                count = ctx.GetUnreadMessageCount();
             }
+            SetBadgeNumber(count);
         }
 
         public static void ShowSimpleToast(string text)

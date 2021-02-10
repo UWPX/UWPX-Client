@@ -392,7 +392,6 @@ namespace Manager.Classes
                             ctx.Update(occupant);
                         }
                     }
-                    ctx.Update(occupant);
                 }
             });
         }

@@ -428,7 +428,8 @@ namespace Manager.Classes.Chat
                 await CHATS_SEMA.WaitAsync();
                 CHATS.Clear();
                 SelectedChat = null;
-                CHATS.AddRange(ctx.Chats.Include(ctx.GetIncludePaths(typeof(ChatModel))).Select(c => LoadChat(c, ctx)), true);
+                IEnumerable<ChatModel> chats = ctx.Chats.Include(ctx.GetIncludePaths(typeof(ChatModel)));
+                CHATS.AddRange(chats.Select(c => LoadChat(c, ctx)), true);
                 CHATS_SEMA.Release();
             }
         }

@@ -169,14 +169,18 @@ namespace Manager.Classes
         }
 
         /// <summary>
-        /// Loads the given account and adds it to the list of clients (<see cref="CLIENTS"/>).
+        /// Loads the given account and adds it to the list of clients (<see cref="CLIENTS"/>) and connects it in case it is not disabled.
         /// </summary>
         /// <param name="account">The <see cref="AccountModel"/> that should be added.</param>
         public void AddAccount(AccountModel account)
         {
             CLIENT_SEMA.Wait();
-            LoadClient(account);
+            ClientConnectionHandler handler = LoadClient(account);
             CLIENT_SEMA.Release();
+            if (!handler.client.dbAccount.disabled)
+            {
+                handler.Connect();
+            }
         }
 
         #endregion
@@ -204,11 +208,12 @@ namespace Manager.Classes
         /// Loads the given account and adds it to the list of clients (<see cref="CLIENTS"/>).
         /// </summary>
         /// <param name="account">The <see cref="AccountModel"/> that should be added.</param>
-        private void LoadClient(AccountModel account)
+        private ClientConnectionHandler LoadClient(AccountModel account)
         {
             ClientConnectionHandler client = new ClientConnectionHandler(account);
             client.ClientConnected += OnClientConnected;
             CLIENTS.Add(client);
+            return client;
         }
 
         /// <summary>

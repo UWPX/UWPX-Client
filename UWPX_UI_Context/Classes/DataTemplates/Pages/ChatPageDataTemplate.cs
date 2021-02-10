@@ -26,14 +26,13 @@ namespace UWPX_UI_Context.Classes.DataTemplates.Pages
         #region --Constructors--
         public ChatPageDataTemplate()
         {
-            CHATS_ACV = new AdvancedCollectionView(DataCache.INSTANCE.CHATS, true)
-            {
-                Filter = AcvFilter
-            };
+            CHATS_ACV = new AdvancedCollectionView(DataCache.INSTANCE.CHATS, true);
 
+            CHAT_FILTER = new ChatFilterDataTemplate(CHATS_ACV);
+            CHATS_ACV.Filter = AcvFilter;
+            CHATS_ACV.Refresh(); // Sort and filter all existing entries
             CHATS_ACV.ObserveFilterProperty(nameof(ChatDataTemplate.Chat));
             CHATS_ACV.SortDescriptions.Add(new SortDescription(nameof(ChatDataTemplate.Chat), SortDirection.Descending));
-            CHAT_FILTER = new ChatFilterDataTemplate(CHATS_ACV);
 
             SelectedItem = DataCache.INSTANCE.SelectedChat;
         }
