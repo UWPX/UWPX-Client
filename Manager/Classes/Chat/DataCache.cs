@@ -153,7 +153,7 @@ namespace Manager.Classes.Chat
 
             using (MainDbContext ctx = new MainDbContext())
             {
-                return ctx.Chats.Where(c => c.chatType == ChatType.MUC && string.Equals(c.accountBareJid, accountBareJid)).Select(c => c.muc).Include(ctx.GetIncludePaths(typeof(MucInfoModel)));
+                return ctx.Chats.Where(c => c.chatType == ChatType.MUC && string.Equals(c.accountBareJid, accountBareJid)).Select(c => c.muc).Include(ctx.GetIncludePaths(typeof(MucInfoModel))).ToList();
             }
         }
 
@@ -265,6 +265,12 @@ namespace Manager.Classes.Chat
         /// </summary>
         public void AddChatMessage(ChatMessageModel msg, ChatModel chat)
         {
+            // Update the DB:
+            using (MainDbContext ctx = new MainDbContext())
+            {
+                ctx.Update(chat);
+            }
+
             // Update the cache:
             if (initialized)
             {
@@ -276,12 +282,6 @@ namespace Manager.Classes.Chat
                     CHATS_MESSAGES_SEMA.Release();
                 }
                 CHATS_SEMA.Release();
-            }
-
-            // Update the DB:
-            using (MainDbContext ctx = new MainDbContext())
-            {
-                ctx.Update(chat);
             }
         }
 
@@ -346,6 +346,14 @@ namespace Manager.Classes.Chat
 
         public void AddChat(ChatModel chat, Client client)
         {
+            // Update the cache:
+            if (initialized)
+            {
+                CHATS_SEMA.Wait();
+                CHATS.Add(new ChatDataTemplate(chat, client, null, null));
+                CHATS_SEMA.Release();
+            }
+
             // Update the DB:
             using (MainDbContext ctx = new MainDbContext())
             {
@@ -363,14 +371,6 @@ namespace Manager.Classes.Chat
                 {
                     ctx.Add(chat);
                 }
-            }
-
-            // Update the cache:
-            if (initialized)
-            {
-                CHATS_SEMA.Wait();
-                CHATS.Add(new ChatDataTemplate(chat, client, null, null));
-                CHATS_SEMA.Release();
             }
         }
 

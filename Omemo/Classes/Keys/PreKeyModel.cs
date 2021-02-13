@@ -2,7 +2,7 @@
 
 namespace Omemo.Classes.Keys
 {
-    public class PreKeyModel: ECKeyPairModel
+    public class PreKeyModel: AbstractECKeyPairModel
     {
         //--------------------------------------------------------Attributes:-----------------------------------------------------------------\\
         #region --Attributes--

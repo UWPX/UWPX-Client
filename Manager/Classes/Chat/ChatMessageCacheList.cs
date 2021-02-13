@@ -50,7 +50,10 @@ namespace Manager.Classes.Chat
         #endregion
         //--------------------------------------------------------Constructor:----------------------------------------------------------------\\
         #region --Constructors--
-        public ChatMessageCacheList() : base(false) { }
+        public ChatMessageCacheList() : base(false)
+        {
+            invokeInUiThread = true;
+        }
 
         #endregion
         //--------------------------------------------------------Set-, Get- Methods:---------------------------------------------------------\\
