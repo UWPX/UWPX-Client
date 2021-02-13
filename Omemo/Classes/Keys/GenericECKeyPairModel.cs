@@ -1,9 +1,9 @@
 ﻿namespace Omemo.Classes.Keys
 {
     /// <summary>
-    /// Represents a Ed25519 key pair.
+    /// Represents a generic EC key pair holding a <see cref="ECPubKeyModel"/> and <see cref="ECPrivKeyModel"/>.
     /// </summary>
-    public class IdentityKeyPairModel: AbstractECKeyPairModel
+    public class GenericECKeyPairModel: AbstractECKeyPairModel
     {
         //--------------------------------------------------------Attributes:-----------------------------------------------------------------\\
         #region --Attributes--
@@ -12,9 +12,9 @@
         #endregion
         //--------------------------------------------------------Constructor:----------------------------------------------------------------\\
         #region --Constructors--
-        public IdentityKeyPairModel() { }
+        public GenericECKeyPairModel() { }
 
-        public IdentityKeyPairModel(ECPrivKeyModel privKey, ECPubKeyModel pubKey) : base(privKey, pubKey) { }
+        public GenericECKeyPairModel(ECPrivKeyModel privKey, ECPubKeyModel pubKey) : base(privKey, pubKey) { }
 
         #endregion
         //--------------------------------------------------------Set-, Get- Methods:---------------------------------------------------------\\

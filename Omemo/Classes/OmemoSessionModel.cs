@@ -19,11 +19,11 @@ namespace Omemo.Classes
         /// <summary>
         /// Key pair for the sending ratchet.
         /// </summary>
-        public ECKeyPairModel dhS { get; set; }
+        public AbstractECKeyPairModel dhS { get; set; }
         /// <summary>
         /// Key pair for the receiving ratchet.
         /// </summary>
-        public ECKeyPairModel dhR { get; set; }
+        public AbstractECKeyPairModel dhR { get; set; }
         /// <summary>
         /// Ephemeral key used for initiating this session. 
         /// </summary>
@@ -103,7 +103,7 @@ namespace Omemo.Classes
             // We are only interested in the public key and discard the private key.
             ek = ephemeralKeyPair.pubKey;
             dhS = KeyHelper.GenerateKeyPair();
-            dhR = new ECKeyPairModel(null, receiverBundle.identityKey);
+            dhR = new GenericECKeyPairModel(null, receiverBundle.identityKey);
             Tuple<byte[], byte[]> tmp = LibSignalUtils.KDF_RK(sk, CryptoUtils.SharedSecret(dhS.privKey, dhR.pubKey));
             rk = tmp.Item1;
             ckS = tmp.Item2;
@@ -145,7 +145,7 @@ namespace Omemo.Classes
             pn = nS;
             nS = 0;
             nR = 0;
-            dhR = new ECKeyPairModel(null, msg.DH);
+            dhR = new GenericECKeyPairModel(null, msg.DH);
             Tuple<byte[], byte[]> tmp = LibSignalUtils.KDF_RK(rk, CryptoUtils.SharedSecret(dhS.privKey, dhR.pubKey));
             rk = tmp.Item1;
             ckR = tmp.Item2;

@@ -129,10 +129,11 @@
     <Compile Include="Classes\KeyHelper.cs" />
     <Compile Include="Classes\Keys\Bundle.cs" />
     <Compile Include="Classes\Keys\ECKeyModel.cs" />
-    <Compile Include="Classes\Keys\ECKeyPairModel.cs" />
+    <Compile Include="Classes\Keys\AbstractECKeyPairModel.cs" />
     <Compile Include="Classes\Keys\ECPrivKeyModel.cs" />
     <Compile Include="Classes\Keys\ECPubKeyModel.cs" />
     <Compile Include="Classes\Keys\EphemeralKeyPairModel.cs" />
+    <Compile Include="Classes\Keys\GenericECKeyPairModel.cs" />
     <Compile Include="Classes\Keys\IdentityKeyPairModel.cs" />
     <Compile Include="Classes\Keys\PreKeyModel.cs" />
     <Compile Include="Classes\Keys\SignedPreKeyModel.cs" />
