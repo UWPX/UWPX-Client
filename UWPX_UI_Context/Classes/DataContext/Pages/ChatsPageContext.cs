@@ -4,6 +4,7 @@ using Logging;
 using Manager.Classes;
 using Manager.Classes.Chat;
 using Manager.Classes.Toast;
+using Storage.Classes.Contexts;
 using Storage.Classes.Models.Chat;
 using UWPX_UI_Context.Classes.DataTemplates.Dialogs;
 using UWPX_UI_Context.Classes.DataTemplates.Pages;
@@ -73,11 +74,16 @@ namespace UWPX_UI_Context.Classes.DataContext.Pages
 
             await Task.Run(async () =>
             {
-                ChatModel chat = DataCache.INSTANCE.GetChat(client.dbAccount.bareJid, bareJid);
-
-                if (chat is null)
+                SemaLock semaLock = DataCache.INSTANCE.NewChatSemaLock();
+                ChatModel chat = DataCache.INSTANCE.GetChat(client.dbAccount.bareJid, bareJid, semaLock);
+                bool newChat = chat is null;
+                if (newChat)
                 {
                     chat = new ChatModel(bareJid, client.dbAccount);
+                }
+                else
+                {
+                    semaLock.Dispose();
                 }
 
                 // Set chat active:
@@ -97,7 +103,19 @@ namespace UWPX_UI_Context.Classes.DataContext.Pages
                     await client.xmppClient.GENERAL_COMMAND_HELPER.requestPresenceSubscriptionAsync(bareJid);
                     chat.subscription = "pending";
                 }
-                DataCache.INSTANCE.AddChat(chat, client);
+
+                if (newChat)
+                {
+                    DataCache.INSTANCE.AddChatUnsafe(chat, client);
+                    semaLock.Dispose();
+                }
+                else
+                {
+                    using (MainDbContext ctx = new MainDbContext())
+                    {
+                        ctx.Update(chat);
+                    }
+                }
             });
 
         }

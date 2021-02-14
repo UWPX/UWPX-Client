@@ -160,7 +160,8 @@ namespace Manager.Classes
                 }
             }
 
-            ChatModel chat = DataCache.INSTANCE.GetChat(to, from);
+            SemaLock semaLock = DataCache.INSTANCE.NewChatSemaLock();
+            ChatModel chat = DataCache.INSTANCE.GetChat(to, from, semaLock);
             bool chatChanged = false;
 
             // Spam detection:
@@ -185,6 +186,10 @@ namespace Manager.Classes
                     lastActive = msg.delay,
                     chatType = string.Equals(msg.TYPE, MessageMessage.TYPE_GROUPCHAT) ? ChatType.MUC : ChatType.CHAT
                 };
+            }
+            else
+            {
+                semaLock.Dispose();
             }
 
             // Mark chat as active:
@@ -216,7 +221,8 @@ namespace Manager.Classes
                 {
                     if (newChat)
                     {
-                        DataCache.INSTANCE.AddChat(chat, client);
+                        DataCache.INSTANCE.AddChatUnsafe(chat, client);
+                        semaLock.Dispose();
                         newChat = false;
                     }
                     else
@@ -328,7 +334,7 @@ namespace Manager.Classes
         /// </summary>
         private void OnDisconnectedOrError()
         {
-            IEnumerable<ChatModel> chats = DataCache.INSTANCE.GetChats(client.dbAccount.bareJid);
+            IEnumerable<ChatModel> chats = DataCache.INSTANCE.GetChats(client.dbAccount.bareJid, DataCache.INSTANCE.NewChatSemaLock());
             foreach (ChatModel chat in chats)
             {
                 chat.presence = Presence.Unavailable;
@@ -432,7 +438,7 @@ namespace Manager.Classes
         {
             Task.Run(() =>
             {
-                ChatModel chat = DataCache.INSTANCE.GetChat(xmppClient.getXMPPAccount().getBareJid(), args.CHAT_JID);
+                ChatModel chat = DataCache.INSTANCE.GetChat(xmppClient.getXMPPAccount().getBareJid(), args.CHAT_JID, DataCache.INSTANCE.NewChatSemaLock());
                 if (!(chat is null))
                 {
                     // Add an error chat message:
@@ -474,7 +480,7 @@ namespace Manager.Classes
                 return;
             }
 
-            ChatModel chat = DataCache.INSTANCE.GetChat(xmppClient.getXMPPAccount().getBareJid(), from);
+            ChatModel chat = DataCache.INSTANCE.GetChat(xmppClient.getXMPPAccount().getBareJid(), from, DataCache.INSTANCE.NewChatSemaLock());
             if (chat is null)
             {
                 Logger.Warn("Received a presence message for an unknown chat from: " + from + ", to: " + client.dbAccount.bareJid);
@@ -505,7 +511,8 @@ namespace Manager.Classes
                     return;
                 }
 
-                IEnumerable<ChatModel> chats = DataCache.INSTANCE.GetChats(client.dbAccount.bareJid);
+                SemaLock semaLock = DataCache.INSTANCE.NewChatSemaLock();
+                IEnumerable<ChatModel> chats = DataCache.INSTANCE.GetChats(client.dbAccount.bareJid, semaLock);
                 foreach (ChatModel chat in chats)
                 {
                     chat.inRoster = false;
@@ -558,15 +565,17 @@ namespace Manager.Classes
                     }
                 }
 
+                // Add all new chats:
+                foreach (ChatModel chat in addedChats)
+                {
+                    DataCache.INSTANCE.AddChatUnsafe(chat, client);
+                }
+                semaLock.Dispose();
+
                 // Update all existing chats:
                 using (MainDbContext ctx = new MainDbContext())
                 {
                     ctx.UpdateRange(updatedChats);
-                }
-                // Add all new chats:
-                foreach (ChatModel chat in addedChats)
-                {
-                    DataCache.INSTANCE.AddChat(chat, client);
                 }
             }
         }
@@ -611,7 +620,8 @@ namespace Manager.Classes
         {
             foreach (ConferenceItem ci in args.BOOKMARKS_MESSAGE.STORAGE.CONFERENCES)
             {
-                ChatModel chat = DataCache.INSTANCE.GetChat(client.dbAccount.bareJid, ci.jid);
+                SemaLock semaLock = DataCache.INSTANCE.NewChatSemaLock();
+                ChatModel chat = DataCache.INSTANCE.GetChat(client.dbAccount.bareJid, ci.jid, semaLock);
                 bool newMuc = chat is null;
                 if (newMuc)
                 {
@@ -624,6 +634,11 @@ namespace Manager.Classes
                         state = MucState.DISCONNECTED
                     };
                 }
+                else
+                {
+                    semaLock.Dispose();
+                }
+
                 // Update chat:
                 chat.inRoster = true;
                 chat.presence = Presence.Unavailable;
@@ -637,7 +652,8 @@ namespace Manager.Classes
 
                 if (newMuc)
                 {
-                    DataCache.INSTANCE.AddChat(chat, client);
+                    DataCache.INSTANCE.AddChatUnsafe(chat, client);
+                    semaLock.Dispose();
                 }
                 else
                 {
@@ -658,7 +674,7 @@ namespace Manager.Classes
         private void OnNewDeliveryReceipt(XMPPClient xmppClient, NewDeliveryReceiptEventArgs args)
         {
             string fromBareJid = Utils.getBareJidFromFullJid(args.MSG.getFrom());
-            ChatModel chat = DataCache.INSTANCE.GetChat(client.dbAccount.bareJid, fromBareJid);
+            ChatModel chat = DataCache.INSTANCE.GetChat(client.dbAccount.bareJid, fromBareJid, DataCache.INSTANCE.NewChatSemaLock());
             if (chat is null)
             {
                 Logger.Warn($"Delivery receipt for an unknown chat ({fromBareJid}) on account '{client.dbAccount.bareJid}' received.");

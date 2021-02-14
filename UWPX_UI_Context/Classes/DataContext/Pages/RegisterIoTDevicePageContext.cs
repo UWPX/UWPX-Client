@@ -57,7 +57,9 @@ namespace UWPX_UI_Context.Classes.DataContext.Pages
                     chatType = ChatType.IOT_DEVICE,
                     isChatActive = true
                 };
-                DataCache.INSTANCE.AddChat(chat, client);
+                SemaLock semaLock = DataCache.INSTANCE.NewChatSemaLock();
+                DataCache.INSTANCE.AddChatUnsafe(chat, client);
+                semaLock.Dispose();
 
                 // Add to the roster:
                 await client.xmppClient.GENERAL_COMMAND_HELPER.addToRosterAsync(deviceBareJid);

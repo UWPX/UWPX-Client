@@ -252,7 +252,7 @@ namespace UWPX_UI
                         }
                         else if (abstractToastActivation is SendReplyToastActivation sendReply)
                         {
-                            ChatModel chat = DataCache.INSTANCE.GetChat(sendReply.CHAT_ID);
+                            ChatModel chat = DataCache.INSTANCE.GetChat(sendReply.CHAT_ID, DataCache.INSTANCE.NewChatSemaLock());
                             if (chat is not null && userInput[ToastHelper.TEXT_BOX_ID] is string text)
                             {
                                 string trimedText = text.Trim(UiUtils.TRIM_CHARS);

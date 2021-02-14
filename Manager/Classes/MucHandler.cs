@@ -99,7 +99,7 @@ namespace Manager.Classes
         {
             string to = Utils.getBareJidFromFullJid(mucRoomSubject.getTo());
             string from = Utils.getBareJidFromFullJid(mucRoomSubject.getFrom());
-            ChatModel chat = DataCache.INSTANCE.GetChat(to, from);
+            ChatModel chat = DataCache.INSTANCE.GetChat(to, from, DataCache.INSTANCE.NewChatSemaLock());
             if (chat is null || chat.muc is null || (chat.muc.state == MucState.DISCONNECTED && string.Equals(chat.muc.subject, mucRoomSubject.SUBJECT)))
             {
                 return;
@@ -215,7 +215,7 @@ namespace Manager.Classes
             {
                 return;
             }
-            ChatModel chat = DataCache.INSTANCE.GetChat(client.getXMPPAccount().getBareJid(), room);
+            ChatModel chat = DataCache.INSTANCE.GetChat(client.getXMPPAccount().getBareJid(), room, DataCache.INSTANCE.NewChatSemaLock());
             if (chat is null || chat.muc is null)
             {
                 return;
@@ -305,7 +305,7 @@ namespace Manager.Classes
                 {
                     return;
                 }
-                ChatModel chat = DataCache.INSTANCE.GetChat(client.getXMPPAccount().getBareJid(), roomJid);
+                ChatModel chat = DataCache.INSTANCE.GetChat(client.getXMPPAccount().getBareJid(), roomJid, DataCache.INSTANCE.NewChatSemaLock());
                 if (chat is null || chat.muc is null)
                 {
                     return;
