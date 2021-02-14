@@ -43,7 +43,7 @@ namespace Manager.Classes
             }
             else
             {
-                subscription = DataCache.INSTANCE.GetChat(dbAccount.bareJid, bareJid)?.omemo?.deviceListSubscription;
+                subscription = DataCache.INSTANCE.GetChat(dbAccount.bareJid, bareJid, DataCache.INSTANCE.NewChatSemaLock())?.omemo?.deviceListSubscription;
             }
             if (subscription is null)
             {
@@ -61,7 +61,7 @@ namespace Manager.Classes
             }
             else
             {
-                devices = DataCache.INSTANCE.GetChat(dbAccount.bareJid, bareJid)?.omemo?.devices;
+                devices = DataCache.INSTANCE.GetChat(dbAccount.bareJid, bareJid, DataCache.INSTANCE.NewChatSemaLock())?.omemo?.devices;
             }
             if (devices is null)
             {
@@ -79,7 +79,7 @@ namespace Manager.Classes
             }
             else
             {
-                fingerprint = DataCache.INSTANCE.GetChat(dbAccount.bareJid, address.BARE_JID)?.omemo?.devices?.Where(d => d.deviceId == address.DEVICE_ID).FirstOrDefault()?.fingerprint;
+                fingerprint = DataCache.INSTANCE.GetChat(dbAccount.bareJid, address.BARE_JID, DataCache.INSTANCE.NewChatSemaLock())?.omemo?.devices?.Where(d => d.deviceId == address.DEVICE_ID).FirstOrDefault()?.fingerprint;
             }
             return fingerprint?.ToOmemoFingerprint(address);
         }
@@ -92,7 +92,7 @@ namespace Manager.Classes
             }
             else
             {
-                return DataCache.INSTANCE.GetChat(dbAccount.bareJid, address.BARE_JID)?.omemo?.devices?.Where(d => d.deviceId == address.DEVICE_ID).FirstOrDefault()?.session;
+                return DataCache.INSTANCE.GetChat(dbAccount.bareJid, address.BARE_JID, DataCache.INSTANCE.NewChatSemaLock())?.omemo?.devices?.Where(d => d.deviceId == address.DEVICE_ID).FirstOrDefault()?.session;
             }
         }
 
@@ -130,7 +130,7 @@ namespace Manager.Classes
             }
             else
             {
-                ChatModel chat = DataCache.INSTANCE.GetChat(dbAccount.bareJid, dbAccount.bareJid);
+                ChatModel chat = DataCache.INSTANCE.GetChat(dbAccount.bareJid, dbAccount.bareJid, DataCache.INSTANCE.NewChatSemaLock());
                 if (chat is null)
                 {
                     throw new InvalidOperationException("Failed to store device list subscription. Chat '" + bareJid + "' does not exist.");
@@ -161,7 +161,7 @@ namespace Manager.Classes
             }
             else
             {
-                OmemoChatInformationModel omemoChatInfo = DataCache.INSTANCE.GetChat(dbAccount.bareJid, dbAccount.bareJid)?.omemo;
+                OmemoChatInformationModel omemoChatInfo = DataCache.INSTANCE.GetChat(dbAccount.bareJid, dbAccount.bareJid, DataCache.INSTANCE.NewChatSemaLock())?.omemo;
                 if (omemoChatInfo is null)
                 {
                     throw new InvalidOperationException("Failed to store devices. Chat '" + bareJid + "' does not exist.");
@@ -185,7 +185,7 @@ namespace Manager.Classes
             }
             else
             {
-                ChatModel chat = DataCache.INSTANCE.GetChat(dbAccount.bareJid, dbAccount.bareJid);
+                ChatModel chat = DataCache.INSTANCE.GetChat(dbAccount.bareJid, dbAccount.bareJid, DataCache.INSTANCE.NewChatSemaLock());
                 if (chat is null)
                 {
                     throw new InvalidOperationException("Failed to store fingerprint. Chat '" + fingerprint.ADDRESS.BARE_JID + "' does not exist.");
@@ -226,7 +226,7 @@ namespace Manager.Classes
             }
             else
             {
-                ChatModel chat = DataCache.INSTANCE.GetChat(dbAccount.bareJid, dbAccount.bareJid);
+                ChatModel chat = DataCache.INSTANCE.GetChat(dbAccount.bareJid, dbAccount.bareJid, DataCache.INSTANCE.NewChatSemaLock());
                 if (chat is null)
                 {
                     throw new InvalidOperationException("Failed to store session. Chat '" + address.BARE_JID + "' does not exist.");

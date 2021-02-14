@@ -73,7 +73,9 @@ namespace UWPX_UI_Context.Classes.DataContext.Dialogs
                 state = MucState.DISCONNECTED
             };
             chat.muc = muc;
-            DataCache.INSTANCE.AddChat(chat, client);
+            SemaLock semaLock = DataCache.INSTANCE.NewChatSemaLock();
+            DataCache.INSTANCE.AddChatUnsafe(chat, client);
+            semaLock.Dispose();
 
             if (muc.autoEnterRoom)
             {

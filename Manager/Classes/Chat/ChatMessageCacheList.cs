@@ -252,7 +252,7 @@ namespace Manager.Classes.Chat
         {
             using (MainDbContext ctx = new MainDbContext())
             {
-                return ctx.GetNextNChatMessages(chat.Chat, GetLastMessage().Message, MAX_MESSAGES_PER_REQUEST).Select(msg => new ChatMessageDataTemplate(msg, chat.Chat)).ToList();
+                return ctx.GetNextNChatMessages(chat.Chat, GetLastMessage()?.Message, MAX_MESSAGES_PER_REQUEST).Select(msg => new ChatMessageDataTemplate(msg, chat.Chat)).ToList();
             }
         }
 

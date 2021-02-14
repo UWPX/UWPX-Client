@@ -54,6 +54,11 @@ namespace Manager.Classes.Chat
         #endregion
         //--------------------------------------------------------Constructor:----------------------------------------------------------------\\
         #region --Constructors--
+
+
+        #endregion
+        //--------------------------------------------------------Set-, Get- Methods:---------------------------------------------------------\\
+        #region --Set-, Get- Methods--
         public void SetSelectedChatProperty(ChatDataTemplate value)
         {
             if (SetProperty(ref _SelectedChat, value, nameof(SelectedChat)))
@@ -64,27 +69,9 @@ namespace Manager.Classes.Chat
             }
         }
 
-        #endregion
-        //--------------------------------------------------------Set-, Get- Methods:---------------------------------------------------------\\
-        #region --Set-, Get- Methods--
-        public ChatModel GetChat(int chatId)
+        public SemaLock NewChatSemaLock()
         {
-            if (initialized)
-            {
-                CHATS_SEMA.Wait();
-                ChatModel chat = null;
-                if (CHATS.Contains(chatId))
-                {
-                    chat = CHATS[chatId].Chat;
-                }
-                CHATS_SEMA.Release();
-                return chat;
-            }
-
-            using (MainDbContext ctx = new MainDbContext())
-            {
-                return ctx.Chats.Where(c => c.id == chatId).Include(ctx.GetIncludePaths(typeof(ChatModel))).FirstOrDefault();
-            }
+            return new SemaLock(CHATS_SEMA);
         }
 
         public ChatMessageModel GetChatMessage(int chatId, string stableId)
@@ -157,13 +144,12 @@ namespace Manager.Classes.Chat
             }
         }
 
-        public IEnumerable<ChatModel> GetChats(string accountBareJid)
+        public IEnumerable<ChatModel> GetChats(string accountBareJid, SemaLock semaLock)
         {
+            semaLock.Wait();
             if (initialized)
             {
-                CHATS_SEMA.Wait();
                 IEnumerable<ChatModel> chats = CHATS.Where(c => string.Equals(c.Chat.bareJid, accountBareJid)).Select(c => c.Chat);
-                CHATS_SEMA.Release();
                 return chats;
             }
 
@@ -173,20 +159,43 @@ namespace Manager.Classes.Chat
             }
         }
 
-        public ChatModel GetChat(string accountBareJid, string chatBareJid)
+        public ChatModel GetChat(string accountBareJid, string chatBareJid, SemaLock semaLock)
         {
+            ChatModel chat = null;
+            semaLock.Wait();
             if (initialized)
             {
-                CHATS_SEMA.Wait();
-                ChatModel chat = CHATS.Where(c => string.Equals(c.Chat.accountBareJid, accountBareJid) && string.Equals(c.Chat.bareJid, chatBareJid)).FirstOrDefault()?.Chat;
-                CHATS_SEMA.Release();
-                return chat;
+                chat = CHATS.Where(c => string.Equals(c.Chat.accountBareJid, accountBareJid) && string.Equals(c.Chat.bareJid, chatBareJid)).FirstOrDefault()?.Chat;
             }
-
-            using (MainDbContext ctx = new MainDbContext())
+            else
             {
-                return ctx.Chats.Where(c => string.Equals(c.accountBareJid, accountBareJid) && string.Equals(c.bareJid, chatBareJid)).Include(ctx.GetIncludePaths(typeof(ChatModel))).FirstOrDefault();
+                using (MainDbContext ctx = new MainDbContext())
+                {
+                    chat = ctx.Chats.Where(c => string.Equals(c.accountBareJid, accountBareJid) && string.Equals(c.bareJid, chatBareJid)).Include(ctx.GetIncludePaths(typeof(ChatModel))).FirstOrDefault();
+                }
             }
+            return chat;
+        }
+
+        public ChatModel GetChat(int chatId, SemaLock semaLock)
+        {
+            ChatModel chat = null;
+            semaLock.Wait();
+            if (initialized)
+            {
+                if (CHATS.Contains(chatId))
+                {
+                    chat = CHATS[chatId].Chat;
+                }
+            }
+            else
+            {
+                using (MainDbContext ctx = new MainDbContext())
+                {
+                    chat = ctx.Chats.Where(c => c.id == chatId).Include(ctx.GetIncludePaths(typeof(ChatModel))).FirstOrDefault();
+                }
+            }
+            return chat;
         }
 
         #endregion
@@ -344,14 +353,16 @@ namespace Manager.Classes.Chat
             }
         }
 
-        public void AddChat(ChatModel chat, Client client)
+        /// <summary>
+        /// Adds the given chat in an unsafe manner without synchronization.
+        /// Synchronization has to be done by <see cref="NewChatSemaLock"/> .
+        /// </summary>
+        public void AddChatUnsafe(ChatModel chat, Client client)
         {
             // Update the cache:
             if (initialized)
             {
-                CHATS_SEMA.Wait();
                 CHATS.Add(new ChatDataTemplate(chat, client, null, null));
-                CHATS_SEMA.Release();
             }
 
             // Update the DB:

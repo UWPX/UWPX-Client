@@ -125,6 +125,7 @@
     <Compile Include="Classes\Chat\ChatDataTemplate.cs" />
     <Compile Include="Classes\Chat\ObservableChatDictionaryList.cs" />
     <Compile Include="Classes\Chat\SaveObservableChatDictionaryList.cs" />
+    <Compile Include="Classes\Chat\SemaLock.cs" />
     <Compile Include="Classes\Client.cs" />
     <Compile Include="Classes\ClientConnectionHandler.cs" />
     <Compile Include="Classes\ConnectionHandler.cs" />
