@@ -8,13 +8,12 @@ namespace Omemo.Classes.Keys
     {
         //--------------------------------------------------------Attributes:-----------------------------------------------------------------\\
         #region --Attributes--
-        [Key]
-        [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
+        [Key, DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public int id { get; set; }
+        [Required, ForeignKey(nameof(preKey) + "Id")]
+        public PreKeyModel preKey { get; set; }
         [Required]
-        public PreKeyModel preKey;
-        [Required]
-        public byte[] signature;
+        public byte[] signature { get; set; }
 
         #endregion
         //--------------------------------------------------------Constructor:----------------------------------------------------------------\\

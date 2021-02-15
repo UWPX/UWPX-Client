@@ -95,13 +95,6 @@ namespace Storage.Classes.Contexts
         {
             // Store the list of ChainValidationResults as a string separated by ',':
             modelBuilder.Entity<ServerModel>().Property(l => l.ignoredCertificateErrors).HasConversion(v => string.Join(',', v.Select(i => (int)i)), v => v.Split(',', StringSplitOptions.RemoveEmptyEntries).Select(i => (ChainValidationResult)int.Parse(i)).ToList());
-
-            modelBuilder.Entity<SignedPreKeyModel>(s =>
-           {
-               s.ToTable(nameof(SignedPreKeys));
-               s.Property<byte[]>(nameof(SignedPreKeyModel.signature)).HasColumnName(nameof(SignedPreKeyModel.signature));
-               // s.Property<PreKeyModel>(nameof(SignedPreKeyModel.signature));
-           });
         }
 
         public override void Dispose()
