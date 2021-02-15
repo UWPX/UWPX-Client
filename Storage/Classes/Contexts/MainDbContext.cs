@@ -95,6 +95,13 @@ namespace Storage.Classes.Contexts
         {
             // Store the list of ChainValidationResults as a string separated by ',':
             modelBuilder.Entity<ServerModel>().Property(l => l.ignoredCertificateErrors).HasConversion(v => string.Join(',', v.Select(i => (int)i)), v => v.Split(',', StringSplitOptions.RemoveEmptyEntries).Select(i => (ChainValidationResult)int.Parse(i)).ToList());
+
+            modelBuilder.Entity<SignedPreKeyModel>(s =>
+           {
+               s.ToTable(nameof(SignedPreKeys));
+               s.Property<byte[]>(nameof(SignedPreKeyModel.signature)).HasColumnName(nameof(SignedPreKeyModel.signature));
+               // s.Property<PreKeyModel>(nameof(SignedPreKeyModel.signature));
+           });
         }
 
         public override void Dispose()
@@ -109,7 +116,7 @@ namespace Storage.Classes.Contexts
             Stack<INavigation> navHirar = new Stack<INavigation>();
             HashSet<INavigation> navHirarProps = new HashSet<INavigation>();
 
-            List<string> paths = new List<string>();
+            HashSet<string> paths = new HashSet<string>();
             GetIncludePathsRec(navHirar, navHirarProps, entityType, paths, 0, maxDepth);
             return paths;
         }
@@ -117,11 +124,10 @@ namespace Storage.Classes.Contexts
         #endregion
 
         #region --Misc Methods (Private)--
-        private void GetIncludePathsRec(Stack<INavigation> navHirar, HashSet<INavigation> navHirarProps, IEntityType entityType, List<string> paths, int curDepth, int maxDepth)
+        private void GetIncludePathsRec(Stack<INavigation> navHirar, HashSet<INavigation> navHirarProps, IEntityType entityType, HashSet<string> paths, int curDepth, int maxDepth)
         {
             if (curDepth < maxDepth)
             {
-                IEnumerable<INavigation> tmp = entityType.GetNavigations();
                 foreach (INavigation navigation in entityType.GetNavigations())
                 {
                     if (navHirarProps.Add(navigation))
@@ -129,11 +135,8 @@ namespace Storage.Classes.Contexts
                         navHirar.Push(navigation);
                         GetIncludePathsRec(navHirar, navHirarProps, navigation.GetTargetType(), paths, curDepth + 1, maxDepth);
                         navHirar.Pop();
+                        navHirarProps.Remove(navigation);
                     }
-                }
-                if (!(entityType.BaseType is null))
-                {
-                    GetIncludePathsRec(navHirar, navHirarProps, entityType.BaseType, paths, curDepth + 1, maxDepth);
                 }
             }
             if (navHirar.Count > 0)
