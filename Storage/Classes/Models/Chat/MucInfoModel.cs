@@ -18,7 +18,7 @@ namespace Storage.Classes.Models.Chat
         /// <summary>
         /// The <see cref="ChatModel"/> associated with this MUC.
         /// </summary>
-        [Required, ForeignKey(nameof(ChatModel.muc))]
+        [Required, ForeignKey(nameof(chat) + "Id")]
         public ChatModel chat { get; set; }
         /// <summary>
         /// The users nickname for the chat.
