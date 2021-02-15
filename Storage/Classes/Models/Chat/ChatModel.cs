@@ -79,7 +79,7 @@ namespace Storage.Classes.Models.Chat
         /// <summary>
         /// The optional MUC information in case <see cref="chatType"/> == <seealso cref="ChatType.MUC"/>.
         /// </summary>
-        [ForeignKey(nameof(MucInfoModel.chat))]
+        [ForeignKey(nameof(muc) + "Id")]
         public MucInfoModel muc { get; set; }
 
         #endregion
