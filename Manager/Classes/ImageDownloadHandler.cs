@@ -46,7 +46,7 @@ namespace Manager.Classes
         public async Task StartDownloadAsync(ChatMessageImageModel image)
         {
             await DOWNLOAD_SEMA.WaitAsync();
-            if (image.State != DownloadState.DOWNLOADING && image.State != DownloadState.QUEUED)
+            if (image.state != DownloadState.DOWNLOADING && image.state != DownloadState.QUEUED)
             {
                 await DOWNLOAD_HANDLER.EnqueueDownloadAsync(image);
             }
@@ -78,13 +78,13 @@ namespace Manager.Classes
                 IEnumerable<ChatMessageImageModel> images;
                 using (MainDbContext ctx = new MainDbContext())
                 {
-                    images = ctx.ChatMessageImages.Where(i => i.State != DownloadState.DONE && i.State != DownloadState.ERROR && i.State != DownloadState.CANCELED).ToList();
+                    images = ctx.ChatMessageImages.Where(i => i.state != DownloadState.DONE && i.state != DownloadState.ERROR && i.state != DownloadState.CANCELED).ToList();
                 }
                 foreach (ChatMessageImageModel image in images)
                 {
-                    if (image.State == DownloadState.DOWNLOADING || image.State == DownloadState.QUEUED)
+                    if (image.state == DownloadState.DOWNLOADING || image.state == DownloadState.QUEUED)
                     {
-                        image.State = DownloadState.NOT_QUEUED;
+                        image.state = DownloadState.NOT_QUEUED;
                         using (MainDbContext ctx = new MainDbContext())
                         {
                             ctx.Update(image);

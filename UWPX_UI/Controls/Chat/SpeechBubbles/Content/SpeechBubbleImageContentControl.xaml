@@ -193,7 +193,7 @@
                        Text="Downloading..."/>
             <ProgressBar Grid.Row="2"
                          IsIndeterminate="{x:Bind VIEW_MODEL.MODEL.State, Mode=OneWay, Converter={StaticResource DownloadStateQueuedBoolValueConverter}, FallbackValue=True}"
-                         Value="{x:Bind VIEW_MODEL.MODEL.Image.Progress, Mode=OneWay}"/>
+                         Value="{x:Bind VIEW_MODEL.MODEL.Image.progress, Mode=OneWay}"/>
         </Grid>
 
         <!--  Loading:  -->

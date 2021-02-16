@@ -51,6 +51,11 @@ namespace Shared.Classes.Collections
             this.invokeInUiThread = invokeInUiThread;
         }
 
+        public CustomObservableCollection(IEnumerable<T> collection, bool invokeInUiThread) : this(invokeInUiThread)
+        {
+            AddRange(collection);
+        }
+
         #endregion
         //--------------------------------------------------------Set-, Get- Methods:---------------------------------------------------------\\
         #region --Set-, Get- Methods--

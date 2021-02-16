@@ -1,4 +1,5 @@
 ﻿using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace Omemo.Classes.Keys
 {
@@ -7,7 +8,13 @@ namespace Omemo.Classes.Keys
         //--------------------------------------------------------Attributes:-----------------------------------------------------------------\\
         #region --Attributes--
         [Required]
-        public uint keyId { get; set; }
+        public uint keyId
+        {
+            get => _keyId;
+            set => SetProperty(ref _keyId, value);
+        }
+        [NotMapped]
+        private uint _keyId;
 
         #endregion
         //--------------------------------------------------------Constructor:----------------------------------------------------------------\\

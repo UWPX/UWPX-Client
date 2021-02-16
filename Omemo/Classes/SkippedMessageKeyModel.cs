@@ -3,12 +3,14 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace Omemo.Classes
 {
+    /// <summary>
+    /// Does not derive from <see cref="AbstractDataTemplate"/> since it's just not interesting.
+    /// </summary>
     public class SkippedMessageKeyModel
     {
         //--------------------------------------------------------Attributes:-----------------------------------------------------------------\\
         #region --Attributes--
-        [Key]
-        [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
+        [Key, DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public int id { get; set; }
         [Required]
         public uint nr { get; set; }

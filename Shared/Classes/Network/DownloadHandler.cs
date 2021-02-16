@@ -57,10 +57,10 @@ namespace Shared.Classes.Network
 
         private void SetDownloadState(AbstractDownloadableObject o, DownloadState newState)
         {
-            if (o.State != newState)
+            if (o.state != newState)
             {
-                DownloadStateChangedEventArgs args = new DownloadStateChangedEventArgs(o.State, newState);
-                o.State = newState;
+                DownloadStateChangedEventArgs args = new DownloadStateChangedEventArgs(o.state, newState);
+                o.state = newState;
                 DownloadStateChanged?.Invoke(o, args);
             }
         }
@@ -117,10 +117,10 @@ namespace Shared.Classes.Network
                         TO_DOWNLOAD.RemoveAt(0);
                         TO_DOWNLOAD_SEMA.Release();
 
-                        if (o.State != DownloadState.CANCELED)
+                        if (o.state != DownloadState.CANCELED)
                         {
                             SetDownloadState(o, DownloadState.DOWNLOADING);
-                            o.Progress = 0;
+                            o.progress = 0;
 
                             // Add to currently downloading:
                             await DOWNLOADING_SEMA.WaitAsync();
@@ -160,8 +160,8 @@ namespace Shared.Classes.Network
 
         private async Task DownloadAsync(AbstractDownloadableObject o)
         {
-            Logger.Info("Started downloading <" + o.TargetFileName + "> from: " + o.SourceUrl);
-            HttpWebRequest request = (HttpWebRequest)WebRequest.Create(o.SourceUrl);
+            Logger.Info("Started downloading <" + o.targetFileName + "> from: " + o.sourceUrl);
+            HttpWebRequest request = (HttpWebRequest)WebRequest.Create(o.sourceUrl);
             HttpWebResponse response = (HttpWebResponse)await request.GetResponseAsync();
             long bytesReadTotal = 0;
 
@@ -169,10 +169,10 @@ namespace Shared.Classes.Network
             // The ContentType check is performed since a request for a non-existent image file might be redirected to a 404-page, which would yield the StatusCode "OK", even though the image was not found.
             if (response.StatusCode == HttpStatusCode.OK || response.StatusCode == HttpStatusCode.Moved || response.StatusCode == HttpStatusCode.Redirect)
             {
-                StorageFile file = await GenFilePathAsync(o.TargetFolderPath, o.TargetFileName);
+                StorageFile file = await GenFilePathAsync(o.targetFolderPath, o.targetFileName);
                 if (file is null)
                 {
-                    o.Error = DownloadError.FAILED_TO_CREATE_LOCAL_PATH;
+                    o.error = DownloadError.FAILED_TO_CREATE_LOCAL_PATH;
                     SetDownloadState(o, DownloadState.ERROR);
                     return;
                 }
@@ -191,23 +191,23 @@ namespace Shared.Classes.Network
                         bytesReadTotal += bytesRead;
                         UpdateDownloadProgress(o, response.ContentLength, bytesReadTotal);
 
-                    } while (bytesRead != 0 && o.State != DownloadState.CANCELED);
+                    } while (bytesRead != 0 && o.state != DownloadState.CANCELED);
                 }
 
-                if (o.State == DownloadState.CANCELED)
+                if (o.state == DownloadState.CANCELED)
                 {
-                    Logger.Info("Canceled downloading <" + o.TargetFileName + "> from: " + o.SourceUrl);
+                    Logger.Info("Canceled downloading <" + o.targetFileName + "> from: " + o.sourceUrl);
                     return;
                 }
 
                 SetDownloadState(o, DownloadState.DONE);
-                Logger.Info("Finished downloading <" + o.TargetFileName + "> from: " + o.SourceUrl);
+                Logger.Info("Finished downloading <" + o.targetFileName + "> from: " + o.sourceUrl);
             }
             else
             {
-                o.Error = DownloadError.INVALID_STATUS_CODE;
+                o.error = DownloadError.INVALID_STATUS_CODE;
                 SetDownloadState(o, DownloadState.ERROR);
-                Logger.Error("Unable to download image <" + o.TargetFileName + "> from: " + o.SourceUrl + "- Status code check failed: " + response.StatusCode + "(" + response.StatusDescription + ')');
+                Logger.Error("Unable to download image <" + o.targetFileName + "> from: " + o.sourceUrl + "- Status code check failed: " + response.StatusCode + "(" + response.StatusDescription + ')');
             }
         }
 
@@ -256,8 +256,8 @@ namespace Shared.Classes.Network
         /// <returns>Returns the last progress update percentage.</returns>
         private double UpdateDownloadProgress(AbstractDownloadableObject o, long totalSize, long bytesDownloadedTotal)
         {
-            o.Progress = bytesDownloadedTotal / ((double)totalSize) * 100;
-            return o.Progress;
+            o.progress = bytesDownloadedTotal / ((double)totalSize) * 100;
+            return o.progress;
         }
 
         public void Dispose()
@@ -278,7 +278,7 @@ namespace Shared.Classes.Network
             DOWNLOADING_SEMA.Wait();
             foreach (AbstractDownloadableObject o in DOWNLOADING)
             {
-                if (o.State != DownloadState.DONE && o.State != DownloadState.ERROR)
+                if (o.state != DownloadState.DONE && o.state != DownloadState.ERROR)
                 {
                     SetDownloadState(o, DownloadState.NOT_QUEUED);
                 }
