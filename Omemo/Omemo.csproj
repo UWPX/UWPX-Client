@@ -168,6 +168,10 @@
       <Project>{0c1fb090-4492-441d-b182-c999df71f917}</Project>
       <Name>Logging</Name>
     </ProjectReference>
+    <ProjectReference Include="..\Shared\Shared.csproj">
+      <Project>{c4af94da-11cf-4147-b5b7-4b2dc7c624a0}</Project>
+      <Name>Shared</Name>
+    </ProjectReference>
   </ItemGroup>
   <PropertyGroup Condition=" '$(VisualStudioVersion)' == '' or '$(VisualStudioVersion)' &lt; '14.0' ">
     <VisualStudioVersion>14.0</VisualStudioVersion>

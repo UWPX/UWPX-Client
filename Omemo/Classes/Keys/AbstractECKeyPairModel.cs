@@ -1,17 +1,38 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using System.ComponentModel;
+using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
+using Shared.Classes;
 
 namespace Omemo.Classes.Keys
 {
-    public abstract class AbstractECKeyPairModel
+    public abstract class AbstractECKeyPairModel: AbstractDataTemplate
     {
         //--------------------------------------------------------Attributes:-----------------------------------------------------------------\\
         #region --Attributes--
-        [Key]
-        [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
-        public int id { get; set; }
-        public ECPrivKeyModel privKey { get; set; }
-        public ECPubKeyModel pubKey { get; set; }
+        [Key, DatabaseGenerated(DatabaseGeneratedOption.Identity)]
+        public int id
+        {
+            get => _id;
+            set => SetProperty(ref _id, value);
+        }
+        [NotMapped]
+        private int _id;
+
+        public ECPrivKeyModel privKey
+        {
+            get => _privKey;
+            set => SetPrivKeyProperty(value);
+        }
+        [NotMapped]
+        private ECPrivKeyModel _privKey;
+
+        public ECPubKeyModel pubKey
+        {
+            get => _pubKey;
+            set => SetPubKeyProperty(value);
+        }
+        [NotMapped]
+        private ECPubKeyModel _pubKey;
 
         #endregion
         //--------------------------------------------------------Constructor:----------------------------------------------------------------\\
@@ -27,7 +48,37 @@ namespace Omemo.Classes.Keys
         #endregion
         //--------------------------------------------------------Set-, Get- Methods:---------------------------------------------------------\\
         #region --Set-, Get- Methods--
+        private void SetPrivKeyProperty(ECPrivKeyModel value)
+        {
+            ECPrivKeyModel old = _privKey;
+            if (SetProperty(ref _privKey, value, nameof(privKey)))
+            {
+                if (!(old is null))
+                {
+                    old.PropertyChanged -= OnPrivKeyPropertyChanged;
+                }
+                if (!(value is null))
+                {
+                    value.PropertyChanged += OnPrivKeyPropertyChanged;
+                }
+            }
+        }
 
+        private void SetPubKeyProperty(ECPubKeyModel value)
+        {
+            ECPubKeyModel old = _pubKey;
+            if (SetProperty(ref _pubKey, value, nameof(pubKey)))
+            {
+                if (!(old is null))
+                {
+                    old.PropertyChanged -= OnPubKeyPropertyChanged;
+                }
+                if (!(value is null))
+                {
+                    value.PropertyChanged += OnPubKeyPropertyChanged;
+                }
+            }
+        }
 
         #endregion
         //--------------------------------------------------------Misc Methods:---------------------------------------------------------------\\
@@ -66,7 +117,15 @@ namespace Omemo.Classes.Keys
         #endregion
         //--------------------------------------------------------Events:---------------------------------------------------------------------\\
         #region --Events--
+        private void OnPrivKeyPropertyChanged(object sender, PropertyChangedEventArgs e)
+        {
+            base.OnPropertyChanged(nameof(privKey) + '.' + e.PropertyName);
+        }
 
+        private void OnPubKeyPropertyChanged(object sender, PropertyChangedEventArgs e)
+        {
+            base.OnPropertyChanged(nameof(pubKey) + '.' + e.PropertyName);
+        }
 
         #endregion
     }

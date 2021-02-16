@@ -1,24 +1,34 @@
-﻿using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
+﻿using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using Omemo.Classes.Keys;
+using Shared.Classes;
+using Shared.Classes.Collections;
 
 namespace Omemo.Classes
 {
-    public class SkippedMessageKeyGroupsModel
+    public class SkippedMessageKeyGroupsModel: AbstractDataTemplate
     {
         //--------------------------------------------------------Attributes:-----------------------------------------------------------------\\
         #region --Attributes--
-        [Key]
-        [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
-        public int id { get; set; }
-        public readonly List<SkippedMessageKeyGroupModel> MKS = new List<SkippedMessageKeyGroupModel>();
+        [Key, DatabaseGenerated(DatabaseGeneratedOption.Identity)]
+        public int id
+        {
+            get => _id;
+            set => SetProperty(ref _id, value);
+        }
+        [NotMapped]
+        private int _id;
+
+        public readonly CustomObservableCollection<SkippedMessageKeyGroupModel> MKS = new CustomObservableCollection<SkippedMessageKeyGroupModel>(true);
 
         #endregion
         //--------------------------------------------------------Constructor:----------------------------------------------------------------\\
         #region --Constructors--
-
+        public SkippedMessageKeyGroupsModel()
+        {
+            MKS.PropertyChanged += OnMKSPropertyChanged;
+        }
 
         #endregion
         //--------------------------------------------------------Set-, Get- Methods:---------------------------------------------------------\\
@@ -64,7 +74,10 @@ namespace Omemo.Classes
         #endregion
         //--------------------------------------------------------Events:---------------------------------------------------------------------\\
         #region --Events--
-
+        private void OnMKSPropertyChanged(object sender, System.ComponentModel.PropertyChangedEventArgs e)
+        {
+            base.OnPropertyChanged(nameof(MKS) + '.' + e.PropertyName);
+        }
 
         #endregion
     }

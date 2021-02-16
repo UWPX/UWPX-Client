@@ -1,22 +1,49 @@
 ﻿using System;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
+using Shared.Classes;
 
 namespace Storage.Classes.Models.Chat
 {
-    public class SpamMessageModel
+    public class SpamMessageModel: AbstractDataTemplate
     {
         //--------------------------------------------------------Attributes:-----------------------------------------------------------------\\
         #region --Attributes--
-        [Key]
-        [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
-        public int id { get; set; }
+        [Key, DatabaseGenerated(DatabaseGeneratedOption.Identity)]
+        public int id
+        {
+            get => _id;
+            set => SetProperty(ref _id, value);
+        }
+        [NotMapped]
+        private int _id;
+
         [Required]
-        public DateTime lastReceived { get; set; }
+        public DateTime lastReceived
+        {
+            get => _lastReceived;
+            set => SetProperty(ref _lastReceived, value);
+        }
+        [NotMapped]
+        private DateTime _lastReceived = DateTime.MinValue;
+
         [Required]
-        public int count { get; set; }
+        public uint count
+        {
+            get => _count;
+            set => SetProperty(ref _count, value);
+        }
+        [NotMapped]
+        private uint _count;
+
         [Required]
-        public string text { get; set; }
+        public string text
+        {
+            get => _text;
+            set => SetProperty(ref _text, value);
+        }
+        [NotMapped]
+        private string _text;
 
         #endregion
         //--------------------------------------------------------Constructor:----------------------------------------------------------------\\

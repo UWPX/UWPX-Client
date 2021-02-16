@@ -1,5 +1,7 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using System.ComponentModel;
+using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
+using Shared.Classes;
 using Storage.Classes.Contexts;
 using Storage.Classes.Models.Omemo;
 using XMPP_API.Classes;
@@ -7,61 +9,129 @@ using XMPP_API.Classes.Network;
 
 namespace Storage.Classes.Models.Account
 {
-    public class AccountModel
+    public class AccountModel: AbstractDataTemplate
     {
         //--------------------------------------------------------Attributes:-----------------------------------------------------------------\\
         #region --Attributes--
         /// <summary>
         /// The unique bare Jabber ID of the account: user@domain e.g. 'coven@chat.shakespeare.lit'
         /// </summary>
-        [Key]
-        [DatabaseGenerated(DatabaseGeneratedOption.None)] // Do not automatically let the DB generate this ID
-        public string bareJid { get; set; }
+        [Key, DatabaseGenerated(DatabaseGeneratedOption.None)] // Do not automatically let the DB generate this ID
+        public string bareJid
+        {
+            get => _bareJid;
+            set => SetProperty(ref _bareJid, value);
+        }
+        [NotMapped]
+        private string _bareJid;
+
         /// <summary>
         /// The full Jabber ID of the account e.g. 'coven@chat.shakespeare.lit/phone'
         /// </summary>
         [Required]
-        public JidModel fullJid { get; set; }
+        public JidModel fullJid
+        {
+            get => _fullJid;
+            set => SetProperty(ref _fullJid, value);
+        }
+        [NotMapped]
+        private JidModel _fullJid;
+
         /// <summary>
         /// The complete server configuration for the account.
         /// </summary>
         [Required]
-        public ServerModel server { get; set; }
+        public ServerModel server
+        {
+            get => _server;
+            set => SetServerProperty(value);
+        }
+        [NotMapped]
+        private ServerModel _server;
+
         /// <summary>
         /// The presence priority within range -127 to 128 e.g. 0.
         /// </summary>
         [Required]
-        public short presencePriorety { get; set; }
+        public short presencePriorety
+        {
+            get => _presencePriorety;
+            set => SetProperty(ref _presencePriorety, value);
+        }
+        [NotMapped]
+        private short _presencePriorety;
+
         /// <summary>
         /// Has the account been disabled.
         /// Required for auto connecting accounts.
         /// </summary>
         [Required]
-        public bool disabled { get; set; }
+        public bool disabled
+        {
+            get => _disabled;
+            set => SetProperty(ref _disabled, value);
+        }
+        [NotMapped]
+        private bool _disabled;
+
         /// <summary>
         /// Hex representation of the account color e.g. '#E91E63'.
         /// </summary>
         [Required]
-        public string color { get; set; }
+        public string color
+        {
+            get => _color;
+            set => SetProperty(ref _color, value);
+        }
+        [NotMapped]
+        private string _color;
+
         /// <summary>
         /// The current account presence e.g. 'online'.
         /// </summary>
         [Required]
-        public Presence presence { get; set; }
+        public Presence presence
+        {
+            get => _presence;
+            set => SetProperty(ref _presence, value);
+        }
+        [NotMapped]
+        private Presence _presence;
+
         /// <summary>
         /// The optional account status message e.g. 'My status message!'.
         /// </summary>
-        public string status { get; set; }
+        public string status
+        {
+            get => _status;
+            set => SetProperty(ref _status, value);
+        }
+        [NotMapped]
+        private string _status;
+
         /// <summary>
         /// Information about the XEP-0384 (OMEMO Encryption) account status.
         /// </summary>
         [Required]
-        public OmemoAccountInformationModel omemoInfo { get; set; } = new OmemoAccountInformationModel();
+        public OmemoAccountInformationModel omemoInfo
+        {
+            get => _omemoInfo;
+            set => SetOmemoInfoProperty(value);
+        }
+        [NotMapped]
+        private OmemoAccountInformationModel _omemoInfo = new OmemoAccountInformationModel();
+
         /// <summary>
         /// The status of the last time a MAM request happened.
         /// </summary>
         [Required]
-        public MamRequestModel mamRequest { get; set; } = new MamRequestModel();
+        public MamRequestModel mamRequest
+        {
+            get => _mamRequest;
+            set => SetMamRequestProperty(value);
+        }
+        [NotMapped]
+        private MamRequestModel _mamRequest;
 
         #endregion
         //--------------------------------------------------------Constructor:----------------------------------------------------------------\\
@@ -80,7 +150,69 @@ namespace Storage.Classes.Models.Account
         #endregion
         //--------------------------------------------------------Set-, Get- Methods:---------------------------------------------------------\\
         #region --Set-, Get- Methods--
+        private void SetMamRequestProperty(MamRequestModel value)
+        {
+            MamRequestModel old = _mamRequest;
+            if (SetProperty(ref _mamRequest, value, nameof(mamRequest)))
+            {
+                if (!(old is null))
+                {
+                    old.PropertyChanged -= OnMamRequestPropertyChanged;
+                }
+                if (!(value is null))
+                {
+                    value.PropertyChanged += OnMamRequestPropertyChanged;
+                }
+            }
+        }
 
+        private void SetOmemoInfoProperty(OmemoAccountInformationModel value)
+        {
+            OmemoAccountInformationModel old = _omemoInfo;
+            if (SetProperty(ref _omemoInfo, value, nameof(omemoInfo)))
+            {
+                if (!(old is null))
+                {
+                    old.PropertyChanged -= OnOmemoInfoPropertyChanged;
+                }
+                if (!(value is null))
+                {
+                    value.PropertyChanged += OnOmemoInfoPropertyChanged;
+                }
+            }
+        }
+
+        private void SetServerProperty(ServerModel value)
+        {
+            ServerModel old = _server;
+            if (SetProperty(ref _server, value, nameof(server)))
+            {
+                if (!(old is null))
+                {
+                    old.PropertyChanged -= OnServerPropertyChanged;
+                }
+                if (!(value is null))
+                {
+                    value.PropertyChanged += OnServerPropertyChanged;
+                }
+            }
+        }
+
+        private void SetFullJidProperty(JidModel value)
+        {
+            JidModel old = _fullJid;
+            if (SetProperty(ref _fullJid, value, nameof(fullJid)))
+            {
+                if (!(old is null))
+                {
+                    old.PropertyChanged -= OnFullJidPropertyChanged;
+                }
+                if (!(value is null))
+                {
+                    value.PropertyChanged += OnFullJidPropertyChanged;
+                }
+            }
+        }
 
         #endregion
         //--------------------------------------------------------Misc Methods:---------------------------------------------------------------\\
@@ -126,7 +258,25 @@ namespace Storage.Classes.Models.Account
         #endregion
         //--------------------------------------------------------Events:---------------------------------------------------------------------\\
         #region --Events--
+        private void OnOmemoInfoPropertyChanged(object sender, PropertyChangedEventArgs e)
+        {
+            base.OnPropertyChanged(nameof(omemoInfo) + '.' + e.PropertyName);
+        }
 
+        private void OnMamRequestPropertyChanged(object sender, PropertyChangedEventArgs e)
+        {
+            base.OnPropertyChanged(nameof(mamRequest) + '.' + e.PropertyName);
+        }
+
+        private void OnServerPropertyChanged(object sender, PropertyChangedEventArgs e)
+        {
+            base.OnPropertyChanged(nameof(server) + '.' + e.PropertyName);
+        }
+
+        private void OnFullJidPropertyChanged(object sender, PropertyChangedEventArgs e)
+        {
+            base.OnPropertyChanged(nameof(fullJid) + '.' + e.PropertyName);
+        }
 
         #endregion
     }

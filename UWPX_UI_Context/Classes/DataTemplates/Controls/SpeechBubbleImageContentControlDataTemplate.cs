@@ -85,10 +85,10 @@ namespace UWPX_UI_Context.Classes.DataTemplates.Controls
                 if (!(Image is null))
                 {
                     Image.PropertyChanged += Image_PropertyChanged;
-                    State = Image.State;
-                    ErrorText = Image.Error.ToString();
+                    State = Image.state;
+                    ErrorText = Image.error.ToString();
                     // Only set the image path in case the image was successfully downloaded to prevent exceptions:
-                    ImagePath = Image.State == DownloadState.DONE ? Image.GetFullPath() : null;
+                    ImagePath = Image.state == DownloadState.DONE ? Image.GetFullPath() : null;
                 }
             }
         }
@@ -191,10 +191,10 @@ namespace UWPX_UI_Context.Classes.DataTemplates.Controls
                 return;
             }
 
-            if (string.Equals(e.PropertyName, nameof(ChatMessageImageModel.State)))
+            if (string.Equals(e.PropertyName, nameof(ChatMessageImageModel.state)))
             {
-                State = image.State;
-                if (image.State == DownloadState.DONE)
+                State = image.state;
+                if (image.state == DownloadState.DONE)
                 {
                     OnImagePathChanged(ImagePath);
                     // Only set the image path in case the image was successfully downloaded to prevent exceptions:
@@ -205,9 +205,9 @@ namespace UWPX_UI_Context.Classes.DataTemplates.Controls
                     ImagePath = null;
                 }
             }
-            else if (string.Equals(e.PropertyName, nameof(ChatMessageImageModel.Error)))
+            else if (string.Equals(e.PropertyName, nameof(ChatMessageImageModel.error)))
             {
-                ErrorText = image.Error.ToString();
+                ErrorText = image.error.ToString();
             }
         }
 

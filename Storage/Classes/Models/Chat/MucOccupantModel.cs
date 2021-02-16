@@ -1,35 +1,69 @@
 ﻿using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
+using Shared.Classes;
 using XMPP_API.Classes.Network.XML.Messages.XEP_0045;
 
 namespace Storage.Classes.Models.Chat
 {
-    public class MucOccupantModel
+    public class MucOccupantModel: AbstractDataTemplate
     {
         //--------------------------------------------------------Attributes:-----------------------------------------------------------------\\
         #region --Attributes--
-        [Key]
-        [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
-        public int id { get; set; }
+        [Key, DatabaseGenerated(DatabaseGeneratedOption.Identity)]
+        public int id
+        {
+            get => _id;
+            set => SetProperty(ref _id, value);
+        }
+        [NotMapped]
+        private int _id;
+
         /// <summary>
         /// The user nickname e.g. 'thirdwitch'.
         /// </summary>
         [Required]
-        public string nickname { get; set; }
+        public string nickname
+        {
+            get => _nickname;
+            set => SetProperty(ref _nickname, value);
+        }
+        [NotMapped]
+        private string _nickname;
+
         /// <summary>
         /// The full jabber id of the user e.g. 'coven@chat.shakespeare.lit/thirdwitch'.
         /// </summary>
-        public string fullJid { get; set; }
+        public string fullJid
+        {
+            get => _fullJid;
+            set => SetProperty(ref _fullJid, value);
+        }
+        [NotMapped]
+        private string _fullJid;
+
         /// <summary>
         /// The affiliation of the user e.g. 'owner', 'admin', 'member' or 'none'.
         /// </summary>
         [Required]
-        public MUCAffiliation affiliation { get; set; }
+        public MUCAffiliation affiliation
+        {
+            get => _affiliation;
+            set => SetProperty(ref _affiliation, value);
+        }
+        [NotMapped]
+        private MUCAffiliation _affiliation;
+
         /// <summary>
         /// The role of the user e.g. 'moderator', 'participant' or 'visitor'.
         /// </summary>
         [Required]
-        public MUCRole role { get; set; }
+        public MUCRole role
+        {
+            get => _role;
+            set => SetProperty(ref _role, value);
+        }
+        [NotMapped]
+        private MUCRole _role;
 
         #endregion
         //--------------------------------------------------------Constructor:----------------------------------------------------------------\\

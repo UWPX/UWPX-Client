@@ -3,8 +3,10 @@ using System.Collections.Generic;
 using System.Linq;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Omemo.Classes;
 using Omemo.Classes.Keys;
+using Shared.Classes.Collections;
 using Storage.Classes.Models.Account;
 using Storage.Classes.Models.Chat;
 using Storage.Classes.Models.Omemo;
@@ -91,12 +93,6 @@ namespace Storage.Classes.Contexts
         #endregion
         //--------------------------------------------------------Misc Methods:---------------------------------------------------------------\\
         #region --Misc Methods (Public)--
-        protected override void OnModelCreating(ModelBuilder modelBuilder)
-        {
-            // Store the list of ChainValidationResults as a string separated by ',':
-            modelBuilder.Entity<ServerModel>().Property(l => l.ignoredCertificateErrors).HasConversion(v => string.Join(',', v.Select(i => (int)i)), v => v.Split(',', StringSplitOptions.RemoveEmptyEntries).Select(i => (ChainValidationResult)int.Parse(i)).ToList());
-        }
-
         public override void Dispose()
         {
             SaveChanges();
@@ -138,10 +134,18 @@ namespace Storage.Classes.Contexts
             }
         }
 
+        private ValueConverter<CustomObservableCollection<T>, List<T>> NewCustomObservableCollectionToListValueConverter<T>()
+        {
+            return new ValueConverter<CustomObservableCollection<T>, List<T>>(v => v.ToList(), v => new CustomObservableCollection<T>(v, true));
+        }
         #endregion
 
         #region --Misc Methods (Protected)--
-
+        protected override void OnModelCreating(ModelBuilder modelBuilder)
+        {
+            // Store the list of ChainValidationResults as a string separated by ',':
+            modelBuilder.Entity<ServerModel>().Property(l => l.ignoredCertificateErrors).HasConversion(v => string.Join(',', v.Select(i => (int)i)), v => new CustomObservableCollection<ChainValidationResult>(v.Split(',', StringSplitOptions.RemoveEmptyEntries).Select(i => (ChainValidationResult)int.Parse(i)), true));
+        }
 
         #endregion
         //--------------------------------------------------------Events:---------------------------------------------------------------------\\
