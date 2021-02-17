@@ -41,7 +41,7 @@ namespace Storage.Classes.Models.Omemo
             set => SetProperty(ref _lastUpdateReceived, value);
         }
         [NotMapped]
-        private DateTime _lastUpdateReceived = DateTime.MinValue;
+        private DateTime _lastUpdateReceived;
 
         /// <summary>
         /// The current state of the subscription.
@@ -52,14 +52,21 @@ namespace Storage.Classes.Models.Omemo
             set => SetProperty(ref _state, value);
         }
         [NotMapped]
-        private OmemoDeviceListSubscriptionState _state = OmemoDeviceListSubscriptionState.NONE;
+        private OmemoDeviceListSubscriptionState _state;
 
         #endregion
         //--------------------------------------------------------Constructor:----------------------------------------------------------------\\
         #region --Constructors--
-        public OmemoDeviceListSubscriptionModel() { }
+        public OmemoDeviceListSubscriptionModel()
+        {
+            state = OmemoDeviceListSubscriptionState.NONE;
+            lastUpdateReceived = DateTime.MinValue;
+        }
 
-        public OmemoDeviceListSubscriptionModel(string bareJid) { this.bareJid = bareJid; }
+        public OmemoDeviceListSubscriptionModel(string bareJid) : this()
+        {
+            this.bareJid = bareJid;
+        }
 
         #endregion
         //--------------------------------------------------------Set-, Get- Methods:---------------------------------------------------------\\

@@ -1,4 +1,5 @@
-﻿using Shared.Classes;
+﻿using System.ComponentModel;
+using Shared.Classes;
 using Storage.Classes.Models.Chat;
 using Windows.UI.Xaml.Media.Imaging;
 
@@ -18,13 +19,13 @@ namespace Manager.Classes.Chat
         public ChatModel Chat
         {
             get => _Chat;
-            set => SetProperty(ref _Chat, value);
+            set => SetChatProperty(value);
         }
         private ChatMessageModel _LastMsg;
         public ChatMessageModel LastMsg
         {
             get => _LastMsg;
-            set => SetProperty(ref _LastMsg, value);
+            set => SetLastMsgProperty(value);
         }
         private Client _Client;
         public Client Client
@@ -52,7 +53,37 @@ namespace Manager.Classes.Chat
         #endregion
         //--------------------------------------------------------Set-, Get- Methods:---------------------------------------------------------\\
         #region --Set-, Get- Methods--
+        private void SetChatProperty(ChatModel value)
+        {
+            ChatModel old = _Chat;
+            if (SetProperty(ref _Chat, value, nameof(Chat)))
+            {
+                if (!(old is null))
+                {
+                    old.PropertyChanged -= OnChatPropertyChanged;
+                }
+                if (!(value is null))
+                {
+                    value.PropertyChanged += OnChatPropertyChanged;
+                }
+            }
+        }
 
+        private void SetLastMsgProperty(ChatMessageModel value)
+        {
+            ChatMessageModel old = _LastMsg;
+            if (SetProperty(ref _LastMsg, value, nameof(LastMsg)))
+            {
+                if (!(old is null))
+                {
+                    old.PropertyChanged -= OnLastMsgPropertyChanged;
+                }
+                if (!(value is null))
+                {
+                    value.PropertyChanged += OnLastMsgPropertyChanged;
+                }
+            }
+        }
 
         #endregion
         //--------------------------------------------------------Misc Methods:---------------------------------------------------------------\\
@@ -72,7 +103,15 @@ namespace Manager.Classes.Chat
         #endregion
         //--------------------------------------------------------Events:---------------------------------------------------------------------\\
         #region --Events--
+        private void OnChatPropertyChanged(object sender, PropertyChangedEventArgs e)
+        {
+            OnPropertyChanged(nameof(Chat) + '.' + e.PropertyName);
+        }
 
+        private void OnLastMsgPropertyChanged(object sender, PropertyChangedEventArgs e)
+        {
+            OnPropertyChanged(nameof(LastMsg) + '.' + e.PropertyName);
+        }
 
         #endregion
     }

@@ -93,7 +93,7 @@ namespace Storage.Classes.Models.Omemo
             set => SetPreKeysProperty(value);
         }
         [NotMapped]
-        private CustomObservableCollection<PreKeyModel> _preKeys = new CustomObservableCollection<PreKeyModel>(true);
+        private CustomObservableCollection<PreKeyModel> _preKeys;
 
         /// <summary>
         /// The highest PreKey id used until now.
@@ -133,7 +133,10 @@ namespace Storage.Classes.Models.Omemo
         #endregion
         //--------------------------------------------------------Constructor:----------------------------------------------------------------\\
         #region --Constructors--
-
+        public OmemoAccountInformationModel()
+        {
+            preKeys = new CustomObservableCollection<PreKeyModel>(true);
+        }
 
         #endregion
         //--------------------------------------------------------Set-, Get- Methods:---------------------------------------------------------\\

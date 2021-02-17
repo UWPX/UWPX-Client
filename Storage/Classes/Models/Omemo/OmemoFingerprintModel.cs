@@ -29,7 +29,7 @@ namespace Storage.Classes.Models.Omemo
             set => SetProperty(ref _lastSeen, value);
         }
         [NotMapped]
-        private DateTime _lastSeen = DateTime.MinValue;
+        private DateTime _lastSeen;
 
         [Required]
         public bool trusted
@@ -52,9 +52,12 @@ namespace Storage.Classes.Models.Omemo
         #endregion
         //--------------------------------------------------------Constructor:----------------------------------------------------------------\\
         #region --Constructors--
-        public OmemoFingerprintModel() { }
+        public OmemoFingerprintModel()
+        {
+            lastSeen = DateTime.MinValue;
+        }
 
-        public OmemoFingerprintModel(OmemoFingerprint fingerprint)
+        public OmemoFingerprintModel(OmemoFingerprint fingerprint) : this()
         {
             FromOmemoFingerprint(fingerprint);
         }

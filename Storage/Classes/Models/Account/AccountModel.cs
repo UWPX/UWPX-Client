@@ -32,7 +32,7 @@ namespace Storage.Classes.Models.Account
         public JidModel fullJid
         {
             get => _fullJid;
-            set => SetProperty(ref _fullJid, value);
+            set => SetFullJidProperty(value);
         }
         [NotMapped]
         private JidModel _fullJid;
@@ -119,7 +119,7 @@ namespace Storage.Classes.Models.Account
             set => SetOmemoInfoProperty(value);
         }
         [NotMapped]
-        private OmemoAccountInformationModel _omemoInfo = new OmemoAccountInformationModel();
+        private OmemoAccountInformationModel _omemoInfo;
 
         /// <summary>
         /// The status of the last time a MAM request happened.
@@ -136,9 +136,13 @@ namespace Storage.Classes.Models.Account
         #endregion
         //--------------------------------------------------------Constructor:----------------------------------------------------------------\\
         #region --Constructors--
-        public AccountModel() { }
+        public AccountModel()
+        {
+            omemoInfo = new OmemoAccountInformationModel();
+            mamRequest = new MamRequestModel();
+        }
 
-        public AccountModel(JidModel fullJid, string color)
+        public AccountModel(JidModel fullJid, string color) : this()
         {
             bareJid = fullJid.BareJid();
             this.fullJid = fullJid;

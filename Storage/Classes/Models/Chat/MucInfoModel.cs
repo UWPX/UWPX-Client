@@ -148,10 +148,9 @@ namespace Storage.Classes.Models.Chat
             occupants = new CustomObservableCollection<MucOccupantModel>(true);
         }
 
-        public MucInfoModel(ChatModel chat)
+        public MucInfoModel(ChatModel chat) : this()
         {
             this.chat = chat;
-            occupants = new CustomObservableCollection<MucOccupantModel>(true);
         }
 
         #endregion
