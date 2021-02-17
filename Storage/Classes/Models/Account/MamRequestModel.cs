@@ -28,7 +28,7 @@ namespace Storage.Classes.Models.Account
             set => SetProperty(ref _lastUpdate, value);
         }
         [NotMapped]
-        private DateTime _lastUpdate = DateTime.MinValue;
+        private DateTime _lastUpdate;
 
         /// <summary>
         /// The message ID of the last message or null in case the request has never been run before.
@@ -44,7 +44,10 @@ namespace Storage.Classes.Models.Account
         #endregion
         //--------------------------------------------------------Constructor:----------------------------------------------------------------\\
         #region --Constructors--
-
+        public MamRequestModel()
+        {
+            lastUpdate = DateTime.MinValue;
+        }
 
         #endregion
         //--------------------------------------------------------Set-, Get- Methods:---------------------------------------------------------\\

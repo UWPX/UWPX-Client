@@ -25,7 +25,7 @@ namespace Storage.Classes.Models.Chat
             set => SetProperty(ref _lastReceived, value);
         }
         [NotMapped]
-        private DateTime _lastReceived = DateTime.MinValue;
+        private DateTime _lastReceived;
 
         [Required]
         public uint count
@@ -48,9 +48,12 @@ namespace Storage.Classes.Models.Chat
         #endregion
         //--------------------------------------------------------Constructor:----------------------------------------------------------------\\
         #region --Constructors--
-        public SpamMessageModel() { }
+        public SpamMessageModel()
+        {
+            lastReceived = DateTime.MinValue;
+        }
 
-        public SpamMessageModel(string text)
+        public SpamMessageModel(string text) : this()
         {
             this.text = text;
         }

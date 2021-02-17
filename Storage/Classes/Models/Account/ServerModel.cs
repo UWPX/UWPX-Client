@@ -55,7 +55,7 @@ namespace Storage.Classes.Models.Account
             set => SetProperty(ref _tlsMode, value);
         }
         [NotMapped]
-        private TLSConnectionMode _tlsMode = TLSConnectionMode.FORCE;
+        private TLSConnectionMode _tlsMode;
 
         /// <summary>
         /// True in case XEP-0198 (Stream Management) should be disabled.
@@ -97,9 +97,12 @@ namespace Storage.Classes.Models.Account
         #endregion
         //--------------------------------------------------------Constructor:----------------------------------------------------------------\\
         #region --Constructors--
-        public ServerModel() { }
+        public ServerModel()
+        {
+            tlsMode = TLSConnectionMode.FORCE;
+        }
 
-        public ServerModel(string address)
+        public ServerModel(string address) : this()
         {
             this.address = address;
         }
