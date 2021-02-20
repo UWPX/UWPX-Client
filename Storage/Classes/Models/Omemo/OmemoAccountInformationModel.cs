@@ -1,10 +1,10 @@
-﻿using System.ComponentModel;
+﻿using System.Collections.Generic;
+using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using Omemo.Classes;
 using Omemo.Classes.Keys;
 using Shared.Classes;
-using Shared.Classes.Collections;
 
 namespace Storage.Classes.Models.Omemo
 {
@@ -87,13 +87,13 @@ namespace Storage.Classes.Models.Omemo
         /// A collection of PreKeys to publish.
         /// </summary>
         [Required]
-        public CustomObservableCollection<PreKeyModel> preKeys
+        public List<PreKeyModel> preKeys
         {
             get => _preKeys;
-            set => SetPreKeysProperty(value);
+            set => SetProperty(ref _preKeys, value);
         }
         [NotMapped]
-        private CustomObservableCollection<PreKeyModel> _preKeys;
+        private List<PreKeyModel> _preKeys;
 
         /// <summary>
         /// The highest PreKey id used until now.
@@ -110,13 +110,13 @@ namespace Storage.Classes.Models.Omemo
         /// A collection of OMEMO capable devices.
         /// </summary>
         [Required]
-        public CustomObservableCollection<OmemoDeviceModel> devices
+        public List<OmemoDeviceModel> devices
         {
             get => _devices;
-            set => SetDevicesProperty(value);
+            set => SetProperty(ref _devices, value);
         }
         [NotMapped]
-        private CustomObservableCollection<OmemoDeviceModel> _devices;
+        private List<OmemoDeviceModel> _devices;
 
         /// <summary>
         /// The device list subscription states for this chat.
@@ -135,7 +135,8 @@ namespace Storage.Classes.Models.Omemo
         #region --Constructors--
         public OmemoAccountInformationModel()
         {
-            preKeys = new CustomObservableCollection<PreKeyModel>(true);
+            preKeys = new List<PreKeyModel>();
+            devices = new List<OmemoDeviceModel>();
         }
 
         #endregion
@@ -153,38 +154,6 @@ namespace Storage.Classes.Models.Omemo
                 if (!(value is null))
                 {
                     value.PropertyChanged += OnDeviceListSubscriptionPropertyChanged;
-                }
-            }
-        }
-
-        private void SetDevicesProperty(CustomObservableCollection<OmemoDeviceModel> value)
-        {
-            CustomObservableCollection<OmemoDeviceModel> old = _devices;
-            if (SetProperty(ref _devices, value, nameof(devices)))
-            {
-                if (!(old is null))
-                {
-                    old.PropertyChanged -= OnDevicesPropertyChanged;
-                }
-                if (!(value is null))
-                {
-                    value.PropertyChanged += OnDevicesPropertyChanged;
-                }
-            }
-        }
-
-        private void SetPreKeysProperty(CustomObservableCollection<PreKeyModel> value)
-        {
-            CustomObservableCollection<PreKeyModel> old = _preKeys;
-            if (SetProperty(ref _preKeys, value, nameof(preKeys)))
-            {
-                if (!(old is null))
-                {
-                    old.PropertyChanged -= OnPreKeysPropertyChanged;
-                }
-                if (!(value is null))
-                {
-                    value.PropertyChanged += OnPreKeysPropertyChanged;
                 }
             }
         }
@@ -234,8 +203,7 @@ namespace Storage.Classes.Models.Omemo
             bundleInfoAnnounced = false;
             identityKey = KeyHelper.GenerateIdentityKeyPair();
             signedPreKey = KeyHelper.GenerateSignedPreKey(0, identityKey.privKey);
-            preKeys.Clear();
-            preKeys.AddRange(KeyHelper.GeneratePreKeys(maxPreKeyId, 100));
+            preKeys = KeyHelper.GeneratePreKeys(maxPreKeyId, 100);
             maxPreKeyId += 100;
         }
 
@@ -255,16 +223,6 @@ namespace Storage.Classes.Models.Omemo
         private void OnDeviceListSubscriptionPropertyChanged(object sender, PropertyChangedEventArgs e)
         {
             base.OnPropertyChanged(nameof(deviceListSubscription) + '.' + e.PropertyName);
-        }
-
-        private void OnDevicesPropertyChanged(object sender, PropertyChangedEventArgs e)
-        {
-            base.OnPropertyChanged(nameof(devices) + '.' + e.PropertyName);
-        }
-
-        private void OnPreKeysPropertyChanged(object sender, PropertyChangedEventArgs e)
-        {
-            base.OnPropertyChanged(nameof(preKeys) + '.' + e.PropertyName);
         }
 
         private void OnSignedPreKeyPropertyChanged(object sender, PropertyChangedEventArgs e)

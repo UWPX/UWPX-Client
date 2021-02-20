@@ -1,8 +1,8 @@
-﻿using System.ComponentModel;
+﻿using System.Collections.Generic;
+using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using Shared.Classes;
-using Shared.Classes.Collections;
 using Storage.Classes.Contexts;
 using XMPP_API.Classes;
 using XMPP_API.Classes.Network.XML.Messages.XEP_0045;
@@ -132,20 +132,20 @@ namespace Storage.Classes.Models.Chat
         /// A list of all currently known MUC occupants.
         /// </summary>
         [Required]
-        public CustomObservableCollection<MucOccupantModel> occupants
+        public List<MucOccupantModel> occupants
         {
             get => _occupants;
-            set => SetOccupantsProperty(value);
+            set => SetProperty(ref _occupants, value);
         }
         [NotMapped]
-        private CustomObservableCollection<MucOccupantModel> _occupants;
+        private List<MucOccupantModel> _occupants;
 
         #endregion
         //--------------------------------------------------------Constructor:----------------------------------------------------------------\\
         #region --Constructors--
         public MucInfoModel()
         {
-            occupants = new CustomObservableCollection<MucOccupantModel>(true);
+            occupants = new List<MucOccupantModel>();
         }
 
         public MucInfoModel(ChatModel chat) : this()
@@ -194,22 +194,6 @@ namespace Storage.Classes.Models.Chat
             }
         }
 
-        private void SetOccupantsProperty(CustomObservableCollection<MucOccupantModel> value)
-        {
-            CustomObservableCollection<MucOccupantModel> old = _occupants;
-            if (SetProperty(ref _occupants, value, nameof(occupants)))
-            {
-                if (!(old is null))
-                {
-                    old.PropertyChanged -= OnOccupantsPropertyChanged;
-                }
-                if (!(value is null))
-                {
-                    value.PropertyChanged += OnOccupantsPropertyChanged;
-                }
-            }
-        }
-
         #endregion
         //--------------------------------------------------------Misc Methods:---------------------------------------------------------------\\
         #region --Misc Methods (Public)--
@@ -253,11 +237,6 @@ namespace Storage.Classes.Models.Chat
             {
                 base.OnPropertyChanged(nameof(chat) + '.' + e.PropertyName);
             }
-        }
-
-        private void OnOccupantsPropertyChanged(object sender, PropertyChangedEventArgs e)
-        {
-            base.OnPropertyChanged(nameof(occupants) + '.' + e.PropertyName);
         }
 
         #endregion
