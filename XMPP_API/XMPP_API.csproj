@@ -139,7 +139,6 @@
     <Compile Include="Classes\MUCCommandHelper.cs" />
     <Compile Include="Classes\MyBackgroundTaskHelper.cs" />
     <Compile Include="Classes\Network\AbstractConnection.cs" />
-    <Compile Include="Classes\Network\AbstractConnection2.cs" />
     <Compile Include="Classes\Network\AbstractConnectionHandler.cs" />
     <Compile Include="Classes\Network\ConnectionConfiguration.cs" />
     <Compile Include="Classes\Network\ConnectionError.cs" />
