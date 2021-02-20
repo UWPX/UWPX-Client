@@ -133,8 +133,11 @@ namespace Manager.Classes.Chat
             if (initialized)
             {
                 CHATS_SEMA.Wait();
-                IEnumerable<MucInfoModel> mucs = CHATS.Where(c => c.Chat.chatType == ChatType.MUC && string.Equals(c.Chat.accountBareJid, accountBareJid)).Select(c => c.Chat.muc);
+                Logger.Debug("WAIT DONE...");
+                IEnumerable<MucInfoModel> mucs = CHATS.Where(c => c.Chat.chatType == ChatType.MUC && string.Equals(c.Chat.accountBareJid, accountBareJid)).Select(c => c.Chat.muc).ToList();
+                Logger.Debug("RELEASING...");
                 CHATS_SEMA.Release();
+                Logger.Debug("RELEASED");
                 return mucs;
             }
 

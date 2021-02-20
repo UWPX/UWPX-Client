@@ -94,7 +94,7 @@ namespace Manager.Classes
         {
             Parallel.ForEach(CLIENTS, (handler) =>
             {
-                if (!handler.client.dbAccount.disabled)
+                if (handler.client.dbAccount.enabled)
                 {
                     handler.Connect();
                 }
@@ -177,7 +177,7 @@ namespace Manager.Classes
             CLIENT_SEMA.Wait();
             ClientConnectionHandler handler = LoadClient(account);
             CLIENT_SEMA.Release();
-            if (!handler.client.dbAccount.disabled)
+            if (handler.client.dbAccount.enabled)
             {
                 handler.Connect();
             }
@@ -223,7 +223,7 @@ namespace Manager.Classes
         /// <returns></returns>
         private async Task ReconnectClientAsync(ClientConnectionHandler handler)
         {
-            if (handler.client.dbAccount.disabled)
+            if (!handler.client.dbAccount.enabled)
             {
                 // Only disconnect if the client is disabled:
                 await handler.DisconnectAsync();

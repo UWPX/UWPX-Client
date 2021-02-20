@@ -43,7 +43,10 @@ namespace Manager.Classes
             }
             else
             {
-                subscription = DataCache.INSTANCE.GetChat(dbAccount.bareJid, bareJid, DataCache.INSTANCE.NewChatSemaLock())?.omemo?.deviceListSubscription;
+                using (SemaLock semaLock = DataCache.INSTANCE.NewChatSemaLock())
+                {
+                    subscription = DataCache.INSTANCE.GetChat(dbAccount.bareJid, bareJid, semaLock)?.omemo?.deviceListSubscription;
+                }
             }
             if (subscription is null)
             {
@@ -61,7 +64,10 @@ namespace Manager.Classes
             }
             else
             {
-                devices = DataCache.INSTANCE.GetChat(dbAccount.bareJid, bareJid, DataCache.INSTANCE.NewChatSemaLock())?.omemo?.devices;
+                using (SemaLock semaLock = DataCache.INSTANCE.NewChatSemaLock())
+                {
+                    devices = DataCache.INSTANCE.GetChat(dbAccount.bareJid, bareJid, semaLock)?.omemo?.devices;
+                }
             }
             if (devices is null)
             {
@@ -79,7 +85,10 @@ namespace Manager.Classes
             }
             else
             {
-                fingerprint = DataCache.INSTANCE.GetChat(dbAccount.bareJid, address.BARE_JID, DataCache.INSTANCE.NewChatSemaLock())?.omemo?.devices?.Where(d => d.deviceId == address.DEVICE_ID).FirstOrDefault()?.fingerprint;
+                using (SemaLock semaLock = DataCache.INSTANCE.NewChatSemaLock())
+                {
+                    fingerprint = DataCache.INSTANCE.GetChat(dbAccount.bareJid, address.BARE_JID, semaLock)?.omemo?.devices?.Where(d => d.deviceId == address.DEVICE_ID).FirstOrDefault()?.fingerprint;
+                }
             }
             return fingerprint?.ToOmemoFingerprint(address);
         }
@@ -92,7 +101,10 @@ namespace Manager.Classes
             }
             else
             {
-                return DataCache.INSTANCE.GetChat(dbAccount.bareJid, address.BARE_JID, DataCache.INSTANCE.NewChatSemaLock())?.omemo?.devices?.Where(d => d.deviceId == address.DEVICE_ID).FirstOrDefault()?.session;
+                using (SemaLock semaLock = DataCache.INSTANCE.NewChatSemaLock())
+                {
+                    return DataCache.INSTANCE.GetChat(dbAccount.bareJid, address.BARE_JID, semaLock)?.omemo?.devices?.Where(d => d.deviceId == address.DEVICE_ID).FirstOrDefault()?.session;
+                }
             }
         }
 
@@ -130,7 +142,11 @@ namespace Manager.Classes
             }
             else
             {
-                ChatModel chat = DataCache.INSTANCE.GetChat(dbAccount.bareJid, dbAccount.bareJid, DataCache.INSTANCE.NewChatSemaLock());
+                ChatModel chat;
+                using (SemaLock semaLock = DataCache.INSTANCE.NewChatSemaLock())
+                {
+                    chat = DataCache.INSTANCE.GetChat(dbAccount.bareJid, dbAccount.bareJid, semaLock);
+                }
                 if (chat is null)
                 {
                     throw new InvalidOperationException("Failed to store device list subscription. Chat '" + bareJid + "' does not exist.");
@@ -161,7 +177,11 @@ namespace Manager.Classes
             }
             else
             {
-                OmemoChatInformationModel omemoChatInfo = DataCache.INSTANCE.GetChat(dbAccount.bareJid, dbAccount.bareJid, DataCache.INSTANCE.NewChatSemaLock())?.omemo;
+                OmemoChatInformationModel omemoChatInfo;
+                using (SemaLock semaLock = DataCache.INSTANCE.NewChatSemaLock())
+                {
+                    omemoChatInfo = DataCache.INSTANCE.GetChat(dbAccount.bareJid, dbAccount.bareJid, semaLock)?.omemo;
+                }
                 if (omemoChatInfo is null)
                 {
                     throw new InvalidOperationException("Failed to store devices. Chat '" + bareJid + "' does not exist.");
@@ -185,7 +205,11 @@ namespace Manager.Classes
             }
             else
             {
-                ChatModel chat = DataCache.INSTANCE.GetChat(dbAccount.bareJid, dbAccount.bareJid, DataCache.INSTANCE.NewChatSemaLock());
+                ChatModel chat;
+                using (SemaLock semaLock = DataCache.INSTANCE.NewChatSemaLock())
+                {
+                    chat = DataCache.INSTANCE.GetChat(dbAccount.bareJid, dbAccount.bareJid, semaLock);
+                }
                 if (chat is null)
                 {
                     throw new InvalidOperationException("Failed to store fingerprint. Chat '" + fingerprint.ADDRESS.BARE_JID + "' does not exist.");
@@ -226,7 +250,11 @@ namespace Manager.Classes
             }
             else
             {
-                ChatModel chat = DataCache.INSTANCE.GetChat(dbAccount.bareJid, dbAccount.bareJid, DataCache.INSTANCE.NewChatSemaLock());
+                ChatModel chat;
+                using (SemaLock semaLock = DataCache.INSTANCE.NewChatSemaLock())
+                {
+                    chat = DataCache.INSTANCE.GetChat(dbAccount.bareJid, dbAccount.bareJid, semaLock);
+                }
                 if (chat is null)
                 {
                     throw new InvalidOperationException("Failed to store session. Chat '" + address.BARE_JID + "' does not exist.");

@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Diagnostics;
 using System.Threading;
 
 namespace Manager.Classes.Chat
@@ -9,6 +10,7 @@ namespace Manager.Classes.Chat
         #region --Attributes--
         private readonly SemaphoreSlim SEMA;
         private bool disposed = false;
+        private bool isWaiting = false;
 
         #endregion
         //--------------------------------------------------------Constructor:----------------------------------------------------------------\\
@@ -30,6 +32,7 @@ namespace Manager.Classes.Chat
         {
             if (!disposed)
             {
+                Debug.Assert(isWaiting);
                 disposed = true;
                 SEMA.Release();
             }
@@ -37,6 +40,8 @@ namespace Manager.Classes.Chat
 
         internal void Wait()
         {
+            Debug.Assert(!isWaiting);
+            isWaiting = true;
             SEMA.Wait();
         }
 

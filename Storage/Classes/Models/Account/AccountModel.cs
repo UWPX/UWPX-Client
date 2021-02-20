@@ -62,17 +62,17 @@ namespace Storage.Classes.Models.Account
         private short _presencePriorety;
 
         /// <summary>
-        /// Has the account been disabled.
+        /// Has the account been enabled.
         /// Required for auto connecting accounts.
         /// </summary>
         [Required]
-        public bool disabled
+        public bool enabled
         {
-            get => _disabled;
-            set => SetProperty(ref _disabled, value);
+            get => _enabled;
+            set => SetProperty(ref _enabled, value);
         }
         [NotMapped]
-        private bool _disabled;
+        private bool _enabled;
 
         /// <summary>
         /// Hex representation of the account color e.g. '#E91E63'.
@@ -149,6 +149,7 @@ namespace Storage.Classes.Models.Account
             this.color = color;
             omemoInfo.deviceListSubscription = new OmemoDeviceListSubscriptionModel(bareJid);
             server = new ServerModel(fullJid.domainPart);
+            enabled = true;
         }
 
         #endregion

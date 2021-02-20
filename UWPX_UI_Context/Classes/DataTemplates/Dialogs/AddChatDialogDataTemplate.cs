@@ -107,7 +107,11 @@ namespace UWPX_UI_Context.Classes.DataTemplates.Dialogs
                 {
                     Task.Run(() =>
                     {
-                        ChatModel chat = DataCache.INSTANCE.GetChat(Client.dbAccount.bareJid, value, DataCache.INSTANCE.NewChatSemaLock());
+                        ChatModel chat;
+                        using (SemaLock semaLock = DataCache.INSTANCE.NewChatSemaLock())
+                        {
+                            chat = DataCache.INSTANCE.GetChat(Client.dbAccount.bareJid, value, semaLock);
+                        }
                         if (chat is null)
                         {
                             ChatExists = false;

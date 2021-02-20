@@ -26,6 +26,7 @@ namespace Manager.Classes
         private readonly TSTimedList<MucJoinHelper> TIMED_LIST;
         private readonly TimeSpan JOIN_DELAY = TimeSpan.FromSeconds(5);
         private Dictionary<string, CancellationTokenSource> joinDelayToken = new Dictionary<string, CancellationTokenSource>();
+        private readonly SemaphoreSlim OCCUPANT_CREATION_SEMA = new SemaphoreSlim(1);
         #endregion
         //--------------------------------------------------------Constructor:----------------------------------------------------------------\\
         #region --Constructors--
@@ -99,7 +100,11 @@ namespace Manager.Classes
         {
             string to = Utils.getBareJidFromFullJid(mucRoomSubject.getTo());
             string from = Utils.getBareJidFromFullJid(mucRoomSubject.getFrom());
-            ChatModel chat = DataCache.INSTANCE.GetChat(to, from, DataCache.INSTANCE.NewChatSemaLock());
+            ChatModel chat;
+            using (SemaLock semaLock = DataCache.INSTANCE.NewChatSemaLock())
+            {
+                chat = DataCache.INSTANCE.GetChat(to, from, semaLock);
+            }
             if (chat is null || chat.muc is null || (chat.muc.state == MucState.DISCONNECTED && string.Equals(chat.muc.subject, mucRoomSubject.SUBJECT)))
             {
                 return;
@@ -215,7 +220,11 @@ namespace Manager.Classes
             {
                 return;
             }
-            ChatModel chat = DataCache.INSTANCE.GetChat(client.getXMPPAccount().getBareJid(), room, DataCache.INSTANCE.NewChatSemaLock());
+            ChatModel chat;
+            using (SemaLock semaLock = DataCache.INSTANCE.NewChatSemaLock())
+            {
+                chat = DataCache.INSTANCE.GetChat(client.getXMPPAccount().getBareJid(), room, semaLock);
+            }
             if (chat is null || chat.muc is null)
             {
                 return;
@@ -297,7 +306,7 @@ namespace Manager.Classes
         #region --Events--
         private void OnNewMucMemberPresenceMessage(XMPPClient client, NewMUCMemberPresenceMessageEventArgs args)
         {
-            Task.Run(() =>
+            Task.Run(async () =>
             {
                 MUCMemberPresenceMessage msg = args.mucMemberPresenceMessage;
                 string roomJid = Utils.getBareJidFromFullJid(msg.getFrom());
@@ -305,11 +314,16 @@ namespace Manager.Classes
                 {
                     return;
                 }
-                ChatModel chat = DataCache.INSTANCE.GetChat(client.getXMPPAccount().getBareJid(), roomJid, DataCache.INSTANCE.NewChatSemaLock());
+                SemaLock semaLock = DataCache.INSTANCE.NewChatSemaLock();
+                ChatModel chat = DataCache.INSTANCE.GetChat(client.getXMPPAccount().getBareJid(), roomJid, semaLock);
+                semaLock.Dispose();
                 if (chat is null || chat.muc is null)
                 {
                     return;
                 }
+
+                // Prevent multiple accesses to the same occupant at the same time:
+                await OCCUPANT_CREATION_SEMA.WaitAsync();
                 MucOccupantModel occupant = chat.muc.occupants.Where(o => string.Equals(o.nickname, msg.FROM_NICKNAME)).FirstOrDefault();
                 bool newOccupant = occupant is null;
                 if (newOccupant)
@@ -378,14 +392,16 @@ namespace Manager.Classes
                         {
                             chat.muc.occupants.Remove(occupant);
                             ctx.Remove(occupant);
+                            ctx.Update(chat.muc);
                         }
                     }
                     else
                     {
                         if (newOccupant)
                         {
-                            ctx.Add(occupant);
                             chat.muc.occupants.Add(occupant);
+                            ctx.Update(chat.muc);
+                            // ctx.Add(occupant);
                         }
                         else
                         {
@@ -393,6 +409,15 @@ namespace Manager.Classes
                         }
                     }
                 }
+
+                if (newOccupant)
+                {
+                    using (MainDbContext ctx = new MainDbContext())
+                    {
+                        ctx.Update(chat.muc);
+                    }
+                }
+                OCCUPANT_CREATION_SEMA.Release();
             });
         }
 

@@ -1,4 +1,5 @@
-﻿using System.Threading.Tasks;
+﻿using System.ComponentModel;
+using System.Threading.Tasks;
 using Manager.Classes;
 using Shared.Classes;
 using XMPP_API.Classes;
@@ -16,12 +17,6 @@ namespace UWPX_UI_Context.Classes.DataTemplates
         {
             get => _Client;
             set => SetClient(value);
-        }
-        private bool _Enabled;
-        public bool Enabled
-        {
-            get => _Enabled;
-            set => SetEnabled(value);
         }
         private string _ErrorText;
         public string ErrorText
@@ -62,21 +57,13 @@ namespace UWPX_UI_Context.Classes.DataTemplates
             if (SetProperty(ref _Client, value, nameof(Client)))
             {
                 State = value.xmppClient.getConnetionState();
-                Enabled = !value.dbAccount.disabled;
+                Client.dbAccount.PropertyChanged += OnDbAccountPropertyChanged;
                 ProcessLastConnectionError(value.xmppClient.getLastConnectionError());
             }
 
             if (!(Client is null))
             {
                 Client.xmppClient.ConnectionStateChanged += ConnectionStateChanged;
-            }
-        }
-
-        private void SetEnabled(bool value)
-        {
-            if (SetProperty(ref _Enabled, value, nameof(Enabled)))
-            {
-                OnEnabledChanged(value);
             }
         }
 
@@ -88,29 +75,6 @@ namespace UWPX_UI_Context.Classes.DataTemplates
         #endregion
 
         #region --Misc Methods (Private)--
-        private void OnEnabledChanged(bool value)
-        {
-            if (Client is null || !value == Client.dbAccount.disabled)
-            {
-                return;
-            }
-
-            Task.Run(async () =>
-            {
-                Client.dbAccount.disabled = !value;
-                Client.dbAccount.Save();
-
-                if (value && !Client.xmppClient.isConnected())
-                {
-                    _ = Client.xmppClient.connectAsync();
-                }
-                else if (value && Client.xmppClient.isConnected())
-                {
-                    await Client.xmppClient.disconnectAsync();
-                }
-            });
-        }
-
         private void ProcessLastConnectionError(object lastConnectionError)
         {
             this.lastConnectionError = lastConnectionError;
@@ -138,6 +102,22 @@ namespace UWPX_UI_Context.Classes.DataTemplates
             }
         }
 
+        private void OnEnabledChanged()
+        {
+            Task.Run(async () =>
+            {
+                Client.dbAccount.Save();
+                if (Client.dbAccount.enabled && !Client.xmppClient.isConnected())
+                {
+                    _ = Client.xmppClient.connectAsync();
+                }
+                else if (!Client.dbAccount.enabled && Client.xmppClient.isConnected())
+                {
+                    await Client.xmppClient.disconnectAsync();
+                }
+            });
+        }
+
         #endregion
 
         #region --Misc Methods (Protected)--
@@ -157,6 +137,14 @@ namespace UWPX_UI_Context.Classes.DataTemplates
             else if (args.newState == ConnectionState.CONNECTED)
             {
                 ProcessLastConnectionError(null);
+            }
+        }
+
+        private void OnDbAccountPropertyChanged(object sender, PropertyChangedEventArgs e)
+        {
+            if (e.PropertyName.Equals(nameof(Client.dbAccount.enabled)))
+            {
+                OnEnabledChanged();
             }
         }
 
