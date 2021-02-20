@@ -55,7 +55,7 @@ namespace XMPP_API.Classes.Network
 
             ConnectionStateChanged?.Invoke(this, new ConnectionStateChangedEventArgs(newState, oldState, param));
 
-            if (!(param is string s))
+            if (param is not string s)
             {
                 s = param?.ToString();
             }
