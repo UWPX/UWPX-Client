@@ -270,7 +270,7 @@ namespace UWPX_UI_Context.Classes.DataTemplates.Controls
 
         public void UpdateViewMuc(ChatModel chat)
         {
-            if (!(chat is null))
+            if (!(chat is null) && chat.chatType == ChatType.MUC)
             {
                 NameText = string.IsNullOrWhiteSpace(chat.muc.name) ? chat.bareJid : chat.muc.name;
                 RemoveFromRosterText = chat.inRoster ? "Remove bookmark" : "Bookmark";
