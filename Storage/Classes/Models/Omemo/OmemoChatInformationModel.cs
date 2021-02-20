@@ -1,8 +1,8 @@
-﻿using System.ComponentModel;
+﻿using System.Collections.Generic;
+using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using Shared.Classes;
-using Shared.Classes.Collections;
 using Storage.Classes.Contexts;
 
 namespace Storage.Classes.Models.Omemo
@@ -39,13 +39,13 @@ namespace Storage.Classes.Models.Omemo
         /// A collection of devices involved in this chat.
         /// </summary>
         [Required]
-        public CustomObservableCollection<OmemoDeviceModel> devices
+        public List<OmemoDeviceModel> devices
         {
             get => _devices;
-            set => SetDevicesProperty(value);
+            set => SetProperty(ref _devices, value);
         }
         [NotMapped]
-        private CustomObservableCollection<OmemoDeviceModel> _devices;
+        private List<OmemoDeviceModel> _devices;
 
         /// <summary>
         /// Has the OMEMO encryption been enabled for this chat.
@@ -76,7 +76,7 @@ namespace Storage.Classes.Models.Omemo
         #region --Constructors--
         public OmemoChatInformationModel()
         {
-            devices = new CustomObservableCollection<OmemoDeviceModel>(true);
+            devices = new List<OmemoDeviceModel>();
             deviceListSubscription = new OmemoDeviceListSubscriptionModel();
             enabled = Settings.GetSettingBoolean(SettingsConsts.ENABLE_OMEMO_BY_DEFAULT_FOR_NEW_CHATS);
             trustedKeysOnly = false;
@@ -84,7 +84,7 @@ namespace Storage.Classes.Models.Omemo
 
         public OmemoChatInformationModel(string chatBareJid)
         {
-            devices = new CustomObservableCollection<OmemoDeviceModel>(true);
+            devices = new List<OmemoDeviceModel>();
             deviceListSubscription = new OmemoDeviceListSubscriptionModel
             {
                 bareJid = chatBareJid
@@ -106,22 +106,6 @@ namespace Storage.Classes.Models.Omemo
                 if (!(value is null))
                 {
                     value.PropertyChanged += OnDeviceListSubscriptionPropertyChanged;
-                }
-            }
-        }
-
-        private void SetDevicesProperty(CustomObservableCollection<OmemoDeviceModel> value)
-        {
-            CustomObservableCollection<OmemoDeviceModel> old = _devices;
-            if (SetProperty(ref _devices, value, nameof(devices)))
-            {
-                if (!(old is null))
-                {
-                    old.PropertyChanged -= OnDevicesPropertyChanged;
-                }
-                if (!(value is null))
-                {
-                    value.PropertyChanged += OnDevicesPropertyChanged;
                 }
             }
         }
@@ -153,11 +137,6 @@ namespace Storage.Classes.Models.Omemo
         private void OnDeviceListSubscriptionPropertyChanged(object sender, PropertyChangedEventArgs e)
         {
             base.OnPropertyChanged(nameof(deviceListSubscription) + '.' + e.PropertyName);
-        }
-
-        private void OnDevicesPropertyChanged(object sender, PropertyChangedEventArgs e)
-        {
-            base.OnPropertyChanged(nameof(devices) + '.' + e.PropertyName);
         }
 
         #endregion

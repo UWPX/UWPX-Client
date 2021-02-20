@@ -4,7 +4,6 @@ using System.Linq;
 using Manager.Classes.Chat;
 using Omemo.Classes;
 using Omemo.Classes.Keys;
-using Shared.Classes.Collections;
 using Storage.Classes.Contexts;
 using Storage.Classes.Models.Account;
 using Storage.Classes.Models.Chat;
@@ -55,7 +54,7 @@ namespace Manager.Classes
 
         public List<OmemoProtocolAddress> LoadDevices(string bareJid)
         {
-            CustomObservableCollection<OmemoDeviceModel> devices;
+            List<OmemoDeviceModel> devices;
             if (string.Equals(bareJid, dbAccount.bareJid))
             {
                 devices = dbAccount.omemoInfo.devices;
