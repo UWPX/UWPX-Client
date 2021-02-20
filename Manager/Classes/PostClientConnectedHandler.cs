@@ -219,13 +219,17 @@ namespace Manager.Classes
                     {
                         ctx.Update(ccHandler.client.dbAccount.mamRequest);
                     }
+                    ++iteration;
                 }
                 else if (state == SetupState.REQUESTING_MAM)
                 {
                     done = true;
                     Logger.Warn("Failed to request MAM archive for " + ccHandler.client.dbAccount.bareJid + " with: " + result.STATE);
                 }
-                ++iteration;
+                else
+                {
+                    done = true;
+                }
             }
             Continue();
         }
@@ -328,16 +332,13 @@ namespace Manager.Classes
         #region --Events--
         private void OnConnectionStateChanged(XMPPClient client, ConnectionStateChangedEventArgs args)
         {
-            switch (args.newState)
+            if (args.newState == ConnectionState.CONNECTED)
             {
-                case ConnectionState.CONNECTED:
-                    Start();
-                    break;
-
-                case ConnectionState.DISCONNECTED:
-                case ConnectionState.ERROR:
-                    Cancel();
-                    break;
+                Start();
+            }
+            else
+            {
+                Cancel();
             }
         }
 

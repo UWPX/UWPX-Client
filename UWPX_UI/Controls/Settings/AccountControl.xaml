@@ -106,7 +106,7 @@
                 <ToggleSwitch Grid.Column="5"
                               Height="40"
                               Margin="10,0,-30,-5"
-                              IsOn="{x:Bind Account.Enabled, Mode=TwoWay}"
+                              IsOn="{x:Bind Account.Client.dbAccount.enabled, Mode=TwoWay}"
                               OffContent="Disabled"
                               OnContent="Enabled"/>
             </Grid>

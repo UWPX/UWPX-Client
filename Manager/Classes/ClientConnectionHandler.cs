@@ -334,7 +334,11 @@ namespace Manager.Classes
         /// </summary>
         private void OnDisconnectedOrError()
         {
-            IEnumerable<ChatModel> chats = DataCache.INSTANCE.GetChats(client.dbAccount.bareJid, DataCache.INSTANCE.NewChatSemaLock());
+            IEnumerable<ChatModel> chats;
+            using (SemaLock semaLock = DataCache.INSTANCE.NewChatSemaLock())
+            {
+                chats = DataCache.INSTANCE.GetChats(client.dbAccount.bareJid, semaLock);
+            }
             foreach (ChatModel chat in chats)
             {
                 chat.presence = Presence.Unavailable;
@@ -438,7 +442,11 @@ namespace Manager.Classes
         {
             Task.Run(() =>
             {
-                ChatModel chat = DataCache.INSTANCE.GetChat(xmppClient.getXMPPAccount().getBareJid(), args.CHAT_JID, DataCache.INSTANCE.NewChatSemaLock());
+                ChatModel chat;
+                using (SemaLock semaLock = DataCache.INSTANCE.NewChatSemaLock())
+                {
+                    chat = DataCache.INSTANCE.GetChat(xmppClient.getXMPPAccount().getBareJid(), args.CHAT_JID, semaLock);
+                }
                 if (!(chat is null))
                 {
                     // Add an error chat message:
@@ -480,7 +488,11 @@ namespace Manager.Classes
                 return;
             }
 
-            ChatModel chat = DataCache.INSTANCE.GetChat(xmppClient.getXMPPAccount().getBareJid(), from, DataCache.INSTANCE.NewChatSemaLock());
+            ChatModel chat;
+            using (SemaLock semaLock = DataCache.INSTANCE.NewChatSemaLock())
+            {
+                chat = DataCache.INSTANCE.GetChat(xmppClient.getXMPPAccount().getBareJid(), from, semaLock);
+            }
             if (chat is null)
             {
                 Logger.Warn("Received a presence message for an unknown chat from: " + from + ", to: " + client.dbAccount.bareJid);
@@ -495,9 +507,12 @@ namespace Manager.Classes
                 return;
             }
 
-            chat.status = args.PRESENCE_MESSAGE.STATUS;
-            chat.presence = args.PRESENCE_MESSAGE.PRESENCE;
-            chat.Save();
+            if (chat.chatType == ChatType.CHAT)
+            {
+                chat.status = args.PRESENCE_MESSAGE.STATUS;
+                chat.presence = args.PRESENCE_MESSAGE.PRESENCE;
+                chat.Save();
+            }
         }
 
         private void OnNewRoosterMessage(IMessageSender sender, NewValidMessageEventArgs args)
@@ -674,7 +689,11 @@ namespace Manager.Classes
         private void OnNewDeliveryReceipt(XMPPClient xmppClient, NewDeliveryReceiptEventArgs args)
         {
             string fromBareJid = Utils.getBareJidFromFullJid(args.MSG.getFrom());
-            ChatModel chat = DataCache.INSTANCE.GetChat(client.dbAccount.bareJid, fromBareJid, DataCache.INSTANCE.NewChatSemaLock());
+            ChatModel chat;
+            using (SemaLock semaLock = DataCache.INSTANCE.NewChatSemaLock())
+            {
+                chat = DataCache.INSTANCE.GetChat(client.dbAccount.bareJid, fromBareJid, semaLock);
+            }
             if (chat is null)
             {
                 Logger.Warn($"Delivery receipt for an unknown chat ({fromBareJid}) on account '{client.dbAccount.bareJid}' received.");
