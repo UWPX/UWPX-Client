@@ -4,12 +4,11 @@ using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using Omemo.Classes;
 using Omemo.Classes.Keys;
-using Shared.Classes;
 using XMPP_API.Classes.Network.XML.Messages.XEP_0384;
 
 namespace Storage.Classes.Models.Omemo
 {
-    public class OmemoFingerprintModel: AbstractDataTemplate
+    public class OmemoFingerprintModel: AbstractModel
     {
         //--------------------------------------------------------Attributes:-----------------------------------------------------------------\\
         #region --Attributes--

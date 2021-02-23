@@ -1,11 +1,10 @@
 ﻿using System;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
-using Shared.Classes;
 
 namespace Storage.Classes.Models.Account
 {
-    public class MamRequestModel: AbstractDataTemplate
+    public class MamRequestModel: AbstractModel
     {
         //--------------------------------------------------------Attributes:-----------------------------------------------------------------\\
         #region --Attributes--

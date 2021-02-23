@@ -4,14 +4,13 @@ using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using Omemo.Classes;
 using Omemo.Classes.Keys;
-using Shared.Classes;
 
 namespace Storage.Classes.Models.Omemo
 {
     /// <summary>
     /// Information about the XEP-0384 (OMEMO Encryption) account status.
     /// </summary>
-    public class OmemoAccountInformationModel: AbstractDataTemplate
+    public class OmemoAccountInformationModel: AbstractModel
     {
         //--------------------------------------------------------Attributes:-----------------------------------------------------------------\\
         #region --Attributes--

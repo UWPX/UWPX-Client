@@ -1,11 +1,10 @@
 ﻿using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
-using Shared.Classes;
 using XMPP_API.Classes.Network.XML.Messages.XEP_0249;
 
 namespace Storage.Classes.Models.Chat
 {
-    public class MucDirectInvitationModel: AbstractDataTemplate
+    public class MucDirectInvitationModel: AbstractModel
     {
         //--------------------------------------------------------Attributes:-----------------------------------------------------------------\\
         #region --Attributes--

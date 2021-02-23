@@ -57,7 +57,7 @@ namespace UWPX_UI_Context.Classes.DataContext.Dialogs
                 }
 
                 // Update the DB entry since the server could respond with a different nickname:
-                chat.Chat.muc.Save();
+                chat.Chat.muc.Update();
 
                 // Update bookmarks:
                 return chat.Chat.inRoster ? await UpdateBookmarksAsync(chat) : true;

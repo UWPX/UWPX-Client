@@ -74,7 +74,7 @@ namespace UWPX_UI_Context.Classes.DataContext.Controls
                         chat.Chat.subscription = "from";
                         break;
                 }
-                chat.Chat.Save();
+                chat.Chat.Update();
             }).ConfAwaitFalse();
         }
 
@@ -98,7 +98,7 @@ namespace UWPX_UI_Context.Classes.DataContext.Controls
                         chat.Chat.subscription = "to";
                         break;
                 }
-                chat.Chat.Save();
+                chat.Chat.Update();
             }).ConfAwaitFalse();
         }
 
@@ -120,7 +120,7 @@ namespace UWPX_UI_Context.Classes.DataContext.Controls
                 {
                     chat.Chat.inRoster = inRoster;
                     MODEL.UpdateView(chat.Chat);
-                    chat.Chat.Save();
+                    chat.Chat.Update();
                 }).ConfAwaitFalse();
             }
 
@@ -145,7 +145,7 @@ namespace UWPX_UI_Context.Classes.DataContext.Controls
             {
                 chat.Chat.muted = !chat.Chat.muted;
                 MODEL.UpdateView(chat.Chat);
-                chat.Chat.Save();
+                chat.Chat.Update();
             }).ConfAwaitFalse();
         }
 
