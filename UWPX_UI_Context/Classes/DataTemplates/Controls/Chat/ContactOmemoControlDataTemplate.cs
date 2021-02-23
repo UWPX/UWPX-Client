@@ -62,7 +62,7 @@ namespace UWPX_UI_Context.Classes.DataTemplates.Controls.Chat
             if (SetProperty(ref _TrustedOnly, value, nameof(TrustedOnly)) && !(Chat is null) && Chat.Chat.omemo.trustedKeysOnly != value)
             {
                 Chat.Chat.omemo.trustedKeysOnly = value;
-                Chat.Chat.omemo.Save();
+                Chat.Chat.omemo.Update();
             }
         }
 

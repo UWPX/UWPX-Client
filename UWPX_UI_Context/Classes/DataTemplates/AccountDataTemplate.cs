@@ -106,7 +106,7 @@ namespace UWPX_UI_Context.Classes.DataTemplates
         {
             Task.Run(async () =>
             {
-                Client.dbAccount.Save();
+                Client.dbAccount.Update();
                 if (Client.dbAccount.enabled && !Client.xmppClient.isConnected())
                 {
                     _ = Client.xmppClient.connectAsync();

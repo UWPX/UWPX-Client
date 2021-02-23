@@ -51,7 +51,7 @@ namespace UWPX_UI_Context.Classes.DataContext.Controls
             {
                 chat.Chat.inRoster = inRoster;
                 UpdateView(chat);
-                chat.Chat.Save();
+                chat.Chat.Update();
             }
 
             if (inRoster)
@@ -70,7 +70,7 @@ namespace UWPX_UI_Context.Classes.DataContext.Controls
             {
                 chat.Chat.inRoster = bookmarked;
                 UpdateView(chat);
-                chat.Chat.Save();
+                chat.Chat.Update();
             }
             UpdateBookmarks(chat.Client.xmppClient);
         }
@@ -81,7 +81,7 @@ namespace UWPX_UI_Context.Classes.DataContext.Controls
             {
                 chat.Chat.muted = muted;
                 UpdateView(chat);
-                chat.Chat.Save();
+                chat.Chat.Update();
             }
         }
 
@@ -173,7 +173,7 @@ namespace UWPX_UI_Context.Classes.DataContext.Controls
                         chatTemplate.Chat.subscription = "from";
                         break;
                 }
-                chatTemplate.Chat.Save();
+                chatTemplate.Chat.Update();
             });
         }
 
@@ -199,14 +199,14 @@ namespace UWPX_UI_Context.Classes.DataContext.Controls
                     chatTemplate.Chat.subscription = "to";
                     break;
             }
-            chatTemplate.Chat.Save();
+            chatTemplate.Chat.Update();
         }
 
         public async Task AnswerPresenceSubscriptionRequestAsync(ChatDataTemplate chatTemplate, bool accepted)
         {
             await chatTemplate.Client.xmppClient.GENERAL_COMMAND_HELPER.answerPresenceSubscriptionRequestAsync(chatTemplate.Chat.bareJid, accepted);
             chatTemplate.Chat.subscription = accepted ? "to" : "none";
-            chatTemplate.Chat.Save();
+            chatTemplate.Chat.Update();
         }
 
         #endregion

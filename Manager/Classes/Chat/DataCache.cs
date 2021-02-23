@@ -328,7 +328,7 @@ namespace Manager.Classes.Chat
                 else
                 {
                     chat.isChatActive = false;
-                    chat.Save();
+                    chat.Update();
                     Logger.Info("Marked chat as not active: " + chat.bareJid);
                 }
             }

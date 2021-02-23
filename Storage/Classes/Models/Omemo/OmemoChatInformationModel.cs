@@ -2,15 +2,13 @@
 using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
-using Shared.Classes;
-using Storage.Classes.Contexts;
 
 namespace Storage.Classes.Models.Omemo
 {
     /// <summary>
     /// Information about the XEP-0384 (OMEMO Encryption) chat status.
     /// </summary>
-    public class OmemoChatInformationModel: AbstractDataTemplate
+    public class OmemoChatInformationModel: AbstractModel
     {
         //--------------------------------------------------------Attributes:-----------------------------------------------------------------\\
         #region --Attributes--
@@ -113,13 +111,7 @@ namespace Storage.Classes.Models.Omemo
         #endregion
         //--------------------------------------------------------Misc Methods:---------------------------------------------------------------\\
         #region --Misc Methods (Public)--
-        public void Save()
-        {
-            using (MainDbContext ctx = new MainDbContext())
-            {
-                ctx.Update(this);
-            }
-        }
+
 
         #endregion
 

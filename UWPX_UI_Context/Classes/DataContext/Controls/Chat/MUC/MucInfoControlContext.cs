@@ -54,7 +54,7 @@ namespace UWPX_UI_Context.Classes.DataContext.Controls.Chat.MUC
             }
             chat.Chat.muted = !chat.Chat.muted;
             UpdateView(chat.Chat);
-            chat.Chat.Save();
+            chat.Chat.Update();
         }
 
         public void ToggleMucAutoJoin(ChatDataTemplate chat)
@@ -66,7 +66,7 @@ namespace UWPX_UI_Context.Classes.DataContext.Controls.Chat.MUC
 
             chat.Chat.muc.autoEnterRoom = !chat.Chat.muc.autoEnterRoom;
             UpdateView(chat.Chat.muc);
-            chat.Chat.muc.Save();
+            chat.Chat.muc.Update();
         }
 
         public void ToggleChatBookmarked(ChatDataTemplate chat)
@@ -120,7 +120,7 @@ namespace UWPX_UI_Context.Classes.DataContext.Controls.Chat.MUC
             {
                 chat.Chat.inRoster = bookmarked;
                 UpdateView(chat.Chat);
-                chat.Chat.Save();
+                chat.Chat.Update();
             }
             UpdateBookmarks(chat);
         }

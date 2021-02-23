@@ -1,14 +1,13 @@
 ﻿using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
-using Shared.Classes;
 using Shared.Classes.Collections;
 using Windows.Security.Cryptography.Certificates;
 using XMPP_API.Classes.Network.TCP;
 
 namespace Storage.Classes.Models.Account
 {
-    public class ServerModel: AbstractDataTemplate
+    public class ServerModel: AbstractModel
     {
         //--------------------------------------------------------Attributes:-----------------------------------------------------------------\\
         #region --Attributes--

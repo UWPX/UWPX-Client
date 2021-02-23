@@ -511,7 +511,7 @@ namespace Manager.Classes
             {
                 chat.status = args.PRESENCE_MESSAGE.STATUS;
                 chat.presence = args.PRESENCE_MESSAGE.PRESENCE;
-                chat.Save();
+                chat.Update();
             }
         }
 
