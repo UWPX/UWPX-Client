@@ -1,6 +1,7 @@
 ﻿using System.Threading.Tasks;
 using Manager.Classes;
 using Manager.Classes.Chat;
+using Shared.Classes.Threading;
 using Storage.Classes.Models.Chat;
 using UWPX_UI_Context.Classes.DataTemplates.Controls.IoT;
 using UWPX_UI_Context.Classes.DataTemplates.Pages;

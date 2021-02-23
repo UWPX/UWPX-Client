@@ -4,6 +4,7 @@ using System.Linq;
 using Manager.Classes.Chat;
 using Omemo.Classes;
 using Omemo.Classes.Keys;
+using Shared.Classes.Threading;
 using Storage.Classes.Contexts;
 using Storage.Classes.Models.Account;
 using Storage.Classes.Models.Chat;

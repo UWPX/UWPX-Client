@@ -4,6 +4,7 @@ using Logging;
 using Manager.Classes;
 using Manager.Classes.Chat;
 using Manager.Classes.Toast;
+using Shared.Classes.Threading;
 using Storage.Classes.Contexts;
 using Storage.Classes.Models.Chat;
 using UWPX_UI_Context.Classes.DataTemplates.Dialogs;
