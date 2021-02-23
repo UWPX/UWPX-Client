@@ -65,16 +65,22 @@ namespace Manager.Classes
         private void ResetMucState(string accountBareJid)
         {
             IEnumerable<MucInfoModel> mucs = DataCache.INSTANCE.GetMucs(accountBareJid);
+            List<SemaLock> semaLocks = new List<SemaLock>(); // Lock all changing models
             using (MainDbContext ctx = new MainDbContext())
             {
                 foreach (MucInfoModel muc in mucs)
                 {
                     if (muc.state != MucState.DISCONNECTED)
                     {
+                        semaLocks.Add(muc.NewSemaLock());
                         muc.state = MucState.DISCONNECTED;
                         ctx.Update(muc);
                     }
                 }
+            }
+            foreach (SemaLock semaLock in semaLocks) // Unlock all changing models
+            {
+                semaLock.Dispose();
             }
         }
 
@@ -110,11 +116,13 @@ namespace Manager.Classes
             {
                 return;
             }
-            chat.muc.state = MucState.DISCONNECTED;
-            chat.muc.subject = mucRoomSubject.SUBJECT;
-            using (MainDbContext ctx = new MainDbContext())
+            using (SemaLock semaLock = chat.muc.NewSemaLock())
             {
-                ctx.Update(chat.muc);
+                chat.muc.subject = mucRoomSubject.SUBJECT;
+                using (MainDbContext ctx = new MainDbContext())
+                {
+                    ctx.Update(chat.muc);
+                }
             }
         }
 
@@ -236,21 +244,24 @@ namespace Manager.Classes
             {
                 await SendMucLeaveMessageAsync(client, chat.muc);
             }
-            switch (errorMessage.ERROR_CODE)
+            using (SemaLock semaLock = chat.muc.NewSemaLock())
             {
-                // No access - user got baned:
-                case 403:
-                    chat.muc.state = MucState.BANED;
-                    AddChatInfoMessage(chat, room, "Unable to join room!\nYou are baned from this room.");
-                    using (MainDbContext ctx = new MainDbContext())
-                    {
-                        ctx.Update(chat.muc);
-                    }
-                    return;
+                switch (errorMessage.ERROR_CODE)
+                {
+                    // No access - user got baned:
+                    case 403:
+                        chat.muc.state = MucState.BANED;
+                        AddChatInfoMessage(chat, room, "Unable to join room!\nYou are baned from this room.");
+                        return;
 
-                default:
-                    chat.muc.state = MucState.ERROR;
-                    break;
+                    default:
+                        chat.muc.state = MucState.ERROR;
+                        break;
+                }
+                using (MainDbContext ctx = new MainDbContext())
+                {
+                    ctx.Update(chat.muc);
+                }
             }
 
             // Add an error chat message:
@@ -384,38 +395,43 @@ namespace Manager.Classes
                     }
                 }
 
-                // If the type equals 'unavailable', a user left the room:
-                using (MainDbContext ctx = new MainDbContext())
+                using (SemaLock mucSemaLock = chat.muc.NewSemaLock())
                 {
-                    if (isUnavailable && !nicknameChanged)
+                    using (SemaLock occupantSemaLock = occupant.NewSemaLock())
                     {
-                        if (!newOccupant)
+                        using (MainDbContext ctx = new MainDbContext())
                         {
-                            chat.muc.occupants.Remove(occupant);
-                            ctx.Remove(occupant);
-                            ctx.Update(chat.muc);
+                            // If the type equals 'unavailable', a user left the room:
+                            if (isUnavailable && !nicknameChanged)
+                            {
+                                if (!newOccupant)
+                                {
+                                    chat.muc.occupants.Remove(occupant);
+                                    ctx.Remove(occupant);
+                                    ctx.Update(chat.muc);
+                                }
+                            }
+                            else
+                            {
+                                if (newOccupant)
+                                {
+                                    chat.muc.occupants.Add(occupant);
+                                    ctx.Update(chat.muc);
+                                }
+                                else
+                                {
+                                    ctx.Update(occupant);
+                                }
+                            }
                         }
-                    }
-                    else
-                    {
+
                         if (newOccupant)
                         {
-                            chat.muc.occupants.Add(occupant);
-                            ctx.Update(chat.muc);
-                            // ctx.Add(occupant);
+                            using (MainDbContext ctx = new MainDbContext())
+                            {
+                                ctx.Update(chat.muc);
+                            }
                         }
-                        else
-                        {
-                            ctx.Update(occupant);
-                        }
-                    }
-                }
-
-                if (newOccupant)
-                {
-                    using (MainDbContext ctx = new MainDbContext())
-                    {
-                        ctx.Update(chat.muc);
                     }
                 }
                 OCCUPANT_CREATION_SEMA.Release();
