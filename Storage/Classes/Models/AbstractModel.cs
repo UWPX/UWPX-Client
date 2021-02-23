@@ -1,5 +1,6 @@
 ﻿using System.Threading;
 using Shared.Classes;
+using Shared.Classes.Threading;
 using Storage.Classes.Contexts;
 
 namespace Storage.Classes.Models
@@ -45,9 +46,14 @@ namespace Storage.Classes.Models
             }
         }
 
-        public void NewLock()
+        /// <summary>
+        /// Returns a new locked <see cref="SemaLock"/>.
+        /// </summary>
+        public SemaLock NewSemaLock()
         {
-
+            SemaLock l = new SemaLock(LOCK_SEMA);
+            l.Wait();
+            return l;
         }
 
         #endregion

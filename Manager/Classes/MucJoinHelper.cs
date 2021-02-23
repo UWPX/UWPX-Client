@@ -2,6 +2,7 @@
 using System.Threading.Tasks;
 using Logging;
 using Shared.Classes.Collections;
+using Shared.Classes.Threading;
 using Storage.Classes.Contexts;
 using Storage.Classes.Models.Chat;
 using XMPP_API.Classes;
@@ -45,14 +46,17 @@ namespace Manager.Classes
 
         public async Task EnterRoomAsync()
         {
-            // Update MUC info:
-            INFO.state = MucState.ENTERING;
-            using (MainDbContext ctx = new MainDbContext())
+            using (SemaLock semaLock = INFO.NewSemaLock())
             {
-                // Clear MUC members:
-                ctx.RemoveRange(INFO.occupants);
-                INFO.occupants.Clear();
-                ctx.Update(INFO);
+                // Update MUC info:
+                INFO.state = MucState.ENTERING;
+                using (MainDbContext ctx = new MainDbContext())
+                {
+                    // Clear MUC members:
+                    ctx.RemoveRange(INFO.occupants);
+                    INFO.occupants.Clear();
+                    ctx.Update(INFO);
+                }
             }
 
             // Create message:
@@ -107,13 +111,16 @@ namespace Manager.Classes
                                 // Remove event subscription:
                                 CLIENT.NewMUCMemberPresenceMessage -= OnMucMemberPresenceMessage;
 
-                                // Update MUC info:
-                                INFO.state = MucState.ENTERD;
-                                INFO.affiliation = args.mucMemberPresenceMessage.AFFILIATION;
-                                INFO.role = args.mucMemberPresenceMessage.ROLE;
-                                using (MainDbContext ctx = new MainDbContext())
+                                using (SemaLock semaLock = INFO.NewSemaLock())
                                 {
-                                    ctx.Update(INFO);
+                                    // Update MUC info:
+                                    INFO.state = MucState.ENTERD;
+                                    INFO.affiliation = args.mucMemberPresenceMessage.AFFILIATION;
+                                    INFO.role = args.mucMemberPresenceMessage.ROLE;
+                                    using (MainDbContext ctx = new MainDbContext())
+                                    {
+                                        ctx.Update(INFO);
+                                    }
                                 }
                                 Logger.Info("Entered MUC room '" + roomJId + "' as '" + INFO.nickname + "' with role '" + INFO.role + "' and affiliation '" + INFO.affiliation + '\'');
                                 break;
