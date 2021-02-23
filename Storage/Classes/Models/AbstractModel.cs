@@ -1,4 +1,5 @@
-﻿using Shared.Classes;
+﻿using System.Threading;
+using Shared.Classes;
 using Storage.Classes.Contexts;
 
 namespace Storage.Classes.Models
@@ -7,7 +8,7 @@ namespace Storage.Classes.Models
     {
         //--------------------------------------------------------Attributes:-----------------------------------------------------------------\\
         #region --Attributes--
-
+        protected readonly SemaphoreSlim LOCK_SEMA = new SemaphoreSlim(1);
 
         #endregion
         //--------------------------------------------------------Constructor:----------------------------------------------------------------\\
@@ -42,6 +43,11 @@ namespace Storage.Classes.Models
             {
                 ctx.Add(this);
             }
+        }
+
+        public void NewLock()
+        {
+
         }
 
         #endregion

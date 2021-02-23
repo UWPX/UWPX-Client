@@ -6,6 +6,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using Logging;
 using Shared.Classes;
+using Shared.Classes.Threading;
 using Storage.Classes.Contexts;
 using Storage.Classes.Models.Account;
 using Storage.Classes.Models.Chat;

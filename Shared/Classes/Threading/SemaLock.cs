@@ -2,7 +2,7 @@
 using System.Diagnostics;
 using System.Threading;
 
-namespace Manager.Classes.Chat
+namespace Shared.Classes.Threading
 {
     public class SemaLock: IDisposable
     {
@@ -15,7 +15,7 @@ namespace Manager.Classes.Chat
         #endregion
         //--------------------------------------------------------Constructor:----------------------------------------------------------------\\
         #region --Constructors--
-        internal SemaLock(SemaphoreSlim sema)
+        public SemaLock(SemaphoreSlim sema)
         {
             SEMA = sema;
         }
@@ -38,7 +38,7 @@ namespace Manager.Classes.Chat
             }
         }
 
-        internal void Wait()
+        public void Wait()
         {
             Debug.Assert(!isWaiting);
             isWaiting = true;

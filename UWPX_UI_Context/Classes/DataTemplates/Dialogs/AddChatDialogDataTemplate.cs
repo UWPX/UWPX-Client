@@ -2,6 +2,7 @@
 using Manager.Classes;
 using Manager.Classes.Chat;
 using Shared.Classes;
+using Shared.Classes.Threading;
 using Storage.Classes.Models.Chat;
 
 namespace UWPX_UI_Context.Classes.DataTemplates.Dialogs

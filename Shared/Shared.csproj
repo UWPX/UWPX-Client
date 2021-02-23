@@ -147,6 +147,7 @@
     <Compile Include="Classes\TaskExtensions.cs" />
     <Compile Include="Classes\Threading\DebugSemaphoreSlim.cs" />
     <Compile Include="Classes\Threading\MySemaphoreSlim.cs" />
+    <Compile Include="Classes\Threading\SemaLock.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <EmbeddedResource Include="Properties\Shared.rd.xml" />
   </ItemGroup>
