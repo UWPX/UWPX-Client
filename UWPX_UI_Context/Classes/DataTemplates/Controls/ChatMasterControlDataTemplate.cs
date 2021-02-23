@@ -268,17 +268,17 @@ namespace UWPX_UI_Context.Classes.DataTemplates.Controls
             }
         }
 
-        public void UpdateViewMuc(ChatModel chat)
+        public void UpdateViewMuc(MucInfoModel muc)
         {
-            if (!(chat is null) && chat.chatType == ChatType.MUC)
+            if (!(muc is null))
             {
-                NameText = string.IsNullOrWhiteSpace(chat.muc.name) ? chat.bareJid : chat.muc.name;
-                RemoveFromRosterText = chat.inRoster ? "Remove bookmark" : "Bookmark";
+                NameText = string.IsNullOrWhiteSpace(muc.name) ? muc.chat.bareJid : muc.name;
+                RemoveFromRosterText = muc.chat.inRoster ? "Remove bookmark" : "Bookmark";
 
                 // Account image:
-                AccountPresence = chat.muc.GetMucPresence();
+                AccountPresence = muc.GetMucPresence();
 
-                MucState = chat.muc.state;
+                MucState = muc.state;
             }
         }
 

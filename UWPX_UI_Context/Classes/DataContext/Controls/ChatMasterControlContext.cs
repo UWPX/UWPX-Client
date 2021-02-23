@@ -93,13 +93,27 @@ namespace UWPX_UI_Context.Classes.DataContext.Controls
             ChatDataTemplate newChat = null;
             if (args.OldValue is ChatDataTemplate oldChat)
             {
-                oldChat.PropertyChanged -= OnChatPropertyChanged;
+                if (!(oldChat.Chat is null))
+                {
+                    oldChat.Chat.PropertyChanged -= OnChatPropertyChanged;
+                }
+                if (!(oldChat.Chat.muc is null))
+                {
+                    oldChat.Chat.muc.PropertyChanged -= OnMucPropertyChanged;
+                }
             }
 
             if (args.NewValue is ChatDataTemplate)
             {
                 newChat = args.NewValue as ChatDataTemplate;
-                newChat.PropertyChanged += OnChatPropertyChanged;
+                if (!(newChat.Chat is null))
+                {
+                    newChat.Chat.PropertyChanged += OnChatPropertyChanged;
+                }
+                if (!(newChat.Chat.muc is null))
+                {
+                    newChat.Chat.muc.PropertyChanged += OnMucPropertyChanged;
+                }
             }
 
             UpdateView(newChat);
@@ -219,7 +233,10 @@ namespace UWPX_UI_Context.Classes.DataContext.Controls
                 MODEL.UpdateViewClient(chatTemplate.Client.xmppClient);
                 MODEL.UpdateViewChat(chatTemplate.Chat);
                 MODEL.UpdateLastAction(chatTemplate.LastMsg);
-                MODEL.UpdateViewMuc(chatTemplate.Chat);
+                if (chatTemplate.Chat.chatType == ChatType.MUC)
+                {
+                    MODEL.UpdateViewMuc(chatTemplate.Chat?.muc);
+                }
             }
         }
 
@@ -274,9 +291,17 @@ namespace UWPX_UI_Context.Classes.DataContext.Controls
         #region --Events--
         private void OnChatPropertyChanged(object sender, PropertyChangedEventArgs e)
         {
-            if (sender is ChatDataTemplate chat)
+            if (sender is ChatModel chat)
             {
-                UpdateView(chat);
+                MODEL.UpdateViewChat(chat);
+            }
+        }
+
+        private void OnMucPropertyChanged(object sender, PropertyChangedEventArgs e)
+        {
+            if (sender is MucInfoModel muc)
+            {
+                MODEL.UpdateViewMuc(muc);
             }
         }
 
