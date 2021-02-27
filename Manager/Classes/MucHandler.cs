@@ -399,37 +399,42 @@ namespace Manager.Classes
                 {
                     using (SemaLock occupantSemaLock = occupant.NewSemaLock())
                     {
-                        using (MainDbContext ctx = new MainDbContext())
+
+                        // If the type equals 'unavailable', a user left the room:
+                        if (isUnavailable && !nicknameChanged)
                         {
-                            // If the type equals 'unavailable', a user left the room:
-                            if (isUnavailable && !nicknameChanged)
+                            if (!newOccupant)
                             {
-                                if (!newOccupant)
+                                using (MainDbContext ctx = new MainDbContext())
                                 {
                                     chat.muc.occupants.Remove(occupant);
+                                    ctx.Update(chat.muc);
+                                }
+
+                                using (MainDbContext ctx = new MainDbContext())
+                                {
                                     ctx.Remove(occupant);
-                                    ctx.Update(chat.muc);
-                                }
-                            }
-                            else
-                            {
-                                if (newOccupant)
-                                {
-                                    chat.muc.occupants.Add(occupant);
-                                    ctx.Update(chat.muc);
-                                }
-                                else
-                                {
-                                    ctx.Update(occupant);
                                 }
                             }
                         }
-
-                        if (newOccupant)
+                        else
                         {
-                            using (MainDbContext ctx = new MainDbContext())
+                            if (newOccupant)
                             {
-                                ctx.Update(chat.muc);
+                                occupant.Add();
+                                chat.muc.occupants.Add(occupant);
+                                using (MainDbContext ctx = new MainDbContext())
+                                {
+                                    ctx.Update(chat.muc);
+                                }
+
+                            }
+                            else
+                            {
+                                using (MainDbContext ctx = new MainDbContext())
+                                {
+                                    ctx.Update(occupant);
+                                }
                             }
                         }
                     }
