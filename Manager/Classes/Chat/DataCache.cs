@@ -451,7 +451,7 @@ namespace Manager.Classes.Chat
 
         private static ChatDataTemplate LoadChat(ChatModel chat, MainDbContext ctx)
         {
-            Client client = ConnectionHandler.INSTANCE.GetClient(chat.accountBareJid);
+            Client client = ConnectionHandler.INSTANCE.GetClient(chat.accountBareJid).client;
             ChatMessageModel lastMsg = ctx.ChatMessages.Where(m => m.chatId == chat.id).OrderByDescending(m => m.date).FirstOrDefault();
             return new ChatDataTemplate(chat, client, lastMsg, null);
         }

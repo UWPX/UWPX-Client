@@ -18,6 +18,7 @@
         </valueconverter:MessageStateBrushValueConverter>
         <valueconverter:MucStateMucJoinVisibilityValueConverter x:Key="MucStateMucJoinVisibilityValueConverter"/>
         <valueconverter:MucStateMucLeaveVisibilityValueConverter x:Key="MucStateMucLeaveVisibilityValueConverter"/>
+        <valueconverter:HexColorToSolidColorBrushValueConverter x:Key="HexColorToSolidColorBrushValueConverter"/>
         <MenuFlyout x:Name="chat_mfo">
             <MenuFlyout.Items>
                 <MenuFlyoutItem x:Name="showProfile_mfo"
@@ -216,7 +217,7 @@
                            Grid.Column="0"
                            Width="5"
                            Margin="5,0,0,0"
-                           Fill="{x:Bind VIEW_MODEL.MODEL.AccountColorBrush, Mode=OneWay}"
+                           Fill="{x:Bind Chat.Client.dbAccount.color, Mode=OneWay, Converter={StaticResource HexColorToSolidColorBrushValueConverter}}"
                            Visibility="{x:Bind VIEW_MODEL.MODEL.ShowAccountColor, Mode=OneWay, Converter={StaticResource BoolVisibilityValueConverter}}"/>
                 <controls:AccountImagePresenceControl x:Name="image_aciwp"
                                                       Grid.Column="1"

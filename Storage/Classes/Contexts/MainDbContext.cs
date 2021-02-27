@@ -89,7 +89,8 @@ namespace Storage.Classes.Contexts
             {
                 return GetNextNChatMessages(chat, n);
             }
-            return ChatMessages.Where(msg => msg.chatId == chat.id).OrderBy(msg => msg.date).SkipWhile(msg => msg.id != lastMessage.id).Skip(1).Take(n).Include(GetIncludePaths(typeof(ChatMessageModel))).ToList();
+            // return ChatMessages.Where(msg => msg.chatId == chat.id).OrderBy(msg => msg.date).SkipWhile(msg => msg.id != lastMessage.id).Skip(1).Take(n).Include(GetIncludePaths(typeof(ChatMessageModel))).ToList();
+            return ChatMessages.Where(msg => msg.chatId == chat.id).OrderBy(msg => msg.date).SkipWhile(msg => msg.id != lastMessage.id).Take(n).Include(GetIncludePaths(typeof(ChatMessageModel))).ToList();
         }
 
         #endregion
