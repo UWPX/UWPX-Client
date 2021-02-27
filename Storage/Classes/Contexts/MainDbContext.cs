@@ -1,7 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using Logging;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.ChangeTracking;
 using Microsoft.EntityFrameworkCore.Metadata;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Omemo.Classes;
@@ -95,7 +97,23 @@ namespace Storage.Classes.Contexts
         #region --Misc Methods (Public)--
         public override void Dispose()
         {
-            SaveChanges();
+            bool saved = false;
+            while (!saved)
+            {
+                try
+                {
+                    SaveChanges();
+                    saved = true;
+                }
+                catch (DbUpdateConcurrencyException ex)
+                {
+                    Logger.Error("DB inconsistency found: ", ex);
+                    foreach (EntityEntry entry in ex.Entries)
+                    {
+                        entry.OriginalValues.SetValues(entry.GetDatabaseValues());
+                    }
+                }
+            }
             base.Dispose();
         }
 
