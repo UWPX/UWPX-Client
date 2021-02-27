@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Collections.Specialized;
+using System.Diagnostics;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
@@ -44,16 +45,16 @@ namespace Manager.Classes
         //--------------------------------------------------------Set-, Get- Methods:---------------------------------------------------------\\
         #region --Set-, Get- Methods--
         /// <summary>
-        /// Returns the <see cref="Client"/> that matches the given bare JID.
+        /// Returns the <see cref="ClientConnectionHandler"/> that matches the given bare JID.
         /// </summary>
         /// <param name="bareJid">The bare JID of the requested XMPPClient. e.g. 'alice@jabber.org'</param>
-        public Client GetClient(string bareJid)
+        public ClientConnectionHandler GetClient(string bareJid)
         {
             foreach (ClientConnectionHandler handler in CLIENTS)
             {
                 if (handler.client.dbAccount.bareJid.Equals(bareJid))
                 {
-                    return handler.client;
+                    return handler;
                 }
             }
             return null;
@@ -155,6 +156,18 @@ namespace Manager.Classes
         public void ReconnectAll()
         {
             Parallel.ForEach(CLIENTS, async (c) => await ReconnectClientAsync(c));
+        }
+
+        /// <summary>
+        /// Updates a <see cref="Client"/> with the given <paramref name="account"/>.
+        /// Handles reconnecting the account in case <see cref="AccountModel.enabled"/> is true.
+        /// </summary>
+        /// <param name="account">The new <see cref="AccountModel"/>.</param>
+        public async Task UpdateAccountAsync(AccountModel account)
+        {
+            ClientConnectionHandler client = GetClient(account.bareJid);
+            Debug.Assert(!(client is null));
+            await client.UpdateAccountAsync(account);
         }
 
         /// <summary>

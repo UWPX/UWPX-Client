@@ -200,7 +200,7 @@ namespace Push.Classes
             Logger.Debug("Updating push settings for " + accounts.Count + " accounts.");
             foreach (PushAccount pushAccount in accounts)
             {
-                Client client = ConnectionHandler.INSTANCE.GetClient(pushAccount.bareJid);
+                Client client = ConnectionHandler.INSTANCE.GetClient(pushAccount.bareJid).client;
                 if (!(client is null))
                 {
                     XMPPAccount account = client.xmppClient.getXMPPAccount();

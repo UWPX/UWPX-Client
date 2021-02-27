@@ -197,7 +197,7 @@ namespace UWPX_UI
 
             if (isRunning)
             {
-                Client client = ConnectionHandler.INSTANCE.GetClient(chat.bareJid);
+                Client client = ConnectionHandler.INSTANCE.GetClient(chat.bareJid).client;
                 if (client is null)
                 {
                     Logger.Error($"Failed to send message from background. Client '{chat.bareJid}' does not exist.");

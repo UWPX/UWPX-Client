@@ -39,12 +39,6 @@ namespace XMPP_API.Classes.Network
             get => _presencePriorety;
             set => SetProperty(ref _presencePriorety, value);
         }
-        private string _color;
-        public string color
-        {
-            get => _color;
-            set => SetProperty(ref _color, value);
-        }
         private Presence _presence;
         public Presence presence
         {
@@ -144,7 +138,6 @@ namespace XMPP_API.Classes.Network
             this.port = port;
             this.connectionConfiguration = connectionConfiguration;
             presencePriorety = 0;
-            color = null;
             presence = Presence.Online;
             status = null;
             CONNECTION_INFO = new ConnectionInformation();
@@ -226,7 +219,6 @@ namespace XMPP_API.Classes.Network
                     o.presencePriorety == presencePriorety &&
                     string.Equals(o.serverAddress, serverAddress) &&
                     Equals(o.user, user) &&
-                    string.Equals(o.color, color) &&
                     o.presence == presence &&
                     string.Equals(o.status, status) &&
                     connectionConfiguration.Equals(o.connectionConfiguration) &&

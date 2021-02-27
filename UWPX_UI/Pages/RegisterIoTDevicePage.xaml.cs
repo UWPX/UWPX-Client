@@ -193,7 +193,7 @@ namespace UWPX_UI.Pages
 
         private async void Client_NewChatMessage(XMPPClient client, NewChatMessageEventArgs args)
         {
-            if (await VIEW_MODEL.OnNewChatMessage(args.getMessage(), btDeviceInfo_btdic.VIEW_MODEL.MODEL.Jid, ConnectionHandler.INSTANCE.GetClient(client.getXMPPAccount().getBareJid())))
+            if (await VIEW_MODEL.OnNewChatMessage(args.getMessage(), btDeviceInfo_btdic.VIEW_MODEL.MODEL.Jid, ConnectionHandler.INSTANCE.GetClient(client.getXMPPAccount().getBareJid()).client))
             {
                 await SharedUtils.CallDispatcherAsync(() => UpdateViewState(State_6.Name));
             }

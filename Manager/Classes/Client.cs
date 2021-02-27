@@ -1,16 +1,28 @@
-﻿using Storage.Classes;
+﻿using Shared.Classes;
+using Storage.Classes;
 using Storage.Classes.Models.Account;
 using XMPP_API.Classes;
 using XMPP_API.Classes.Network;
 
 namespace Manager.Classes
 {
-    public class Client
+    public class Client: AbstractDataTemplate
     {
         //--------------------------------------------------------Attributes:-----------------------------------------------------------------\\
         #region --Attributes--
-        public readonly XMPPClient xmppClient;
-        public readonly AccountModel dbAccount;
+        public XMPPClient xmppClient
+        {
+            get => _xmppClient;
+            set => SetProperty(ref _xmppClient, value);
+        }
+        private XMPPClient _xmppClient;
+
+        public AccountModel dbAccount
+        {
+            get => _dbAccount;
+            set => SetProperty(ref _dbAccount, value);
+        }
+        private AccountModel _dbAccount;
 
         #endregion
         //--------------------------------------------------------Constructor:----------------------------------------------------------------\\

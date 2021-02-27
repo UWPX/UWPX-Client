@@ -24,12 +24,12 @@
                            Width="5"
                            Height="25"
                            VerticalAlignment="Center"
-                           Fill="{x:Bind Account.color, Mode=OneWay, Converter={StaticResource HexColorToSolidColorBrushValueConverter}, TargetNullValue='Transparent'}"/>
+                           Fill="{x:Bind Client.dbAccount.color, Mode=OneWay, Converter={StaticResource HexColorToSolidColorBrushValueConverter}, TargetNullValue='Transparent'}"/>
                 <controls:AccountImagePresenceControl Grid.Column="1"
                                                       Width="30"
                                                       Height="30"
                                                       Margin="5,0,0,0"
-                                                      BareJid="{x:Bind Account.getBareJid(), Mode=OneWay}"
+                                                      BareJid="{x:Bind Client.dbAccount.bareJid, Mode=OneWay}"
                                                       ChatType="CHAT"
                                                       PresenceProp="{x:Bind ConnectionState, Mode=OneWay, Converter={StaticResource ConnectionStatePresenceValueConverter}}"/>
                 <StackPanel Grid.Column="2"

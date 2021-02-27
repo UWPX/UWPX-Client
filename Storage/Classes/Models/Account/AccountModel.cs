@@ -226,7 +226,6 @@ namespace Storage.Classes.Models.Account
             {
                 serverAddress = server.address,
                 port = server.port,
-                color = color,
                 presencePriorety = presencePriorety,
                 presence = presence,
                 status = status,

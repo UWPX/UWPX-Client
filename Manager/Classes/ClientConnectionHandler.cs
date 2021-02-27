@@ -311,6 +311,29 @@ namespace Manager.Classes
             }
         }
 
+        /// <summary>
+        /// Updates a <see cref="Client"/> with the given <paramref name="account"/>.
+        /// Handles reconnecting the account in case <see cref="AccountModel.enabled"/> is true.
+        /// </summary>
+        /// <param name="account">The new <see cref="AccountModel"/>.</param>
+        public async Task UpdateAccountAsync(AccountModel account)
+        {
+            // Ensure we disconnect the old client before we update it:
+            await DisconnectAsync();
+
+            // Update it:
+            client.dbAccount = account;
+            XMPPAccount xmppAccount = account.ToXMPPAccount();
+            Vault.LoadPassword(xmppAccount);
+            SetAccount(xmppAccount);
+
+            // Connect:
+            if (client.dbAccount.enabled)
+            {
+                await ConnectAsync();
+            }
+        }
+
         #endregion
 
         #region --Misc Methods (Private)--

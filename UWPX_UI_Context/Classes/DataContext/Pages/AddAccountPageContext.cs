@@ -2,7 +2,6 @@
 using Manager.Classes;
 using Manager.Classes.Chat;
 using Storage.Classes;
-using Storage.Classes.Contexts;
 using Storage.Classes.Models.Account;
 using UWPX_UI_Context.Classes.DataTemplates.Dialogs;
 using UWPX_UI_Context.Classes.DataTemplates.Pages;
@@ -56,31 +55,24 @@ namespace UWPX_UI_Context.Classes.DataContext.Pages
 
         public async Task SaveAccountAsync()
         {
-            await Task.Run(() =>
+            await Task.Run(async () =>
             {
-                using (MainDbContext ctx = new MainDbContext())
+                // Update the password:
+                XMPPAccount account = MODEL.Account.ToXMPPAccount();
+                account.user.password = MODEL.Password;
+                Vault.StorePassword(account);
+
+                // New account add it to the DB:
+                if (MODEL.OldAccount is null)
                 {
-                    // New account add it to the DB:
-                    if (MODEL.OldAccount is null)
-                    {
-                        ctx.Add(MODEL.Account);
-                        ConnectionHandler.INSTANCE.AddAccount(MODEL.Account);
-                    }
-                    // Update the old account:
-                    else
-                    {
-                        ctx.Update(MODEL.Account.fullJid);
-                        ctx.Update(MODEL.Account.server);
-                        ctx.Update(MODEL.Account);
-
-                        // Reconnect the client:
-                        ConnectionHandler.INSTANCE.ReloadClients();
-                    }
-
-                    // Update the password:
-                    XMPPAccount account = MODEL.Account.ToXMPPAccount();
-                    account.user.password = MODEL.Password;
-                    Vault.StorePassword(account);
+                    MODEL.Account.Add();
+                    ConnectionHandler.INSTANCE.AddAccount(MODEL.Account);
+                }
+                // Update the old account:
+                else
+                {
+                    MODEL.Account.Update();
+                    await ConnectionHandler.INSTANCE.UpdateAccountAsync(MODEL.Account);
                 }
             });
         }
