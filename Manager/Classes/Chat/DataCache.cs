@@ -84,7 +84,7 @@ namespace Manager.Classes.Chat
                 {
                     ChatMessageModel msg;
                     CHATS_MESSAGES_SEMA.Wait();
-                    msg = CHAT_MESSAGES.Where(m => string.Equals(m.Message.stableId, stableId)).FirstOrDefault().Message;
+                    msg = CHAT_MESSAGES.Where(m => string.Equals(m.Message.stableId, stableId)).FirstOrDefault()?.Message;
                     CHATS_MESSAGES_SEMA.Release();
                     // In case the message is null try loading it from the DB since it might not be shown currently:
                     if (!(msg is null))

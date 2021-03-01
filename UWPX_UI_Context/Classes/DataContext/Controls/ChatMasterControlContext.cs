@@ -230,7 +230,6 @@ namespace UWPX_UI_Context.Classes.DataContext.Controls
         {
             if (!(chatTemplate is null))
             {
-                MODEL.UpdateViewClient(chatTemplate.Client.dbAccount);
                 MODEL.UpdateViewChat(chatTemplate.Chat);
                 MODEL.UpdateLastAction(chatTemplate.LastMsg);
                 if (chatTemplate.Chat.chatType == ChatType.MUC)

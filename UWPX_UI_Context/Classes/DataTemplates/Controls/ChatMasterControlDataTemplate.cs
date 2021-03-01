@@ -1,9 +1,7 @@
 ﻿using Manager.Classes;
 using Shared.Classes;
 using Storage.Classes.Contexts;
-using Storage.Classes.Models.Account;
 using Storage.Classes.Models.Chat;
-using Windows.UI;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Media;
 using XMPP_API.Classes;
@@ -170,26 +168,6 @@ namespace UWPX_UI_Context.Classes.DataTemplates.Controls
         public void OnThemeChanged()
         {
             OnPropertyChanged(nameof(LastActionState));
-        }
-
-        public async void UpdateViewClient(AccountModel account)
-        {
-            if (!(account is null))
-            {
-                // Account color:
-                await SharedUtils.CallDispatcherAsync(() =>
-                {
-                    if (UiUtils.IsHexColor(account.color))
-                    {
-                        AccountColorBrush = UiUtils.HexStringToBrush(account.color);
-                        AccountColorBrush.Opacity = 0.9;
-                    }
-                    else
-                    {
-                        AccountColorBrush = new SolidColorBrush(Colors.Transparent);
-                    }
-                });
-            }
         }
 
         public void UpdateViewChat(ChatModel chat)

@@ -57,7 +57,6 @@ namespace Shared.Classes.Network
         /// The target folder path, where the downloaded object should get saved to.
         /// E.g.: C:\Program Files\Git
         /// </summary>
-        [Required]
         public string targetFolderPath
         {
             get => _targetFolderPath;
@@ -70,7 +69,6 @@ namespace Shared.Classes.Network
         /// The name of the downloaded object with extension.
         /// E.g.: file.png
         /// </summary>
-        [Required]
         public string targetFileName
         {
             get => _targetFileName;
@@ -94,8 +92,9 @@ namespace Shared.Classes.Network
         #endregion
         //--------------------------------------------------------Constructor:----------------------------------------------------------------\\
         #region --Constructors--
-        public AbstractDownloadableObject()
+        public AbstractDownloadableObject(string sourceUrl)
         {
+            this.sourceUrl = sourceUrl;
             state = DownloadState.NOT_QUEUED;
             error = DownloadError.NONE;
         }
