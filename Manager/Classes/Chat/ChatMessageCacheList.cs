@@ -46,7 +46,7 @@ namespace Manager.Classes.Chat
 
         private bool mamRequested = false;
         private bool loadedAllLocalMessages = false;
-        private const int MAX_MESSAGES_PER_REQUEST = 15;
+        private const int MAX_MESSAGES_PER_REQUEST = 3;
         #endregion
         //--------------------------------------------------------Constructor:----------------------------------------------------------------\\
         #region --Constructors--
@@ -217,33 +217,36 @@ namespace Manager.Classes.Chat
 
         private async Task<List<ChatMessageDataTemplate>> LoadMoreMamMessagesAsync()
         {
-            Logger.Info("Requesting MAM messages for \"" + chat.Chat.id + "\".");
+            Logger.Info("Requesting MAM messages for \"" + chat.Chat.bareJid + "\".");
             QueryFilter filter = GenerateMamQueryFilter();
             // For MUCs ask the MUC server and for everything else ask our own server for messages:
             string target = chat.Chat.chatType == ChatType.CHAT ? chat.Client.xmppClient.getXMPPAccount().getBareJid() : chat.Chat.bareJid;
             MessageResponseHelperResult<MamResult> result = await chat.Client.xmppClient.GENERAL_COMMAND_HELPER.requestMamAsync(filter, target);
             if (result.STATE == MessageResponseHelperResultState.SUCCESS)
             {
-                Logger.Info("Found " + result.RESULT.COUNT + " MAM messages for \"" + chat.Chat.id + "\".");
+                Logger.Info("Found " + result.RESULT.COUNT + " MAM messages for \"" + chat.Chat.bareJid + "\".");
                 Logger.Debug("MAM result: " + result.RESULT.ToString());
 
                 mamRequested = result.RESULT.COMPLETE;
 
                 List<ChatMessageDataTemplate> msgs = new List<ChatMessageDataTemplate>();
-                using (MainDbContext ctx = new MainDbContext())
+                if (result.RESULT.RESULTS.Count > 0)
                 {
-                    foreach (QueryArchiveResultMessage msg in result.RESULT.RESULTS)
+                    using (MainDbContext ctx = new MainDbContext())
                     {
-                        ChatMessageDataTemplate tmp = new ChatMessageDataTemplate(new ChatMessageModel(msg.MESSAGE, chat.Chat), chat.Chat);
-                        ctx.Add(tmp.Message);
-                        msgs.Add(tmp);
+                        foreach (QueryArchiveResultMessage msg in result.RESULT.RESULTS)
+                        {
+                            ChatMessageDataTemplate tmp = new ChatMessageDataTemplate(new ChatMessageModel(msg.MESSAGE, chat.Chat), chat.Chat);
+                            ctx.Add(tmp.Message);
+                            msgs.Add(tmp);
+                        }
                     }
                 }
                 return msgs;
             }
             else
             {
-                Logger.Error("Failed to load more MAM messages for \"" + chat.Chat.id + "\". Failed with: " + result.STATE);
+                Logger.Error("Failed to load more MAM messages for \"" + chat.Chat.bareJid + "\". Failed with: " + result.STATE);
                 return new List<ChatMessageDataTemplate>();
             }
         }

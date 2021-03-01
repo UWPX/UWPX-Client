@@ -204,7 +204,7 @@ namespace Storage.Classes.Models.Chat
             isImage = IsImageUrl(msg.MESSAGE);
             if (isImage)
             {
-                image = new ChatMessageImageModel();
+                image = new ChatMessageImageModel(msg.MESSAGE);
             }
             isCC = msg.CC_TYPE != CarbonCopyType.NONE;
             isEncrypted = msg is OmemoEncryptedMessage;

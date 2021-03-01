@@ -194,6 +194,11 @@ namespace UWPX_UI.Controls.Chat
                 return;
             }
         }
+
+        private async void mainListView_SizeChanged(object sender, SizeChangedEventArgs e)
+        {
+            await LoadMoreMessagesAsync();
+        }
         #endregion
     }
 }

@@ -80,7 +80,10 @@ namespace Storage.Classes.Contexts
 
         public IEnumerable<ChatMessageModel> GetNextNChatMessages(ChatModel chat, int n)
         {
-            return ChatMessages.Where(msg => msg.chatId == chat.id).OrderBy(msg => msg.date).Take(n).Include(GetIncludePaths(typeof(ChatMessageModel))).ToList();
+            List<ChatMessageModel> msgs = ChatMessages.Where(msg => msg.chatId == chat.id).OrderByDescending(msg => msg.date).Take(n).Include(GetIncludePaths(typeof(ChatMessageModel))).ToList();
+            msgs.Reverse();
+            return msgs;
+
         }
 
         public IEnumerable<ChatMessageModel> GetNextNChatMessages(ChatModel chat, ChatMessageModel lastMessage, int n)
@@ -89,8 +92,8 @@ namespace Storage.Classes.Contexts
             {
                 return GetNextNChatMessages(chat, n);
             }
-            // return ChatMessages.Where(msg => msg.chatId == chat.id).OrderBy(msg => msg.date).SkipWhile(msg => msg.id != lastMessage.id).Skip(1).Take(n).Include(GetIncludePaths(typeof(ChatMessageModel))).ToList();
-            return ChatMessages.Where(msg => msg.chatId == chat.id).OrderBy(msg => msg.date).SkipWhile(msg => msg.id != lastMessage.id).Take(n).Include(GetIncludePaths(typeof(ChatMessageModel))).ToList();
+            IEnumerable<ChatMessageModel> msgs = ChatMessages.Where(msg => msg.chatId == chat.id).OrderByDescending(msg => msg.date).Include(GetIncludePaths(typeof(ChatMessageModel))).ToList();
+            return msgs.SkipWhile(msg => msg.id != lastMessage.id).Skip(1).Take(n).Reverse();
         }
 
         #endregion
