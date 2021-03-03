@@ -87,7 +87,7 @@ namespace UWPX_UI_Context.Classes.DataTemplates.Controls
             MessageType = message.type;
             IsImage = message.isImage;
             State = message.state;
-            NicknameText = chat.chatType == ChatType.MUC ? message.fromBareJid : string.Empty;
+            NicknameText = chat.chatType == ChatType.MUC ? message.fromNickname : string.Empty;
 
             if (State == MessageState.UNREAD)
             {
