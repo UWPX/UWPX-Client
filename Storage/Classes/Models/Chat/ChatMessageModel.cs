@@ -58,7 +58,6 @@ namespace Storage.Classes.Models.Chat
         /// <summary>
         /// The actual chat message.
         /// </summary>
-        [Required]
         public string message
         {
             get => _message;
