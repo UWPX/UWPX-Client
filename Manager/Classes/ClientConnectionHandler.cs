@@ -248,11 +248,8 @@ namespace Manager.Classes
 
             if (chatChanged)
             {
-                using (MainDbContext ctx = new MainDbContext())
-                {
-                    ctx.Update(chat);
-                    chatChanged = false;
-                }
+                chat.Update();
+                chatChanged = false;
             }
 
             // Show toast:

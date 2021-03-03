@@ -258,10 +258,7 @@ namespace Manager.Classes
                         chat.muc.state = MucState.ERROR;
                         break;
                 }
-                using (MainDbContext ctx = new MainDbContext())
-                {
-                    ctx.Update(chat.muc);
-                }
+                chat.muc.Update();
             }
 
             // Add an error chat message:

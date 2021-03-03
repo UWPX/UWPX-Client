@@ -72,6 +72,14 @@ namespace Manager.Classes.Chat
             }
         }
 
+        public ChatDataTemplate GetChat(int chatId)
+        {
+            lock (SyncRoot)
+            {
+                return CHATS.GetChat(chatId);
+            }
+        }
+
         #endregion
         //--------------------------------------------------------Misc Methods:---------------------------------------------------------------\\
         #region --Misc Methods (Public)--

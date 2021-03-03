@@ -1,4 +1,5 @@
 ﻿using Manager.Classes;
+using Manager.Classes.Chat;
 using Shared.Classes;
 using Storage.Classes.Contexts;
 using Storage.Classes.Models.Chat;
@@ -146,6 +147,12 @@ namespace UWPX_UI_Context.Classes.DataTemplates.Controls
             get => _ShowAccountColor;
             set => SetProperty(ref _ShowAccountColor, value);
         }
+        private ChatDataTemplate _Chat;
+        public ChatDataTemplate Chat
+        {
+            get => _Chat;
+            set => SetProperty(ref _Chat, value);
+        }
 
         private readonly ResourceDictionary RESOURCES;
 
@@ -269,7 +276,7 @@ namespace UWPX_UI_Context.Classes.DataTemplates.Controls
             }
         }
 
-        public void UpdateLastAction(ChatMessageModel msg)
+        public void UpdateLastChatMessage(ChatMessageModel msg)
         {
             if (msg is null)
             {

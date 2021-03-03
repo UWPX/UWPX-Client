@@ -113,6 +113,7 @@ namespace UWPX_UI_Context.Classes.DataContext.Controls
             chat.Chat.lastActive = DateTime.Now;
 
             // Update DB:
+            chat.Chat.Update();
             DataCache.INSTANCE.AddChatMessage(toSendMsgDB, chat.Chat);
 
             // Send the message:

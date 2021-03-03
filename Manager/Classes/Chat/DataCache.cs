@@ -189,7 +189,7 @@ namespace Manager.Classes.Chat
             {
                 if (CHATS.Contains(chatId))
                 {
-                    chat = CHATS[chatId].Chat;
+                    chat = CHATS.GetChat(chat.id).Chat;
                 }
             }
             else
@@ -273,17 +273,8 @@ namespace Manager.Classes.Chat
             }
         }
 
-        /// <summary>
-        /// Adds the given new chat message  to the DB and stores an updated version of the given chat in the DB.
-        /// </summary>
         public void AddChatMessage(ChatMessageModel msg, ChatModel chat)
         {
-            // Update the DB:
-            using (MainDbContext ctx = new MainDbContext())
-            {
-                ctx.Update(chat);
-            }
-
             // Update the cache:
             if (initialized)
             {
@@ -294,6 +285,13 @@ namespace Manager.Classes.Chat
                     CHAT_MESSAGES.Add(new ChatMessageDataTemplate(msg, chat));
                     CHATS_MESSAGES_SEMA.Release();
                 }
+
+                ChatDataTemplate chatTemplate = CHATS.GetChat(chat.id);
+                if (chatTemplate.LastMsg is null || chatTemplate.LastMsg.date.CompareTo(msg.date) < 0)
+                {
+                    chatTemplate.LastMsg = msg;
+                }
+
                 CHATS_SEMA.Release();
             }
         }
