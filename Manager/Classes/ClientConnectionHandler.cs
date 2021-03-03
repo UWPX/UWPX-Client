@@ -211,6 +211,7 @@ namespace Manager.Classes
                 return;
             }
             message = new ChatMessageModel(msg, chat);
+            DataCache.INSTANCE.AddChatMessage(message, chat);
 
             // Handle MUC invite messages:
             if (msg is DirectMUCInvitationMessage inviteMessage)
@@ -221,7 +222,6 @@ namespace Manager.Classes
                     return;
                 }
                 // Ensure we add the message to the DB before we add the invite since the invite has the message as a foreign key:
-                DataCache.INSTANCE.AddChatMessage(message, chat);
                 using (MainDbContext ctx = new MainDbContext())
                 {
                     ctx.Add(new MucDirectInvitationModel(inviteMessage, message));

@@ -65,7 +65,7 @@ namespace Storage.Classes.Contexts
 
         public int GetUnreadMessageCount(int chatId)
         {
-            return ChatMessages.Where(m => m.chatId == chatId).Count();
+            return ChatMessages.Where(m => m.state == MessageState.UNREAD && m.chatId == chatId).Count();
         }
 
         public int GetUnreadMessageCount()
