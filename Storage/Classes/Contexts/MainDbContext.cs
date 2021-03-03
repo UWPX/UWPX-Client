@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using Logging;
 using Microsoft.EntityFrameworkCore;
@@ -114,7 +115,19 @@ namespace Storage.Classes.Contexts
                     Logger.Error("DB inconsistency found: ", ex);
                     foreach (EntityEntry entry in ex.Entries)
                     {
-                        entry.OriginalValues.SetValues(entry.GetDatabaseValues());
+                        try
+                        {
+                            entry.OriginalValues.SetValues(entry.GetDatabaseValues());
+                        }
+                        catch (Exception e)
+                        {
+                            Logger.Error($"DB inconsistency fix failed for: {entry.Entity.GetType()}", ex);
+                            if (Debugger.IsAttached)
+                            {
+                                Debugger.Break();
+                            }
+                            throw e;
+                        }
                     }
                 }
             }

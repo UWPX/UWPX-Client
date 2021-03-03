@@ -275,6 +275,9 @@ namespace Manager.Classes.Chat
 
         public void AddChatMessage(ChatMessageModel msg, ChatModel chat)
         {
+            // Update the DB:
+            msg.Add();
+
             // Update the cache:
             if (initialized)
             {
