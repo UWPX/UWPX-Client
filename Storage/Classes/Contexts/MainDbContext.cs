@@ -167,11 +167,6 @@ namespace Storage.Classes.Contexts
         {
             // Store the list of ChainValidationResults as a string separated by ',':
             modelBuilder.Entity<ServerModel>().Property(p => p.ignoredCertificateErrors).HasConversion(v => string.Join(',', v.Select(i => (int)i)), v => new CustomObservableCollection<ChainValidationResult>(v.Split(',', StringSplitOptions.RemoveEmptyEntries).Select(i => (ChainValidationResult)int.Parse(i)), true));
-
-            // modelBuilder.Entity<MucInfoModel>().Property(p => p.occupants).HasConversion(NewCustomObservableCollectionToListValueConverter<MucOccupantModel>());
-            // modelBuilder.Entity<OmemoAccountInformationModel>().Property(p => p.preKeys).HasConversion(NewCustomObservableCollectionToListValueConverter<PreKeyModel>());
-            // modelBuilder.Entity<OmemoAccountInformationModel>().Property(p => p.devices).HasConversion(NewCustomObservableCollectionToListValueConverter<OmemoDeviceModel>());
-            // modelBuilder.Entity<OmemoChatInformationModel>().Property(p => p.devices).HasConversion(NewCustomObservableCollectionToListValueConverter<OmemoDeviceModel>());
         }
 
         #endregion

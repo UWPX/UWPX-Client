@@ -363,12 +363,6 @@ namespace Manager.Classes.Chat
         /// </summary>
         public void AddChatUnsafe(ChatModel chat, Client client)
         {
-            // Update the cache:
-            if (initialized)
-            {
-                CHATS.Add(new ChatDataTemplate(chat, client, null, null));
-            }
-
             // Update the DB:
             using (MainDbContext ctx = new MainDbContext())
             {
@@ -377,7 +371,6 @@ namespace Manager.Classes.Chat
                     MucInfoModel muc = chat.muc;
                     chat.muc = null;
                     ctx.Add(muc);
-                    //ctx.SaveChanges();
                     ctx.SaveChanges();
                     chat.muc = muc;
                     ctx.Update(chat);
@@ -386,6 +379,12 @@ namespace Manager.Classes.Chat
                 {
                     ctx.Add(chat);
                 }
+            }
+
+            // Update the cache:
+            if (initialized)
+            {
+                CHATS.Add(new ChatDataTemplate(chat, client, null, null));
             }
         }
 

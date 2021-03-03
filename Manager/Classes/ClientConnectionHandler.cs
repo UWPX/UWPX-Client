@@ -181,26 +181,28 @@ namespace Manager.Classes
             bool newChat = chat is null;
             if (newChat)
             {
-                chatChanged = true;
                 chat = new ChatModel(from, client.dbAccount)
                 {
                     lastActive = msg.delay,
-                    chatType = string.Equals(msg.TYPE, MessageMessage.TYPE_GROUPCHAT) ? ChatType.MUC : ChatType.CHAT
+                    chatType = string.Equals(msg.TYPE, MessageMessage.TYPE_GROUPCHAT) ? ChatType.MUC : ChatType.CHAT,
+                    isChatActive = true // Mark chat as active
                 };
+                DataCache.INSTANCE.AddChatUnsafe(chat, client);
             }
             else
             {
-                semaLock.Dispose();
+                // Mark chat as active:
+                chat.isChatActive = true;
+                chatChanged = true;
             }
-
-            // Mark chat as active:
-            chat.isChatActive = true;
+            semaLock.Dispose();
 
             ChatMessageModel message = null;
             if (!newChat)
             {
                 message = DataCache.INSTANCE.GetChatMessage(chat.id, msg.ID);
             }
+
             // Filter messages that already exist:
             // ToDo: Allow MUC messages being edited and detect it
             if (!(message is null))
@@ -217,24 +219,6 @@ namespace Manager.Classes
                 {
                     Logger.Info("Ignoring received MUC direct invitation form '" + from + "' since we already joined this MUC (" + inviteMessage.ROOM_JID + ").");
                     return;
-                }
-                if (chatChanged)
-                {
-                    if (newChat)
-                    {
-                        DataCache.INSTANCE.AddChatUnsafe(chat, client);
-                        semaLock.Dispose();
-                        newChat = false;
-                    }
-                    else
-                    {
-                        using (MainDbContext ctx = new MainDbContext())
-                        {
-                            ctx.Update(chat);
-                        }
-
-                    }
-                    chatChanged = false;
                 }
                 // Ensure we add the message to the DB before we add the invite since the invite has the message as a foreign key:
                 DataCache.INSTANCE.AddChatMessage(message, chat);
