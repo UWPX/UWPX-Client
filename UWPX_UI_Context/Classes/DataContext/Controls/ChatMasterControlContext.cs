@@ -101,6 +101,7 @@ namespace UWPX_UI_Context.Classes.DataContext.Controls
                 {
                     oldChat.Chat.muc.PropertyChanged -= OnMucPropertyChanged;
                 }
+                MODEL.Chat = null;
             }
 
             if (args.NewValue is ChatDataTemplate)
@@ -114,6 +115,8 @@ namespace UWPX_UI_Context.Classes.DataContext.Controls
                 {
                     newChat.Chat.muc.PropertyChanged += OnMucPropertyChanged;
                 }
+                newChat.PropertyChanged += OnChatTemplatePropertyChanged;
+                MODEL.Chat = newChat;
             }
 
             UpdateView(newChat);
@@ -231,7 +234,7 @@ namespace UWPX_UI_Context.Classes.DataContext.Controls
             if (!(chatTemplate is null))
             {
                 MODEL.UpdateViewChat(chatTemplate.Chat);
-                MODEL.UpdateLastAction(chatTemplate.LastMsg);
+                MODEL.UpdateLastChatMessage(chatTemplate.LastMsg);
                 if (chatTemplate.Chat.chatType == ChatType.MUC)
                 {
                     MODEL.UpdateViewMuc(chatTemplate.Chat?.muc);
@@ -301,6 +304,14 @@ namespace UWPX_UI_Context.Classes.DataContext.Controls
             if (sender is MucInfoModel muc)
             {
                 MODEL.UpdateViewMuc(muc);
+            }
+        }
+
+        private void OnChatTemplatePropertyChanged(object sender, PropertyChangedEventArgs e)
+        {
+            if (e.PropertyName.Equals(nameof(ChatDataTemplate.LastMsg)))
+            {
+                MODEL.UpdateLastChatMessage(MODEL.Chat.LastMsg);
             }
         }
 

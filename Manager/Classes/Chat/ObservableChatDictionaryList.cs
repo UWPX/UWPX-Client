@@ -37,7 +37,7 @@ namespace Manager.Classes.Chat
             {
                 ChatDataTemplate oldChat = LIST[index];
                 oldChat.PropertyChanged -= Item_PropertyChanged;
-                LIST[index] = (ChatDataTemplate)value;
+                LIST[index] = value;
                 LIST[index].PropertyChanged += Item_PropertyChanged;
                 LIST[index].Index = index;
                 OnCollectionChanged(new NotifyCollectionChangedEventArgs(NotifyCollectionChangedAction.Replace, oldChat, value, index));
@@ -67,6 +67,11 @@ namespace Manager.Classes.Chat
         public IEnumerator GetEnumerator()
         {
             return LIST.GetEnumerator();
+        }
+
+        public ChatDataTemplate GetChat(int chatId)
+        {
+            return DICTIONARY[chatId];
         }
 
         #endregion
@@ -156,7 +161,7 @@ namespace Manager.Classes.Chat
 
         public int IndexOf(ChatDataTemplate value)
         {
-            ChatDataTemplate item = (ChatDataTemplate)value;
+            ChatDataTemplate item = value;
             if (!(item is null) && DICTIONARY.ContainsKey(item.Chat.id))
             {
                 return DICTIONARY[item.Chat.id].Index;
