@@ -42,6 +42,7 @@ namespace UWPX_UI.Controls.Chat
         /// Should be set to true by default to prevent loading to many messages at once.
         /// </summary>
         private bool scrolledToTheTop = true;
+        private bool loaded = false;
 
         #endregion
         //--------------------------------------------------------Constructor:----------------------------------------------------------------\\
@@ -126,12 +127,12 @@ namespace UWPX_UI.Controls.Chat
         /// </summary>
         private async Task LoadMoreMessagesAsync()
         {
-            if (VIEW_MODEL.MODEL.CHAT_MESSAGES.HasMoreMessages)
+            if (loaded && VIEW_MODEL.MODEL.CHAT_MESSAGES.HasMoreMessages)
             {
-                do
+                while (VIEW_MODEL.MODEL.CHAT_MESSAGES.HasMoreMessages && scrollViewer.DesiredSize.Height < scrollViewer.ViewportHeight)
                 {
                     await VIEW_MODEL.MODEL.CHAT_MESSAGES.LoadMoreMessagesAsync();
-                } while (VIEW_MODEL.MODEL.CHAT_MESSAGES.HasMoreMessages && scrollViewer.DesiredSize.Height < scrollViewer.ViewportHeight);
+                }
             }
         }
         #endregion
@@ -142,11 +143,12 @@ namespace UWPX_UI.Controls.Chat
         #endregion
         //--------------------------------------------------------Events:---------------------------------------------------------------------\\
         #region --Events--
-        private static void ChatPropertyChanged(DependencyObject d, DependencyPropertyChangedEventArgs args)
+        private static async void ChatPropertyChanged(DependencyObject d, DependencyPropertyChangedEventArgs args)
         {
             if (d is ChatMessageListControl control)
             {
                 control.scrolledToTheTop = true;
+                await control.LoadMoreMessagesAsync();
             }
         }
 
@@ -169,6 +171,7 @@ namespace UWPX_UI.Controls.Chat
 
         private async void MainListView_Loaded(object sender, RoutedEventArgs e)
         {
+            loaded = true;
             itemsStackPanel = mainListView.FindDescendant<ItemsStackPanel>();
             scrollViewer = mainListView.FindDescendant<ScrollViewer>();
             scrollViewer.ViewChanged += OnScrollViewerViewChanged;
