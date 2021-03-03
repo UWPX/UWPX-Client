@@ -121,7 +121,7 @@ namespace Storage.Classes.Contexts
                         }
                         catch (Exception e)
                         {
-                            Logger.Error($"DB inconsistency fix failed for: {entry.Entity.GetType()}", ex);
+                            Logger.Error($"DB inconsistency fix failed for: {entry.Entity.GetType()}", e);
                             if (Debugger.IsAttached)
                             {
                                 Debugger.Break();
