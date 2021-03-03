@@ -108,7 +108,6 @@ namespace UWPX_UI.Controls.Chat
         /// </summary>
         private async Task TryIncrementalLoadingAsync()
         {
-            Logging.Logger.Info("scrollViewer.VerticalOffset: " + scrollViewer.VerticalOffset + ", mainListViewHeader.ActualHeight: " + mainListViewHeader.ActualHeight);
             if (scrollViewer.VerticalOffset <= 10)
             {
                 if (!scrolledToTheTop)
