@@ -143,6 +143,7 @@ namespace Manager.Classes
 
             string from = Utils.getBareJidFromFullJid(msg.getFrom());
             string to = Utils.getBareJidFromFullJid(msg.getTo());
+            string chatBareJid = string.Equals(from, client.dbAccount.bareJid) ? to : from;
 
 
             // Check if device id is valid and if, decrypt the OMEMO messages:
@@ -151,7 +152,7 @@ namespace Manager.Classes
                 OmemoHelper helper = client.xmppClient.getOmemoHelper();
                 if (helper is null)
                 {
-                    OnOmemoSessionBuildError(client.xmppClient, new OmemoSessionBuildErrorEventArgs(from, OmemoSessionBuildError.KEY_ERROR, new List<OmemoEncryptedMessage> { omemoMessage }));
+                    OnOmemoSessionBuildError(client.xmppClient, new OmemoSessionBuildErrorEventArgs(chatBareJid, OmemoSessionBuildError.KEY_ERROR, new List<OmemoEncryptedMessage> { omemoMessage }));
                     Logger.Error("Failed to decrypt OMEMO message - OmemoHelper is null");
                     return;
                 }
@@ -162,7 +163,7 @@ namespace Manager.Classes
             }
 
             SemaLock semaLock = DataCache.INSTANCE.NewChatSemaLock();
-            ChatModel chat = DataCache.INSTANCE.GetChat(to, from, semaLock);
+            ChatModel chat = DataCache.INSTANCE.GetChat(client.dbAccount.bareJid, chatBareJid, semaLock);
             bool chatChanged = false;
 
             // Spam detection:
@@ -172,7 +173,7 @@ namespace Manager.Classes
                 {
                     if (SpamHelper.INSTANCE.IsSpam(msg.MESSAGE))
                     {
-                        Logger.Warn("Received spam message from " + from);
+                        Logger.Warn("Received spam message from " + chatBareJid);
                         return;
                     }
                 }
@@ -181,7 +182,7 @@ namespace Manager.Classes
             bool newChat = chat is null;
             if (newChat)
             {
-                chat = new ChatModel(from, client.dbAccount)
+                chat = new ChatModel(chatBareJid, client.dbAccount)
                 {
                     lastActive = msg.delay,
                     chatType = string.Equals(msg.TYPE, MessageMessage.TYPE_GROUPCHAT) ? ChatType.MUC : ChatType.CHAT,
@@ -207,7 +208,7 @@ namespace Manager.Classes
             // ToDo: Allow MUC messages being edited and detect it
             if (!(message is null))
             {
-                Logger.Debug("Duplicate message received from '" + from + "'. Dropping it...");
+                Logger.Debug("Duplicate message received from '" + chatBareJid + "'. Dropping it...");
                 return;
             }
             message = new ChatMessageModel(msg, chat);
@@ -218,7 +219,7 @@ namespace Manager.Classes
             {
                 if (!newChat)
                 {
-                    Logger.Info("Ignoring received MUC direct invitation form '" + from + "' since we already joined this MUC (" + inviteMessage.ROOM_JID + ").");
+                    Logger.Info("Ignoring received MUC direct invitation form '" + chatBareJid + "' since we already joined this MUC (" + inviteMessage.ROOM_JID + ").");
                     return;
                 }
                 // Ensure we add the message to the DB before we add the invite since the invite has the message as a foreign key:
@@ -708,7 +709,7 @@ namespace Manager.Classes
             ChatMessageModel msg = DataCache.INSTANCE.GetChatMessage(chat.id, args.MSG.RECEIPT_ID);
             if (msg is null)
             {
-                Logger.Warn($"Delivery receipt for an chat message ({args.MSG.RECEIPT_ID}) on account '{client.dbAccount.bareJid}' received.");
+                Logger.Warn($"Delivery receipt for an unknown chat message ({args.MSG.RECEIPT_ID}) on account '{client.dbAccount.bareJid}' received.");
                 return;
             }
             msg.state = MessageState.DELIVERED;
