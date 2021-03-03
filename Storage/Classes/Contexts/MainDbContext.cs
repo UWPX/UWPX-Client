@@ -126,7 +126,6 @@ namespace Storage.Classes.Contexts
                             {
                                 Debugger.Break();
                             }
-                            throw e;
                         }
                     }
                 }
