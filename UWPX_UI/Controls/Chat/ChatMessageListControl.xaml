@@ -57,8 +57,8 @@
                   ItemsSource="{x:Bind VIEW_MODEL.MODEL.CHAT_MESSAGES}"
                   Loaded="MainListView_Loaded"
                   ScrollViewer.HorizontalScrollMode="Disabled"
-                  ScrollViewer.BringIntoViewOnFocusChange="True"
                   SizeChanged="mainListView_SizeChanged"
+                  ShowsScrollingPlaceholders="True"
                   SelectionMode="None">
             <interactivity:Interaction.Behaviors>
                 <behaviors:FadeHeaderBehavior HeaderElement="{Binding ElementName=mainListViewHeader}"/>
