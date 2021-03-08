@@ -110,10 +110,14 @@ namespace UWPX_UI.Controls.Chat
         {
             if (scrollViewer.VerticalOffset <= 10)
             {
-                if (!scrolledToTheTop)
+                if (!scrolledToTheTop && !VIEW_MODEL.MODEL.CHAT_MESSAGES.IsLoading)
                 {
+                    scrollViewer.VerticalScrollMode = ScrollMode.Disabled;
+                    double oldOffset = scrollViewer.ScrollableHeight - scrollViewer.VerticalOffset;
                     scrolledToTheTop = true;
                     await LoadMoreMessagesAsync();
+                    scrollViewer.VerticalScrollMode = ScrollMode.Enabled;
+                    scrollViewer.ChangeView(null, scrollViewer.ScrollableHeight - oldOffset, null, true);
                 }
             }
             else
@@ -129,7 +133,12 @@ namespace UWPX_UI.Controls.Chat
         {
             if (loaded && VIEW_MODEL.MODEL.CHAT_MESSAGES.HasMoreMessages)
             {
-                while (VIEW_MODEL.MODEL.CHAT_MESSAGES.HasMoreMessages && (scrolledToTheTop || (scrollViewer.DesiredSize.Height < scrollViewer.ViewportHeight)))
+                if (scrolledToTheTop)
+                {
+                    await VIEW_MODEL.MODEL.CHAT_MESSAGES.LoadMoreMessagesAsync();
+                }
+
+                while (VIEW_MODEL.MODEL.CHAT_MESSAGES.HasMoreMessages && (scrollViewer.DesiredSize.Height < scrollViewer.ViewportHeight))
                 {
                     await VIEW_MODEL.MODEL.CHAT_MESSAGES.LoadMoreMessagesAsync();
                 }
@@ -149,6 +158,10 @@ namespace UWPX_UI.Controls.Chat
             {
                 control.scrolledToTheTop = true;
                 await control.LoadMoreMessagesAsync();
+                if (!(control.scrollViewer is null))
+                {
+                    control.scrollViewer.ChangeView(null, control.scrollViewer.ScrollableHeight, null, true);
+                }
             }
         }
 
@@ -178,6 +191,7 @@ namespace UWPX_UI.Controls.Chat
             VIEW_MODEL.MODEL.CHAT_MESSAGES.CollectionChanged += OnChatMessagesCollectionChanged;
             UpdateBehavior();
             await LoadMoreMessagesAsync();
+            scrollViewer.ChangeView(null, scrollViewer.ScrollableHeight, null, true);
         }
 
         private void scrollDown_btn_Click(IconButtonControl sender, RoutedEventArgs args)

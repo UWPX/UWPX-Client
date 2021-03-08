@@ -46,7 +46,7 @@ namespace Manager.Classes.Chat
 
         private bool mamRequested = false;
         private bool loadedAllLocalMessages = false;
-        private const int MAX_MESSAGES_PER_REQUEST = 3;
+        private const int MAX_MESSAGES_PER_REQUEST = 15;
         #endregion
         //--------------------------------------------------------Constructor:----------------------------------------------------------------\\
         #region --Constructors--
