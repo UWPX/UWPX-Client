@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using Logging;
 using Manager.Classes.Toast;
 using Shared.Classes.Collections;
+using Shared.Classes.Network;
 using Storage.Classes.Contexts;
 using Storage.Classes.Models.Chat;
 using XMPP_API.Classes;
@@ -58,14 +59,14 @@ namespace Manager.Classes.Chat
         #endregion
         //--------------------------------------------------------Set-, Get- Methods:---------------------------------------------------------\\
         #region --Set-, Get- Methods--
-        public void SetChat(ChatDataTemplate chat)
+        public async Task SetChatAsync(ChatDataTemplate chat)
         {
             if (this.chat == chat)
             {
                 return;
             }
             this.chat = chat;
-            LoadChatMessages();
+            await LoadChatMessagesAsync();
         }
 
         private string GetLastMessageStableId()
@@ -151,7 +152,7 @@ namespace Manager.Classes.Chat
         #endregion
 
         #region --Misc Methods (Private)--
-        private void LoadChatMessages()
+        private async Task LoadChatMessagesAsync()
         {
             // Cancel all outstanding loading operations:
             if (!(loadMoreMessagesToken is null) && !loadMoreMessagesToken.IsCancellationRequested)
@@ -169,6 +170,20 @@ namespace Manager.Classes.Chat
                 {
                     msgs = ctx.GetNextNChatMessages(chat.Chat, MAX_MESSAGES_PER_REQUEST).Select(msg => new ChatMessageDataTemplate(msg, chat.Chat));
                 }
+
+                // Check for downloads and update the images in case:
+                foreach (ChatMessageDataTemplate msg in msgs)
+                {
+                    if (msg.Message.isImage)
+                    {
+                        AbstractDownloadableObject result = await ConnectionHandler.INSTANCE.IMAGE_DOWNLOAD_HANDLER.FindAsync((i) => i.id == msg.Message.image.id);
+                        if (!(result is null))
+                        {
+                            msg.Message.image = (ChatMessageImageModel)result;
+                        }
+                    }
+                }
+
                 AddRange(msgs);
                 HasMoreMessages = true;
                 loadedAllLocalMessages = false;
@@ -237,6 +252,13 @@ namespace Manager.Classes.Chat
                         foreach (QueryArchiveResultMessage msg in result.RESULT.RESULTS)
                         {
                             ChatMessageDataTemplate tmp = new ChatMessageDataTemplate(new ChatMessageModel(msg.MESSAGE, chat.Chat), chat.Chat);
+
+                            // Set the image path and file name:
+                            if (tmp.Message.isImage)
+                            {
+                                await DataCache.PrepareImageModelPathAndNameAsync(tmp.Message.image);
+                            }
+
                             ctx.Add(tmp.Message);
                             msgs.Add(tmp);
                         }

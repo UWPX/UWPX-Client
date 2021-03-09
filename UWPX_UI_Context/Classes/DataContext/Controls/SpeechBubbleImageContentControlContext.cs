@@ -1,12 +1,18 @@
 ﻿using System;
+using System.ComponentModel;
+using System.Diagnostics;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 using Logging;
 using Manager.Classes;
+using Shared.Classes;
 using Shared.Classes.Network;
+using Storage.Classes.Models.Chat;
 using UWPX_UI_Context.Classes.DataTemplates.Controls;
 using Windows.Storage;
 using Windows.UI.Xaml;
+using Windows.UI.Xaml.Media.Imaging;
 
 namespace UWPX_UI_Context.Classes.DataContext.Controls
 {
@@ -17,10 +23,14 @@ namespace UWPX_UI_Context.Classes.DataContext.Controls
         public readonly SpeechBubbleImageContentControlDataTemplate MODEL = new SpeechBubbleImageContentControlDataTemplate();
         private SpeechBubbleContentControlContext SpeechBubbleViewModel = null;
 
+        private CancellationTokenSource loadImageCancellationSource = null;
         #endregion
         //--------------------------------------------------------Constructor:----------------------------------------------------------------\\
         #region --Constructors--
-
+        public SpeechBubbleImageContentControlContext()
+        {
+            MODEL.PropertyChanged += OnModelPropertyChanged;
+        }
 
         #endregion
         //--------------------------------------------------------Set-, Get- Methods:---------------------------------------------------------\\
@@ -32,14 +42,23 @@ namespace UWPX_UI_Context.Classes.DataContext.Controls
         #region --Misc Methods (Public)--
         public void UpdateView(DependencyPropertyChangedEventArgs args)
         {
+            if (args.OldValue is SpeechBubbleContentControlContext oldValue)
+            {
+                SpeechBubbleViewModel.MODEL.Message.Message.image.PropertyChanged -= OnImagePropertyChanged;
+            }
+
             if (args.NewValue is SpeechBubbleContentControlContext newValue)
             {
+                Debug.Assert(newValue.MODEL.Message.Message.isImage);
+                Debug.Assert(!(newValue.MODEL.Message.Message.image is null));
                 SpeechBubbleViewModel = newValue;
-                LoadImage();
+                SpeechBubbleViewModel.MODEL.Message.Message.image.PropertyChanged += OnImagePropertyChanged;
+                LoadImageProperties(SpeechBubbleViewModel.MODEL.Message.Message.image);
             }
             else
             {
                 SpeechBubbleViewModel = null;
+                LoadImageProperties(null);
             }
         }
 
@@ -51,8 +70,9 @@ namespace UWPX_UI_Context.Classes.DataContext.Controls
             sb.Append('\n');
             sb.Append(errMsg);
             MODEL.ErrorText = sb.ToString();
-            MODEL.State = DownloadState.ERROR;
             Logger.Error(sb.ToString(), e);
+            SpeechBubbleViewModel.MODEL.Message.Message.image.state = DownloadState.ERROR;
+            SpeechBubbleViewModel.MODEL.Message.Message.image.Update();
         }
 
         public void OnImageExOpened()
@@ -76,40 +96,119 @@ namespace UWPX_UI_Context.Classes.DataContext.Controls
         /// <returns>Returns true on success.</returns>
         public async Task<bool> OpenImageUrlWithDefaultBrowserAsync(SpeechBubbleContentControlContext speechBubbleContentViewModel)
         {
-            return await UiUtils.LaunchUriAsync(new Uri(speechBubbleContentViewModel.ChatMessageModel.Message.message));
+            return await UiUtils.LaunchUriAsync(new Uri(speechBubbleContentViewModel.MODEL.Message.Message.message));
         }
 
         public async Task RedownloadImageAsync()
         {
-            if (!(MODEL.Image is null))
-            {
-                await ConnectionHandler.INSTANCE.IMAGE_DOWNLOAD_HANDLER.RedownloadAsync(MODEL.Image);
-            }
+            await ConnectionHandler.INSTANCE.IMAGE_DOWNLOAD_HANDLER.RedownloadAsync(SpeechBubbleViewModel.MODEL.Message.Message.image);
         }
 
         public void CancelImageDownload()
         {
-            if (!(MODEL.Image is null))
-            {
-                ConnectionHandler.INSTANCE.IMAGE_DOWNLOAD_HANDLER.CancelDownload(MODEL.Image);
-            }
+            ConnectionHandler.INSTANCE.IMAGE_DOWNLOAD_HANDLER.CancelDownload(SpeechBubbleViewModel.MODEL.Message.Message.image);
         }
 
         public async Task StartImageDownloadAsync()
         {
-            await ConnectionHandler.INSTANCE.IMAGE_DOWNLOAD_HANDLER.StartDownloadAsync(MODEL.Image);
+            await ConnectionHandler.INSTANCE.IMAGE_DOWNLOAD_HANDLER.StartDownloadAsync(SpeechBubbleViewModel.MODEL.Message.Message.image);
         }
 
         #endregion
 
         #region --Misc Methods (Private)--
-        private void LoadImage()
+        private void LoadImageProperties(ChatMessageImageModel image)
         {
-            if (SpeechBubbleViewModel is null)
+            if (!(image is null))
             {
-                return;
+                MODEL.ErrorText = image.error.ToString();
+                // Only set the image path in case the image was successfully downloaded to prevent exceptions:
+                MODEL.ImagePath = image.state == DownloadState.DONE ? image.GetFullPath() : null;
             }
-            MODEL.Image = SpeechBubbleViewModel.ChatMessageModel.Message.image;
+        }
+
+        private void TryLoadingImageFromPath()
+        {
+            ChatMessageImageModel img = SpeechBubbleViewModel.MODEL.Message.Message.image;
+            if (img.state == DownloadState.DONE)
+            {
+                if (!(loadImageCancellationSource is null))
+                {
+                    loadImageCancellationSource.Cancel();
+                }
+                loadImageCancellationSource = new CancellationTokenSource();
+
+                Task.Run(async () =>
+                {
+                    MODEL.IsLoadingImage = true;
+                    MODEL.ImageBitmap = await GetBitmapImageAsync(img, MODEL.ImagePath);
+                    if (MODEL.ImageBitmap is null)
+                    {
+                        MODEL.IsLoadingImage = false;
+                    }
+                }, loadImageCancellationSource.Token);
+            }
+        }
+
+        /// <summary>
+        /// Converts the path to an BitmapImage.
+        /// This is a workaround to open also images that are stored on a separate drive.
+        /// </summary>
+        /// <param name="imgModel">The actual image the <paramref name="path"/> corresponds to.</param>
+        /// <param name="path">The absolute path to the image.</param>
+        /// <returns>The BitmapImage representation of the current path object.</returns>
+        private async Task<BitmapImage> GetBitmapImageAsync(ChatMessageImageModel imgModel, string path)
+        {
+            if (path is null)
+            {
+                return null;
+            }
+
+            try
+            {
+                StorageFile file = await StorageFile.GetFileFromPathAsync(path);
+                if (file is null)
+                {
+                    return null;
+                }
+
+                BitmapImage img = null;
+                // Bitmap stuff has to be done in the UI thread,
+                // so make sure we execute it there:
+                Exception ex = null;
+                await SharedUtils.CallDispatcherAsync(async () =>
+                {
+                    try
+                    {
+                        img = new BitmapImage();
+                        img.SetSource(await file.OpenReadAsync());
+                    }
+                    catch (Exception e)
+                    {
+                        ex = e;
+                    }
+                });
+
+                // If loading the image failed log the exception:
+                if (!(ex is null))
+                {
+                    Logger.Error("Failed to load image: " + path, ex);
+                    MODEL.ErrorText = "Failed to load image. Try downloading it again.";
+                    imgModel.state = DownloadState.ERROR;
+                    imgModel.Update();
+                    return null;
+                }
+
+                return img;
+            }
+            catch (Exception e)
+            {
+                Logger.Error("Failed to load image: " + path, e);
+                MODEL.ErrorText = "Failed to load image. Try downloading it again.";
+                imgModel.state = DownloadState.ERROR;
+                imgModel.Update();
+                return null;
+            }
         }
 
         #endregion
@@ -120,7 +219,36 @@ namespace UWPX_UI_Context.Classes.DataContext.Controls
         #endregion
         //--------------------------------------------------------Events:---------------------------------------------------------------------\\
         #region --Events--
+        private void OnImagePropertyChanged(object sender, PropertyChangedEventArgs e)
+        {
+            ChatMessageImageModel img = SpeechBubbleViewModel.MODEL.Message.Message.image;
+            switch (e.PropertyName)
+            {
+                case nameof(ChatMessageImageModel.state):
+                case nameof(ChatMessageImageModel.targetFileName):
+                case nameof(ChatMessageImageModel.targetFolderPath):
+                    if (img.state == DownloadState.DONE)
+                    {
+                        MODEL.ImagePath = img.GetFullPath();
+                    }
+                    break;
 
+                case nameof(ChatMessageImageModel.error):
+                    MODEL.ErrorText = img.error.ToString();
+                    break;
+
+                default:
+                    break;
+            }
+        }
+
+        private void OnModelPropertyChanged(object sender, PropertyChangedEventArgs e)
+        {
+            if (string.Equals(e.PropertyName, nameof(SpeechBubbleImageContentControlDataTemplate.ImagePath)))
+            {
+                TryLoadingImageFromPath();
+            }
+        }
 
         #endregion
     }

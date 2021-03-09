@@ -1,5 +1,4 @@
-﻿using System.ComponentModel;
-using System.Threading.Tasks;
+﻿using System.Threading.Tasks;
 using Logging;
 using Manager.Classes.Chat;
 using Storage.Classes.Contexts;
@@ -15,7 +14,6 @@ namespace UWPX_UI_Context.Classes.DataContext.Controls
         //--------------------------------------------------------Attributes:-----------------------------------------------------------------\\
         #region --Attributes--
         public readonly SpeechBubbleContentControlDataTemplate MODEL = new SpeechBubbleContentControlDataTemplate();
-        public ChatMessageDataTemplate ChatMessageModel = null;
 
         #endregion
         //--------------------------------------------------------Constructor:----------------------------------------------------------------\\
@@ -32,16 +30,9 @@ namespace UWPX_UI_Context.Classes.DataContext.Controls
         #region --Misc Methods (Public)--
         public void UpdateView(DependencyPropertyChangedEventArgs args)
         {
-            if (!(ChatMessageModel is null))
+            if (args.NewValue is ChatMessageDataTemplate message)
             {
-                ChatMessageModel.Message.PropertyChanged -= OnChatMessagePropertyChanged;
-            }
-
-            if (args.NewValue is ChatMessageDataTemplate newChatMessage)
-            {
-                ChatMessageModel = newChatMessage;
-                ChatMessageModel.Message.PropertyChanged += OnChatMessagePropertyChanged;
-                MODEL.UpdateView(ChatMessageModel.Chat, ChatMessageModel.Message);
+                MODEL.Message = message;
             }
         }
 
@@ -53,23 +44,23 @@ namespace UWPX_UI_Context.Classes.DataContext.Controls
             }
             else
             {
-                chatDetailsContext.MODEL.MessageText = MODEL.Text;
+                chatDetailsContext.MODEL.MessageText = MODEL.Message.Message.message;
             }
         }
 
         public void SetFromUserAsClipboardText()
         {
-            UiUtils.SetClipboardText(ChatMessageModel.Message.fromBareJid);
+            UiUtils.SetClipboardText(MODEL.Message.Message.fromBareJid);
         }
 
         public void SetMessageAsClipboardText()
         {
-            UiUtils.SetClipboardText(MODEL.Text);
+            UiUtils.SetClipboardText(MODEL.Message.Message.message);
         }
 
         public void SetDateAsClipboardText(IValueConverter converter)
         {
-            UiUtils.SetClipboardText((string)converter.Convert(MODEL.Date, typeof(string), null, null));
+            UiUtils.SetClipboardText((string)converter.Convert(MODEL.Message.Message.date, typeof(string), null, null));
         }
 
         public async Task MarkAsSpamAsync()
@@ -78,15 +69,15 @@ namespace UWPX_UI_Context.Classes.DataContext.Controls
             {
                 using (MainDbContext ctx = new MainDbContext())
                 {
-                    ctx.Add(new SpamMessageModel(ChatMessageModel.Message.message));
+                    ctx.Add(new SpamMessageModel(MODEL.Message.Message.message));
                 }
-                Logger.Info("Marked message as spam: " + ChatMessageModel.Message.message);
+                Logger.Info("Marked message as spam: " + MODEL.Message.Message.message);
             });
         }
 
         public void DeleteMessage()
         {
-            DataCache.INSTANCE.RemoveChatMessage(ChatMessageModel);
+            DataCache.INSTANCE.RemoveChatMessage(MODEL.Message);
         }
 
         #endregion
@@ -102,13 +93,7 @@ namespace UWPX_UI_Context.Classes.DataContext.Controls
         #endregion
         //--------------------------------------------------------Events:---------------------------------------------------------------------\\
         #region --Events--
-        private void OnChatMessagePropertyChanged(object sender, PropertyChangedEventArgs e)
-        {
-            if (sender is ChatMessageModel)
-            {
-                MODEL.UpdateView(ChatMessageModel.Chat, ChatMessageModel.Message);
-            }
-        }
+
 
         #endregion
     }

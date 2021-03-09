@@ -33,7 +33,7 @@
         <TextBlock Margin="0,0,5,0"
                    ContextFlyout="{x:Bind ContextFlyout, Mode=OneWay}"
                    Style="{ThemeResource ReplacedContectMenuCaptionTextBlock}"
-                   Text="{x:Bind ViewModel.MODEL.Date, Mode=OneWay, Converter={StaticResource ChatDateTimeStringValueConverter}}"/>
+                   Text="{x:Bind ViewModel.MODEL.Message.Message.date, Mode=OneWay, Converter={StaticResource ChatDateTimeStringValueConverter}}"/>
         <FontIcon Margin="0,0,0,2"
                   Glyph="&#xE783;"
                   Style="{ThemeResource ReplacedContectMenuCaptionFontIcon}"/>

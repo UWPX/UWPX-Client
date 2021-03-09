@@ -43,7 +43,7 @@ namespace UWPX_UI_Context.Classes.DataTemplates.Selectors
         {
             if (item is SpeechBubbleContentControlContext viewModel)
             {
-                return viewModel.MODEL.IsImage ? ImageTemplate : TextTemplate;
+                return viewModel.MODEL.Message.Message.isImage ? ImageTemplate : TextTemplate;
             }
             return base.SelectTemplateCore(item, container);
         }

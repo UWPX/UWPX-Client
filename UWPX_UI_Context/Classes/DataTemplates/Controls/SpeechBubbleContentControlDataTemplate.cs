@@ -1,8 +1,7 @@
-﻿using System;
-using System.Threading.Tasks;
+﻿using System.Threading.Tasks;
+using Manager.Classes.Chat;
 using Manager.Classes.Toast;
 using Shared.Classes;
-using Storage.Classes.Contexts;
 using Storage.Classes.Models.Chat;
 
 namespace UWPX_UI_Context.Classes.DataTemplates.Controls
@@ -11,53 +10,11 @@ namespace UWPX_UI_Context.Classes.DataTemplates.Controls
     {
         //--------------------------------------------------------Attributes:-----------------------------------------------------------------\\
         #region --Attributes--
-        private string _Text;
-        public string Text
+        private ChatMessageDataTemplate _Message;
+        public ChatMessageDataTemplate Message
         {
-            get => _Text;
-            set => SetProperty(ref _Text, value);
-        }
-        private string _NicknameText;
-        public string NicknameText
-        {
-            get => _NicknameText;
-            set => SetProperty(ref _NicknameText, value);
-        }
-        private DateTime _Date;
-        public DateTime Date
-        {
-            get => _Date;
-            set => SetProperty(ref _Date, value);
-        }
-        private bool _IsEncrypted;
-        public bool IsEncrypted
-        {
-            get => _IsEncrypted;
-            set => SetProperty(ref _IsEncrypted, value);
-        }
-        private bool _IsCarbonCopy;
-        public bool IsCarbonCopy
-        {
-            get => _IsCarbonCopy;
-            set => SetProperty(ref _IsCarbonCopy, value);
-        }
-        private string _MessageType;
-        public string MessageType
-        {
-            get => _MessageType;
-            set => SetProperty(ref _MessageType, value);
-        }
-        private bool _IsImage;
-        public bool IsImage
-        {
-            get => _IsImage;
-            set => SetProperty(ref _IsImage, value);
-        }
-        private MessageState _State;
-        public MessageState State
-        {
-            get => _State;
-            set => SetProperty(ref _State, value);
+            get => _Message;
+            set => SetMessageProperty(value);
         }
 
         #endregion
@@ -68,40 +25,23 @@ namespace UWPX_UI_Context.Classes.DataTemplates.Controls
         #endregion
         //--------------------------------------------------------Set-, Get- Methods:---------------------------------------------------------\\
         #region --Set-, Get- Methods--
-
-
-        #endregion
-        //--------------------------------------------------------Misc Methods:---------------------------------------------------------------\\
-        #region --Misc Methods (Public)--
-        public void UpdateView(ChatModel chat, ChatMessageModel message)
+        private void SetMessageProperty(ChatMessageDataTemplate value)
         {
-            if (chat is null || message is null)
+            if (SetProperty(ref _Message, value, nameof(Message)) && !(value is null) && value.Message.state == MessageState.UNREAD)
             {
-                return;
-            }
-
-            Text = message.message;
-            IsCarbonCopy = message.isCC;
-            IsEncrypted = message.isEncrypted;
-            Date = message.date;
-            MessageType = message.type;
-            IsImage = message.isImage;
-            State = message.state;
-            NicknameText = chat.chatType == ChatType.MUC ? message.fromNickname : string.Empty;
-
-            if (State == MessageState.UNREAD)
-            {
-                // Mark message as read and update the badge notification count:
+                value.Message.state = MessageState.READ;
                 Task.Run(() =>
                 {
-                    using (MainDbContext ctx = new MainDbContext())
-                    {
-                        ctx.Update(message);
-                    }
+                    value.Message.Update();
                     ToastHelper.UpdateBadgeNumber();
                 });
             }
         }
+
+        #endregion
+        //--------------------------------------------------------Misc Methods:---------------------------------------------------------------\\
+        #region --Misc Methods (Public)--
+
 
         #endregion
 

@@ -129,6 +129,12 @@ namespace UWPX_UI_Context.Classes.DataContext.Controls
                 state = toSendMsg is OmemoEncryptedMessage ? MessageState.TO_ENCRYPT : MessageState.SENDING
             };
 
+            // Set the image path and file name:
+            if (toSendMsgDB.isImage)
+            {
+                await DataCache.PrepareImageModelPathAndNameAsync(toSendMsgDB.image);
+            }
+
             // Update chat last active:
             chat.Chat.lastActive = DateTime.Now;
 

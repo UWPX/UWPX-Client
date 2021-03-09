@@ -85,10 +85,7 @@ namespace Manager.Classes
                     if (image.state == DownloadState.DOWNLOADING || image.state == DownloadState.QUEUED)
                     {
                         image.state = DownloadState.NOT_QUEUED;
-                        using (MainDbContext ctx = new MainDbContext())
-                        {
-                            ctx.Update(image);
-                        }
+                        image.Update();
                     }
                     await StartDownloadAsync(image);
                 }
