@@ -1,4 +1,5 @@
-﻿using System.Threading.Tasks;
+﻿using System.ComponentModel;
+using System.Threading.Tasks;
 using Logging;
 using Manager.Classes.Chat;
 using Storage.Classes.Contexts;
@@ -33,13 +34,13 @@ namespace UWPX_UI_Context.Classes.DataContext.Controls
         {
             if (!(ChatMessageModel is null))
             {
-                ChatMessageModel.PropertyChanged -= ChatMessage_PropertyChanged;
+                ChatMessageModel.Message.PropertyChanged -= OnChatMessagePropertyChanged;
             }
 
             if (args.NewValue is ChatMessageDataTemplate newChatMessage)
             {
                 ChatMessageModel = newChatMessage;
-                ChatMessageModel.PropertyChanged += ChatMessage_PropertyChanged;
+                ChatMessageModel.Message.PropertyChanged += OnChatMessagePropertyChanged;
                 MODEL.UpdateView(ChatMessageModel.Chat, ChatMessageModel.Message);
             }
         }
@@ -101,11 +102,11 @@ namespace UWPX_UI_Context.Classes.DataContext.Controls
         #endregion
         //--------------------------------------------------------Events:---------------------------------------------------------------------\\
         #region --Events--
-        private void ChatMessage_PropertyChanged(object sender, System.ComponentModel.PropertyChangedEventArgs e)
+        private void OnChatMessagePropertyChanged(object sender, PropertyChangedEventArgs e)
         {
-            if (sender is ChatMessageDataTemplate chatMessage)
+            if (sender is ChatMessageModel)
             {
-                MODEL.UpdateView(chatMessage.Chat, chatMessage.Message);
+                MODEL.UpdateView(ChatMessageModel.Chat, ChatMessageModel.Message);
             }
         }
 
