@@ -62,9 +62,9 @@
                                                       Margin="10"
                                                       HorizontalAlignment="Left"
                                                       VerticalAlignment="Center"
-                                                      BareJid="{x:Bind VIEW_MODEL.MODEL.BareJid, Mode=OneWay}"
-                                                      ChatType="{x:Bind VIEW_MODEL.MODEL.ChatType, Mode=OneWay}"
-                                                      PresenceProp="{x:Bind VIEW_MODEL.MODEL.AccountPresence, Mode=OneWay}"/>
+                                                      BareJid="{x:Bind Chat.Chat.bareJid, Mode=OneWay}"
+                                                      ChatType="{x:Bind Chat.Chat.chatType, Mode=OneWay}"
+                                                      PresenceProp="{x:Bind VIEW_MODEL.MODEL.ChatPresence, Mode=OneWay}"/>
                 <Grid x:Name="headerInfo_grid"
                       Grid.Column="1"
                       VerticalAlignment="Center"
@@ -124,7 +124,8 @@
                                Visibility="{x:Bind VIEW_MODEL.MODEL.StatusText, Mode=OneWay, Converter={StaticResource StringEmptyVisibilityValueConverter}}"/>
                 </Grid>
                 <omemoControls:OmemoButtonControl Grid.Column="2"
-                                                  OmemoEnabled="{x:Bind VIEW_MODEL.MODEL.OmemoEnabled, Mode=TwoWay}"
+                                                  OmemoEnabled="{x:Bind Chat.Chat.omemo.enabled, Mode=OneWay}"
+                                                  OmemoEnabledChanged="OnOmemoEnabledChanged"
                                                   Visibility="{x:Bind VIEW_MODEL.MODEL.OmemoVisibility, Mode=OneWay}"/>
                 <Button Grid.Column="3"
                         Margin="0,0,10,0"
@@ -330,7 +331,7 @@
                                    FontFamily="{ThemeResource SymbolThemeFontFamily}"
                                    FontSize="10"
                                    Text="&#xE72E;"
-                                   Visibility="{x:Bind VIEW_MODEL.MODEL.OmemoEnabled, Mode=OneWay, Converter={StaticResource BoolVisibilityValueConverter}}"/>
+                                   Visibility="{x:Bind Chat.Chat.omemo.enabled, Mode=OneWay, Converter={StaticResource BoolVisibilityValueConverter}}"/>
                     </Grid>
                 </Button>
                 <controls2:TeachingTip x:Name="enterToSend_tt"

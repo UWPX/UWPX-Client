@@ -1,6 +1,9 @@
-﻿using Manager.Classes.Chat;
+﻿using System;
+using Logging;
+using Manager.Classes.Chat;
 using Storage.Classes;
 using Storage.Classes.Models.Chat;
+using UWPX_UI.Controls.OMEMO;
 using UWPX_UI.Pages;
 using UWPX_UI.Pages.Settings;
 using UWPX_UI_Context.Classes;
@@ -243,6 +246,16 @@ namespace UWPX_UI.Controls.Chat
         private void MarkasIotDevice_mfo_Click(object sender, RoutedEventArgs e)
         {
             VIEW_MODEL.MarkAsIotDevice(Chat.Chat);
+        }
+
+        private void OnOmemoEnabledChanged(OmemoButtonControl sender, EventArgs e)
+        {
+            if (sender.OmemoEnabled != Chat.Chat.omemo.enabled)
+            {
+                Chat.Chat.omemo.enabled = sender.OmemoEnabled;
+                Chat.Chat.omemo.Update();
+                Logger.Info($"OMEMO for chat '{Chat.Chat.bareJid}' set to: '{sender.OmemoEnabled}'.");
+            }
         }
 
         #endregion

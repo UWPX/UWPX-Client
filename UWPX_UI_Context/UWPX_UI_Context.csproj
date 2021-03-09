@@ -318,6 +318,7 @@
     <Compile Include="Classes\ValueConverter\BoolInvertedVisibilityValueConverter.cs" />
     <Compile Include="Classes\ValueConverter\ChatTypeFontFamilyConverter.cs" />
     <Compile Include="Classes\ValueConverter\DoubleGridLengthValueConverter.cs" />
+    <Compile Include="Classes\ValueConverter\MucStatePresenceValueConverter.cs" />
     <Compile Include="Classes\ValueConverter\PushStateTextValueConverter.cs" />
     <Compile Include="Classes\ValueConverter\PushStateSolidColorBrushValueConverter.cs" />
     <Compile Include="Classes\ValueConverter\MucStateForegroundBrushValueConverter.cs" />

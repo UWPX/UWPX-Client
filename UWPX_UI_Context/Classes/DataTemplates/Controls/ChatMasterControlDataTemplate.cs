@@ -111,30 +111,6 @@ namespace UWPX_UI_Context.Classes.DataTemplates.Controls
             get => _LastActionState;
             set => SetProperty(ref _LastActionState, value);
         }
-        private Presence _AccountPresence;
-        public Presence AccountPresence
-        {
-            get => _AccountPresence;
-            set => SetProperty(ref _AccountPresence, value);
-        }
-        private string _BareJid;
-        public string BareJid
-        {
-            get => _BareJid;
-            set => SetProperty(ref _BareJid, value);
-        }
-        private MucState _MucState;
-        public MucState MucState
-        {
-            get => _MucState;
-            set => SetProperty(ref _MucState, value);
-        }
-        private ChatType _ChatType;
-        public ChatType ChatType
-        {
-            get => _ChatType;
-            set => SetProperty(ref _ChatType, value);
-        }
         private int _UnreadCount;
         public int UnreadCount
         {
@@ -146,6 +122,12 @@ namespace UWPX_UI_Context.Classes.DataTemplates.Controls
         {
             get => _ShowAccountColor;
             set => SetProperty(ref _ShowAccountColor, value);
+        }
+        private Presence _ChatPresence;
+        public Presence ChatPresence
+        {
+            get => _ChatPresence;
+            set => SetProperty(ref _ChatPresence, value);
         }
         private ChatDataTemplate _Chat;
         public ChatDataTemplate Chat
@@ -177,7 +159,7 @@ namespace UWPX_UI_Context.Classes.DataTemplates.Controls
             OnPropertyChanged(nameof(LastActionState));
         }
 
-        public void UpdateViewChat(ChatModel chat)
+        public void UpdateView(ChatModel chat)
         {
             if (!(chat is null))
             {
@@ -193,6 +175,7 @@ namespace UWPX_UI_Context.Classes.DataTemplates.Controls
                     CancelPresenceSubscriptionVisibility = Visibility.Collapsed;
                     RejectPresenceSubscriptionVisibility = Visibility.Collapsed;
                     PresenceFlyoutEnabled = true;
+                    ChatPresence = chat.presence;
 
                     switch (chat.subscription)
                     {
@@ -246,25 +229,16 @@ namespace UWPX_UI_Context.Classes.DataTemplates.Controls
 
                 // Status icons:
                 InRosterVisibility = chat.inRoster ? Visibility.Visible : Visibility.Collapsed;
-
-                // Account image:
-                AccountPresence = chat.presence;
-                BareJid = chat.bareJid;
-                ChatType = chat.chatType;
             }
         }
 
-        public void UpdateViewMuc(MucInfoModel muc)
+        public void UpdateView(MucInfoModel muc)
         {
             if (!(muc is null))
             {
                 NameText = string.IsNullOrWhiteSpace(muc.name) ? muc.chat.bareJid : muc.name;
                 RemoveFromRosterText = muc.chat.inRoster ? "Remove bookmark" : "Bookmark";
-
-                // Account image:
-                AccountPresence = muc.GetMucPresence();
-
-                MucState = muc.state;
+                ChatPresence = muc.GetMucPresence();
             }
         }
 
