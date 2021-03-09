@@ -74,7 +74,7 @@
         <!--  Content:  -->
         <TextBlock Grid.Row="0"
                    HorizontalAlignment="Center"
-                   extensions:TextBlockChatMessageFormatExtension.FormattedText="{x:Bind SpeechBubbleContentViewModel.MODEL.Text, Mode=OneWay}"
+                   extensions:TextBlockChatMessageFormatExtension.FormattedText="{x:Bind SpeechBubbleContentViewModel.MODEL.Message.Message.message, Mode=OneWay}"
                    ContextFlyout="{StaticResource options_mfo}"
                    Foreground="{ThemeResource SpeechBubbleForegroundBrush}"
                    Style="{ThemeResource ReplacedContextMenuBodyTextBlock}"

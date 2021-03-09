@@ -184,6 +184,12 @@ namespace UWPX_UI
                 state = toSendMsg is OmemoEncryptedMessage ? MessageState.TO_ENCRYPT : MessageState.SENDING
             };
 
+            // Set the image path and file name:
+            if (toSendMsgDB.isImage)
+            {
+                await DataCache.PrepareImageModelPathAndNameAsync(toSendMsgDB.image);
+            }
+
             // Set the chat message id for later identification:
             toSendMsg.chatMessageId = toSendMsgDB.id;
 

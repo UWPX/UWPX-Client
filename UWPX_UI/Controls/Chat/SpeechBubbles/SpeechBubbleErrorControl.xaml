@@ -59,7 +59,7 @@
         <!--  Content:  -->
         <TextBlock Grid.Row="0"
                    HorizontalAlignment="Center"
-                   extensions:TextBlockChatMessageFormatExtension.FormattedText="{x:Bind VIEW_MODEL.MODEL.Text, Mode=OneWay}"
+                   extensions:TextBlockChatMessageFormatExtension.FormattedText="{x:Bind VIEW_MODEL.MODEL.Message.Message.message, Mode=OneWay}"
                    Foreground="{ThemeResource SpeechBubbleForegroundBrush}"
                    Style="{StaticResource ReplacedContextMenuBodyTextBlock}"
                    Text="Loading..."

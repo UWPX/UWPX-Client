@@ -212,6 +212,11 @@ namespace Manager.Classes
                 return;
             }
             message = new ChatMessageModel(msg, chat);
+            // Set the image path and file name:
+            if (message.isImage)
+            {
+                await DataCache.PrepareImageModelPathAndNameAsync(message.image);
+            }
             DataCache.INSTANCE.AddChatMessage(message, chat);
 
             // Handle MUC invite messages:

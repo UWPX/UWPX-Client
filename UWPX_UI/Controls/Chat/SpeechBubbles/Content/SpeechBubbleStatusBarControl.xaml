@@ -40,7 +40,7 @@
         </Grid.RowDefinitions>
         <ProgressBar Grid.Row="1"
                      IsIndeterminate="True"
-                     Visibility="{x:Bind ViewModel.MODEL.State, Mode=OneWay, Converter={StaticResource MessageStateEncryptingVisibilityValueConverter}}"/>
+                     Visibility="{x:Bind ViewModel.MODEL.Message.Message.state, Mode=OneWay, Converter={StaticResource MessageStateEncryptingVisibilityValueConverter}}"/>
 
         <StackPanel Grid.Row="0"
                     HorizontalAlignment="{x:Bind HorizontalContentAlignment, Mode=OneWay}"
@@ -49,43 +49,43 @@
             <TextBlock x:Name="nick_tbx"
                        Margin="0,0,5,0"
                        ContextFlyout="{x:Bind ContextFlyout, Mode=OneWay}"
-                       Foreground="{x:Bind ViewModel.MODEL.NicknameText, Mode=OneWay, Converter={StaticResource StringBrushValueConverter}}"
+                       Foreground="{x:Bind ViewModel.MODEL.Message.Message.fromNickname, Mode=OneWay, Converter={StaticResource StringBrushValueConverter}}"
                        Style="{ThemeResource ReplacedContectMenuCaptionTextBlock}"
-                       Text="{x:Bind ViewModel.MODEL.NicknameText, Mode=OneWay}"
+                       Text="{x:Bind ViewModel.MODEL.Message.Message.fromNickname, Mode=OneWay}"
                        TextTrimming="CharacterEllipsis"
-                       Visibility="{x:Bind ViewModel.MODEL.NicknameText, Mode=OneWay, Converter={StaticResource StringEmptyVisibilityValueConverter}}"/>
+                       Visibility="{x:Bind ViewModel.MODEL.Message.Message.fromNickname, Mode=OneWay, Converter={StaticResource StringEmptyVisibilityValueConverter}}"/>
             <FontIcon Margin="0,0,5,1"
                       FontSize="{x:Bind nick_tbx.FontSize, Mode=OneWay}"
                       Glyph="&#xECCC;"
                       Style="{ThemeResource ReplacedContectMenuCaptionFontIcon}"
-                      Visibility="{x:Bind ViewModel.MODEL.NicknameText, Mode=OneWay, Converter={StaticResource StringEmptyVisibilityValueConverter}}"/>
+                      Visibility="{x:Bind ViewModel.MODEL.Message.Message.fromNickname, Mode=OneWay, Converter={StaticResource StringEmptyVisibilityValueConverter}}"/>
             <TextBlock Margin="0,0,5,0"
                        ContextFlyout="{x:Bind ContextFlyout, Mode=OneWay}"
                        Style="{ThemeResource ReplacedContectMenuCaptionTextBlock}"
-                       Text="{x:Bind ViewModel.MODEL.Date, Mode=OneWay, Converter={StaticResource ChatDateTimeStringValueConverter}}"/>
+                       Text="{x:Bind ViewModel.MODEL.Message.Message.date, Mode=OneWay, Converter={StaticResource ChatDateTimeStringValueConverter}}"/>
             <FontIcon Margin="0,0,5,2"
                       FontSize="{x:Bind nick_tbx.FontSize, Mode=OneWay}"
                       Glyph="&#xE72E;"
                       Style="{ThemeResource ReplacedContectMenuCaptionFontIcon}"
-                      Visibility="{x:Bind ViewModel.MODEL.IsEncrypted, Mode=OneWay, Converter={StaticResource BoolVisibilityValueConverter}}"/>
+                      Visibility="{x:Bind ViewModel.MODEL.Message.Message.isEncrypted, Mode=OneWay, Converter={StaticResource BoolVisibilityValueConverter}}"/>
             <FontIcon Grid.Column="4"
                       Margin="0,0,5,2"
                       FontSize="{x:Bind nick_tbx.FontSize, Mode=OneWay}"
                       Glyph="&#xE8C8;"
                       Style="{ThemeResource ReplacedContectMenuCaptionFontIcon}"
-                      Visibility="{x:Bind ViewModel.MODEL.IsCarbonCopy, Mode=OneWay, Converter={StaticResource BoolVisibilityValueConverter}}"/>
+                      Visibility="{x:Bind ViewModel.MODEL.Message.Message.isCC, Mode=OneWay, Converter={StaticResource BoolVisibilityValueConverter}}"/>
             <Grid VerticalAlignment="Bottom">
                 <Grid.RowDefinitions>
                     <RowDefinition Height="Auto"/>
                 </Grid.RowDefinitions>
                 <FontIcon FontSize="{x:Bind nick_tbx.FontSize, Mode=OneWay}"
-                          Glyph="{x:Bind ViewModel.MODEL.State, Mode=OneWay, Converter={StaticResource MessageStateGlyphTextValueConverter}}"
+                          Glyph="{x:Bind ViewModel.MODEL.Message.Message.state, Mode=OneWay, Converter={StaticResource MessageStateGlyphTextValueConverter}}"
                           Style="{ThemeResource ReplacedContectMenuCaptionFontIcon}"/>
                 <FontIcon Margin="5,0,0,7"
                           FontSize="{x:Bind nick_tbx.FontSize, Mode=OneWay}"
                           Glyph="&#xE73E;"
                           Style="{ThemeResource ReplacedContectMenuCaptionFontIcon}"
-                          Visibility="{x:Bind ViewModel.MODEL.State, Mode=OneWay, Converter={StaticResource MessageStateIsDeliveredVisibilityValueConverter}}"/>
+                          Visibility="{x:Bind ViewModel.MODEL.Message.Message.state, Mode=OneWay, Converter={StaticResource MessageStateIsDeliveredVisibilityValueConverter}}"/>
             </Grid>
         </StackPanel>
     </Grid>

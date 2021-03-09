@@ -137,12 +137,12 @@
                           Source="{x:Bind VIEW_MODEL.MODEL.ImageBitmap, Mode=OneWay}"
                           Tapped="Image_img_Tapped"
                           ToolTipService.ToolTip="Click to view"
-                          Visibility="{x:Bind VIEW_MODEL.MODEL.State, Mode=OneWay, Converter={StaticResource DownloadStateVisibilityValueConverter_Content}, FallbackValue=Collapsed}"/>
+                          Visibility="{x:Bind SpeechBubbleContentViewModel.MODEL.Message.Message.image.state, Mode=OneWay, Converter={StaticResource DownloadStateVisibilityValueConverter_Content}, FallbackValue=Collapsed}"/>
         <!--  Error:  -->
         <Grid Grid.Row="0"
               Padding="10"
               VerticalAlignment="Stretch"
-              Visibility="{x:Bind VIEW_MODEL.MODEL.State, Mode=OneWay, Converter={StaticResource DownloadStateVisibilityValueConverter_Error}, FallbackValue=Collapsed}">
+              Visibility="{x:Bind SpeechBubbleContentViewModel.MODEL.Message.Message.image.state, Mode=OneWay, Converter={StaticResource DownloadStateVisibilityValueConverter_Error}, FallbackValue=Collapsed}">
             <Grid VerticalAlignment="Center">
                 <Grid.RowDefinitions>
                     <RowDefinition Height="Auto"/>
@@ -171,14 +171,14 @@
                 FontFamily="{ThemeResource SymbolThemeFontFamily}"
                 FontSize="30"
                 Style="{ThemeResource ButtonRevealStyle}"
-                Visibility="{x:Bind VIEW_MODEL.MODEL.State, Mode=OneWay, Converter={StaticResource DownloadStateVisibilityValueConverter_Download}, FallbackValue=Collapsed}"/>
+                Visibility="{x:Bind SpeechBubbleContentViewModel.MODEL.Message.Message.image.state, Mode=OneWay, Converter={StaticResource DownloadStateVisibilityValueConverter_Download}, FallbackValue=Collapsed}"/>
 
         <!--  Downloading:  -->
         <Grid Grid.Row="0"
               Margin="10"
               HorizontalAlignment="Stretch"
               VerticalAlignment="Center"
-              Visibility="{x:Bind VIEW_MODEL.MODEL.State, Mode=OneWay, Converter={StaticResource DownloadStateVisibilityValueConverter_Downloading}, FallbackValue=Collapsed}">
+              Visibility="{x:Bind SpeechBubbleContentViewModel.MODEL.Message.Message.image.state, Mode=OneWay, Converter={StaticResource DownloadStateVisibilityValueConverter_Downloading}, FallbackValue=Collapsed}">
             <Grid.RowDefinitions>
                 <RowDefinition Height="Auto"/>
                 <RowDefinition Height="Auto"/>
@@ -192,8 +192,8 @@
                        HorizontalAlignment="Center"
                        Text="Downloading..."/>
             <ProgressBar Grid.Row="2"
-                         IsIndeterminate="{x:Bind VIEW_MODEL.MODEL.State, Mode=OneWay, Converter={StaticResource DownloadStateQueuedBoolValueConverter}, FallbackValue=True}"
-                         Value="{x:Bind VIEW_MODEL.MODEL.Image.progress, Mode=OneWay}"/>
+                         IsIndeterminate="{x:Bind SpeechBubbleContentViewModel.MODEL.Message.Message.image.state, Mode=OneWay, Converter={StaticResource DownloadStateQueuedBoolValueConverter}, FallbackValue=True}"
+                         Value="{x:Bind SpeechBubbleContentViewModel.MODEL.Message.Message.image.progress, Mode=OneWay}"/>
         </Grid>
 
         <!--  Loading:  -->

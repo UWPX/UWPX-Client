@@ -10,6 +10,7 @@ using Shared.Classes.Threading;
 using Storage.Classes.Contexts;
 using Storage.Classes.Models.Account;
 using Storage.Classes.Models.Chat;
+using Windows.Storage;
 
 namespace Manager.Classes.Chat
 {
@@ -64,9 +65,12 @@ namespace Manager.Classes.Chat
         {
             if (SetProperty(ref _SelectedChat, value, nameof(SelectedChat)))
             {
-                CHATS_MESSAGES_SEMA.Wait();
-                CHAT_MESSAGES.SetChat(value);
-                CHATS_MESSAGES_SEMA.Release();
+                Task.Run(async () =>
+                {
+                    CHATS_MESSAGES_SEMA.Wait();
+                    await CHAT_MESSAGES.SetChatAsync(value);
+                    CHATS_MESSAGES_SEMA.Release();
+                });
             }
         }
 
@@ -200,6 +204,16 @@ namespace Manager.Classes.Chat
                 }
             }
             return chat;
+        }
+
+        /// <summary>
+        /// Prepares the <see cref="ChatMessageImageModel"/> file name and folder path.
+        /// </summary>
+        public static async Task PrepareImageModelPathAndNameAsync(ChatMessageImageModel img)
+        {
+            img.targetFileName = ConnectionHandler.INSTANCE.IMAGE_DOWNLOAD_HANDLER.CreateUniqueFileName(img.sourceUrl);
+            StorageFolder folder = await ConnectionHandler.INSTANCE.IMAGE_DOWNLOAD_HANDLER.GetCacheFolderAsync();
+            img.targetFolderPath = folder.Path;
         }
 
         #endregion
