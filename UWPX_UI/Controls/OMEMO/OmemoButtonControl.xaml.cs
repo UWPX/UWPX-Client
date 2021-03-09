@@ -1,4 +1,5 @@
-﻿using UWPX_UI_Context.Classes.DataContext.Controls;
+﻿using System;
+using UWPX_UI_Context.Classes.DataContext.Controls;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 
@@ -13,7 +14,10 @@ namespace UWPX_UI.Controls.OMEMO
             get => (bool)GetValue(OmemoEnabledProperty);
             set => SetValue(OmemoEnabledProperty, value);
         }
-        public static readonly DependencyProperty OmemoEnabledProperty = DependencyProperty.Register(nameof(OmemoEnabled), typeof(bool), typeof(OmemoButtonControl), new PropertyMetadata(false));
+        public static readonly DependencyProperty OmemoEnabledProperty = DependencyProperty.Register(nameof(OmemoEnabled), typeof(bool), typeof(OmemoButtonControl), new PropertyMetadata(false, OnOmemoEnabledChanged));
+
+        public delegate void OmemoEnabledChangedEventHandler(OmemoButtonControl sender, EventArgs e);
+        public event OmemoEnabledChangedEventHandler OmemoEnabledChanged;
 
         public readonly OmemoButtonControlContext VIEW_MODEL = new OmemoButtonControlContext();
 
@@ -51,6 +55,14 @@ namespace UWPX_UI.Controls.OMEMO
         private async void ReadOnOmemo_link_Click(object sender, RoutedEventArgs e)
         {
             await VIEW_MODEL.OnReadOnOmemoClickedAsync();
+        }
+
+        private static void OnOmemoEnabledChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
+        {
+            if (d is OmemoButtonControl control)
+            {
+                control.OmemoEnabledChanged?.Invoke(control, new EventArgs());
+            }
         }
 
         #endregion

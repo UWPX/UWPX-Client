@@ -123,7 +123,7 @@
                 <MenuFlyoutItem x:Name="enter_mfo"
                                 Click="Enter_mfo_Click"
                                 Text="Enter room"
-                                Visibility="{x:Bind VIEW_MODEL.MODEL.MucState, Mode=OneWay, Converter={StaticResource MucStateMucJoinVisibilityValueConverter}}">
+                                Visibility="{x:Bind Chat.Chat.muc.state, Mode=OneWay, Converter={StaticResource MucStateMucJoinVisibilityValueConverter}}">
                     <MenuFlyoutItem.Icon>
                         <FontIcon Foreground="Green"
                                   Glyph="&#xE8BD;"/>
@@ -132,7 +132,7 @@
                 <MenuFlyoutItem x:Name="leave_mfo"
                                 Click="Leave_mfo_Click"
                                 Text="Leave room"
-                                Visibility="{x:Bind VIEW_MODEL.MODEL.MucState, Mode=OneWay, Converter={StaticResource MucStateMucLeaveVisibilityValueConverter}}">
+                                Visibility="{x:Bind Chat.Chat.muc.state, Mode=OneWay, Converter={StaticResource MucStateMucLeaveVisibilityValueConverter}}">
                     <MenuFlyoutItem.Icon>
                         <FontIcon Foreground="Red"
                                   Glyph="&#xE89B;"/>
@@ -223,9 +223,9 @@
                                                       Grid.Column="1"
                                                       Margin="5,0,0,0"
                                                       BadgeCount="{x:Bind VIEW_MODEL.MODEL.UnreadCount, Mode=OneWay}"
-                                                      BareJid="{x:Bind VIEW_MODEL.MODEL.BareJid, Mode=OneWay}"
-                                                      ChatType="{x:Bind VIEW_MODEL.MODEL.ChatType, Mode=OneWay}"
-                                                      PresenceProp="{x:Bind VIEW_MODEL.MODEL.AccountPresence, Mode=OneWay}"/>
+                                                      BareJid="{x:Bind Chat.Chat.bareJid, Mode=OneWay}"
+                                                      ChatType="{x:Bind Chat.Chat.chatType, Mode=OneWay}"
+                                                      PresenceProp="{x:Bind VIEW_MODEL.MODEL.ChatPresence, Mode=OneWay}"/>
                 <StackPanel Grid.Column="2"
                             HorizontalAlignment="Stretch">
                     <TextBlock x:Name="name_tblck"

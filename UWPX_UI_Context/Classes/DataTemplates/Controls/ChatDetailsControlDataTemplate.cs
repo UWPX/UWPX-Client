@@ -1,7 +1,6 @@
-﻿using Manager.Classes;
-using Shared.Classes;
+﻿using Shared.Classes;
 using Storage.Classes;
-using Storage.Classes.Contexts;
+using Storage.Classes.Models.Account;
 using Storage.Classes.Models.Chat;
 using Windows.UI.Xaml;
 using XMPP_API.Classes;
@@ -54,12 +53,6 @@ namespace UWPX_UI_Context.Classes.DataTemplates.Controls
             get => _OmemoVisibility;
             set => SetProperty(ref _OmemoVisibility, value);
         }
-        private bool _OmemoEnabled;
-        public bool OmemoEnabled
-        {
-            get => _OmemoEnabled;
-            set => SetOmemoEnabledProperty(value);
-        }
         private bool _IsLoadingChatMessages;
         public bool IsLoadingChatMessages
         {
@@ -72,31 +65,18 @@ namespace UWPX_UI_Context.Classes.DataTemplates.Controls
             get => _MessageText;
             set => SetProperty(ref _MessageText, value);
         }
-        private Presence _AccountPresence;
-        public Presence AccountPresence
-        {
-            get => _AccountPresence;
-            set => SetProperty(ref _AccountPresence, value);
-        }
-        private string _BareJid;
-        public string BareJid
-        {
-            get => _BareJid;
-            set => SetProperty(ref _BareJid, value);
-        }
         private bool _IsEmojiFlyoutEnabled;
         public bool IsEmojiFlyoutEnabled
         {
             get => _IsEmojiFlyoutEnabled;
             set => SetProperty(ref _IsEmojiFlyoutEnabled, value);
         }
-        private ChatType _ChatType;
-        public ChatType ChatType
+        private Presence _ChatPresence;
+        public Presence ChatPresence
         {
-            get => _ChatType;
-            set => SetProperty(ref _ChatType, value);
+            get => _ChatPresence;
+            set => SetProperty(ref _ChatPresence, value);
         }
-
         private bool _EnterToSend;
         public bool EnterToSend
         {
@@ -104,7 +84,6 @@ namespace UWPX_UI_Context.Classes.DataTemplates.Controls
             set => SetEnterToSendProperty(value);
         }
 
-        private ChatModel chat;
         internal bool isDummy = false;
 
         #endregion
@@ -118,21 +97,6 @@ namespace UWPX_UI_Context.Classes.DataTemplates.Controls
         #endregion
         //--------------------------------------------------------Set-, Get- Methods:---------------------------------------------------------\\
         #region --Set-, Get- Methods--
-        public void SetOmemoEnabledProperty(bool value)
-        {
-            if (SetProperty(ref _OmemoEnabled, value, nameof(OmemoEnabled)) && !(chat is null))
-            {
-                chat.omemo.enabled = value;
-                if (!isDummy)
-                {
-                    using (MainDbContext ctx = new MainDbContext())
-                    {
-                        ctx.Update(chat);
-                    }
-                }
-            }
-        }
-
         private void SetEnterToSendProperty(bool value)
         {
             if (SetProperty(ref _EnterToSend, value, nameof(EnterToSend)))
@@ -144,71 +108,54 @@ namespace UWPX_UI_Context.Classes.DataTemplates.Controls
         #endregion
         //--------------------------------------------------------Misc Methods:---------------------------------------------------------------\\
         #region --Misc Methods (Public)--
-        public void UpdateViewClient(Client client)
+        public void UpdateView(AccountModel account)
         {
-            if (!(client is null))
+            if (!(account is null))
             {
-                AccountText = client.dbAccount.bareJid;
+                AccountText = account.bareJid;
             }
         }
 
-        public void UpdateViewChat(ChatModel chat)
+        public void UpdateView(ChatModel chat)
         {
             if (!(chat is null))
             {
-                this.chat = chat;
                 if (isDummy)
                 {
                     AccountText = chat.accountBareJid;
                 }
 
-                if (chat.chatType == ChatType.MUC)
-                {
-                    OmemoVisibility = Visibility.Collapsed;
-
-                    if (chat.muc.state != MucState.ENTERD && chat.muc.state != MucState.ENTERING)
-                    {
-                        EnterMucVisibility = Visibility.Visible;
-                        LeaveMucVisibility = Visibility.Collapsed;
-                    }
-                    else
-                    {
-                        EnterMucVisibility = Visibility.Collapsed;
-                        LeaveMucVisibility = Visibility.Visible;
-                    }
-                }
-                else
+                if (chat.chatType != ChatType.MUC)
                 {
                     NameText = chat.bareJid ?? "";
                     StatusText = chat.chatState ?? chat.status ?? "";
                     EnterMucVisibility = Visibility.Collapsed;
                     LeaveMucVisibility = Visibility.Collapsed;
-                    OmemoEnabled = chat.omemo.enabled;
                     OmemoVisibility = Visibility.Visible;
+                    ChatPresence = chat.presence;
                 }
-
-                // Account image:
-                AccountPresence = chat.presence;
-                BareJid = chat.bareJid;
-                ChatType = chat.chatType;
-            }
-            else
-            {
-                this.chat = null;
             }
         }
 
-        public void UpdateViewMuc(ChatModel chat)
+        public void UpdateView(MucInfoModel muc)
         {
-            if (!(chat is null))
+            if (!(muc is null))
             {
-                NameText = string.IsNullOrWhiteSpace(chat.muc.name) ? chat.bareJid : chat.muc.name;
-                StatusText = chat.muc.subject ?? "";
+                NameText = string.IsNullOrWhiteSpace(muc.name) ? muc.chat.bareJid : muc.name;
+                StatusText = muc.subject ?? "";
+                ChatPresence = muc.GetMucPresence();
 
-                // Account image:
-                AccountPresence = chat.muc.GetMucPresence();
-
-                OmemoEnabled = false;
+                OmemoVisibility = Visibility.Collapsed;
+                if (muc.state != MucState.ENTERD && muc.state != MucState.ENTERING)
+                {
+                    EnterMucVisibility = Visibility.Visible;
+                    LeaveMucVisibility = Visibility.Collapsed;
+                }
+                else
+                {
+                    EnterMucVisibility = Visibility.Collapsed;
+                    LeaveMucVisibility = Visibility.Visible;
+                }
             }
         }
 

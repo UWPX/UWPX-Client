@@ -233,11 +233,11 @@ namespace UWPX_UI_Context.Classes.DataContext.Controls
         {
             if (!(chatTemplate is null))
             {
-                MODEL.UpdateViewChat(chatTemplate.Chat);
+                MODEL.UpdateView(chatTemplate.Chat);
                 MODEL.UpdateLastChatMessage(chatTemplate.LastMsg);
                 if (chatTemplate.Chat.chatType == ChatType.MUC)
                 {
-                    MODEL.UpdateViewMuc(chatTemplate.Chat?.muc);
+                    MODEL.UpdateView(chatTemplate.Chat?.muc);
                 }
             }
         }
@@ -295,7 +295,7 @@ namespace UWPX_UI_Context.Classes.DataContext.Controls
         {
             if (sender is ChatModel chat)
             {
-                MODEL.UpdateViewChat(chat);
+                MODEL.UpdateView(chat);
             }
         }
 
@@ -303,7 +303,7 @@ namespace UWPX_UI_Context.Classes.DataContext.Controls
         {
             if (sender is MucInfoModel muc)
             {
-                MODEL.UpdateViewMuc(muc);
+                MODEL.UpdateView(muc);
             }
         }
 

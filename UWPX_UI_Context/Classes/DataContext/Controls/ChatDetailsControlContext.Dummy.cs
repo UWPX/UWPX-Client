@@ -41,7 +41,7 @@ namespace UWPX_UI_Context.Classes.DataContext.Controls
         #region --Misc Methods (Private)--
         private void AddDummyMessage(ChatModel chat, string msg, string fromUser, MessageState state)
         {
-            AddDummyMessage(chat, msg, fromUser, state, MODEL.OmemoEnabled, false);
+            AddDummyMessage(chat, msg, fromUser, state, chat.omemo.enabled, false);
         }
 
         private void AddDummyMessage(ChatModel chat, string msg, string fromUser, MessageState state, bool isEncrypted, bool isImage)
@@ -84,18 +84,18 @@ namespace UWPX_UI_Context.Classes.DataContext.Controls
             switch (++dummyMessageCount)
             {
                 case 1:
-                    MODEL.AccountPresence = Presence.Online;
+                    MODEL.ChatPresence = Presence.Online;
                     break;
 
                 case 3:
                     SendDelayedMessage(chat, Localisation.GetLocalizedString("chat_details_dummy_answer_3_img"), chat.omemo.enabled, true, 3000);
                     SendDelayedMessage(chat, Localisation.GetLocalizedString("chat_details_dummy_answer_3"), chat.omemo.enabled, false, 4000);
-                    MODEL.AccountPresence = Presence.Chat;
+                    MODEL.ChatPresence = Presence.Chat;
                     break;
 
                 case 4:
                     SendDelayedMessage(chat, Localisation.GetLocalizedString("chat_details_dummy_answer_4"), chat.omemo.enabled, false, 3000);
-                    MODEL.AccountPresence = Presence.Online;
+                    MODEL.ChatPresence = Presence.Online;
                     break;
 
                 case 7:
@@ -108,7 +108,7 @@ namespace UWPX_UI_Context.Classes.DataContext.Controls
 
                 case 15:
                     SendDelayedMessage(chat, Localisation.GetLocalizedString("chat_details_dummy_answer_15"), chat.omemo.enabled, false, 3000);
-                    MODEL.AccountPresence = Presence.Xa;
+                    MODEL.ChatPresence = Presence.Xa;
                     break;
 
                 case 20:
@@ -130,7 +130,7 @@ namespace UWPX_UI_Context.Classes.DataContext.Controls
                     Task.Run(async () =>
                     {
                         await Task.Delay(9000);
-                        MODEL.AccountPresence = Presence.Unavailable;
+                        MODEL.ChatPresence = Presence.Unavailable;
                     });
                     break;
             }

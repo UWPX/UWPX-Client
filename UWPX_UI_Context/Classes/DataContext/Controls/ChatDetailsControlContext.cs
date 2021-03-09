@@ -1,10 +1,11 @@
 ﻿using System;
+using System.ComponentModel;
 using System.Threading.Tasks;
 using Logging;
 using Manager.Classes;
 using Manager.Classes.Chat;
 using Storage.Classes;
-using Storage.Classes.Contexts;
+using Storage.Classes.Models.Account;
 using Storage.Classes.Models.Chat;
 using UWPX_UI_Context.Classes.DataTemplates.Controls;
 using Windows.System;
@@ -39,13 +40,35 @@ namespace UWPX_UI_Context.Classes.DataContext.Controls
             ChatDataTemplate newChat = null;
             if (args.OldValue is ChatDataTemplate oldChat)
             {
-                oldChat.PropertyChanged -= Chat_PropertyChanged;
+                if (!(oldChat.Chat is null))
+                {
+                    oldChat.Chat.PropertyChanged -= OnChatPropertyChanged;
+                }
+                if (!(oldChat.Chat.muc is null))
+                {
+                    oldChat.Chat.muc.PropertyChanged -= OnMucPropertyChanged;
+                }
+                if (!(oldChat.Client.dbAccount is null))
+                {
+                    oldChat.Chat.muc.PropertyChanged -= OnAccountPropertyChanged;
+                }
             }
 
             if (args.NewValue is ChatDataTemplate)
             {
                 newChat = args.NewValue as ChatDataTemplate;
-                newChat.PropertyChanged += Chat_PropertyChanged;
+                if (!(newChat.Chat is null))
+                {
+                    newChat.Chat.PropertyChanged += OnChatPropertyChanged;
+                }
+                if (!(newChat.Chat.muc is null))
+                {
+                    newChat.Chat.muc.PropertyChanged += OnMucPropertyChanged;
+                }
+                if (!(newChat.Client.dbAccount is null))
+                {
+                    newChat.Client.dbAccount.PropertyChanged += OnAccountPropertyChanged;
+                }
             }
 
             UpdateView(newChat);
@@ -65,8 +88,8 @@ namespace UWPX_UI_Context.Classes.DataContext.Controls
                 }
                 else
                 {
+                    Logger.Debug("Sending message (encrypted=" + chat.Chat.omemo.enabled + "): " + trimedMsg);
                     Task.Run(async () => await SendChatMessageAsync(chat, trimedMsg));
-                    Logger.Debug("Sending message (encrypted=" + MODEL.OmemoEnabled + "): " + trimedMsg);
                 }
                 MODEL.MessageText = string.Empty;
             }
@@ -170,10 +193,7 @@ namespace UWPX_UI_Context.Classes.DataContext.Controls
         public void MarkAsIotDevice(ChatModel chat)
         {
             chat.chatType = ChatType.IOT_DEVICE;
-            using (MainDbContext ctx = new MainDbContext())
-            {
-                ctx.Update(chat);
-            }
+            chat.Update();
         }
 
         #endregion
@@ -183,14 +203,13 @@ namespace UWPX_UI_Context.Classes.DataContext.Controls
         {
             if (!(chatTemplate is null))
             {
-                MODEL.UpdateViewClient(chatTemplate.Client);
-                MODEL.UpdateViewChat(chatTemplate.Chat);
+                MODEL.UpdateView(chatTemplate.Client.dbAccount);
+                MODEL.UpdateView(chatTemplate.Chat);
                 if (chatTemplate.Chat.chatType == ChatType.MUC)
                 {
-                    MODEL.UpdateViewMuc(chatTemplate.Chat);
+                    MODEL.UpdateView(chatTemplate.Chat?.muc);
                 }
             }
-            MODEL.LoadSettings();
         }
 
         #endregion
@@ -201,11 +220,27 @@ namespace UWPX_UI_Context.Classes.DataContext.Controls
         #endregion
         //--------------------------------------------------------Events:---------------------------------------------------------------------\\
         #region --Events--
-        private void Chat_PropertyChanged(object sender, System.ComponentModel.PropertyChangedEventArgs e)
+        private void OnChatPropertyChanged(object sender, PropertyChangedEventArgs e)
         {
-            if (sender is ChatDataTemplate chat)
+            if (sender is ChatModel chat)
             {
-                UpdateView(chat);
+                MODEL.UpdateView(chat);
+            }
+        }
+
+        private void OnMucPropertyChanged(object sender, PropertyChangedEventArgs e)
+        {
+            if (sender is MucInfoModel muc)
+            {
+                MODEL.UpdateView(muc);
+            }
+        }
+
+        private void OnAccountPropertyChanged(object sender, PropertyChangedEventArgs e)
+        {
+            if (sender is AccountModel account)
+            {
+                MODEL.UpdateView(account);
             }
         }
 
