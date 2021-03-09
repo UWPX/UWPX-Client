@@ -50,7 +50,7 @@ namespace UWPX_UI_Context.Classes.DataContext.Controls
                 }
                 if (!(oldChat.Client.dbAccount is null))
                 {
-                    oldChat.Chat.muc.PropertyChanged -= OnAccountPropertyChanged;
+                    oldChat.Client.dbAccount.PropertyChanged -= OnAccountPropertyChanged;
                 }
             }
 
@@ -129,15 +129,15 @@ namespace UWPX_UI_Context.Classes.DataContext.Controls
                 state = toSendMsg is OmemoEncryptedMessage ? MessageState.TO_ENCRYPT : MessageState.SENDING
             };
 
-            // Set the chat message id for later identification:
-            toSendMsg.chatMessageId = toSendMsgDB.id;
-
             // Update chat last active:
             chat.Chat.lastActive = DateTime.Now;
 
             // Update DB:
             chat.Chat.Update();
             DataCache.INSTANCE.AddChatMessage(toSendMsgDB, chat.Chat);
+
+            // Set the chat message id for later identification:
+            toSendMsg.chatMessageId = toSendMsgDB.id;
 
             // Send the message:
             if (toSendMsg is OmemoEncryptedMessage toSendOmemoMsg)

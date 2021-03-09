@@ -327,10 +327,7 @@ namespace Manager.Classes
                 if (!(msg is null))
                 {
                     msg.state = MessageState.ENCRYPT_FAILED;
-                    using (MainDbContext ctx = new MainDbContext())
-                    {
-                        ctx.Update(msg);
-                    }
+                    msg.Update();
                 }
             }
         }
@@ -630,10 +627,7 @@ namespace Manager.Classes
             if (!(msg is null))
             {
                 msg.state = MessageState.SEND;
-                using (MainDbContext ctx = new MainDbContext())
-                {
-                    ctx.Update(msg);
-                }
+                msg.Update();
             }
         }
 
@@ -678,10 +672,7 @@ namespace Manager.Classes
                 }
                 else
                 {
-                    using (MainDbContext ctx = new MainDbContext())
-                    {
-                        ctx.Update(chat);
-                    }
+                    chat.Update();
                 }
 
                 // Enter MUC manually if the MUC is new for this client:
@@ -713,10 +704,7 @@ namespace Manager.Classes
                 return;
             }
             msg.state = MessageState.DELIVERED;
-            using (MainDbContext ctx = new MainDbContext())
-            {
-                ctx.Update(msg);
-            }
+            msg.Update();
         }
 
         #endregion
