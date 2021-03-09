@@ -112,11 +112,9 @@ namespace UWPX_UI.Controls.Chat
             {
                 if (!scrolledToTheTop && !VIEW_MODEL.MODEL.CHAT_MESSAGES.IsLoading)
                 {
-                    scrollViewer.VerticalScrollMode = ScrollMode.Disabled;
                     double oldOffset = scrollViewer.ScrollableHeight - scrollViewer.VerticalOffset;
                     scrolledToTheTop = true;
                     await LoadMoreMessagesAsync();
-                    scrollViewer.VerticalScrollMode = ScrollMode.Enabled;
                     scrollViewer.ChangeView(null, scrollViewer.ScrollableHeight - oldOffset, null, true);
                 }
             }
