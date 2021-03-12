@@ -31,6 +31,7 @@
         <valueConverter:MessageStateIsDeliveredVisibilityValueConverter x:Key="MessageStateIsDeliveredVisibilityValueConverter"/>
         <valueConverter:MessageStateEncryptingVisibilityValueConverter x:Key="MessageStateEncryptingVisibilityValueConverter"/>
         <valueConverter:StringBrushValueConverter x:Key="StringBrushValueConverter"/>
+        <valueConverter:MessageStateStringValueConverter x:Key="MessageStateStringValueConverter"/>
     </UserControl.Resources>
 
     <Grid>
@@ -74,7 +75,8 @@
                       Glyph="&#xE8C8;"
                       Style="{ThemeResource ReplacedContectMenuCaptionFontIcon}"
                       Visibility="{x:Bind ViewModel.MODEL.Message.Message.isCC, Mode=OneWay, Converter={StaticResource BoolVisibilityValueConverter}}"/>
-            <Grid VerticalAlignment="Bottom">
+            <Grid VerticalAlignment="Bottom"
+                  ToolTipService.ToolTip="{x:Bind ViewModel.MODEL.Message.Message.state, Mode=OneWay, Converter={StaticResource MessageStateStringValueConverter}}">
                 <Grid.RowDefinitions>
                     <RowDefinition Height="Auto"/>
                 </Grid.RowDefinitions>
