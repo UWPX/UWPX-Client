@@ -5,7 +5,6 @@ using Manager.Classes;
 using Manager.Classes.Chat;
 using Manager.Classes.Toast;
 using Shared.Classes.Threading;
-using Storage.Classes.Contexts;
 using Storage.Classes.Models.Chat;
 using UWPX_UI_Context.Classes.DataTemplates.Dialogs;
 using UWPX_UI_Context.Classes.DataTemplates.Pages;
@@ -112,10 +111,7 @@ namespace UWPX_UI_Context.Classes.DataContext.Pages
                 }
                 else
                 {
-                    using (MainDbContext ctx = new MainDbContext())
-                    {
-                        ctx.Update(chat);
-                    }
+                    chat.Update();
                 }
             });
 
