@@ -11,6 +11,7 @@
              xmlns:speechbubbles="using:UWPX_UI.Controls.Chat.SpeechBubbles"
              xmlns:templates="using:Manager.Classes.Chat"
              xmlns:valueConverter="using:UWPX_UI_Context.Classes.ValueConverter"
+             xmlns:controlsComp="using:Microsoft.UI.Xaml.Controls"
              mc:Ignorable="d">
 
     <UserControl.Resources>
@@ -52,13 +53,11 @@
         </Grid.RowDefinitions>
         <ListView x:Name="mainListView"
                   Grid.Row="0"
-                  IncrementalLoadingTrigger="None"
                   ItemTemplateSelector="{StaticResource SpeechBubbleDataTemplateSelector}"
                   ItemsSource="{x:Bind VIEW_MODEL.MODEL.CHAT_MESSAGES}"
                   Loaded="MainListView_Loaded"
                   ScrollViewer.HorizontalScrollMode="Disabled"
                   SizeChanged="mainListView_SizeChanged"
-                  ShowsScrollingPlaceholders="True"
                   SelectionMode="None">
             <interactivity:Interaction.Behaviors>
                 <behaviors:FadeHeaderBehavior HeaderElement="{Binding ElementName=mainListViewHeader}"/>
@@ -94,8 +93,8 @@
                 <ItemsPanelTemplate>
                     <ItemsStackPanel x:Name="mainListViewItemStackPanel"
                                      Grid.ColumnSpan="1"
-                                     VerticalAlignment="Bottom"
-                                     ItemsUpdatingScrollMode="KeepLastItemInView">
+                                     ItemsUpdatingScrollMode="KeepLastItemInView"
+                                     VerticalAlignment="Bottom">
                         <ItemsStackPanel.ChildrenTransitions>
                             <TransitionCollection>
                                 <EntranceThemeTransition IsStaggeringEnabled="True"/>
