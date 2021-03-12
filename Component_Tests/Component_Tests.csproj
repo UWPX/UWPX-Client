@@ -165,16 +165,16 @@
   </ItemGroup>
   <ItemGroup>
     <PackageReference Include="Microsoft.NETCore.UniversalWindowsPlatform">
-      <Version>6.2.11</Version>
+      <Version>6.2.12</Version>
     </PackageReference>
     <PackageReference Include="MSTest.TestAdapter">
-      <Version>2.1.2</Version>
+      <Version>2.2.1</Version>
     </PackageReference>
     <PackageReference Include="MSTest.TestFramework">
-      <Version>2.1.2</Version>
+      <Version>2.2.1</Version>
     </PackageReference>
     <PackageReference Include="Microsoft.NET.Test.Sdk">
-      <Version>16.7.1</Version>
+      <Version>16.9.1</Version>
     </PackageReference>
   </ItemGroup>
   <ItemGroup>
