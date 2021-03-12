@@ -235,7 +235,10 @@ namespace Storage.Classes.Models.Account
                 omemoSignedPreKey = omemoInfo.signedPreKey,
                 omemoDeviceLabel = omemoInfo.deviceLabel,
             };
-            account.OMEMO_PRE_KEYS.AddRange(omemoInfo.preKeys);
+            account.connectionConfiguration.IGNORED_CERTIFICATE_ERRORS.AddRange(server.ignoredCertificateErrors);
+            account.connectionConfiguration.tlsMode = server.tlsMode;
+            account.connectionConfiguration.disableMessageCarbons = server.disableMessageCarbons;
+            account.connectionConfiguration.disableStreamManagement = server.disableStreamManagement;
             return account;
         }
 
