@@ -291,7 +291,7 @@ namespace Manager.Classes.Chat
         #region --Events--
         private void Item_PropertyChanged(object sender, PropertyChangedEventArgs e)
         {
-            PropertyChanged?.Invoke(this, e);
+            PropertyChanged?.Invoke(sender, e);
         }
 
         #endregion

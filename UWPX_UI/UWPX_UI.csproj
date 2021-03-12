@@ -594,7 +594,6 @@
     <Content Include="Assets\Wide\Wide310x150Logo.scale-400.png" />
     <None Include="Package.StoreAssociation.xml" />
     <Content Include="Properties\Default.rd.xml" />
-    <None Include="UWPX_UI_TemporaryKey.pfx" />
   </ItemGroup>
   <ItemGroup>
     <PackageReference Include="Microsoft.EntityFrameworkCore">

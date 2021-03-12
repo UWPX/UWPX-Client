@@ -12,7 +12,7 @@ namespace Shared.Classes.Collections
         //--------------------------------------------------------Attributes:-----------------------------------------------------------------\\
         #region --Attributes--
         private readonly List<T> LIST = new List<T>();
-        private bool deferNotifyCollectionChanged = false;
+        protected bool deferNotifyCollectionChanged = false;
 
         private const string INDEXER_NAME = "Item[]";
 
@@ -162,16 +162,13 @@ namespace Shared.Classes.Collections
 
         public bool Remove(T item)
         {
-            if (item is INotifyPropertyChanged i)
+            int index = IndexOf(item);
+            if (index < 0)
             {
-                i.PropertyChanged -= CustomObservableCollection_PropertyChanged;
+                return false;
             }
-            if (LIST.Remove(item))
-            {
-                OnCollectionChanged(new NotifyCollectionChangedEventArgs(NotifyCollectionChangedAction.Remove, item));
-                return true;
-            }
-            return false;
+            RemoveAt(index);
+            return true;
         }
 
         public int IndexOf(T item)

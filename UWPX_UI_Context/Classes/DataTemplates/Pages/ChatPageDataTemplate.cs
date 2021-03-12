@@ -1,8 +1,8 @@
 ﻿using System.Linq;
 using Manager.Classes.Chat;
 using Manager.Classes.Toast;
-using Microsoft.Toolkit.Uwp.UI;
 using Shared.Classes;
+using UWPX_UI_Context.Classes.Collections;
 
 namespace UWPX_UI_Context.Classes.DataTemplates.Pages
 {
@@ -12,7 +12,7 @@ namespace UWPX_UI_Context.Classes.DataTemplates.Pages
         #region --Attributes--
         public readonly ChatFilterDataTemplate CHAT_FILTER;
 
-        public readonly AdvancedCollectionView CHATS_ACV;
+        public readonly AdvancedChatsCollection CHATS_ACC;
 
         private ChatDataTemplate _SelectedItem;
         public ChatDataTemplate SelectedItem
@@ -26,13 +26,10 @@ namespace UWPX_UI_Context.Classes.DataTemplates.Pages
         #region --Constructors--
         public ChatPageDataTemplate()
         {
-            CHATS_ACV = new AdvancedCollectionView(DataCache.INSTANCE.CHATS, true);
-
-            CHAT_FILTER = new ChatFilterDataTemplate(CHATS_ACV);
-            CHATS_ACV.Filter = AcvFilter;
-            CHATS_ACV.Refresh(); // Sort and filter all existing entries
-            CHATS_ACV.ObserveFilterProperty(nameof(ChatDataTemplate.Chat));
-            CHATS_ACV.SortDescriptions.Add(new SortDescription(nameof(ChatDataTemplate.Chat), SortDirection.Descending));
+            CHATS_ACC = new AdvancedChatsCollection(DataCache.INSTANCE.CHATS);
+            CHATS_ACC.Filter();
+            CHATS_ACC.Sort();
+            CHAT_FILTER = new ChatFilterDataTemplate(CHATS_ACC);
 
             SelectedItem = DataCache.INSTANCE.SelectedChat;
         }
@@ -55,17 +52,14 @@ namespace UWPX_UI_Context.Classes.DataTemplates.Pages
         {
             if (parameter is ChatToastActivation args)
             {
-                SelectedItem = (ChatDataTemplate)CHATS_ACV.First((x) => x is ChatDataTemplate chat && chat?.Chat.id == args.CHAT_ID);
+                SelectedItem = CHATS_ACC.First((x) => x is ChatDataTemplate chat && chat?.Chat.id == args.CHAT_ID);
             }
         }
 
         #endregion
 
         #region --Misc Methods (Private)--
-        private bool AcvFilter(object o)
-        {
-            return CHAT_FILTER.Filter(o);
-        }
+
 
         #endregion
 

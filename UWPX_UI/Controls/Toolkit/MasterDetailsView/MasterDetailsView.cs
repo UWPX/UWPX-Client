@@ -2,7 +2,6 @@
 using System.Linq;
 using Microsoft.Toolkit.Uwp.UI.Extensions;
 using Windows.ApplicationModel;
-using Windows.Foundation.Collections;
 using Windows.UI.Core;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
@@ -328,13 +327,7 @@ namespace UWPX_UI.Controls.Toolkit.MasterDetailsView
         protected override void OnItemsChanged(object e)
         {
             base.OnItemsChanged(e);
-            if (e is IVectorChangedEventArgs args && args.CollectionChange == CollectionChange.Reset)
-            {
-            }
-            else
-            {
-                UpdateView(true);
-            }
+            UpdateView(true);
 
             if (SelectedIndex < 0)
             {
