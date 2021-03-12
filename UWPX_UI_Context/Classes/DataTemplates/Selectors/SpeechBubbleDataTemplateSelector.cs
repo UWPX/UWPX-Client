@@ -56,7 +56,7 @@ namespace UWPX_UI_Context.Classes.DataTemplates.Selectors
                         return SpeechBubbleErrorTemplate;
 
                     case MessageMessage.TYPE_GROUPCHAT:
-                        return string.Equals(model.Chat.muc?.nickname, model.Message.fromBareJid) ? SpeechBubbleDownTemplate : SpeechBubbleTopTemplate;
+                        return string.Equals(model.Chat.muc?.nickname, model.Message.fromNickname) ? SpeechBubbleDownTemplate : SpeechBubbleTopTemplate;
 
                     case DirectMUCInvitationMessage.TYPE_MUC_DIRECT_INVITATION:
                         return SpeechBubbleMucDirectInvitationTemplate;
