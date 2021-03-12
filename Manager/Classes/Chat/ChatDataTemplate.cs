@@ -44,10 +44,10 @@ namespace Manager.Classes.Chat
         #region --Constructors--
         public ChatDataTemplate(ChatModel chat, Client client, ChatMessageModel lastMsg, BitmapImage image)
         {
-            _Chat = chat;
-            _Client = client;
-            _LastMsg = lastMsg;
-            _Image = image;
+            Chat = chat;
+            Client = client;
+            LastMsg = lastMsg;
+            Image = image;
         }
 
         #endregion
