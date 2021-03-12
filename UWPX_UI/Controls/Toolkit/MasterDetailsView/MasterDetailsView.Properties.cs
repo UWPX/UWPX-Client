@@ -30,6 +30,13 @@ namespace UWPX_UI.Controls.Toolkit.MasterDetailsView
         }
         public static readonly DependencyProperty SelectedItemProperty = DependencyProperty.Register(nameof(SelectedItem), typeof(object), typeof(MasterDetailsView), new PropertyMetadata(null, OnSelectedItemChanged));
 
+        public int SelectedIndex
+        {
+            get => (int)GetValue(SelectedIndexProperty);
+            set => SetValue(SelectedIndexProperty, value);
+        }
+        public static readonly DependencyProperty SelectedIndexProperty = DependencyProperty.Register(nameof(SelectedIndex), typeof(int), typeof(MasterDetailsView), new PropertyMetadata(-1, OnSelectedIndexChanged));
+
         public object NoItemsContent
         {
             get => GetValue(NoItemsContentProperty);
@@ -196,6 +203,11 @@ namespace UWPX_UI.Controls.Toolkit.MasterDetailsView
         private static void OnSelectedItemChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
             ((MasterDetailsView)d).OnSelectedItemChanged(e);
+        }
+
+        private static void OnSelectedIndexChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
+        {
+            ((MasterDetailsView)d).OnSelectedIndexChanged(e);
         }
 
         private static void OnCompactModeThresholdWidthChanged(DependencyObject d, DependencyPropertyChangedEventArgs e) { }

@@ -2,6 +2,7 @@
 using System.Linq;
 using Microsoft.Toolkit.Uwp.UI.Extensions;
 using Windows.ApplicationModel;
+using Windows.Foundation.Collections;
 using Windows.UI.Core;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
@@ -33,8 +34,6 @@ namespace UWPX_UI.Controls.Toolkit.MasterDetailsView
         private const string PART_HEADER_CONTENT_PRESENTER = "HeaderContentPresenter";
         private const string PART_MASTER_COMMAND_BAR = "MasterCommandBarPanel";
         private const string PART_DETAILS_COMMAND_BAR = "DetailsCommandBarPanel";
-
-        private bool ignoreClearSelectedItem;
 
         private ContentPresenter detailsPresenter;
         private Microsoft.UI.Xaml.Controls.TwoPaneView twoPaneView;
@@ -114,9 +113,7 @@ namespace UWPX_UI.Controls.Toolkit.MasterDetailsView
         /// </summary>
         public void ClearSelectedItem()
         {
-            ignoreClearSelectedItem = true;
             SelectedItem = null;
-            ignoreClearSelectedItem = false;
         }
 
         #endregion
@@ -148,21 +145,39 @@ namespace UWPX_UI.Controls.Toolkit.MasterDetailsView
 
         private void OnSelectedItemChanged(DependencyPropertyChangedEventArgs e)
         {
-            // Prevent setting the SelectedItem to null if only the order changed (=> collection reset got triggered).
-            if (!ignoreClearSelectedItem && !(e.OldValue is null) && e.NewValue is null && Items.Contains(e.OldValue))
+            int index = SelectedItem is null ? -1 : Items.IndexOf(SelectedItem);
+
+            // If there is no selection, do not remove the DetailsPresenter content but let it animate out.
+            if (index >= 0)
             {
-                SelectedItem = e.OldValue;
-                return;
+                SetDetailsContent();
+            }
+
+            if (SelectedIndex != index)
+            {
+                SetValue(SelectedIndexProperty, index);
             }
 
             OnSelectionChanged(new SelectionChangedEventArgs(new List<object> { e.OldValue }, new List<object> { e.NewValue }));
-
             UpdateView(true);
+        }
 
-            // If there is no selection, do not remove the DetailsPresenter content but let it animate out.
-            if (!(SelectedItem is null))
+        private void OnSelectedIndexChanged(DependencyPropertyChangedEventArgs e)
+        {
+            if (e.NewValue is int index)
             {
-                SetDetailsContent();
+                object item = index >= 0 && Items.Count >= index ? Items[index] : null;
+                if (SelectedItem != item)
+                {
+                    if (item is null)
+                    {
+                        ClearSelectedItem();
+                    }
+                    else
+                    {
+                        SetValue(SelectedItemProperty, item);
+                    }
+                }
             }
         }
 
@@ -313,7 +328,35 @@ namespace UWPX_UI.Controls.Toolkit.MasterDetailsView
         protected override void OnItemsChanged(object e)
         {
             base.OnItemsChanged(e);
-            UpdateView(true);
+            if (e is IVectorChangedEventArgs args && args.CollectionChange == CollectionChange.Reset)
+            {
+            }
+            else
+            {
+                UpdateView(true);
+            }
+
+            if (SelectedIndex < 0)
+            {
+                return;
+            }
+
+            // Ensure we still have the correct index and selected item for the new collection.
+            // This prevents flickering when the order of the collection changes.
+            int index = -1;
+            if (!(Items is null))
+            {
+                index = Items.IndexOf(SelectedItem);
+            }
+
+            if (index < 0)
+            {
+                ClearSelectedItem();
+            }
+            else if (SelectedIndex != index)
+            {
+                SetValue(SelectedIndexProperty, index);
+            }
         }
 
         #endregion
