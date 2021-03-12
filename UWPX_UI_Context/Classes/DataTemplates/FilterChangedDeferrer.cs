@@ -33,7 +33,7 @@ namespace UWPX_UI_Context.Classes.DataTemplates
             }
 
             CHAT_FILTER.DeferRefreshDown();
-            CHAT_FILTER.RefreshFilter();
+            CHAT_FILTER.Filter();
         }
 
         #endregion

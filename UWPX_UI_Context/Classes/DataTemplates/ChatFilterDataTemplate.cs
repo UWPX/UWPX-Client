@@ -1,10 +1,10 @@
 ﻿using System;
 using System.Runtime.CompilerServices;
 using Manager.Classes.Chat;
-using Microsoft.Toolkit.Uwp.UI;
 using Shared.Classes;
 using Storage.Classes;
 using Storage.Classes.Models.Chat;
+using UWPX_UI_Context.Classes.Collections;
 using XMPP_API.Classes;
 
 namespace UWPX_UI_Context.Classes.DataTemplates
@@ -87,18 +87,19 @@ namespace UWPX_UI_Context.Classes.DataTemplates
             set => SetPresenceChatProperty(value);
         }
 
-        private readonly AdvancedCollectionView CHATS_ACV;
+        private readonly AdvancedChatsCollection CHATS_ACC;
 
         private uint skipOnFilterChangedCount = 0;
 
         #endregion
         //--------------------------------------------------------Constructor:----------------------------------------------------------------\\
         #region --Constructors--
-        public ChatFilterDataTemplate(AdvancedCollectionView chatsACV)
+        public ChatFilterDataTemplate(AdvancedChatsCollection chats_acc)
         {
             using (DeferRefresh())
             {
-                CHATS_ACV = chatsACV;
+                CHATS_ACC = chats_acc;
+                CHATS_ACC.filter = Filter;
 
                 _PresenceOnline = Settings.GetSettingBoolean(SettingsConsts.CHAT_FILTER_PRESENCE_ONLINE);
                 _PresenceAway = Settings.GetSettingBoolean(SettingsConsts.CHAT_FILTER_PRESENCE_AWAY);
@@ -271,12 +272,11 @@ namespace UWPX_UI_Context.Classes.DataTemplates
         #endregion
         //--------------------------------------------------------Misc Methods:---------------------------------------------------------------\\
         #region --Misc Methods (Public)--
-        public bool Filter(object o)
+        public bool Filter(ChatDataTemplate chat)
         {
-            return o is ChatDataTemplate chat
-                    && (!ChatQueryEnabled
-                        || string.IsNullOrEmpty(ChatQuery)
-                        || FilterChatQuery(chat))
+            return (!ChatQueryEnabled
+                || string.IsNullOrEmpty(ChatQuery)
+                || FilterChatQuery(chat))
                     && FilterPresence(chat)
                     && FilterChatType(chat);
         }
@@ -297,9 +297,9 @@ namespace UWPX_UI_Context.Classes.DataTemplates
             return new FilterChangedDeferrer(this);
         }
 
-        public void RefreshFilter()
+        public void Filter()
         {
-            CHATS_ACV.RefreshFilter();
+            CHATS_ACC.Filter();
         }
 
         #endregion
@@ -370,7 +370,7 @@ namespace UWPX_UI_Context.Classes.DataTemplates
 
             if (skipOnFilterChangedCount <= 0)
             {
-                RefreshFilter();
+                Filter();
             }
         }
 
@@ -388,7 +388,7 @@ namespace UWPX_UI_Context.Classes.DataTemplates
             {
                 if (--skipOnFilterChangedCount > 0)
                 {
-                    RefreshFilter();
+                    Filter();
                 }
             }
         }

@@ -136,6 +136,7 @@
     <Compile Include="Classes\BuyContentHelper.cs" />
     <Compile Include="Classes\ChatBackgroundHelper.cs" />
     <Compile Include="Classes\ChatBackgroundMode.cs" />
+    <Compile Include="Classes\Collections\AdvancedChatsCollection.cs" />
     <Compile Include="Classes\DataContext\Controls\AccountImagePresenceControlContext.cs" />
     <Compile Include="Classes\DataContext\Controls\AccountInfoCertificateGeneralControlContext.cs" />
     <Compile Include="Classes\DataContext\Controls\AccountInfoGeneralControlContext.cs" />

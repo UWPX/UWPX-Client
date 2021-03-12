@@ -1,11 +1,12 @@
-﻿using System.ComponentModel;
+﻿using System;
+using System.ComponentModel;
 using Shared.Classes;
 using Storage.Classes.Models.Chat;
 using Windows.UI.Xaml.Media.Imaging;
 
 namespace Manager.Classes.Chat
 {
-    public sealed class ChatDataTemplate: AbstractDataTemplate
+    public sealed class ChatDataTemplate: AbstractDataTemplate, IComparable
     {
         //--------------------------------------------------------Attributes:-----------------------------------------------------------------\\
         #region --Attributes--
@@ -88,7 +89,10 @@ namespace Manager.Classes.Chat
         #endregion
         //--------------------------------------------------------Misc Methods:---------------------------------------------------------------\\
         #region --Misc Methods (Public)--
-
+        public int CompareTo(object obj)
+        {
+            return obj is ChatDataTemplate chat ? chat.Chat.lastActive.CompareTo(Chat.lastActive) : 1;
+        }
 
         #endregion
 
@@ -112,7 +116,6 @@ namespace Manager.Classes.Chat
         {
             OnPropertyChanged(nameof(LastMsg) + '.' + e.PropertyName);
         }
-
         #endregion
     }
 }
