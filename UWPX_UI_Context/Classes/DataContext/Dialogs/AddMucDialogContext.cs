@@ -75,6 +75,7 @@ namespace UWPX_UI_Context.Classes.DataContext.Dialogs
             };
             chat.muc = muc;
             SemaLock semaLock = DataCache.INSTANCE.NewChatSemaLock();
+            semaLock.Wait();
             DataCache.INSTANCE.AddChatUnsafe(chat, client);
             semaLock.Dispose();
 
