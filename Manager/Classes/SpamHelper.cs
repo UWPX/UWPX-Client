@@ -40,7 +40,7 @@ namespace Manager.Classes
                 if (spamMsg is null)
                 {
                     SPAM_SEMA.Wait();
-                    if (spamRegex is null || !spamRegex.IsMatch(msg))
+                    if (spamRegex is null || msg is null || !spamRegex.IsMatch(msg))
                     {
                         SPAM_SEMA.Release();
                         return false;
