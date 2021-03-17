@@ -1,27 +1,26 @@
-﻿using UWPX_UI_Context.Classes.DataContext.Controls;
-using UWPX_UI_Context.Classes.DataTemplates;
+﻿using Storage.Classes.Models.Omemo;
+using UWPX_UI_Context.Classes.DataContext.Controls.OMEMO;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 
 namespace UWPX_UI.Controls.OMEMO
 {
-    public sealed partial class OmemoDeviceListControl: UserControl
+    public sealed partial class OmemoDeviceControl: UserControl
     {
         //--------------------------------------------------------Attributes:-----------------------------------------------------------------\\
         #region --Attributes--
-        public AccountDataTemplate Account
+        public OmemoDeviceModel Device
         {
-            get => (AccountDataTemplate)GetValue(AccountProperty);
-            set => SetValue(AccountProperty, value);
+            get => (OmemoDeviceModel)GetValue(DeviceProperty);
+            set => SetValue(DeviceProperty, value);
         }
-        public static readonly DependencyProperty AccountProperty = DependencyProperty.Register(nameof(Account), typeof(AccountDataTemplate), typeof(OmemoDeviceListControl), new PropertyMetadata(null));
+        public static readonly DependencyProperty DeviceProperty = DependencyProperty.Register(nameof(Device), typeof(OmemoDeviceModel), typeof(OmemoDeviceControl), new PropertyMetadata(null, OnDeviceChanged));
 
-        public readonly OmemoDeviceListControlContext VIEW_MODEL = new OmemoDeviceListControlContext();
-
+        public readonly OmemoDeviceControlContext VIEW_MODEL = new OmemoDeviceControlContext();
         #endregion
         //--------------------------------------------------------Constructor:----------------------------------------------------------------\\
         #region --Constructors--
-        public OmemoDeviceListControl()
+        public OmemoDeviceControl()
         {
             InitializeComponent();
         }
@@ -34,11 +33,15 @@ namespace UWPX_UI.Controls.OMEMO
         #endregion
         //--------------------------------------------------------Misc Methods:---------------------------------------------------------------\\
         #region --Misc Methods (Public)--
-
+        private void UpdateView(DependencyPropertyChangedEventArgs e)
+        {
+            VIEW_MODEL.UpdateView(e);
+        }
 
         #endregion
 
         #region --Misc Methods (Private)--
+
 
         #endregion
 
@@ -48,14 +51,12 @@ namespace UWPX_UI.Controls.OMEMO
         #endregion
         //--------------------------------------------------------Events:---------------------------------------------------------------------\\
         #region --Events--
-        private async void Reset_ibtn_Click(IconProgressButtonControl sender, RoutedEventArgs args)
+        private static void OnDeviceChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
-            await VIEW_MODEL.ResetOmemoDevicesAsync(Account.Client);
-        }
-
-        private async void Refresh_ibtn_Click(IconProgressButtonControl sender, RoutedEventArgs args)
-        {
-            await VIEW_MODEL.RefreshOmemoDevicesAsync(Account.Client);
+            if (d is OmemoDeviceControl control)
+            {
+                control.UpdateView(e);
+            }
         }
 
         #endregion

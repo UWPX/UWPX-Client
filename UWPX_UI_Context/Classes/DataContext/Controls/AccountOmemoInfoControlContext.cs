@@ -1,6 +1,9 @@
-﻿using UWPX_UI_Context.Classes.DataTemplates;
+﻿using System.ComponentModel;
+using Storage.Classes.Models.Omemo;
+using UWPX_UI_Context.Classes.DataTemplates;
 using UWPX_UI_Context.Classes.DataTemplates.Controls;
 using Windows.UI.Xaml;
+using XMPP_API.Classes.Network;
 
 namespace UWPX_UI_Context.Classes.DataContext.Controls
 {
@@ -25,20 +28,45 @@ namespace UWPX_UI_Context.Classes.DataContext.Controls
         #region --Misc Methods (Public)--
         public void UpdateView(DependencyPropertyChangedEventArgs e)
         {
-            if (e.NewValue is AccountDataTemplate account)
+            if (e.NewValue is AccountDataTemplate newAccount)
             {
-                MODEL.UpdateView(account);
+                newAccount.Client.dbAccount.omemoInfo.PropertyChanged += OnOmemoInfoPropertyChanged;
+                UpdateView(newAccount);
+                UpdateView(newAccount.Client.dbAccount.omemoInfo);
+            }
+        }
+
+        public void SaveDeviceLabel(string deviceLabel, OmemoAccountInformationModel omemoInfo)
+        {
+            if (string.IsNullOrEmpty(deviceLabel) || string.Equals(deviceLabel, omemoInfo.deviceLabel))
+            {
+                omemoInfo.deviceLabel = null;
             }
             else
             {
-                MODEL.UpdateView(null);
+                omemoInfo.deviceLabel = deviceLabel;
             }
+            omemoInfo.Update();
         }
 
         #endregion
 
         #region --Misc Methods (Private)--
+        private void UpdateView(OmemoAccountInformationModel omemoInfo)
+        {
+            if (!(omemoInfo is null))
+            {
+                MODEL.DeviceLabel = string.IsNullOrEmpty(omemoInfo.deviceLabel) ? (omemoInfo.deviceId == 0 ? "-" : omemoInfo.deviceId.ToString()) : omemoInfo.deviceLabel;
+            }
+        }
 
+        public void UpdateView(AccountDataTemplate account)
+        {
+            if (!(account is null))
+            {
+                MODEL.OmemoState = account.Client.xmppClient.getOmemoHelper()?.STATE ?? OmemoHelperState.DISABLED;
+            }
+        }
 
         #endregion
 
@@ -48,7 +76,13 @@ namespace UWPX_UI_Context.Classes.DataContext.Controls
         #endregion
         //--------------------------------------------------------Events:---------------------------------------------------------------------\\
         #region --Events--
-
+        private void OnOmemoInfoPropertyChanged(object sender, PropertyChangedEventArgs e)
+        {
+            if (sender is OmemoAccountInformationModel omemoInfo)
+            {
+                UpdateView(omemoInfo);
+            }
+        }
 
         #endregion
     }

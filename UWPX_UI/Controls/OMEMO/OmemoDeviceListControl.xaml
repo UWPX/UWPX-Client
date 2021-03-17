@@ -2,30 +2,17 @@
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-             xmlns:datatemplates="using:UWPX_UI_Context.Classes.DataTemplates"
              xmlns:extensions="using:Microsoft.Toolkit.Uwp.UI.Extensions"
              xmlns:local="using:UWPX_UI.Controls"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:omemo="using:Storage.Classes.Models.Omemo"
+             xmlns:omemoControls="using:UWPX_UI.Controls.OMEMO"
              mc:Ignorable="d">
 
     <UserControl.Resources>
         <DataTemplate x:Key="DeviceTemplate"
-                      x:DataType="datatemplates:UintDataTemplate">
-            <Grid>
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="Auto"/>
-                    <ColumnDefinition Width="*"/>
-                </Grid.ColumnDefinitions>
-                <TextBlock Grid.Row="0"
-                           VerticalAlignment="Center"
-                           FontFamily="{ThemeResource SymbolThemeFontFamily}"
-                           FontSize="40"
-                           Text="&#xE975;"/>
-                <TextBlock Grid.Column="1"
-                           Margin="10,0,10,0"
-                           VerticalAlignment="Center"
-                           Text="{x:Bind Value}"/>
-            </Grid>
+                      x:DataType="omemo:OmemoDeviceModel">
+            <omemoControls:OmemoDeviceControl Device="{x:Bind}"/>
         </DataTemplate>
     </UserControl.Resources>
 
@@ -52,12 +39,12 @@
                   extensions:ListViewExtensions.StretchItemContainerDirection="Both"
                   Background="{ThemeResource SystemControlBackgroundAltMediumBrush}"
                   ItemTemplate="{StaticResource DeviceTemplate}"
-                  ItemsSource="{x:Bind VIEW_MODEL.MODEL.DEVICES}"
+                  ItemsSource="{x:Bind Account.Client.dbAccount.omemoInfo.devices}"
                   SelectionMode="None"/>
 
         <TextBlock Grid.Row="2"
                    Margin="0,10,0,0">
-            <Run Text="{x:Bind VIEW_MODEL.MODEL.DEVICES.Count.ToString(), Mode=OneWay, FallbackValue='0'}"/>
+            <Run Text="{x:Bind Account.Client.dbAccount.omemoInfo.devices.Count.ToString(), Mode=OneWay, FallbackValue='0'}"/>
             <Run Text="device(s) found."/>
         </TextBlock>
 

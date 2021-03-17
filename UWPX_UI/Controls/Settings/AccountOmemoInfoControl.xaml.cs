@@ -2,6 +2,7 @@
 using UWPX_UI_Context.Classes.DataTemplates;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
+using Windows.UI.Xaml.Input;
 
 namespace UWPX_UI.Controls.Settings
 {
@@ -17,6 +18,7 @@ namespace UWPX_UI.Controls.Settings
         public static readonly DependencyProperty AccountProperty = DependencyProperty.Register(nameof(Account), typeof(AccountDataTemplate), typeof(AccountOmemoInfoControl), new PropertyMetadata(null, OnAccountChanged));
 
         public readonly AccountOmemoInfoControlContext VIEW_MODEL = new AccountOmemoInfoControlContext();
+        private bool editingLabel = false;
 
         #endregion
         //--------------------------------------------------------Constructor:----------------------------------------------------------------\\
@@ -44,6 +46,27 @@ namespace UWPX_UI.Controls.Settings
             VIEW_MODEL.UpdateView(e);
         }
 
+        private void UpdateViewState(string state)
+        {
+            VisualStateManager.GoToState(this, state, true);
+        }
+
+        private void UpdateEditLabelViewState()
+        {
+            if (editingLabel)
+            {
+                editLabel_tbx.Text = VIEW_MODEL.MODEL.DeviceLabel;
+                UpdateViewState(EditLabelState.Name);
+                ToolTipService.SetToolTip(editLabel_btn, new ToolTip { Content = "Save" });
+            }
+            else
+            {
+                UpdateViewState(DisplayLabelState.Name);
+                VIEW_MODEL.SaveDeviceLabel(editLabel_tbx.Text, Account.Client.dbAccount.omemoInfo);
+                ToolTipService.SetToolTip(editLabel_btn, new ToolTip { Content = "Change device label" });
+            }
+        }
+
         #endregion
 
         #region --Misc Methods (Protected)--
@@ -58,6 +81,31 @@ namespace UWPX_UI.Controls.Settings
             {
                 omemoInfoControl.UpdateView(e);
             }
+        }
+
+        private void EditLabel_tbx_BeforeTextChanging(TextBox sender, TextBoxBeforeTextChangingEventArgs args)
+        {
+            if (!string.Equals(args.NewText, args.NewText.TrimStart()))
+            {
+                args.Cancel = true;
+            }
+        }
+
+        private void EditLabel_tbx_EnterKeyDown(object sender, KeyRoutedEventArgs e)
+        {
+            editingLabel = false;
+            UpdateEditLabelViewState();
+        }
+
+        private void UserControl_Loaded(object sender, RoutedEventArgs e)
+        {
+            UpdateEditLabelViewState();
+        }
+
+        private void EditLabel_btn_Click(object sender, RoutedEventArgs e)
+        {
+            editingLabel = !editingLabel;
+            UpdateEditLabelViewState();
         }
 
         #endregion
