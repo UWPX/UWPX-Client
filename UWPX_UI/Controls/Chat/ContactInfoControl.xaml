@@ -1,18 +1,21 @@
 ﻿<UserControl x:Class="UWPX_UI.Controls.Chat.ContactInfoControl"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:chat="using:UWPX_UI.Controls.Chat"
              xmlns:controls="using:Microsoft.Toolkit.Uwp.UI.Controls"
              xmlns:controls1="using:UWPX_UI.Controls"
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              xmlns:omemoControls="using:UWPX_UI.Controls.OMEMO"
              xmlns:valueConverter="using:UWPX_UI_Context.Classes.ValueConverter"
+             Loaded="UserControl_Loaded"
              mc:Ignorable="d">
 
     <UserControl.Resources>
         <ResourceDictionary>
             <ResourceDictionary.MergedDictionaries>
                 <ResourceDictionary Source="ms-appx:///Resources/Styles/Button/TransparentIconButtonStyle.xaml"/>
+                <ResourceDictionary Source="ms-appx:///Resources/Styles/Button/TransparentThemeButtonStyle.xaml"/>
             </ResourceDictionary.MergedDictionaries>
             <Style TargetType="TextBlock">
                 <Setter Property="IsTextSelectionEnabled" Value="True"/>
@@ -42,17 +45,17 @@
                                                            Grid.Row="0"
                                                            Width="150"
                                                            Height="150"
-                                                           BareJid="{x:Bind VIEW_MODEL.MODEL.ChatBareJid, Mode=OneWay}"
+                                                           BareJid="{x:Bind Chat.Chat.bareJid, Mode=OneWay}"
                                                            PresenceVisibility="Collapsed"/>
                     <controls:DropShadowPanel Grid.Row="1"
                                               Margin="0,10,0,0"
                                               HorizontalAlignment="Center">
-                        <Border Background="{x:Bind VIEW_MODEL.MODEL.Presence, Mode=OneWay, Converter={StaticResource PresenceBrushValueConverter}}"
+                        <Border Background="{x:Bind Chat.Chat.presence, Mode=OneWay, Converter={StaticResource PresenceBrushValueConverter}}"
                                 CornerRadius="2">
                             <TextBlock Margin="5,0,5,0"
                                        Foreground="White"
                                        IsTextSelectionEnabled="True"
-                                       Text="{x:Bind VIEW_MODEL.MODEL.Presence, Mode=OneWay, Converter={StaticResource PresenceStringValueConverter}}"/>
+                                       Text="{x:Bind Chat.Chat.presence, Mode=OneWay, Converter={StaticResource PresenceStringValueConverter}}"/>
                         </Border>
                     </controls:DropShadowPanel>
 
@@ -60,9 +63,9 @@
                                Margin="0,10,0,0"
                                IsTextSelectionEnabled="True"
                                MaxLines="1"
-                               Text="{x:Bind VIEW_MODEL.MODEL.ChatState, Mode=OneWay}"
+                               Text="{x:Bind Chat.Chat.chatState, Mode=OneWay}"
                                TextTrimming="CharacterEllipsis"
-                               Visibility="{x:Bind VIEW_MODEL.MODEL.ChatState, Mode=OneWay, Converter={StaticResource StringEmptyVisibilityValueConverter}}"/>
+                               Visibility="{x:Bind Chat.Chat.chatState, Mode=OneWay, Converter={StaticResource StringEmptyVisibilityValueConverter}}"/>
                 </Grid>
                 <Grid x:Name="details_grid"
                       Grid.Column="1"
@@ -79,31 +82,42 @@
                             <ColumnDefinition Width="*"/>
                             <ColumnDefinition Width="Auto"/>
                         </Grid.ColumnDefinitions>
-                        <TextBlock Grid.Column="0"
+                        <TextBlock x:Name="name_tbx"
+                                   Grid.Column="0"
+                                   VerticalAlignment="Center"
                                    IsTextSelectionEnabled="True"
                                    MaxLines="1"
                                    Style="{StaticResource SubtitleTextBlockStyle}"
-                                   Text="{x:Bind VIEW_MODEL.MODEL.Nickname, Mode=OneWay}"
+                                   Text="{x:Bind VIEW_MODEL.MODEL.ChatName, Mode=OneWay}"
                                    TextTrimming="CharacterEllipsis"/>
-                        <Button Grid.Column="1"
+                        <chat:EnterTextBox x:Name="editName_tbx"
+                                           Grid.Column="0"
+                                           BeforeTextChanging="EditName_tbx_BeforeTextChanging"
+                                           EnterKeyDown="EditName_tbx_EnterKeyDown"
+                                           PlaceholderText="{x:Bind Chat.Chat.bareJid, Mode=OneWay}"
+                                           Text="{x:Bind VIEW_MODEL.MODEL.ChatName, Mode=TwoWay}"
+                                           Visibility="Collapsed"/>
+                        <Button x:Name="editName_btn"
+                                Grid.Column="1"
                                 Margin="5,0,0,0"
+                                Padding="0"
                                 VerticalAlignment="Center"
+                                Click="EditName_btn_Click"
                                 Content="&#xE70F;"
                                 FontWeight="Normal"
-                                IsEnabled="False"
-                                Style="{ThemeResource TransparentIconButtonStyle}"
-                                ToolTipService.ToolTip="Change Nickname"/>
+                                Style="{ThemeResource TransparentThemeButtonStyle}"
+                                ToolTipService.ToolTip="Change chat name"/>
                     </Grid>
                     <TextBlock Grid.Row="1"
-                               Margin="0,10,0,0"
+                               Margin="0,0,0,0"
                                Foreground="{ThemeResource CaptionTextBrush}"
-                               Text="{x:Bind VIEW_MODEL.MODEL.ChatBareJid, Mode=OneWay}"
-                               Visibility="{x:Bind VIEW_MODEL.MODEL.DifferentNickname, Mode=OneWay, Converter={StaticResource BoolVisibilityValueConverter}}"/>
+                               Text="{x:Bind Chat.Chat.bareJid, Mode=OneWay}"
+                               Visibility="{x:Bind Chat.Chat.customName, Mode=OneWay, Converter={StaticResource StringEmptyVisibilityValueConverter}}"/>
                     <controls1:SeperatorControl Grid.Row="2"
                                                 Margin="0,10,0,0"/>
                     <TextBlock Grid.Row="3"
                                Margin="0,10,0,0"
-                               Text="{x:Bind VIEW_MODEL.MODEL.ChatStatus, Mode=OneWay}"/>
+                               Text="{x:Bind Chat.Chat.status, Mode=OneWay}"/>
                     <StackPanel Grid.Row="4"
                                 HorizontalAlignment="Right"
                                 VerticalAlignment="Bottom"
@@ -179,8 +193,8 @@
         </Border>
 
         <VisualStateManager.VisualStateGroups>
-            <VisualStateGroup>
-                <VisualState x:Uid="Large">
+            <VisualStateGroup x:Name="SizeGroup">
+                <VisualState x:Name="Large">
                     <VisualState.StateTriggers>
                         <AdaptiveTrigger MinWindowWidth="500"/>
                     </VisualState.StateTriggers>
@@ -191,7 +205,7 @@
                         <Setter Target="details_grid.Margin" Value="30,0,0,0"/>
                     </VisualState.Setters>
                 </VisualState>
-                <VisualState x:Uid="Small">
+                <VisualState x:Name="Small">
                     <VisualState.StateTriggers>
                         <AdaptiveTrigger MinWindowWidth="0"/>
                     </VisualState.StateTriggers>
@@ -200,6 +214,26 @@
                         <Setter Target="accountImage_aipc.Width" Value="70"/>
                         <Setter Target="main_grid.Padding" Value="10"/>
                         <Setter Target="details_grid.Margin" Value="10,0,0,0"/>
+                    </VisualState.Setters>
+                </VisualState>
+            </VisualStateGroup>
+
+            <VisualStateGroup x:Name="EditNameGroup">
+                <VisualState x:Name="DisplayNameState">
+                    <VisualState.Setters>
+                        <Setter Target="editName_btn.Content" Value="&#xE70F;"/>
+                        <Setter Target="name_tbx.Visibility" Value="Visible"/>
+                        <Setter Target="editName_tbx.Visibility" Value="Collapsed"/>
+                    </VisualState.Setters>
+                </VisualState>
+                <VisualState x:Name="EditNameState">
+                    <VisualState.StateTriggers>
+                        <AdaptiveTrigger MinWindowWidth="0"/>
+                    </VisualState.StateTriggers>
+                    <VisualState.Setters>
+                        <Setter Target="editName_btn.Content" Value="&#xE74E;"/>
+                        <Setter Target="name_tbx.Visibility" Value="Collapsed"/>
+                        <Setter Target="editName_tbx.Visibility" Value="Visible"/>
                     </VisualState.Setters>
                 </VisualState>
             </VisualStateGroup>

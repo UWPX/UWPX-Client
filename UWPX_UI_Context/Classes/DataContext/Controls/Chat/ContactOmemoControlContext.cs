@@ -51,10 +51,7 @@ namespace UWPX_UI_Context.Classes.DataContext.Controls.Chat
             {
                 MODEL.TrustedOnly = true;
             }
-            using (MainDbContext ctx = new MainDbContext())
-            {
-                ctx.Update(fingerprint);
-            }
+            fingerprint.Update();
         }
 
         public void OnQrCodeScannerShown(QrCodeScannerDialogDataTemplate model)

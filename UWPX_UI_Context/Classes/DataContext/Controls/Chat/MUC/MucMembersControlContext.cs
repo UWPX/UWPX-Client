@@ -1,9 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Linq;
 using System.Threading.Tasks;
 using Manager.Classes.Chat;
 using Shared.Classes;
+using Storage.Classes.Models.Chat;
 using UWPX_UI_Context.Classes.DataTemplates.Controls.Chat.MUC;
 using Windows.UI.Xaml;
 using XMPP_API.Classes.XmppUri;
@@ -29,12 +31,27 @@ namespace UWPX_UI_Context.Classes.DataContext.Controls.Chat.MUC
         #endregion
         //--------------------------------------------------------Misc Methods:---------------------------------------------------------------\\
         #region --Misc Methods (Public)--
-        public void UpdateView(DependencyPropertyChangedEventArgs e)
+        public void UpdateView(DependencyPropertyChangedEventArgs args)
         {
-            if (e.NewValue is ChatDataTemplate chat)
+            if (args.OldValue is ChatDataTemplate oldChat)
             {
-                LoadMembers(chat);
+                if (!(oldChat.Chat.muc is null))
+                {
+                    oldChat.Chat.muc.PropertyChanged -= OnMucPropertyChanged;
+                }
             }
+
+            ChatDataTemplate newChat = null;
+            if (args.NewValue is ChatDataTemplate tmp)
+            {
+                newChat = tmp;
+                if (!(newChat.Chat.muc is null))
+                {
+                    newChat.Chat.muc.PropertyChanged += OnMucPropertyChanged;
+                }
+                LoadMembers(newChat);
+            }
+            MODEL.chat = newChat;
         }
 
         public void CopyLink(ChatDataTemplate chat)
@@ -68,7 +85,13 @@ namespace UWPX_UI_Context.Classes.DataContext.Controls.Chat.MUC
         #endregion
         //--------------------------------------------------------Events:---------------------------------------------------------------------\\
         #region --Events--
-
+        private void OnMucPropertyChanged(object sender, PropertyChangedEventArgs e)
+        {
+            if (sender is MucInfoModel && !(MODEL.chat is null) && (string.Equals(e.PropertyName, nameof(MucInfoModel.occupants)) || string.Equals(e.PropertyName, nameof(MucInfoModel.state))))
+            {
+                LoadMembers(MODEL.chat);
+            }
+        }
 
         #endregion
     }

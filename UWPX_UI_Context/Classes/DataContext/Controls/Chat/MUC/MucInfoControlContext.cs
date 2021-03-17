@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.ComponentModel;
 using System.Threading.Tasks;
 using Manager.Classes;
 using Manager.Classes.Chat;
@@ -31,19 +32,36 @@ namespace UWPX_UI_Context.Classes.DataContext.Controls.Chat.MUC
         #endregion
         //--------------------------------------------------------Misc Methods:---------------------------------------------------------------\\
         #region --Misc Methods (Public)--
-        public void UpdateView(DependencyPropertyChangedEventArgs e)
+        public void UpdateView(DependencyPropertyChangedEventArgs args)
         {
-            if (e.OldValue is ChatDataTemplate oldChat)
+            if (args.OldValue is ChatDataTemplate oldChat)
             {
-                oldChat.PropertyChanged -= Chat_PropertyChanged;
+                if (!(oldChat.Chat is null))
+                {
+                    oldChat.Chat.PropertyChanged -= OnChatPropertyChanged;
+                }
+                if (!(oldChat.Chat.muc is null))
+                {
+                    oldChat.Chat.muc.PropertyChanged -= OnMucPropertyChanged;
+                }
             }
 
-            if (e.NewValue is ChatDataTemplate newChat)
+            ChatDataTemplate newChat = null;
+            if (args.NewValue is ChatDataTemplate)
             {
-                UpdateView(newChat.Chat);
-                UpdateView(newChat.Chat.muc);
-                newChat.PropertyChanged += Chat_PropertyChanged;
+                newChat = args.NewValue as ChatDataTemplate;
+                if (!(newChat.Chat is null))
+                {
+                    newChat.Chat.PropertyChanged += OnChatPropertyChanged;
+                }
+                if (!(newChat.Chat.muc is null))
+                {
+                    newChat.Chat.muc.PropertyChanged += OnMucPropertyChanged;
+                }
             }
+
+            UpdateView(newChat?.Chat);
+            UpdateView(newChat?.Chat?.muc);
         }
 
         public void ToggleChatMuted(ChatDataTemplate chat)
@@ -90,27 +108,22 @@ namespace UWPX_UI_Context.Classes.DataContext.Controls.Chat.MUC
         private void UpdateView(ChatModel chat)
         {
             MODEL.BookmarkText = chat.inRoster ? "Remove bookmark" : "Bookmark";
-            MODEL.ChatBareJid = chat.bareJid;
             MODEL.MuteGlyph = chat.muted ? "\uE74F" : "\uE767";
             MODEL.MuteTooltip = chat.muted ? "Unmute" : "Mute";
             if (string.IsNullOrEmpty(MODEL.MucName))
             {
                 MODEL.MucName = chat.bareJid;
-                MODEL.DifferentMucName = !string.Equals(MODEL.ChatBareJid, MODEL.MucName);
+                MODEL.DifferentMucName = !string.Equals(chat.bareJid, MODEL.MucName);
             }
         }
 
         private void UpdateView(MucInfoModel mucInfo)
         {
-            MODEL.MucSubject = mucInfo.subject;
-            MODEL.MucState = mucInfo.state;
             MODEL.EnterMucAvailable = mucInfo.state != MucState.ENTERD && mucInfo.state != MucState.ENTERING;
-            MODEL.AutoJoin = mucInfo.autoEnterRoom;
-            MODEL.Nickname = mucInfo.nickname;
             if (!string.IsNullOrEmpty(mucInfo.name))
             {
                 MODEL.MucName = mucInfo.name;
-                MODEL.DifferentMucName = !string.Equals(MODEL.ChatBareJid, MODEL.MucName);
+                MODEL.DifferentMucName = !string.Equals(mucInfo.chat.bareJid, MODEL.MucName);
             }
         }
 
@@ -148,20 +161,19 @@ namespace UWPX_UI_Context.Classes.DataContext.Controls.Chat.MUC
         #endregion
         //--------------------------------------------------------Events:---------------------------------------------------------------------\\
         #region --Events--
-        private void Chat_PropertyChanged(object sender, System.ComponentModel.PropertyChangedEventArgs e)
+        private void OnChatPropertyChanged(object sender, PropertyChangedEventArgs e)
         {
-            if (sender is ChatDataTemplate chat)
+            if (sender is ChatModel chat)
             {
-                switch (e.PropertyName)
-                {
-                    case nameof(ChatDataTemplate.Chat):
-                        UpdateView(chat.Chat);
-                        UpdateView(chat.Chat.muc);
-                        break;
+                UpdateView(chat);
+            }
+        }
 
-                    default:
-                        break;
-                }
+        private void OnMucPropertyChanged(object sender, PropertyChangedEventArgs e)
+        {
+            if (sender is MucInfoModel muc)
+            {
+                UpdateView(muc);
             }
         }
 

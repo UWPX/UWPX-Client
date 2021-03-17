@@ -63,22 +63,6 @@ namespace UWPX_UI.Controls.Chat.MUC
             }
         }
 
-        private static void OnClientChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
-        {
-            if (d is MucInfoControl mucInfoControl)
-            {
-                mucInfoControl.UpdateView(e);
-            }
-        }
-
-        private static void OnMucInfoChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
-        {
-            if (d is MucInfoControl mucInfoControl)
-            {
-                mucInfoControl.UpdateView(e);
-            }
-        }
-
         private void Mute_btn_Click(object sender, RoutedEventArgs e)
         {
             VIEW_MODEL.ToggleChatMuted(Chat);

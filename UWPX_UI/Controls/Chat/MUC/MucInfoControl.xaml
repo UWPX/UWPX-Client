@@ -44,25 +44,25 @@
                                                            Grid.Row="0"
                                                            Width="100"
                                                            Height="100"
-                                                           BareJid="{x:Bind VIEW_MODEL.MODEL.ChatBareJid, Mode=OneWay}"
+                                                           BareJid="{x:Bind Chat.Chat.bareJid, Mode=OneWay}"
                                                            ChatType="MUC"
                                                            PresenceVisibility="Collapsed"/>
                     <controls:DropShadowPanel Grid.Row="1"
                                               Margin="0,10,0,0"
                                               HorizontalAlignment="Center">
-                        <Border Background="{x:Bind VIEW_MODEL.MODEL.MucState, Mode=OneWay, Converter={StaticResource MucStateBrushValueConverter}}"
+                        <Border Background="{x:Bind Chat.Chat.muc.state, Mode=OneWay, Converter={StaticResource MucStateBrushValueConverter}}"
                                 CornerRadius="2">
                             <TextBlock Margin="5,0,5,0"
-                                       Foreground="{x:Bind VIEW_MODEL.MODEL.MucState, Mode=OneWay, Converter={StaticResource MucStateForegroundBrushValueConverter}}"
+                                       Foreground="{x:Bind Chat.Chat.muc.state, Mode=OneWay, Converter={StaticResource MucStateForegroundBrushValueConverter}}"
                                        IsTextSelectionEnabled="True"
-                                       Text="{x:Bind VIEW_MODEL.MODEL.MucState, Mode=OneWay, Converter={StaticResource MucStateStringValueConverter}}"/>
+                                       Text="{x:Bind Chat.Chat.muc.state, Mode=OneWay, Converter={StaticResource MucStateStringValueConverter}}"/>
                         </Border>
                     </controls:DropShadowPanel>
                     <TextBlock Grid.Row="2"
                                Margin="0,10,0,0"
                                HorizontalAlignment="Center"
                                Foreground="{ThemeResource CaptionTextBrush}"
-                               Text="{x:Bind VIEW_MODEL.MODEL.Nickname, Mode=OneWay}"
+                               Text="{x:Bind Chat.Chat.muc.nickname, Mode=OneWay}"
                                TextTrimming="CharacterEllipsis"/>
                 </Grid>
                 <Grid x:Name="details_grid"
@@ -100,13 +100,13 @@
                     <TextBlock Grid.Row="1"
                                Margin="0,10,0,0"
                                Foreground="{ThemeResource CaptionTextBrush}"
-                               Text="{x:Bind VIEW_MODEL.MODEL.ChatBareJid, Mode=OneWay}"
+                               Text="{x:Bind Chat.Chat.bareJid, Mode=OneWay}"
                                Visibility="{x:Bind VIEW_MODEL.MODEL.DifferentMucName, Mode=OneWay, Converter={StaticResource BoolVisibilityValueConverter}}"/>
                     <controls1:SeperatorControl Grid.Row="2"
                                                 Margin="0,10,0,0"/>
                     <TextBlock Grid.Row="3"
                                Margin="0,10,0,0"
-                               Text="{x:Bind VIEW_MODEL.MODEL.MucSubject, Mode=OneWay}"
+                               Text="{x:Bind Chat.Chat.muc.subject, Mode=OneWay}"
                                TextWrapping="Wrap"/>
                     <StackPanel Grid.Row="4"
                                 HorizontalAlignment="Right"
@@ -162,7 +162,7 @@
                                     </MenuFlyoutItem>
                                     <ToggleMenuFlyoutItem x:Name="autoJoin_tmfo"
                                                           Click="AutoJoin_tmfo_Click"
-                                                          IsChecked="{x:Bind VIEW_MODEL.MODEL.AutoJoin, Mode=OneWay}"
+                                                          IsChecked="{x:Bind Chat.Chat.muc.autoEnterRoom, Mode=OneWay}"
                                                           Text="Auto join"/>
                                 </MenuFlyout>
                             </Button.Flyout>

@@ -55,6 +55,7 @@ namespace Manager.Classes
                     // Clear MUC members:
                     ctx.RemoveRange(INFO.occupants);
                     INFO.occupants.Clear();
+                    INFO.OnOccupantsChanged();
                     ctx.Update(INFO);
                 }
             }
