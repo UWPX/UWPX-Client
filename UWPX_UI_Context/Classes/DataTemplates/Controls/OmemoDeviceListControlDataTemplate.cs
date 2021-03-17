@@ -1,6 +1,4 @@
-﻿using System.Linq;
-using Shared.Classes;
-using Shared.Classes.Collections;
+﻿using Shared.Classes;
 
 namespace UWPX_UI_Context.Classes.DataTemplates.Controls
 {
@@ -8,8 +6,6 @@ namespace UWPX_UI_Context.Classes.DataTemplates.Controls
     {
         //--------------------------------------------------------Attributes:-----------------------------------------------------------------\\
         #region --Attributes--
-        public readonly CustomObservableCollection<UintDataTemplate> DEVICES = new CustomObservableCollection<UintDataTemplate>(true);
-
         private bool _RefreshingDevices;
         public bool RefreshingDevices
         {
@@ -36,16 +32,7 @@ namespace UWPX_UI_Context.Classes.DataTemplates.Controls
         #endregion
         //--------------------------------------------------------Misc Methods:---------------------------------------------------------------\\
         #region --Misc Methods (Public)--
-        public void UpdateView(AccountDataTemplate account)
-        {
-            DEVICES.Clear();
-            if (account is null)
-            {
-                return;
-            }
 
-            DEVICES.AddRange(account.Client.xmppClient.getOmemoHelper().DEVICES.DEVICES.Select(d => new UintDataTemplate { Value = d.ID }));
-        }
 
         #endregion
 

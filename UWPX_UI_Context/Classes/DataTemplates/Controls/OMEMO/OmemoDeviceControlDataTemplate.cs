@@ -1,16 +1,16 @@
 ﻿using Shared.Classes;
 
-namespace UWPX_UI_Context.Classes.DataTemplates
+namespace UWPX_UI_Context.Classes.DataTemplates.Controls.OMEMO
 {
-    public sealed class UintDataTemplate: AbstractDataTemplate
+    public class OmemoDeviceControlDataTemplate: AbstractDataTemplate
     {
         //--------------------------------------------------------Attributes:-----------------------------------------------------------------\\
         #region --Attributes--
-        private uint _Value;
-        public uint Value
+        private string _Label;
+        public string Label
         {
-            get => _Value;
-            set => SetProperty(ref _Value, value);
+            get => _Label;
+            set => SetProperty(ref _Label, value);
         }
 
         #endregion

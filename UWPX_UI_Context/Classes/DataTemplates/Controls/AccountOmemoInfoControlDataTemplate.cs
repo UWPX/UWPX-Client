@@ -13,17 +13,11 @@ namespace UWPX_UI_Context.Classes.DataTemplates.Controls
             get => _OmemoState;
             set => SetProperty(ref _OmemoState, value);
         }
-        private uint _DeviceId;
-        public uint DeviceId
+        private string _DeviceLabel;
+        public string DeviceLabel
         {
-            get => _DeviceId;
-            set => SetProperty(ref _DeviceId, value);
-        }
-        private string _ErrorText;
-        public string ErrorText
-        {
-            get => _ErrorText;
-            set => SetProperty(ref _ErrorText, value);
+            get => _DeviceLabel;
+            set => SetProperty(ref _DeviceLabel, value);
         }
 
         #endregion
@@ -39,20 +33,7 @@ namespace UWPX_UI_Context.Classes.DataTemplates.Controls
         #endregion
         //--------------------------------------------------------Misc Methods:---------------------------------------------------------------\\
         #region --Misc Methods (Public)--
-        public void UpdateView(AccountDataTemplate account)
-        {
-            if (account is null)
-            {
-                OmemoState = OmemoHelperState.DISABLED;
-                DeviceId = 0;
-                ErrorText = "";
-            }
-            else
-            {
-                OmemoState = account.Client.xmppClient.getOmemoHelper()?.STATE ?? OmemoHelperState.DISABLED;
-                DeviceId = account.Client.dbAccount.omemoInfo.deviceId;
-            }
-        }
+
 
         #endregion
 

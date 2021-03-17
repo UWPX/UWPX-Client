@@ -171,6 +171,7 @@
     <Compile Include="Classes\DataContext\Controls\LogLevelControlContext.cs" />
     <Compile Include="Classes\DataContext\Controls\OmemoButtonControlContext.cs" />
     <Compile Include="Classes\DataContext\Controls\OmemoDeviceListControlContext.cs" />
+    <Compile Include="Classes\DataContext\Controls\OMEMO\OmemoDeviceControlContext.cs" />
     <Compile Include="Classes\DataContext\Controls\OMEMO\OmemoFingerprintControlContext.cs" />
     <Compile Include="Classes\DataContext\Controls\OMEMO\OmemoOwnFingerprintControlContext.cs" />
     <Compile Include="Classes\DataContext\Controls\OMEMO\OmemoTrustFingerprintControlContext.cs" />
@@ -249,6 +250,7 @@
     <Compile Include="Classes\DataTemplates\Controls\LogLevelControlDataTemplate.cs" />
     <Compile Include="Classes\DataTemplates\Controls\OmemoButtonControlDataTemplate.cs" />
     <Compile Include="Classes\DataTemplates\Controls\OmemoDeviceListControlDataTemplate.cs" />
+    <Compile Include="Classes\DataTemplates\Controls\OMEMO\OmemoDeviceControlDataTemplate.cs" />
     <Compile Include="Classes\DataTemplates\Controls\OMEMO\OmemoFingerprintControlDataTemplate.cs" />
     <Compile Include="Classes\DataTemplates\Controls\OMEMO\OmemoOwnFingerprintControlDataTemplate.cs" />
     <Compile Include="Classes\DataTemplates\Controls\OMEMO\OmemoTrustFingerprintControlDataTemplate.cs" />
@@ -297,7 +299,6 @@
     <Compile Include="Classes\DataTemplates\Selectors\SpeechBubbleConentDataTemplateSelector.cs" />
     <Compile Include="Classes\DataTemplates\Selectors\SpeechBubbleDataTemplateSelector.cs" />
     <Compile Include="Classes\DataTemplates\SettingsPageButtonDataTemplate.cs" />
-    <Compile Include="Classes\DataTemplates\UintDataTemplate.cs" />
     <Compile Include="Classes\DataTemplates\ClientDataTemplate.cs" />
     <Compile Include="Classes\Events\FieldValueChangedByUserEventArgs.cs" />
     <Compile Include="Classes\Events\FrameArrivedEventArgs.cs" />

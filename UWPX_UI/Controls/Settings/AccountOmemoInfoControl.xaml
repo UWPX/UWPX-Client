@@ -1,17 +1,24 @@
 ﻿<UserControl x:Class="UWPX_UI.Controls.Settings.AccountOmemoInfoControl"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:chat="using:UWPX_UI.Controls.Chat"
              xmlns:controls="using:UWPX_UI.Controls"
              xmlns:controlsOmemo="using:UWPX_UI.Controls.OMEMO"
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              xmlns:omemo="using:UWPX_UI_Context.Classes.ValueConverter.OMEMO"
+             Loaded="UserControl_Loaded"
              mc:Ignorable="d">
 
     <UserControl.Resources>
-        <omemo:OmemoHelperStateStringValueConverter x:Key="OmemoHelperStateStringValueConverter"/>
-        <omemo:OmemoHelperStateBrushValueConverter x:Key="OmemoHelperStateBrushValueConverter"/>
-        <omemo:OmemoDeviceIdStringValueConverter x:Key="OmemoDeviceIdStringValueConverter"/>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="ms-appx:///Resources/Styles/Button/TransparentThemeButtonStyle.xaml"/>
+            </ResourceDictionary.MergedDictionaries>
+            <omemo:OmemoHelperStateStringValueConverter x:Key="OmemoHelperStateStringValueConverter"/>
+            <omemo:OmemoHelperStateBrushValueConverter x:Key="OmemoHelperStateBrushValueConverter"/>
+            <omemo:OmemoDeviceIdStringValueConverter x:Key="OmemoDeviceIdStringValueConverter"/>
+        </ResourceDictionary>
     </UserControl.Resources>
 
     <ScrollViewer Margin="0,0,-10,0"
@@ -25,11 +32,6 @@
                      Text="{x:Bind VIEW_MODEL.MODEL.OmemoState, Mode=OneWay, Converter={StaticResource OmemoHelperStateStringValueConverter}}"/>
             </TextBlock>
 
-            <controls:IconTextBlockControl HorizontalAlignment="Left"
-                                           Glyph="&#xE783;"
-                                           GlyphForeground="Red"
-                                           Text="{x:Bind VIEW_MODEL.MODEL.ErrorText, Mode=OneWay}"
-                                           Visibility="{x:Bind VIEW_MODEL.MODEL.ErrorText, Converter={StaticResource StringEmptyVisibilityValueConverter}}"/>
             <controls:SeperatorControl Margin="-10,0,0,0"
                                        Text="Fingerprint:"/>
             <controlsOmemo:OmemoOwnFingerprintControl Margin="0,10,0,0"
@@ -37,14 +39,82 @@
 
             <controls:SeperatorControl Margin="-10,0,0,0"
                                        Text="Devices:"/>
-            <TextBlock Margin="0,10,0,0">
-                <Run FontWeight="Bold"
-                     Text="Your OMEMO device ID:"/>
-                <Run Text="{x:Bind VIEW_MODEL.MODEL.DeviceId, Mode=OneWay, Converter={StaticResource OmemoDeviceIdStringValueConverter}}"/>
-            </TextBlock>
+
+            <TextBlock Margin="0,10,0,0"
+                       FontWeight="Bold"
+                       Text="This device:"/>
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="Auto"/>
+                </Grid.ColumnDefinitions>
+                <TextBlock x:Name="name_tbx"
+                           Grid.Column="0"
+                           VerticalAlignment="Center"
+                           IsTextSelectionEnabled="True"
+                           MaxLines="1"
+                           Style="{StaticResource SubtitleTextBlockStyle}"
+                           Text="{x:Bind VIEW_MODEL.MODEL.DeviceLabel, Mode=OneWay}"
+                           TextTrimming="CharacterEllipsis"/>
+                <chat:EnterTextBox x:Name="editLabel_tbx"
+                                   Grid.Column="0"
+                                   BeforeTextChanging="EditLabel_tbx_BeforeTextChanging"
+                                   EnterKeyDown="EditLabel_tbx_EnterKeyDown"
+                                   PlaceholderText="{x:Bind Account.Client.dbAccount.omemoInfo.deviceId, Mode=OneWay, Converter={StaticResource OmemoDeviceIdStringValueConverter}}"
+                                   Text="{x:Bind VIEW_MODEL.MODEL.DeviceLabel, Mode=TwoWay}"
+                                   Visibility="Collapsed"/>
+                <Button x:Name="editLabel_btn"
+                        Grid.Column="1"
+                        Margin="5,0,0,0"
+                        Padding="0"
+                        VerticalAlignment="Center"
+                        Click="EditLabel_btn_Click"
+                        Content="&#xE70F;"
+                        FontWeight="Normal"
+                        Style="{ThemeResource TransparentThemeButtonStyle}"/>
+            </Grid>
+            <TextBlock Grid.Row="1"
+                       Margin="0,10,0,0"
+                       Foreground="{ThemeResource CaptionTextBrush}"
+                       MaxLines="1"
+                       Style="{ThemeResource CaptionLineTextBlockStyle}"
+                       Text="{x:Bind Account.Client.dbAccount.omemoInfo.deviceId, Mode=OneWay, Converter={StaticResource OmemoDeviceIdStringValueConverter}}"
+                       TextTrimming="CharacterEllipsis"
+                       TextWrapping="NoWrap"
+                       Visibility="{x:Bind Account.Client.dbAccount.omemoInfo.deviceLabel, Mode=OneWay, Converter={StaticResource StringEmptyVisibilityValueConverter}}"/>
+
+            <Grid Margin="0,10,0,0">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                </Grid.RowDefinitions>
+
+            </Grid>
 
             <controlsOmemo:OmemoDeviceListControl Margin="0,10,0,0"
                                                   Account="{x:Bind Account, Mode=OneWay}"/>
         </StackPanel>
+
+        <VisualStateManager.VisualStateGroups>
+            <VisualStateGroup x:Name="EditLabelGroup">
+                <VisualState x:Name="DisplayLabelState">
+                    <VisualState.Setters>
+                        <Setter Target="editLabel_btn.Content" Value="&#xE70F;"/>
+                        <Setter Target="name_tbx.Visibility" Value="Visible"/>
+                        <Setter Target="editLabel_tbx.Visibility" Value="Collapsed"/>
+                    </VisualState.Setters>
+                </VisualState>
+                <VisualState x:Name="EditLabelState">
+                    <VisualState.StateTriggers>
+                        <AdaptiveTrigger MinWindowWidth="0"/>
+                    </VisualState.StateTriggers>
+                    <VisualState.Setters>
+                        <Setter Target="editLabel_btn.Content" Value="&#xE74E;"/>
+                        <Setter Target="name_tbx.Visibility" Value="Collapsed"/>
+                        <Setter Target="editLabel_tbx.Visibility" Value="Visible"/>
+                    </VisualState.Setters>
+                </VisualState>
+            </VisualStateGroup>
+        </VisualStateManager.VisualStateGroups>
     </ScrollViewer>
 </UserControl>
