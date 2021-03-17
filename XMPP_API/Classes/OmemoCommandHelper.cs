@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Threading.Tasks;
+using Logging;
 using XMPP_API.Classes.Network;
 using XMPP_API.Classes.Network.XML.Messages;
 using XMPP_API.Classes.Network.XML.Messages.Helper;
@@ -82,6 +83,7 @@ namespace XMPP_API.Classes
         /// <returns>The OmemoRequestDeviceListMessage result.</returns>
         public async Task<MessageResponseHelperResult<IQMessage>> requestDeviceListAsync(string toBareJid)
         {
+            Logger.Info($"Requesting OMEMO device list for {toBareJid} ...");
             Predicate<IQMessage> predicate = (x) => { return x is OmemoDeviceListResultMessage || x is IQErrorMessage; };
             AsyncMessageResponseHelper<IQMessage> helper = new AsyncMessageResponseHelper<IQMessage>(CONNECTION, predicate);
             OmemoRequestDeviceListMessage msg = new OmemoRequestDeviceListMessage(CONNECTION.account.getFullJid(), toBareJid);

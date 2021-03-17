@@ -1,4 +1,5 @@
-﻿using Shared.Classes;
+﻿using System.ComponentModel;
+using Shared.Classes;
 using Storage.Classes;
 using Storage.Classes.Models.Account;
 using XMPP_API.Classes;
@@ -54,6 +55,7 @@ namespace Manager.Classes
         private XMPPClient LoadXmppClient(AccountModel account)
         {
             XMPPAccount xmppAccount = account.ToXMPPAccount();
+            xmppAccount.PropertyChanged += OnXmppAccountPropertyChanged;
             Vault.LoadPassword(xmppAccount);
             XMPPClient client = new XMPPClient(xmppAccount);
             client.connection.TCP_CONNECTION.disableConnectionTimeout = Settings.GetSettingBoolean(SettingsConsts.DEBUG_DISABLE_TCP_TIMEOUT);
@@ -88,7 +90,29 @@ namespace Manager.Classes
         #endregion
         //--------------------------------------------------------Events:---------------------------------------------------------------------\\
         #region --Events--
+        private void OnXmppAccountPropertyChanged(object sender, PropertyChangedEventArgs e)
+        {
+            if (sender is XMPPAccount account)
+            {
+                switch (e.PropertyName)
+                {
+                    case nameof(XMPPAccount.omemoDeviceId) when account.omemoDeviceId != dbAccount.omemoInfo.deviceId:
+                        dbAccount.omemoInfo.deviceId = account.omemoDeviceId;
+                        dbAccount.Update();
+                        break;
 
+                    case nameof(XMPPAccount.omemoBundleInfoAnnounced) when account.omemoBundleInfoAnnounced != dbAccount.omemoInfo.bundleInfoAnnounced:
+                        dbAccount.omemoInfo.bundleInfoAnnounced = account.omemoBundleInfoAnnounced;
+                        dbAccount.Update();
+                        break;
+
+                    case nameof(XMPPAccount.omemoDeviceLabel) when !string.Equals(account.omemoDeviceLabel, dbAccount.omemoInfo.deviceLabel):
+                        dbAccount.omemoInfo.deviceLabel = account.omemoDeviceLabel;
+                        dbAccount.Update();
+                        break;
+                }
+            }
+        }
 
         #endregion
     }

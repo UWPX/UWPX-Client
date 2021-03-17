@@ -181,7 +181,7 @@ namespace UWPX_UI_Context.Classes.Collections
                     break;
 
                 case NotifyCollectionChangedAction.Remove:
-                    foreach (ChatDataTemplate chat in e.NewItems)
+                    foreach (ChatDataTemplate chat in e.OldItems)
                     {
                         if (filter(chat))
                         {

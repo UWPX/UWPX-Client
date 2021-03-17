@@ -243,7 +243,7 @@ namespace XMPP_API.Classes.Network
             // Device id hasn't been set. Pick a random, unique one:
             if (CONNECTION.account.omemoDeviceId == 0)
             {
-                tmpDeviceId = Omemo.Classes.CryptoUtils.GenerateUniqueDeviceId(devicesRemote.DEVICES.Select(d => d.ID).ToList());
+                tmpDeviceId = CryptoUtils.GenerateUniqueDeviceId(devicesRemote.DEVICES.Select(d => d.ID).ToList());
                 devicesRemote.DEVICES.Add(new OmemoXmlDevice(tmpDeviceId, CONNECTION.account.omemoDeviceLabel));
                 updateDeviceList = true;
             }
