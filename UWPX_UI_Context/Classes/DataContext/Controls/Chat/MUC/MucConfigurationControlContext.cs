@@ -1,4 +1,5 @@
-﻿using System.Threading.Tasks;
+﻿using System.ComponentModel;
+using System.Threading.Tasks;
 using Logging;
 using Manager.Classes.Chat;
 using Storage.Classes.Models.Chat;
@@ -35,20 +36,27 @@ namespace UWPX_UI_Context.Classes.DataContext.Controls.Chat.MUC
         #endregion
         //--------------------------------------------------------Misc Methods:---------------------------------------------------------------\\
         #region --Misc Methods (Public)--
-        public void UpdateView(DependencyPropertyChangedEventArgs e)
+        public void UpdateView(DependencyPropertyChangedEventArgs args)
         {
-            if (e.OldValue is ChatDataTemplate oldChat)
+            if (args.OldValue is ChatDataTemplate oldChat)
             {
-                oldChat.PropertyChanged -= Chat_PropertyChanged;
+                if (!(oldChat.Chat.muc is null))
+                {
+                    oldChat.Chat.muc.PropertyChanged -= OnMucPropertyChanged;
+                }
             }
 
-            if (e.NewValue is ChatDataTemplate newChat)
+            ChatDataTemplate newChat = null;
+            if (args.OldValue is ChatDataTemplate tmp)
             {
-                newChat.PropertyChanged -= Chat_PropertyChanged;
-                newChat.PropertyChanged += Chat_PropertyChanged;
-                OnChatChanged(newChat);
-                return;
+                newChat = tmp;
+                if (!(newChat.Chat.muc is null))
+                {
+                    newChat.Chat.muc.PropertyChanged += OnMucPropertyChanged;
+                    OnMucChanged(newChat.Chat.muc);
+                }
             }
+            MODEL.chat = newChat;
             MODEL.IsAvailable = false;
         }
 
@@ -92,12 +100,12 @@ namespace UWPX_UI_Context.Classes.DataContext.Controls.Chat.MUC
         #endregion
 
         #region --Misc Methods (Private)--
-        private void OnChatChanged(ChatDataTemplate chat)
+        private void OnMucChanged(MucInfoModel muc)
         {
-            if (!(chat is null) && chat.Chat.muc.affiliation == MUCAffiliation.OWNER && chat.Chat.muc.state == MucState.ENTERD)
+            if (!(muc is null) && !(MODEL.chat is null) && muc.affiliation == MUCAffiliation.OWNER && muc.state == MucState.ENTERD)
             {
                 MODEL.IsAvailable = true;
-                RequestConfiguartion(chat);
+                RequestConfiguartion(MODEL.chat);
                 return;
             }
             MODEL.IsAvailable = false;
@@ -149,11 +157,11 @@ namespace UWPX_UI_Context.Classes.DataContext.Controls.Chat.MUC
         #endregion
         //--------------------------------------------------------Events:---------------------------------------------------------------------\\
         #region --Events--
-        private void Chat_PropertyChanged(object sender, System.ComponentModel.PropertyChangedEventArgs e)
+        private void OnMucPropertyChanged(object sender, PropertyChangedEventArgs e)
         {
-            if (sender is ChatDataTemplate chat)
+            if (sender is MucInfoModel muc && (string.Equals(e.PropertyName, nameof(MucInfoModel.affiliation)) || string.Equals(e.PropertyName, nameof(MucInfoModel.state))))
             {
-                OnChatChanged(chat);
+                OnMucChanged(muc);
             }
         }
 

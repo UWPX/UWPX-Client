@@ -207,6 +207,14 @@ namespace Storage.Classes.Models.Chat
             };
         }
 
+        /// <summary>
+        /// Should be called once a member is added or removed to the occupants list.
+        /// </summary>
+        public void OnOccupantsChanged()
+        {
+            base.OnPropertyChanged(nameof(occupants));
+        }
+
         #endregion
 
         #region --Misc Methods (Private)--

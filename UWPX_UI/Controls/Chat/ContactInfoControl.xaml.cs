@@ -3,6 +3,7 @@ using Shared.Classes;
 using UWPX_UI_Context.Classes.DataContext.Controls;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
+using Windows.UI.Xaml.Input;
 using XMPP_API.Classes;
 
 namespace UWPX_UI.Controls.Chat
@@ -26,6 +27,7 @@ namespace UWPX_UI.Controls.Chat
             set => SetValue(ClientProperty, value);
         }
         public static readonly DependencyProperty ClientProperty = DependencyProperty.Register(nameof(Client), typeof(XMPPClient), typeof(ContactInfoControl), new PropertyMetadata(null, OnClientChanged));
+        private bool editingName = false;
 
         #endregion
         //--------------------------------------------------------Constructor:----------------------------------------------------------------\\
@@ -51,6 +53,27 @@ namespace UWPX_UI.Controls.Chat
         private void UpdateView(DependencyPropertyChangedEventArgs e)
         {
             VIEW_MODEL.UpdateView(e);
+        }
+
+        private void UpdateViewState(string state)
+        {
+            VisualStateManager.GoToState(this, state, true);
+        }
+
+        private void UpdateEditNameViewState()
+        {
+            if (editingName)
+            {
+                editName_tbx.Text = VIEW_MODEL.MODEL.ChatName;
+                UpdateViewState(EditNameState.Name);
+                ToolTipService.SetToolTip(editName_btn, new ToolTip { Content = "Save" });
+            }
+            else
+            {
+                UpdateViewState(DisplayNameState.Name);
+                VIEW_MODEL.SaveCustomChatName(editName_tbx.Text, Chat.Chat);
+                ToolTipService.SetToolTip(editName_btn, new ToolTip { Content = "Change chat name" });
+            }
         }
 
         #endregion
@@ -107,6 +130,30 @@ namespace UWPX_UI.Controls.Chat
             await VIEW_MODEL.ToggleChatMutedAsync(Chat).ConfAwaitFalse();
         }
 
+        private void EditName_btn_Click(object sender, RoutedEventArgs e)
+        {
+            editingName = !editingName;
+            UpdateEditNameViewState();
+        }
+
+        private void EditName_tbx_BeforeTextChanging(TextBox sender, TextBoxBeforeTextChangingEventArgs args)
+        {
+            if (!string.Equals(args.NewText, args.NewText.TrimStart()))
+            {
+                args.Cancel = true;
+            }
+        }
+
+        private void EditName_tbx_EnterKeyDown(object sender, KeyRoutedEventArgs e)
+        {
+            editingName = false;
+            UpdateEditNameViewState();
+        }
+
+        private void UserControl_Loaded(object sender, RoutedEventArgs e)
+        {
+            UpdateEditNameViewState();
+        }
         #endregion
     }
 }

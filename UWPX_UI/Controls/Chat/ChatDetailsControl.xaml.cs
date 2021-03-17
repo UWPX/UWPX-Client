@@ -1,8 +1,11 @@
 ﻿using System;
 using Logging;
+using Manager.Classes;
 using Manager.Classes.Chat;
 using Storage.Classes;
+using Storage.Classes.Models.Account;
 using Storage.Classes.Models.Chat;
+using Storage.Classes.Models.Omemo;
 using UWPX_UI.Controls.OMEMO;
 using UWPX_UI.Pages;
 using UWPX_UI.Pages.Settings;
@@ -68,15 +71,34 @@ namespace UWPX_UI.Controls.Chat
         #region --Misc Methods (Private)--
         private void LoadDummyContent()
         {
+            JidModel jid = new JidModel
+            {
+                domainPart = "xmpp.uwpx.org",
+                localPart = "alice",
+                resourcePart = "phone"
+            };
+
             ChatModel tmp = new ChatModel
             {
-                accountBareJid = "alice@xmpp.uwpx.org",
+                accountBareJid = jid.BareJid(),
                 bareJid = "dave@xmpp.uwpx.org",
                 presence = XMPP_API.Classes.Presence.Away,
-                status = "ʕノ•ᴥ•ʔノ ︵ ┻━┻"
+                status = "ʕノ•ᴥ•ʔノ ︵ ┻━┻",
+                omemo = new OmemoChatInformationModel("dave@xmpp.uwpx.org")
+                {
+                    enabled = true
+                }
             };
-            tmp.omemo.enabled = true;
-            Chat = new ChatDataTemplate(tmp, null, null, null);
+            Client client = new Client(new AccountModel
+            {
+                bareJid = jid.BareJid(),
+                fullJid = jid,
+                enabled = true,
+                server = new ServerModel(),
+                omemoInfo = new OmemoAccountInformationModel()
+
+            });
+            Chat = new ChatDataTemplate(tmp, client, null, null);
             VIEW_MODEL.LoadDummyContent(Chat.Chat);
         }
 
@@ -225,7 +247,11 @@ namespace UWPX_UI.Controls.Chat
 
         private void MarkAsRead_tmfo_Click(object sender, RoutedEventArgs e)
         {
-            VIEW_MODEL.MarkAsRead(Chat);
+            if (!IsDummy)
+            {
+                VIEW_MODEL.MarkAsRead(Chat);
+            }
+
         }
 
         private void Message_tbx_EnterKeyDown(object sender, KeyRoutedEventArgs e)
@@ -245,12 +271,15 @@ namespace UWPX_UI.Controls.Chat
 
         private void MarkasIotDevice_mfo_Click(object sender, RoutedEventArgs e)
         {
-            VIEW_MODEL.MarkAsIotDevice(Chat.Chat);
+            if (!IsDummy)
+            {
+                VIEW_MODEL.MarkAsIotDevice(Chat.Chat);
+            }
         }
 
         private void OnOmemoEnabledChanged(OmemoButtonControl sender, EventArgs e)
         {
-            if (sender.OmemoEnabled != Chat.Chat.omemo.enabled)
+            if (!IsDummy && sender.OmemoEnabled != Chat.Chat.omemo.enabled)
             {
                 Chat.Chat.omemo.enabled = sender.OmemoEnabled;
                 Chat.Chat.omemo.Update();

@@ -46,6 +46,17 @@ namespace Storage.Classes.Models.Chat
         private string _accountBareJid;
 
         /// <summary>
+        /// A custom name for the chat. Has to be null in case it's the same like the <see cref="bareJid"/>.
+        /// </summary>
+        public string customName
+        {
+            get => _customName;
+            set => SetProperty(ref _customName, value);
+        }
+        [NotMapped]
+        private string _customName;
+
+        /// <summary>
         /// Whether there are chat messages for the chat available/the chat has been started.
         /// </summary>
         public bool isChatActive

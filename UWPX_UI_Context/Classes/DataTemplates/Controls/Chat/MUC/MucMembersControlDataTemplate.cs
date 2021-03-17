@@ -1,4 +1,5 @@
-﻿using Microsoft.Toolkit.Uwp.UI;
+﻿using Manager.Classes.Chat;
+using Microsoft.Toolkit.Uwp.UI;
 using Shared.Classes;
 using Shared.Classes.Collections;
 
@@ -32,6 +33,8 @@ namespace UWPX_UI_Context.Classes.DataTemplates.Controls.Chat.MUC
         public readonly CustomObservableCollection<MucMemberDataTemplate> MEMBERS = new CustomObservableCollection<MucMemberDataTemplate>(true);
         public readonly AdvancedCollectionView MEMBERS_SORTED;
 
+        public ChatDataTemplate chat;
+
         #endregion
         //--------------------------------------------------------Constructor:----------------------------------------------------------------\\
         #region --Constructors--
@@ -39,7 +42,7 @@ namespace UWPX_UI_Context.Classes.DataTemplates.Controls.Chat.MUC
         {
             HeaderText = "Members (0)";
             MEMBERS_SORTED = new AdvancedCollectionView();
-            MEMBERS_SORTED.SortDescriptions.Add(new Microsoft.Toolkit.Uwp.UI.SortDescription(Microsoft.Toolkit.Uwp.UI.SortDirection.Ascending));
+            MEMBERS_SORTED.SortDescriptions.Add(new SortDescription(SortDirection.Ascending));
         }
 
         #endregion

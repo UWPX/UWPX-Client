@@ -127,7 +127,7 @@ namespace UWPX_UI_Context.Classes.DataTemplates.Controls
 
                 if (chat.chatType != ChatType.MUC)
                 {
-                    NameText = chat.bareJid ?? "";
+                    NameText = string.IsNullOrEmpty(chat.customName) ? chat.bareJid : chat.customName;
                     StatusText = chat.chatState ?? chat.status ?? "";
                     EnterMucVisibility = Visibility.Collapsed;
                     LeaveMucVisibility = Visibility.Collapsed;

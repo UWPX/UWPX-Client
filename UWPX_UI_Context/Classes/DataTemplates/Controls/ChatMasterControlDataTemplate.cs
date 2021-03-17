@@ -166,8 +166,8 @@ namespace UWPX_UI_Context.Classes.DataTemplates.Controls
                 AccountActionsVisibility = Visibility.Collapsed;
                 if (chat.chatType != ChatType.MUC)
                 {
-                    // Chat jabber id:
-                    NameText = chat.bareJid;
+                    // Chat info:
+                    NameText = string.IsNullOrEmpty(chat.customName) ? chat.bareJid : chat.customName;
 
                     // Subscription state:
                     ProbePresenceVisibility = Visibility.Collapsed;

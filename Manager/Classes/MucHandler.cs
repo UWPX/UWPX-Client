@@ -405,6 +405,7 @@ namespace Manager.Classes
                                 using (MainDbContext ctx = new MainDbContext())
                                 {
                                     chat.muc.occupants.Remove(occupant);
+                                    chat.muc.OnOccupantsChanged();
                                     ctx.Update(chat.muc);
                                 }
 
@@ -420,6 +421,7 @@ namespace Manager.Classes
                             {
                                 occupant.Add();
                                 chat.muc.occupants.Add(occupant);
+                                chat.muc.OnOccupantsChanged();
                                 using (MainDbContext ctx = new MainDbContext())
                                 {
                                     ctx.Update(chat.muc);

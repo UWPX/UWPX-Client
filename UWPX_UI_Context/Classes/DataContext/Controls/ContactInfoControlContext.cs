@@ -1,6 +1,8 @@
-﻿using System.Threading.Tasks;
+﻿using System.ComponentModel;
+using System.Threading.Tasks;
 using Manager.Classes.Chat;
 using Shared.Classes;
+using Storage.Classes.Models.Chat;
 using UWPX_UI_Context.Classes.DataTemplates.Controls;
 using Windows.UI.Xaml;
 
@@ -25,12 +27,23 @@ namespace UWPX_UI_Context.Classes.DataContext.Controls
         #endregion
         //--------------------------------------------------------Misc Methods:---------------------------------------------------------------\\
         #region --Misc Methods (Public)--
-        public void UpdateView(DependencyPropertyChangedEventArgs e)
+        public void UpdateView(DependencyPropertyChangedEventArgs args)
         {
-            if (e.NewValue is ChatDataTemplate chat)
+            if (args.OldValue is ChatDataTemplate oldChat)
             {
-                MODEL.UpdateView(chat.Chat);
-                MODEL.UpdateView(chat.Client);
+                if (!(oldChat.Chat is null))
+                {
+                    oldChat.Chat.PropertyChanged -= OnChatPropertyChanged;
+                }
+            }
+
+            if (args.NewValue is ChatDataTemplate newChat)
+            {
+                if (!(newChat.Chat is null))
+                {
+                    newChat.Chat.PropertyChanged += OnChatPropertyChanged;
+                }
+                MODEL.UpdateView(newChat.Chat);
             }
         }
 
@@ -149,6 +162,19 @@ namespace UWPX_UI_Context.Classes.DataContext.Controls
             }).ConfAwaitFalse();
         }
 
+        public void SaveCustomChatName(string chatName, ChatModel chat)
+        {
+            if (string.IsNullOrEmpty(chatName) || string.Equals(chatName, chat.bareJid))
+            {
+                chat.customName = null;
+            }
+            else
+            {
+                chat.customName = chatName;
+            }
+            chat.Update();
+        }
+
         #endregion
 
         #region --Misc Methods (Private)--
@@ -162,7 +188,13 @@ namespace UWPX_UI_Context.Classes.DataContext.Controls
         #endregion
         //--------------------------------------------------------Events:---------------------------------------------------------------------\\
         #region --Events--
-
+        private void OnChatPropertyChanged(object sender, PropertyChangedEventArgs e)
+        {
+            if (sender is ChatModel chat)
+            {
+                MODEL.UpdateView(chat);
+            }
+        }
 
         #endregion
     }

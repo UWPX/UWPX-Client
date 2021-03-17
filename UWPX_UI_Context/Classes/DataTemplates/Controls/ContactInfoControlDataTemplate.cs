@@ -1,8 +1,6 @@
-﻿using Manager.Classes;
-using Shared.Classes;
+﻿using Shared.Classes;
 using Storage.Classes.Models.Chat;
 using Windows.UI.Xaml;
-using XMPP_API.Classes;
 
 namespace UWPX_UI_Context.Classes.DataTemplates.Controls
 {
@@ -46,30 +44,6 @@ namespace UWPX_UI_Context.Classes.DataTemplates.Controls
             get => _RemoveFromRosterText;
             set => SetProperty(ref _RemoveFromRosterText, value);
         }
-        private string _AccountBareJid;
-        public string AccountBareJid
-        {
-            get => _AccountBareJid;
-            set => SetProperty(ref _AccountBareJid, value);
-        }
-        private string _ChatBareJid;
-        public string ChatBareJid
-        {
-            get => _ChatBareJid;
-            set => SetChatBareJidProperty(value);
-        }
-        private string _ChatStatus;
-        public string ChatStatus
-        {
-            get => _ChatStatus;
-            set => SetProperty(ref _ChatStatus, value);
-        }
-        private string _ChatState;
-        public string ChatState
-        {
-            get => _ChatState;
-            set => SetProperty(ref _ChatState, value);
-        }
         private string _MuteGlyph;
         public string MuteGlyph
         {
@@ -82,23 +56,11 @@ namespace UWPX_UI_Context.Classes.DataTemplates.Controls
             get => _MuteTooltip;
             set => SetProperty(ref _MuteTooltip, value);
         }
-        private Presence _Presence;
-        public Presence Presence
+        private string _ChatName;
+        public string ChatName
         {
-            get => _Presence;
-            set => SetProperty(ref _Presence, value);
-        }
-        private string _Nickname;
-        public string Nickname
-        {
-            get => _Nickname;
-            set => SetNicknameProperty(value);
-        }
-        private bool _DifferentNickname;
-        public bool DifferentNickname
-        {
-            get => _DifferentNickname;
-            set => SetProperty(ref _DifferentNickname, value);
+            get => _ChatName;
+            set => SetProperty(ref _ChatName, value);
         }
 
         #endregion
@@ -109,34 +71,13 @@ namespace UWPX_UI_Context.Classes.DataTemplates.Controls
         #endregion
         //--------------------------------------------------------Set-, Get- Methods:---------------------------------------------------------\\
         #region --Set-, Get- Methods--
-        private void SetNicknameProperty(string value)
-        {
-            if (SetProperty(ref _Nickname, value, nameof(Nickname)))
-            {
-                DifferentNickname = !string.Equals(Nickname, ChatBareJid);
-            }
-        }
 
-        private void SetChatBareJidProperty(string value)
-        {
-            if (SetProperty(ref _ChatBareJid, value, nameof(ChatBareJid)))
-            {
-                DifferentNickname = !string.Equals(Nickname, ChatBareJid);
-            }
-        }
 
         #endregion
         //--------------------------------------------------------Misc Methods:---------------------------------------------------------------\\
         #region --Misc Methods (Public)--
-        public void UpdateView(Client client)
-        {
-            AccountBareJid = client.dbAccount.bareJid;
-        }
-
         public void UpdateView(ChatModel chat)
         {
-            Presence = chat.presence;
-
             // Subscription state:
             ProbePresenceVisibility = Visibility.Collapsed;
             RequestPresenceSubscriptionVisibility = Visibility.Collapsed;
@@ -175,12 +116,9 @@ namespace UWPX_UI_Context.Classes.DataTemplates.Controls
             RemoveFromRosterText = chat.inRoster ? "Remove from roster" : "Add to roster";
 
             // Info:
-            ChatBareJid = chat.bareJid;
-            Nickname = chat.bareJid;
-            ChatStatus = chat.status;
-            ChatState = chat.chatState;
             MuteGlyph = chat.muted ? "\uE74F" : "\uE767";
             MuteTooltip = chat.muted ? "Unmute" : "Mute";
+            ChatName = string.IsNullOrEmpty(chat.customName) ? chat.bareJid : chat.customName;
         }
 
         #endregion

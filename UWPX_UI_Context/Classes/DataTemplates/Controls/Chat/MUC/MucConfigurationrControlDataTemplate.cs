@@ -1,4 +1,5 @@
-﻿using Shared.Classes;
+﻿using Manager.Classes.Chat;
+using Shared.Classes;
 using UWPX_UI_Context.Classes.DataTemplates.Controls.IoT;
 
 namespace UWPX_UI_Context.Classes.DataTemplates.Controls.Chat.MUC
@@ -41,6 +42,8 @@ namespace UWPX_UI_Context.Classes.DataTemplates.Controls.Chat.MUC
             get => _ErrorMarkdownText;
             set => SetProperty(ref _ErrorMarkdownText, value);
         }
+
+        public ChatDataTemplate chat;
 
         #endregion
         //--------------------------------------------------------Constructor:----------------------------------------------------------------\\
