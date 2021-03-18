@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Diagnostics;
-using System.Threading;
 
 namespace Shared.Classes.Threading
 {
@@ -8,14 +7,14 @@ namespace Shared.Classes.Threading
     {
         //--------------------------------------------------------Attributes:-----------------------------------------------------------------\\
         #region --Attributes--
-        private readonly SemaphoreSlim SEMA;
+        private readonly DebugSemaphoreSlim SEMA;
         private bool disposed = false;
         private bool isWaiting = false;
 
         #endregion
         //--------------------------------------------------------Constructor:----------------------------------------------------------------\\
         #region --Constructors--
-        public SemaLock(SemaphoreSlim sema)
+        public SemaLock(DebugSemaphoreSlim sema)
         {
             SEMA = sema;
         }

@@ -50,7 +50,7 @@ namespace Manager.Classes.Chat
             set => SetSelectedChatProperty(value);
         }
 
-        private readonly SemaphoreSlim CHATS_SEMA = new SemaphoreSlim(1);
+        private readonly DebugSemaphoreSlim CHATS_SEMA = new DebugSemaphoreSlim(1, "CHATS");
         private readonly SemaphoreSlim CHATS_MESSAGES_SEMA = new SemaphoreSlim(1);
 
         #endregion
@@ -332,7 +332,7 @@ namespace Manager.Classes.Chat
             {
                 if (!keepChatMessages)
                 {
-                    ctx.Remove(ctx.ChatMessages.Where(msg => msg.chatId == chat.id));
+                    ctx.RemoveRange(ctx.ChatMessages.Where(msg => msg.chatId == chat.id));
                     Logger.Info("Deleted chat messages for: " + chat.bareJid);
                 }
 
