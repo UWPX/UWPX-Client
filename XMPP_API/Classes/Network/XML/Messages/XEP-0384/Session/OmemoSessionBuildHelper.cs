@@ -78,7 +78,7 @@ namespace XMPP_API.Classes.Network.XML.Messages.XEP_0384.Session
                 devicesRemote = OMEMO_HELPER.OMEMO_STORAGE.LoadDevices(SRC_BARE_JID);
             }
 
-            if (devicesRemote.Count <= 0)
+            if (devicesRemote is null || devicesRemote.Count <= 0)
             {
                 // Request devices and try to subscribe to list:
                 devicesRemote = await requestDeviceListAsync(DST_BARE_JID);
