@@ -29,12 +29,12 @@ namespace XMPP_API.Classes.Network.XML.Messages.XEP_0384
                 value = "open",
                 type = FieldType.NONE
             });
-            options.OPTIONS.fields.Add(new Field()
+            /*options.OPTIONS.fields.Add(new Field()
             {
                 var = "pubsub#max_items",
                 value = "max",
                 type = FieldType.NONE
-            });
+            });*/
             return options;
         }
 

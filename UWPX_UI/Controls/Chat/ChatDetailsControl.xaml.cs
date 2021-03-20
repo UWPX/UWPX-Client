@@ -15,8 +15,8 @@ using UWPX_UI_Context.Classes.Events;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Input;
+using XMPP_API.Classes.Network.XML.Messages;
 using XMPP_API.Classes.Network.XML.Messages.Helper;
-using XMPP_API.Classes.Network.XML.Messages.XEP_0313;
 
 namespace UWPX_UI.Controls.Chat
 {
@@ -188,9 +188,10 @@ namespace UWPX_UI.Controls.Chat
         {
             if (!IsDummy)
             {
-                QueryFilter filter = new QueryFilter();
+                /*QueryFilter filter = new QueryFilter();
                 filter.With(Chat.Chat.bareJid);
-                MessageResponseHelperResult<MamResult> result = await Chat.Client.xmppClient.GENERAL_COMMAND_HELPER.requestMamAsync(filter);
+                MessageResponseHelperResult<MamResult> result = await Chat.Client.xmppClient.GENERAL_COMMAND_HELPER.requestMamAsync(filter);*/
+                MessageResponseHelperResult<IQMessage> result = await Chat.Client.xmppClient.OMEMO_COMMAND_HELPER.requestDeviceListAsync(Chat.Chat.bareJid);
             }
         }
 

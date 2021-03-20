@@ -31,12 +31,12 @@ namespace XMPP_API.Classes.Network.XML.Messages.XEP_0384
         protected override XElement getContent(XNamespace ns)
         {
             XNamespace ns1 = Consts.XML_XEP_0384_NAMESPACE;
-            XElement listNode = new XElement(ns1 + "list");
+            XElement devicesNode = new XElement(ns1 + "devices");
             foreach (OmemoXmlDevice d in DEVICES)
             {
-                listNode.Add(d.toXElement(ns1));
+                devicesNode.Add(d.toXElement(ns1));
             }
-            return listNode;
+            return devicesNode;
         }
 
         /// <summary>

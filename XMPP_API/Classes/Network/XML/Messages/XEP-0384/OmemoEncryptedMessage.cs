@@ -87,8 +87,13 @@ namespace XMPP_API.Classes.Network.XML.Messages.XEP_0384
 
             XElement msgNode = base.toXElement();
 
+            // Fallback for clients that do not support OMEMO:
+            XNamespace bodyNs = Consts.XML_CLIENT;
+            msgNode.Add(new XElement(bodyNs + "body", "OMEMO encrypted message. Seams like your client does not support OMEMO.\nGet more information about OMEMO here: https://conversations.im/omemo/"));
+
             XNamespace ns = Consts.XML_XEP_0384_NAMESPACE;
             XElement encryptedNode = new XElement(ns + "encrypted");
+            msgNode.Add(encryptedNode);
 
             // Header:
             XElement headerNode = new XElement("header");

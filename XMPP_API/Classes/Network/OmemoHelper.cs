@@ -165,8 +165,15 @@ namespace XMPP_API.Classes.Network
             Tuple<List<OmemoEncryptedMessage>, OmemoSessionBuildHelper> cache = MESSAGE_CACHE[omemoSessions.DST_DEVICE_GROUP.BARE_JID];
             foreach (OmemoEncryptedMessage msg in cache.Item1)
             {
-                msg.encrypt(CONNECTION.account.omemoDeviceId, CONNECTION.account.omemoIdentityKey, OMEMO_STORAGE, omemoSessions.toList());
-                await CONNECTION.SendAsync(msg, false);
+                try
+                {
+                    msg.encrypt(CONNECTION.account.omemoDeviceId, CONNECTION.account.omemoIdentityKey, OMEMO_STORAGE, omemoSessions.toList());
+                    await CONNECTION.SendAsync(msg, false);
+                }
+                catch (Exception e)
+                {
+                    Logger.Error("[OMEMO HELPER] Failed to encrypt and send OMEMO message with: ", e);
+                }
             }
             MESSAGE_CACHE.Remove(omemoSessions.DST_DEVICE_GROUP.BARE_JID);
             Logger.Info("[OMEMO HELPER] Send all outstanding OMEMO messages for: " + omemoSessions.DST_DEVICE_GROUP.BARE_JID + " to " + omemoSessions.SRC_DEVICE_GROUP.SESSIONS.Count + " own and " + omemoSessions.DST_DEVICE_GROUP.SESSIONS.Count + " remote recipient(s).");
@@ -214,16 +221,17 @@ namespace XMPP_API.Classes.Network
 
             if (result.STATE == MessageResponseHelperResultState.SUCCESS)
             {
-                if (result.RESULT is IQMessage)
+                if (result.RESULT is IQErrorMessage errMsg)
                 {
-                    Logger.Info("[OMEMO HELPER](" + CONNECTION.account.getBareJid() + ") Bundle info announced.");
-                    setState(OmemoHelperState.ENABLED);
-                    CONNECTION.account.omemoBundleInfoAnnounced = true;
-                }
-                else if (result.RESULT is IQErrorMessage errMsg)
-                {
+                    CONNECTION.account.omemoBundleInfoAnnounced = false;
                     Logger.Error("[OMEMO HELPER](" + CONNECTION.account.getBareJid() + ") Failed to announce OMEMO bundle info to: " + CONNECTION.account.user.domainPart + "\n" + errMsg.ERROR_OBJ.ToString());
                     setState(OmemoHelperState.ERROR);
+                }
+                else
+                {
+                    CONNECTION.account.omemoBundleInfoAnnounced = true;
+                    Logger.Info("[OMEMO HELPER](" + CONNECTION.account.getBareJid() + ") Bundle info announced.");
+                    setState(OmemoHelperState.ENABLED);
                 }
             }
             else
@@ -249,6 +257,7 @@ namespace XMPP_API.Classes.Network
             }
             else
             {
+                tmpDeviceId = CONNECTION.account.omemoDeviceId;
                 if (!devicesRemote.DEVICES.Any(d => d.ID == CONNECTION.account.omemoDeviceId))
                 {
                     devicesRemote.DEVICES.Add(new OmemoXmlDevice(tmpDeviceId, CONNECTION.account.omemoDeviceLabel));
@@ -260,7 +269,7 @@ namespace XMPP_API.Classes.Network
             {
                 await updateDeviceListAsync(devicesRemote);
             }
-            else if (!CONNECTION.account.omemoBundleInfoAnnounced)
+            else if (!CONNECTION.account.omemoBundleInfoAnnounced || true)
             {
                 await announceBundleInfoAsync();
             }
@@ -283,7 +292,12 @@ namespace XMPP_API.Classes.Network
 
             if (result.STATE == MessageResponseHelperResultState.SUCCESS)
             {
-                if (result.RESULT is IQMessage)
+                if (result.RESULT is IQErrorMessage errMsg)
+                {
+                    Logger.Error("[OMEMO HELPER](" + CONNECTION.account.getBareJid() + ") Failed to set OMEMO device list to: " + CONNECTION.account.user.domainPart + "\n" + errMsg.ERROR_OBJ.ToString());
+                    setState(OmemoHelperState.ERROR);
+                }
+                else
                 {
                     Logger.Info("[OMEMO HELPER](" + CONNECTION.account.getBareJid() + ") Device list updated.");
                     if (CONNECTION.account.omemoDeviceId == 0)
@@ -298,11 +312,6 @@ namespace XMPP_API.Classes.Network
                     {
                         setState(OmemoHelperState.ENABLED);
                     }
-                }
-                else if (result.RESULT is IQErrorMessage errMsg)
-                {
-                    Logger.Error("[OMEMO HELPER](" + CONNECTION.account.getBareJid() + ") Failed to set OMEMO device list to: " + CONNECTION.account.user.domainPart + "\n" + errMsg.ERROR_OBJ.ToString());
-                    setState(OmemoHelperState.ERROR);
                 }
             }
             else

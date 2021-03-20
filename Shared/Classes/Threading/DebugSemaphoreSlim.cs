@@ -50,7 +50,7 @@ namespace Shared.Classes.Threading
 
         public new void Wait()
         {
-            Logger.Debug('[' + NAME + ']' + " Semaphore 'Wait()' from: " + Environment.StackTrace);
+            Logger.Trace('[' + NAME + ']' + " Semaphore 'Wait()' from: " + Environment.StackTrace);
             Logger.Debug('[' + NAME + ']' + " 'Wait()' PRE CurrentCount: " + CurrentCount);
             base.Wait();
             Logger.Debug('[' + NAME + ']' + " 'Wait()' POST CurrentCount: " + CurrentCount);
@@ -58,7 +58,7 @@ namespace Shared.Classes.Threading
 
         public new async Task WaitAsync()
         {
-            Logger.Debug('[' + NAME + ']' + " Semaphore 'WaitAsync()' from: " + Environment.StackTrace);
+            Logger.Trace('[' + NAME + ']' + " Semaphore 'WaitAsync()' from: " + Environment.StackTrace);
             Logger.Debug('[' + NAME + ']' + " 'WaitAsync()' PRE CurrentCount: " + CurrentCount);
             await base.WaitAsync();
             Logger.Debug('[' + NAME + ']' + " 'WaitAsync()' POST CurrentCount: " + CurrentCount);
