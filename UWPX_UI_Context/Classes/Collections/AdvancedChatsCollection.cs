@@ -45,7 +45,7 @@ namespace UWPX_UI_Context.Classes.Collections
             List<ChatDataTemplate> removed = new List<ChatDataTemplate>();
             foreach (ChatDataTemplate chat in this)
             {
-                if (!(filter is null) && !filter(chat))
+                if (!(filter is null) && (!chat.Chat.isChatActive || !filter(chat)))
                 {
                     removed.Add(chat);
                 }
@@ -54,7 +54,7 @@ namespace UWPX_UI_Context.Classes.Collections
             List<ChatDataTemplate> added = new List<ChatDataTemplate>();
             foreach (ChatDataTemplate chat in CHATS)
             {
-                if (!Contains(chat) && (filter is null || filter(chat)))
+                if (!Contains(chat) && chat.Chat.isChatActive && (filter is null || filter(chat)))
                 {
                     added.Add(chat);
                 }
