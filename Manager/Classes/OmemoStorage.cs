@@ -146,7 +146,7 @@ namespace Manager.Classes
                 ChatModel chat;
                 using (SemaLock semaLock = DataCache.INSTANCE.NewChatSemaLock())
                 {
-                    chat = DataCache.INSTANCE.GetChat(dbAccount.bareJid, dbAccount.bareJid, semaLock);
+                    chat = DataCache.INSTANCE.GetChat(dbAccount.bareJid, bareJid, semaLock);
                 }
                 if (chat is null)
                 {
@@ -167,11 +167,11 @@ namespace Manager.Classes
             IEnumerable<OmemoDeviceModel> newDevices = devices.Select(d => new OmemoDeviceModel(d));
             if (string.Equals(bareJid, dbAccount.bareJid))
             {
-                dbAccount.omemoInfo.devices.Clear();
                 using (MainDbContext ctx = new MainDbContext())
                 {
                     ctx.RemoveRange(dbAccount.omemoInfo.devices);
-                    ctx.AddRange(newDevices);
+                    dbAccount.omemoInfo.devices.Clear();
+                    ctx.Update(dbAccount.omemoInfo);
                     dbAccount.omemoInfo.devices.AddRange(newDevices);
                     ctx.Update(dbAccount.omemoInfo);
                 }
@@ -181,7 +181,7 @@ namespace Manager.Classes
                 OmemoChatInformationModel omemoChatInfo;
                 using (SemaLock semaLock = DataCache.INSTANCE.NewChatSemaLock())
                 {
-                    omemoChatInfo = DataCache.INSTANCE.GetChat(dbAccount.bareJid, dbAccount.bareJid, semaLock)?.omemo;
+                    omemoChatInfo = DataCache.INSTANCE.GetChat(dbAccount.bareJid, bareJid, semaLock)?.omemo;
                 }
                 if (omemoChatInfo is null)
                 {
@@ -190,7 +190,8 @@ namespace Manager.Classes
                 using (MainDbContext ctx = new MainDbContext())
                 {
                     ctx.RemoveRange(omemoChatInfo.devices);
-                    ctx.AddRange(newDevices);
+                    omemoChatInfo.devices.Clear();
+                    ctx.Update(omemoChatInfo);
                     omemoChatInfo.devices.AddRange(newDevices);
                     ctx.Update(omemoChatInfo);
                 }
@@ -209,7 +210,7 @@ namespace Manager.Classes
                 ChatModel chat;
                 using (SemaLock semaLock = DataCache.INSTANCE.NewChatSemaLock())
                 {
-                    chat = DataCache.INSTANCE.GetChat(dbAccount.bareJid, dbAccount.bareJid, semaLock);
+                    chat = DataCache.INSTANCE.GetChat(dbAccount.bareJid, fingerprint.ADDRESS.BARE_JID, semaLock);
                 }
                 if (chat is null)
                 {
@@ -254,7 +255,7 @@ namespace Manager.Classes
                 ChatModel chat;
                 using (SemaLock semaLock = DataCache.INSTANCE.NewChatSemaLock())
                 {
-                    chat = DataCache.INSTANCE.GetChat(dbAccount.bareJid, dbAccount.bareJid, semaLock);
+                    chat = DataCache.INSTANCE.GetChat(dbAccount.bareJid, address.BARE_JID, semaLock);
                 }
                 if (chat is null)
                 {

@@ -40,6 +40,7 @@ namespace XMPP_API.Classes.Network.XML.Messages.XEP_0384
             XElement itemsNode = base.getContent(ns);
             XElement itemNode = new XElement(ns + "item");
             itemNode.Add(new XAttribute("id", DEVICE_ID));
+            itemsNode.Add(itemNode);
             return itemsNode;
         }
 

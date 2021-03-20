@@ -157,7 +157,7 @@ namespace Manager.Classes.Chat
             semaLock.Wait();
             if (initialized)
             {
-                IEnumerable<ChatModel> chats = CHATS.Where(c => string.Equals(c.Chat.bareJid, accountBareJid)).Select(c => c.Chat);
+                IEnumerable<ChatModel> chats = CHATS.Where(c => string.Equals(c.Chat.accountBareJid, accountBareJid)).Select(c => c.Chat);
                 return chats;
             }
 

@@ -19,6 +19,7 @@ namespace XMPP_API.Classes.Network.XML.Messages.XEP_0384.Session
         private readonly string DST_BARE_JID;
         private readonly OmemoHelper OMEMO_HELPER;
         private OmemoSessionBuildResult sessionBuildResult;
+        private bool trustedKeysOnly;
 
         #endregion
         //--------------------------------------------------------Constructor:----------------------------------------------------------------\\
@@ -158,7 +159,7 @@ namespace XMPP_API.Classes.Network.XML.Messages.XEP_0384.Session
                 }
 
                 // Check if the fingerprint is trusted:
-                if (fingerprint.trusted)
+                if (!(fingerprint is null) && (!trustedKeysOnly || fingerprint.trusted))
                 {
                     deviceGroup.SESSIONS[device.DEVICE_ID] = session;
 
