@@ -528,7 +528,7 @@ namespace Manager.Classes
             if (args.MESSAGE is RosterResultMessage msg && sender is XMPPClient xmppClient)
             {
                 string type = msg.TYPE;
-                if (!string.Equals(type, IQMessage.SET))
+                if (!string.Equals(type, IQMessage.RESULT) && !string.Equals(type, IQMessage.SET))
                 {
                     // No roster result or set => return
                     return;
@@ -536,9 +536,14 @@ namespace Manager.Classes
 
                 SemaLock semaLock = DataCache.INSTANCE.NewChatSemaLock();
                 IEnumerable<ChatModel> chats = DataCache.INSTANCE.GetChats(client.dbAccount.bareJid, semaLock);
-                foreach (ChatModel chat in chats)
+
+                // TYPE == SET is being send by the server when the roster changes from outside:
+                if (string.Equals(type, IQMessage.RESULT))
                 {
-                    chat.inRoster = false;
+                    foreach (ChatModel chat in chats)
+                    {
+                        chat.inRoster = false;
+                    }
                 }
 
                 List<ChatModel> addedChats = new List<ChatModel>();
