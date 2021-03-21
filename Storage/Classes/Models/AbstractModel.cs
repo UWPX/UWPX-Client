@@ -1,4 +1,5 @@
-﻿using Shared.Classes;
+﻿using System.Threading;
+using Shared.Classes;
 using Shared.Classes.Threading;
 using Storage.Classes.Contexts;
 
@@ -8,7 +9,7 @@ namespace Storage.Classes.Models
     {
         //--------------------------------------------------------Attributes:-----------------------------------------------------------------\\
         #region --Attributes--
-        protected readonly DebugSemaphoreSlim LOCK_SEMA = new DebugSemaphoreSlim(1, nameof(AbstractModel));
+        protected readonly SemaphoreSlim LOCK_SEMA = new SemaphoreSlim(1);
 
         #endregion
         //--------------------------------------------------------Constructor:----------------------------------------------------------------\\

@@ -49,6 +49,7 @@ namespace XMPP_API.Classes.Network.XML.Messages.XEP_0384
             XmlNode headerNode = XMLUtils.getChildNode(encryptedNode, "header");
             Debug.Assert(!(headerNode is null));
             SID = uint.Parse(headerNode.Attributes["sid"]?.Value);
+            keys = new List<OmemoKeys>();
             foreach (XmlNode keysNode in headerNode.ChildNodes)
             {
                 if (string.Equals(keysNode.Name, "keys"))
@@ -65,7 +66,7 @@ namespace XMPP_API.Classes.Network.XML.Messages.XEP_0384
             }
             else
             {
-                BASE_64_PAYLOAD = payloadNode.Value;
+                BASE_64_PAYLOAD = payloadNode.InnerText;
             }
             ENCRYPTED = true;
         }
@@ -89,7 +90,7 @@ namespace XMPP_API.Classes.Network.XML.Messages.XEP_0384
 
             // Fallback for clients that do not support OMEMO:
             XNamespace bodyNs = Consts.XML_CLIENT;
-            msgNode.Add(new XElement(bodyNs + "body", "OMEMO encrypted message. Seams like your client does not support OMEMO.\nGet more information about OMEMO here: https://conversations.im/omemo/"));
+            msgNode.Add(new XElement(bodyNs + "body", "I sent you an OMEMO encrypted message but your client doesn’t seem to support that. Find more information on: https://conversations.im/omemo"));
 
             XNamespace ns = Consts.XML_XEP_0384_NAMESPACE;
             XElement encryptedNode = new XElement(ns + "encrypted");
@@ -206,7 +207,6 @@ namespace XMPP_API.Classes.Network.XML.Messages.XEP_0384
                     decryptCtx.authMsg = new OmemoAuthenticatedMessage(data);
                 }
 
-
                 // Content can be null in case we have a pure keys exchange message:
                 byte[] contentEnc = null;
                 if (!string.IsNullOrEmpty(BASE_64_PAYLOAD))
@@ -218,6 +218,10 @@ namespace XMPP_API.Classes.Network.XML.Messages.XEP_0384
                     IS_PURE_KEY_EXCHANGE_MESSAGE = true;
                 }
                 decryptCtx.senderAddress = new OmemoProtocolAddress(Utils.getBareJidFromFullJid(FROM), SID);
+
+                // Check the senders fingerprint and handle new devices:
+                ValidateSender(decryptCtx);
+
                 byte[] contentDec = decryptContent(contentEnc, decryptCtx);
                 if (!IS_PURE_KEY_EXCHANGE_MESSAGE)
                 {
@@ -325,7 +329,7 @@ namespace XMPP_API.Classes.Network.XML.Messages.XEP_0384
                 throw new OmemoException("Failed to parse OMEMO message. Content does not contain a 'to' node for validation, which is mandatory.");
             }
             refTo = toNode.Attributes["jid"]?.Value;
-            if (!string.Equals(refTo, TO))
+            if (!string.Equals(refTo, Utils.getBareJidFromFullJid(TO)))
             {
                 throw new OmemoException("Failed to parse OMEMO message. Content 'to' does not match: " + refTo + " != " + TO);
             }
@@ -345,6 +349,30 @@ namespace XMPP_API.Classes.Network.XML.Messages.XEP_0384
             {
                 XmlNode bodyNode = XMLUtils.getChildNode(payloadNode, "body");
                 MESSAGE = bodyNode.InnerText;
+            }
+        }
+
+        private void ValidateSender(OmemoDecryptionContext decryptCtx)
+        {
+            OmemoFingerprint fingerprint = decryptCtx.STORAGE.LoadFingerprint(decryptCtx.senderAddress);
+            // New device:
+            if (fingerprint is null)
+            {
+                List<OmemoProtocolAddress> devices = decryptCtx.STORAGE.LoadDevices(decryptCtx.senderAddress.BARE_JID);
+                devices.Add(decryptCtx.senderAddress);
+                decryptCtx.STORAGE.StoreDevices(devices, decryptCtx.senderAddress.BARE_JID);
+                fingerprint = new OmemoFingerprint(decryptCtx.keyExchangeMsg.IK, decryptCtx.senderAddress, DateTime.Now, false);
+            }
+            else
+            {
+                fingerprint.lastSeen = DateTime.Now;
+            }
+            decryptCtx.STORAGE.StoreFingerprint(fingerprint);
+
+
+            if (!fingerprint.trusted)
+            {
+                throw new OmemoException("Failed to decrypt OMEMO message since we do not trust the sender.");
             }
         }
 

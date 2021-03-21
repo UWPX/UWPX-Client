@@ -502,6 +502,19 @@ namespace XMPP_API.Classes.Network.XML
             return messages;
         }
 
+        private void parseMamResultMessage(List<AbstractMessage> messages, XmlNode n)
+        {
+            XmlNode resultNode = XMLUtils.getChildNode(n, "result", Consts.XML_XMLNS, Consts.XML_XEP_0313_NAMESPACE);
+            XmlNode forwardedNode = XMLUtils.getChildNode(resultNode, "forwarded", Consts.XML_XMLNS, Consts.XML_XEP_0297_NAMESPACE);
+            XmlNode messageNode = XMLUtils.getChildNode(forwardedNode, "message");
+            List<AbstractMessage> innerMessages = new List<AbstractMessage>();
+            parseMessageMessage(innerMessages, messageNode, CarbonCopyType.NONE);
+            if (innerMessages.Count > 0)
+            {
+                messages.Add(new QueryArchiveResultMessage(n, resultNode, forwardedNode, innerMessages));
+            }
+        }
+
         private void parseMessageMessage(List<AbstractMessage> messages, XmlNode n, CarbonCopyType ccType)
         {
             // XEP-0085 (chat state):
@@ -523,7 +536,7 @@ namespace XMPP_API.Classes.Network.XML
             // XEP-0313 (Message Archive Management):
             else if (XMLUtils.getChildNode(n, "result", Consts.XML_XMLNS, Consts.XML_XEP_0313_NAMESPACE) != null)
             {
-                messages.Add(new QueryArchiveResultMessage(n));
+                parseMamResultMessage(messages, n);
             }
             // XEP-0249 (Direct MUC Invitations):
             else if (XMLUtils.getChildNode(n, "x", Consts.XML_XMLNS, Consts.XML_XEP_0249_NAMESPACE) != null)
@@ -575,7 +588,11 @@ namespace XMPP_API.Classes.Network.XML
                     // XEP-0384 (OMEMO Encryption) device list:
                     if (XMLUtils.getChildNode(eventNode, "items", "node", Consts.XML_XEP_0384_DEVICE_LIST_NODE) != null)
                     {
-                        messages.Add(new OmemoDeviceListEventMessage(n));
+                        /**
+                         * Disabled for now since we can not distinguish from whom they are coming from.
+                         * For example if the from='pubsub.example.com' and we have multiple chats with this server.
+                         **/
+                        // messages.Add(new OmemoDeviceListEventMessage(n));
                     }
                     // XEP-IoT sensor changed:
                     else if (XMLUtils.getChildNode(eventNode, "items", "node", IoTConsts.NODE_NAME_SENSORS) != null)

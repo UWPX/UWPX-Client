@@ -50,7 +50,7 @@ namespace Manager.Classes.Chat
             set => SetSelectedChatProperty(value);
         }
 
-        private readonly DebugSemaphoreSlim CHATS_SEMA = new DebugSemaphoreSlim(1, "CHATS");
+        private readonly SemaphoreSlim CHATS_SEMA = new SemaphoreSlim(1);
         private readonly SemaphoreSlim CHATS_MESSAGES_SEMA = new SemaphoreSlim(1);
 
         #endregion

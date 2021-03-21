@@ -26,7 +26,7 @@ namespace XMPP_API.Classes.Network.XML.Messages.XEP_0384
 
         public OmemoKey(XmlNode node)
         {
-            BASE64_PAYLOAD = node.Value;
+            BASE64_PAYLOAD = node.InnerText;
             KEY_EXCHANGE = XMLUtils.tryParseToBool(node.Attributes["kex"]?.Value);
             if (uint.TryParse(node.Attributes["rid"]?.Value, out uint rid))
             {

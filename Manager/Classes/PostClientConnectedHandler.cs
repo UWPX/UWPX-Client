@@ -139,7 +139,17 @@ namespace Manager.Classes
             {
                 foreach (QueryArchiveResultMessage message in result.RESULTS)
                 {
-                    await ccHandler.HandleNewChatMessageAsync(message.MESSAGE);
+                    foreach (AbstractMessage abstractMessage in message.CONTENT)
+                    {
+                        if (abstractMessage is MessageMessage msg)
+                        {
+                            await ccHandler.HandleNewChatMessageAsync(msg);
+                        }
+                        else
+                        {
+                            Logger.Warn("MAM contained message of type: " + abstractMessage.GetType());
+                        }
+                    }
                 }
             });
         }
@@ -236,7 +246,7 @@ namespace Manager.Classes
 
         private DateTime GetLastMessageDate(MamResult result)
         {
-            return result.RESULTS.Count > 0 ? result.RESULTS[0].MESSAGE.delay : DateTime.Now;
+            return result.RESULTS.Count > 0 ? result.RESULTS[0].DELAY : DateTime.Now;
         }
 
         private async Task<MessageResponseHelperResult<MamResult>> RequestMamWithRetry(QueryFilter filter, int numOfTries)

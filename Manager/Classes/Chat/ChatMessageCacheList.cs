@@ -9,6 +9,7 @@ using Shared.Classes.Network;
 using Storage.Classes.Contexts;
 using Storage.Classes.Models.Chat;
 using XMPP_API.Classes;
+using XMPP_API.Classes.Network.XML.Messages;
 using XMPP_API.Classes.Network.XML.Messages.Helper;
 using XMPP_API.Classes.Network.XML.Messages.XEP_0313;
 
@@ -249,18 +250,28 @@ namespace Manager.Classes.Chat
                 {
                     using (MainDbContext ctx = new MainDbContext())
                     {
-                        foreach (QueryArchiveResultMessage msg in result.RESULT.RESULTS)
+                        foreach (QueryArchiveResultMessage message in result.RESULT.RESULTS)
                         {
-                            ChatMessageDataTemplate tmp = new ChatMessageDataTemplate(new ChatMessageModel(msg.MESSAGE, chat.Chat), chat.Chat);
-
-                            // Set the image path and file name:
-                            if (tmp.Message.isImage)
+                            foreach (AbstractMessage abstractMessage in message.CONTENT)
                             {
-                                await DataCache.PrepareImageModelPathAndNameAsync(tmp.Message.image);
-                            }
+                                if (abstractMessage is MessageMessage msg)
+                                {
+                                    ChatMessageDataTemplate tmp = new ChatMessageDataTemplate(new ChatMessageModel(msg, chat.Chat), chat.Chat);
 
-                            ctx.Add(tmp.Message);
-                            msgs.Add(tmp);
+                                    // Set the image path and file name:
+                                    if (tmp.Message.isImage)
+                                    {
+                                        await DataCache.PrepareImageModelPathAndNameAsync(tmp.Message.image);
+                                    }
+
+                                    ctx.Add(tmp.Message);
+                                    msgs.Add(tmp);
+                                }
+                                else
+                                {
+                                    Logger.Warn("MAM contained message of type: " + abstractMessage.GetType());
+                                }
+                            }
                         }
                     }
                 }

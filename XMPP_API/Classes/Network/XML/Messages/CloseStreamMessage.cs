@@ -31,7 +31,7 @@ namespace XMPP_API.Classes.Network.XML.Messages
             {
                 if (item.Name.Equals("stream:error"))
                 {
-                    REASON = item.Value;
+                    REASON = item.InnerText;
                 }
             }
         }

@@ -6,12 +6,7 @@ namespace UWPX_UI_Context.Classes.DataTemplates.Controls.OMEMO
     {
         //--------------------------------------------------------Attributes:-----------------------------------------------------------------\\
         #region --Attributes--
-        private bool _Trusted;
-        public bool Trusted
-        {
-            get => _Trusted;
-            set => SetProperty(ref _Trusted, value);
-        }
+
 
         #endregion
         //--------------------------------------------------------Constructor:----------------------------------------------------------------\\
