@@ -236,10 +236,7 @@ namespace Manager.Classes
             {
                 device.fingerprint.lastSeen = fingerprint.lastSeen;
                 device.fingerprint.trusted = fingerprint.trusted;
-                using (MainDbContext ctx = new MainDbContext())
-                {
-                    ctx.Update(device.fingerprint);
-                }
+                device.fingerprint.Update();
             }
         }
 
@@ -279,7 +276,6 @@ namespace Manager.Classes
                     ctx.Remove(device.session);
                     device.session = session;
                 }
-                ctx.Update(device.session);
                 ctx.Update(device);
             }
         }

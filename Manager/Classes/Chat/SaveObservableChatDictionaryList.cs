@@ -237,6 +237,14 @@ namespace Manager.Classes.Chat
             }
         }
 
+        public void Sort()
+        {
+            lock (SyncRoot)
+            {
+                CHATS.Sort();
+            }
+        }
+
         #endregion
 
         #region --Misc Methods (Private)--

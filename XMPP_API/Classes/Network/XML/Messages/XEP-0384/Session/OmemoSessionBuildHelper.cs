@@ -278,7 +278,7 @@ namespace XMPP_API.Classes.Network.XML.Messages.XEP_0384.Session
             {
                 if (result.RESULT is OmemoBundleInformationResultMessage bundleMsg)
                 {
-                    if (bundleMsg.BUNDLE_INFO.bundle.preKeys.Count < 20)
+                    if (!(bundleMsg.BUNDLE_INFO.bundle is null) && bundleMsg.BUNDLE_INFO.bundle.preKeys.Count < 20)
                     {
                         Logger.Error("[OmemoSessionBuildHelper] Failed to request bundle information - " + device.ToString() + " device offered less than 20 PreKeys: " + bundleMsg.BUNDLE_INFO.bundle.preKeys.Count);
                     }

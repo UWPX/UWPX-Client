@@ -1,4 +1,6 @@
-﻿using System.Xml;
+﻿using System;
+using System.Collections.Generic;
+using System.Xml;
 using System.Xml.Linq;
 
 namespace XMPP_API.Classes.Network.XML.Messages.XEP_0313
@@ -7,33 +9,25 @@ namespace XMPP_API.Classes.Network.XML.Messages.XEP_0313
     {
         //--------------------------------------------------------Attributes:-----------------------------------------------------------------\\
         #region --Attributes--
-        public readonly MessageMessage MESSAGE;
+        public readonly List<AbstractMessage> CONTENT;
         public readonly string QUERY_ID;
         public readonly string RESULT_ID;
+        public readonly DateTime DELAY;
 
         #endregion
         //--------------------------------------------------------Constructor:----------------------------------------------------------------\\
         #region --Constructors--
-        public QueryArchiveResultMessage(XmlNode answer) : base(answer)
+        public QueryArchiveResultMessage(XmlNode node, XmlNode resultNode, XmlNode forwardedNode, List<AbstractMessage> content) : base(node)
         {
-            XmlNode resultNode = XMLUtils.getChildNode(answer, "result", Consts.XML_XMLNS, Consts.XML_XEP_0313_NAMESPACE);
-            if (!(resultNode is null))
+            QUERY_ID = resultNode.Attributes["queryid"]?.Value;
+            CONTENT = content;
+            XmlNode delayNode = XMLUtils.getChildNode(forwardedNode, "delay", Consts.XML_XMLNS, Consts.XML_XEP_0203_NAMESPACE);
+            DELAY = MessageMessage.parseDelay(delayNode);
+            foreach (AbstractMessage message in CONTENT)
             {
-                QUERY_ID = resultNode.Attributes["queryid"]?.Value;
-                XmlNode forwardedNode = XMLUtils.getChildNode(resultNode, "forwarded", Consts.XML_XMLNS, Consts.XML_XEP_0297_NAMESPACE);
-                if (!(forwardedNode is null))
+                if (message is MessageMessage msg)
                 {
-                    XmlNode messageNode = XMLUtils.getChildNode(forwardedNode, "message");
-                    if (!(messageNode is null))
-                    {
-                        MESSAGE = new MessageMessage(messageNode, CarbonCopyType.NONE);
-
-                        XmlNode delayNode = XMLUtils.getChildNode(forwardedNode, "delay", Consts.XML_XMLNS, Consts.XML_XEP_0203_NAMESPACE);
-                        if (!(delayNode is null))
-                        {
-                            MESSAGE.parseDelay(delayNode);
-                        }
-                    }
+                    msg.addDelay(DELAY);
                 }
             }
         }

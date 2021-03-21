@@ -238,6 +238,27 @@ namespace Manager.Classes.Chat
             CopyTo((ChatDataTemplate[])array, index);
         }
 
+        public void Sort()
+        {
+            LIST.Sort();
+            bool changesFound = false;
+            for (int i = 0; i < LIST.Count; i++)
+            {
+                if (LIST[i].Index != i)
+                {
+                    changesFound = true;
+                    //int oldIndex = LIST[i].Index;
+                    LIST[i].Index = i;
+                    // OnCollectionChanged(new NotifyCollectionChangedEventArgs(NotifyCollectionChangedAction.Move, LIST[i], i, oldIndex));
+                }
+            }
+
+            if (changesFound)
+            {
+                OnCollectionReset();
+            }
+        }
+
         #endregion
 
         #region --Misc Methods (Private)--

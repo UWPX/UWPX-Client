@@ -91,7 +91,7 @@ namespace XMPP_API.Classes.Network.XML.Messages
             XmlNode delayNode = XMLUtils.getChildNode(node, "delay", Consts.XML_XMLNS, Consts.XML_XEP_0203_NAMESPACE);
             if (delayNode != null)
             {
-                parseDelay(delayNode);
+                delay = parseDelay(delayNode);
             }
             else
             {
@@ -213,22 +213,20 @@ namespace XMPP_API.Classes.Network.XML.Messages
             delay = DateTime.Now;
         }
 
-        public void addDelay(DateTime date)
+        public void addDelay(DateTime delay)
         {
-            delay = date;
+            this.delay = delay;
         }
 
         /// <summary>
-        /// Parses a XEP-0203 (Delayed Delivery).
+        /// Parses a XEP-0203 (Delayed Delivery) and returns the result.
         /// </summary>
-        public void parseDelay(XmlNode delayNode)
+        public static DateTime parseDelay(XmlNode delayNode)
         {
             Debug.Assert(!(delayNode is null));
             XmlAttribute stamp = XMLUtils.getAttribute(delayNode, "stamp");
-            if (stamp != null)
-            {
-                delay = DateTimeHelper.Parse(stamp.Value);
-            }
+            Debug.Assert(!(stamp is null));
+            return DateTimeHelper.Parse(stamp.Value);
         }
 
         #endregion

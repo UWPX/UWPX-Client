@@ -27,7 +27,7 @@
                       Grid.Column="0"
                       Margin="0,0,-30,0"
                       VerticalAlignment="Center"
-                      IsOn="{x:Bind VIEW_MODEL.MODEL.Trusted, Mode=TwoWay}"
+                      IsOn="{x:Bind Fingerprint.trusted, Mode=TwoWay}"
                       OffContent="Untrusted"
                       OnContent="Trusted"
                       Toggled="Trust_tgls_Toggled"/>

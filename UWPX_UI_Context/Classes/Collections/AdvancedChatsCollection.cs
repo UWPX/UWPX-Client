@@ -73,7 +73,7 @@ namespace UWPX_UI_Context.Classes.Collections
 
         public void Sort()
         {
-
+            CHATS.Sort();
         }
 
         #endregion
