@@ -66,7 +66,7 @@ namespace Shared.Classes.Threading
 
         public new void Release()
         {
-            Logger.Debug('[' + NAME + ']' + " Semaphore 'Release()' from: " + Environment.StackTrace);
+            Logger.Trace('[' + NAME + ']' + " Semaphore 'Release()' from: " + Environment.StackTrace);
             Logger.Debug('[' + NAME + ']' + " 'Release()' PRE CurrentCount: " + CurrentCount);
             base.Release();
             Logger.Debug('[' + NAME + ']' + " 'Release()' POST CurrentCount: " + CurrentCount);

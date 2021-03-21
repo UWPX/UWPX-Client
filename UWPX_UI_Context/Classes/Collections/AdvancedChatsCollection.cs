@@ -143,7 +143,7 @@ namespace UWPX_UI_Context.Classes.Collections
                 else
                 {
                     int index = IndexOf(chat);
-                    bool included = filter is null || filter(chat);
+                    bool included = chat.Chat.isChatActive && (filter is null || filter(chat));
                     if (index >= 0)
                     {
                         if (!included)
@@ -169,7 +169,7 @@ namespace UWPX_UI_Context.Classes.Collections
                 case NotifyCollectionChangedAction.Add:
                     foreach (ChatDataTemplate chat in e.NewItems)
                     {
-                        if (filter(chat))
+                        if (chat.Chat.isChatActive && filter(chat))
                         {
                             InsertSorted(chat);
                         }
@@ -178,12 +178,11 @@ namespace UWPX_UI_Context.Classes.Collections
 
                 case NotifyCollectionChangedAction.Move:
                     throw new NotImplementedException();
-                    break;
 
                 case NotifyCollectionChangedAction.Remove:
                     foreach (ChatDataTemplate chat in e.OldItems)
                     {
-                        if (filter(chat))
+                        if (filter(chat) || !chat.Chat.isChatActive)
                         {
                             Remove(chat);
                         }
@@ -192,7 +191,6 @@ namespace UWPX_UI_Context.Classes.Collections
 
                 case NotifyCollectionChangedAction.Replace:
                     throw new NotImplementedException();
-                    break;
 
                 case NotifyCollectionChangedAction.Reset:
                     Filter();
