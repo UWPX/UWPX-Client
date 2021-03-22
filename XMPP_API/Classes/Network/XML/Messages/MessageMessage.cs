@@ -108,17 +108,8 @@ namespace XMPP_API.Classes.Network.XML.Messages
         #region --Set-, Get- Methods--
         protected static string loadMessageId(XmlNode node)
         {
-            // Check for a 'XEP-0359: Unique and Stable Stanza IDs' ID:
-            XmlNode stanzaIdNode = XMLUtils.getChildNode(node, "stanza-id", Consts.XML_XMLNS, Consts.XML_XEP_0359_NAMESPACE);
-            if (!(stanzaIdNode is null))
-            {
-                string sId = stanzaIdNode.Attributes["id"]?.Value;
-                if (!(sId is null))
-                {
-                    return sId;
-                }
-            }
-            // Fall back to an 'origin-id' node:
+            // Check for a 'XEP-0359: Unique and Stable Stanza IDs' ID.
+            // An 'origin-id' is preferred over a 'stanza-id' since the 'origin-id' is set by the original client as sender.
             XmlNode originIdNode = XMLUtils.getChildNode(node, "origin-id", Consts.XML_XMLNS, Consts.XML_XEP_0359_NAMESPACE);
             if (!(originIdNode is null))
             {
@@ -126,6 +117,16 @@ namespace XMPP_API.Classes.Network.XML.Messages
                 if (!(oId is null))
                 {
                     return oId;
+                }
+            }
+            // Fall back to an 'stanza-id' node:
+            XmlNode stanzaIdNode = XMLUtils.getChildNode(node, "stanza-id", Consts.XML_XMLNS, Consts.XML_XEP_0359_NAMESPACE);
+            if (!(stanzaIdNode is null))
+            {
+                string sId = stanzaIdNode.Attributes["id"]?.Value;
+                if (!(sId is null))
+                {
+                    return sId;
                 }
             }
 

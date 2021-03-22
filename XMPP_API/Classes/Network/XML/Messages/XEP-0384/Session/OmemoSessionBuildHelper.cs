@@ -130,7 +130,7 @@ namespace XMPP_API.Classes.Network.XML.Messages.XEP_0384.Session
             {
                 // Try to build a new session by requesting the devices bundle information:
                 OmemoBundleInformationResultMessage bundleMsg = await requestBundleInformationAsync(device);
-                if (!(bundleMsg is null))
+                if (!(bundleMsg is null) && !(bundleMsg.BUNDLE_INFO.bundle is null))
                 {
                     int preKeyIndex = bundleMsg.BUNDLE_INFO.bundle.GetRandomPreKeyIndex();
                     session = new OmemoSessionModel(bundleMsg.BUNDLE_INFO.bundle, preKeyIndex, CONNECTION.account.omemoIdentityKey);
