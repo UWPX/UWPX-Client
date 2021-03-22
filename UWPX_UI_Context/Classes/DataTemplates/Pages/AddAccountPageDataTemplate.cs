@@ -1,4 +1,5 @@
 ﻿using System.Linq;
+using Manager.Classes;
 using Shared.Classes;
 using Storage.Classes.Contexts;
 using Storage.Classes.Models.Account;
@@ -16,11 +17,23 @@ namespace UWPX_UI_Context.Classes.DataTemplates.Pages
             get => _BareJidText;
             set => SetBareJidProperty(value);
         }
+        private bool _AccountExists;
+        public bool AccountExists
+        {
+            get => _AccountExists;
+            set => SetProperty(ref _AccountExists, value);
+        }
         private bool _IsValidBareJid;
         public bool IsValidBareJid
         {
             get => _IsValidBareJid;
             set => SetIsValidBareJidProperty(value);
+        }
+        private bool _Step1ValidJid;
+        public bool Step1ValidJid
+        {
+            get => _Step1ValidJid;
+            set => SetProperty(ref _Step1ValidJid, value);
         }
         private string _Password;
         public string Password
@@ -73,7 +86,9 @@ namespace UWPX_UI_Context.Classes.DataTemplates.Pages
         {
             if (SetProperty(ref _BareJidText, value, nameof(BareJidText)))
             {
+                AccountExists = !(ConnectionHandler.INSTANCE.GetClient(value) is null);
                 IsValidBareJid = Utils.isBareJid(value);
+                Step1ValidJid = IsValidBareJid && !AccountExists;
             }
         }
 

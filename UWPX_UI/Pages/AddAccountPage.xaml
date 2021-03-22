@@ -95,6 +95,11 @@
                                                           IsValid="{x:Bind VIEW_MODEL.MODEL.IsValidBareJid, Mode=TwoWay}"
                                                           KeyUp="Jid1_tbx_KeyUp"
                                                           Text="{x:Bind VIEW_MODEL.MODEL.BareJidText, Mode=TwoWay}"/>
+                            <controls:IconTextBlockControl Margin="0,5,0,0"
+                                                           Glyph="&#xE783;"
+                                                           GlyphForeground="Red"
+                                                           Text="Account already exists"
+                                                           Visibility="{x:Bind VIEW_MODEL.MODEL.AccountExists, Mode=OneWay, Converter={StaticResource BoolVisibilityValueConverter}}"/>
                             <HyperlinkButton x:Name="whatIsAJid_link"
                                              Margin="0,10,0,0"
                                              Click="WhatIsAJid_link_Click"
@@ -118,7 +123,7 @@
                                                                     Click="Next_ipbtn_Click"
                                                                     Glyph="&#xEBE7;"
                                                                     GlyphForeground="Green"
-                                                                    IsEnabled="{x:Bind VIEW_MODEL.MODEL.IsValidBareJid, Mode=OneWay}"
+                                                                    IsEnabled="{x:Bind VIEW_MODEL.MODEL.Step1ValidJid, Mode=OneWay}"
                                                                     Text="Next"/>
                             </Grid>
                         </StackPanel>

@@ -9,6 +9,7 @@ using UWPX_UI_Context.Classes.DataContext.Pages;
 using Windows.UI;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
+using Windows.UI.Xaml.Input;
 using Windows.UI.Xaml.Navigation;
 
 namespace UWPX_UI.Pages
@@ -130,15 +131,15 @@ namespace UWPX_UI.Pages
             titleBar.OnPageNavigatedFrom();
         }
 
-        private async void Jid1_tbx_KeyUp(object sender, Windows.UI.Xaml.Input.KeyRoutedEventArgs e)
+        private async void Jid1_tbx_KeyUp(object sender, KeyRoutedEventArgs e)
         {
-            if (e.Key == Windows.System.VirtualKey.Enter && VIEW_MODEL.MODEL.IsValidBareJid)
+            if (e.Key == Windows.System.VirtualKey.Enter && VIEW_MODEL.MODEL.Step1ValidJid)
             {
                 await Next();
             }
         }
 
-        private void Jid2_tbx_KeyUp(object sender, Windows.UI.Xaml.Input.KeyRoutedEventArgs e)
+        private void Jid2_tbx_KeyUp(object sender, KeyRoutedEventArgs e)
         {
             if (e.Key == Windows.System.VirtualKey.Enter && VIEW_MODEL.MODEL.IsValidBareJid)
             {
@@ -146,7 +147,7 @@ namespace UWPX_UI.Pages
             }
         }
 
-        private async void Password_pwb_KeyUp(object sender, Windows.UI.Xaml.Input.KeyRoutedEventArgs e)
+        private async void Password_pwb_KeyUp(object sender, KeyRoutedEventArgs e)
         {
             if (e.Key == Windows.System.VirtualKey.Enter && VIEW_MODEL.MODEL.IsValidBareJid)
             {
