@@ -61,8 +61,9 @@ namespace UWPX_UI.Controls.Settings
             }
             else
             {
+                VIEW_MODEL.MODEL.ErrorSaving = false;
                 UpdateViewState(DisplayLabelState.Name);
-                VIEW_MODEL.SaveDeviceLabel(editLabel_tbx.Text, Account.Client.dbAccount.omemoInfo);
+                VIEW_MODEL.SaveDeviceLabel(editLabel_tbx.Text, Account.Client);
                 ToolTipService.SetToolTip(editLabel_btn, new ToolTip { Content = "Change device label" });
             }
         }

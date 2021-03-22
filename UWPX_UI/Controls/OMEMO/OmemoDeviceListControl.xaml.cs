@@ -53,11 +53,6 @@ namespace UWPX_UI.Controls.OMEMO
             await VIEW_MODEL.ResetOmemoDevicesAsync(Account.Client);
         }
 
-        private async void Refresh_ibtn_Click(IconProgressButtonControl sender, RoutedEventArgs args)
-        {
-            await VIEW_MODEL.RefreshOmemoDevicesAsync(Account.Client);
-        }
-
         #endregion
     }
 }

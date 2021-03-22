@@ -6,12 +6,6 @@ namespace UWPX_UI_Context.Classes.DataTemplates.Controls
     {
         //--------------------------------------------------------Attributes:-----------------------------------------------------------------\\
         #region --Attributes--
-        private bool _RefreshingDevices;
-        public bool RefreshingDevices
-        {
-            get => _RefreshingDevices;
-            set => SetProperty(ref _RefreshingDevices, value);
-        }
         private bool _ResettingDevices;
         public bool ResettingDevices
         {

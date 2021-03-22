@@ -258,9 +258,17 @@ namespace XMPP_API.Classes.Network
             else
             {
                 tmpDeviceId = CONNECTION.account.omemoDeviceId;
-                if (!devicesRemote.DEVICES.Any(d => d.ID == CONNECTION.account.omemoDeviceId))
+                OmemoXmlDevice remoteDevice = devicesRemote.DEVICES.Where(d => d.ID == tmpDeviceId).FirstOrDefault();
+                // Device does not exist:
+                if (remoteDevice is null)
                 {
                     devicesRemote.DEVICES.Add(new OmemoXmlDevice(tmpDeviceId, CONNECTION.account.omemoDeviceLabel));
+                    updateDeviceList = true;
+                }
+                // Device label changed:
+                else if (!string.Equals(remoteDevice.label, CONNECTION.account.omemoDeviceLabel))
+                {
+                    remoteDevice.label = CONNECTION.account.omemoDeviceLabel;
                     updateDeviceList = true;
                 }
             }

@@ -144,7 +144,7 @@ namespace Component_Tests.Classes.Crypto.Omemo
             Assert.IsTrue(devicesMsg.DEVICES.DEVICES.Count == 1);
             Assert.IsTrue(devicesMsg.DEVICES.DEVICES.First().IS_VALID);
             Assert.IsTrue(devicesMsg.DEVICES.DEVICES.First().ID == BOB_ADDRESS.DEVICE_ID);
-            Assert.IsTrue(devicesMsg.DEVICES.DEVICES.First().LABEL.Equals("Gajim on Ubuntu Linux"));
+            Assert.IsTrue(devicesMsg.DEVICES.DEVICES.First().label.Equals("Gajim on Ubuntu Linux"));
         }
 
         [TestCategory("Crypto")]

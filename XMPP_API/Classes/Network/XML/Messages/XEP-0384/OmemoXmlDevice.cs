@@ -8,7 +8,7 @@ namespace XMPP_API.Classes.Network.XML.Messages.XEP_0384
         //--------------------------------------------------------Attributes:-----------------------------------------------------------------\\
         #region --Attributes--
         public readonly uint ID;
-        public readonly string LABEL;
+        public string label;
         public readonly bool IS_VALID = false;
 
         #endregion
@@ -20,13 +20,13 @@ namespace XMPP_API.Classes.Network.XML.Messages.XEP_0384
             {
                 IS_VALID = true;
             }
-            LABEL = node.Attributes["label"]?.Value;
+            label = node.Attributes["label"]?.Value;
         }
 
         public OmemoXmlDevice(uint id, string label)
         {
             ID = id;
-            LABEL = label;
+            this.label = label;
             IS_VALID = true;
         }
 
@@ -42,9 +42,9 @@ namespace XMPP_API.Classes.Network.XML.Messages.XEP_0384
         {
             XElement node = new XElement(ns + "device");
             node.Add(new XAttribute("id", ID));
-            if (!(LABEL is null))
+            if (!(label is null))
             {
-                node.Add(new XAttribute("label", LABEL));
+                node.Add(new XAttribute("label", label));
             }
             return node;
         }

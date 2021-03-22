@@ -1,9 +1,6 @@
 ﻿using System.Threading.Tasks;
-using Logging;
 using Manager.Classes;
 using UWPX_UI_Context.Classes.DataTemplates.Controls;
-using XMPP_API.Classes.Network.XML.Messages;
-using XMPP_API.Classes.Network.XML.Messages.Helper;
 using XMPP_API.Classes.Network.XML.Messages.XEP_0384;
 
 namespace UWPX_UI_Context.Classes.DataContext.Controls
@@ -34,29 +31,6 @@ namespace UWPX_UI_Context.Classes.DataContext.Controls
             devices.DEVICES.Add(new OmemoXmlDevice(client.dbAccount.omemoInfo.deviceId, client.dbAccount.omemoInfo.deviceLabel));
             await client.xmppClient.OMEMO_COMMAND_HELPER.setDeviceListAsync(devices);
             MODEL.ResettingDevices = false;
-        }
-
-        public async Task RefreshOmemoDevicesAsync(Client client)
-        {
-            MODEL.RefreshingDevices = true;
-            MessageResponseHelperResult<IQMessage> result = await client.xmppClient.OMEMO_COMMAND_HELPER.requestDeviceListAsync(client.dbAccount.bareJid);
-            if (result.STATE == MessageResponseHelperResultState.SUCCESS)
-            {
-                if (result.RESULT is OmemoDeviceListResultMessage deviceListResultMessage)
-                {
-                    // MODEL.DEVICES.Clear();
-                    // MODEL.DEVICES.AddRange(deviceListResultMessage.DEVICES.DEVICES.Select(x => new UintDataTemplate { Value = x.ID }));
-                }
-                else
-                {
-                    Logger.Warn("Failed to request device list (" + result.RESULT.ToString() + ").");
-                }
-            }
-            else
-            {
-                Logger.Warn("Failed to request device list (" + result.STATE.ToString() + ").");
-            }
-            MODEL.RefreshingDevices = false;
         }
 
         #endregion
