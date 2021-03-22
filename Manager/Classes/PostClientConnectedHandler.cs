@@ -4,6 +4,7 @@ using System.Diagnostics;
 using System.Linq;
 using System.Threading.Tasks;
 using Logging;
+using Storage.Classes;
 using Storage.Classes.Contexts;
 using Storage.Classes.Models.Chat;
 using XMPP_API.Classes;
@@ -157,6 +158,12 @@ namespace Manager.Classes
         private async Task RequestMamAsync()
         {
             state = SetupState.REQUESTING_MAM;
+
+            // Skip MAM retrieval in case it has been disabled in the settings:
+            if (Settings.GetSettingBoolean(SettingsConsts.DISABLE_MAM))
+            {
+                Continue();
+            }
 
             if (!ccHandler.client.xmppClient.connection.DISCO_HELPER.HasFeature(Consts.XML_XEP_0313_NAMESPACE, ccHandler.client.dbAccount.bareJid))
             {

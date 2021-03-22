@@ -6,6 +6,7 @@ using Logging;
 using Manager.Classes.Toast;
 using Shared.Classes.Collections;
 using Shared.Classes.Network;
+using Storage.Classes;
 using Storage.Classes.Contexts;
 using Storage.Classes.Models.Chat;
 using XMPP_API.Classes;
@@ -206,7 +207,7 @@ namespace Manager.Classes.Chat
             List<ChatMessageDataTemplate> tmpMsgs;
             if (loadedAllLocalMessages)
             {
-                if (!mamRequested)
+                if (!Settings.GetSettingBoolean(SettingsConsts.DISABLE_MAM) && !mamRequested)
                 {
                     tmpMsgs = await LoadMoreMamMessagesAsync();
                     HasMoreMessages = tmpMsgs.Count > 0;
