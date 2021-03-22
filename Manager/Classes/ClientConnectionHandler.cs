@@ -517,8 +517,29 @@ namespace Manager.Classes
 
             if (chat.chatType == ChatType.CHAT)
             {
-                chat.status = args.PRESENCE_MESSAGE.STATUS;
-                chat.presence = args.PRESENCE_MESSAGE.PRESENCE;
+                if (string.Equals(args.PRESENCE_MESSAGE.TYPE, "subscribe"))
+                {
+                    chat.subscription = args.PRESENCE_MESSAGE.TYPE;
+                }
+
+                if (!string.Equals(args.PRESENCE_MESSAGE.TYPE, "unsubscribe") && !string.Equals(args.PRESENCE_MESSAGE.TYPE, "subscribe"))
+                {
+                    switch (chat.subscription)
+                    {
+                        case "from":
+                        case "none":
+                        case "pending":
+                        case null:
+                            chat.presence = Presence.Unavailable;
+                            break;
+
+                        default:
+                            chat.status = args.PRESENCE_MESSAGE.STATUS;
+                            chat.presence = args.PRESENCE_MESSAGE.PRESENCE;
+                            break;
+                    }
+                }
+
                 chat.Update();
             }
         }
