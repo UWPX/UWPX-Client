@@ -88,7 +88,7 @@ namespace UWPX_UI_Context.Classes.DataContext.Controls
                 }
                 else
                 {
-                    Logger.Debug("Sending message (encrypted=" + chat.Chat.omemo.enabled + "): " + trimedMsg);
+                    Logger.Debug("Sending message (encrypted=" + chat.Chat.omemoInfo.enabled + "): " + trimedMsg);
                     Task.Run(async () => await SendChatMessageAsync(chat, trimedMsg));
                 }
                 MODEL.MessageText = string.Empty;
@@ -104,7 +104,7 @@ namespace UWPX_UI_Context.Classes.DataContext.Controls
             string chatType = chat.Chat.chatType == ChatType.CHAT ? MessageMessage.TYPE_CHAT : MessageMessage.TYPE_GROUPCHAT;
             bool reciptRequested = true;
 
-            if (chat.Chat.omemo.enabled)
+            if (chat.Chat.omemoInfo.enabled)
             {
                 if (chat.Chat.chatType == ChatType.CHAT)
                 {
@@ -148,7 +148,7 @@ namespace UWPX_UI_Context.Classes.DataContext.Controls
             // Send the message:
             if (toSendMsg is OmemoEncryptedMessage toSendOmemoMsg)
             {
-                await chat.Client.xmppClient.sendOmemoMessageAsync(toSendOmemoMsg, chat.Chat.bareJid, chat.Client.dbAccount.bareJid);
+                await chat.Client.xmppClient.sendOmemoMessageAsync(toSendOmemoMsg, chat.Chat.bareJid, chat.Client.dbAccount.bareJid, chat.Client.dbAccount.omemoInfo.trustedKeysOnly, chat.Chat.omemoInfo.trustedKeysOnly);
             }
             else
             {

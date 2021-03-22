@@ -178,7 +178,7 @@ namespace XMPP_API.Classes
             await connection.DisconnectAsync();
         }
 
-        public async Task sendOmemoMessageAsync(OmemoEncryptedMessage msg, string chatJid, string accountJid)
+        public async Task sendOmemoMessageAsync(OmemoEncryptedMessage msg, string chatJid, string accountJid, bool trustedSrcKeysOnly, bool trustedDstKeysOnly)
         {
             if (connection.omemoHelper is null)
             {
@@ -187,7 +187,7 @@ namespace XMPP_API.Classes
             }
             else
             {
-                await connection.omemoHelper.sendOmemoMessageAsync(msg, accountJid, chatJid);
+                await connection.omemoHelper.sendOmemoMessageAsync(msg, accountJid, chatJid, trustedSrcKeysOnly, trustedDstKeysOnly);
             }
         }
 

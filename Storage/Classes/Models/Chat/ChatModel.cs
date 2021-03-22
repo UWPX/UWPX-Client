@@ -178,13 +178,13 @@ namespace Storage.Classes.Models.Chat
         /// Information about the state of OMEMO for this chat.
         /// </summary>
         [Required]
-        public OmemoChatInformationModel omemo
+        public OmemoChatInformationModel omemoInfo
         {
-            get => _omemo;
-            set => SetOmemoProperty(value);
+            get => _omemoInfo;
+            set => SetOmemoInfoProperty(value);
         }
         [NotMapped]
-        private OmemoChatInformationModel _omemo;
+        private OmemoChatInformationModel _omemoInfo;
 
 
         /// <summary>
@@ -217,17 +217,17 @@ namespace Storage.Classes.Models.Chat
             status = null;
             presence = Presence.Unavailable;
             chatType = ChatType.CHAT;
-            omemo = new OmemoChatInformationModel(chatBareJid);
+            omemoInfo = new OmemoChatInformationModel(chatBareJid);
 
         }
 
         #endregion
         //--------------------------------------------------------Set-, Get- Methods:---------------------------------------------------------\\
         #region --Set-, Get- Methods--
-        private void SetOmemoProperty(OmemoChatInformationModel value)
+        private void SetOmemoInfoProperty(OmemoChatInformationModel value)
         {
-            OmemoChatInformationModel old = _omemo;
-            if (SetProperty(ref _omemo, value, nameof(omemo)))
+            OmemoChatInformationModel old = _omemoInfo;
+            if (SetProperty(ref _omemoInfo, value, nameof(omemoInfo)))
             {
                 if (!(old is null))
                 {
@@ -279,7 +279,7 @@ namespace Storage.Classes.Models.Chat
         #region --Events--
         private void OnOmemoPropertyChanged(object sender, PropertyChangedEventArgs e)
         {
-            base.OnPropertyChanged(nameof(omemo) + '.' + e.PropertyName);
+            base.OnPropertyChanged(nameof(omemoInfo) + '.' + e.PropertyName);
         }
 
         private void OnMucPropertyChanged(object sender, PropertyChangedEventArgs e)

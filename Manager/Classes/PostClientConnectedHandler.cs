@@ -4,6 +4,8 @@ using System.Diagnostics;
 using System.Linq;
 using System.Threading.Tasks;
 using Logging;
+using Manager.Classes.Chat;
+using Shared.Classes.Threading;
 using Storage.Classes;
 using Storage.Classes.Contexts;
 using Storage.Classes.Models.Chat;
@@ -324,13 +326,28 @@ namespace Manager.Classes
         /// <param name="messages">A list of chat messages to send. They SHOULD be sorted by their chatId for optimal performance.</param>
         private async Task SendOutsandingChatMessagesAsync(List<Tuple<ChatMessageModel, string>> messages)
         {
+            ChatModel chat = null;
             foreach (Tuple<ChatMessageModel, string> msgDb in messages)
             {
                 MessageMessage msg = msgDb.Item1.ToMessageMessage(ccHandler.client.dbAccount.fullJid.FullJid(), msgDb.Item2);
 
+                if (chat is null || chat.id != msgDb.Item1.chatId)
+                {
+                    using (SemaLock semaLock = DataCache.INSTANCE.NewChatSemaLock())
+                    {
+                        chat = DataCache.INSTANCE.GetChat(msgDb.Item1.chatId, semaLock);
+                    }
+                }
+
+                if (chat is null)
+                {
+                    Logger.Warn($"Failed to send outstanding chat message from {msgDb.Item1.fromBareJid} to '{msgDb.Item2}'. Chat does not exist any more.");
+                    continue;
+                }
+
                 if (msg is OmemoEncryptedMessage omemoMsg)
                 {
-                    await ccHandler.client.xmppClient.sendOmemoMessageAsync(omemoMsg, msgDb.Item2, ccHandler.client.dbAccount.bareJid);
+                    await ccHandler.client.xmppClient.sendOmemoMessageAsync(omemoMsg, msgDb.Item2, ccHandler.client.dbAccount.bareJid, ccHandler.client.dbAccount.omemoInfo.trustedKeysOnly, chat.omemoInfo.trustedKeysOnly);
                 }
                 else
                 {

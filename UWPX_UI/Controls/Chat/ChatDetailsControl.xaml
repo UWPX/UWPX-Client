@@ -124,7 +124,7 @@
                                Visibility="{x:Bind VIEW_MODEL.MODEL.StatusText, Mode=OneWay, Converter={StaticResource StringEmptyVisibilityValueConverter}}"/>
                 </Grid>
                 <omemoControls:OmemoButtonControl Grid.Column="2"
-                                                  OmemoEnabled="{x:Bind Chat.Chat.omemo.enabled, Mode=OneWay}"
+                                                  OmemoEnabled="{x:Bind Chat.Chat.omemoInfo.enabled, Mode=OneWay}"
                                                   OmemoEnabledChanged="OnOmemoEnabledChanged"
                                                   Visibility="{x:Bind VIEW_MODEL.MODEL.OmemoVisibility, Mode=OneWay}"/>
                 <Button Grid.Column="3"
@@ -331,7 +331,7 @@
                                    FontFamily="{ThemeResource SymbolThemeFontFamily}"
                                    FontSize="10"
                                    Text="&#xE72E;"
-                                   Visibility="{x:Bind Chat.Chat.omemo.enabled, Mode=OneWay, Converter={StaticResource BoolVisibilityValueConverter}}"/>
+                                   Visibility="{x:Bind Chat.Chat.omemoInfo.enabled, Mode=OneWay, Converter={StaticResource BoolVisibilityValueConverter}}"/>
                     </Grid>
                 </Button>
                 <controls2:TeachingTip x:Name="enterToSend_tt"

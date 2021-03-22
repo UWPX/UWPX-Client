@@ -118,11 +118,11 @@ namespace Manager.Classes
             await client.xmppClient.reconnectAsync();
         }
 
-        private async Task<bool> DecryptOmemoEncryptedMessageAsync(OmemoEncryptedMessage msg)
+        private async Task<bool> DecryptOmemoEncryptedMessageAsync(OmemoEncryptedMessage msg, bool trustedKeysOnly)
         {
             try
             {
-                await client.xmppClient.connection.omemoHelper.decryptOmemoEncryptedMessageAsync(msg);
+                await client.xmppClient.connection.omemoHelper.decryptOmemoEncryptedMessageAsync(msg, trustedKeysOnly);
                 return true;
             }
             catch (Exception e)
@@ -145,6 +145,29 @@ namespace Manager.Classes
             string to = Utils.getBareJidFromFullJid(msg.getTo());
             string chatBareJid = string.Equals(from, client.dbAccount.bareJid) ? to : from;
 
+            SemaLock semaLock = DataCache.INSTANCE.NewChatSemaLock();
+            ChatModel chat = DataCache.INSTANCE.GetChat(client.dbAccount.bareJid, chatBareJid, semaLock);
+            bool newChat = chat is null;
+            bool chatChanged = false;
+
+            // Add the new chat to the DB since it's expected to be there by for example our OMEMO encryption:
+            if (newChat)
+            {
+                chat = new ChatModel(chatBareJid, client.dbAccount)
+                {
+                    lastActive = msg.delay,
+                    chatType = string.Equals(msg.TYPE, MessageMessage.TYPE_GROUPCHAT) ? ChatType.MUC : ChatType.CHAT,
+                    isChatActive = false // Mark chat as inactive until we can be sure, it's a valid message
+                };
+                DataCache.INSTANCE.AddChatUnsafe(chat, client);
+            }
+            else
+            {
+                // Mark chat as active:
+                chat.isChatActive = true;
+                chatChanged = true;
+            }
+            semaLock.Dispose();
 
             // Check if device id is valid and if, decrypt the OMEMO messages:
             if (msg is OmemoEncryptedMessage omemoMessage)
@@ -156,15 +179,21 @@ namespace Manager.Classes
                     Logger.Error("Failed to decrypt OMEMO message - OmemoHelper is null");
                     return;
                 }
-                else if (!await DecryptOmemoEncryptedMessageAsync(omemoMessage) || omemoMessage.IS_PURE_KEY_EXCHANGE_MESSAGE)
+                else if (!await DecryptOmemoEncryptedMessageAsync(omemoMessage, !newChat && chat.omemoInfo.trustedKeysOnly))
+                {
+                    if (newChat)
+                    {
+                        // We failed to decrypt, so this chat could be spam. Delete it again...
+                        DataCache.INSTANCE.DeleteChat(chat, false, false);
+                        Logger.Debug($"Deleting chat '{chat.bareJid}' again, since decrypting the initial OMEMO message failed.");
+                    }
+                    return;
+                }
+                else if (omemoMessage.IS_PURE_KEY_EXCHANGE_MESSAGE)
                 {
                     return;
                 }
             }
-
-            SemaLock semaLock = DataCache.INSTANCE.NewChatSemaLock();
-            ChatModel chat = DataCache.INSTANCE.GetChat(client.dbAccount.bareJid, chatBareJid, semaLock);
-            bool chatChanged = false;
 
             // Spam detection:
             if (Settings.GetSettingBoolean(SettingsConsts.SPAM_DETECTION_ENABLED))
@@ -173,30 +202,21 @@ namespace Manager.Classes
                 {
                     if (SpamHelper.INSTANCE.IsSpam(msg.MESSAGE))
                     {
+                        if (newChat)
+                        {
+                            // We failed to decrypt, so this chat could be spam. Delete it again...
+                            DataCache.INSTANCE.DeleteChat(chat, false, false);
+                            Logger.Debug($"Deleting chat '{chat.bareJid}' again, since it turned out to be spam.");
+                        }
                         Logger.Warn("Received spam message from " + chatBareJid);
                         return;
                     }
                 }
             }
 
-            bool newChat = chat is null;
-            if (newChat)
-            {
-                chat = new ChatModel(chatBareJid, client.dbAccount)
-                {
-                    lastActive = msg.delay,
-                    chatType = string.Equals(msg.TYPE, MessageMessage.TYPE_GROUPCHAT) ? ChatType.MUC : ChatType.CHAT,
-                    isChatActive = true // Mark chat as active
-                };
-                DataCache.INSTANCE.AddChatUnsafe(chat, client);
-            }
-            else
-            {
-                // Mark chat as active:
-                chat.isChatActive = true;
-                chatChanged = true;
-            }
-            semaLock.Dispose();
+            // Valid new chat, so we can change it to active now:
+            chat.isChatActive = true;
+            chatChanged = true;
 
             ChatMessageModel message = null;
             if (!newChat)

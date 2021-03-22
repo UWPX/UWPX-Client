@@ -370,7 +370,7 @@ namespace XMPP_API.Classes.Network.XML.Messages.XEP_0384
             decryptCtx.STORAGE.StoreFingerprint(fingerprint);
 
 
-            if (!fingerprint.trusted)
+            if (decryptCtx.TRUSTED_KEYS_ONLY && !fingerprint.trusted)
             {
                 throw new OmemoException("Failed to decrypt OMEMO message since we do not trust the sender.");
             }

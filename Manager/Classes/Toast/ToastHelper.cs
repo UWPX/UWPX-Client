@@ -287,7 +287,7 @@ namespace Manager.Classes.Toast
                     new ToastButton("Send", new SendReplyToastActivation(chat.id, msg.id).Generate())
                     {
                         ActivationType = ToastActivationType.Background,
-                        ImageUri = chat.omemo.enabled ? SEND_BUTTON_ENCRYPTED_IMAGE_PATH : SEND_BUTTON_IMAGE_PATH,
+                        ImageUri = chat.omemoInfo.enabled ? SEND_BUTTON_ENCRYPTED_IMAGE_PATH : SEND_BUTTON_IMAGE_PATH,
                         TextBoxId = TEXT_BOX_ID,
                     },
                     new ToastButton("Mark chat as read", new MarkChatAsReadToastActivation(chat.id, false).Generate())

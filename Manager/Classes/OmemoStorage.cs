@@ -46,7 +46,7 @@ namespace Manager.Classes
             {
                 using (SemaLock semaLock = DataCache.INSTANCE.NewChatSemaLock())
                 {
-                    subscription = DataCache.INSTANCE.GetChat(dbAccount.bareJid, bareJid, semaLock)?.omemo?.deviceListSubscription;
+                    subscription = DataCache.INSTANCE.GetChat(dbAccount.bareJid, bareJid, semaLock)?.omemoInfo?.deviceListSubscription;
                 }
             }
             if (subscription is null)
@@ -67,7 +67,7 @@ namespace Manager.Classes
             {
                 using (SemaLock semaLock = DataCache.INSTANCE.NewChatSemaLock())
                 {
-                    devices = DataCache.INSTANCE.GetChat(dbAccount.bareJid, bareJid, semaLock)?.omemo?.devices;
+                    devices = DataCache.INSTANCE.GetChat(dbAccount.bareJid, bareJid, semaLock)?.omemoInfo?.devices;
                 }
             }
             if (devices is null)
@@ -88,7 +88,7 @@ namespace Manager.Classes
             {
                 using (SemaLock semaLock = DataCache.INSTANCE.NewChatSemaLock())
                 {
-                    fingerprint = DataCache.INSTANCE.GetChat(dbAccount.bareJid, address.BARE_JID, semaLock)?.omemo?.devices?.Where(d => d.deviceId == address.DEVICE_ID).FirstOrDefault()?.fingerprint;
+                    fingerprint = DataCache.INSTANCE.GetChat(dbAccount.bareJid, address.BARE_JID, semaLock)?.omemoInfo?.devices?.Where(d => d.deviceId == address.DEVICE_ID).FirstOrDefault()?.fingerprint;
                 }
             }
             return fingerprint?.ToOmemoFingerprint(address);
@@ -104,7 +104,7 @@ namespace Manager.Classes
             {
                 using (SemaLock semaLock = DataCache.INSTANCE.NewChatSemaLock())
                 {
-                    return DataCache.INSTANCE.GetChat(dbAccount.bareJid, address.BARE_JID, semaLock)?.omemo?.devices?.Where(d => d.deviceId == address.DEVICE_ID).FirstOrDefault()?.session;
+                    return DataCache.INSTANCE.GetChat(dbAccount.bareJid, address.BARE_JID, semaLock)?.omemoInfo?.devices?.Where(d => d.deviceId == address.DEVICE_ID).FirstOrDefault()?.session;
                 }
             }
         }
@@ -152,7 +152,7 @@ namespace Manager.Classes
                 {
                     throw new InvalidOperationException("Failed to store device list subscription. Chat '" + bareJid + "' does not exist.");
                 }
-                OmemoDeviceListSubscriptionModel subscription = chat.omemo.deviceListSubscription;
+                OmemoDeviceListSubscriptionModel subscription = chat.omemoInfo.deviceListSubscription;
                 subscription.lastUpdateReceived = lastUpdate.Item2;
                 subscription.state = lastUpdate.Item1;
                 using (MainDbContext ctx = new MainDbContext())
@@ -181,7 +181,7 @@ namespace Manager.Classes
                 OmemoChatInformationModel omemoChatInfo;
                 using (SemaLock semaLock = DataCache.INSTANCE.NewChatSemaLock())
                 {
-                    omemoChatInfo = DataCache.INSTANCE.GetChat(dbAccount.bareJid, bareJid, semaLock)?.omemo;
+                    omemoChatInfo = DataCache.INSTANCE.GetChat(dbAccount.bareJid, bareJid, semaLock)?.omemoInfo;
                 }
                 if (omemoChatInfo is null)
                 {
@@ -216,7 +216,7 @@ namespace Manager.Classes
                 {
                     throw new InvalidOperationException("Failed to store fingerprint. Chat '" + fingerprint.ADDRESS.BARE_JID + "' does not exist.");
                 }
-                device = chat.omemo.devices.Where(d => d.deviceId == fingerprint.ADDRESS.DEVICE_ID).FirstOrDefault();
+                device = chat.omemoInfo.devices.Where(d => d.deviceId == fingerprint.ADDRESS.DEVICE_ID).FirstOrDefault();
             }
 
             if (device is null)
@@ -258,7 +258,7 @@ namespace Manager.Classes
                 {
                     throw new InvalidOperationException("Failed to store session. Chat '" + address.BARE_JID + "' does not exist.");
                 }
-                device = chat.omemo.devices.Where(d => d.deviceId == address.DEVICE_ID).FirstOrDefault();
+                device = chat.omemoInfo.devices.Where(d => d.deviceId == address.DEVICE_ID).FirstOrDefault();
             }
 
             if (device is null)
