@@ -27,6 +27,8 @@
         public const string ENABLE_OMEMO_BY_DEFAULT_FOR_NEW_CHATS = "enable_omemo_by_default_for_new_chats";
         public const string DISABLE_VIBRATION_FOR_NEW_CHAT_MESSAGES = "disable_vibration_for_new_chat_messages";
         public const string DISABLE_PLAY_SOUND_FOR_NEW_CHAT_MESSAGES = "disable_play_sound_for_new_chat_messages";
+        public const string DISABLE_MAM = "disable_mam";
+        public const string MAM_REQUEST_DAYS = "mam_request_days";
 
         public const string VERSION_MAJOR = "version_major";
         public const string VERSION_MINOR = "version_minor";

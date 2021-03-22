@@ -170,6 +170,13 @@ Shows the Emoji button in the chat window.
 **Off**  
 Hides the Emoji button in the chat window.</value>
   </data>
+  <data name="ChatSettingsPage_enable_mam_tooltip.Text" xml:space="preserve">
+    <value>**On**  
+Request your message archive for the last n days from the server by default for all chats.
+
+**Off**  
+Do not request request the message archive.</value>
+  </data>
   <data name="ChatSettingsPage_enter_to_send_tooltip.Text" xml:space="preserve">
     <value>**On**  
 Pressing the `enter` key will result in sending the message.  
@@ -177,6 +184,12 @@ A new line can be forced by pressing `shift` + `enter`.
 
 **Off**  
 Pressing enter won't result in sending the message.</value>
+  </data>
+  <data name="ChatSettingsPage_mam_days_tooltip.Text" xml:space="preserve">
+    <value>Defines for how may days your message archive should be retrieved by default for.
+Get affective wen you reconnect for the next time.  
+If you set the value to **-1**, UWPX will retrieve your complete message archive from your server.
+Be aware this might use a lot of resources and badwidth.</value>
   </data>
   <data name="ChatSettingsPage_play_sound_new_messages_tooltip.Text" xml:space="preserve">
     <value>**On**  

@@ -1,4 +1,5 @@
-﻿using UWPX_UI.Extensions;
+﻿using Microsoft.UI.Xaml.Controls;
+using UWPX_UI.Extensions;
 using UWPX_UI_Context.Classes;
 using UWPX_UI_Context.Classes.DataContext.Pages;
 using Windows.UI.Xaml.Controls;
@@ -98,6 +99,22 @@ namespace UWPX_UI.Pages.Settings
         protected override void OnNavigatedFrom(NavigationEventArgs e)
         {
             titleBar.OnPageNavigatedFrom();
+        }
+
+        private void MamDaysNumberBox_ValueChanged(NumberBox sender, NumberBoxValueChangedEventArgs args)
+        {
+            if (args.NewValue < -1)
+            {
+                sender.Value = -1;
+            }
+            else if (args.NewValue > 999)
+            {
+                sender.Value = 999;
+            }
+            else if (double.IsNaN(args.NewValue))
+            {
+                sender.Value = 365;
+            }
         }
 
         #endregion

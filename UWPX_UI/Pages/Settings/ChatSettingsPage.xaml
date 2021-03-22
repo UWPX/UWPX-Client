@@ -47,6 +47,13 @@
                 <controlsComp:NavigationViewItem Content="OMEMO"
                                                  Icon="Permissions"
                                                  Tag="OMEMO"/>
+                <controlsComp:NavigationViewItem Content="Message Archive Management (MAM)"
+                                                 Tag="MAM">
+                    <controlsComp:NavigationViewItem.Icon>
+                        <FontIcon FontFamily="Segoe MDL2 Assets"
+                                  Glyph="&#xE96A;"/>
+                    </controlsComp:NavigationViewItem.Icon>
+                </controlsComp:NavigationViewItem>
             </controlsComp:NavigationView.MenuItems>
             <ScrollViewer x:Name="main_scv"
                           HorizontalScrollMode="Disabled"
@@ -238,6 +245,54 @@
                                 <HyperlinkButton x:Name="omemoInfo_hlb"
                                                  Click="OmemoInfo_hlb_Click"
                                                  Content="What is OMEMO?"/>
+                            </StackPanel>
+                        </settings:SettingsContentControl.MainContent>
+                    </settings:SettingsContentControl>
+
+                    <!--  MAM:  -->
+                    <settings:SettingsContentControl x:Name="mam_scp"
+                                                     Header="Message Archive Management (MAM):">
+                        <settings:SettingsContentControl.MainContent>
+                            <StackPanel>
+                                <StackPanel Orientation="Horizontal">
+                                    <ToggleSwitch x:Name="enableMam_tgls"
+                                                  Header="Enable MAM"
+                                                  IsOn="{x:Bind VIEW_MODEL.MODEL.EnableMam, Mode=TwoWay}"/>
+                                    <Button Margin="10,0,0,0"
+                                            VerticalAlignment="Bottom"
+                                            Style="{ThemeResource InfoButtonStyle}">
+                                        <Button.Flyout>
+                                            <Flyout>
+                                                <controls1:MarkdownTextBlock x:Uid="ChatSettingsPage_enable_mam_tooltip"
+                                                                             MaxWidth="200"
+                                                                             TextWrapping="Wrap"/>
+                                            </Flyout>
+                                        </Button.Flyout>
+                                    </Button>
+                                </StackPanel>
+                                <StackPanel Orientation="Horizontal">
+                                    <controlsComp:NumberBox HorizontalAlignment="Left"
+                                                            Header="Request for the last n days:"
+                                                            IsEnabled="{x:Bind VIEW_MODEL.MODEL.EnableMam, Mode=OneWay}"
+                                                            LargeChange="10"
+                                                            PlaceholderText="365"
+                                                            SmallChange="1"
+                                                            SpinButtonPlacementMode="Inline"
+                                                            ValueChanged="MamDaysNumberBox_ValueChanged"
+                                                            Value="{x:Bind VIEW_MODEL.MODEL.MamRequestDays, Mode=TwoWay}"/>
+                                    <Button Margin="10,0,0,0"
+                                            VerticalAlignment="Bottom"
+                                            IsEnabled="{x:Bind VIEW_MODEL.MODEL.EnableMam, Mode=OneWay}"
+                                            Style="{ThemeResource InfoButtonStyle}">
+                                        <Button.Flyout>
+                                            <Flyout>
+                                                <controls1:MarkdownTextBlock x:Uid="ChatSettingsPage_mam_days_tooltip"
+                                                                             MaxWidth="200"
+                                                                             TextWrapping="Wrap"/>
+                                            </Flyout>
+                                        </Button.Flyout>
+                                    </Button>
+                                </StackPanel>
                             </StackPanel>
                         </settings:SettingsContentControl.MainContent>
                     </settings:SettingsContentControl>
