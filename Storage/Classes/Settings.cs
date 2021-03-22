@@ -63,7 +63,7 @@ namespace Storage.Classes
         public static bool GetSettingBoolean(string token, bool fallBackValue)
         {
             object obj = GetSetting(token);
-            return obj is null ? fallBackValue : (bool)obj;
+            return obj is bool b ? b : fallBackValue;
         }
 
         public static string GetSettingString(string token)
@@ -74,7 +74,7 @@ namespace Storage.Classes
         public static string GetSettingString(string token, string fallBackValue)
         {
             object obj = GetSetting(token);
-            return obj is null ? fallBackValue : (string)obj;
+            return obj is string s ? s : fallBackValue;
         }
 
         public static byte GetSettingByte(string token)
@@ -85,7 +85,7 @@ namespace Storage.Classes
         public static byte GetSettingByte(string token, byte fallBackValue)
         {
             object obj = GetSetting(token);
-            return obj is null ? fallBackValue : (byte)obj;
+            return obj is byte b ? b : fallBackValue;
         }
 
         public static int GetSettingInt(string token)
@@ -107,7 +107,7 @@ namespace Storage.Classes
         public static ushort GetSettingUshort(string token, ushort fallBackValue)
         {
             object obj = GetSetting(token);
-            return obj is null ? fallBackValue : (ushort)obj;
+            return obj is ushort s ? s : fallBackValue;
         }
 
         public static double GetSettingDouble(string token)
@@ -118,7 +118,7 @@ namespace Storage.Classes
         public static double GetSettingDouble(string token, double fallBackValue)
         {
             object obj = GetSetting(token);
-            return obj is null ? fallBackValue : (double)obj;
+            return obj is double d ? d : fallBackValue;
         }
 
         public static DateTime GetSettingDateTime(string token)

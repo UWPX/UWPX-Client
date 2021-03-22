@@ -86,6 +86,18 @@ namespace UWPX_UI_Context.Classes.DataTemplates.Pages
             get => _VibrationSupported;
             set => SetProperty(ref _VibrationSupported, value);
         }
+        private bool _EnableMam;
+        public bool EnableMam
+        {
+            get => _EnableMam;
+            set => SetBoolInversedProperty(ref _EnableMam, value, SettingsConsts.DISABLE_MAM);
+        }
+        private double _MamRequestDays;
+        public double MamRequestDays
+        {
+            get => _MamRequestDays;
+            set => SetMamRequestDaysProperty(value);
+        }
 
         #endregion
         //--------------------------------------------------------Constructor:----------------------------------------------------------------\\
@@ -119,6 +131,7 @@ namespace UWPX_UI_Context.Classes.DataTemplates.Pages
             PlaySoundForNewChatMessages = !Settings.GetSettingBoolean(SettingsConsts.DISABLE_PLAY_SOUND_FOR_NEW_CHAT_MESSAGES);
             IsEmojiButtonEnabled = Settings.GetSettingBoolean(SettingsConsts.CHAT_ENABLE_EMOJI_BUTTON);
             ShowAccountColor = Settings.GetSettingInt(SettingsConsts.CHAT_SHOW_ACCOUNT_COLOR, 0);
+            VibrationSupported = DeviceFamilyHelper.SupportsVibration();
 
             // MUC:
             AutoJoinMucs = !Settings.GetSettingBoolean(SettingsConsts.DISABLE_AUTO_JOIN_MUC);
@@ -130,8 +143,9 @@ namespace UWPX_UI_Context.Classes.DataTemplates.Pages
             // OMEMO:
             EnableOmemoForNewChats = Settings.GetSettingBoolean(SettingsConsts.ENABLE_OMEMO_BY_DEFAULT_FOR_NEW_CHATS);
 
-            // Misc:
-            VibrationSupported = DeviceFamilyHelper.SupportsVibration();
+            // MAM:
+            EnableMam = !Settings.GetSettingBoolean(SettingsConsts.DISABLE_MAM);
+            MamRequestDays = Settings.GetSettingDouble(SettingsConsts.MAM_REQUEST_DAYS, 365);
         }
 
         private bool SetBoolProperty(ref bool storage, bool value, string settingsToken, [CallerMemberName] string propertyName = null)
@@ -159,6 +173,16 @@ namespace UWPX_UI_Context.Classes.DataTemplates.Pages
             if (SetProperty(ref storage, value, propertyName))
             {
                 Settings.SetSetting(settingsToken, value);
+                return true;
+            }
+            return false;
+        }
+
+        private bool SetMamRequestDaysProperty(double value)
+        {
+            if (SetProperty(ref _MamRequestDays, value, nameof(MamRequestDays)))
+            {
+                Settings.SetSetting(SettingsConsts.MAM_REQUEST_DAYS, value);
                 return true;
             }
             return false;
