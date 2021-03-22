@@ -19,6 +19,18 @@ namespace UWPX_UI_Context.Classes.DataTemplates.Controls
             get => _DeviceLabel;
             set => SetProperty(ref _DeviceLabel, value);
         }
+        private bool _Saving;
+        public bool Saving
+        {
+            get => _Saving;
+            set => SetProperty(ref _Saving, value);
+        }
+        private bool _ErrorSaving;
+        public bool ErrorSaving
+        {
+            get => _ErrorSaving;
+            set => SetProperty(ref _ErrorSaving, value);
+        }
 
         #endregion
         //--------------------------------------------------------Constructor:----------------------------------------------------------------\\

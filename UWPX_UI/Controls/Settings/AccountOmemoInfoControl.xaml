@@ -3,6 +3,7 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:chat="using:UWPX_UI.Controls.Chat"
              xmlns:controls="using:UWPX_UI.Controls"
+             xmlns:controls1="using:Microsoft.UI.Xaml.Controls"
              xmlns:controlsOmemo="using:UWPX_UI.Controls.OMEMO"
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
@@ -43,6 +44,8 @@
             <TextBlock Margin="0,10,0,0"
                        FontWeight="Bold"
                        Text="This device:"/>
+            <ProgressBar IsIndeterminate="True"
+                         Visibility="{x:Bind VIEW_MODEL.MODEL.Saving, Mode=OneWay, Converter={StaticResource BoolVisibilityValueConverter}}"/>
             <Grid>
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="*"/>
@@ -71,8 +74,12 @@
                         Click="EditLabel_btn_Click"
                         Content="&#xE70F;"
                         FontWeight="Normal"
+                        IsEnabled="{x:Bind VIEW_MODEL.MODEL.Saving, Mode=OneWay, Converter={StaticResource BoolInverterValueConverter}}"
                         Style="{ThemeResource TransparentThemeButtonStyle}"/>
             </Grid>
+            <controls1:InfoBar IsOpen="{x:Bind VIEW_MODEL.MODEL.ErrorSaving, Mode=TwoWay}"
+                               Message="Failed to update device label. Make sure you are connected and try again."
+                               Severity="Error"/>
             <TextBlock Grid.Row="1"
                        Margin="0,10,0,0"
                        Foreground="{ThemeResource CaptionTextBrush}"
@@ -93,6 +100,7 @@
 
             <controlsOmemo:OmemoDeviceListControl Margin="0,10,0,0"
                                                   Account="{x:Bind Account, Mode=OneWay}"/>
+
         </StackPanel>
 
         <VisualStateManager.VisualStateGroups>

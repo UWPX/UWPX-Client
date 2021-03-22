@@ -24,14 +24,9 @@
             <RowDefinition Height="Auto"/>
         </Grid.RowDefinitions>
 
-        <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="*"/>
-            <ColumnDefinition Width="*"/>
-        </Grid.ColumnDefinitions>
-
         <TextBlock Grid.Row="0"
                    FontWeight="Bold"
-                   Text="Your OMEMO devices:"/>
+                   Text="Your other OMEMO devices:"/>
 
         <ListView Grid.Row="1"
                   Margin="0,10,0,0"
@@ -39,32 +34,30 @@
                   extensions:ListViewExtensions.StretchItemContainerDirection="Both"
                   Background="{ThemeResource SystemControlBackgroundAltMediumBrush}"
                   ItemTemplate="{StaticResource DeviceTemplate}"
-                  ItemsSource="{x:Bind Account.Client.dbAccount.omemoInfo.devices}"
+                  ItemsSource="{x:Bind Account.Client.dbAccount.omemoInfo.devices, Mode=OneWay}"
                   SelectionMode="None"/>
 
         <TextBlock Grid.Row="2"
-                   Margin="0,10,0,0">
+                   Margin="0,10,0,0"
+                   TextWrapping="Wrap">
             <Run Text="{x:Bind Account.Client.dbAccount.omemoInfo.devices.Count.ToString(), Mode=OneWay, FallbackValue='0'}"/>
             <Run Text="device(s) found."/>
+            <LineBreak/>
+            <LineBreak/>
+            <Run Text="Your device is not showing up?"/>
+            <LineBreak/>
+            <Run Text="Try sending an OMEMO encrypted message from it to any contact."/>
         </TextBlock>
 
         <local:IconProgressButtonControl x:Name="reset_ibtn"
                                          Grid.Row="3"
-                                         Grid.Column="0"
                                          Margin="0,10,1,0"
+                                         HorizontalAlignment="Left"
                                          Click="Reset_ibtn_Click"
                                          Glyph="&#xED62;"
                                          IsEnabled="{x:Bind VIEW_MODEL.MODEL.ResettingDevices, Mode=OneWay, Converter={StaticResource BoolInverterValueConverter}}"
                                          ProgressRingVisibility="{x:Bind VIEW_MODEL.MODEL.ResettingDevices, Mode=OneWay, Converter={StaticResource BoolVisibilityValueConverter}}"
-                                         Text="Reset devices"/>
-        <local:IconProgressButtonControl x:Name="refresh_ibtn"
-                                         Grid.Row="3"
-                                         Grid.Column="1"
-                                         Margin="1,10,0,0"
-                                         Click="Refresh_ibtn_Click"
-                                         Glyph="&#xE72C;"
-                                         IsEnabled="{x:Bind VIEW_MODEL.MODEL.RefreshingDevices, Mode=OneWay, Converter={StaticResource BoolInverterValueConverter}}"
-                                         ProgressRingVisibility="{x:Bind VIEW_MODEL.MODEL.RefreshingDevices, Mode=OneWay, Converter={StaticResource BoolVisibilityValueConverter}}"
-                                         Text="Refresh devices"/>
+                                         Text="Reset devices"
+                                         ToolTipService.ToolTip="Clears all inactive OMEMO devices."/>
     </Grid>
 </UserControl>
