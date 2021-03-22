@@ -84,7 +84,7 @@ namespace UWPX_UI.Controls.Chat
                 bareJid = "dave@xmpp.uwpx.org",
                 presence = XMPP_API.Classes.Presence.Away,
                 status = "ʕノ•ᴥ•ʔノ ︵ ┻━┻",
-                omemo = new OmemoChatInformationModel("dave@xmpp.uwpx.org")
+                omemoInfo = new OmemoChatInformationModel("dave@xmpp.uwpx.org")
                 {
                     enabled = true
                 }
@@ -280,10 +280,10 @@ namespace UWPX_UI.Controls.Chat
 
         private void OnOmemoEnabledChanged(OmemoButtonControl sender, EventArgs e)
         {
-            if (!IsDummy && sender.OmemoEnabled != Chat.Chat.omemo.enabled)
+            if (!IsDummy && sender.OmemoEnabled != Chat.Chat.omemoInfo.enabled)
             {
-                Chat.Chat.omemo.enabled = sender.OmemoEnabled;
-                Chat.Chat.omemo.Update();
+                Chat.Chat.omemoInfo.enabled = sender.OmemoEnabled;
+                Chat.Chat.omemoInfo.Update();
                 Logger.Info($"OMEMO for chat '{Chat.Chat.bareJid}' set to: '{sender.OmemoEnabled}'.");
             }
         }

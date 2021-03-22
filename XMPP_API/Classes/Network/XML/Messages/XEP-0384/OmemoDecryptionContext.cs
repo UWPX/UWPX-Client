@@ -9,11 +9,12 @@ namespace XMPP_API.Classes.Network.XML.Messages.XEP_0384
     {
         //--------------------------------------------------------Attributes:-----------------------------------------------------------------\\
         #region --Attributes--
-        public OmemoProtocolAddress RECEIVER_ADDRESS;
-        public IdentityKeyPairModel RECEIVER_IDENTITY_KEY;
-        public SignedPreKeyModel RECEIVER_SIGNED_PRE_KEY;
-        public IEnumerable<PreKeyModel> RECEIVER_PRE_KEYS;
-        public IExtendedOmemoStorage STORAGE;
+        public readonly OmemoProtocolAddress RECEIVER_ADDRESS;
+        public readonly IdentityKeyPairModel RECEIVER_IDENTITY_KEY;
+        public readonly SignedPreKeyModel RECEIVER_SIGNED_PRE_KEY;
+        public readonly IEnumerable<PreKeyModel> RECEIVER_PRE_KEYS;
+        public readonly IExtendedOmemoStorage STORAGE;
+        public readonly bool TRUSTED_KEYS_ONLY;
 
         public OmemoKey key;
         public bool keyExchange;
@@ -26,12 +27,13 @@ namespace XMPP_API.Classes.Network.XML.Messages.XEP_0384
         #endregion
         //--------------------------------------------------------Constructor:----------------------------------------------------------------\\
         #region --Constructors--
-        public OmemoDecryptionContext(OmemoProtocolAddress receiverAddress, IdentityKeyPairModel receiverIdentityKey, SignedPreKeyModel receiverSignedPreKey, IEnumerable<PreKeyModel> receiverPreKeys, IExtendedOmemoStorage storage)
+        public OmemoDecryptionContext(OmemoProtocolAddress receiverAddress, IdentityKeyPairModel receiverIdentityKey, SignedPreKeyModel receiverSignedPreKey, IEnumerable<PreKeyModel> receiverPreKeys, bool trustedKeysOnly, IExtendedOmemoStorage storage)
         {
             RECEIVER_ADDRESS = receiverAddress;
             RECEIVER_IDENTITY_KEY = receiverIdentityKey;
             RECEIVER_SIGNED_PRE_KEY = receiverSignedPreKey;
             RECEIVER_PRE_KEYS = receiverPreKeys;
+            TRUSTED_KEYS_ONLY = trustedKeysOnly;
             STORAGE = storage;
         }
 

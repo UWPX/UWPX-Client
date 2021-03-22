@@ -157,7 +157,7 @@ namespace UWPX_UI
             bool reciptRequested = true;
 
             MessageMessage toSendMsg;
-            if (chat.omemo.enabled)
+            if (chat.omemoInfo.enabled)
             {
                 if (chat.chatType == ChatType.CHAT)
                 {
@@ -212,7 +212,7 @@ namespace UWPX_UI
                 // Send the message:
                 else if (toSendMsg is OmemoEncryptedMessage toSendOmemoMsg)
                 {
-                    await client.xmppClient.sendOmemoMessageAsync(toSendOmemoMsg, chat.bareJid, client.dbAccount.bareJid);
+                    await client.xmppClient.sendOmemoMessageAsync(toSendOmemoMsg, chat.bareJid, client.dbAccount.bareJid, client.dbAccount.omemoInfo.trustedKeysOnly, chat.omemoInfo.trustedKeysOnly);
                 }
                 else
                 {

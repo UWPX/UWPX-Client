@@ -118,6 +118,18 @@ namespace Storage.Classes.Models.Omemo
         private List<OmemoDeviceModel> _devices;
 
         /// <summary>
+        /// Allow and send messages from and to trusted devices only.
+        /// </summary>
+        [Required]
+        public bool trustedKeysOnly
+        {
+            get => _trustedKeysOnly;
+            set => SetProperty(ref _trustedKeysOnly, value);
+        }
+        [NotMapped]
+        private bool _trustedKeysOnly;
+
+        /// <summary>
         /// The device list subscription states for this chat.
         /// </summary>
         [Required]

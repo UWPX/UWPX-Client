@@ -91,7 +91,7 @@ namespace XMPP_API.Classes.Network
             reset();
         }
 
-        public async Task sendOmemoMessageAsync(OmemoEncryptedMessage msg, string srcBareJid, string dstBareJid)
+        public async Task sendOmemoMessageAsync(OmemoEncryptedMessage msg, string srcBareJid, string dstBareJid, bool trustedSrcKeysOnly, bool trustedDstKeysOnly)
         {
             // Check if already trying to build a new session:
             if (MESSAGE_CACHE.ContainsKey(dstBareJid))
@@ -101,7 +101,7 @@ namespace XMPP_API.Classes.Network
             else
             {
                 // If not start a new session build helper:
-                OmemoSessionBuildHelper sessionHelper = new OmemoSessionBuildHelper(srcBareJid, dstBareJid, CONNECTION, this);
+                OmemoSessionBuildHelper sessionHelper = new OmemoSessionBuildHelper(srcBareJid, dstBareJid, CONNECTION, this, trustedSrcKeysOnly, trustedDstKeysOnly);
                 MESSAGE_CACHE[dstBareJid] = new Tuple<List<OmemoEncryptedMessage>, OmemoSessionBuildHelper>(new List<OmemoEncryptedMessage>(), sessionHelper);
                 MESSAGE_CACHE[dstBareJid].Item1.Add(msg);
                 Tuple<OmemoDeviceListSubscriptionState, DateTime> subscription = OMEMO_STORAGE.LoadDeviceListSubscription(dstBareJid);
@@ -123,12 +123,12 @@ namespace XMPP_API.Classes.Network
             }
         }
 
-        public async Task decryptOmemoEncryptedMessageAsync(OmemoEncryptedMessage msg)
+        public async Task decryptOmemoEncryptedMessageAsync(OmemoEncryptedMessage msg, bool trustedKeysOnly)
         {
             XMPPAccount account = CONNECTION.account;
             OmemoProtocolAddress receiverAddress = new OmemoProtocolAddress(account.getBareJid(), account.omemoDeviceId);
             // Try to decrypt the message, in case no exception occurred, everything went fine:
-            OmemoDecryptionContext decryptCtx = new OmemoDecryptionContext(receiverAddress, account.omemoIdentityKey, account.omemoSignedPreKey, account.OMEMO_PRE_KEYS, OMEMO_STORAGE);
+            OmemoDecryptionContext decryptCtx = new OmemoDecryptionContext(receiverAddress, account.omemoIdentityKey, account.omemoSignedPreKey, account.OMEMO_PRE_KEYS, trustedKeysOnly, OMEMO_STORAGE);
             msg.decrypt(decryptCtx);
             Debug.Assert(!msg.ENCRYPTED);
             Logger.Debug("Successfully decrypted an " + nameof(OmemoEncryptedMessage) + " for '" + receiverAddress.BARE_JID + "'.");

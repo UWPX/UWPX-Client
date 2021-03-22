@@ -18,18 +18,21 @@ namespace XMPP_API.Classes.Network.XML.Messages.XEP_0384.Session
         public readonly string SRC_BARE_JID;
         private readonly string DST_BARE_JID;
         private readonly OmemoHelper OMEMO_HELPER;
+        private readonly bool TRUSTED_SRC_KEYS_ONLY;
+        private readonly bool TRUSTED_DST_KEYS_ONLY;
         private OmemoSessionBuildResult sessionBuildResult;
-        private bool trustedKeysOnly;
 
         #endregion
         //--------------------------------------------------------Constructor:----------------------------------------------------------------\\
         #region --Constructors--
-        internal OmemoSessionBuildHelper(string srcBareJid, string dstBareJid, XmppConnection connection, OmemoHelper omemoHelper)
+        internal OmemoSessionBuildHelper(string srcBareJid, string dstBareJid, XmppConnection connection, OmemoHelper omemoHelper, bool trustedSrcKeysOnly, bool trustedDstKeysOnly)
         {
             CONNECTION = connection;
             SRC_BARE_JID = srcBareJid;
             DST_BARE_JID = dstBareJid;
             OMEMO_HELPER = omemoHelper;
+            TRUSTED_SRC_KEYS_ONLY = trustedSrcKeysOnly;
+            TRUSTED_DST_KEYS_ONLY = trustedDstKeysOnly;
             STATE = OmemoSessionBuildHelperState.NOT_STARTED;
         }
 
@@ -159,7 +162,7 @@ namespace XMPP_API.Classes.Network.XML.Messages.XEP_0384.Session
                 }
 
                 // Check if the fingerprint is trusted:
-                if (!(fingerprint is null) && (!trustedKeysOnly || fingerprint.trusted))
+                if (IsTrustedFingerprint(fingerprint))
                 {
                     deviceGroup.SESSIONS[device.DEVICE_ID] = session;
 
@@ -176,6 +179,27 @@ namespace XMPP_API.Classes.Network.XML.Messages.XEP_0384.Session
             }
 
             await buildSessionForDevicesAsync(deviceGroup, devices);
+        }
+
+        private bool IsTrustedFingerprint(OmemoFingerprint fingerprint)
+        {
+            if (fingerprint is null)
+            {
+                return false;
+            }
+
+            if (string.Equals(fingerprint.ADDRESS.BARE_JID, SRC_BARE_JID))
+            {
+                return !TRUSTED_SRC_KEYS_ONLY || fingerprint.trusted;
+            }
+
+            if (string.Equals(fingerprint.ADDRESS.BARE_JID, DST_BARE_JID))
+            {
+                return !TRUSTED_DST_KEYS_ONLY || fingerprint.trusted;
+            }
+
+            // Should not happen:
+            throw new InvalidOperationException($"Invalid fingerprint for '{fingerprint.ADDRESS.BARE_JID}' when establishing a session between '{SRC_BARE_JID}' and '{DST_BARE_JID}' found.");
         }
 
         private async Task<List<OmemoProtocolAddress>> requestDeviceListAsync(string bareJid)

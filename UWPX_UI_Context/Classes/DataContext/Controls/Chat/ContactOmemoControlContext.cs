@@ -75,7 +75,7 @@ namespace UWPX_UI_Context.Classes.DataContext.Controls.Chat
 
                     if (action is OmemoFingerprintUriAction fingerprintUriAction)
                     {
-                        OmemoDeviceModel device = MODEL.Chat.Chat.omemo.devices.Where(d => d.deviceId == fingerprintUriAction.FINGERPRINT.ADDRESS.DEVICE_ID).FirstOrDefault();
+                        OmemoDeviceModel device = MODEL.Chat.Chat.omemoInfo.devices.Where(d => d.deviceId == fingerprintUriAction.FINGERPRINT.ADDRESS.DEVICE_ID).FirstOrDefault();
                         using (MainDbContext ctx = new MainDbContext())
                         {
                             if (device is null)
@@ -88,8 +88,8 @@ namespace UWPX_UI_Context.Classes.DataContext.Controls.Chat
                                     }
                                 };
                                 ctx.Add(device);
-                                MODEL.Chat.Chat.omemo.devices.Add(device);
-                                ctx.Update(MODEL.Chat.Chat.omemo);
+                                MODEL.Chat.Chat.omemoInfo.devices.Add(device);
+                                ctx.Update(MODEL.Chat.Chat.omemoInfo);
                             }
                             else
                             {
@@ -128,7 +128,7 @@ namespace UWPX_UI_Context.Classes.DataContext.Controls.Chat
             Task.Run(() =>
             {
                 MODEL.Loading = true;
-                List<OmemoFingerprintModel> fingerprints = MODEL.Chat.Chat.omemo.devices.Select(d => d.fingerprint).ToList();
+                List<OmemoFingerprintModel> fingerprints = MODEL.Chat.Chat.omemoInfo.devices.Where(d => !(d.fingerprint is null)).Select(d => d.fingerprint).ToList();
                 // Sort based on the last seen date. If it's the same prefer trusted ones:
                 fingerprints.Sort((x, y) =>
                 {
