@@ -45,7 +45,7 @@ namespace Manager.Classes.Chat
 
         private CancellationTokenSource loadMoreMessagesToken = null;
         private Task<List<ChatMessageDataTemplate>> loadMoreMessagesTask = null;
-        private readonly SemaphoreSlim LOAD_MORE_MESSAGES_SEMA = new SemaphoreSlim(1);
+        private readonly SemaphoreSlim LOAD_MESSAGES_SEMA = new SemaphoreSlim(1);
 
         private bool mamRequested = false;
         private bool loadedAllLocalMessages = false;
@@ -116,39 +116,33 @@ namespace Manager.Classes.Chat
 
         public async Task LoadMoreMessagesAsync()
         {
-            await Task.Run(async () =>
+            if (!(loadMoreMessagesTask is null))
             {
-                if (!(loadMoreMessagesTask is null))
+                if (!(loadMoreMessagesToken is null) && !loadMoreMessagesToken.IsCancellationRequested)
                 {
-                    if (!(loadMoreMessagesToken is null) && !loadMoreMessagesToken.IsCancellationRequested)
-                    {
-                        loadMoreMessagesToken.Cancel();
-                    }
-                    await loadMoreMessagesTask;
+                    loadMoreMessagesToken.Cancel();
                 }
+                await loadMoreMessagesTask;
+            }
 
-                await LOAD_MORE_MESSAGES_SEMA.WaitAsync();
-                IsLoading = true;
-                loadMoreMessagesToken = new CancellationTokenSource();
+            await LOAD_MESSAGES_SEMA.WaitAsync();
+            IsLoading = true;
+            loadMoreMessagesToken = new CancellationTokenSource();
 
-                loadMoreMessagesTask = Task.Run(async () =>
+            loadMoreMessagesTask = LoadMoreMessagesInTaskAsync();
+
+            List<ChatMessageDataTemplate> msgs = await loadMoreMessagesTask;
+            if (!loadMoreMessagesToken.IsCancellationRequested && msgs.Count > 0)
+            {
+                ToastHelper.RemoveToastGroup(chat.Chat.id.ToString());
+                foreach (ChatMessageDataTemplate msg in msgs)
                 {
-                    return await LoadMoreMessagesInTaskAsync();
-                });
-
-                List<ChatMessageDataTemplate> msgs = await loadMoreMessagesTask;
-                if (!loadMoreMessagesToken.IsCancellationRequested && msgs.Count > 0)
-                {
-                    ToastHelper.RemoveToastGroup(chat.Chat.id.ToString());
-                    foreach (ChatMessageDataTemplate msg in msgs)
-                    {
-                        InsertSorted(msg);
-                    }
+                    InsertSorted(msg);
                 }
-                IsLoading = false;
-                UpdateUnreadCount();
-                LOAD_MORE_MESSAGES_SEMA.Release();
-            });
+            }
+            IsLoading = false;
+            UpdateUnreadCount();
+            LOAD_MESSAGES_SEMA.Release();
         }
 
         #endregion
@@ -161,6 +155,7 @@ namespace Manager.Classes.Chat
             {
                 loadMoreMessagesToken.Cancel();
             }
+            await LOAD_MESSAGES_SEMA.WaitAsync();
 
             // Load the initial bunch of messages and reset all properties:
             IsLoading = true;
@@ -198,6 +193,7 @@ namespace Manager.Classes.Chat
                 loadedAllLocalMessages = true;
                 mamRequested = true;
             }
+            LOAD_MESSAGES_SEMA.Release();
             UpdateUnreadCount();
             IsLoading = false;
         }
@@ -215,6 +211,8 @@ namespace Manager.Classes.Chat
                 }
                 else
                 {
+                    HasMoreMessages = false;
+                    mamRequested = true;
                     tmpMsgs = new List<ChatMessageDataTemplate>();
                 }
             }
