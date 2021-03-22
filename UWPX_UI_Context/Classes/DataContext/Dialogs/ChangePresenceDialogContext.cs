@@ -47,6 +47,11 @@ namespace UWPX_UI_Context.Classes.DataContext.Dialogs
                 {
                     MODEL.IsSaving = false;
                 }
+
+                // Update the DB:
+                MODEL.Client.dbAccount.presence = MODEL.SelectedItem.Presence;
+                MODEL.Client.dbAccount.status = MODEL.Status;
+                MODEL.Client.dbAccount.Update();
                 return true;
             });
         }
