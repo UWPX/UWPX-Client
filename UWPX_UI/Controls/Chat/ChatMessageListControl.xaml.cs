@@ -106,14 +106,14 @@ namespace UWPX_UI.Controls.Chat
         /// <summary>
         /// Tries to load more chat messages in case the user has scrolled to the top.
         /// </summary>
-        private async Task TryIncrementalLoadingAsync()
+        private void TryIncrementalLoading()
         {
             if (scrollViewer.VerticalOffset <= 10)
             {
                 if (!scrolledToTheTop && !VIEW_MODEL.MODEL.CHAT_MESSAGES.IsLoading)
                 {
                     scrolledToTheTop = true;
-                    await LoadMoreMessagesAsync();
+                    _ = LoadMoreMessagesAsync();
                 }
             }
             else
@@ -169,9 +169,9 @@ namespace UWPX_UI.Controls.Chat
             }
         }
 
-        private async void OnScrollViewerViewChanged(object sender, ScrollViewerViewChangedEventArgs e)
+        private void OnScrollViewerViewChanged(object sender, ScrollViewerViewChangedEventArgs e)
         {
-            await TryIncrementalLoadingAsync();
+            TryIncrementalLoading();
             if (e.IsIntermediate)
             {
                 UpdateBehavior();
@@ -208,9 +208,9 @@ namespace UWPX_UI.Controls.Chat
             }
         }
 
-        private async void mainListView_SizeChanged(object sender, SizeChangedEventArgs e)
+        private void mainListView_SizeChanged(object sender, SizeChangedEventArgs e)
         {
-            await LoadMoreMessagesAsync();
+            _ = LoadMoreMessagesAsync();
         }
         #endregion
     }
