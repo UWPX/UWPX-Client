@@ -215,7 +215,7 @@ namespace Omemo.Classes
         /// <param name="keyExchangeMsg">The received <see cref="OmemoKeyExchangeMessage"/>.</param>
         public OmemoSessionModel(IdentityKeyPairModel receiverIdentityKey, SignedPreKeyModel receiverSignedPreKey, PreKeyModel receiverPreKey, OmemoKeyExchangeMessage keyExchangeMsg)
         {
-            dhS = receiverIdentityKey;
+            dhS = receiverIdentityKey.Clone(); // Create a copy to prevent overlapping identity keys in the DB
             rk = CryptoUtils.GenerateReceiverSessionKey(keyExchangeMsg.IK, keyExchangeMsg.EK, receiverIdentityKey.privKey, receiverSignedPreKey.preKey.privKey, receiverPreKey.privKey);
             assData = CryptoUtils.Concat(keyExchangeMsg.IK.key, receiverIdentityKey.pubKey.key);
             ek = keyExchangeMsg.EK;
