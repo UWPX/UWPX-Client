@@ -37,6 +37,8 @@ namespace UWPX_UI.Controls.Toolkit.MasterDetailsView
         private ContentPresenter detailsPresenter;
         private Microsoft.UI.Xaml.Controls.TwoPaneView twoPaneView;
         private VisualStateGroup selectionStateGroup;
+
+        private bool ignoreClearSelectedItem = false;
         #endregion
         //--------------------------------------------------------Constructor:----------------------------------------------------------------\\
         #region --Constructors--
@@ -112,7 +114,9 @@ namespace UWPX_UI.Controls.Toolkit.MasterDetailsView
         /// </summary>
         public void ClearSelectedItem()
         {
+            ignoreClearSelectedItem = true;
             SelectedItem = null;
+            ignoreClearSelectedItem = false;
         }
 
         #endregion
@@ -144,6 +148,13 @@ namespace UWPX_UI.Controls.Toolkit.MasterDetailsView
 
         private void OnSelectedItemChanged(DependencyPropertyChangedEventArgs e)
         {
+            // Always keep the last selected item in view regardless what happens:
+            if (!ignoreClearSelectedItem && !(e.OldValue is null) && e.NewValue is null && Items.Contains(e.OldValue))
+            {
+                SelectedItem = e.OldValue;
+                return;
+            }
+
             int index = SelectedItem is null ? -1 : Items.IndexOf(SelectedItem);
 
             // If there is no selection, do not remove the DetailsPresenter content but let it animate out.
