@@ -11,21 +11,8 @@ namespace Component_Tests.Classes.Crypto.Omemo
         //--------------------------------------------------------Attributes:-----------------------------------------------------------------\\
         #region --Attributes--
         public readonly Dictionary<OmemoProtocolAddress, OmemoSessionModel> SESSIONS = new Dictionary<OmemoProtocolAddress, OmemoSessionModel>();
-
-        public Tuple<OmemoDeviceListSubscriptionState, DateTime> LoadDeviceListSubscription(string bareJid)
-        {
-            throw new NotImplementedException();
-        }
-
-        public List<OmemoProtocolAddress> LoadDevices(string bareJid)
-        {
-            throw new NotImplementedException();
-        }
-
-        public OmemoFingerprint LoadFingerprint(OmemoProtocolAddress address)
-        {
-            throw new NotImplementedException();
-        }
+        public readonly Dictionary<OmemoProtocolAddress, OmemoFingerprint> FINGERPRINTS = new Dictionary<OmemoProtocolAddress, OmemoFingerprint>();
+        public readonly Dictionary<string, List<OmemoProtocolAddress>> DEVICES = new Dictionary<string, List<OmemoProtocolAddress>>();
 
         #endregion
         //--------------------------------------------------------Constructor:----------------------------------------------------------------\\
@@ -58,18 +45,34 @@ namespace Component_Tests.Classes.Crypto.Omemo
 
         public void StoreDevices(List<OmemoProtocolAddress> devices, string bareJid)
         {
-            throw new NotImplementedException();
+            DEVICES[bareJid] = devices;
         }
 
         public void StoreFingerprint(OmemoFingerprint fingerprint)
         {
-            throw new NotImplementedException();
+            FINGERPRINTS[fingerprint.ADDRESS] = fingerprint;
         }
 
         public void StoreSession(OmemoProtocolAddress address, OmemoSessionModel session)
         {
             SESSIONS[address] = session;
         }
+
+        public Tuple<OmemoDeviceListSubscriptionState, DateTime> LoadDeviceListSubscription(string bareJid)
+        {
+            throw new NotImplementedException();
+        }
+
+        public List<OmemoProtocolAddress> LoadDevices(string bareJid)
+        {
+            return DEVICES.ContainsKey(bareJid) ? DEVICES[bareJid] : new List<OmemoProtocolAddress>();
+        }
+
+        public OmemoFingerprint LoadFingerprint(OmemoProtocolAddress address)
+        {
+            return FINGERPRINTS.ContainsKey(address) ? FINGERPRINTS[address] : null;
+        }
+
 
         #endregion
 
