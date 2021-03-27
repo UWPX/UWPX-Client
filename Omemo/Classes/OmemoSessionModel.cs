@@ -27,6 +27,7 @@ namespace Omemo.Classes
         /// <summary>
         /// Key pair for the sending ratchet.
         /// </summary>
+        [Required]
         public AbstractECKeyPairModel dhS
         {
             get => _dhS;
@@ -38,6 +39,7 @@ namespace Omemo.Classes
         /// <summary>
         /// Key pair for the receiving ratchet.
         /// </summary>
+        [Required]
         public AbstractECKeyPairModel dhR
         {
             get => _dhR;
@@ -300,6 +302,16 @@ namespace Omemo.Classes
             tmp = LibSignalUtils.KDF_RK(rk, CryptoUtils.SharedSecret(dhS.privKey, dhR.pubKey));
             rk = tmp.Item1;
             ckS = tmp.Item2;
+        }
+
+        /// <summary>
+        /// Initializes the receiving chain key (<see cref="ckR"/>) and updates the root key (<see cref="rk"/>) accordingly.
+        /// </summary>
+        public void InitReceiverKeyChain()
+        {
+            Tuple<byte[], byte[]> tmp = LibSignalUtils.KDF_RK(rk, CryptoUtils.SharedSecret(dhS.privKey, dhR.pubKey));
+            rk = tmp.Item1;
+            ckR = tmp.Item2;
         }
 
         #endregion

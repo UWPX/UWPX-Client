@@ -216,12 +216,20 @@ namespace Omemo.Classes
                 return plainText;
             }
 
-            if (session.dhR is null || !session.dhR.pubKey.Equals(msg.DH))
+            if (session.dhR is null || !msg.DH.Equals(session.dhR.pubKey))
             {
                 SkipMessageKeys(session, msg.PN);
                 session.InitDhRatchet(msg);
             }
             SkipMessageKeys(session, msg.N);
+
+            // If no receive chain has been initialized yet, initialize it now.
+            // This happens in case we received a key exchange message with a new session and now would like to send our first message.
+            if (session.ckR is null)
+            {
+                session.InitReceiverKeyChain();
+            }
+
             byte[] mk = LibSignalUtils.KDF_CK(session.ckR, 0x01);
             session.ckR = LibSignalUtils.KDF_CK(session.ckR, 0x02);
             ++session.nR;
