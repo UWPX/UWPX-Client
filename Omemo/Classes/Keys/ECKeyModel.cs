@@ -57,6 +57,14 @@ namespace Omemo.Classes.Keys
             return key.GetHashCode();
         }
 
+        /// <summary>
+        /// Creates a copy of the object, not including <see cref="id"/>.
+        /// </summary>
+        public ECKeyModel Clone()
+        {
+            return new ECKeyModel(key);
+        }
+
         #endregion
 
         #region --Misc Methods (Private)--

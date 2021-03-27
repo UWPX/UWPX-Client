@@ -269,14 +269,24 @@ namespace Manager.Classes
             {
                 device.session = session;
             }
-            using (MainDbContext ctx = new MainDbContext())
+
+            bool newSession = device.session.id != session.id;
+            OmemoSessionModel oldSession = null;
+            if (newSession)
             {
-                if (device.session.id != session.id)
+                oldSession = device.session;
+                device.session = session;
+            }
+
+            device.Update();
+
+            // Remove the old session:
+            if (newSession)
+            {
+                using (MainDbContext ctx = new MainDbContext())
                 {
-                    ctx.Remove(device.session);
-                    device.session = session;
+                    ctx.Remove(oldSession);
                 }
-                ctx.Update(device);
             }
         }
 
