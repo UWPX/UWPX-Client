@@ -79,7 +79,7 @@ namespace XMPP_API.Classes.Network.XML.Messages.XEP_0384.Session
             if (subscriptionState == OmemoDeviceListSubscriptionState.SUBSCRIBED)
             {
                 // Because we are subscribed, the device list should be up to date:
-                devicesRemote = OMEMO_HELPER.OMEMO_STORAGE.LoadDevices(SRC_BARE_JID);
+                devicesRemote = OMEMO_HELPER.OMEMO_STORAGE.LoadDevices(DST_BARE_JID);
             }
 
             if (devicesRemote is null || devicesRemote.Count <= 0)
@@ -160,7 +160,14 @@ namespace XMPP_API.Classes.Network.XML.Messages.XEP_0384.Session
                 {
                     Logger.Warn("[OmemoSessionBuildHelper] Unable to establish session with: " + device.ToString());
                 }
+            }
+            else
+            {
+                Logger.Debug("[OmemoSessionBuildHelper] Session for " + device.ToString() + " loaded from cache.");
+            }
 
+            if (!(session is null))
+            {
                 // Check if the fingerprint is trusted:
                 if (IsTrustedFingerprint(fingerprint))
                 {
@@ -172,10 +179,6 @@ namespace XMPP_API.Classes.Network.XML.Messages.XEP_0384.Session
                 {
                     Logger.Warn("[OmemoSessionBuildHelper] Unable to establish session with " + device.ToString() + " - key not trusted.");
                 }
-            }
-            else
-            {
-                Logger.Debug("[OmemoSessionBuildHelper] Session for " + device.ToString() + " loaded from cache.");
             }
 
             await buildSessionForDevicesAsync(deviceGroup, devices);

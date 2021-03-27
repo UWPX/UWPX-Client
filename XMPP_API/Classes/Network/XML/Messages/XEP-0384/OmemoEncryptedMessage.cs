@@ -5,6 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Xml;
 using System.Xml.Linq;
+using Logging;
 using Omemo.Classes;
 using Omemo.Classes.Exceptions;
 using Omemo.Classes.Keys;
@@ -183,23 +184,37 @@ namespace XMPP_API.Classes.Network.XML.Messages.XEP_0384
                 {
                     throw new NotForDeviceException("Failed to decrypt message. Not encrypted for device.");
                 }
-                decryptCtx.keyExchange = decryptCtx.key.KEY_EXCHANGE;
+                decryptCtx.senderAddress = new OmemoProtocolAddress(Utils.getBareJidFromFullJid(FROM), SID);
 
                 // Check if the PreKey and SignedPreKey are still available in case the massage is a key exchange message:
                 byte[] data = Convert.FromBase64String(decryptCtx.key.BASE64_PAYLOAD);
                 if (decryptCtx.key.KEY_EXCHANGE)
                 {
                     decryptCtx.keyExchangeMsg = new OmemoKeyExchangeMessage(data);
-                    decryptCtx.authMsg = decryptCtx.keyExchangeMsg.MESSAGE;
-                    if (decryptCtx.keyExchangeMsg.SPK_ID != decryptCtx.RECEIVER_SIGNED_PRE_KEY.preKey.keyId)
-                    {
-                        throw new NotForDeviceException("Failed to decrypt message. Signed PreKey with id " + decryptCtx.keyExchangeMsg.SPK_ID + " not available any more.");
-                    }
 
-                    decryptCtx.usedPreKey = decryptCtx.RECEIVER_PRE_KEYS.Where(k => k.keyId == decryptCtx.keyExchangeMsg.PK_ID).FirstOrDefault();
-                    if (decryptCtx.usedPreKey is null)
+                    // Check if there already exists a session. In case yes, compare the ephemeral public key stored in the Double Ratchet:
+                    OmemoSessionModel oldSession = decryptCtx.STORAGE.LoadSession(decryptCtx.senderAddress);
+                    if (!(oldSession is null) && oldSession.ek.Equals(decryptCtx.keyExchangeMsg.EK))
                     {
-                        throw new NotForDeviceException("Failed to decrypt message. PreKey with id " + decryptCtx.keyExchangeMsg.PK_ID + " not available any more.");
+                        // Process only the auth message: 
+                        decryptCtx.authMsg = decryptCtx.keyExchangeMsg.MESSAGE;
+                        decryptCtx.keyExchange = false;
+                        Logger.Info($"Received an {nameof(OmemoKeyExchangeMessage)} for a session from '{decryptCtx.senderAddress.ToString()}' that already exists. This could be because we have not yet responded with an own message to the sender.");
+                    }
+                    else
+                    {
+                        decryptCtx.keyExchange = true;
+                        decryptCtx.authMsg = decryptCtx.keyExchangeMsg.MESSAGE;
+                        if (decryptCtx.keyExchangeMsg.SPK_ID != decryptCtx.RECEIVER_SIGNED_PRE_KEY.preKey.keyId)
+                        {
+                            throw new NotForDeviceException("Failed to decrypt message. Signed PreKey with id " + decryptCtx.keyExchangeMsg.SPK_ID + " not available any more.");
+                        }
+
+                        decryptCtx.usedPreKey = decryptCtx.RECEIVER_PRE_KEYS.Where(k => k.keyId == decryptCtx.keyExchangeMsg.PK_ID).FirstOrDefault();
+                        if (decryptCtx.usedPreKey is null)
+                        {
+                            throw new NotForDeviceException("Failed to decrypt message. PreKey with id " + decryptCtx.keyExchangeMsg.PK_ID + " not available any more.");
+                        }
                     }
                 }
                 else
@@ -217,7 +232,6 @@ namespace XMPP_API.Classes.Network.XML.Messages.XEP_0384
                 {
                     IS_PURE_KEY_EXCHANGE_MESSAGE = true;
                 }
-                decryptCtx.senderAddress = new OmemoProtocolAddress(Utils.getBareJidFromFullJid(FROM), SID);
 
                 // Check the senders fingerprint and handle new devices:
                 ValidateSender(decryptCtx);

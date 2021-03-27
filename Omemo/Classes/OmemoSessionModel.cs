@@ -219,6 +219,7 @@ namespace Omemo.Classes
             rk = CryptoUtils.GenerateReceiverSessionKey(keyExchangeMsg.IK, keyExchangeMsg.EK, receiverIdentityKey.privKey, receiverSignedPreKey.preKey.privKey, receiverPreKey.privKey);
             assData = CryptoUtils.Concat(keyExchangeMsg.IK.key, receiverIdentityKey.pubKey.key);
             ek = keyExchangeMsg.EK;
+            preKeyId = receiverPreKey.keyId;
 
             MK_SKIPPED.PropertyChanged += OnMK_SKIPPEDPropertyChanged;
         }
