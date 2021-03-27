@@ -28,25 +28,25 @@ namespace Omemo.Classes
         /// Key pair for the sending ratchet.
         /// </summary>
         [Required]
-        public AbstractECKeyPairModel dhS
+        public GenericECKeyPairModel dhS
         {
             get => _dhS;
             set => SetDhsProperty(value);
         }
         [NotMapped]
-        private AbstractECKeyPairModel _dhS;
+        private GenericECKeyPairModel _dhS;
 
         /// <summary>
         /// Key pair for the receiving ratchet.
         /// </summary>
         [Required]
-        public AbstractECKeyPairModel dhR
+        public GenericECKeyPairModel dhR
         {
             get => _dhR;
             set => SetDhrProperty(value);
         }
         [NotMapped]
-        private AbstractECKeyPairModel _dhR;
+        private GenericECKeyPairModel _dhR;
 
         /// <summary>
         /// Ephemeral key used for initiating this session. 
@@ -217,7 +217,7 @@ namespace Omemo.Classes
         /// <param name="keyExchangeMsg">The received <see cref="OmemoKeyExchangeMessage"/>.</param>
         public OmemoSessionModel(IdentityKeyPairModel receiverIdentityKey, SignedPreKeyModel receiverSignedPreKey, PreKeyModel receiverPreKey, OmemoKeyExchangeMessage keyExchangeMsg)
         {
-            dhS = receiverIdentityKey.Clone(); // Create a copy to prevent overlapping identity keys in the DB
+            dhS = new GenericECKeyPairModel(receiverIdentityKey.privKey.Clone(), receiverIdentityKey.pubKey.Clone()); // Prevent cascading deletion when we delete an onld session
             rk = CryptoUtils.GenerateReceiverSessionKey(keyExchangeMsg.IK, keyExchangeMsg.EK, receiverIdentityKey.privKey, receiverSignedPreKey.preKey.privKey, receiverPreKey.privKey);
             assData = CryptoUtils.Concat(keyExchangeMsg.IK.key, receiverIdentityKey.pubKey.key);
             ek = keyExchangeMsg.EK;
@@ -250,9 +250,9 @@ namespace Omemo.Classes
             }
         }
 
-        private void SetDhrProperty(AbstractECKeyPairModel value)
+        private void SetDhrProperty(GenericECKeyPairModel value)
         {
-            AbstractECKeyPairModel old = _dhR;
+            GenericECKeyPairModel old = _dhR;
             if (SetProperty(ref _dhR, value, nameof(dhR)))
             {
                 if (!(old is null))
@@ -266,9 +266,9 @@ namespace Omemo.Classes
             }
         }
 
-        private void SetDhsProperty(AbstractECKeyPairModel value)
+        private void SetDhsProperty(GenericECKeyPairModel value)
         {
-            AbstractECKeyPairModel old = _dhS;
+            GenericECKeyPairModel old = _dhS;
             if (SetProperty(ref _dhS, value, nameof(dhS)))
             {
                 if (!(old is null))
