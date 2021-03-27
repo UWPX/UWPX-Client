@@ -191,7 +191,7 @@ namespace Manager.Classes.Chat
             {
                 if (CHATS.Contains(chatId))
                 {
-                    chat = CHATS.GetChat(chat.id).Chat;
+                    chat = CHATS.GetChat(chatId).Chat;
                 }
             }
             else
