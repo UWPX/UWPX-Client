@@ -16,7 +16,7 @@ namespace XMPP_API.Classes.Network.XML.Messages.Helper
         /// <summary>
         /// Default timeout for requests is 5 seconds.
         /// </summary>
-        public readonly TimeSpan TIMEOUT = TimeSpan.FromSeconds(5.0);
+        public readonly TimeSpan TIMEOUT = TimeSpan.FromSeconds(10.0);
         private Task timeoutTask;
         private TaskCompletionSource<MessageResponseHelperResult<T>> completionSource;
 
