@@ -6,6 +6,7 @@ using XMPP_API.Classes.Network;
 using XMPP_API.Classes.Network.XML.Messages;
 using XMPP_API.Classes.Network.XML.Messages.Helper;
 using XMPP_API.Classes.Network.XML.Messages.XEP_0030;
+using XMPP_API.Classes.Network.XML.Messages.XEP_0059;
 using XMPP_API.Classes.Network.XML.Messages.XEP_0085;
 using XMPP_API.Classes.Network.XML.Messages.XEP_0280;
 using XMPP_API.Classes.Network.XML.Messages.XEP_0313;
@@ -247,18 +248,20 @@ namespace XMPP_API.Classes
         /// Sends a <seealso cref="QueryArchiveMessage"/> to the server and requests the MAM archive.
         /// </summary>
         /// <param name="filter">A filter for filtering the MAM results like filtering by JID.</param>
+        /// <param name="rsm">Optional configuration for the result set.</param>
         /// <returns>The result of the request.</returns>
-        public async Task<MessageResponseHelperResult<MamResult>> requestMamAsync(QueryFilter filter) { return await requestMamAsync(filter, null); }
+        public async Task<MessageResponseHelperResult<MamResult>> requestMamAsync(QueryFilter filter, Set rsm) { return await requestMamAsync(filter, rsm, null); }
 
         /// <summary>
         /// Sends a <seealso cref="QueryArchiveMessage"/> to the server and requests the MAM archive.
         /// </summary>
         /// <param name="filter">A filter for filtering the MAM results like filtering by JID.</param>
+        /// <param name="rsm">Optional configuration for the result set.</param>
         /// <param name="to">The target of the request. null for request to your own server. Used for requesting MUC-MAMs.</param>
         /// <returns>The result of the request.</returns>
-        public async Task<MessageResponseHelperResult<MamResult>> requestMamAsync(QueryFilter filter, string to)
+        public async Task<MessageResponseHelperResult<MamResult>> requestMamAsync(QueryFilter filter, Set rsm, string to)
         {
-            QueryArchiveMessage msg = new QueryArchiveMessage(filter, CONNECTION.account.getFullJid(), to);
+            QueryArchiveMessage msg = new QueryArchiveMessage(filter, rsm, CONNECTION.account.getFullJid(), to);
             List<QueryArchiveResultMessage> results = new List<QueryArchiveResultMessage>();
             Predicate<AbstractAddressableMessage> predicate = (x) =>
             {

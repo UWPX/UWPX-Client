@@ -22,18 +22,18 @@ namespace XMPP_API.Classes.Network.XML.Messages.XEP_0313
         {
             if (!msg.COMPLETE)
             {
-                Debug.Assert(!string.IsNullOrEmpty(msg.RESULT_SET.FIRST));
-                Debug.Assert(!string.IsNullOrEmpty(msg.RESULT_SET.LAST));
+                Debug.Assert(!string.IsNullOrEmpty(msg.RESULT_SET.first));
+                Debug.Assert(!string.IsNullOrEmpty(msg.RESULT_SET.last));
 
-                FIRST = msg.RESULT_SET.FIRST;
-                LAST = msg.RESULT_SET.LAST;
-                INDEX = msg.RESULT_SET.FIRST_INDEX is null ? 0 : (uint)msg.RESULT_SET.FIRST_INDEX;
+                FIRST = msg.RESULT_SET.first;
+                LAST = msg.RESULT_SET.last;
+                INDEX = msg.RESULT_SET.firstIndex is null ? 0 : (uint)msg.RESULT_SET.firstIndex;
             }
             else
             {
                 COMPLETE = true;
             }
-            COUNT = msg.RESULT_SET.COUNT is null ? 0 : (uint)msg.RESULT_SET.COUNT;
+            COUNT = msg.RESULT_SET.count is null ? 0 : (uint)msg.RESULT_SET.count;
 
             RESULTS = results;
         }

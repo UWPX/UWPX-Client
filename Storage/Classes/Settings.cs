@@ -96,7 +96,7 @@ namespace Storage.Classes
         public static int GetSettingInt(string token, int fallBackValue)
         {
             object obj = GetSetting(token);
-            return obj is null ? fallBackValue : (int)obj;
+            return obj is int i ? i : fallBackValue;
         }
 
         public static ushort GetSettingUshort(string token)

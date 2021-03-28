@@ -27,10 +27,10 @@ namespace Storage.Classes.Models.Account
             set => SetProperty(ref _lastUpdate, value);
         }
         [NotMapped]
-        private DateTime _lastUpdate;
+        private DateTime _lastUpdate = DateTime.MinValue;
 
         /// <summary>
-        /// The message ID of the last message or null in case the request has never been run before.
+        /// The message ID of the last message or null in case no MAM message has been received before.
         /// </summary>
         public string lastMsgId
         {
@@ -39,6 +39,17 @@ namespace Storage.Classes.Models.Account
         }
         [NotMapped]
         private string _lastMsgId;
+
+        /// <summary>
+        /// The message date of the last message or <see cref="DateTime.MaxValue"/> in case no MAM message has been received before.
+        /// </summary>
+        public DateTime lastMsgDate
+        {
+            get => _lastMsgDate;
+            set => SetProperty(ref _lastMsgDate, value);
+        }
+        [NotMapped]
+        private DateTime _lastMsgDate = DateTime.MaxValue;
 
         #endregion
         //--------------------------------------------------------Constructor:----------------------------------------------------------------\\
