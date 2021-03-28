@@ -1,36 +1,39 @@
 ﻿using System.Xml;
+using System.Xml.Linq;
 using Logging;
 
 namespace XMPP_API.Classes.Network.XML.Messages.XEP_0059
 {
-    public class Set
+    public class Set: IXElementable
     {
         //--------------------------------------------------------Attributes:-----------------------------------------------------------------\\
         #region --Attributes--
-        public readonly string AFTER;
-        public readonly string BEFORE;
-        public readonly uint? COUNT;
-        public readonly string FIRST;
-        public readonly uint? FIRST_INDEX;
-        public readonly uint? INDEX;
-        public readonly string LAST;
-        public readonly string MAX;
+        public string after;
+        public string before;
+        public uint? count;
+        public string first;
+        public uint? firstIndex;
+        public uint? index;
+        public string last;
+        public uint? max;
 
         #endregion
         //--------------------------------------------------------Constructor:----------------------------------------------------------------\\
         #region --Constructors--
+        public Set() { }
+
         public Set(XmlNode answer)
         {
             XmlNode afterNode = XMLUtils.getChildNode(answer, "after");
             if (!(afterNode is null))
             {
-                AFTER = afterNode.InnerText;
+                after = afterNode.InnerText;
             }
 
             XmlNode beforeNode = XMLUtils.getChildNode(answer, "before");
             if (!(beforeNode is null))
             {
-                BEFORE = beforeNode.InnerText;
+                before = beforeNode.InnerText;
             }
 
             XmlNode countNode = XMLUtils.getChildNode(answer, "count");
@@ -38,7 +41,7 @@ namespace XMPP_API.Classes.Network.XML.Messages.XEP_0059
             {
                 if (uint.TryParse(countNode.InnerText, out uint count))
                 {
-                    COUNT = count;
+                    this.count = count;
                 }
                 else
                 {
@@ -49,13 +52,13 @@ namespace XMPP_API.Classes.Network.XML.Messages.XEP_0059
             XmlNode firstNode = XMLUtils.getChildNode(answer, "first");
             if (!(firstNode is null))
             {
-                FIRST = firstNode.InnerText;
+                first = firstNode.InnerText;
                 string tmp = firstNode.Attributes["index"]?.Value;
                 if (!(tmp is null))
                 {
                     if (uint.TryParse(tmp, out uint index))
                     {
-                        FIRST_INDEX = index;
+                        firstIndex = index;
                     }
                     else
                     {
@@ -69,7 +72,7 @@ namespace XMPP_API.Classes.Network.XML.Messages.XEP_0059
             {
                 if (uint.TryParse(indexNode.InnerText, out uint index))
                 {
-                    INDEX = index;
+                    this.index = index;
                 }
                 else
                 {
@@ -80,13 +83,20 @@ namespace XMPP_API.Classes.Network.XML.Messages.XEP_0059
             XmlNode lastNode = XMLUtils.getChildNode(answer, "last");
             if (!(lastNode is null))
             {
-                LAST = lastNode.InnerText;
+                last = lastNode.InnerText;
             }
 
             XmlNode maxNode = XMLUtils.getChildNode(answer, "max");
             if (!(maxNode is null))
             {
-                MAX = maxNode.InnerText;
+                if (uint.TryParse(maxNode.InnerText, out uint max))
+                {
+                    this.max = max;
+                }
+                else
+                {
+                    Logger.Error("Failed to parse XEP-0313 SET max node value as uint: " + maxNode.InnerText);
+                }
             }
         }
 
@@ -98,7 +108,49 @@ namespace XMPP_API.Classes.Network.XML.Messages.XEP_0059
         #endregion
         //--------------------------------------------------------Misc Methods:---------------------------------------------------------------\\
         #region --Misc Methods (Public)--
-
+        public XElement toXElement(XNamespace ns)
+        {
+            XNamespace rsmNs = Consts.XML_XEP_0059_NAMESPACE;
+            XElement setNode = new XElement(rsmNs + "set");
+            if (!(after is null))
+            {
+                setNode.Add(new XElement(rsmNs + "after", after));
+            }
+            if (!(before is null))
+            {
+                setNode.Add(new XElement(rsmNs + "before", before));
+            }
+            if (!(count is null))
+            {
+                setNode.Add(new XElement(rsmNs + "count", count));
+            }
+            if (!(first is null))
+            {
+                XElement firstNode = new XElement(rsmNs + "first", first);
+                if (!(firstIndex is null))
+                {
+                    firstNode.Add(new XAttribute(rsmNs + "index", firstIndex));
+                }
+                setNode.Add(firstNode);
+            }
+            if (!(firstIndex is null))
+            {
+                setNode.Add(new XElement(rsmNs + "first", after));
+            }
+            if (!(index is null))
+            {
+                setNode.Add(new XElement(rsmNs + "index", index));
+            }
+            if (!(last is null))
+            {
+                setNode.Add(new XElement(rsmNs + "last", last));
+            }
+            if (!(max is null))
+            {
+                setNode.Add(new XElement(rsmNs + "max", max));
+            }
+            return setNode;
+        }
 
         #endregion
 

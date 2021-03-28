@@ -145,7 +145,7 @@ namespace UWPX_UI_Context.Classes.DataTemplates.Pages
 
             // MAM:
             EnableMam = !Settings.GetSettingBoolean(SettingsConsts.DISABLE_MAM);
-            MamRequestDays = Settings.GetSettingDouble(SettingsConsts.MAM_REQUEST_DAYS, 365);
+            MamRequestDays = Settings.GetSettingInt(SettingsConsts.MAM_REQUEST_DAYS, 365);
         }
 
         private bool SetBoolProperty(ref bool storage, bool value, string settingsToken, [CallerMemberName] string propertyName = null)
@@ -182,7 +182,7 @@ namespace UWPX_UI_Context.Classes.DataTemplates.Pages
         {
             if (SetProperty(ref _MamRequestDays, value, nameof(MamRequestDays)))
             {
-                Settings.SetSetting(SettingsConsts.MAM_REQUEST_DAYS, value);
+                Settings.SetSetting(SettingsConsts.MAM_REQUEST_DAYS, (int)value);
                 return true;
             }
             return false;

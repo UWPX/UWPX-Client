@@ -14,6 +14,7 @@ using XMPP_API.Classes.Network;
 using XMPP_API.Classes.Network.Events;
 using XMPP_API.Classes.Network.XML.Messages;
 using XMPP_API.Classes.Network.XML.Messages.Helper;
+using XMPP_API.Classes.Network.XML.Messages.XEP_0059;
 using XMPP_API.Classes.Network.XML.Messages.XEP_0313;
 using XMPP_API.Classes.Network.XML.Messages.XEP_0384;
 
@@ -164,6 +165,7 @@ namespace Manager.Classes
             // Skip MAM retrieval in case it has been disabled in the settings:
             if (Settings.GetSettingBoolean(SettingsConsts.DISABLE_MAM))
             {
+                Logger.Info("MAM request disabled. Skipping.");
                 Continue();
             }
 
@@ -177,66 +179,85 @@ namespace Manager.Classes
             bool extendedMamSupport = ccHandler.client.xmppClient.connection.DISCO_HELPER.HasFeature(Consts.XML_XEP_0313_EXTENDED_NAMESPACE, ccHandler.client.dbAccount.bareJid);
             Logger.Info("Extended MAM support for " + ccHandler.client.dbAccount.bareJid + ": " + extendedMamSupport);
 
-            string lastMsgId = null;
-            DateTime lastMsgDate = DateTime.MinValue;
-            lastMsgId = ccHandler.client.dbAccount.mamRequest.lastMsgId;
-            lastMsgDate = ccHandler.client.dbAccount.mamRequest.lastUpdate;
+            // Check for how many days into the past we should request the MAM:
+            int maxMamBacklogDays = Settings.GetSettingInt(SettingsConsts.MAM_REQUEST_DAYS);
+            DateTime maxMamBackglogDate;
+            if (maxMamBacklogDays < 0)
+            {
+                maxMamBackglogDate = DateTime.MinValue;
+            }
+            else
+            {
+                maxMamBackglogDate = DateTime.Now.AddDays(-maxMamBacklogDays);
+            }
 
-            // Request all MAM messages:
+            // Get the oldest message we have received:
+            DateTime lastMsgDate = ccHandler.client.dbAccount.mamRequest.lastMsgDate;
+
+            if (lastMsgDate != DateTime.MaxValue && lastMsgDate <= maxMamBackglogDate)
+            {
+                Logger.Info($"No need to request MAM since we already requested the maximum backlog of {maxMamBacklogDays} days.");
+                return;
+            }
+
+            // Request only 30 messages at the time:
+            Set rsm = new Set
+            {
+                max = 30
+            };
+            QueryFilter filter = new QueryFilter();
+            if (extendedMamSupport)
+            {
+                // Only extended MAM supports setting the 'after-id' property.
+                // Reference: https://xmpp.org/extensions/xep-0313.html#support
+                if (!(ccHandler.client.dbAccount.mamRequest.lastMsgId is null))
+                {
+                    filter.AfterId(ccHandler.client.dbAccount.mamRequest.lastMsgId);
+                }
+            }
+            else
+            {
+                // Fallback for servers not supporting 'urn:xmpp:mam:2#extended'.
+                if (lastMsgDate != DateTime.MaxValue)
+                {
+                    filter.End(lastMsgDate);
+                }
+            }
+            if (maxMamBackglogDate != DateTime.MinValue)
+            {
+                filter.Start(maxMamBackglogDate);
+            }
+
+            // Request MAM:
             bool done = false;
             int iteration = 1;
             while (!done)
             {
-                QueryFilter filter = new QueryFilter();
-                if (extendedMamSupport)
-                {
-                    // Only extended MAM supports setting the 'after-id' property.
-                    // Reference: https://xmpp.org/extensions/xep-0313.html#support
-                    if (!(lastMsgId is null))
-                    {
-                        filter.AfterId(lastMsgId);
-                    }
-                }
-                else
-                {
-                    // Fallback for servers not supporting 'urn:xmpp:mam:2#extended'.
-                    if (lastMsgDate != DateTime.MinValue)
-                    {
-                        filter.Start(lastMsgDate);
-                    }
-                }
-
-                MessageResponseHelperResult<MamResult> result = await RequestMamWithRetry(filter, 2);
+                MessageResponseHelperResult<MamResult> result = await RequestMamWithRetry(filter, rsm, 2);
                 if (result.STATE == MessageResponseHelperResultState.SUCCESS)
                 {
-                    ccHandler.client.dbAccount.mamRequest.lastUpdate = DateTime.Now;
                     if (result.RESULT.RESULTS.Count > 0)
                     {
-                        ccHandler.client.dbAccount.mamRequest.lastMsgId = result.RESULT.LAST;
-                        lastMsgId = result.RESULT.LAST;
                         HandleMamMessages(result.RESULT);
+
+                        // Update the MAM request entry:
+                        lastMsgDate = GetLastMessageDate(result.RESULT);
+                        if (ccHandler.client.dbAccount.mamRequest.lastMsgDate > lastMsgDate)
+                        {
+                            ccHandler.client.dbAccount.mamRequest.lastMsgId = result.RESULT.FIRST;
+                            ccHandler.client.dbAccount.mamRequest.lastMsgDate = lastMsgDate;
+                        }
+
+                        // Request the next page:
+                        rsm.after = result.RESULT.LAST;
+
                         Logger.Info("MAM request for " + ccHandler.client.dbAccount.bareJid + " received " + result.RESULT.RESULTS.Count + " messages in iteration " + iteration + '.');
                         Logger.Debug("First: " + result.RESULT.RESULTS[result.RESULT.RESULTS.Count - 1].QUERY_ID + " Last: " + result.RESULT.RESULTS[0].QUERY_ID);
                     }
                     if (result.RESULT.COMPLETE || result.RESULT.RESULTS.Count <= 0)
                     {
                         done = true;
-                        Logger.Info("MAM request for " + ccHandler.client.dbAccount.bareJid);
-                    }
-
-                    DateTime newDate = GetLastMessageDate(result.RESULT);
-                    if (newDate == ccHandler.client.dbAccount.mamRequest.lastUpdate)
-                    {
-                        done = true;
-                        Logger.Info("MAM request for " + ccHandler.client.dbAccount.bareJid);
-                    }
-                    else
-                    {
-                        lastMsgDate = newDate;
-                    }
-                    using (MainDbContext ctx = new MainDbContext())
-                    {
-                        ctx.Update(ccHandler.client.dbAccount.mamRequest);
+                        Logger.Info("MAM requested for " + ccHandler.client.dbAccount.bareJid);
                     }
                     ++iteration;
                 }
@@ -247,25 +268,31 @@ namespace Manager.Classes
                 }
                 else
                 {
-                    done = true;
+                    Logger.Error($"Failed to request MAM in iteration {iteration} for '{ccHandler.client.dbAccount.bareJid}' with {result.STATE}.");
+                    Continue();
+                    return;
                 }
             }
+
+            ccHandler.client.dbAccount.mamRequest.lastUpdate = DateTime.Now;
+            ccHandler.client.dbAccount.mamRequest.Update();
             Continue();
         }
 
         private DateTime GetLastMessageDate(MamResult result)
         {
-            return result.RESULTS.Count > 0 ? result.RESULTS[0].DELAY : DateTime.Now;
+            return result.RESULTS.Count > 0 ? result.RESULTS.Last().DELAY : DateTime.Now;
         }
 
-        private async Task<MessageResponseHelperResult<MamResult>> RequestMamWithRetry(QueryFilter filter, int numOfTries)
+        private async Task<MessageResponseHelperResult<MamResult>> RequestMamWithRetry(QueryFilter filter, Set rsm, int numOfTries)
         {
-            MessageResponseHelperResult<MamResult> result = await ccHandler.client.xmppClient.GENERAL_COMMAND_HELPER.requestMamAsync(filter);
+            MessageResponseHelperResult<MamResult> result = await ccHandler.client.xmppClient.GENERAL_COMMAND_HELPER.requestMamAsync(filter, rsm);
             if (result.STATE == MessageResponseHelperResultState.SUCCESS || numOfTries <= 0 || state != SetupState.REQUESTING_MAM)
             {
                 return result;
             }
-            return await RequestMamWithRetry(filter, --numOfTries);
+            Logger.Warn($"MAM request failed for '{ccHandler.client.dbAccount.bareJid}' failed with {result.STATE}. Retrying...");
+            return await RequestMamWithRetry(filter, rsm, --numOfTries);
         }
 
         private async Task InitOmemoAsync()

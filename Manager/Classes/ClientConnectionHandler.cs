@@ -150,6 +150,26 @@ namespace Manager.Classes
             bool newChat = chat is null;
             bool chatChanged = false;
 
+            // Spam detection:
+            if (Settings.GetSettingBoolean(SettingsConsts.SPAM_DETECTION_ENABLED))
+            {
+                if (Settings.GetSettingBoolean(SettingsConsts.SPAM_DETECTION_FOR_ALL_CHAT_MESSAGES) || newChat)
+                {
+                    if (SpamHelper.INSTANCE.IsSpam(msg.MESSAGE))
+                    {
+                        Logger.Warn("Received spam message from " + chatBareJid);
+                        return;
+                    }
+                }
+            }
+
+            // Detect invalid chat messages:
+            if (!string.Equals(msg.TYPE, MessageMessage.TYPE_CHAT) && !string.Equals(msg.TYPE, MessageMessage.TYPE_ERROR) && !string.Equals(msg.TYPE, MessageMessage.TYPE_GROUPCHAT))
+            {
+                Logger.Warn($"Received an unknown message type ('{msg.TYPE}') form '{chatBareJid}'. Dropping it.");
+                return;
+            }
+
             // Add the new chat to the DB since it's expected to be there by for example our OMEMO encryption:
             if (newChat)
             {
@@ -192,25 +212,6 @@ namespace Manager.Classes
                 else if (omemoMessage.IS_PURE_KEY_EXCHANGE_MESSAGE)
                 {
                     return;
-                }
-            }
-
-            // Spam detection:
-            if (Settings.GetSettingBoolean(SettingsConsts.SPAM_DETECTION_ENABLED))
-            {
-                if (Settings.GetSettingBoolean(SettingsConsts.SPAM_DETECTION_FOR_ALL_CHAT_MESSAGES) || chat is null)
-                {
-                    if (SpamHelper.INSTANCE.IsSpam(msg.MESSAGE))
-                    {
-                        if (newChat)
-                        {
-                            // We failed to decrypt, so this chat could be spam. Delete it again...
-                            DataCache.INSTANCE.DeleteChat(chat, false, false);
-                            Logger.Debug($"Deleting chat '{chat.bareJid}' again, since it turned out to be spam.");
-                        }
-                        Logger.Warn("Received spam message from " + chatBareJid);
-                        return;
-                    }
                 }
             }
 

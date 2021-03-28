@@ -12,6 +12,7 @@ using Storage.Classes.Models.Chat;
 using XMPP_API.Classes;
 using XMPP_API.Classes.Network.XML.Messages;
 using XMPP_API.Classes.Network.XML.Messages.Helper;
+using XMPP_API.Classes.Network.XML.Messages.XEP_0059;
 using XMPP_API.Classes.Network.XML.Messages.XEP_0313;
 
 namespace Manager.Classes.Chat
@@ -236,7 +237,12 @@ namespace Manager.Classes.Chat
             QueryFilter filter = GenerateMamQueryFilter();
             // For MUCs ask the MUC server and for everything else ask our own server for messages:
             string target = chat.Chat.chatType == ChatType.CHAT ? chat.Client.xmppClient.getXMPPAccount().getBareJid() : chat.Chat.bareJid;
-            MessageResponseHelperResult<MamResult> result = await chat.Client.xmppClient.GENERAL_COMMAND_HELPER.requestMamAsync(filter, target);
+            // Request only 30 messages at the time:
+            Set rsm = new Set
+            {
+                max = 30
+            };
+            MessageResponseHelperResult<MamResult> result = await chat.Client.xmppClient.GENERAL_COMMAND_HELPER.requestMamAsync(filter, rsm, target);
             if (result.STATE == MessageResponseHelperResultState.SUCCESS)
             {
                 Logger.Info("Found " + result.RESULT.COUNT + " MAM messages for \"" + chat.Chat.bareJid + "\".");
