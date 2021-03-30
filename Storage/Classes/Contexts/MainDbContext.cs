@@ -6,7 +6,6 @@ using Logging;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.ChangeTracking;
 using Microsoft.EntityFrameworkCore.Metadata;
-using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Omemo.Classes;
 using Omemo.Classes.Keys;
 using Shared.Classes.Collections;
@@ -167,11 +166,6 @@ namespace Storage.Classes.Contexts
                 paths.Add(string.Join(".", navHirar.Reverse().Select(e => e.Name)));
             }
         }
-
-        private ValueConverter<CustomObservableCollection<T>, List<T>> NewCustomObservableCollectionToListValueConverter<T>()
-        {
-            return new ValueConverter<CustomObservableCollection<T>, List<T>>(v => v.ToList(), v => new CustomObservableCollection<T>(v, true));
-        }
         #endregion
 
         #region --Misc Methods (Protected)--
@@ -179,6 +173,15 @@ namespace Storage.Classes.Contexts
         {
             // Store the list of ChainValidationResults as a string separated by ',':
             modelBuilder.Entity<ServerModel>().Property(p => p.ignoredCertificateErrors).HasConversion(v => string.Join(',', v.Select(i => (int)i)), v => new CustomObservableCollection<ChainValidationResult>(v.Split(',', StringSplitOptions.RemoveEmptyEntries).Select(i => (ChainValidationResult)int.Parse(i)), true));
+            IEnumerable<IMutableForeignKey> x = modelBuilder.Model.GetEntityTypes().SelectMany(e => e.GetForeignKeys());
+
+            // Ensure we perform cascade deletion when ever possible:
+            foreach (IMutableForeignKey foreignKey in modelBuilder.Model.GetEntityTypes().SelectMany(e => e.GetForeignKeys()))
+            {
+                foreignKey.DeleteBehavior = DeleteBehavior.Cascade;
+            }
+            // Except for this one since else we would get a recursive loop:
+            modelBuilder.Entity<MucInfoModel>().HasOne(m => m.chat).WithOne(c => c.muc).OnDelete(DeleteBehavior.Restrict);
         }
 
         #endregion

@@ -311,41 +311,60 @@ namespace Manager.Classes.Chat
             }
         }
 
-        public void DeleteChat(ChatModel chat, bool keepChatMessages, bool removeFromRoster)
+        public void DeleteChatUnsafe(ChatModel chat, bool keepChatMessages, bool removeFromRoster, bool forceDelete)
         {
             // Update the cache:
             if (initialized)
             {
-                CHATS_SEMA.Wait();
                 if (!(SelectedChat is null) && SelectedChat.Chat.id == chat.id)
                 {
                     SelectedChat = null;
                 }
                 CHATS.RemoveId(chat.id);
-                CHATS_SEMA.Release();
             }
 
             // Update the DB:
-            using (MainDbContext ctx = new MainDbContext())
+            if (!keepChatMessages)
             {
-                if (!keepChatMessages)
+                using (MainDbContext ctx = new MainDbContext())
                 {
                     ctx.RemoveRange(ctx.ChatMessages.Where(msg => msg.chatId == chat.id));
                     Logger.Info("Deleted chat messages for: " + chat.bareJid);
                 }
+            }
 
-                if (chat.chatType == ChatType.MUC || removeFromRoster)
+            if (chat.chatType == ChatType.MUC)
+            {
+                MucInfoModel muc = chat.muc;
+                using (MainDbContext ctx = new MainDbContext())
                 {
-                    ctx.Remove(chat);
-                    Logger.Info("Deleted chat: " + chat.bareJid);
-                }
-                else
-                {
-                    chat.isChatActive = false;
-                    chat.Update();
-                    Logger.Info("Marked chat as not active: " + chat.bareJid);
+                    chat.muc = null;
+                    ctx.Remove(muc);
                 }
             }
+
+            if (chat.chatType == ChatType.MUC || removeFromRoster || forceDelete)
+            {
+                using (MainDbContext ctx = new MainDbContext())
+                {
+                    ctx.Remove(chat);
+                }
+                Logger.Info("Deleted chat: " + chat.bareJid);
+            }
+            else
+            {
+                chat.isChatActive = false;
+                chat.Update();
+                Logger.Info("Marked chat as not active: " + chat.bareJid);
+            }
+
+        }
+
+        public void DeleteChat(ChatModel chat, bool keepChatMessages, bool removeFromRoster)
+        {
+            CHATS_SEMA.Wait();
+            DeleteChatUnsafe(chat, keepChatMessages, removeFromRoster, false);
+            CHATS_SEMA.Release();
         }
 
         public void RemoveChatMessage(ChatMessageDataTemplate msg)
@@ -405,32 +424,38 @@ namespace Manager.Classes.Chat
         {
             await Task.Run(async () =>
             {
+                Logger.Info($"Deleting account '{account.bareJid}'...");
+                Logger.Info($"Making sure the account '{account.bareJid}' is disconnected before removing...");
+
+                try
+                {
+                    await ConnectionHandler.INSTANCE.RemoveAccountAsync(account.bareJid);
+                }
+                catch (Exception e)
+                {
+                    Logger.Error($"Failed to disconnect account '{account.bareJid}' for deletion.", e);
+                    return;
+                }
+                Logger.Info($"Account '{account.bareJid}' disconnected.");
+
                 CHATS_SEMA.Wait();
                 CHATS_MESSAGES_SEMA.Wait();
                 try
                 {
-                    Logger.Info($"Deleting account '{account.bareJid}'...");
-                    Logger.Info($"Making sure the account '{account.bareJid}' is disconnected before removing...");
-                    try
-                    {
-                        await ConnectionHandler.INSTANCE.RemoveAccountAsync(account.bareJid);
-                    }
-                    catch (Exception e)
-                    {
-                        Logger.Error($"Failed to disconnect account '{account.bareJid}' for deletion.", e);
-                        return;
-                    }
-                    Logger.Info($"Account '{account.bareJid}' disconnected.");
-
+                    Logger.Info($"Deleting chats and chat messages for '{account.bareJid}'...");
+                    List<ChatModel> chats;
                     using (MainDbContext ctx = new MainDbContext())
                     {
-                        Logger.Info($"Deleting chats and chat messages for '{account.bareJid}'...");
-                        foreach (ChatModel chat in ctx.Chats.Where(c => string.Equals(c.accountBareJid, account.bareJid)))
-                        {
-                            ctx.RemoveRange(ctx.ChatMessages.Where(c => c.chatId == chat.id));
-                            ctx.Remove(chat);
-                        }
-                        Logger.Info($"Chats and chat messages for '{account.bareJid}' deleted.");
+                        chats = ctx.Chats.Where(c => string.Equals(c.accountBareJid, account.bareJid)).Include(ctx.GetIncludePaths(typeof(ChatModel))).ToList();
+                    }
+                    foreach (ChatModel chat in chats)
+                    {
+                        DeleteChatUnsafe(chat, false, false, true);
+                    }
+
+                    Logger.Info($"Chats and chat messages for '{account.bareJid}' deleted.");
+                    using (MainDbContext ctx = new MainDbContext())
+                    {
                         ctx.Remove(account);
                     }
                     Logger.Info($"Account '{account.bareJid}' deleted.");
