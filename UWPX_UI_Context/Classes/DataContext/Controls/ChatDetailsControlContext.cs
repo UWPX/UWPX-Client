@@ -191,11 +191,6 @@ namespace UWPX_UI_Context.Classes.DataContext.Controls
             }
         }
 
-        public void MarkAsRead(ChatDataTemplate chat)
-        {
-            DataCache.INSTANCE.MarkAllChatMessagesAsRead(chat.Chat.id);
-        }
-
         public void MarkAsIotDevice(ChatModel chat)
         {
             chat.chatType = ChatType.IOT_DEVICE;

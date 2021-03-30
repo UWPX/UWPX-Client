@@ -4,7 +4,6 @@ using System.Threading.Tasks;
 using Logging;
 using Manager.Classes;
 using Manager.Classes.Chat;
-using Manager.Classes.Toast;
 using Microsoft.Toolkit.Uwp.UI.Helpers;
 using Storage.Classes;
 using Storage.Classes.Contexts;
@@ -191,15 +190,6 @@ namespace UWPX_UI_Context.Classes.DataContext.Controls
                         break;
                 }
                 chatTemplate.Chat.Update();
-            });
-        }
-
-        public void MarkAsRead(ChatDataTemplate chat)
-        {
-            Task.Run(() =>
-            {
-                DataCache.INSTANCE.MarkAllChatMessagesAsRead(chat.Chat.id);
-                ToastHelper.UpdateBadgeNumber();
             });
         }
 

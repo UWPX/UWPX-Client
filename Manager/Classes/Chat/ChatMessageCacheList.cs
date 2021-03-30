@@ -37,13 +37,6 @@ namespace Manager.Classes.Chat
             set => SetProperty(ref _HasMoreMessages, value);
         }
 
-        private int _UnreadCount;
-        public int UnreadCount
-        {
-            get => _UnreadCount;
-            set => SetProperty(ref _UnreadCount, value);
-        }
-
         private CancellationTokenSource loadMoreMessagesToken = null;
         private Task<List<ChatMessageDataTemplate>> loadMoreMessagesTask = null;
         private readonly SemaphoreSlim LOAD_MESSAGES_SEMA = new SemaphoreSlim(1);
@@ -142,7 +135,7 @@ namespace Manager.Classes.Chat
                 }
             }
             IsLoading = false;
-            UpdateUnreadCount();
+            chat.UpdateUnreadCount();
             LOAD_MESSAGES_SEMA.Release();
         }
 
@@ -186,7 +179,6 @@ namespace Manager.Classes.Chat
                 HasMoreMessages = true;
                 loadedAllLocalMessages = false;
                 mamRequested = false;
-                UpdateUnreadCount();
             }
             else
             {
@@ -195,7 +187,7 @@ namespace Manager.Classes.Chat
                 mamRequested = true;
             }
             LOAD_MESSAGES_SEMA.Release();
-            UpdateUnreadCount();
+            chat.UpdateUnreadCount();
             IsLoading = false;
         }
 
@@ -316,19 +308,6 @@ namespace Manager.Classes.Chat
             }
             filter.With(chat.Chat.bareJid);
             return filter;
-        }
-
-        private void UpdateUnreadCount()
-        {
-            if (chat is null)
-            {
-                UnreadCount = 0;
-                return;
-            }
-            using (MainDbContext ctx = new MainDbContext())
-            {
-                UnreadCount = ctx.GetUnreadMessageCount(chat.Chat.id);
-            }
         }
 
         #endregion

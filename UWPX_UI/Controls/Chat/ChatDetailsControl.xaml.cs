@@ -98,7 +98,7 @@ namespace UWPX_UI.Controls.Chat
                 omemoInfo = new OmemoAccountInformationModel()
 
             });
-            Chat = new ChatDataTemplate(tmp, client, null, null);
+            Chat = new ChatDataTemplate(tmp, client, null);
             VIEW_MODEL.LoadDummyContent(Chat.Chat);
         }
 
@@ -250,7 +250,7 @@ namespace UWPX_UI.Controls.Chat
         {
             if (!IsDummy)
             {
-                VIEW_MODEL.MarkAsRead(Chat);
+                Chat.MarkAllAsRead();
             }
 
         }

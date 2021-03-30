@@ -1,6 +1,10 @@
 ﻿using System;
 using System.ComponentModel;
+using System.Linq;
+using System.Threading.Tasks;
+using Manager.Classes.Toast;
 using Shared.Classes;
+using Storage.Classes.Contexts;
 using Storage.Classes.Models.Chat;
 using Windows.UI.Xaml.Media.Imaging;
 
@@ -34,6 +38,12 @@ namespace Manager.Classes.Chat
             get => _Client;
             set => SetProperty(ref _Client, value);
         }
+        private int _UnreadCount;
+        public int UnreadCount
+        {
+            get => _UnreadCount;
+            set => SetProperty(ref _UnreadCount, value);
+        }
 
         /// <summary>
         /// The index in the chats list.
@@ -43,11 +53,10 @@ namespace Manager.Classes.Chat
         #endregion
         //--------------------------------------------------------Constructor:----------------------------------------------------------------\\
         #region --Constructors--
-        public ChatDataTemplate(ChatModel chat, Client client, ChatMessageModel lastMsg, BitmapImage image)
+        public ChatDataTemplate(ChatModel chat, Client client, BitmapImage image)
         {
             Chat = chat;
             Client = client;
-            LastMsg = lastMsg;
             Image = image;
         }
 
@@ -92,6 +101,38 @@ namespace Manager.Classes.Chat
         public int CompareTo(object obj)
         {
             return obj is ChatDataTemplate chat ? chat.Chat.lastActive.CompareTo(Chat.lastActive) : 1;
+        }
+
+        public void UpdateUnreadCount()
+        {
+            using (MainDbContext ctx = new MainDbContext())
+            {
+                UnreadCount = ctx.GetUnreadMessageCount(Chat.id);
+            }
+        }
+
+        public void MarkAllAsRead()
+        {
+            Task.Run(() =>
+            {
+                DataCache.INSTANCE.MarkAllChatMessagesAsRead(Chat.id);
+                UpdateUnreadCount();
+                LoadLastMsg();
+                ToastHelper.UpdateBadgeNumber();
+            });
+        }
+
+        public void LoadLastMsg()
+        {
+            using (MainDbContext ctx = new MainDbContext())
+            {
+                LoadLastMsg(ctx);
+            }
+        }
+
+        public void LoadLastMsg(MainDbContext ctx)
+        {
+            LastMsg = ctx.ChatMessages.Where(m => m.chatId == Chat.id).OrderByDescending(m => m.date).FirstOrDefault();
         }
 
         #endregion

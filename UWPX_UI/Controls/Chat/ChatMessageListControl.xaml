@@ -4,6 +4,7 @@
              xmlns:animations="using:Microsoft.Toolkit.Uwp.UI.Animations"
              xmlns:behaviors="using:Microsoft.Toolkit.Uwp.UI.Animations.Behaviors"
              xmlns:controls="using:UWPX_UI.Controls"
+             xmlns:controlsComp="using:Microsoft.UI.Xaml.Controls"
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:interactivity="using:Microsoft.Xaml.Interactivity"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
@@ -11,7 +12,6 @@
              xmlns:speechbubbles="using:UWPX_UI.Controls.Chat.SpeechBubbles"
              xmlns:templates="using:Manager.Classes.Chat"
              xmlns:valueConverter="using:UWPX_UI_Context.Classes.ValueConverter"
-             xmlns:controlsComp="using:Microsoft.UI.Xaml.Controls"
              mc:Ignorable="d">
 
     <UserControl.Resources>
@@ -57,8 +57,8 @@
                   ItemsSource="{x:Bind VIEW_MODEL.MODEL.CHAT_MESSAGES}"
                   Loaded="MainListView_Loaded"
                   ScrollViewer.HorizontalScrollMode="Disabled"
-                  SizeChanged="mainListView_SizeChanged"
-                  SelectionMode="None">
+                  SelectionMode="None"
+                  SizeChanged="mainListView_SizeChanged">
             <interactivity:Interaction.Behaviors>
                 <behaviors:FadeHeaderBehavior HeaderElement="{Binding ElementName=mainListViewHeader}"/>
             </interactivity:Interaction.Behaviors>
@@ -93,8 +93,8 @@
                 <ItemsPanelTemplate>
                     <ItemsStackPanel x:Name="mainListViewItemStackPanel"
                                      Grid.ColumnSpan="1"
-                                     ItemsUpdatingScrollMode="KeepLastItemInView"
-                                     VerticalAlignment="Bottom">
+                                     VerticalAlignment="Bottom"
+                                     ItemsUpdatingScrollMode="KeepLastItemInView">
                         <ItemsStackPanel.ChildrenTransitions>
                             <TransitionCollection>
                                 <EntranceThemeTransition IsStaggeringEnabled="True"/>
@@ -139,12 +139,12 @@
                     BorderThickness="1"
                     CornerRadius="11"
                     ToolTipService.ToolTip="Unread messages"
-                    Visibility="{x:Bind VIEW_MODEL.MODEL.CHAT_MESSAGES.UnreadCount, Mode=OneWay, Converter={StaticResource StringEmptyVisibilityValueConverter}}">
+                    Visibility="{x:Bind Chat.UnreadCount, Mode=OneWay, Converter={StaticResource StringEmptyVisibilityValueConverter}}">
                 <TextBlock Margin="2,0,2,0"
                            HorizontalAlignment="Center"
                            FontSize="11"
                            Foreground="White"
-                           Text="{x:Bind VIEW_MODEL.MODEL.CHAT_MESSAGES.UnreadCount, Mode=OneWay}"/>
+                           Text="{x:Bind Chat.UnreadCount, Mode=OneWay}"/>
             </Border>
 
             <animations:Implicit.ShowAnimations>

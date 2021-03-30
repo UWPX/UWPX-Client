@@ -190,7 +190,7 @@ namespace UWPX_UI.Controls.Chat
 
         private void MarkAsRead_tmfo_Click(object sender, RoutedEventArgs e)
         {
-            VIEW_MODEL.MarkAsRead(Chat);
+            Chat.MarkAllAsRead();
         }
 
         private async void SwipeLeftItem_Invoked(SwipeItem sender, SwipeItemInvokedEventArgs args)

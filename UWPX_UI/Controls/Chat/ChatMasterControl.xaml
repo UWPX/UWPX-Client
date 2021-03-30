@@ -222,7 +222,7 @@
                 <controls:AccountImagePresenceControl x:Name="image_aciwp"
                                                       Grid.Column="1"
                                                       Margin="5,0,0,0"
-                                                      BadgeCount="{x:Bind VIEW_MODEL.MODEL.UnreadCount, Mode=OneWay}"
+                                                      BadgeCount="{x:Bind Chat.UnreadCount, Mode=OneWay}"
                                                       BareJid="{x:Bind Chat.Chat.bareJid, Mode=OneWay}"
                                                       ChatType="{x:Bind Chat.Chat.chatType, Mode=OneWay}"
                                                       PresenceProp="{x:Bind VIEW_MODEL.MODEL.ChatPresence, Mode=OneWay}"/>

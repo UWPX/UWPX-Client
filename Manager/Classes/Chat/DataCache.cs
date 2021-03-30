@@ -71,6 +71,11 @@ namespace Manager.Classes.Chat
                     CHATS_MESSAGES_SEMA.Wait();
                     await CHAT_MESSAGES.SetChatAsync(value);
                     CHATS_MESSAGES_SEMA.Release();
+
+                    if (!(value is null))
+                    {
+                        value.MarkAllAsRead();
+                    }
                 });
             }
         }
@@ -305,8 +310,21 @@ namespace Manager.Classes.Chat
                 if (chatTemplate.LastMsg is null || chatTemplate.LastMsg.date.CompareTo(msg.date) < 0)
                 {
                     chatTemplate.LastMsg = msg;
+
+                    if (msg.state == MessageState.UNREAD)
+                    {
+                        msg.state = MessageState.READ;
+                    }
                 }
 
+                if (msg.state == MessageState.UNREAD && SelectedChat != chatTemplate)
+                {
+                    chatTemplate.UnreadCount++;
+                }
+                else if (SelectedChat == chatTemplate)
+                {
+                    SelectedChat.UnreadCount = 0;
+                }
                 CHATS_SEMA.Release();
             }
         }
@@ -416,7 +434,7 @@ namespace Manager.Classes.Chat
             // Update the cache:
             if (initialized)
             {
-                CHATS.Add(new ChatDataTemplate(chat, client, null, null));
+                CHATS.Add(new ChatDataTemplate(chat, client, null));
             }
         }
 
@@ -475,22 +493,23 @@ namespace Manager.Classes.Chat
         #region --Misc Methods (Private)--
         private async Task LoadChatsAsync()
         {
+            await CHATS_SEMA.WaitAsync();
+            CHATS.Clear();
+            SelectedChat = null;
             using (MainDbContext ctx = new MainDbContext())
             {
-                await CHATS_SEMA.WaitAsync();
-                CHATS.Clear();
-                SelectedChat = null;
                 IEnumerable<ChatModel> chats = ctx.Chats.Include(ctx.GetIncludePaths(typeof(ChatModel)));
                 CHATS.AddRange(chats.Select(c => LoadChat(c, ctx)), true);
-                CHATS_SEMA.Release();
             }
+            CHATS_SEMA.Release();
         }
 
         private static ChatDataTemplate LoadChat(ChatModel chat, MainDbContext ctx)
         {
             Client client = ConnectionHandler.INSTANCE.GetClient(chat.accountBareJid).client;
-            ChatMessageModel lastMsg = ctx.ChatMessages.Where(m => m.chatId == chat.id).OrderByDescending(m => m.date).FirstOrDefault();
-            return new ChatDataTemplate(chat, client, lastMsg, null);
+            ChatDataTemplate chatDataTemplate = new ChatDataTemplate(chat, client, null);
+            chatDataTemplate.LoadLastMsg(ctx);
+            return chatDataTemplate;
         }
 
         #endregion

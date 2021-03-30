@@ -1,7 +1,6 @@
 ﻿using Manager.Classes;
 using Manager.Classes.Chat;
 using Shared.Classes;
-using Storage.Classes.Contexts;
 using Storage.Classes.Models.Chat;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Media;
@@ -111,12 +110,6 @@ namespace UWPX_UI_Context.Classes.DataTemplates.Controls
             get => _LastActionState;
             set => SetProperty(ref _LastActionState, value);
         }
-        private int _UnreadCount;
-        public int UnreadCount
-        {
-            get => _UnreadCount;
-            set => SetProperty(ref _UnreadCount, value);
-        }
         private bool _ShowAccountColor;
         public bool ShowAccountColor
         {
@@ -225,8 +218,6 @@ namespace UWPX_UI_Context.Classes.DataTemplates.Controls
                     InfoTextVisibility = Visibility.Collapsed;
                 }
 
-                UpdateUnreadCount(chat);
-
                 // Status icons:
                 InRosterVisibility = chat.inRoster ? Visibility.Visible : Visibility.Collapsed;
             }
@@ -239,14 +230,6 @@ namespace UWPX_UI_Context.Classes.DataTemplates.Controls
                 NameText = string.IsNullOrWhiteSpace(muc.name) ? muc.chat.bareJid : muc.name;
                 RemoveFromRosterText = muc.chat.inRoster ? "Remove bookmark" : "Bookmark";
                 ChatPresence = muc.GetMucPresence();
-            }
-        }
-
-        public void UpdateUnreadCount(ChatModel chat)
-        {
-            using (MainDbContext ctx = new MainDbContext())
-            {
-                UnreadCount = ctx.GetUnreadMessageCount(chat.id);
             }
         }
 
