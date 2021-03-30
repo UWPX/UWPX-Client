@@ -1,6 +1,9 @@
-﻿using System.Threading.Tasks;
+﻿using System;
+using System.Threading.Tasks;
+using Logging;
 using Storage.Classes;
 using Windows.ApplicationModel;
+using Windows.Storage;
 
 namespace UWPX_UI_Context.Classes
 {
@@ -61,9 +64,7 @@ namespace UWPX_UI_Context.Classes
         /// <summary>
         /// Gets called on App start and performs update task e.g. migrate the DB to a new format.
         /// </summary>
-#pragma warning disable CS1998 // Async method lacks 'await' operators and will run synchronously
         public static async Task OnAppStartAsync()
-#pragma warning restore CS1998 // Async method lacks 'await' operators and will run synchronously
         {
             PackageVersion versionLastStart = GetLastStartedVersion();
 
@@ -72,20 +73,21 @@ namespace UWPX_UI_Context.Classes
             {
                 if (!Compare(versionLastStart, GetPackageVersion()))
                 {
-                    // Example for handling App updates:
-                    /*if (versionLastStart.Major <= 0 && versionLastStart.Minor < 31)
+                    if (versionLastStart.Major <= 0 && versionLastStart.Minor < 31)
                     {
                         try
                         {
-                            Logger.Info("Started updating DB to version 0.2.0.0.");
-                            AbstractDBManager.dB.RecreateTable<ChatModel>();
-                            Logger.Info("Finished updating DB to version 0.2.0.0.");
+                            Logger.Info("Started updating DB to version 0.31.0.0.");
+                            Logger.Info("Clearing old application data...");
+                            await ApplicationData.Current.ClearAsync();
+                            Logger.Info("Old application data cleared.");
+                            Logger.Info("Finished updating DB to version 0.31.0.0.");
                         }
                         catch (Exception e)
                         {
-                            Logger.Error("Error during updating DB to version 0.2.0.0", e);
+                            Logger.Error("Error during updating DB to version 0.31.0.0", e);
                         }
-                    }*/
+                    }
                 }
             }
             SetVersion(GetPackageVersion());
