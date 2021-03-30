@@ -275,7 +275,7 @@
                                                             Header="Request for the last n days:"
                                                             IsEnabled="{x:Bind VIEW_MODEL.MODEL.EnableMam, Mode=OneWay}"
                                                             LargeChange="10"
-                                                            PlaceholderText="365"
+                                                            PlaceholderText="30"
                                                             SmallChange="1"
                                                             SpinButtonPlacementMode="Inline"
                                                             ValueChanged="MamDaysNumberBox_ValueChanged"

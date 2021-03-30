@@ -145,7 +145,7 @@ namespace UWPX_UI_Context.Classes.DataTemplates.Pages
 
             // MAM:
             EnableMam = !Settings.GetSettingBoolean(SettingsConsts.DISABLE_MAM);
-            MamRequestDays = Settings.GetSettingInt(SettingsConsts.MAM_REQUEST_DAYS, 365);
+            MamRequestDays = Settings.GetSettingInt(SettingsConsts.MAM_REQUEST_DAYS, 30);
         }
 
         private bool SetBoolProperty(ref bool storage, bool value, string settingsToken, [CallerMemberName] string propertyName = null)

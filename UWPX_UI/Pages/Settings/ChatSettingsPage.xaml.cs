@@ -113,7 +113,7 @@ namespace UWPX_UI.Pages.Settings
             }
             else if (double.IsNaN(args.NewValue))
             {
-                sender.Value = 365;
+                sender.Value = 30;
             }
         }
 
