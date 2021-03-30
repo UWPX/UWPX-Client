@@ -49,7 +49,7 @@ steps:
                   /p:AppxBundle=Always
                   /p:UapAppxPackageBuildMode=StoreUpload
                   /p:AppxPackageSigningEnabled=true
-                  /p:PackageCertificateThumbprint="CE590AC1C92838F969D0895249013092E64829DD" 
+                  /p:PackageCertificateThumbprint="7BB283898930C7D4322471492FD0710312287139" 
                   /p:PackageCertificateKeyFile="$(signingCert.secureFilePath)"
                   /p:PackageCertificatePassword="$(signingCert.password)"
                   /t:UWPX_UI'
