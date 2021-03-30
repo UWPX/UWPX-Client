@@ -369,18 +369,14 @@ For more up to date information visit:
     <value>https://www.xmpp-iot.org/</value>
   </data>
   <data name="WhatsNewDialog_markdown.Text" xml:space="preserve">
-    <value># [January 2021] MAM the second
-I bit of time has passed since the last release of UWPX in November.
-In the meantime I was hard at work adding [XEP-0313 (MAM)](https://xmpp.org/extensions/xep-0313.html) support to UWPX.
-It's now in an actually usable form and I decided to enable it for everybody in this release.
+    <value>A LOT has changed in the last couple of months in UWPX.
+I undertook the adventure of replacing the badly maintained [SQLite-net](https://github.com/praeclarum/sqlite-net) DB backend with a new  [Entity Framework Core](https://docs.microsoft.com/en-us/ef/core/) DB.
+With this I was finally able to fix and update my OMEMO implementation to the latest version of the draft ([OMEMO 0.7.0 (2020-09-05)](https://xmpp.org/extensions/xep-0384.html)).
+This version is incompatible with all other previous versions of OMEMO and UWPX allows you now to only exchange OMEMO encrypted messages with contacts that support at least [OMEMO 0.7.0 (2020-09-05)](https://xmpp.org/extensions/xep-0384.html) draft.
 
-Also in this release I refactored the way the post connection setup for, for example [XEP-0030 (Service Discovery)](https://xmpp.org/extensions/xep-0030.html), [XEP-0280 (Message Carbons)](https://xmpp.org/extensions/xep-0280.html) and [XEP-0384 (OMEMO Encryption)](https://xmpp.org/extensions/xep-0384.html) is beeing handled. This should result in a far more reliable way those extensions function and work.
+This should now finally allow UWPX to act as a client with a propper one to one OMEMO implementation!
 
-Those were all the features that made it into the current release.
-Here are a couple of features, I'm working on and that will hopefully be in one of the next couple of releases in the beginning of 2021:
-
-* I started working on replacing the [SQLite-net DB](https://github.com/praeclarum/sqlite-net) with the [Entity Framework Core](https://docs.microsoft.com/en-us/ef/core/). In theory this will again vastly improve OMEMO key storage reliability and the general DB performance.
-* In the last couple of months [XEP-0384 (OMEMO Encryption)](https://xmpp.org/extensions/xep-0384.html) got a couple of updates to it and is now (in theory) able to be implemented without a version of `libsignal`. I started writing my own OMEMO encryption library for that, so I do not have to rely on an unmaintained and outdated [libsignal fork](https://github.com/langboost/libsignal-protocol-pcl) any more.
+Since we have new DB backend, the old DB is incompatible and you have to add your accounts again.
 
 **Please report bugs [here](https://github.com/UWPX/UWPX-Client/issues)!**
 
@@ -392,16 +388,17 @@ Follow [@UWPX_APP](https://twitter.com/UWPX_APP) on ![Twitter](http://i.imgur.co
 * MUC subject changing leads to an account disconnect [#34](https://github.com/UWPX/UWPX-Client/issues/34)
 * MUC Errors broken [#58](https://github.com/UWPX/UWPX-Client/issues/58)
 * UWPX hangs after receiving contact request [#107](https://github.com/UWPX/UWPX-Client/issues/107)
-* `OmemoHelper` is null [#134](https://github.com/UWPX/UWPX-Client/issues/134)
+* Removing a chat does not perform cascade deletion [#151](https://github.com/UWPX/UWPX-Client/issues/151)
 
 ### Changes
-* Fixed message body included in the `origin-id` tag
-* Refactored the client connection handler
-* Refactored the way post connection events get handled. This should result in a far more reliable OMEMO encryption.
-* Disco and MAM now work hand in hand
-* Requesting MAM on startup
-* Trying to load more chat messages from MAM when there are no local messages any more to display
+* New DB backend. Switched from [SQLite-net DB](https://github.com/praeclarum/sqlite-net) to [Entity Framework Core](https://docs.microsoft.com/en-us/ef/core/).
+* [OMEMO 0.7.0 (2020-09-05)](https://xmpp.org/extensions/xep-0384.html) support.
+* New custom OMEMO  [Double Ratchet](https://signal.org/docs/specifications/doubleratchet/) [library](https://github.com/UWPX/UWPX-Client/tree/master/Omemo/Classes).
+* [XEP-0313 (MAM)](https://xmpp.org/extensions/xep-0313.html) fixes and new settings.
+* OMEMO device name support.
+* Support for changing chat nicknames.
+* Fixed displaying empty chat messages.
 
-**Continue reading on [GitHub](https://github.com/UWPX/UWPX-Client/releases/tag/v.0.30.0.0).**</value>
+**Continue reading on [GitHub](https://github.com/UWPX/UWPX-Client/releases/tag/v.0.31.0.0).**</value>
   </data>
 </root>
