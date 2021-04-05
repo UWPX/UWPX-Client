@@ -15,7 +15,7 @@ namespace NeoSmart.Unicode
         {
             for (int i = 0; i < s.Length; ++i)
             {
-                if (Char.IsHighSurrogate(s[i]))
+                if (char.IsHighSurrogate(s[i]))
                 {
                     if (s.Length < i + 2)
                     {
@@ -25,7 +25,7 @@ namespace NeoSmart.Unicode
                     {
                         throw new InvalidEncodingException();
                     }
-                    yield return new Codepoint(Char.ConvertToUtf32(s[i], s[++i]));
+                    yield return new Codepoint(char.ConvertToUtf32(s[i], s[++i]));
                 }
                 else
                 {
@@ -38,7 +38,7 @@ namespace NeoSmart.Unicode
         {
             for (int i = 0; i < s.Length; ++i)
             {
-                if (Char.IsHighSurrogate(s[i]))
+                if (char.IsHighSurrogate(s[i]))
                 {
                     if (s.Length < i + 2)
                     {

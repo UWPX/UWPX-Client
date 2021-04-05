@@ -12,18 +12,18 @@ using System.Text;
 
 namespace NeoSmart.Unicode
 {
-    public struct Codepoint: IComparable<Codepoint>, IComparable<UInt32>, IEquatable<Codepoint>,
+    public struct Codepoint: IComparable<Codepoint>, IComparable<uint>, IEquatable<Codepoint>,
         IEquatable<string>, IComparable<string>, IEquatable<char>
     {
-        public readonly UInt32 Value;
+        public readonly uint Value;
 
-        public Codepoint(UInt32 value)
+        public Codepoint(uint value)
         {
             Value = value;
         }
 
         public Codepoint(long value)
-            : this((UInt32)value)
+            : this((uint)value)
         { }
 
         /// <summary>
@@ -36,13 +36,13 @@ namespace NeoSmart.Unicode
             {
                 hexValue = hexValue.Substring(2);
             }
-            if (!UInt32.TryParse(hexValue, NumberStyles.HexNumber, CultureInfo.CurrentCulture.NumberFormat, out Value))
+            if (!uint.TryParse(hexValue, NumberStyles.HexNumber, CultureInfo.CurrentCulture.NumberFormat, out Value))
             {
                 throw new UnsupportedCodepointException();
             }
         }
 
-        public UInt32 AsUtf32()
+        public uint AsUtf32()
         {
             return Value;
         }
@@ -58,29 +58,29 @@ namespace NeoSmart.Unicode
             yield return b1;
             byte b2 = (byte)((utf32 & 0x00FFFFFF) >> 16);
             yield return b2;
-            byte b3 = (byte)(((UInt16)utf32) >> 8);
+            byte b3 = (byte)(((ushort)utf32) >> 8);
             yield return b3;
             byte b4 = (byte)utf32;
             yield return b4;
         }
 
         //https://en.wikipedia.org/wiki/UTF-16
-        public IEnumerable<UInt16> AsUtf16()
+        public IEnumerable<ushort> AsUtf16()
         {
             //U+0000 to U+D7FF and U+E000 to U+FFFF
             if (Value <= 0xFFFF)
             {
-                yield return (UInt16)Value;
+                yield return (ushort)Value;
             }
             //U+10000 to U+10FFFF
             else if (Value >= 0x10000 && Value <= 0x10FFFF)
             {
-                UInt32 newVal = Value - 0x010000; //leaving 20 bits
-                UInt16 high = (UInt16)((newVal >> 10) + 0xD800);
+                uint newVal = Value - 0x010000; //leaving 20 bits
+                ushort high = (ushort)((newVal >> 10) + 0xD800);
                 System.Diagnostics.Debug.Assert(high <= 0xDBFF && high >= 0xD800);
                 yield return high;
 
-                UInt16 low = (UInt16)((newVal & 0x03FF) + 0xDC00);
+                ushort low = (ushort)((newVal & 0x03FF) + 0xDC00);
                 System.Diagnostics.Debug.Assert(low <= 0xDFFF && low >= 0xDC00);
                 yield return low;
             }
@@ -150,7 +150,7 @@ namespace NeoSmart.Unicode
             return Value.CompareTo(other.Value);
         }
 
-        public int CompareTo(UInt32 other)
+        public int CompareTo(uint other)
         {
             return Value.CompareTo(other);
         }
@@ -204,12 +204,12 @@ namespace NeoSmart.Unicode
             return a.Value <= b.Value;
         }
 
-        public static implicit operator UInt32(Codepoint codepoint)
+        public static implicit operator uint(Codepoint codepoint)
         {
             return codepoint.Value;
         }
 
-        public static implicit operator Codepoint(UInt32 value)
+        public static implicit operator Codepoint(uint value)
         {
             return new Codepoint(value);
         }
