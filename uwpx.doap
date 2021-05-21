@@ -1,0 +1,193 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?xml-stylesheet href="https://uwpx.org/files/doap-style.xsl" type="text/xsl"?>
+<rdf:RDF xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+        xmlns:xmpp="https://linkmauve.fr/ns/xmpp-doap#"
+        xmlns="http://usefulinc.com/ns/doap#"
+        xmlns:schema="https://schema.org/" 
+  <Project>
+
+    <name>UWPX</name>
+    <short-name>UWPX</short-name>
+
+    <shortdesc xml:lang="en">UWPX is a secure and open-source XMPP app for all your UWP (Windows 10) devices </shortdesc>
+    <description xml:lang="en">
+    UWPX is a app for your UWP (Windows 10) devices. It implements the Extensible Messaging and Presence Protocol (XMPP). At the moment UWPX is still in ALPHA state so expect regular crashes and unexpected behavior. If you encounter bugs or even crashes and somehow can reproduce them please report them over at GitHub. UWPX is completely Open Source. It's licensed under Mozilla Public License 2.0. Feel free to clone, change and submit features and bug fixes - there are always bugs waiting to be fixed. You are not limited to normal chats with only one recipient. UWPX supports XEP-0045: Multi-User Chat (MUC). Just click "Add Group Chat (MUC)", enter the room name and voila you created a new or joind an existing MUC. 
+    </description>
+
+    <homepage rdf:resource="https://uwpx.org/" />
+    <bug-database rdf:resource="https://github.com/UWPX/UWPX-Client/issues" />
+    <license rdf:resource="https://github.com/UWPX/UWPX-Client/blob/master/LICENSE" />
+    <schema:documentation rdf:resource="https://github.com/UWPX/UWPX-Client"/>
+    <schema:logo rdf:resource="TBA"/>
+    
+    <programming-language>C#</programming-language>
+    <os>Windows</os>
+    <os>UWP</os>
+
+    <repository>
+      <GitRepository>
+        <location rdf:resource="https://github.com/UWPX/UWPX-Client" />
+        <browse rdf:resource="https://github.com/UWPX/UWPX-Client" />
+      </GitRepository>
+    </repository>
+
+    <implements rdf:resource="https://xmpp.org/rfcs/rfc6120.html" />
+    <implements rdf:resource="https://xmpp.org/rfcs/rfc6121.html" />
+    <implements rdf:resource="https://xmpp.org/rfcs/rfc6122.html" />
+    <implements rdf:resource="https://tools.ietf.org/html/rfc7395" />
+    <implements rdf:resource="https://tools.ietf.org/html/rfc7590" />
+    <implements>
+      <xmpp:SupportedXep>
+        <xmpp:xep rdf:resource="https://xmpp.org/extensions/xep-0004.html" />
+        <xmpp:status>complete</xmpp:status>
+        <xmpp:version>2.10.0</xmpp:version>
+        <xmpp:note>XEP-0004: Data Forms</xmpp:note>
+      </xmpp:SupportedXep>
+    </implements>
+    <implements>
+      <xmpp:SupportedXep>
+        <xmpp:xep rdf:resource="https://xmpp.org/extensions/xep-0030.html" />
+        <xmpp:status>complete</xmpp:status>
+        <xmpp:version>2.5rc3</xmpp:version>
+        <xmpp:note>XEP-0030: Service Discovery</xmpp:note>
+      </xmpp:SupportedXep>
+    </implements>
+    <implements>
+      <xmpp:SupportedXep>
+        <xmpp:xep rdf:resource="https://xmpp.org/extensions/xep-0045.html" />
+        <xmpp:status>complete</xmpp:status>
+        <xmpp:version>1.32.0</xmpp:version>
+        <xmpp:note>XEP-0045: Multi-User Chat</xmpp:note>
+      </xmpp:SupportedXep>
+    </implements>
+    <implements>
+      <xmpp:SupportedXep>
+        <xmpp:xep rdf:resource="https://xmpp.org/extensions/xep-0048.html" />
+        <xmpp:status>complete</xmpp:status>
+        <xmpp:version>1.32.0</xmpp:version>
+        <xmpp:note>XEP-0048: Bookmarks</xmpp:note>
+      </xmpp:SupportedXep>
+    </implements>
+    <implements>
+      <xmpp:SupportedXep>
+        <xmpp:xep rdf:resource="https://xmpp.org/extensions/xep-0060.html" />
+        <xmpp:status>complete</xmpp:status>
+        <xmpp:version>1.18.0</xmpp:version>
+        <xmpp:note>XEP-0060: Publish-Subscribe</xmpp:note>
+      </xmpp:SupportedXep>
+    </implements>
+    <implements>
+      <xmpp:SupportedXep>
+        <xmpp:xep rdf:resource="https://xmpp.org/extensions/xep-0085.html" />
+        <xmpp:status>complete</xmpp:status>
+        <xmpp:version>2.1</xmpp:version>
+        <xmpp:note>XEP-0085: Chat State Notifications</xmpp:note> 
+      </xmpp:SupportedXep>
+    </implements>
+    <implements>
+      <xmpp:SupportedXep>
+        <xmpp:xep rdf:resource="https://xmpp.org/extensions/xep-0163.html" />
+        <xmpp:status>complete</xmpp:status>
+        <xmpp:version>1.2.1</xmpp:version>
+        <xmpp:note>XEP-0163: Personal Eventing Protocol</xmpp:note>  
+      </xmpp:SupportedXep>
+    </implements>
+    <implements>
+      <xmpp:SupportedXep>
+        <xmpp:xep rdf:resource="https://xmpp.org/extensions/xep-0184.html" />
+        <xmpp:status>complete</xmpp:status>
+        <xmpp:version>1.4.0</xmpp:version>
+        <xmpp:note>XEP-0184: Message Delivery Receipts</xmpp:note>     
+      </xmpp:SupportedXep>
+    </implements>
+    <implements>
+      <xmpp:SupportedXep>
+        <xmpp:xep rdf:resource="https://xmpp.org/extensions/xep-0199.html" />
+        <xmpp:status>complete</xmpp:status>
+        <xmpp:version>2.0.1</xmpp:version>
+        <xmpp:note>XEP-0199: XMPP Ping</xmpp:note>  
+      </xmpp:SupportedXep>
+    </implements>
+    <implements>
+      <xmpp:SupportedXep>
+        <xmpp:xep rdf:resource="https://xmpp.org/extensions/xep-0249.html" />
+        <xmpp:status>complete</xmpp:status>
+        <xmpp:version>1.2</xmpp:version>
+        <xmpp:note>XEP-0249: Direct MUC Invitations</xmpp:note> 
+      </xmpp:SupportedXep>
+    </implements>
+    <implements>
+      <xmpp:SupportedXep>
+        <xmpp:xep rdf:resource="https://xmpp.org/extensions/xep-0280.html" />
+        <xmpp:status>complete</xmpp:status>
+        <xmpp:version>0.13.2</xmpp:version>
+        <xmpp:note>XEP-0280: Message Carbons</xmpp:note> 
+      </xmpp:SupportedXep>
+    </implements>
+    <implements>
+      <xmpp:SupportedXep>
+        <xmpp:xep rdf:resource="https://xmpp.org/extensions/xep-0313.html" />
+        <xmpp:status>experimental</xmpp:status>
+        <xmpp:version>0.7.2</xmpp:version>
+        <xmpp:note>XEP-0313: Message Archive Management</xmpp:note> 
+      </xmpp:SupportedXep>
+    </implements>
+    <implements>
+      <xmpp:SupportedXep>
+        <xmpp:xep rdf:resource="https://xmpp.org/extensions/xep-0333.html" />
+        <xmpp:status>complete</xmpp:status>
+        <xmpp:version>0.4</xmpp:version>
+        <xmpp:note>XEP-0333: Chat Markers</xmpp:note> 
+      </xmpp:SupportedXep>
+    </implements>
+    <implements>
+      <xmpp:SupportedXep>
+        <xmpp:xep rdf:resource="https://xmpp.org/extensions/xep-0334.html" />
+        <xmpp:status>complete</xmpp:status>
+        <xmpp:version>0.3.0</xmpp:version>
+        <xmpp:note>XEP-0334: Message Processing Hints</xmpp:note> 
+      </xmpp:SupportedXep>
+    </implements>
+    <implements>
+      <xmpp:SupportedXep>
+        <xmpp:xep rdf:resource="https://xmpp.org/extensions/xep-0336.html" />
+        <xmpp:status>complete</xmpp:status>
+        <xmpp:version>0.2</xmpp:version>
+        <xmpp:note>XEP-0336: Data Forms - Dynamic Forms</xmpp:note> 
+      </xmpp:SupportedXep>
+    </implements>
+    <implements>
+      <xmpp:SupportedXep>
+        <xmpp:xep rdf:resource="https://xmpp.org/extensions/xep-0359.html" />
+        <xmpp:status>complete</xmpp:status>
+        <xmpp:version>0.6.0</xmpp:version>
+        <xmpp:note>XEP-0359: Unique and Stable Stanza IDs</xmpp:note> 
+      </xmpp:SupportedXep>
+    </implements>
+    <implements>
+      <xmpp:SupportedXep>
+        <xmpp:xep rdf:resource="https://xmpp.org/extensions/xep-0363.html" />
+        <xmpp:status>partial</xmpp:status>
+        <xmpp:version>1.0.0</xmpp:version>
+        <xmpp:note>XEP-0363: HTTP File Upload</xmpp:note> 
+      </xmpp:SupportedXep>
+    </implements>
+    <implements>
+      <xmpp:SupportedXep>
+        <xmpp:xep rdf:resource="https://xmpp.org/extensions/xep-0384.html" />
+        <xmpp:status>experimental</xmpp:status>
+        <xmpp:version>0.5.0</xmpp:version>
+        <xmpp:note>XEP-0384: OMEMO Encryption</xmpp:note>
+      </xmpp:SupportedXep>
+    </implements>
+    <implements>
+      <xmpp:SupportedXep>
+        <xmpp:xep rdf:resource="https://xmpp.org/extensions/xep-0392.html" />
+        <xmpp:status>complete</xmpp:status>
+        <xmpp:version>0.5.0</xmpp:version>
+        <xmpp:note>XEP-0392: Consistent Color Generation</xmpp:note>
+      </xmpp:SupportedXep>
+    </implements>
+  </Project>
+</rdf:RDF>
+ 
