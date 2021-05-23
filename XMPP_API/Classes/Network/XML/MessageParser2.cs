@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.IO;
 using System.Xml;
 using System.Xml.Linq;
@@ -100,29 +101,6 @@ namespace XMPP_API.Classes.Network.XML
         private List<AbstractMessage> parseMessageInternal(ref string msg)
         {
             List<AbstractMessage> messages = new List<AbstractMessage>();
-
-            if (msg.Equals("<stream:features/>"))
-            {
-                return new List<AbstractMessage> { new StreamFeaturesMessage(null) };
-            }
-            // Stream close:
-            else if (msg.Contains(Consts.XML_STREAM_CLOSE))
-            {
-                string s = msg.Replace(Consts.XML_STREAM_CLOSE, "");
-                if (string.IsNullOrEmpty(s))
-                {
-                    return new List<AbstractMessage> { new CloseStreamMessage((XmlNode)null) };
-                }
-                else
-                {
-                    if (!s.Contains(Consts.XML_STREAM_START))
-                    {
-                        msg = s;
-                    }
-                    messages.Add(new CloseStreamMessage((XmlNode)null));
-                }
-            }
-
             // Fix non valid XML strings:
             bool hasCloseStream = msg.Contains(Consts.XML_STREAM_CLOSE);
             if (!hasCloseStream)
@@ -141,8 +119,32 @@ namespace XMPP_API.Classes.Network.XML
             // Fix for compatibility with the 'smartsupp.com' XMPP server:
             msg = msg.Replace("xmlns=\"http://etherx.jabber.org/streams\"", Consts.XML_STREAM_NAMESPACE);
 
+            List<XmlNode> nodes;
+            try
+            {
+                nodes = parseToXmlNodes(msg);
+            }
+            catch (Exception e)
+            {
+                Logger.Debug($"Failed to parse message as XML with: {e.Message}");
+                nodes = null;
+            }
+
+            if (nodes is null)
+            {
+                if (msg.Contains(Consts.XML_STREAM_CLOSE))
+                {
+                    string s = msg.Replace(Consts.XML_STREAM_CLOSE, "");
+                    if (string.IsNullOrEmpty(s))
+                    {
+                        return new List<AbstractMessage> { new CloseStreamMessage((XmlNode)null) };
+                    }
+                }
+                return messages;
+            }
+
             // Pars each node:
-            foreach (XmlNode n in parseToXmlNodes(msg))
+            foreach (XmlNode n in nodes)
             {
                 switch (n.Name)
                 {

@@ -551,13 +551,22 @@ namespace XMPP_API.Classes.Network
                     }
                 }
                 // Close stream message:
-                else if (msg is CloseStreamMessage)
+                else if (msg is CloseStreamMessage scMsg)
                 {
                     switch (state)
                     {
                         case ConnectionState.CONNECTING:
                         case ConnectionState.CONNECTED:
-                            await InternalDisconnectAsync(false);
+                            if (!string.IsNullOrEmpty(scMsg.getReason()))
+                            {
+                                Logger.Warn("[XMPPConnection2]: Received stream close message with reason: " + scMsg.getReason());
+                                lastConnectionError = new ConnectionError(ConnectionErrorCode.SERVER_ERROR, scMsg.getReason());
+                                await OnConnectionErrorAsync();
+                            }
+                            else
+                            {
+                                await InternalDisconnectAsync(false);
+                            }
                             break;
                     }
                 }
