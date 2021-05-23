@@ -270,6 +270,10 @@ namespace XMPP_API.Classes
                     results.Insert(0, result);
                     return false;
                 }
+                if (x is IQErrorMessage && string.Equals(msg.ID, x.ID))
+                {
+                    return true;
+                }
                 return x is QueryArchiveFinishMessage fin && string.Equals(fin.ID, msg.ID) && string.Equals(fin.QUERY_ID, msg.QUERY_ID);
             };
             AsyncMessageResponseHelper<AbstractAddressableMessage> helper = new AsyncMessageResponseHelper<AbstractAddressableMessage>(CONNECTION, predicate)
@@ -280,7 +284,15 @@ namespace XMPP_API.Classes
             MamResult mamResult = null;
             if (finResult.STATE == MessageResponseHelperResultState.SUCCESS)
             {
-                mamResult = new MamResult(finResult.RESULT as QueryArchiveFinishMessage, results);
+                if (finResult.RESULT is QueryArchiveFinishMessage archiveFinishMessage)
+                {
+                    mamResult = new MamResult(finResult.RESULT as QueryArchiveFinishMessage, results);
+                }
+                else if (finResult.RESULT is IQErrorMessage errorMessage)
+                {
+                    Logger.Warn($"Failed to request MAM from {to} with: {errorMessage.ERROR_OBJ}");
+                }
+                return new MessageResponseHelperResult<MamResult>(MessageResponseHelperResultState.ERROR, null);
             }
             return new MessageResponseHelperResult<MamResult>(finResult.STATE, mamResult);
         }
