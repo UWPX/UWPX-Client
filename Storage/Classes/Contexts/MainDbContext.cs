@@ -75,7 +75,7 @@ namespace Storage.Classes.Contexts
 
         public List<ConferenceItem> GetXEP0048ConferenceItemsForAccount(string accountBareJid)
         {
-            return MucInfos.Where(muc => muc.chat.inRoster && string.Equals(muc.chat.accountBareJid, accountBareJid)).Select(muc => muc.ToConferenceItem()).ToList();
+            return MucInfos.Where(muc => muc.chat.inRoster && string.Equals(muc.chat.accountBareJid, accountBareJid)).Include(GetIncludePaths(typeof(MucInfoModel))).Select(muc => muc.ToConferenceItem()).ToList();
         }
 
         public IEnumerable<ChatMessageModel> GetNextNChatMessages(ChatModel chat, int n)
