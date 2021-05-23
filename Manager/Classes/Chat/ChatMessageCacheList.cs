@@ -179,6 +179,7 @@ namespace Manager.Classes.Chat
                 HasMoreMessages = true;
                 loadedAllLocalMessages = false;
                 mamRequested = false;
+                chat.UpdateUnreadCount();
             }
             else
             {
@@ -187,7 +188,6 @@ namespace Manager.Classes.Chat
                 mamRequested = true;
             }
             LOAD_MESSAGES_SEMA.Release();
-            chat.UpdateUnreadCount();
             IsLoading = false;
         }
 
