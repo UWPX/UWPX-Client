@@ -51,7 +51,7 @@ Follow [@UWPX_APP](https://twitter.com/UWPX_APP) on ![Twitter](http://i.imgur.co
 | Data Forms - Dynamic Forms | [XEP-0336](https://xmpp.org/extensions/xep-0336.html) | 0.2 (2015-11-09) |
 | Unique and Stable Stanza IDs | [XEP-0359](https://xmpp.org/extensions/xep-0359.html) | 0.6.0 (2018-10-01) |
 | HTTP File Upload **(DOWNLOAD)** | [XEP-0363](https://xmpp.org/extensions/xep-0363.html "XEP-0363") | 1.0.0 (2020-02-11) |
-| OMEMO [#5](https://github.com/UWPX/UWPX-Client/issues/5), [#125](https://github.com/UWPX/UWPX-Client/issues/125) **(EXPERIMENTAL)** | [XEP-0384](https://xmpp.org/extensions/xep-0384.html "XEP-0384") | 0.5.0 (2020-03-26) |
+| OMEMO [#5](https://github.com/UWPX/UWPX-Client/issues/5), [#125](https://github.com/UWPX/UWPX-Client/issues/125) **(EXPERIMENTAL)** | [XEP-0384](https://xmpp.org/extensions/xep-0384.html "XEP-0384") | 0.7.0 (2020-09-05) |
 | Consistent Color Generation | [XEP-0392](https://xmpp.org/extensions/xep-0392.html) | 0.7.0 (2019-10-16) |
 
 
