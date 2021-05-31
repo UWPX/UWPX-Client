@@ -369,15 +369,12 @@ For more up to date information visit:
     <value>https://www.xmpp-iot.org/</value>
   </data>
   <data name="WhatsNewDialog_markdown.Text" xml:space="preserve">
-    <value>A LOT has changed in the last couple of months in UWPX.
-I undertook the adventure of replacing the badly maintained [SQLite-net](https://github.com/praeclarum/sqlite-net) DB backend with a new  [Entity Framework Core](https://docs.microsoft.com/en-us/ef/core/) DB.
-With this I was finally able to fix and update my OMEMO implementation to the latest version of the draft ([OMEMO 0.7.0 (2020-09-05)](https://xmpp.org/extensions/xep-0384.html)).
-This version is incompatible with all other previous versions of OMEMO and UWPX allows you now to only exchange OMEMO encrypted messages with contacts that support at least [OMEMO 0.7.0 (2020-09-05)](https://xmpp.org/extensions/xep-0384.html) draft.
+    <value># [June 2021] Bug Fixes
 
-This should now finally allow UWPX to act as a client with a propper one to one OMEMO implementation!
+This month is all about bug fixes. Since there are still a couple of those around, I'm planing to continue focusing on bug fixes for the next releases to bring UWPX back up to the "high" standard it should be if it comes to stability.
 
-Since we have new DB backend, the old DB is incompatible and you have to add your accounts again.
-
+Here is a quick image showing crashes currently still present and waiting to be fixed.
+![Crashes](https://user-images.githubusercontent.com/11741404/120227949-71f23800-c24a-11eb-926e-bd604f129ff8.png)
 **Please report bugs [here](https://github.com/UWPX/UWPX-Client/issues)!**
 
 #### Want more up to date news?
@@ -391,14 +388,12 @@ Follow [@UWPX_APP](https://twitter.com/UWPX_APP) on ![Twitter](http://i.imgur.co
 * Removing a chat does not perform cascade deletion [#151](https://github.com/UWPX/UWPX-Client/issues/151)
 
 ### Changes
-* New DB backend. Switched from [SQLite-net DB](https://github.com/praeclarum/sqlite-net) to [Entity Framework Core](https://docs.microsoft.com/en-us/ef/core/).
-* [OMEMO 0.7.0 (2020-09-05)](https://xmpp.org/extensions/xep-0384.html) support.
-* New custom OMEMO  [Double Ratchet](https://signal.org/docs/specifications/doubleratchet/) [library](https://github.com/UWPX/UWPX-Client/tree/master/Omemo/Classes).
-* [XEP-0313 (MAM)](https://xmpp.org/extensions/xep-0313.html) fixes and new settings.
-* OMEMO device name support.
-* Support for changing chat nicknames.
-* Fixed displaying empty chat messages.
+* Fixed adding a MUC crash
+* Fixed MAM not being able to handle IQ-Error messages
+* Fixed updating null chat
+* Fixed handling of `stream:error`
+* Fixed SCRAM-SHA-256
 
-**Continue reading on [GitHub](https://github.com/UWPX/UWPX-Client/releases/tag/v.0.31.0.0).**</value>
+**Continue reading on [GitHub](https://github.com/UWPX/UWPX-Client/releases/tag/v.0.32.0.0).**</value>
   </data>
 </root>
