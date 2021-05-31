@@ -5,7 +5,7 @@ using Windows.Security.Cryptography.Core;
 using XMPP_API.Classes.Crypto;
 using XMPP_API.Classes.Network.XML.Messages.Processor;
 
-namespace XMPP_API.Classes.Network.XML.Messages.Features.SASL.SHA1
+namespace XMPP_API.Classes.Network.XML.Messages.Features.SASL.SCRAM.SHA1
 {
     public class ScramSHA1SASLMechanism: AbstractSASLMechanism
     {
@@ -48,7 +48,7 @@ namespace XMPP_API.Classes.Network.XML.Messages.Features.SASL.SHA1
         #region --Misc Methods (Public)--
         public override AbstractMessage generateResponse(AbstractMessage msg)
         {
-            if (msg is ScramSHA1ChallengeMessage challenge)
+            if (msg is ScramSHAChallengeMessage challenge)
             {
                 serverFirstMsg = decodeStringBase64(challenge.CHALLENGE);
 
@@ -94,7 +94,7 @@ namespace XMPP_API.Classes.Network.XML.Messages.Features.SASL.SHA1
                     return null;
                 }
 
-                return new ScramSha1ChallengeSolutionMessage(computeAnswer(iters));
+                return new ScramSHAChallengeSolutionMessage(computeAnswer(iters));
             }
             onSaslError("SCRAM-SHA: Invalid challenge message received!");
             return null;

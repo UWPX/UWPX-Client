@@ -188,10 +188,10 @@
     <Compile Include="Classes\Network\XML\Messages\Features\SASL\SASLFailureMessage.cs" />
     <Compile Include="Classes\Network\XML\Messages\Features\SASL\SASLStreamFeature.cs" />
     <Compile Include="Classes\Network\XML\Messages\Features\SASL\SASLSuccessMessage.cs" />
-    <Compile Include="Classes\Network\XML\Messages\Features\SASL\SHA1\ScramSHA1ChallengeMessage.cs" />
-    <Compile Include="Classes\Network\XML\Messages\Features\SASL\SHA1\ScramSha1ChallengeSolutionMessage.cs" />
-    <Compile Include="Classes\Network\XML\Messages\Features\SASL\SHA1\ScramSHA1SASLMechanism.cs" />
-    <Compile Include="Classes\Network\XML\Messages\Features\SASL\SHA256\ScramSHA256SASLMechanism.cs" />
+    <Compile Include="Classes\Network\XML\Messages\Features\SASL\SCRAM\ScramSHAChallengeMessage.cs" />
+    <Compile Include="Classes\Network\XML\Messages\Features\SASL\SCRAM\ScramSHAChallengeSolutionMessage.cs" />
+    <Compile Include="Classes\Network\XML\Messages\Features\SASL\SCRAM\SHA1\ScramSHA1SASLMechanism.cs" />
+    <Compile Include="Classes\Network\XML\Messages\Features\SASL\SCRAM\SHA256\ScramSHA256SASLMechanism.cs" />
     <Compile Include="Classes\Network\XML\Messages\Features\StreamFeature.cs" />
     <Compile Include="Classes\Network\XML\Messages\Features\StreamFeaturesAnswerMessage.cs" />
     <Compile Include="Classes\Network\XML\Messages\Features\TLSStreamFeature.cs" />

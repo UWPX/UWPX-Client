@@ -7,8 +7,9 @@ using XMPP_API.Classes.Network.TCP;
 using XMPP_API.Classes.Network.XML.Messages.Features;
 using XMPP_API.Classes.Network.XML.Messages.Features.SASL;
 using XMPP_API.Classes.Network.XML.Messages.Features.SASL.Plain;
-using XMPP_API.Classes.Network.XML.Messages.Features.SASL.SHA1;
-using XMPP_API.Classes.Network.XML.Messages.Features.SASL.SHA256;
+using XMPP_API.Classes.Network.XML.Messages.Features.SASL.SCRAM;
+using XMPP_API.Classes.Network.XML.Messages.Features.SASL.SCRAM.SHA1;
+using XMPP_API.Classes.Network.XML.Messages.Features.SASL.SCRAM.SHA256;
 
 namespace XMPP_API.Classes.Network.XML.Messages.Processor
 {
@@ -163,7 +164,7 @@ namespace XMPP_API.Classes.Network.XML.Messages.Processor
 
                 case SASLState.REQUESTED:
                 case SASLState.CHALLENGING:
-                    if (msg is ScramSHA1ChallengeMessage)
+                    if (msg is ScramSHAChallengeMessage)
                     {
                         state = SASLState.CHALLENGING;
                         setMessageProcessed(args);

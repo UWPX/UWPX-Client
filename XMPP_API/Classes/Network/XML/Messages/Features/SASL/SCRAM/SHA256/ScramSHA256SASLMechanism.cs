@@ -2,10 +2,10 @@
 using System.Security.Cryptography;
 using Windows.Security.Cryptography.Core;
 using XMPP_API.Classes.Crypto;
-using XMPP_API.Classes.Network.XML.Messages.Features.SASL.SHA1;
+using XMPP_API.Classes.Network.XML.Messages.Features.SASL.SCRAM.SHA1;
 using XMPP_API.Classes.Network.XML.Messages.Processor;
 
-namespace XMPP_API.Classes.Network.XML.Messages.Features.SASL.SHA256
+namespace XMPP_API.Classes.Network.XML.Messages.Features.SASL.SCRAM.SHA256
 {
     // https://tools.ietf.org/html/rfc7677
     public class ScramSHA256SASLMechanism: ScramSHA1SASLMechanism

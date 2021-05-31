@@ -1,12 +1,14 @@
-﻿using System.Xml.Linq;
+﻿using System;
+using System.Xml;
+using System.Xml.Linq;
 
-namespace XMPP_API.Classes.Network.XML.Messages
+namespace XMPP_API.Classes.Network.XML.Messages.Features.SASL.SCRAM
 {
-    public class ScramSha1ChallengeSolutionMessage: AbstractMessage
+    public class ScramSHAChallengeMessage: AbstractMessage
     {
         //--------------------------------------------------------Attributes:-----------------------------------------------------------------\\
         #region --Attributes--
-        public readonly string SOLUTION;
+        public readonly string CHALLENGE;
 
         #endregion
         //--------------------------------------------------------Constructor:----------------------------------------------------------------\\
@@ -17,9 +19,9 @@ namespace XMPP_API.Classes.Network.XML.Messages
         /// <history>
         /// 22/08/2017 Created [Fabian Sauter]
         /// </history>
-        public ScramSha1ChallengeSolutionMessage(string solution)
+        public ScramSHAChallengeMessage(XmlNode node)
         {
-            SOLUTION = solution;
+            CHALLENGE = node.InnerText;
         }
 
         #endregion
@@ -32,12 +34,7 @@ namespace XMPP_API.Classes.Network.XML.Messages
         #region --Misc Methods (Public)--
         public override XElement toXElement()
         {
-            XNamespace ns = Consts.XML_SASL_NAMESPACE;
-            XElement node = new XElement(ns + "response")
-            {
-                Value = SOLUTION
-            };
-            return node;
+            throw new NotImplementedException();
         }
 
         #endregion

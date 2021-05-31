@@ -2,7 +2,8 @@
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using XMPP_API.Classes.Network.XML;
 using XMPP_API.Classes.Network.XML.Messages;
-using XMPP_API.Classes.Network.XML.Messages.Features.SASL.SHA1;
+using XMPP_API.Classes.Network.XML.Messages.Features.SASL.SCRAM;
+using XMPP_API.Classes.Network.XML.Messages.Features.SASL.SCRAM.SHA1;
 
 namespace Component_Tests.Classes.XmppMessages
 {
@@ -40,7 +41,7 @@ namespace Component_Tests.Classes.XmppMessages
             MessageParser2 parser = new MessageParser2();
             string s = "<challenge xmlns='urn:ietf:params:xml:ns:xmpp-sasl'>cj1meWtvK2QybGJiRmdPTlJ2OXFreGRhd0wzcmZjTkhZSlkxWlZ2V1ZzN2oscz1RU1hDUitRNnNlazhiZjkyLGk9NDA5Ng==</challenge>";
             List<AbstractMessage> msgs = parser.parseMessages(ref s);
-            Assert.IsTrue(msgs[0] is ScramSHA1ChallengeMessage);
+            Assert.IsTrue(msgs[0] is ScramSHAChallengeMessage);
         }
 
         [TestCategory("XMPP_Messages")]
@@ -52,9 +53,9 @@ namespace Component_Tests.Classes.XmppMessages
             MessageParser2 parser = new MessageParser2();
             string s = "<challenge xmlns='urn:ietf:params:xml:ns:xmpp-sasl'>cj1meWtvK2QybGJiRmdPTlJ2OXFreGRhd0wzcmZjTkhZSlkxWlZ2V1ZzN2oscz1RU1hDUitRNnNlazhiZjkyLGk9NDA5Ng==</challenge>";
             List<AbstractMessage> msgs = parser.parseMessages(ref s);
-            ScramSHA1ChallengeMessage challenge = (ScramSHA1ChallengeMessage)msgs[0];
+            ScramSHAChallengeMessage challenge = (ScramSHAChallengeMessage)msgs[0];
             AbstractMessage resp = mechanism.generateResponse(challenge);
-            Assert.IsTrue(resp is ScramSha1ChallengeSolutionMessage);
+            Assert.IsTrue(resp is ScramSHAChallengeSolutionMessage);
         }
 
         [TestCategory("XMPP_Messages")]
@@ -66,9 +67,9 @@ namespace Component_Tests.Classes.XmppMessages
             MessageParser2 parser = new MessageParser2();
             string s = "<challenge xmlns='urn:ietf:params:xml:ns:xmpp-sasl'>cj1meWtvK2QybGJiRmdPTlJ2OXFreGRhd0wzcmZjTkhZSlkxWlZ2V1ZzN2oscz1RU1hDUitRNnNlazhiZjkyLGk9NDA5Ng==</challenge>";
             List<AbstractMessage> msgs = parser.parseMessages(ref s);
-            ScramSHA1ChallengeMessage challenge = (ScramSHA1ChallengeMessage)msgs[0];
+            ScramSHAChallengeMessage challenge = (ScramSHAChallengeMessage)msgs[0];
             AbstractMessage resp = mechanism.generateResponse(challenge);
-            ScramSha1ChallengeSolutionMessage respMsg = (ScramSha1ChallengeSolutionMessage)resp;
+            ScramSHAChallengeSolutionMessage respMsg = (ScramSHAChallengeSolutionMessage)resp;
             Assert.IsTrue(string.Equals("Yz1iaXdzLHI9ZnlrbytkMmxiYkZnT05Sdjlxa3hkYXdMM3JmY05IWUpZMVpWdldWczdqLHA9djBYOHYzQnoyVDBDSkdiSlF5RjBYK0hJNFRzPQ==".ToLower(), respMsg.SOLUTION.ToLower()));
         }
     }

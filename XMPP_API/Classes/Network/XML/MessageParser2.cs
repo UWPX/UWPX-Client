@@ -7,6 +7,7 @@ using Logging;
 using XMPP_API.Classes.Network.XML.Messages;
 using XMPP_API.Classes.Network.XML.Messages.Features;
 using XMPP_API.Classes.Network.XML.Messages.Features.SASL;
+using XMPP_API.Classes.Network.XML.Messages.Features.SASL.SCRAM;
 using XMPP_API.Classes.Network.XML.Messages.Features.TLS;
 using XMPP_API.Classes.Network.XML.Messages.XEP_0030;
 using XMPP_API.Classes.Network.XML.Messages.XEP_0045;
@@ -446,7 +447,7 @@ namespace XMPP_API.Classes.Network.XML
 
                     // SASL:
                     case "challenge":
-                        messages.Add(new ScramSHA1ChallengeMessage(n));
+                        messages.Add(new ScramSHAChallengeMessage(n));
                         break;
 
                     // SASL failure:
