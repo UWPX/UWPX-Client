@@ -1,8 +1,10 @@
 ﻿using System;
 using System.Linq;
+using System.Security.Cryptography;
 using System.Text;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Omemo.Classes.Keys;
+using Windows.Security.Cryptography.Core;
 using XMPP_API.Classes.Crypto;
 
 namespace Component_Tests.Classes.Crypto
@@ -15,7 +17,7 @@ namespace Component_Tests.Classes.Crypto
         public void Test_CryptoUtils_Pbkdf2Sha_1()
         {
             byte[] saltBytes = CryptoUtils.hexStringToByteArray("4125c247e43ab1e93c6dff76");
-            byte[] saltedPassword = CryptoUtils.pbkdf2Sha1("pencil".Normalize(), saltBytes, 4096);
+            byte[] saltedPassword = CryptoUtils.pbkdf2Sha("pencil".Normalize(), saltBytes, 4096, HashAlgorithmName.SHA1, 20);
             byte[] saltedPasswordRef = CryptoUtils.hexStringToByteArray("1d96ee3a529b5a5f9e47c01f229a2cb8a6e15f7d");
             Assert.IsTrue(saltedPassword.SequenceEqual(saltedPasswordRef));
         }
@@ -91,10 +93,10 @@ namespace Component_Tests.Classes.Crypto
 
         [TestCategory("Crypto")]
         [TestMethod]
-        public void Test_CryptoUtils_Sha1()
+        public void Test_CryptoUtils_hash()
         {
             byte[] clientKey = CryptoUtils.hexStringToByteArray("e234c47bf6c36696dd6d852b99aaa2ba26555728");
-            byte[] storedKey = CryptoUtils.SHA_1(clientKey);
+            byte[] storedKey = CryptoUtils.hash(clientKey, HashAlgorithmNames.Sha1);
 
             byte[] storedKeyRef = CryptoUtils.hexStringToByteArray("e9d94660c39d65c38fbad91c358f14da0eef2bd6");
             Assert.IsTrue(storedKey.SequenceEqual(storedKeyRef));

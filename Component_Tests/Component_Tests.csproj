@@ -135,6 +135,7 @@
     <Compile Include="Classes\Misc\Test_JidParser.cs" />
     <Compile Include="Classes\Misc\Test_UriUtils.cs" />
     <Compile Include="Classes\XmppMessages\Test_MessageParser2.cs" />
+    <Compile Include="Classes\XmppMessages\Test_ScramSHA256SASLMechanism.cs" />
     <Compile Include="Classes\XmppMessages\Test_ScramSHA1SASLMechanism.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="UnitTestApp.xaml.cs">

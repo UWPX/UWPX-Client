@@ -106,9 +106,64 @@ namespace XMPP_API.Classes.Crypto
             return sb.ToString();
         }
 
-        public static byte[] SHA_1(byte[] data)
+        public static byte[] hmacSha1(byte[] data, string key)
         {
-            return hash(data, HashAlgorithmNames.Sha1);
+            return hmacSha1(data, Encoding.UTF8.GetBytes(key));
+        }
+
+        public static byte[] hmacSha1(string data, string key)
+        {
+            return hmacSha1(Encoding.UTF8.GetBytes(data), Encoding.UTF8.GetBytes(key));
+        }
+
+        public static byte[] hmacSha1(string data, byte[] key)
+        {
+            return hmacSha1(Encoding.UTF8.GetBytes(data), key);
+        }
+
+        public static byte[] hmacSha1(byte[] data, byte[] key)
+        {
+            return hmacSha(data, new HMACSHA1(key));
+        }
+
+        public static byte[] hmacSha256(byte[] data, string key)
+        {
+            return hmacSha256(data, Encoding.UTF8.GetBytes(key));
+        }
+
+        public static byte[] hmacSha256(string data, string key)
+        {
+            return hmacSha256(Encoding.UTF8.GetBytes(data), Encoding.UTF8.GetBytes(key));
+        }
+
+        public static byte[] hmacSha256(string data, byte[] key)
+        {
+            return hmacSha256(Encoding.UTF8.GetBytes(data), key);
+        }
+
+        public static byte[] hmacSha256(byte[] data, byte[] key)
+        {
+            return hmacSha(data, new HMACSHA256(key));
+        }
+
+        public static byte[] hmacSha512(byte[] data, string key)
+        {
+            return hmacSha512(data, Encoding.UTF8.GetBytes(key));
+        }
+
+        public static byte[] hmacSha512(string data, string key)
+        {
+            return hmacSha512(Encoding.UTF8.GetBytes(data), Encoding.UTF8.GetBytes(key));
+        }
+
+        public static byte[] hmacSha512(string data, byte[] key)
+        {
+            return hmacSha512(Encoding.UTF8.GetBytes(data), key);
+        }
+
+        public static byte[] hmacSha512(byte[] data, byte[] key)
+        {
+            return hmacSha(data, new HMACSHA512(key));
         }
 
         #endregion
@@ -122,7 +177,7 @@ namespace XMPP_API.Classes.Crypto
         /// <param name="data">The data that should get hashed.</param>
         /// <param name="algName">The <see cref="HashAlgorithmNames"/> name that should get used for hashing.</param>
         /// <returns></returns>
-        private static byte[] hash(byte[] data, string algName)
+        public static byte[] hash(byte[] data, string algName)
         {
             // Convert the message string to binary data.
             IBuffer buffUtf8Msg = CryptographicBuffer.CreateFromByteArray(data);
@@ -143,38 +198,20 @@ namespace XMPP_API.Classes.Crypto
             return buffHash.ToArray();
         }
 
-        public static byte[] hmacSha1(byte[] data, string key)
+        private static byte[] hmacSha(byte[] data, HMAC hmac)
         {
-            return hmacSha1(data, Encoding.UTF8.GetBytes(key));
-        }
-
-        public static byte[] hmacSha1(string data, string key)
-        {
-            return hmacSha1(Encoding.UTF8.GetBytes(data), Encoding.UTF8.GetBytes(key));
-        }
-
-        public static byte[] hmacSha1(string data, byte[] key)
-        {
-            return hmacSha1(Encoding.UTF8.GetBytes(data), key);
-        }
-
-        public static byte[] hmacSha1(byte[] data, byte[] key)
-        {
-            HMACSHA1 hmac = new HMACSHA1(key);
             hmac.Initialize();
             return hmac.ComputeHash(data);
         }
 
         /// <summary>
-        /// RFC 2898 with SHA1.
+        /// RFC 2898 with SHA.
         /// </summary>
-        public static byte[] pbkdf2Sha1(string normalizedPassword, byte[] salt, int iterations)
+        /// <returns></returns>
+        public static byte[] pbkdf2Sha(string normalizedPassword, byte[] salt, int iterations, HashAlgorithmName hash, int dkLen)
         {
-            Rfc2898DeriveBytes deriveBytes = new Rfc2898DeriveBytes(normalizedPassword, salt)
-            {
-                IterationCount = iterations
-            };
-            return deriveBytes.GetBytes(20);
+            Rfc2898DeriveBytes deriveBytes = new Rfc2898DeriveBytes(normalizedPassword, salt, iterations, hash);
+            return deriveBytes.GetBytes(dkLen);
         }
 
         #endregion

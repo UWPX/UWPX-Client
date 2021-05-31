@@ -1,4 +1,8 @@
-﻿using XMPP_API.Classes.Network.XML.Messages.Features.SASL.SHA1;
+﻿using System;
+using System.Security.Cryptography;
+using Windows.Security.Cryptography.Core;
+using XMPP_API.Classes.Crypto;
+using XMPP_API.Classes.Network.XML.Messages.Features.SASL.SHA1;
 using XMPP_API.Classes.Network.XML.Messages.Processor;
 
 namespace XMPP_API.Classes.Network.XML.Messages.Features.SASL.SHA256
@@ -44,6 +48,23 @@ namespace XMPP_API.Classes.Network.XML.Messages.Features.SASL.SHA256
         #endregion
 
         #region --Misc Methods (Protected)--
+        protected override string computeAnswer(int iterations)
+        {
+            string clientFinalMessageBare = "c=biws,r=" + serverNonce;
+            byte[] saltBytes = Convert.FromBase64String(saltBase64);
+            byte[] saltedPassword = CryptoUtils.pbkdf2Sha(PASSWORD_NORMALIZED, saltBytes, iterations, HashAlgorithmName.SHA256, 32);
+
+            byte[] clientKey = CryptoUtils.hmacSha256("Client Key", saltedPassword);
+            byte[] storedKey = CryptoUtils.hash(clientKey, HashAlgorithmNames.Sha256);
+            string authMessage = clientFirstMsg + ',' + serverFirstMsg + ',' + clientFinalMessageBare;
+
+            byte[] clientSignature = CryptoUtils.hmacSha256(authMessage, storedKey);
+            byte[] clientProof = CryptoUtils.xor(clientKey, clientSignature);
+            string clientFinalMessage = clientFinalMessageBare + ",p=" + Convert.ToBase64String(clientProof);
+
+            return encodeStringBase64(clientFinalMessage);
+        }
+
         protected override bool isValidIterationsCount(int iters)
         {
             return iters >= 4096;

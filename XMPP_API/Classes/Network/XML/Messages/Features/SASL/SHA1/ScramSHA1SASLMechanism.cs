@@ -1,5 +1,7 @@
 ﻿using System;
+using System.Security.Cryptography;
 using Windows.Security.Cryptography;
+using Windows.Security.Cryptography.Core;
 using XMPP_API.Classes.Crypto;
 using XMPP_API.Classes.Network.XML.Messages.Processor;
 
@@ -24,16 +26,7 @@ namespace XMPP_API.Classes.Network.XML.Messages.Features.SASL.SHA1
         #endregion
         //--------------------------------------------------------Constructor:----------------------------------------------------------------\\
         #region --Constructors--
-        /// <summary>
-        /// Basic Constructor
-        /// </summary>
-        /// <history>
-        /// 22/08/2017 Created [Fabian Sauter]
-        /// </history>
-        public ScramSHA1SASLMechanism(string id, string password, SASLConnection saslConnection) : this(id, password, CryptographicBuffer.EncodeToBase64String(CryptographicBuffer.GenerateRandom(CLIENT_NONCE_LENGTH)), saslConnection)
-        {
-
-        }
+        public ScramSHA1SASLMechanism(string id, string password, SASLConnection saslConnection) : this(id, password, CryptographicBuffer.EncodeToBase64String(CryptographicBuffer.GenerateRandom(CLIENT_NONCE_LENGTH)), saslConnection) { }
 
         public ScramSHA1SASLMechanism(string id, string password, string clientNonceBase64, SASLConnection saslConnection) : base(id, password, saslConnection)
         {
@@ -118,14 +111,14 @@ namespace XMPP_API.Classes.Network.XML.Messages.Features.SASL.SHA1
         #endregion
 
         #region --Misc Methods (Private)--
-        protected string computeAnswer(int iterations)
+        protected virtual string computeAnswer(int iterations)
         {
             string clientFinalMessageBare = "c=biws,r=" + serverNonce;
             byte[] saltBytes = Convert.FromBase64String(saltBase64);
-            byte[] saltedPassword = CryptoUtils.pbkdf2Sha1(PASSWORD_NORMALIZED, saltBytes, iterations);
+            byte[] saltedPassword = CryptoUtils.pbkdf2Sha(PASSWORD_NORMALIZED, saltBytes, iterations, HashAlgorithmName.SHA1, 20);
 
             byte[] clientKey = CryptoUtils.hmacSha1("Client Key", saltedPassword);
-            byte[] storedKey = CryptoUtils.SHA_1(clientKey);
+            byte[] storedKey = CryptoUtils.hash(clientKey, HashAlgorithmNames.Sha1);
             string authMessage = clientFirstMsg + ',' + serverFirstMsg + ',' + clientFinalMessageBare;
 
             byte[] clientSignature = CryptoUtils.hmacSha1(authMessage, storedKey);
