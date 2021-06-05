@@ -104,12 +104,11 @@ namespace UWPX_UI.Pages.Settings
             await logsFolder_fsc.RecalculateFolderSizeAsync();
         }
 
-        private void ExportLogs_btn_Click(object sender, RoutedEventArgs e)
+        private async void ExportLogs_btn_Click(object sender, RoutedEventArgs e)
         {
             try
             {
-                // await VIEW_MODEL.ExportLogsAsync();
-                throw new Exception("TEST EXEPTION");
+                await VIEW_MODEL.ExportLogsAsync();
             }
             catch (Exception ex)
             {
