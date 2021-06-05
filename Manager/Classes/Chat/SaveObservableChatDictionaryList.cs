@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Collections.Specialized;
 using System.ComponentModel;
+using System.Linq;
 
 namespace Manager.Classes.Chat
 {
@@ -242,6 +243,14 @@ namespace Manager.Classes.Chat
             lock (SyncRoot)
             {
                 CHATS.Sort();
+            }
+        }
+
+        public List<ChatDataTemplate> ToList()
+        {
+            lock (SyncRoot)
+            {
+                return CHATS.ToList();
             }
         }
 

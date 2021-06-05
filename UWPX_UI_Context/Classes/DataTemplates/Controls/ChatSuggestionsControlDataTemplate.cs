@@ -6,6 +6,7 @@ using Manager.Classes.Chat;
 using Microsoft.Toolkit.Uwp.UI;
 using Shared.Classes;
 using Shared.Classes.Collections;
+using Shared.Classes.Threading;
 using Windows.Foundation.Collections;
 
 namespace UWPX_UI_Context.Classes.DataTemplates.Controls
@@ -108,8 +109,11 @@ namespace UWPX_UI_Context.Classes.DataTemplates.Controls
                     SUGGESTIONS.Clear();
                     return;
                 }
-
-                IEnumerable<ChatDataTemplate> chats = DataCache.INSTANCE.CHATS.Where(c => !c.Chat.isChatActive && string.Equals(c.Client.dbAccount.bareJid, client.dbAccount.bareJid));
+                IEnumerable<ChatDataTemplate> chats;
+                using (SemaLock semaLock = DataCache.INSTANCE.NewChatSemaLock())
+                {
+                    chats = DataCache.INSTANCE.CHATS.Where(c => !c.Chat.isChatActive && string.Equals(c.Client.dbAccount.bareJid, client.dbAccount.bareJid));
+                }
                 SUGGESTIONS.Clear();
                 SUGGESTIONS.AddRange(chats);
                 SUGGESTIONS_ACV.RefreshFilter();
