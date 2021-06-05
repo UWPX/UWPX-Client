@@ -7,6 +7,7 @@ using System.Threading.Tasks;
 using Logging;
 using Microsoft.EntityFrameworkCore;
 using Shared.Classes;
+using Shared.Classes.AppCenter;
 using Shared.Classes.Threading;
 using Storage.Classes.Contexts;
 using Storage.Classes.Models.Account;
@@ -146,6 +147,14 @@ namespace Manager.Classes.Chat
                 CHATS_SEMA.Wait();
                 IEnumerable<MucInfoModel> mucs = CHATS.Where(c => c.Chat.chatType == ChatType.MUC && string.Equals(c.Chat.accountBareJid, accountBareJid)).Select(c => c.Chat.muc).ToList();
                 CHATS_SEMA.Release();
+
+                int countNull = mucs.Where(m => m is null).Count();
+                if (countNull > 0)
+                {
+                    Dictionary<string, string> payload = new Dictionary<string, string> { { "Count_NULL", countNull.ToString() } };
+                    AppCenterCrashHelper.INSTANCE.TrackError(new ArgumentNullException(), "DataCache.INSTANCE.GetMucs() has MUCs which are null!\nIn theory the DB should prevent something like this...", payload);
+                    return mucs.Where(m => !(m is null));
+                }
                 return mucs;
             }
 
