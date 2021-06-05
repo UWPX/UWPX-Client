@@ -195,6 +195,7 @@
     <Compile Include="Classes\DataContext\Dialogs\MucInviteDialogContext.cs" />
     <Compile Include="Classes\DataContext\Dialogs\OmemoOwnFingerprintDialogContext.cs" />
     <Compile Include="Classes\DataContext\Dialogs\QrCodeScannerDialogContext.cs" />
+    <Compile Include="Classes\DataContext\Dialogs\ReportCrashDialogContext.cs" />
     <Compile Include="Classes\DataContext\Dialogs\WhatsNewDialogContext.cs" />
     <Compile Include="Classes\DataContext\Pages\AccountSettingsPageContext.cs" />
     <Compile Include="Classes\DataContext\Pages\AddAccountPageContext.cs" />
@@ -275,6 +276,7 @@
     <Compile Include="Classes\DataTemplates\Dialogs\MucSuggestionsControlDataTemplate.cs" />
     <Compile Include="Classes\DataTemplates\Dialogs\OmemoOwnFingerprintDialogDataTemplate.cs" />
     <Compile Include="Classes\DataTemplates\Dialogs\QrCodeScannerDialogDataTemplate.cs" />
+    <Compile Include="Classes\DataTemplates\Dialogs\ReportCrashDialogDataTemplate.cs" />
     <Compile Include="Classes\DataTemplates\Dialogs\WhatsNewDialogDataTemplate.cs" />
     <Compile Include="Classes\DataTemplates\FilterChangedDeferrer.cs" />
     <Compile Include="Classes\DataTemplates\LogLevelDataTemplate.cs" />

@@ -10,6 +10,7 @@ using Manager.Classes.Toast;
 using Push.Classes;
 using Push.Classes.Events;
 using Shared.Classes;
+using Shared.Classes.AppCenter;
 using Shared.Classes.Threading;
 using Storage.Classes;
 using Storage.Classes.Contexts;
@@ -118,6 +119,11 @@ namespace UWPX_UI
 
             // Initialize push:
             InitPush();
+
+            // Register a handler to show a dialog when we catch a crash:
+            AppCenterCrashHelper.INSTANCE.OnTrackError += OnTrackError;
+
+
 
             // Do not repeat app initialization when the Window already has content,
             // just ensure that the window is active
@@ -359,9 +365,7 @@ namespace UWPX_UI
         private void App_UnhandledException(object sender, Windows.UI.Xaml.UnhandledExceptionEventArgs e)
         {
             e.Handled = true;
-#if !DEBUG
-   // log
-#else
+#if DEBUG
             if (Debugger.IsAttached)
             {
                 Debugger.Break();
@@ -408,6 +412,23 @@ namespace UWPX_UI
             {
                 RawNotification notification = args.RawNotification;
                 ToastHelper.ShowSimpleToast(notification.Content);
+            }
+        }
+
+        private static async Task OnTrackError(AppCenterCrashHelper sender, TrackErrorEventArgs args)
+        {
+            if (!Settings.GetSettingBoolean(SettingsConsts.ALWAYS_REPORT_CRASHES_WITHOUT_ASKING))
+            {
+                ReportCrashDialog dialog = new ReportCrashDialog(args);
+                await UiUtils.ShowDialogAsync(dialog);
+                if (!dialog.VIEW_MODEL.MODEL.Report)
+                {
+                    args.Cancel = true;
+                }
+                else if (dialog.AlwaysReport)
+                {
+                    Settings.SetSetting(SettingsConsts.ALWAYS_REPORT_CRASHES_WITHOUT_ASKING, true);
+                }
             }
         }
 

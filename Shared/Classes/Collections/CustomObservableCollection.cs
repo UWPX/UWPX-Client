@@ -3,6 +3,8 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Collections.Specialized;
 using System.ComponentModel;
+using Logging;
+using Shared.Classes.AppCenter;
 
 namespace Shared.Classes.Collections
 {
@@ -283,13 +285,21 @@ namespace Shared.Classes.Collections
                 return;
             }
 
-            if (invokeInUiThread)
+            try
             {
-                await SharedUtils.CallDispatcherAsync(() => CollectionChanged?.Invoke(this, e));
+                if (invokeInUiThread)
+                {
+                    await SharedUtils.CallDispatcherAsync(() => CollectionChanged?.Invoke(this, e));
+                }
+                else
+                {
+                    CollectionChanged?.Invoke(this, e);
+                }
             }
-            else
+            catch (Exception ex)
             {
-                CollectionChanged?.Invoke(this, e);
+                Logger.Error("Failed to trigger CustomObservableCollection.OnCollectionChanged() with:", ex);
+                AppCenterCrashHelper.INSTANCE.TrackError(ex, "Failed to trigger CustomObservableCollection.OnCollectionChanged()");
             }
         }
 
