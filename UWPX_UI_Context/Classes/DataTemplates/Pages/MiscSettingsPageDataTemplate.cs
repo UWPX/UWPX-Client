@@ -18,11 +18,17 @@ namespace UWPX_UI_Context.Classes.DataTemplates.Pages
             get => _Analytics;
             set => SetAnalytics(value);
         }
-        private bool _Crashreports;
-        public bool Crashreports
+        private bool _CrashReports;
+        public bool CrashReports
         {
-            get => _Crashreports;
+            get => _CrashReports;
             set => SetCrashreports(value);
+        }
+        private bool _AutomaticExtendedCrashReports;
+        public bool AutomaticExtendedCrashReports
+        {
+            get => _AutomaticExtendedCrashReports;
+            set => SetBoolProperty(ref _AutomaticExtendedCrashReports, value, SettingsConsts.ALWAYS_REPORT_CRASHES_WITHOUT_ASKING);
         }
         private bool _ShowWelcomeDialogOnStartup;
         public bool ShowWelcomeDialogOnStartup
@@ -78,7 +84,7 @@ namespace UWPX_UI_Context.Classes.DataTemplates.Pages
 
         private void SetCrashreports(bool value)
         {
-            if (SetProperty(ref _Crashreports, value, nameof(Crashreports)))
+            if (SetProperty(ref _CrashReports, value, nameof(CrashReports)))
             {
                 Settings.SetSetting(SettingsConsts.DISABLE_CRASH_REPORTING, !value);
                 Task.Run(async () => await AppCenterHelper.SetCrashesEnabledAsync(value));
@@ -116,7 +122,8 @@ namespace UWPX_UI_Context.Classes.DataTemplates.Pages
         private void LoadSettings()
         {
             Analytics = !Settings.GetSettingBoolean(SettingsConsts.DISABLE_ANALYTICS);
-            Crashreports = !Settings.GetSettingBoolean(SettingsConsts.DISABLE_CRASH_REPORTING);
+            CrashReports = !Settings.GetSettingBoolean(SettingsConsts.DISABLE_CRASH_REPORTING);
+            AutomaticExtendedCrashReports = Settings.GetSettingBoolean(SettingsConsts.ALWAYS_REPORT_CRASHES_WITHOUT_ASKING);
             ShowWelcomeDialogOnStartup = !Settings.GetSettingBoolean(SettingsConsts.HIDE_INITIAL_START_DIALOG_ALPHA);
             ShowWhatsNewDialogOnStartup = !Settings.GetSettingBoolean(SettingsConsts.HIDE_WHATS_NEW_DIALOG);
             IsRunningOnPc = DeviceFamilyHelper.IsRunningOnDesktopDevice();
