@@ -1,4 +1,6 @@
-﻿using UWPX_UI.Extensions;
+﻿using System;
+using Microsoft.Toolkit.Uwp.UI.Controls;
+using UWPX_UI.Extensions;
 using UWPX_UI_Context.Classes;
 using UWPX_UI_Context.Classes.DataContext.Controls;
 using UWPX_UI_Context.Classes.DataContext.Pages;
@@ -139,6 +141,11 @@ namespace UWPX_UI.Pages.Settings
             await VIEW_MODEL.InitPushForAccountsAsync();
             initPushForAccounts_btn.IsEnabled = true;
             initPushForAccounts_btn.ProgressRingVisibility = Visibility.Collapsed;
+        }
+
+        private async void MarkdownTextBlock_LinkClicked(object sender, LinkClickedEventArgs e)
+        {
+            await UiUtils.LaunchUriAsync(new Uri(e.Link));
         }
 
         #endregion
