@@ -380,12 +380,12 @@ In case we cought a crash, you will receive a dialog informing you about the cra
 You can disable this again by changing `Settings` -&gt; `Misc` -&gt; `Automatic extended crash reports` to false.</value>
   </data>
   <data name="WhatsNewDialog_markdown.Text" xml:space="preserve">
-    <value># [June 2021] Bug Fixes
+    <value># [June 2021#2] Bug Fixes
+Hotfix for the [[June 2021#2] Bug Fixes](https://github.com/UWPX/UWPX-Client/releases) update.
+Fixes a couple of bugs related to [#157](https://github.com/UWPX/UWPX-Client/issues/157).
+Also adds a new dialog when we catch some specific known exceptions.
+There you can decide to report what happened with a few more details that the automated crash reporting does, since I need more information to know exactly why those crashes exist, so I can fix them.
 
-This month is all about bug fixes. Since there are still a couple of those around, I'm planing to continue focusing on bug fixes for the next releases to bring UWPX back up to the "high" standard it should be if it comes to stability.
-
-Here is a quick image showing crashes currently still present and waiting to be fixed.
-![Crashes](https://user-images.githubusercontent.com/11741404/120227949-71f23800-c24a-11eb-926e-bd604f129ff8.png)
 **Please report bugs [here](https://github.com/UWPX/UWPX-Client/issues)!**
 
 #### Want more up to date news?
@@ -399,12 +399,11 @@ Follow [@UWPX_APP](https://twitter.com/UWPX_APP) on ![Twitter](http://i.imgur.co
 * Removing a chat does not perform cascade deletion [#151](https://github.com/UWPX/UWPX-Client/issues/151)
 
 ### Changes
-* Fixed adding a MUC crash
-* Fixed MAM not being able to handle IQ-Error messages
-* Fixed updating null chat
-* Fixed handling of `stream:error`
-* Fixed SCRAM-SHA-256
+* Fixed `DataCache.INSTANCE.CHATS` changing during Linq operation
+* Fixed clicking on markdown links does not open a browser
+* Added an UI dialog to catch specific potential crashes for [#157](https://github.com/UWPX/UWPX-Client/issues/157)
+* Removed the test exception when exporting logs
 
-**Continue reading on [GitHub](https://github.com/UWPX/UWPX-Client/releases/tag/v.0.32.0.0).**</value>
+**Continue reading on [GitHub](https://github.com/UWPX/UWPX-Client/releases/tag/v.0.32.1.0).**</value>
   </data>
 </root>
