@@ -112,6 +112,7 @@ namespace UWPX_UI_Context.Classes.DataTemplates.Controls
                 IEnumerable<ChatDataTemplate> chats;
                 using (SemaLock semaLock = DataCache.INSTANCE.NewChatSemaLock())
                 {
+                    semaLock.Wait();
                     chats = DataCache.INSTANCE.CHATS.Where(c => !c.Chat.isChatActive && string.Equals(c.Client.dbAccount.bareJid, client.dbAccount.bareJid));
                 }
                 SUGGESTIONS.Clear();

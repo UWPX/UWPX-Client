@@ -81,6 +81,11 @@ namespace Manager.Classes.Chat
             }
         }
 
+        /// <summary>
+        /// Creates a new <see cref="SemaLock"/> object and returns it.
+        /// Does NOT lock it!
+        /// </summary>
+        /// <returns>A new <see cref="SemaLock"/>, which has NOT been locked</returns>
         public SemaLock NewChatSemaLock()
         {
             return new SemaLock(CHATS_SEMA);
