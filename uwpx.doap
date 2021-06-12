@@ -1,13 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <?xml-stylesheet href="https://uwpx.org/files/doap-style.xsl" type="text/xsl"?>
-<rdf:RDF xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
-        xmlns:xmpp="https://linkmauve.fr/ns/xmpp-doap#"
-        xmlns="http://usefulinc.com/ns/doap#"
-        xmlns:schema="https://schema.org/" 
+<rdf:RDF xmlns:rdf='http://www.w3.org/1999/02/22-rdf-syntax-ns#' xmlns='http://usefulinc.com/ns/doap#' xmlns:xmpp='https://linkmauve.fr/ns/xmpp-doap#' xmlns:schema='https://schema.org' xmlns:foaf="http://xmlns.com/foaf/0.1/">
   <Project>
 
     <name>UWPX</name>
     <short-name>UWPX</short-name>
+
+    <created>2018-01-01</created>
 
     <shortdesc xml:lang="en">UWPX is a secure and open-source XMPP app for all your UWP (Windows 10) devices </shortdesc>
     <description xml:lang="en">
@@ -17,17 +16,30 @@
     <homepage rdf:resource="https://uwpx.org/" />
     <bug-database rdf:resource="https://github.com/UWPX/UWPX-Client/issues" />
     <license rdf:resource="https://github.com/UWPX/UWPX-Client/blob/master/LICENSE" />
-    <schema:documentation rdf:resource="https://github.com/UWPX/UWPX-Client"/>
-    <schema:logo rdf:resource="TBA"/>
-    
+    <schema:documentation rdf:resource="https://github.com/UWPX/UWPX-Client" />
+
+    <!-- See https://github.com/ewilderj/doap/issues/49 -->
+    <language>en</language>
+
     <programming-language>C#</programming-language>
-    <os>Windows</os>
+    <os>Windows 10</os>
     <os>UWP</os>
+
+    <schema:logo rdf:resource="https://raw.githubusercontent.com/UWPX/UWPX-Logos/master/Logo/v3/uwpx_logo.svg" />
+    <schema:screenshot rdf:resource='https://user-images.githubusercontent.com/11741404/54202930-65e6f800-44d1-11e9-92eb-d73e0bbdace1.jpg' />
+    <schema:screenshot rdf:resource='https://user-images.githubusercontent.com/11741404/54202931-667f8e80-44d1-11e9-883c-1142fad08763.jpg' />
+    <schema:screenshot rdf:resource='https://user-images.githubusercontent.com/11741404/54202934-67182500-44d1-11e9-8bc6-ce28675aea3f.jpg' />
+    <schema:screenshot rdf:resource='https://user-images.githubusercontent.com/11741404/54202932-667f8e80-44d1-11e9-887c-e199c69693ad.jpg' />
+    <schema:screenshot rdf:resource='https://user-images.githubusercontent.com/11741404/54202935-67182500-44d1-11e9-8feb-925a1fd49a6c.png' />
+
+    <category rdf:resource="https://linkmauve.fr/ns/xmpp-doap#category-xmpp" />
+    <category rdf:resource="https://linkmauve.fr/ns/xmpp-doap#category-jabber" />
+    <category rdf:resource="https://linkmauve.fr/ns/xmpp-doap#category-client" />
 
     <repository>
       <GitRepository>
-        <location rdf:resource="https://github.com/UWPX/UWPX-Client" />
         <browse rdf:resource="https://github.com/UWPX/UWPX-Client" />
+        <location rdf:resource="https://github.com/UWPX/UWPX-Client.git" />
       </GitRepository>
     </repository>
 
@@ -36,12 +48,12 @@
     <implements rdf:resource="https://xmpp.org/rfcs/rfc6122.html" />
     <implements rdf:resource="https://tools.ietf.org/html/rfc7395" />
     <implements rdf:resource="https://tools.ietf.org/html/rfc7590" />
+
     <implements>
       <xmpp:SupportedXep>
         <xmpp:xep rdf:resource="https://xmpp.org/extensions/xep-0004.html" />
         <xmpp:status>complete</xmpp:status>
         <xmpp:version>2.10.0</xmpp:version>
-        <xmpp:note>XEP-0004: Data Forms</xmpp:note>
       </xmpp:SupportedXep>
     </implements>
     <implements>
@@ -49,7 +61,6 @@
         <xmpp:xep rdf:resource="https://xmpp.org/extensions/xep-0030.html" />
         <xmpp:status>complete</xmpp:status>
         <xmpp:version>2.5rc3</xmpp:version>
-        <xmpp:note>XEP-0030: Service Discovery</xmpp:note>
       </xmpp:SupportedXep>
     </implements>
     <implements>
@@ -57,7 +68,6 @@
         <xmpp:xep rdf:resource="https://xmpp.org/extensions/xep-0045.html" />
         <xmpp:status>complete</xmpp:status>
         <xmpp:version>1.32.0</xmpp:version>
-        <xmpp:note>XEP-0045: Multi-User Chat</xmpp:note>
       </xmpp:SupportedXep>
     </implements>
     <implements>
@@ -65,7 +75,6 @@
         <xmpp:xep rdf:resource="https://xmpp.org/extensions/xep-0048.html" />
         <xmpp:status>complete</xmpp:status>
         <xmpp:version>1.32.0</xmpp:version>
-        <xmpp:note>XEP-0048: Bookmarks</xmpp:note>
       </xmpp:SupportedXep>
     </implements>
     <implements>
@@ -73,7 +82,6 @@
         <xmpp:xep rdf:resource="https://xmpp.org/extensions/xep-0060.html" />
         <xmpp:status>complete</xmpp:status>
         <xmpp:version>1.18.0</xmpp:version>
-        <xmpp:note>XEP-0060: Publish-Subscribe</xmpp:note>
       </xmpp:SupportedXep>
     </implements>
     <implements>
@@ -81,7 +89,6 @@
         <xmpp:xep rdf:resource="https://xmpp.org/extensions/xep-0085.html" />
         <xmpp:status>complete</xmpp:status>
         <xmpp:version>2.1</xmpp:version>
-        <xmpp:note>XEP-0085: Chat State Notifications</xmpp:note> 
       </xmpp:SupportedXep>
     </implements>
     <implements>
@@ -89,7 +96,6 @@
         <xmpp:xep rdf:resource="https://xmpp.org/extensions/xep-0163.html" />
         <xmpp:status>complete</xmpp:status>
         <xmpp:version>1.2.1</xmpp:version>
-        <xmpp:note>XEP-0163: Personal Eventing Protocol</xmpp:note>  
       </xmpp:SupportedXep>
     </implements>
     <implements>
@@ -97,7 +103,6 @@
         <xmpp:xep rdf:resource="https://xmpp.org/extensions/xep-0184.html" />
         <xmpp:status>complete</xmpp:status>
         <xmpp:version>1.4.0</xmpp:version>
-        <xmpp:note>XEP-0184: Message Delivery Receipts</xmpp:note>     
       </xmpp:SupportedXep>
     </implements>
     <implements>
@@ -105,7 +110,6 @@
         <xmpp:xep rdf:resource="https://xmpp.org/extensions/xep-0199.html" />
         <xmpp:status>complete</xmpp:status>
         <xmpp:version>2.0.1</xmpp:version>
-        <xmpp:note>XEP-0199: XMPP Ping</xmpp:note>  
       </xmpp:SupportedXep>
     </implements>
     <implements>
@@ -113,7 +117,6 @@
         <xmpp:xep rdf:resource="https://xmpp.org/extensions/xep-0249.html" />
         <xmpp:status>complete</xmpp:status>
         <xmpp:version>1.2</xmpp:version>
-        <xmpp:note>XEP-0249: Direct MUC Invitations</xmpp:note> 
       </xmpp:SupportedXep>
     </implements>
     <implements>
@@ -121,7 +124,6 @@
         <xmpp:xep rdf:resource="https://xmpp.org/extensions/xep-0280.html" />
         <xmpp:status>complete</xmpp:status>
         <xmpp:version>0.13.2</xmpp:version>
-        <xmpp:note>XEP-0280: Message Carbons</xmpp:note> 
       </xmpp:SupportedXep>
     </implements>
     <implements>
@@ -129,7 +131,6 @@
         <xmpp:xep rdf:resource="https://xmpp.org/extensions/xep-0313.html" />
         <xmpp:status>experimental</xmpp:status>
         <xmpp:version>0.7.2</xmpp:version>
-        <xmpp:note>XEP-0313: Message Archive Management</xmpp:note> 
       </xmpp:SupportedXep>
     </implements>
     <implements>
@@ -137,7 +138,6 @@
         <xmpp:xep rdf:resource="https://xmpp.org/extensions/xep-0333.html" />
         <xmpp:status>complete</xmpp:status>
         <xmpp:version>0.4</xmpp:version>
-        <xmpp:note>XEP-0333: Chat Markers</xmpp:note> 
       </xmpp:SupportedXep>
     </implements>
     <implements>
@@ -145,7 +145,6 @@
         <xmpp:xep rdf:resource="https://xmpp.org/extensions/xep-0334.html" />
         <xmpp:status>complete</xmpp:status>
         <xmpp:version>0.3.0</xmpp:version>
-        <xmpp:note>XEP-0334: Message Processing Hints</xmpp:note> 
       </xmpp:SupportedXep>
     </implements>
     <implements>
@@ -153,7 +152,6 @@
         <xmpp:xep rdf:resource="https://xmpp.org/extensions/xep-0336.html" />
         <xmpp:status>complete</xmpp:status>
         <xmpp:version>0.2</xmpp:version>
-        <xmpp:note>XEP-0336: Data Forms - Dynamic Forms</xmpp:note> 
       </xmpp:SupportedXep>
     </implements>
     <implements>
@@ -161,7 +159,6 @@
         <xmpp:xep rdf:resource="https://xmpp.org/extensions/xep-0359.html" />
         <xmpp:status>complete</xmpp:status>
         <xmpp:version>0.6.0</xmpp:version>
-        <xmpp:note>XEP-0359: Unique and Stable Stanza IDs</xmpp:note> 
       </xmpp:SupportedXep>
     </implements>
     <implements>
@@ -169,7 +166,7 @@
         <xmpp:xep rdf:resource="https://xmpp.org/extensions/xep-0363.html" />
         <xmpp:status>partial</xmpp:status>
         <xmpp:version>1.0.0</xmpp:version>
-        <xmpp:note>XEP-0363: HTTP File Upload</xmpp:note> 
+        <xmpp:note>Only the upload portion right now.</xmpp:note>
       </xmpp:SupportedXep>
     </implements>
     <implements>
@@ -177,7 +174,6 @@
         <xmpp:xep rdf:resource="https://xmpp.org/extensions/xep-0384.html" />
         <xmpp:status>experimental</xmpp:status>
         <xmpp:version>0.5.0</xmpp:version>
-        <xmpp:note>XEP-0384: OMEMO Encryption</xmpp:note>
       </xmpp:SupportedXep>
     </implements>
     <implements>
@@ -185,9 +181,22 @@
         <xmpp:xep rdf:resource="https://xmpp.org/extensions/xep-0392.html" />
         <xmpp:status>complete</xmpp:status>
         <xmpp:version>0.5.0</xmpp:version>
-        <xmpp:note>XEP-0392: Consistent Color Generation</xmpp:note>
       </xmpp:SupportedXep>
     </implements>
+
+    <maintainer>
+      <foaf:Person>
+        <foaf:name>Fabian Sauter</foaf:name>
+        <foaf:homepage rdf:resource="https://github.com/com8" />
+      </foaf:Person>
+    </maintainer>
+
+    <release>
+      <Version>
+        <revision>v.0.32.1.0</revision>
+        <created>20201-06-06</created>
+        <file-release rdf:resource="https://github.com/UWPX/UWPX-Client/releases/download/v.0.32.1.0/UWPX-Installer.exe" />
+      </Version>
+    </release>
   </Project>
 </rdf:RDF>
- 
