@@ -217,3 +217,7 @@ dotnet_naming_rule.abstract_classes_must_be_prefixed_with_abstract.style    = pr
 
 # IDE0063: Use simple 'using' statement
 csharp_prefer_simple_using_statement = false:suggestion
+
+[*.{cs,vb}]
+end_of_line=lf
+dotnet_style_parentheses_in_other_operators=never_if_unnecessary:error
