@@ -104,16 +104,17 @@ namespace XMPP_API.Classes.Network.XML
             List<AbstractMessage> messages = new List<AbstractMessage>();
             // Fix non valid XML strings:
             bool hasCloseStream = msg.Contains(Consts.XML_STREAM_CLOSE);
-            if (hasCloseStream)
+            bool hasopenStream = msg.Contains(Consts.XML_STREAM_START);
+            if (!hasCloseStream)
             {
-                if (msg.Contains(Consts.XML_STREAM_START))
+                if (hasopenStream)
                 {
                     msg += Consts.XML_STREAM_CLOSE;
                 }
             }
-            else if (!msg.Contains(Consts.XML_STREAM_START))
+            else if (!hasopenStream)
             {
-                msg.Replace(Consts.XML_STREAM_CLOSE, "<stream:stream/>");
+                msg = msg.Replace(Consts.XML_STREAM_CLOSE, "<stream:stream xmlns:stream='http://etherx.jabber.org/streams' />");
             }
 
             // Fix missing namespace for features:
