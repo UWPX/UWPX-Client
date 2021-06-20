@@ -376,6 +376,7 @@
     <Compile Include="Classes\OmemoCommandHelper.cs" />
     <Compile Include="Classes\Presence.cs" />
     <Compile Include="Classes\PubSubCommandHelper.cs" />
+    <Compile Include="Classes\XMPPProviders.cs" />
     <Compile Include="Classes\XmppUri\OmemoFingerprintUriAction.cs" />
     <Compile Include="Classes\XmppUri\RegisterIoTUriAction.cs" />
     <Compile Include="Classes\XmppUri\UriUtils.cs" />

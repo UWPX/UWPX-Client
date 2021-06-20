@@ -1,0 +1,190 @@
+[
+	{
+		"jid": "blabber.im",
+		"website": {
+			"de": "https://blabber.im",
+			"en": "https://blabber.im/en/"
+		},
+		"company": false,
+		"passwordReset": {},
+		"inBandRegistration": true,
+		"registrationWebPage": {
+			"de": "https://blabber.im/anmelden/",
+			"en": "https://blabber.im/en/anmelden/"
+		},
+		"ratingXmppComplianceTester": 100,
+		"ratingImObservatoryClientToServer": "A",
+		"ratingImObservatoryServerToServer": "A",
+		"maximumHttpFileUploadFileSize": 500,
+		"maximumHttpFileUploadTotalSize": 0,
+		"maximumHttpFileUploadStorageTime": 14,
+		"maximumMessageArchiveManagementStorageTime": 33,
+		"professionalHosting": true,
+		"freeOfCharge": true,
+		"legalNotice": {
+			"de": "https://blabber.im/impressum/",
+			"en": "https://blabber.im/en/impressum/"
+		},
+		"serverLocations": [
+			"de"
+		],
+		"groupChatSupport": {
+			"de": [
+				"blabber@conference.blabber.im"
+			],
+			"en": [
+				"blabber@conference.blabber.im"
+			]
+		},
+		"chatSupport": {
+			"de": [
+				"dominion@blabber.im",
+				"chris@pix-art.de"
+			],
+			"en": [
+				"dominion@blabber.im",
+				"chris@pix-art.de"
+			]
+		},
+		"emailSupport": {
+			"de": [
+				"dominion@blabber.im",
+				"chris@pix-art.de"
+			],
+			"en": [
+				"dominion@blabber.im",
+				"chris@pix-art.de"
+			]
+		},
+		"onlineSince": "2018-05-01"
+	},
+	{
+		"jid": "chapril.org",
+		"website": {
+			"fr": "https://chapril.org/xmpp"
+		},
+		"company": false,
+		"passwordReset": {},
+		"inBandRegistration": true,
+		"registrationWebPage": {},
+		"ratingXmppComplianceTester": 100,
+		"ratingImObservatoryClientToServer": "A",
+		"ratingImObservatoryServerToServer": "A",
+		"maximumHttpFileUploadFileSize": 250,
+		"maximumHttpFileUploadTotalSize": 500,
+		"maximumHttpFileUploadStorageTime": 380,
+		"maximumMessageArchiveManagementStorageTime": 0,
+		"professionalHosting": true,
+		"freeOfCharge": true,
+		"legalNotice": {
+			"fr": "https://chapril.org/cgu"
+		},
+		"serverLocations": [
+			"de"
+		],
+		"groupChatSupport": {
+			"fr": [
+				"chapril@muc.chapril.org"
+			]
+		},
+		"chatSupport": {},
+		"emailSupport": {
+			"fr": [
+				"xmpp-support@chapril.org"
+			]
+		},
+		"onlineSince": "2020-03-08"
+	},
+	{
+		"jid": "lightwitch.org",
+		"website": {
+			"en": "https://lightwitch.org"
+		},
+		"company": false,
+		"passwordReset": {
+			"en": "https://lightwitch.org/xmpp/password"
+		},
+		"inBandRegistration": true,
+		"registrationWebPage": {
+			"en": "https://lightwitch.org/xmpp/register"
+		},
+		"ratingXmppComplianceTester": 100,
+		"ratingImObservatoryClientToServer": "A",
+		"ratingImObservatoryServerToServer": "A",
+		"maximumHttpFileUploadFileSize": 1024,
+		"maximumHttpFileUploadTotalSize": 0,
+		"maximumHttpFileUploadStorageTime": 7,
+		"maximumMessageArchiveManagementStorageTime": 30,
+		"professionalHosting": true,
+		"freeOfCharge": true,
+		"legalNotice": {
+			"en": "https://lightwitch.org/im-service/tos"
+		},
+		"serverLocations": [
+			"it",
+			"us"
+		],
+		"groupChatSupport": {
+			"en": [
+				"support@conference.lightwitch.org"
+			]
+		},
+		"chatSupport": {},
+		"emailSupport": {},
+		"onlineSince": "2017-11-03"
+	},
+	{
+		"jid": "magicbroccoli.de",
+		"website": {
+			"en": "https://magicbroccoli.de"
+		},
+		"company": false,
+		"passwordReset": {
+			"en": "https://magicbroccoli.de/register/"
+		},
+		"inBandRegistration": true,
+		"registrationWebPage": {
+			"en": "https://magicbroccoli.de/register/"
+		},
+		"ratingXmppComplianceTester": 100,
+		"ratingImObservatoryClientToServer": "A",
+		"ratingImObservatoryServerToServer": "A",
+		"maximumHttpFileUploadFileSize": 30,
+		"maximumHttpFileUploadTotalSize": 0,
+		"maximumHttpFileUploadStorageTime": 30,
+		"maximumMessageArchiveManagementStorageTime": 90,
+		"professionalHosting": true,
+		"freeOfCharge": true,
+		"legalNotice": {
+			"de": "https://magicbroccoli.de/datenschutz/"
+		},
+		"serverLocations": [
+			"de"
+		],
+		"groupChatSupport": {
+			"de": [
+				"lobby@conference.magicbroccoli.de"
+			],
+			"en": [
+				"lobby@conference.magicbroccoli.de"
+			]
+		},
+		"chatSupport": {
+			"de": [
+				"broccoli@magicbroccoli.de"
+			],
+			"en": [
+				"broccoli@magicbroccoli.de"
+			]
+		},
+		"emailSupport": {
+			"de": [
+				"nico@magicbroccoli.de"
+			],
+			"en": [
+				"nico@magicbroccoli.de"
+			]
+		},
+		"onlineSince": "2017-06-20"
+	}
+]

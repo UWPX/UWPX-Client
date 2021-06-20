@@ -16,6 +16,7 @@ using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Media.Imaging;
 using Windows.UI.Xaml.Navigation;
+using XMPP_API.Classes;
 using XMPP_API.Classes.XmppUri;
 
 namespace UWPX_UI.Pages
@@ -161,8 +162,11 @@ namespace UWPX_UI.Pages
             await BackgroundTaskHelper.RegisterBackgroundTasksAsync();
             Logger.Info("Finished registering background tasks.");
 
-            // Init the chat background helper:
+            // Initialize the chat background helper:
             ChatBackgroundHelper.INSTANCE.Init();
+
+            // Initialize the curated list of XMPP server providers:
+            await XMPPProviders.INSTANCE.initAsync();
 
             // Load all chats:
             await DataCache.INSTANCE.InitAsync();

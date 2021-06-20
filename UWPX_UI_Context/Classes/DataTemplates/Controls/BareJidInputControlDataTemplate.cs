@@ -50,7 +50,7 @@ namespace UWPX_UI_Context.Classes.DataTemplates.Controls
             if (index >= 0)
             {
                 string domain = input.Substring(index + 1);
-                foreach (string s in Utils.COMMON_XMPP_SERVERS)
+                foreach (string s in XMPPProviders.INSTANCE.providersCSimple)
                 {
                     if (s.StartsWith(domain) && !s.Equals(domain))
                     {
