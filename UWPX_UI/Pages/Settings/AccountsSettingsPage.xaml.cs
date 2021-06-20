@@ -88,7 +88,7 @@ namespace UWPX_UI.Pages.Settings
 
         private void AddAccount_ibtn_Click(Controls.IconButtonControl sender, RoutedEventArgs args)
         {
-            UiUtils.NavigateToPage(typeof(AddAccountPage));
+            UiUtils.NavigateToPage(typeof(RegisterPage));
         }
 
         private void ReconnectAll_ibtn_Click(object sender, RoutedEventArgs args)

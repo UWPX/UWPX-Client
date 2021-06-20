@@ -198,6 +198,11 @@ namespace UWPX_UI.Pages
             await VIEW_MODEL.OnWhatIsAJidAsync();
         }
 
+        private void OnRegisterClicked(object sender, RoutedEventArgs e)
+        {
+            UiUtils.NavigateToPage(typeof(RegisterPage));
+        }
+
         #endregion
     }
 }

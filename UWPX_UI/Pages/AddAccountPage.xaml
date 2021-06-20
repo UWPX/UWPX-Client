@@ -17,6 +17,7 @@
         <ResourceDictionary>
             <ResourceDictionary.MergedDictionaries>
                 <ResourceDictionary Source="ms-appx:///Resources/Styles/InfoButtonStyle.xaml"/>
+                <ResourceDictionary Source="ms-appx:///Resources/Styles/Button/SettingsButtonStyle.xaml"/>
             </ResourceDictionary.MergedDictionaries>
 
             <x:String x:Key="TranslationAnimationDuration">0:0:0.5</x:String>
@@ -50,6 +51,7 @@
             <Grid Padding="10"
                   VerticalAlignment="Center">
                 <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto"/>
                     <RowDefinition Height="Auto"/>
                     <RowDefinition Height="Auto"/>
                     <RowDefinition Height="Auto"/>
@@ -415,6 +417,34 @@
                             </Grid>
                         </controls1:Expander>
                     </Border>
+                </controls1:DropShadowPanel>
+
+                <controls1:DropShadowPanel Grid.Row="3"
+                                           Margin="15"
+                                           HorizontalAlignment="Center">
+                    <Button x:Name="register_btn"
+                            Background="{ThemeResource AppBackgroundAcrylicWindowBrush}"
+                            Click="OnRegisterClicked"
+                            Style="{ThemeResource SettingsButtonStyle}"
+                            ToolTipService.ToolTip="Register new account.">
+                        <Grid Margin="5,5,5,0"
+                              VerticalAlignment="Center">
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="Auto"/>
+                                <RowDefinition Height="Auto"/>
+                                <RowDefinition Height="Auto"/>
+                            </Grid.RowDefinitions>
+                            <FontIcon Margin="0,0,0,10"
+                                      HorizontalAlignment="Center"
+                                      FontSize="25"
+                                      Foreground="{ThemeResource SystemAccentColor}"
+                                      Glyph="&#xE8FA;"/>
+                            <TextBlock Grid.Row="1"
+                                       HorizontalAlignment="Center"
+                                       Style="{ThemeResource CaptionTextBlockStyle}"
+                                       Text="Register"/>
+                        </Grid>
+                    </Button>
                 </controls1:DropShadowPanel>
             </Grid>
         </ScrollViewer>

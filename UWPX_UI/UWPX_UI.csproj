@@ -445,6 +445,9 @@
     <Compile Include="Pages\ExtendedSplashScreenPage.xaml.cs">
       <DependentUpon>ExtendedSplashScreenPage.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Pages\RegisterPage.xaml.cs">
+      <DependentUpon>RegisterPage.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Pages\Settings\AccountsSettingsPage.xaml.cs">
       <DependentUpon>AccountsSettingsPage.xaml</DependentUpon>
     </Compile>
@@ -1029,6 +1032,10 @@
     <Page Include="Pages\ExtendedSplashScreenPage.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Pages\RegisterPage.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Pages\Settings\AccountsSettingsPage.xaml">
       <Generator>MSBuild:Compile</Generator>
