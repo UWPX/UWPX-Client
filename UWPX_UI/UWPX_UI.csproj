@@ -353,6 +353,9 @@
     <Compile Include="Controls\Settings\LogLevelControl.xaml.cs">
       <DependentUpon>LogLevelControl.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Controls\Settings\ServerProviderControl.xaml.cs">
+      <DependentUpon>ServerProviderControl.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Controls\Settings\SettingsContentControl.xaml.cs">
       <DependentUpon>SettingsContentControl.xaml</DependentUpon>
     </Compile>
@@ -916,6 +919,10 @@
     <Page Include="Controls\Settings\LogLevelControl.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Controls\Settings\ServerProviderControl.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Controls\Settings\SettingsContentControl.xaml">
       <Generator>MSBuild:Compile</Generator>

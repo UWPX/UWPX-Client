@@ -1,6 +1,8 @@
 ﻿using Microsoft.Toolkit.Uwp.UI.Animations;
 using Shared.Classes;
 using UWPX_UI.Controls.Settings;
+using UWPX_UI_Context.Classes;
+using UWPX_UI_Context.Classes.DataContext.Pages;
 using UWPX_UI_Context.Classes.DataTemplates;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
@@ -17,6 +19,8 @@ namespace UWPX_UI.Pages
         public readonly SettingsPageButtonDataTemplate REGISTER_DATA_TEMPLATE = new SettingsPageButtonDataTemplate { Glyph = "\uE8FA", Name = "Register", Description = "Get a new account.", NavTarget = null };
 
         private FrameworkElement LastPopUpElement = null;
+
+        public readonly RegisterPageContext VIEW_MODEL = new RegisterPageContext();
         #endregion
         //--------------------------------------------------------Constructor:----------------------------------------------------------------\\
         #region --Constructors--
@@ -38,7 +42,10 @@ namespace UWPX_UI.Pages
         #endregion
 
         #region --Misc Methods (Private)--
-
+        private void UpdateViewState(string state)
+        {
+            VisualStateManager.GoToState(this, state, true);
+        }
 
         #endregion
 
@@ -80,6 +87,16 @@ namespace UWPX_UI.Pages
         protected override void OnNavigatedTo(NavigationEventArgs e)
         {
             titleBar.OnPageNavigatedTo();
+        }
+
+        private void OnRegisterClicked(SettingsSelectionLargeControl sender, RoutedEventArgs args)
+        {
+            UpdateViewState(State_2.Name);
+        }
+
+        private void OnLoginClicked(object sender, RoutedEventArgs e)
+        {
+            UiUtils.NavigateToPage(typeof(AddAccountPage));
         }
 
         #endregion
