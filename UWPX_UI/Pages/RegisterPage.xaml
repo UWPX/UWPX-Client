@@ -28,7 +28,7 @@
 
             <DataTemplate x:Key="ServerProviderDataTemplate"
                           x:DataType="classes:Provider">
-                <settings:ServerProviderControl ServerProvider="{x:Bind, Mode=OneWay}"/>
+                <settings:ServerProviderControl ServerProvider="{x:Bind}"/>
             </DataTemplate>
         </ResourceDictionary>
     </Page.Resources>
