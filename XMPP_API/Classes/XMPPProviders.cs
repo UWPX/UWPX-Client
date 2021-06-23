@@ -11,7 +11,7 @@ namespace XMPP_API.Classes
     /// <summary>
     /// Represents on curated server provider.
     /// </summary>
-    public struct Provider
+    public class Provider
     {
         public string jid;
         public bool company;
