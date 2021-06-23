@@ -1,27 +1,26 @@
 ﻿using UWPX_UI_Context.Classes.DataContext.Controls;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
-using XMPP_API.Classes;
 
 namespace UWPX_UI.Controls.Settings
 {
-    public sealed partial class ServerProviderControl: UserControl
+    public sealed partial class ImObservatoryBadgeControl: UserControl
     {
         //--------------------------------------------------------Attributes:-----------------------------------------------------------------\\
         #region --Attributes--
-        public readonly ServerProviderControlContext VIEW_MODEL = new ServerProviderControlContext();
+        public readonly ImObservatoryBadgeControlContext VIEW_MODEL = new ImObservatoryBadgeControlContext();
 
-        public Provider ServerProvider
+        public string Rating
         {
-            get => (Provider)GetValue(ServerProviderProperty);
-            set => SetValue(ServerProviderProperty, value);
+            get => (string)GetValue(RatingProperty);
+            set => SetValue(RatingProperty, value);
         }
-        public static readonly DependencyProperty ServerProviderProperty = DependencyProperty.Register(nameof(ServerProvider), typeof(Provider), typeof(ServerProviderControl), new PropertyMetadata(null, OnProviderChanged));
+        public static readonly DependencyProperty RatingProperty = DependencyProperty.Register(nameof(Rating), typeof(string), typeof(ImObservatoryBadgeControl), new PropertyMetadata(null));
 
         #endregion
         //--------------------------------------------------------Constructor:----------------------------------------------------------------\\
         #region --Constructors--
-        public ServerProviderControl()
+        public ImObservatoryBadgeControl()
         {
             InitializeComponent();
         }
@@ -39,10 +38,7 @@ namespace UWPX_UI.Controls.Settings
         #endregion
 
         #region --Misc Methods (Private)--
-        private void UpdateView(Provider provider)
-        {
-            VIEW_MODEL.UpdateView(provider);
-        }
+
 
         #endregion
 
@@ -52,13 +48,7 @@ namespace UWPX_UI.Controls.Settings
         #endregion
         //--------------------------------------------------------Events:---------------------------------------------------------------------\\
         #region --Events--
-        private static void OnProviderChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
-        {
-            if (e.NewValue is Provider provider && d is ServerProviderControl control)
-            {
-                control.UpdateView(provider);
-            }
-        }
+
 
         #endregion
     }
