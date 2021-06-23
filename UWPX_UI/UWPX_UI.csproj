@@ -344,11 +344,17 @@
     <Compile Include="Controls\Settings\BackgroundImageSelectionControl.xaml.cs">
       <DependentUpon>BackgroundImageSelectionControl.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Controls\Settings\ComplianceTesterBadgeControl.xaml.cs">
+      <DependentUpon>ComplianceTesterBadgeControl.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Controls\Settings\CustomBackgroundImageSelectionControl.xaml.cs">
       <DependentUpon>CustomBackgroundImageSelectionControl.xaml</DependentUpon>
     </Compile>
     <Compile Include="Controls\Settings\FolderSizeControl.xaml.cs">
       <DependentUpon>FolderSizeControl.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Controls\Settings\ImObservatoryBadgeControl.xaml.cs">
+      <DependentUpon>ImObservatoryBadgeControl.xaml</DependentUpon>
     </Compile>
     <Compile Include="Controls\Settings\LogLevelControl.xaml.cs">
       <DependentUpon>LogLevelControl.xaml</DependentUpon>
@@ -908,6 +914,10 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="Controls\Settings\ComplianceTesterBadgeControl.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Controls\Settings\CustomBackgroundImageSelectionControl.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -915,6 +925,10 @@
     <Page Include="Controls\Settings\FolderSizeControl.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Controls\Settings\ImObservatoryBadgeControl.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Controls\Settings\LogLevelControl.xaml">
       <Generator>MSBuild:Compile</Generator>

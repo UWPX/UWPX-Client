@@ -160,11 +160,13 @@
     <Compile Include="Classes\DataContext\Controls\Chat\MUC\MucMembersControlContext.cs" />
     <Compile Include="Classes\DataContext\Controls\Chat\MUC\MucRoleControlContext.cs" />
     <Compile Include="Classes\DataContext\Controls\Chat\SpeechBubbles\SpeechBubbleMucDirectInvitationControlContext.cs" />
+    <Compile Include="Classes\DataContext\Controls\ComplianceTesterBadgeControlContext.cs" />
     <Compile Include="Classes\DataContext\Controls\ContactInfoControlContext.cs" />
     <Compile Include="Classes\DataContext\Controls\ContactMediaControlContext.cs" />
     <Compile Include="Classes\DataContext\Controls\CustomBackgroundImageSelectionControlContext.cs" />
     <Compile Include="Classes\DataContext\Controls\EmojiPickerControlContext.cs" />
     <Compile Include="Classes\DataContext\Controls\FolderSizeControlContext.cs" />
+    <Compile Include="Classes\DataContext\Controls\ImObservatoryBadgeControlContext.cs" />
     <Compile Include="Classes\DataContext\Controls\IoT\BluetoothDeviceInfoControlContext.cs" />
     <Compile Include="Classes\DataContext\Controls\IoT\BluetoothScannerControlContext.cs" />
     <Compile Include="Classes\DataContext\Controls\IoT\IoTChatDetailsControlContext.cs" />
@@ -241,10 +243,12 @@
     <Compile Include="Classes\DataTemplates\Controls\Chat\MUC\MucMembersControlDataTemplate.cs" />
     <Compile Include="Classes\DataTemplates\Controls\Chat\MUC\MucRoleControlDataTemplate.cs" />
     <Compile Include="Classes\DataTemplates\Controls\Chat\SpeechBubbles\SpeechBubbleMucDirectInvitationControlDataTemplate.cs" />
+    <Compile Include="Classes\DataTemplates\Controls\ComplianceTesterBadgeControlDataTemplate.cs" />
     <Compile Include="Classes\DataTemplates\Controls\ContactInfoControlDataTemplate.cs" />
     <Compile Include="Classes\DataTemplates\Controls\CustomBackgroundImageSelectionControlDataTemplate.cs" />
     <Compile Include="Classes\DataTemplates\Controls\EmojiPickerControlDataTemplate.cs" />
     <Compile Include="Classes\DataTemplates\Controls\FolderSizeControlDataTemplate.cs" />
+    <Compile Include="Classes\DataTemplates\Controls\ImObservatoryBadgeControlDataTemplate.cs" />
     <Compile Include="Classes\DataTemplates\Controls\IoT\BluetoothDeviceInfoControlDataTemplate.cs" />
     <Compile Include="Classes\DataTemplates\Controls\IoT\BluetoothScannerControlDataTemplate.cs" />
     <Compile Include="Classes\DataTemplates\Controls\IoT\DataFormDataTemplate.cs" />

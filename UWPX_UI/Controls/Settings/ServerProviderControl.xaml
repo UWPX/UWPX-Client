@@ -3,8 +3,12 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:classes="using:XMPP_API.Classes"
              xmlns:controls="using:Microsoft.Toolkit.Uwp.UI.Controls"
+             xmlns:controls1="using:UWPX_UI.Controls"
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:settings="using:UWPX_UI.Controls.Settings"
+             MinWidth="300"
+             MaxHeight="600"
              mc:Ignorable="d">
 
     <UserControl.Resources>
@@ -14,11 +18,22 @@
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="*"/>
                     <ColumnDefinition Width="Auto"/>
+                    <ColumnDefinition Width="Auto"/>
+                    <ColumnDefinition Width="Auto"/>
                 </Grid.ColumnDefinitions>
-                <TextBlock>
-                    <Run Text=""/>
+                <TextBlock Grid.Column="0"
+                           Margin="0,0,10,0"
+                           VerticalAlignment="Center">
+                    <Run Text="{x:Bind jid, Mode=OneWay}"/>
                 </TextBlock>
-                <Button Content="Register"/>
+                <settings:ImObservatoryBadgeControl Grid.Row="1"
+                                                    Rating="{x:Bind ratingImObservatoryCtS, Mode=OneWay}"/>
+                <settings:ComplianceTesterBadgeControl Grid.Row="1"
+                                                       Rating="{x:Bind ratingImObservatoryCtS, Mode=OneWay}"/>
+                <controls1:IconButtonControl Grid.Column="3"
+                                             Glyph="&#xE8FA;"
+                                             Text="Register"
+                                             ToolTipService.ToolTip="Register a new account at this provider."/>
             </Grid>
         </DataTemplate>
     </UserControl.Resources>
@@ -30,48 +45,70 @@
         <Border HorizontalAlignment="Stretch"
                 Background="{ThemeResource AppBackgroundAcrylicWindowBrush}"
                 CornerRadius="{ThemeResource OverlayCornerRadius}">
-            <controls:Expander Header="{x:Bind ServerProvider, Mode=OneWay}"
+            <controls:Expander HorizontalContentAlignment="Left"
+                               Header="{x:Bind ServerProvider, Mode=OneWay}"
                                HeaderTemplate="{StaticResource HeaderTemplate}">
-                <StackPanel>
+                <controls:Expander.Resources>
+                    <Style TargetType="TextBlock">
+                        <Setter Property="IsTextSelectionEnabled" Value="True"/>
+                    </Style>
+                </controls:Expander.Resources>
+                <StackPanel Margin="10,5,10,5">
                     <TextBlock>
                         <Run FontWeight="Bold"
                              Text="Free:"/>
-                        <Run Text="Yes"/>
-                    </TextBlock>
-                    <TextBlock>
+                        <Run Text="{x:Bind VIEW_MODEL.MODEL.FreeText, Mode=OneWay}"
+                             ToolTipService.ToolTip="Do you have to pay for an account on this server?"/>
+                        <LineBreak/>
+
                         <Run FontWeight="Bold"
                              Text="Company:"/>
-                        <Run Text="Yes"/>
-                    </TextBlock>
-                    <TextBlock>
+                        <Run Text="{x:Bind VIEW_MODEL.MODEL.CompanyText, Mode=OneWay}"
+                             ToolTipService.ToolTip="Is the server being hosted by a company?"/>
+                        <LineBreak/>
+
                         <Run FontWeight="Bold"
                              Text="Professional hosted:"/>
-                        <Run Text="Yes"/>
-                    </TextBlock>
-                    <TextBlock>
+                        <Run Text="{x:Bind VIEW_MODEL.MODEL.HostedText, Mode=OneWay}"
+                             ToolTipService.ToolTip="Is the server being hosted and monitored professionally?"/>
+                        <LineBreak/>
+
                         <Run FontWeight="Bold"
                              Text="Password reset:"/>
-                        <Run Text="Yes"/>
-                    </TextBlock>
-                    <TextBlock>
+                        <Run Text="{x:Bind VIEW_MODEL.MODEL.PasswordResetText, Mode=OneWay}"
+                             ToolTipService.ToolTip="Is there a way to reset your password in case you lost it?"/>
+                        <LineBreak/>
+
                         <Run FontWeight="Bold"
                              Text="Legal notice:"/>
-                    </TextBlock>
-                    <TextBlock>
+                        <Hyperlink>
+                            <Run Text="{x:Bind VIEW_MODEL.MODEL.LegalNoticeUrl, Mode=OneWay}"
+                                 ToolTipService.ToolTip="A link to the legal notice of this server."/>
+                        </Hyperlink>
+                        <LineBreak/>
+
                         <Run FontWeight="Bold"
                              Text="Online since:"/>
-                    </TextBlock>
-                    <TextBlock>
+                        <Run Text="{x:Bind VIEW_MODEL.MODEL.OnlinceSiceText, Mode=OneWay}"
+                             ToolTipService.ToolTip="Since when is this server available for users?"/>
+                        <LineBreak/>
+
                         <Run FontWeight="Bold"
                              Text="Message archive storage time:"/>
-                    </TextBlock>
-                    <TextBlock>
+                        <Run Text="{x:Bind VIEW_MODEL.MODEL.MamStorageTimeText, Mode=OneWay}"
+                             ToolTipService.ToolTip="How long (days) will messages be stored on the server in case they are not received directly?"/>
+                        <LineBreak/>
+
                         <Run FontWeight="Bold"
                              Text="File upload size limit:"/>
-                    </TextBlock>
-                    <TextBlock>
+                        <Run Text="{x:Bind VIEW_MODEL.MODEL.MaxUploadSizeText, Mode=OneWay}"
+                             ToolTipService.ToolTip="How large can the files (images) be you can upload to this server?"/>
+                        <LineBreak/>
+
                         <Run FontWeight="Bold"
                              Text="File upload storage time:"/>
+                        <Run Text="{x:Bind VIEW_MODEL.MODEL.UploadStorageTime, Mode=OneWay}"
+                             ToolTipService.ToolTip="How long (days) will files (images) be stored on the server in case they are not received directly?"/>
                     </TextBlock>
                 </StackPanel>
             </controls:Expander>
