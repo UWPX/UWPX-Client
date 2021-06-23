@@ -1,7 +1,10 @@
 ﻿<Page x:Class="UWPX_UI.Pages.RegisterPage"
       xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
       xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:animations="using:Microsoft.Toolkit.Uwp.UI.Animations"
+      xmlns:classes="using:XMPP_API.Classes"
       xmlns:controls="using:UWPX_UI.Controls"
+      xmlns:controls1="using:Microsoft.Toolkit.Uwp.UI.Controls"
       xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
       xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
       xmlns:settings="using:UWPX_UI.Controls.Settings"
@@ -11,7 +14,7 @@
     <Page.Resources>
         <ResourceDictionary>
             <ResourceDictionary.MergedDictionaries>
-                <ResourceDictionary Source="ms-appx:///Resources/Styles/InfoButtonStyle.xaml"/>
+                <ResourceDictionary Source="ms-appx:///Resources/Styles/Button/SettingsButtonStyle.xaml"/>
             </ResourceDictionary.MergedDictionaries>
 
             <x:String x:Key="TranslationAnimationDuration">0:0:0.5</x:String>
@@ -22,6 +25,11 @@
             <x:String x:Key="AnimationPositionHideTarget">-600,0,0</x:String>
             <x:String x:Key="AnimationOpacityMin">0</x:String>
             <x:String x:Key="AnimationOpacityMax">1</x:String>
+
+            <DataTemplate x:Key="ServerProviderDataTemplate"
+                          x:DataType="classes:Provider">
+                <settings:ServerProviderControl ServerProvider="{x:Bind, Mode=OneWay}"/>
+            </DataTemplate>
         </ResourceDictionary>
     </Page.Resources>
 
@@ -36,66 +44,146 @@
                                         Frame="{x:Bind Frame, Mode=OneWay}"/>
 
         <!--  Content:  -->
-        <ScrollViewer Grid.Row="1"
-                      HorizontalScrollMode="Disabled">
-            <Grid Padding="10"
-                  VerticalAlignment="Center">
+        <Grid Grid.Row="1"
+              Padding="10"
+              VerticalAlignment="Center">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+            </Grid.RowDefinitions>
+
+            <!--  Header:  -->
+            <TextBlock x:Name="title_tbx"
+                       Grid.Row="0"
+                       Margin="0,0,0,10"
+                       HorizontalAlignment="Center"
+                       Style="{ThemeResource TitleTextBlockStyle}"
+                       Text="Login or Register:"/>
+
+            <!--  Step 1:  -->
+            <Grid x:Name="step1_grid"
+                  Grid.Row="1"
+                  Padding="30"
+                  HorizontalAlignment="Center">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="*"/>
+                </Grid.ColumnDefinitions>
+                <animations:Implicit.ShowAnimations>
+                    <animations:OpacityAnimation From="{StaticResource AnimationOpacityMin}"
+                                                 To="{StaticResource AnimationOpacityMax}"
+                                                 Duration="{StaticResource OpacityAnimationDuration}"/>
+                    <animations:TranslationAnimation From="{StaticResource AnimationPositionShowSource}"
+                                                     To="{StaticResource AnimationPositionShowTarget}"
+                                                     Duration="{StaticResource TranslationAnimationDuration}"/>
+                </animations:Implicit.ShowAnimations>
+
+                <animations:Implicit.HideAnimations>
+                    <animations:OpacityAnimation From="{StaticResource AnimationOpacityMax}"
+                                                 To="{StaticResource AnimationOpacityMin}"
+                                                 Duration="{StaticResource OpacityAnimationDuration}"/>
+                    <animations:TranslationAnimation From="{StaticResource AnimationPositionHideSource}"
+                                                     To="{StaticResource AnimationPositionHideTarget}"
+                                                     Duration="{StaticResource TranslationAnimationDuration}"/>
+                </animations:Implicit.HideAnimations>
+                <settings:SettingsSelectionLargeControl Grid.Column="0"
+                                                        Margin="0,20,10,0"
+                                                        HorizontalAlignment="Center"
+                                                        EnableNavigationOnClick="True"
+                                                        Model="{x:Bind LOGIN_DATA_TEMPLATE}"
+                                                        PointerEntered="OnSelectionButtonPointerEntered"
+                                                        PointerExited="OnSelectionButtonPointerExited"/>
+                <settings:SettingsSelectionLargeControl Grid.Column="1"
+                                                        Margin="10,20,0,0"
+                                                        HorizontalAlignment="Center"
+                                                        Click="OnRegisterClicked"
+                                                        EnableNavigationOnClick="False"
+                                                        Model="{x:Bind REGISTER_DATA_TEMPLATE}"
+                                                        PointerEntered="OnSelectionButtonPointerEntered"
+                                                        PointerExited="OnSelectionButtonPointerExited"/>
+            </Grid>
+
+            <!--  Step 2:  -->
+            <Grid x:Name="step2_grid"
+                  Grid.Row="1"
+                  MaxWidth="400"
+                  HorizontalAlignment="Center"
+                  Visibility="Collapsed">
                 <Grid.RowDefinitions>
                     <RowDefinition Height="Auto"/>
                     <RowDefinition Height="Auto"/>
-                    <RowDefinition Height="Auto"/>
                 </Grid.RowDefinitions>
+                <animations:Implicit.ShowAnimations>
+                    <animations:OpacityAnimation From="{StaticResource AnimationOpacityMin}"
+                                                 To="{StaticResource AnimationOpacityMax}"
+                                                 Duration="{StaticResource OpacityAnimationDuration}"/>
+                    <animations:TranslationAnimation From="{StaticResource AnimationPositionShowSource}"
+                                                     To="{StaticResource AnimationPositionShowTarget}"
+                                                     Duration="{StaticResource TranslationAnimationDuration}"/>
+                </animations:Implicit.ShowAnimations>
 
-                <!--  Header:  -->
-                <TextBlock x:Name="title_tbx"
-                           Margin="0,0,0,10"
-                           HorizontalAlignment="Center"
-                           Style="{ThemeResource TitleTextBlockStyle}"
-                           Text="Login or Register:"/>
-
-                <!--  Step 1:  -->
-                <Grid Padding="30"
-                      HorizontalAlignment="Center">
-                    <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="*"/>
-                        <ColumnDefinition Width="*"/>
-                    </Grid.ColumnDefinitions>
-                    <settings:SettingsSelectionLargeControl Grid.Column="0"
-                                                            Margin="0,20,10,0"
-                                                            HorizontalAlignment="Center"
-                                                            EnableNavigationOnClick="True"
-                                                            Model="{x:Bind LOGIN_DATA_TEMPLATE}"
-                                                            PointerEntered="OnSelectionButtonPointerEntered"
-                                                            PointerExited="OnSelectionButtonPointerExited"/>
-                    <settings:SettingsSelectionLargeControl Grid.Column="1"
-                                                            Margin="10,20,0,0"
-                                                            HorizontalAlignment="Center"
-                                                            EnableNavigationOnClick="False"
-                                                            Model="{x:Bind REGISTER_DATA_TEMPLATE}"
-                                                            PointerEntered="OnSelectionButtonPointerEntered"
-                                                            PointerExited="OnSelectionButtonPointerExited"/>
-                </Grid>
+                <animations:Implicit.HideAnimations>
+                    <animations:OpacityAnimation From="{StaticResource AnimationOpacityMax}"
+                                                 To="{StaticResource AnimationOpacityMin}"
+                                                 Duration="{StaticResource OpacityAnimationDuration}"/>
+                    <animations:TranslationAnimation From="{StaticResource AnimationPositionHideSource}"
+                                                     To="{StaticResource AnimationPositionHideTarget}"
+                                                     Duration="{StaticResource TranslationAnimationDuration}"/>
+                </animations:Implicit.HideAnimations>
+                <ListView Grid.Row="0"
+                          HorizontalContentAlignment="Stretch"
+                          ItemTemplate="{StaticResource ServerProviderDataTemplate}"
+                          ItemsSource="{x:Bind VIEW_MODEL.MODEL.PROVIDER, Mode=OneWay}"
+                          ScrollViewer.HorizontalScrollMode="Disabled"
+                          SelectionMode="None">
+                    <ListView.ItemContainerStyle>
+                        <Style TargetType="ListViewItem">
+                            <Setter Property="HorizontalContentAlignment" Value="Stretch"/>
+                        </Style>
+                    </ListView.ItemContainerStyle>
+                </ListView>
+                <controls1:DropShadowPanel Grid.Row="1"
+                                           Margin="15"
+                                           HorizontalAlignment="Center">
+                    <Button x:Name="login_btn"
+                            Background="{ThemeResource AppBackgroundAcrylicWindowBrush}"
+                            Click="OnLoginClicked"
+                            Style="{ThemeResource SettingsButtonStyle}"
+                            ToolTipService.ToolTip="Login to an existing account.">
+                        <Grid Margin="5,5,5,0"
+                              VerticalAlignment="Center">
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="Auto"/>
+                                <RowDefinition Height="Auto"/>
+                                <RowDefinition Height="Auto"/>
+                            </Grid.RowDefinitions>
+                            <FontIcon Margin="0,0,0,10"
+                                      HorizontalAlignment="Center"
+                                      FontSize="25"
+                                      Foreground="{ThemeResource SystemAccentColor}"
+                                      Glyph="&#xEBDB;"/>
+                            <TextBlock Grid.Row="1"
+                                       HorizontalAlignment="Center"
+                                       Style="{ThemeResource CaptionTextBlockStyle}"
+                                       Text="Login"/>
+                        </Grid>
+                    </Button>
+                </controls1:DropShadowPanel>
             </Grid>
-        </ScrollViewer>
+        </Grid>
 
         <VisualStateManager.VisualStateGroups>
             <VisualStateGroup x:Name="States">
                 <VisualState x:Name="State_1">
                     <VisualState.Setters>
-                        <Setter Target="step1Jid_dsp.Visibility" Value="Visible"/>
-                        <Setter Target="step2Jid_dsp.Visibility" Value="Collapsed"/>
-                        <Setter Target="step2Advanced_dsp.Visibility" Value="Collapsed"/>
-                        <Setter Target="main.IsEnabled" Value="True"/>
-                        <Setter Target="next_ipbtn.ProgressRingVisibility" Value="Collapsed"/>
+                        <Setter Target="step1_grid.Visibility" Value="Visible"/>
+                        <Setter Target="step2_grid.Visibility" Value="Collapsed"/>
                     </VisualState.Setters>
                 </VisualState>
-                <VisualState x:Name="State_1_Next">
+                <VisualState x:Name="State_2">
                     <VisualState.Setters>
-                        <Setter Target="step1Jid_dsp.Visibility" Value="Visible"/>
-                        <Setter Target="step2Jid_dsp.Visibility" Value="Collapsed"/>
-                        <Setter Target="step2Advanced_dsp.Visibility" Value="Collapsed"/>
-                        <Setter Target="main.IsEnabled" Value="False"/>
-                        <Setter Target="next_ipbtn.ProgressRingVisibility" Value="Visible"/>
+                        <Setter Target="step2_grid.Visibility" Value="Visible"/>
+                        <Setter Target="step1_grid.Visibility" Value="Collapsed"/>
                     </VisualState.Setters>
                 </VisualState>
             </VisualStateGroup>

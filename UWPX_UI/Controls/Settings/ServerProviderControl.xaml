@@ -1,0 +1,80 @@
+﻿<UserControl x:Class="UWPX_UI.Controls.Settings.ServerProviderControl"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:classes="using:XMPP_API.Classes"
+             xmlns:controls="using:Microsoft.Toolkit.Uwp.UI.Controls"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             mc:Ignorable="d">
+
+    <UserControl.Resources>
+        <DataTemplate x:Key="HeaderTemplate"
+                      x:DataType="classes:Provider">
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="Auto"/>
+                </Grid.ColumnDefinitions>
+                <TextBlock>
+                    <Run Text=""/>
+                </TextBlock>
+                <Button Content="Register"/>
+            </Grid>
+        </DataTemplate>
+    </UserControl.Resources>
+
+    <controls:DropShadowPanel x:Name="step2Advanced_dsp"
+                              Grid.Row="2"
+                              HorizontalAlignment="{x:Bind HorizontalAlignment, Mode=OneWay}"
+                              HorizontalContentAlignment="Stretch">
+        <Border HorizontalAlignment="Stretch"
+                Background="{ThemeResource AppBackgroundAcrylicWindowBrush}"
+                CornerRadius="{ThemeResource OverlayCornerRadius}">
+            <controls:Expander Header="{x:Bind ServerProvider, Mode=OneWay}"
+                               HeaderTemplate="{StaticResource HeaderTemplate}">
+                <StackPanel>
+                    <TextBlock>
+                        <Run FontWeight="Bold"
+                             Text="Free:"/>
+                        <Run Text="Yes"/>
+                    </TextBlock>
+                    <TextBlock>
+                        <Run FontWeight="Bold"
+                             Text="Company:"/>
+                        <Run Text="Yes"/>
+                    </TextBlock>
+                    <TextBlock>
+                        <Run FontWeight="Bold"
+                             Text="Professional hosted:"/>
+                        <Run Text="Yes"/>
+                    </TextBlock>
+                    <TextBlock>
+                        <Run FontWeight="Bold"
+                             Text="Password reset:"/>
+                        <Run Text="Yes"/>
+                    </TextBlock>
+                    <TextBlock>
+                        <Run FontWeight="Bold"
+                             Text="Legal notice:"/>
+                    </TextBlock>
+                    <TextBlock>
+                        <Run FontWeight="Bold"
+                             Text="Online since:"/>
+                    </TextBlock>
+                    <TextBlock>
+                        <Run FontWeight="Bold"
+                             Text="Message archive storage time:"/>
+                    </TextBlock>
+                    <TextBlock>
+                        <Run FontWeight="Bold"
+                             Text="File upload size limit:"/>
+                    </TextBlock>
+                    <TextBlock>
+                        <Run FontWeight="Bold"
+                             Text="File upload storage time:"/>
+                    </TextBlock>
+                </StackPanel>
+            </controls:Expander>
+        </Border>
+    </controls:DropShadowPanel>
+</UserControl>
