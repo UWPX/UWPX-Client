@@ -49,7 +49,7 @@
               VerticalAlignment="Center">
             <Grid.RowDefinitions>
                 <RowDefinition Height="Auto"/>
-                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="*"/>
             </Grid.RowDefinitions>
 
             <!--  Header:  -->
@@ -131,6 +131,7 @@
                                                      Duration="{StaticResource TranslationAnimationDuration}"/>
                 </animations:Implicit.HideAnimations>
                 <ListView Grid.Row="0"
+                          MaxHeight="290"
                           Padding="0,0,0,10"
                           HorizontalContentAlignment="Stretch"
                           ItemTemplate="{StaticResource ServerProviderDataTemplate}"
@@ -146,9 +147,9 @@
                 </ListView>
 
                 <controls1:MarkdownTextBlock x:Uid="RegisterPage_markdown"
-                                             LinkClicked="OnInfoLinkClicked"
                                              Grid.Row="1"
                                              HorizontalAlignment="Center"
+                                             LinkClicked="OnInfoLinkClicked"
                                              TextWrapping="Wrap"/>
 
                 <controls1:DropShadowPanel Grid.Row="2"
