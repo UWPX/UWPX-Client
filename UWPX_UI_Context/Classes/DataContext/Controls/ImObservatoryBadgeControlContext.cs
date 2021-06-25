@@ -1,4 +1,5 @@
 ﻿using UWPX_UI_Context.Classes.DataTemplates.Controls;
+using Windows.UI.Xaml.Media;
 
 namespace UWPX_UI_Context.Classes.DataContext.Controls
 {
@@ -21,7 +22,35 @@ namespace UWPX_UI_Context.Classes.DataContext.Controls
         #endregion
         //--------------------------------------------------------Misc Methods:---------------------------------------------------------------\\
         #region --Misc Methods (Public)--
+        public void UpdateView(string rating)
+        {
+            // Badge color:
+            switch (rating.ToLowerInvariant())
+            {
+                case "a":
+                    MODEL.BadgeBrush = new SolidColorBrush(UiUtils.HexStringToColor("#5cb85c"));
+                    MODEL.BadgeBrushHover = new SolidColorBrush(UiUtils.HexStringToColor("#5cb85c"));
+                    break;
 
+                case "b":
+                case "c":
+                case "d":
+                    MODEL.BadgeBrush = new SolidColorBrush(UiUtils.HexStringToColor("#f0ad4e"));
+                    MODEL.BadgeBrushHover = new SolidColorBrush(UiUtils.HexStringToColor("#f0ad4e"));
+                    break;
+
+                case "e":
+                case "f":
+                    MODEL.BadgeBrush = new SolidColorBrush(UiUtils.HexStringToColor("#d9534f"));
+                    MODEL.BadgeBrushHover = new SolidColorBrush(UiUtils.HexStringToColor("#d9534f"));
+                    break;
+
+                default:
+                    MODEL.BadgeBrush = new SolidColorBrush(UiUtils.HexStringToColor("#818181"));
+                    MODEL.BadgeBrushHover = new SolidColorBrush(UiUtils.HexStringToColor("#A1A1A1"));
+                    break;
+            }
+        }
 
         #endregion
 
