@@ -14,13 +14,6 @@ namespace UWPX_UI_Context.Classes.DataTemplates.Controls
             set => SetProperty(ref _BadgeBrush, value);
         }
 
-        private Brush _BadgeBrushHover;
-        public Brush BadgeBrushHover
-        {
-            get => _BadgeBrushHover;
-            set => SetProperty(ref _BadgeBrushHover, value);
-        }
-
         #endregion
         //--------------------------------------------------------Constructor:----------------------------------------------------------------\\
         #region --Constructors--
