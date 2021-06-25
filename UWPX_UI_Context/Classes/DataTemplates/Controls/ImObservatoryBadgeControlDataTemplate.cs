@@ -1,4 +1,5 @@
 ﻿using Shared.Classes;
+using Windows.UI.Xaml.Media;
 
 namespace UWPX_UI_Context.Classes.DataTemplates.Controls
 {
@@ -6,7 +7,19 @@ namespace UWPX_UI_Context.Classes.DataTemplates.Controls
     {
         //--------------------------------------------------------Attributes:-----------------------------------------------------------------\\
         #region --Attributes--
+        private Brush _BadgeBrush;
+        public Brush BadgeBrush
+        {
+            get => _BadgeBrush;
+            set => SetProperty(ref _BadgeBrush, value);
+        }
 
+        private Brush _BadgeBrushHover;
+        public Brush BadgeBrushHover
+        {
+            get => _BadgeBrushHover;
+            set => SetProperty(ref _BadgeBrushHover, value);
+        }
 
         #endregion
         //--------------------------------------------------------Constructor:----------------------------------------------------------------\\

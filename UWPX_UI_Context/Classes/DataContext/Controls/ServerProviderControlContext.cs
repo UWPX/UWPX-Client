@@ -31,7 +31,7 @@ namespace UWPX_UI_Context.Classes.DataContext.Controls
                 MODEL.FreeText = provider.free ? "Yes" : "No";
                 MODEL.HostedText = provider.professionalHosting ? "Yes" : "No";
                 MODEL.PasswordResetText = provider.passwordReset ? "Yes" : "No";
-                MODEL.LegalNoticeUrl = string.IsNullOrEmpty(provider.legalNotice) ? "-" : provider.legalNotice;
+                MODEL.LegalNoticeUrl = string.IsNullOrEmpty(provider.legalNotice) ? "" : provider.legalNotice;
                 MODEL.OnlinceSiceText = provider.onlineSince == DateTime.MinValue || provider.onlineSince == DateTime.MaxValue ? "-" : provider.onlineSince.ToLongDateString();
                 MODEL.MamStorageTimeText = provider.mamStorageTime <= 0 ? "-" : $"{provider.mamStorageTime} days";
                 MODEL.UploadStorageTime = provider.fileUploadStorageTime <= 0 ? "-" : $"{provider.fileUploadStorageTime} days";
