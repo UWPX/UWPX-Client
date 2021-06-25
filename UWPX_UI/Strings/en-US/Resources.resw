@@ -375,6 +375,13 @@ In case we cought a crash, you will receive a dialog informing you about the cra
   <data name="RegisterIoTDevicePage_what_is_an_iot_device_url" xml:space="preserve">
     <value>https://www.xmpp-iot.org/</value>
   </data>
+  <data name="RegisterPage_markdown.Text" xml:space="preserve">
+    <value>This is a [curated list](https://invent.kde.org/melvo/xmpp-providers/-/tree/master) of XMPP server provides.  
+For more servers have a look at:
+
+* [https://xmpp.net/list.php](https://xmpp.net/list.php)
+* [https://compliance.conversations.im/](https://compliance.conversations.im/)</value>
+  </data>
   <data name="ReportCrashDialog_always_report_tooltip.Text" xml:space="preserve">
     <value>Do not show this dialog any more. Just report crashes automatically.
 You can disable this again by changing `Settings` -&gt; `Misc` -&gt; `Automatic extended crash reports` to false.</value>

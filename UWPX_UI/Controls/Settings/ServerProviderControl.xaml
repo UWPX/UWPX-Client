@@ -14,7 +14,7 @@
     <UserControl.Resources>
         <DataTemplate x:Key="HeaderTemplate"
                       x:DataType="classes:Provider">
-            <Grid>
+            <Grid HorizontalAlignment="Stretch">
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="*"/>
                     <ColumnDefinition Width="Auto"/>
@@ -32,9 +32,12 @@
                                                     Rating="{x:Bind ratingImObservatoryCtS, Mode=OneWay}"/>
                 <settings:ComplianceTesterBadgeControl Grid.Column="2"
                                                        Margin="0,0,10,0"
-                                                       Rating="{x:Bind ratingImObservatoryCtS, Mode=OneWay}"/>
+                                                       Domain="{x:Bind jid, Mode=OneWay}"
+                                                       Rating="{x:Bind ratingComplianceTester, Mode=OneWay}"/>
                 <controls1:IconButtonControl Grid.Column="3"
+                                             Click="OnRegisterClicked"
                                              Glyph="&#xE8FA;"
+                                             Tag="{x:Bind registrationWebPage, Mode=OneWay}"
                                              Text="Register"
                                              ToolTipService.ToolTip="Register a new account at this provider."/>
             </Grid>
@@ -51,12 +54,12 @@
             <controls:Expander HorizontalContentAlignment="Left"
                                Header="{x:Bind ServerProvider, Mode=OneWay}"
                                HeaderTemplate="{StaticResource HeaderTemplate}">
-                <controls:Expander.Resources>
-                    <Style TargetType="TextBlock">
-                        <Setter Property="IsTextSelectionEnabled" Value="True"/>
-                    </Style>
-                </controls:Expander.Resources>
                 <StackPanel Margin="10,5,10,5">
+                    <StackPanel.Resources>
+                        <Style TargetType="TextBlock">
+                            <Setter Property="IsTextSelectionEnabled" Value="True"/>
+                        </Style>
+                    </StackPanel.Resources>
                     <TextBlock>
                         <Run FontWeight="Bold"
                              Text="Free:"/>
@@ -84,7 +87,7 @@
 
                         <Run FontWeight="Bold"
                              Text="Legal notice:"/>
-                        <Hyperlink>
+                        <Hyperlink Click="OnLegalNoticeClicked">
                             <Run Text="{x:Bind VIEW_MODEL.MODEL.LegalNoticeUrl, Mode=OneWay}"
                                  ToolTipService.ToolTip="A link to the legal notice of this server."/>
                         </Hyperlink>
