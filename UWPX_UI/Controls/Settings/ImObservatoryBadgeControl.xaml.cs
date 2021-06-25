@@ -70,7 +70,10 @@ namespace UWPX_UI.Controls.Settings
 
         private async void OnButtonClicked(object sender, RoutedEventArgs e)
         {
-            await UiUtils.LaunchUriAsync(new Uri("https://xmpp.net/result.php?domain=" + Domain + "&type=client"));
+            if (!string.IsNullOrEmpty(Domain))
+            {
+                await UiUtils.LaunchUriAsync(new Uri("https://xmpp.net/result.php?domain=" + Domain + "&type=client"));
+            }
         }
 
         #endregion
