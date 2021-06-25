@@ -1,4 +1,6 @@
-﻿using Microsoft.Toolkit.Uwp.UI.Animations;
+﻿using System;
+using Microsoft.Toolkit.Uwp.UI.Animations;
+using Microsoft.Toolkit.Uwp.UI.Controls;
 using Shared.Classes;
 using UWPX_UI.Controls.Settings;
 using UWPX_UI_Context.Classes;
@@ -97,6 +99,11 @@ namespace UWPX_UI.Pages
         private void OnLoginClicked(object sender, RoutedEventArgs e)
         {
             UiUtils.NavigateToPage(typeof(AddAccountPage));
+        }
+
+        private async void OnInfoLinkClicked(object sender, LinkClickedEventArgs e)
+        {
+            await UiUtils.LaunchUriAsync(new Uri(e.Link));
         }
 
         #endregion

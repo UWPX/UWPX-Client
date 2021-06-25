@@ -26,6 +26,7 @@ namespace XMPP_API.Classes
         public bool free;
         public string legalNotice;
         public DateTime onlineSince;
+        public string registrationWebPage;
     }
 
     /// <summary>
@@ -162,6 +163,7 @@ namespace XMPP_API.Classes
                         ratingComplianceTester = p.Value<int>("ratingXmppComplianceTester"),
                         ratingImObservatoryCtS = p.Value<string>("ratingImObservatoryClientToServer"),
                         ratingImObservatoryStS = p.Value<string>("ratingImObservatoryServerToServer"),
+                        registrationWebPage = p.Value<JObject>("registrationWebPage")?.Value<string>("en") ?? ("https://" + p.Value<string>("jid")),
                     });
                 }
                 catch (Exception e)
