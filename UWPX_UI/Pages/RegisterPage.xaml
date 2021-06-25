@@ -132,7 +132,8 @@
                 </animations:Implicit.HideAnimations>
                 <ListView Grid.Row="0"
                           MaxHeight="290"
-                          Padding="0,0,0,10"
+                          Margin="0,10,0,0"
+                          Padding="0,0,0,5"
                           HorizontalContentAlignment="Stretch"
                           ItemTemplate="{StaticResource ServerProviderDataTemplate}"
                           ItemsSource="{x:Bind VIEW_MODEL.MODEL.PROVIDER, Mode=OneWay}"
@@ -148,6 +149,7 @@
 
                 <controls1:MarkdownTextBlock x:Uid="RegisterPage_markdown"
                                              Grid.Row="1"
+                                             Margin="0,5,0,0"
                                              HorizontalAlignment="Center"
                                              LinkClicked="OnInfoLinkClicked"
                                              TextWrapping="Wrap"/>
