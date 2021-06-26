@@ -47,7 +47,7 @@
                                               ItemTemplate="{TemplateBinding ItemTemplate}"
                                               ItemTemplateSelector="{TemplateBinding MasterItemTemplateSelector}"
                                               ItemsSource="{TemplateBinding ItemsSource}"
-                                              SelectedItem="{Binding SelectedItem, Mode=TwoWay, RelativeSource={RelativeSource TemplatedParent}}"
+                                              SelectedIndex="{Binding SelectedIndex, Mode=TwoWay, RelativeSource={RelativeSource TemplatedParent}}"
                                               Visibility="Collapsed"/>
                                     <Grid x:Name="MasterCommandBarPanel"
                                           Grid.Row="2"/>
