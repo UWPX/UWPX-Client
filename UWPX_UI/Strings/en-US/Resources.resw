@@ -387,11 +387,9 @@ For more servers have a look at:
 You can disable this again by changing `Settings` -&gt; `Misc` -&gt; `Automatic extended crash reports` to false.</value>
   </data>
   <data name="WhatsNewDialog_markdown.Text" xml:space="preserve">
-    <value># [June 2021#2] Bug Fixes
-Hotfix for the [[June 2021#2] Bug Fixes](https://github.com/UWPX/UWPX-Client/releases) update.
-Fixes a couple of bugs related to [#157](https://github.com/UWPX/UWPX-Client/issues/157).
-Also adds a new dialog when we catch some specific known exceptions.
-There you can decide to report what happened with a few more details that the automated crash reporting does, since I need more information to know exactly why those crashes exist, so I can fix them.
+    <value># [July 2021] Curated List of Providers for Registration and Autocomplete
+This release adds support for [XMPP Providers](https://invent.kde.org/melvo/xmpp-providers/-/tree/master) for auto complete and registration. It is a curated list of providers which should simplify the onboarding for new users.
+Besides that, I fixed a few bugs related to stream close and open message parsing.
 
 **Please report bugs [here](https://github.com/UWPX/UWPX-Client/issues)!**
 
@@ -406,11 +404,10 @@ Follow [@UWPX_APP](https://twitter.com/UWPX_APP) on ![Twitter](http://i.imgur.co
 * Removing a chat does not perform cascade deletion [#151](https://github.com/UWPX/UWPX-Client/issues/151)
 
 ### Changes
-* Fixed `DataCache.INSTANCE.CHATS` changing during Linq operation
-* Fixed clicking on markdown links does not open a browser
-* Added an UI dialog to catch specific potential crashes for [#157](https://github.com/UWPX/UWPX-Client/issues/157)
-* Removed the test exception when exporting logs
+* Added XMPP Providers support [#159](https://github.com/UWPX/UWPX-Client/pull/159)
+* Fixed invalid stream close messages
+* Fixed master chat list item not staying selected
 
-**Continue reading on [GitHub](https://github.com/UWPX/UWPX-Client/releases/tag/v.0.32.1.0).**</value>
+**Continue reading on [GitHub](https://github.com/UWPX/UWPX-Client/releases/tag/v.0.33.0.0).**</value>
   </data>
 </root>
