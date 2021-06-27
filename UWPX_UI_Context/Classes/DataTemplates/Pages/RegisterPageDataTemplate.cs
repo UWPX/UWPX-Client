@@ -29,7 +29,7 @@ namespace UWPX_UI_Context.Classes.DataTemplates.Pages
         public void LoadProvider()
         {
             PROVIDER.Clear();
-            PROVIDER.AddRange(XMPPProviders.INSTANCE.providersC);
+            PROVIDER.AddRange(XMPPProviders.INSTANCE.providersB);
         }
 
         #endregion
