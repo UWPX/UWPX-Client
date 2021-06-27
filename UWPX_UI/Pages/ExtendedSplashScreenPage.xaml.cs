@@ -221,7 +221,7 @@ namespace UWPX_UI.Pages
             {
                 PerformInitialStartSetup();
 
-                ROOT_FRAME.Navigate(typeof(AddAccountPage), typeof(ChatPage));
+                ROOT_FRAME.Navigate(typeof(RegisterPage), typeof(ChatPage));
             }
             else if (ACTIVATION_ARGS is ProtocolActivatedEventArgs protocolActivationArgs)
             {
