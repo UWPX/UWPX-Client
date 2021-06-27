@@ -22,7 +22,7 @@
     <language>en</language>
 
     <programming-language>C#</programming-language>
-    <os>Windows 10</os>
+    <os>Windows</os>
     <os>UWP</os>
 
     <schema:logo rdf:resource="https://raw.githubusercontent.com/UWPX/UWPX-Logos/master/Logo/v3/uwpx_logo.svg" />
