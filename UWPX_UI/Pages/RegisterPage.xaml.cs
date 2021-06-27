@@ -23,6 +23,11 @@ namespace UWPX_UI.Pages
         private FrameworkElement LastPopUpElement = null;
 
         public readonly RegisterPageContext VIEW_MODEL = new RegisterPageContext();
+
+        /// <summary>
+        /// Where should we navigate the frame to once we finished?
+        /// </summary>
+        private Type doneTargetPage = null;
         #endregion
         //--------------------------------------------------------Constructor:----------------------------------------------------------------\\
         #region --Constructors--
@@ -89,6 +94,12 @@ namespace UWPX_UI.Pages
         protected override void OnNavigatedTo(NavigationEventArgs e)
         {
             titleBar.OnPageNavigatedTo();
+
+            if (e.Parameter is Type type)
+            {
+                doneTargetPage = type;
+            }
+            titleBar.OnPageNavigatedTo();
         }
 
         private void OnRegisterClicked(SettingsSelectionLargeControl sender, RoutedEventArgs args)
@@ -98,7 +109,9 @@ namespace UWPX_UI.Pages
 
         private void OnLoginClicked(object sender, RoutedEventArgs e)
         {
-            UiUtils.NavigateToPage(typeof(AddAccountPage));
+            UiUtils.NavigateToPage(typeof(AddAccountPage), doneTargetPage);
+            // Make sure we remove the last entry from the back stack to prevent navigation back to this page:
+            UiUtils.RemoveLastBackStackEntry();
         }
 
         private async void OnInfoLinkClicked(object sender, LinkClickedEventArgs e)
