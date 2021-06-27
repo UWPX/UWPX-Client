@@ -376,8 +376,8 @@ In case we cought a crash, you will receive a dialog informing you about the cra
     <value>https://www.xmpp-iot.org/</value>
   </data>
   <data name="RegisterPage_markdown.Text" xml:space="preserve">
-    <value>This is a [curated list](https://invent.kde.org/melvo/xmpp-providers/-/tree/master) of XMPP server provides.  
-For more servers have a look at:
+    <value>This is a [curated list](https://invent.kde.org/melvo/xmpp-providers/-/tree/master) of XMPP providers.  
+For more providers have a look at:
 
 * [https://xmpp.net/list.php](https://xmpp.net/list.php)
 * [https://compliance.conversations.im/](https://compliance.conversations.im/)</value>
