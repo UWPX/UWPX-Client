@@ -3,7 +3,7 @@ PLEASE HELP US PROCESS GITHUB ISSUES FASTER BY PROVIDING THE FOLLOWING INFORMATI
 ISSUES MISSING IMPORTANT INFORMATION MAY BE CLOSED WITHOUT INVESTIGATION.
 -->
 
-## Bevor you create a new issue:
+## Before you create a new issue:
 <!-- Check the following checkboxes with an "x" ([ x ] <= checked, [ ] <= unchecked) -->
 ```
 - [ ] I searched for similar issues and did not find one
