@@ -4,7 +4,6 @@
              xmlns:animations="using:Microsoft.Toolkit.Uwp.UI.Animations"
              xmlns:behaviors="using:Microsoft.Toolkit.Uwp.UI.Animations.Behaviors"
              xmlns:controls="using:UWPX_UI.Controls"
-             xmlns:controlsComp="using:Microsoft.UI.Xaml.Controls"
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:interactivity="using:Microsoft.Xaml.Interactivity"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
@@ -92,7 +91,6 @@
             <ListView.ItemsPanel>
                 <ItemsPanelTemplate>
                     <ItemsStackPanel x:Name="mainListViewItemStackPanel"
-                                     Grid.ColumnSpan="1"
                                      VerticalAlignment="Bottom"
                                      ItemsUpdatingScrollMode="KeepLastItemInView">
                         <ItemsStackPanel.ChildrenTransitions>

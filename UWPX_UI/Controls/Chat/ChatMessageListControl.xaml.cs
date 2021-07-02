@@ -122,6 +122,16 @@ namespace UWPX_UI.Controls.Chat
             }
         }
 
+        private void TryMarkAsRead()
+        {
+            // Distance from the bottom:
+            double offsetFromBottom = scrollViewer.ScrollableHeight - scrollViewer.VerticalOffset;
+            if (offsetFromBottom <= 10)
+            {
+                Chat?.MarkAllAsRead();
+            }
+        }
+
         /// <summary>
         /// Loads more chat messages in case there are more available and until the view port is full of messages.
         /// </summary>
@@ -172,6 +182,7 @@ namespace UWPX_UI.Controls.Chat
         private void OnScrollViewerViewChanged(object sender, ScrollViewerViewChangedEventArgs e)
         {
             TryIncrementalLoading();
+            TryMarkAsRead();
             if (e.IsIntermediate)
             {
                 UpdateBehavior();
