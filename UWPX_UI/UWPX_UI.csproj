@@ -230,6 +230,9 @@
     <Compile Include="Controls\Chat\SpeechBubbles\SpeechBubbleTopControl.xaml.cs">
       <DependentUpon>SpeechBubbleTopControl.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Controls\Chat\TypingIndicatorControl.xaml.cs">
+      <DependentUpon>TypingIndicatorControl.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Controls\CustomSettingsTitleBarControl.xaml.cs">
       <DependentUpon>CustomSettingsTitleBarControl.xaml</DependentUpon>
     </Compile>
@@ -761,6 +764,10 @@
     <Page Include="Controls\Chat\SpeechBubbles\SpeechBubbleTopControl.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Controls\Chat\TypingIndicatorControl.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Controls\CustomSettingsTitleBarControl.xaml">
       <Generator>MSBuild:Compile</Generator>

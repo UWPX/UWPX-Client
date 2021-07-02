@@ -288,6 +288,15 @@ namespace UWPX_UI.Controls.Chat
             }
         }
 
+        private void OnMessageBoxLostFocus(object sender, RoutedEventArgs e)
+        {
+            // TODO: Send an updated chat state
+        }
+
+        private void OnMessageBoxGotFocus(object sender, RoutedEventArgs e)
+        {
+            // TODO: Send an updated chat state
+        }
         #endregion
     }
 }

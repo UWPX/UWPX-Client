@@ -160,6 +160,7 @@
     <Compile Include="Classes\DataContext\Controls\Chat\MUC\MucMembersControlContext.cs" />
     <Compile Include="Classes\DataContext\Controls\Chat\MUC\MucRoleControlContext.cs" />
     <Compile Include="Classes\DataContext\Controls\Chat\SpeechBubbles\SpeechBubbleMucDirectInvitationControlContext.cs" />
+    <Compile Include="Classes\DataContext\Controls\Chat\TypingIndicatorControlContext.cs" />
     <Compile Include="Classes\DataContext\Controls\ComplianceTesterBadgeControlContext.cs" />
     <Compile Include="Classes\DataContext\Controls\ContactInfoControlContext.cs" />
     <Compile Include="Classes\DataContext\Controls\ContactMediaControlContext.cs" />
@@ -243,6 +244,7 @@
     <Compile Include="Classes\DataTemplates\Controls\Chat\MUC\MucMembersControlDataTemplate.cs" />
     <Compile Include="Classes\DataTemplates\Controls\Chat\MUC\MucRoleControlDataTemplate.cs" />
     <Compile Include="Classes\DataTemplates\Controls\Chat\SpeechBubbles\SpeechBubbleMucDirectInvitationControlDataTemplate.cs" />
+    <Compile Include="Classes\DataTemplates\Controls\Chat\TypingIndicatorControlDataTemplate.cs" />
     <Compile Include="Classes\DataTemplates\Controls\ComplianceTesterBadgeControlDataTemplate.cs" />
     <Compile Include="Classes\DataTemplates\Controls\ContactInfoControlDataTemplate.cs" />
     <Compile Include="Classes\DataTemplates\Controls\CustomBackgroundImageSelectionControlDataTemplate.cs" />

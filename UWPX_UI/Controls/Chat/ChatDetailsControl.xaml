@@ -1,6 +1,7 @@
 ﻿<UserControl x:Class="UWPX_UI.Controls.Chat.ChatDetailsControl"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:animations="using:Microsoft.Toolkit.Uwp.UI.Animations"
              xmlns:chat="using:UWPX_UI.Controls.Chat"
              xmlns:controls="using:UWPX_UI.Controls"
              xmlns:controls1="using:Microsoft.Toolkit.Uwp.UI.Controls"
@@ -35,6 +36,7 @@
             <Grid.RowDefinitions>
                 <RowDefinition Height="Auto"/>
                 <RowDefinition Height="*"/>
+                <RowDefinition Height="Auto"/>
                 <RowDefinition Height="Auto"/>
             </Grid.RowDefinitions>
 
@@ -196,8 +198,30 @@
                 <controls:LoadingContentControl Text="Loading chat messages..."/>
             </controls1:Loading>
 
+            <!--  Typing  -->
+            <chat:TypingIndicatorControl Grid.Row="2"
+                                         Visibility="{x:Bind VIEW_MODEL.MODEL.Typing, Mode=OneWay, Converter={StaticResource BoolVisibilityValueConverter}}">
+                <animations:Implicit.ShowAnimations>
+                    <animations:OpacityAnimation From="0"
+                                                 To="1"
+                                                 Duration="0:0:0.5"/>
+                    <animations:TranslationAnimation From="-100,0,0"
+                                                     To="0,0,0"
+                                                     Duration="0:0:0.5"/>
+                </animations:Implicit.ShowAnimations>
+
+                <animations:Implicit.HideAnimations>
+                    <animations:OpacityAnimation From="1"
+                                                 To="0"
+                                                 Duration="0:0:0.5"/>
+                    <animations:TranslationAnimation From="0,0,0"
+                                                     To="-100,0,0"
+                                                     Duration="0:0:0.5"/>
+                </animations:Implicit.HideAnimations>
+            </chat:TypingIndicatorControl>
+
             <!--  Input:  -->
-            <Grid Grid.Row="2"
+            <Grid Grid.Row="3"
                   Background="{ThemeResource AppBackgroundAcrylicElementBrush}">
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="Auto"/>
@@ -312,6 +336,8 @@
                                    Grid.Column="2"
                                    VerticalAlignment="Center"
                                    EnterKeyDown="Message_tbx_EnterKeyDown"
+                                   GotFocus="OnMessageBoxGotFocus"
+                                   LostFocus="OnMessageBoxLostFocus"
                                    Style="{ThemeResource MessageTextBoxStyle}"
                                    Text="{x:Bind VIEW_MODEL.MODEL.MessageText, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
                 <Button x:Name="send_btn"

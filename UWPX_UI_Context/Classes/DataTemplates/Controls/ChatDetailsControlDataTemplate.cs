@@ -83,6 +83,12 @@ namespace UWPX_UI_Context.Classes.DataTemplates.Controls
             get => _EnterToSend;
             set => SetEnterToSendProperty(value);
         }
+        private bool _Typing;
+        public bool Typing
+        {
+            get => _Typing;
+            set => SetProperty(ref _Typing, value);
+        }
 
         internal bool isDummy = false;
 
