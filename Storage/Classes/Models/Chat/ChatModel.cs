@@ -5,6 +5,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 using Storage.Classes.Models.Account;
 using Storage.Classes.Models.Omemo;
 using XMPP_API.Classes;
+using XMPP_API.Classes.Network.XML.Messages.XEP_0085;
 
 namespace Storage.Classes.Models.Chat
 {
@@ -154,13 +155,13 @@ namespace Storage.Classes.Models.Chat
         /// The state of the chat (XEP-0085). Only interesting during runtime.
         /// </summary>
         [NotMapped]
-        public string chatState
+        public ChatState chatState
         {
             get => _chatState;
             set => SetProperty(ref _chatState, value);
         }
         [NotMapped]
-        private string _chatState;
+        private ChatState _chatState;
 
         /// <summary>
         /// The type of the chat e.g. MUC/MIX/...
@@ -218,6 +219,7 @@ namespace Storage.Classes.Models.Chat
             presence = Presence.Unavailable;
             chatType = ChatType.CHAT;
             omemoInfo = new OmemoChatInformationModel(chatBareJid);
+            chatState = ChatState.UNKNOWN;
 
         }
 

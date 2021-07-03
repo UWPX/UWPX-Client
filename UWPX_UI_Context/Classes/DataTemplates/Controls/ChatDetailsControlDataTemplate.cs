@@ -4,6 +4,7 @@ using Storage.Classes.Models.Account;
 using Storage.Classes.Models.Chat;
 using Windows.UI.Xaml;
 using XMPP_API.Classes;
+using XMPP_API.Classes.Network.XML.Messages.XEP_0085;
 
 namespace UWPX_UI_Context.Classes.DataTemplates.Controls
 {
@@ -111,6 +112,37 @@ namespace UWPX_UI_Context.Classes.DataTemplates.Controls
             }
         }
 
+        private void SetStatus(ChatModel chat)
+        {
+            bool typing = false;
+            string status = "";
+            switch (chat.chatState)
+            {
+                case ChatState.PAUSED:
+                case ChatState.ACTIVE:
+                    if (chat.chatType == ChatType.CHAT)
+                    {
+                        status = "online";
+                    }
+                    break;
+                case ChatState.COMPOSING:
+                    status = chat.status;
+                    typing = true;
+                    break;
+                case ChatState.INACTIVE:
+                case ChatState.GONE:
+                case ChatState.UNKNOWN:
+                default:
+                    status = chat.status;
+                    break;
+            }
+            Typing = typing;
+            if (chat.chatType == ChatType.CHAT)
+            {
+                StatusText = status;
+            }
+        }
+
         #endregion
         //--------------------------------------------------------Misc Methods:---------------------------------------------------------------\\
         #region --Misc Methods (Public)--
@@ -134,12 +166,12 @@ namespace UWPX_UI_Context.Classes.DataTemplates.Controls
                 if (chat.chatType != ChatType.MUC)
                 {
                     NameText = string.IsNullOrEmpty(chat.customName) ? chat.bareJid : chat.customName;
-                    StatusText = chat.chatState ?? chat.status ?? "";
                     EnterMucVisibility = Visibility.Collapsed;
                     LeaveMucVisibility = Visibility.Collapsed;
                     OmemoVisibility = Visibility.Visible;
                     ChatPresence = chat.presence;
                 }
+                SetStatus(chat);
             }
         }
 

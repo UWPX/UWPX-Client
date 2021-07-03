@@ -2,11 +2,11 @@
 {
     public enum ChatState
     {
+        UNKNOWN,
         ACTIVE,
         COMPOSING,
         PAUSED,
         INACTIVE,
-        GONE,
-        UNKNOWN
+        GONE
     }
 }

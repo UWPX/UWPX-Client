@@ -437,6 +437,7 @@ namespace Manager.Classes
             client.xmppClient.NewChatMessage -= OnNewChatMessage;
             client.xmppClient.NewRoosterMessage -= OnNewRoosterMessage;
             client.xmppClient.NewPresence -= OnNewPresence;
+            client.xmppClient.NewChatState -= OnNewChatState;
             client.xmppClient.ConnectionStateChanged -= OnConnectionStateChanged;
             client.xmppClient.MessageSend -= OnMessageSend;
             client.xmppClient.NewBookmarksResultMessage -= OnNewBookmarksResultMessage;
@@ -452,11 +453,13 @@ namespace Manager.Classes
             client.xmppClient.NewChatMessage += OnNewChatMessage;
             client.xmppClient.NewRoosterMessage += OnNewRoosterMessage;
             client.xmppClient.NewPresence += OnNewPresence;
+            client.xmppClient.NewChatState += OnNewChatState;
             client.xmppClient.ConnectionStateChanged += OnConnectionStateChanged;
             client.xmppClient.MessageSend += OnMessageSend;
             client.xmppClient.NewBookmarksResultMessage += OnNewBookmarksResultMessage;
             client.xmppClient.NewDeliveryReceipt += OnNewDeliveryReceipt;
             client.xmppClient.OmemoSessionBuildError += OnOmemoSessionBuildError;
+            ;
         }
 
         #endregion
@@ -757,6 +760,22 @@ namespace Manager.Classes
             }
             msg.state = MessageState.DELIVERED;
             msg.Update();
+        }
+
+        private void OnNewChatState(XMPPClient client, NewChatStateEventArgs args)
+        {
+            string from = Utils.getBareJidFromFullJid(args.FROM);
+            ChatModel chat;
+            using (SemaLock semaLock = DataCache.INSTANCE.NewChatSemaLock())
+            {
+                chat = DataCache.INSTANCE.GetChat(client.getXMPPAccount().getBareJid(), from, semaLock);
+            }
+            if (chat is null)
+            {
+                Logger.Warn("Received a chat state message for an unknown chat from: " + args.FROM + ", to: " + args.TO);
+                return;
+            }
+            chat.chatState = args.STATE;
         }
 
         #endregion
