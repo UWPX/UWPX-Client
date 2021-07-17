@@ -128,6 +128,10 @@ namespace UWPX_UI_Context.Classes.DataTemplates.Controls
                 case ChatState.COMPOSING:
                     status = chat.status;
                     typing = true;
+                    if (chat.chatType == ChatType.CHAT)
+                    {
+                        status = "typing...";
+                    }
                     break;
                 case ChatState.INACTIVE:
                 case ChatState.GONE:
