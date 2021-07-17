@@ -290,12 +290,17 @@ namespace UWPX_UI.Controls.Chat
 
         private void OnMessageBoxLostFocus(object sender, RoutedEventArgs e)
         {
-            // TODO: Send an updated chat state
+            Chat.CHAT_STATE_HELPER.SetActive();
         }
 
         private void OnMessageBoxGotFocus(object sender, RoutedEventArgs e)
         {
-            // TODO: Send an updated chat state
+            Chat.CHAT_STATE_HELPER.SetComposing();
+        }
+
+        private void OnMessageBoxKeyDown(object sender, KeyRoutedEventArgs e)
+        {
+            Chat.CHAT_STATE_HELPER.OnMessageBoxKeyDown();
         }
         #endregion
     }

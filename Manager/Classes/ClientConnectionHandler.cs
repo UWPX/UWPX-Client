@@ -776,6 +776,7 @@ namespace Manager.Classes
                 return;
             }
             chat.chatState = args.STATE;
+            chat.lastChatStateUpdate = DateTime.Now;
         }
 
         #endregion

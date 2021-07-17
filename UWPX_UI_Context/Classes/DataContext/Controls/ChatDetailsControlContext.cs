@@ -52,6 +52,7 @@ namespace UWPX_UI_Context.Classes.DataContext.Controls
                 {
                     oldChat.Client.dbAccount.PropertyChanged -= OnAccountPropertyChanged;
                 }
+                oldChat.CHAT_STATE_HELPER.SetInactive();
             }
 
             if (args.NewValue is ChatDataTemplate)
@@ -69,6 +70,7 @@ namespace UWPX_UI_Context.Classes.DataContext.Controls
                 {
                     newChat.Client.dbAccount.PropertyChanged += OnAccountPropertyChanged;
                 }
+                newChat.CHAT_STATE_HELPER.SetActive();
             }
 
             UpdateView(newChat);

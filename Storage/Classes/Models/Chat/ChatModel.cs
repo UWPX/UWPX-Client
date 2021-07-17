@@ -162,6 +162,17 @@ namespace Storage.Classes.Models.Chat
         }
         [NotMapped]
         private ChatState _chatState;
+        /// <summary>
+        /// When did we receive the last (XEP-0085) chat state update. Only interesting during runtime.
+        /// </summary>
+        [NotMapped]
+        public DateTime lastChatStateUpdate
+        {
+            get => _lastChatStateUpdate;
+            set => SetProperty(ref _lastChatStateUpdate, value);
+        }
+        [NotMapped]
+        private DateTime _lastChatStateUpdate;
 
         /// <summary>
         /// The type of the chat e.g. MUC/MIX/...
@@ -203,7 +214,10 @@ namespace Storage.Classes.Models.Chat
         #endregion
         //--------------------------------------------------------Constructor:----------------------------------------------------------------\\
         #region --Constructors--
-        public ChatModel() { }
+        public ChatModel()
+        {
+            lastChatStateUpdate = DateTime.MinValue;
+        }
 
         public ChatModel(string chatBareJid, AccountModel account)
         {
@@ -220,6 +234,7 @@ namespace Storage.Classes.Models.Chat
             chatType = ChatType.CHAT;
             omemoInfo = new OmemoChatInformationModel(chatBareJid);
             chatState = ChatState.UNKNOWN;
+            lastChatStateUpdate = DateTime.MinValue;
 
         }
 

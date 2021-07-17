@@ -45,6 +45,8 @@ namespace Manager.Classes.Chat
             set => SetProperty(ref _UnreadCount, value);
         }
 
+        public readonly ChatStateHelper CHAT_STATE_HELPER;
+
         /// <summary>
         /// The index in the chats list.
         /// </summary>
@@ -58,6 +60,7 @@ namespace Manager.Classes.Chat
             Chat = chat;
             Client = client;
             Image = image;
+            CHAT_STATE_HELPER = new ChatStateHelper(chat, client);
         }
 
         #endregion

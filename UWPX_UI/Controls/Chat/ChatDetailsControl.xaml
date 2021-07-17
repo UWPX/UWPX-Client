@@ -338,6 +338,7 @@
                                    EnterKeyDown="Message_tbx_EnterKeyDown"
                                    GotFocus="OnMessageBoxGotFocus"
                                    LostFocus="OnMessageBoxLostFocus"
+                                   KeyDown="OnMessageBoxKeyDown"
                                    Style="{ThemeResource MessageTextBoxStyle}"
                                    Text="{x:Bind VIEW_MODEL.MODEL.MessageText, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
                 <Button x:Name="send_btn"
