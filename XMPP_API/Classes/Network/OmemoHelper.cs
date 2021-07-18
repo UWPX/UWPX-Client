@@ -277,7 +277,7 @@ namespace XMPP_API.Classes.Network
             {
                 await updateDeviceListAsync(devicesRemote);
             }
-            else if (!CONNECTION.account.omemoBundleInfoAnnounced || true)
+            else if (!CONNECTION.account.omemoBundleInfoAnnounced)
             {
                 await announceBundleInfoAsync();
             }
