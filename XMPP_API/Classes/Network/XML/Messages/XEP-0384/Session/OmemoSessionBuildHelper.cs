@@ -131,34 +131,39 @@ namespace XMPP_API.Classes.Network.XML.Messages.XEP_0384.Session
             OmemoSessionModel session = OMEMO_HELPER.OMEMO_STORAGE.LoadSession(device);
             if (session is null)
             {
-                // Try to build a new session by requesting the devices bundle information:
-                OmemoBundleInformationResultMessage bundleMsg = await requestBundleInformationAsync(device);
-                if (!(bundleMsg is null) && !(bundleMsg.BUNDLE_INFO.bundle is null))
+                try
                 {
-                    int preKeyIndex = bundleMsg.BUNDLE_INFO.bundle.GetRandomPreKeyIndex();
-                    session = new OmemoSessionModel(bundleMsg.BUNDLE_INFO.bundle, preKeyIndex, CONNECTION.account.omemoIdentityKey);
-
-                    // Validate fingerprints:
-                    if (fingerprint is null)
+                    // Try to build a new session by requesting the devices bundle information:
+                    OmemoBundleInformationResultMessage bundleMsg = await requestBundleInformationAsync(device);
+                    if (!(bundleMsg is null) && !(bundleMsg.BUNDLE_INFO.bundle is null))
                     {
-                        fingerprint = new OmemoFingerprint(bundleMsg.BUNDLE_INFO.bundle.identityKey, device);
-                        OMEMO_HELPER.OMEMO_STORAGE.StoreFingerprint(fingerprint);
+                        int preKeyIndex = bundleMsg.BUNDLE_INFO.bundle.GetRandomPreKeyIndex();
+                        session = new OmemoSessionModel(bundleMsg.BUNDLE_INFO.bundle, preKeyIndex, CONNECTION.account.omemoIdentityKey);
+
+                        // Validate fingerprints:
+                        if (fingerprint is null)
+                        {
+                            fingerprint = new OmemoFingerprint(bundleMsg.BUNDLE_INFO.bundle.identityKey, device);
+                            OMEMO_HELPER.OMEMO_STORAGE.StoreFingerprint(fingerprint);
+                        }
+                        else
+                        {
+                            OmemoFingerprint receivedFingerprint = new OmemoFingerprint(bundleMsg.BUNDLE_INFO.bundle.identityKey, device);
+                            // Make sure the fingerprint did not change or somebody is performing an attack:
+                            if (!fingerprint.checkIdentityKey(receivedFingerprint.IDENTITY_KEY))
+                            {
+                                Logger.Warn("[OmemoSessionBuildHelper] Unable to establish session with " + device.ToString() + " - other fingerprint received than stored locally.");
+                            }
+                        }
                     }
                     else
                     {
-                        OmemoFingerprint receivedFingerprint = new OmemoFingerprint(bundleMsg.BUNDLE_INFO.bundle.identityKey, device);
-                        // Make sure the fingerprint did not change or somebody is performing an attack:
-                        if (!fingerprint.checkIdentityKey(receivedFingerprint.IDENTITY_KEY))
-                        {
-                            Logger.Warn("[OmemoSessionBuildHelper] Unable to establish session with " + device.ToString() + " - other fingerprint received than stored locally.");
-                            await buildSessionForDevicesAsync(deviceGroup, devices);
-                            return;
-                        }
+                        Logger.Warn("[OmemoSessionBuildHelper] Unable to establish session with: " + device.ToString());
                     }
                 }
-                else
+                catch (Exception e)
                 {
-                    Logger.Warn("[OmemoSessionBuildHelper] Unable to establish session with: " + device.ToString());
+                    Logger.Error("[OmemoSessionBuildHelper] Unable to establish session with: ", e);
                 }
             }
             else
