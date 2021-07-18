@@ -56,7 +56,7 @@ namespace Manager.Classes
             return new Tuple<OmemoDeviceListSubscriptionState, DateTime>(subscription.state, subscription.lastUpdateReceived);
         }
 
-        public List<OmemoProtocolAddress> LoadDevices(string bareJid)
+        public List<Tuple<OmemoProtocolAddress, string>> LoadDevices(string bareJid)
         {
             List<OmemoDeviceModel> devices;
             if (string.Equals(bareJid, dbAccount.bareJid))
@@ -72,9 +72,9 @@ namespace Manager.Classes
             }
             if (devices is null)
             {
-                return new List<OmemoProtocolAddress>();
+                return new List<Tuple<OmemoProtocolAddress, string>>();
             }
-            return devices.Select(d => new OmemoProtocolAddress(bareJid, d.deviceId)).ToList();
+            return devices.Select(d => new Tuple<OmemoProtocolAddress, string>(new OmemoProtocolAddress(bareJid, d.deviceId), d.deviceLabel)).ToList();
         }
 
         public OmemoFingerprint LoadFingerprint(OmemoProtocolAddress address)
@@ -162,9 +162,9 @@ namespace Manager.Classes
             }
         }
 
-        public void StoreDevices(List<OmemoProtocolAddress> devices, string bareJid)
+        public void StoreDevices(List<Tuple<OmemoProtocolAddress, string>> devices, string bareJid)
         {
-            IEnumerable<OmemoDeviceModel> newDevices = devices.Select(d => new OmemoDeviceModel(d));
+            IEnumerable<OmemoDeviceModel> newDevices = devices.Select(d => new OmemoDeviceModel(d.Item1) { deviceLabel = d.Item2 });
             if (string.Equals(bareJid, dbAccount.bareJid))
             {
                 using (MainDbContext ctx = new MainDbContext())
@@ -172,7 +172,7 @@ namespace Manager.Classes
                     ctx.RemoveRange(dbAccount.omemoInfo.devices);
                     dbAccount.omemoInfo.devices.Clear();
                     ctx.Update(dbAccount.omemoInfo);
-                    dbAccount.omemoInfo.devices.AddRange(newDevices);
+                    dbAccount.omemoInfo.devices.AddRange(newDevices.Where(d => d.deviceId != dbAccount.omemoInfo.deviceId));
                     ctx.Update(dbAccount.omemoInfo);
                 }
             }

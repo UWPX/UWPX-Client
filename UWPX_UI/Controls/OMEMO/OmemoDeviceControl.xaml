@@ -10,12 +10,13 @@
         <omemo:OmemoDeviceIdStringValueConverter x:Key="OmemoDeviceIdStringValueConverter"/>
     </UserControl.Resources>
 
-    <Grid>
+    <Grid VerticalAlignment="Center">
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto"/>
             <RowDefinition Height="Auto"/>
         </Grid.RowDefinitions>
         <TextBlock Grid.Row="0"
+                   IsTextSelectionEnabled="True"
                    MaxLines="1"
                    Style="{ThemeResource BaseLineTextBlockStyle}"
                    Text="{x:Bind VIEW_MODEL.MODEL.Label, Mode=OneWay}"
@@ -23,6 +24,7 @@
                    TextWrapping="NoWrap"/>
         <TextBlock Grid.Row="1"
                    Foreground="{ThemeResource CaptionTextBrush}"
+                   IsTextSelectionEnabled="True"
                    MaxLines="1"
                    Style="{ThemeResource CaptionLineTextBlockStyle}"
                    Text="{x:Bind Device.deviceId, Mode=OneWay, Converter={StaticResource OmemoDeviceIdStringValueConverter}}"

@@ -50,7 +50,12 @@ namespace UWPX_UI.Controls.OMEMO
         #region --Events--
         private async void Reset_ibtn_Click(IconProgressButtonControl sender, RoutedEventArgs args)
         {
-            await VIEW_MODEL.ResetOmemoDevicesAsync(Account.Client);
+            await VIEW_MODEL.ResetDevicesAsync(Account.Client);
+        }
+
+        private async void Refresh_ibtn_Click(IconProgressButtonControl sender, RoutedEventArgs args)
+        {
+            await VIEW_MODEL.RefreshDevicesAsync(Account.Client);
         }
 
         #endregion

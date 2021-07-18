@@ -188,10 +188,7 @@ namespace UWPX_UI.Controls.Chat
         {
             if (!IsDummy)
             {
-                /*QueryFilter filter = new QueryFilter();
-                filter.With(Chat.Chat.bareJid);
-                MessageResponseHelperResult<MamResult> result = await Chat.Client.xmppClient.GENERAL_COMMAND_HELPER.requestMamAsync(filter);*/
-                MessageResponseHelperResult<IQMessage> result = await Chat.Client.xmppClient.OMEMO_COMMAND_HELPER.requestDeviceListAsync(Chat.Chat.bareJid);
+                MessageResponseHelperResult<IQMessage> result = await Chat.Client.xmppClient.OMEMO_COMMAND_HELPER.requestBundleInformationAsync(Chat.Client.dbAccount.bareJid, 3804956857);
             }
         }
 

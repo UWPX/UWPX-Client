@@ -372,8 +372,8 @@ namespace XMPP_API.Classes.Network.XML.Messages.XEP_0384
             // New device:
             if (fingerprint is null)
             {
-                List<OmemoProtocolAddress> devices = decryptCtx.STORAGE.LoadDevices(decryptCtx.senderAddress.BARE_JID);
-                devices.Add(decryptCtx.senderAddress);
+                List<Tuple<OmemoProtocolAddress, string>> devices = decryptCtx.STORAGE.LoadDevices(decryptCtx.senderAddress.BARE_JID);
+                devices.Add(new Tuple<OmemoProtocolAddress, string>(decryptCtx.senderAddress, null));
                 decryptCtx.STORAGE.StoreDevices(devices, decryptCtx.senderAddress.BARE_JID);
                 fingerprint = new OmemoFingerprint(decryptCtx.keyExchangeMsg.IK, decryptCtx.senderAddress, DateTime.Now, false);
             }

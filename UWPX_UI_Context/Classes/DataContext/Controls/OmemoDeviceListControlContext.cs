@@ -24,19 +24,30 @@ namespace UWPX_UI_Context.Classes.DataContext.Controls
         #endregion
         //--------------------------------------------------------Misc Methods:---------------------------------------------------------------\\
         #region --Misc Methods (Public)--
-        public async Task ResetOmemoDevicesAsync(Client client)
+        public async Task ResetDevicesAsync(Client client)
         {
+            MODEL.Loading = true;
             MODEL.ResettingDevices = true;
             OmemoXmlDevices devices = new OmemoXmlDevices();
             devices.DEVICES.Add(new OmemoXmlDevice(client.dbAccount.omemoInfo.deviceId, client.dbAccount.omemoInfo.deviceLabel));
             await client.xmppClient.OMEMO_COMMAND_HELPER.setDeviceListAsync(devices);
+            await client.xmppClient.getOmemoHelper().refreshDevicesAsync();
             MODEL.ResettingDevices = false;
+            MODEL.Loading = false;
+        }
+
+        public async Task RefreshDevicesAsync(Client client)
+        {
+            MODEL.Loading = true;
+            MODEL.RefreshingDevices = true;
+            await client.xmppClient.getOmemoHelper().refreshDevicesAsync();
+            MODEL.RefreshingDevices = false;
+            MODEL.Loading = false;
         }
 
         #endregion
 
         #region --Misc Methods (Private)--
-
 
         #endregion
 

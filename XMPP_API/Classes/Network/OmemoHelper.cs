@@ -91,6 +91,29 @@ namespace XMPP_API.Classes.Network
             reset();
         }
 
+        public async Task refreshDevicesAsync()
+        {
+            MessageResponseHelperResult<IQMessage> result = await CONNECTION.OMEMO_COMMAND_HELPER.requestDeviceListAsync(CONNECTION.account.getBareJid());
+
+            if (result.STATE == MessageResponseHelperResultState.SUCCESS)
+            {
+                if (result.RESULT is OmemoDeviceListResultMessage devMsg)
+                {
+                    DEVICES = devMsg.DEVICES;
+                    // Store the new list in the DB:
+                    OMEMO_STORAGE.StoreDevices(DEVICES.toOmemoProtocolAddress(CONNECTION.account.getBareJid()), CONNECTION.account.getBareJid());
+                }
+                else if (result.RESULT is IQErrorMessage errMsg)
+                {
+                    Logger.Error("[OMEMO HELPER](" + CONNECTION.account.getBareJid() + ") Failed to request OMEMO device list form: " + CONNECTION.account.user.domainPart + "\n" + errMsg.ERROR_OBJ.ToString());
+                }
+            }
+            else
+            {
+                Logger.Error("[OMEMO HELPER](" + CONNECTION.account.getBareJid() + ") Failed to request OMEMO device list form: " + CONNECTION.account.user.domainPart + " with: " + result.STATE);
+            }
+        }
+
         public async Task sendOmemoMessageAsync(OmemoEncryptedMessage msg, string srcBareJid, string dstBareJid, bool trustedSrcKeysOnly, bool trustedDstKeysOnly)
         {
             // Check if already trying to build a new session:
@@ -286,6 +309,8 @@ namespace XMPP_API.Classes.Network
                 setState(OmemoHelperState.ENABLED);
             }
             DEVICES = devicesRemote;
+            // Store the new list in the DB:
+            OMEMO_STORAGE.StoreDevices(DEVICES.toOmemoProtocolAddress(CONNECTION.account.getBareJid()), CONNECTION.account.getBareJid());
         }
 
         private async Task updateDeviceListAsync(OmemoXmlDevices devices)

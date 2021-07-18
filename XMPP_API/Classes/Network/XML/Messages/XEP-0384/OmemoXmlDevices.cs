@@ -91,9 +91,9 @@ namespace XMPP_API.Classes.Network.XML.Messages.XEP_0384
             }
         }
 
-        public List<OmemoProtocolAddress> toOmemoProtocolAddress(string bareJid)
+        public List<Tuple<OmemoProtocolAddress, string>> toOmemoProtocolAddress(string bareJid)
         {
-            return DEVICES.Select(d => new OmemoProtocolAddress(bareJid, d.ID)).ToList();
+            return DEVICES.Select(d => new Tuple<OmemoProtocolAddress, string>(new OmemoProtocolAddress(bareJid, d.ID), d.label)).ToList();
         }
 
         #endregion

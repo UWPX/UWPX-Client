@@ -50,16 +50,16 @@ namespace XMPP_API.Classes.Network.XML.Messages.XEP_0384.Session
         /// <summary>
         /// Returns all own OMEMO devices except the current device:
         /// </summary>
-        private List<OmemoProtocolAddress> getOwnOmemoDevices()
+        private List<Tuple<OmemoProtocolAddress, string>> getOwnOmemoDevices()
         {
-            List<OmemoProtocolAddress> ownDevices = new List<OmemoProtocolAddress>();
+            List<Tuple<OmemoProtocolAddress, string>> ownDevices = new List<Tuple<OmemoProtocolAddress, string>>();
             if (!(OMEMO_HELPER.DEVICES is null))
             {
                 foreach (OmemoXmlDevice d in OMEMO_HELPER.DEVICES.DEVICES)
                 {
                     if (d.ID != CONNECTION.account.omemoDeviceId)
                     {
-                        ownDevices.Add(new OmemoProtocolAddress(SRC_BARE_JID, d.ID));
+                        ownDevices.Add(new Tuple<OmemoProtocolAddress, string>(new OmemoProtocolAddress(SRC_BARE_JID, d.ID), d.label));
                     }
                 }
             }
@@ -73,8 +73,8 @@ namespace XMPP_API.Classes.Network.XML.Messages.XEP_0384.Session
         public async Task<OmemoSessionBuildResult> buildSessionAsync(OmemoDeviceListSubscriptionState subscriptionState)
         {
             sessionBuildResult = null;
-            List<OmemoProtocolAddress> devicesOwn = getOwnOmemoDevices();
-            List<OmemoProtocolAddress> devicesRemote = null;
+            List<Tuple<OmemoProtocolAddress, string>> devicesOwn = getOwnOmemoDevices();
+            List<Tuple<OmemoProtocolAddress, string>> devicesRemote = null;
 
             if (subscriptionState == OmemoDeviceListSubscriptionState.SUBSCRIBED)
             {
@@ -117,13 +117,13 @@ namespace XMPP_API.Classes.Network.XML.Messages.XEP_0384.Session
         #endregion
 
         #region --Misc Methods (Private)--
-        private async Task buildSessionForDevicesAsync(OmemoDeviceGroup deviceGroup, IList<OmemoProtocolAddress> devices)
+        private async Task buildSessionForDevicesAsync(OmemoDeviceGroup deviceGroup, IList<Tuple<OmemoProtocolAddress, string>> devices)
         {
             if (devices.Count <= 0)
             {
                 return;
             }
-            OmemoProtocolAddress device = devices[0];
+            OmemoProtocolAddress device = devices[0].Item1;
             devices.RemoveAt(0);
 
             OmemoFingerprint fingerprint = OMEMO_HELPER.OMEMO_STORAGE.LoadFingerprint(device);
@@ -210,7 +210,7 @@ namespace XMPP_API.Classes.Network.XML.Messages.XEP_0384.Session
             throw new InvalidOperationException($"Invalid fingerprint for '{fingerprint.ADDRESS.BARE_JID}' when establishing a session between '{SRC_BARE_JID}' and '{DST_BARE_JID}' found.");
         }
 
-        private async Task<List<OmemoProtocolAddress>> requestDeviceListAsync(string bareJid)
+        private async Task<List<Tuple<OmemoProtocolAddress, string>>> requestDeviceListAsync(string bareJid)
         {
             setState(OmemoSessionBuildHelperState.REQUESTING_DEVICE_LIST);
 
@@ -221,7 +221,7 @@ namespace XMPP_API.Classes.Network.XML.Messages.XEP_0384.Session
                 if (result.RESULT is OmemoDeviceListResultMessage devMsg)
                 {
                     // Store the result in the DB:
-                    List<OmemoProtocolAddress> devices = devMsg.DEVICES.toOmemoProtocolAddress(bareJid);
+                    List<Tuple<OmemoProtocolAddress, string>> devices = devMsg.DEVICES.toOmemoProtocolAddress(bareJid);
                     OMEMO_HELPER.OMEMO_STORAGE.StoreDevices(devices, bareJid);
 
                     if (devices.Count > 0)

@@ -13,6 +13,20 @@ namespace UWPX_UI_Context.Classes.DataTemplates.Controls
             set => SetProperty(ref _ResettingDevices, value);
         }
 
+        private bool _RefreshingDevices;
+        public bool RefreshingDevices
+        {
+            get => _RefreshingDevices;
+            set => SetProperty(ref _RefreshingDevices, value);
+        }
+
+        private bool _Loading;
+        public bool Loading
+        {
+            get => _Loading;
+            set => SetProperty(ref _Loading, value);
+        }
+
         #endregion
         //--------------------------------------------------------Constructor:----------------------------------------------------------------\\
         #region --Constructors--

@@ -18,16 +18,17 @@ namespace XMPP_API.Classes.Network.XML.Messages.XEP_0384
         /// <summary>
         /// Loads all OMEMO devices for the given bare JID and returns them.
         /// In case no devices were found an empty list will be returned.
+        /// Each device consists of its <see cref="OmemoProtocolAddress"/> and an optional label.
         /// </summary>
         /// <param name="bareJid">The bare JID you want to retrieve all devices for.</param>
-        List<OmemoProtocolAddress> LoadDevices(string bareJid);
+        List<Tuple<OmemoProtocolAddress, string>> LoadDevices(string bareJid);
 
         /// <summary>
         /// Stores the given OMEMO device.
         /// </summary>
-        /// <param name="devices">The devices to store.</param>
+        /// <param name="devices">The devices to store. A tuple with the <see cref="OmemoProtocolAddress"/> and an optional label for this device.</param>
         /// <param name="bareJid">The bare JID you want to store the device list for.</param>
-        void StoreDevices(List<OmemoProtocolAddress> devices, string bareJid);
+        void StoreDevices(List<Tuple<OmemoProtocolAddress, string>> devices, string bareJid);
 
         /// <summary>
         /// Loads and returns the OMEMO fingerprint to the given <see cref="OmemoProtocolAddress"/>.
