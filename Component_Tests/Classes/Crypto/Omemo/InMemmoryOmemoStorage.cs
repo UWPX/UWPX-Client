@@ -12,7 +12,7 @@ namespace Component_Tests.Classes.Crypto.Omemo
         #region --Attributes--
         public readonly Dictionary<OmemoProtocolAddress, OmemoSessionModel> SESSIONS = new Dictionary<OmemoProtocolAddress, OmemoSessionModel>();
         public readonly Dictionary<OmemoProtocolAddress, OmemoFingerprint> FINGERPRINTS = new Dictionary<OmemoProtocolAddress, OmemoFingerprint>();
-        public readonly Dictionary<string, List<OmemoProtocolAddress>> DEVICES = new Dictionary<string, List<OmemoProtocolAddress>>();
+        public readonly Dictionary<string, List<Tuple<OmemoProtocolAddress, string>>> DEVICES = new Dictionary<string, List<Tuple<OmemoProtocolAddress, string>>>();
 
         #endregion
         //--------------------------------------------------------Constructor:----------------------------------------------------------------\\
@@ -43,11 +43,6 @@ namespace Component_Tests.Classes.Crypto.Omemo
             throw new NotImplementedException();
         }
 
-        public void StoreDevices(List<OmemoProtocolAddress> devices, string bareJid)
-        {
-            DEVICES[bareJid] = devices;
-        }
-
         public void StoreFingerprint(OmemoFingerprint fingerprint)
         {
             FINGERPRINTS[fingerprint.ADDRESS] = fingerprint;
@@ -63,14 +58,19 @@ namespace Component_Tests.Classes.Crypto.Omemo
             throw new NotImplementedException();
         }
 
-        public List<OmemoProtocolAddress> LoadDevices(string bareJid)
-        {
-            return DEVICES.ContainsKey(bareJid) ? DEVICES[bareJid] : new List<OmemoProtocolAddress>();
-        }
-
         public OmemoFingerprint LoadFingerprint(OmemoProtocolAddress address)
         {
             return FINGERPRINTS.ContainsKey(address) ? FINGERPRINTS[address] : null;
+        }
+
+        List<Tuple<OmemoProtocolAddress, string>> IExtendedOmemoStorage.LoadDevices(string bareJid)
+        {
+            return DEVICES.ContainsKey(bareJid) ? DEVICES[bareJid] : new List<Tuple<OmemoProtocolAddress, string>>();
+        }
+
+        public void StoreDevices(List<Tuple<OmemoProtocolAddress, string>> devices, string bareJid)
+        {
+            DEVICES[bareJid] = devices;
         }
 
 
