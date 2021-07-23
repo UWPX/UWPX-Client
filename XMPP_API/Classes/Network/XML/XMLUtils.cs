@@ -71,7 +71,7 @@ namespace XMPP_API.Classes.Network.XML
                     {
                         if (!(attribute is null))
                         {
-                            if (n.Attributes[attribute] != null && attributeValueRegex.IsMatch(n.Attributes[attribute].Value))
+                            if (n.NodeType != XmlNodeType.Text && n?.Attributes[attribute] is not null && attributeValueRegex.IsMatch(n.Attributes[attribute].Value))
                             {
                                 return n;
                             }
@@ -105,7 +105,7 @@ namespace XMPP_API.Classes.Network.XML
                     {
                         if (!(attribute is null))
                         {
-                            if (n.Attributes[attribute] != null && n.Attributes[attribute].Value.Equals(attributeValue))
+                            if (n.NodeType != XmlNodeType.Text && n?.Attributes[attribute] is not null && n.Attributes[attribute].Value.Equals(attributeValue))
                             {
                                 return n;
                             }
@@ -134,7 +134,7 @@ namespace XMPP_API.Classes.Network.XML
             {
                 foreach (XmlNode n in node.ChildNodes)
                 {
-                    if (n.Attributes[attribute] != null && n.Attributes[attribute].Value.Equals(attributeValue))
+                    if (n.NodeType != XmlNodeType.Text && n?.Attributes[attribute] is not null && n.Attributes[attribute].Value.Equals(attributeValue))
                     {
                         return n;
                     }
@@ -144,7 +144,7 @@ namespace XMPP_API.Classes.Network.XML
         }
 
         /// <summary>
-        /// returns the xml attribute from the given node, if it exists. Else null.
+        /// returns the XML attribute from the given node, if it exists. Else null.
         /// </summary>
         /// <param name="node">The node containing the attribute.</param>
         /// <param name="name">The attribute name.</param>
