@@ -8,6 +8,7 @@ using Manager.Classes;
 using Push.Classes.Events;
 using Push.Classes.Messages;
 using Storage.Classes;
+using Storage.Classes.Contexts;
 using Windows.Networking.PushNotifications;
 using XMPP_API.Classes.Network;
 using XMPP_API.Classes.Network.TCP;
@@ -79,7 +80,11 @@ namespace Push.Classes
         /// </summary>
         private static int GetAccountsHash()
         {
-            IEnumerable<string> accounts = ConnectionHandler.INSTANCE.GetClients().Select(x => x.client.dbAccount.bareJid);
+            List<string> accounts;
+            using (MainDbContext ctx = new MainDbContext())
+            {
+                accounts = ctx.Accounts.Select(a => a.bareJid).ToList();
+            }
             // The last bit always indicates push enabled:
             return unchecked(GetOrderIndependentHashCode(accounts) << 1) ^ Settings.GetSettingBoolean(SettingsConsts.PUSH_ENABLED).GetHashCode();
         }
