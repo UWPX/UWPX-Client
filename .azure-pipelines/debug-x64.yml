@@ -58,7 +58,7 @@ steps:
     testAssemblyVer2: |
       **\*.build.appxrecipe
       !**\obj\** 
-    searchFolder: '$(AppxPackageDir)'
+    searchFolder: '$(Build.SourcesDirectory)'
     resultsFolder: '$(System.DefaultWorkingDirectory)\TestResults'
     otherConsoleOptions: '/Logger:trx'
     platform: '$(BuildPlatform)'
