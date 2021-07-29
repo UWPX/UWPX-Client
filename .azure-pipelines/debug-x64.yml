@@ -54,15 +54,30 @@ steps:
     configuration: '$(BuildConfiguration)'
 
 # Does not discover any tests:
+- task: VisualStudioTestPlatformInstaller@1
+  inputs:
+    packageFeedSelector: 'nugetOrg'
+    versionSelector: 'latestPreRelease'
 - task: VSTest@2
   inputs:
     testSelector: 'testAssemblies'
-    testAssemblyVer2: '**\*_$(BuildPlatform)_$(BuildConfiguration).appxbundle'
+    testAssemblyVer2: |
+      **\*.build.appxrecipe
+      !**\obj\** 
     searchFolder: '$(AppxPackageDir)'
+    resultsFolder: '$(System.DefaultWorkingDirectory)\TestResults'
     otherConsoleOptions: '/Logger:trx'
+    platform: '$(BuildPlatform)'
+    configuration: '$(BuildConfiguration)'
+    runInParallel: false
+    codeCoverageEnabled: true
+    rerunFailedTests: false
+    runTestsInIsolation: true
+    runOnlyImpactedTests: false
 
-- task: PublishBuildArtifacts@1
-  displayName: 'Publish Artifact'
+- task: PublishTestResults@2
   inputs:
-    PathtoPublish: '$(Build.ArtifactStagingDirectory)'
-    ArtifactName: '$(ArtifactName)'
+    testResultsFormat: 'JUnit'
+    testResultsFiles: '**/TEST-*.xml'
+    searchFolder: '$(System.DefaultWorkingDirectory)\TestResults'
+    failTaskOnFailedTests: true
