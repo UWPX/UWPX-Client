@@ -33,12 +33,6 @@ steps:
   inputs:
     restoreSolution: '$(Solution)'
 
-- task: DownloadSecureFile@1
-  name: 'signingCert'
-  displayName: 'Download Signing Certificate'
-  inputs:
-    secureFile: 'UWPX_TemporaryKey.pfx'
-
 - task: VSBuild@1
   displayName: 'Build $(BuildPlatform) Debug'
   inputs:
