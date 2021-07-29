@@ -3,8 +3,11 @@
 # Add steps that test and distribute an app, save build artifacts, and more:
 # https://aka.ms/yaml
 
-# Disable all commit triggers:
-trigger: none
+# Only run for master:
+trigger:
+  branches:
+    include:
+      - master
 
 # Disable PR triggers:
 pr: none
