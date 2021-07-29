@@ -47,8 +47,8 @@ steps:
     msbuildArgs: '/p:AppxBundlePlatforms="$(BuildPlatform)"
                   /p:AppxPackageDir="$(AppxPackageDir)"
                   /p:AppxBundle=Always
-                  /p:UapAppxPackageBuildMode=StoreUpload
-                  /p:AppxPackageSigningEnabled=true
+                  /p:UapAppxPackageBuildMode=CI
+                  /p:AppxPackageSigningEnabled=false
                   /t:UWPX_UI'
     platform: '$(BuildPlatform)'
     configuration: '$(BuildConfiguration)'
