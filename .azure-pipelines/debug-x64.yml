@@ -23,6 +23,7 @@ variables:
   BuildPlatform: 'x86'
   AppxPackageDir: '$(Build.artifactStagingDirectory)\AppxPackages\\'
   ArtifactName: 'UWPX-$(BuildPlatform)-$(BuildConfiguration)'
+  VSTEST_CONNECTION_TIMEOUT: '600'
 
 steps:
 - task: NuGetToolInstaller@1
