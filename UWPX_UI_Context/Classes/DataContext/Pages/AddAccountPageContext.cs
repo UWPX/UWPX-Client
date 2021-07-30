@@ -1,6 +1,7 @@
 ﻿using System.Threading.Tasks;
 using Manager.Classes;
 using Manager.Classes.Chat;
+using Push.Classes;
 using Storage.Classes;
 using Storage.Classes.Models.Account;
 using UWPX_UI_Context.Classes.DataTemplates.Dialogs;
@@ -67,6 +68,12 @@ namespace UWPX_UI_Context.Classes.DataContext.Pages
                 {
                     MODEL.Account.Add();
                     ConnectionHandler.INSTANCE.AddAccount(MODEL.Account);
+
+                    // Update push accounts:
+                    if (Settings.GetSettingBoolean(SettingsConsts.PUSH_ENABLED))
+                    {
+                        await PushManager.INSTANCE.InitPushForAccountsAsync();
+                    }
                 }
                 // Update the old account:
                 else
@@ -89,7 +96,14 @@ namespace UWPX_UI_Context.Classes.DataContext.Pages
         {
             if (dataTemplate.Confirmed)
             {
+                // Delete the account:
                 await DataCache.INSTANCE.DeleteAccountAsync(MODEL.Account);
+
+                // Update push accounts:
+                if (Settings.GetSettingBoolean(SettingsConsts.PUSH_ENABLED))
+                {
+                    await PushManager.INSTANCE.InitPushForAccountsAsync();
+                }
             }
         }
 
