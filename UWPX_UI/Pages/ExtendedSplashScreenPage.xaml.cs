@@ -212,6 +212,7 @@ namespace UWPX_UI.Pages
             // By default enter to send is enabled for all devices:
             Storage.Classes.Settings.SetSetting(SettingsConsts.ENTER_TO_SEND_MESSAGES, true);
             Storage.Classes.Settings.SetSetting(SettingsConsts.INITIALLY_STARTED, true);
+            Storage.Classes.Settings.SetSetting(SettingsConsts.PUSH_ENABLED, true);
         }
 
         private void EvaluateActivationArgs()
