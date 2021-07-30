@@ -154,25 +154,34 @@ namespace XMPP_API.Classes.Network
         {
             AddFeaturesForTarget(features, discoTarget);
 
-
-            if (!CONNECTION.account.pushEnabled)
-            {
-                CONNECTION.account.CONNECTION_INFO.pushState = PushState.DISABLED;
-                Logger.Info("No need to enable push for '" + CONNECTION.account.getBareJid() + "' - disabled");
-                return;
-            }
-            else if (CONNECTION.account.pushNodePublished)
-            {
-                CONNECTION.account.CONNECTION_INFO.pushState = PushState.ENABLED;
-                Logger.Info("No need to enable push for '" + CONNECTION.account.getBareJid() + "' - already enabled");
-                return;
-            }
-
             // Check if the server supports 'XEP-0357: Push Notifications':
             bool supportsPush = HasFeature(Consts.XML_XEP_0357_NAMESPACE, discoTarget);
             if (supportsPush)
             {
-                await CONNECTION.EnablePushNotificationsAsync();
+                if (CONNECTION.account.pushEnabled)
+                {
+                    if (!CONNECTION.account.pushPublished)
+                    {
+                        await CONNECTION.EnablePushNotificationsAsync();
+                    }
+                    else
+                    {
+                        Logger.Info("No need to enable push for '" + CONNECTION.account.getBareJid() + "' - already enabled");
+                    }
+                    CONNECTION.account.CONNECTION_INFO.pushState = PushState.ENABLED;
+                }
+                else
+                {
+                    if (!CONNECTION.account.pushPublished)
+                    {
+                        await CONNECTION.DisbalePushNotificationsAsync();
+                    }
+                    else
+                    {
+                        Logger.Info("No need to disable push for '" + CONNECTION.account.getBareJid() + "' - already disabled");
+                    }
+                    CONNECTION.account.CONNECTION_INFO.pushState = PushState.DISABLED;
+                }
             }
             else
             {

@@ -6,17 +6,19 @@ namespace Push.Classes.Messages
 {
     public struct PushAccount
     {
-        public string bareJid;
+        public string accountId;
         public string node;
         public string secret;
+        public bool success;
 
         public JObject ToJson()
         {
             return new JObject()
             {
-                ["bare_jid"] = bareJid,
+                ["accountId"] = accountId,
                 ["node"] = node,
                 ["secret"] = secret,
+                ["success"] = success,
             };
         }
 
@@ -24,9 +26,10 @@ namespace Push.Classes.Messages
         {
             return new PushAccount
             {
-                bareJid = json.Value<string>("bare_jid"),
+                accountId = json.Value<string>("accountId"),
                 node = json.Value<string>("node"),
-                secret = json.Value<string>("secret")
+                secret = json.Value<string>("secret"),
+                success = json.Value<bool>("success")
             };
         }
     }

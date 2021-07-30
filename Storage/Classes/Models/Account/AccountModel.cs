@@ -48,6 +48,18 @@ namespace Storage.Classes.Models.Account
         private ServerModel _server;
 
         /// <summary>
+        /// The configuration received from our push server.
+        /// </summary
+        [Required]
+        public PushAccountModel push
+        {
+            get => _push;
+            set => SetPushProperty(value);
+        }
+        [NotMapped]
+        private PushAccountModel _push;
+
+        /// <summary>
         /// The presence priority within range -127 to 128 e.g. 0.
         /// </summary>
         [Required]
@@ -148,6 +160,7 @@ namespace Storage.Classes.Models.Account
             presence = Presence.Online;
             omemoInfo.deviceListSubscription = new OmemoDeviceListSubscriptionModel(bareJid);
             server = new ServerModel(fullJid.domainPart);
+            push = new PushAccountModel();
             enabled = true;
         }
 
@@ -202,6 +215,22 @@ namespace Storage.Classes.Models.Account
             }
         }
 
+        private void SetPushProperty(PushAccountModel value)
+        {
+            PushAccountModel old = _push;
+            if (SetProperty(ref _push, value, nameof(push)))
+            {
+                if (!(old is null))
+                {
+                    old.PropertyChanged -= OnPushPropertyChanged;
+                }
+                if (!(value is null))
+                {
+                    value.PropertyChanged += OnPushPropertyChanged;
+                }
+            }
+        }
+
         private void SetFullJidProperty(JidModel value)
         {
             JidModel old = _fullJid;
@@ -235,6 +264,11 @@ namespace Storage.Classes.Models.Account
                 omemoBundleInfoAnnounced = omemoInfo.bundleInfoAnnounced,
                 omemoSignedPreKey = omemoInfo.signedPreKey,
                 omemoDeviceLabel = omemoInfo.deviceLabel,
+                pushPublished = push.published,
+                pushEnabled = push.enabled,
+                pushNode = push.node,
+                pushNodeSecret = push.secret,
+                pushServerBareJid = push.bareJid
             };
             account.connectionConfiguration.IGNORED_CERTIFICATE_ERRORS.AddRange(server.ignoredCertificateErrors);
             account.connectionConfiguration.tlsMode = server.tlsMode;
@@ -269,6 +303,11 @@ namespace Storage.Classes.Models.Account
         private void OnServerPropertyChanged(object sender, PropertyChangedEventArgs e)
         {
             base.OnPropertyChanged(nameof(server) + '.' + e.PropertyName);
+        }
+
+        private void OnPushPropertyChanged(object sender, PropertyChangedEventArgs e)
+        {
+            base.OnPropertyChanged(nameof(push) + '.' + e.PropertyName);
         }
 
         private void OnFullJidPropertyChanged(object sender, PropertyChangedEventArgs e)

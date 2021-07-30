@@ -112,11 +112,11 @@ namespace XMPP_API.Classes.Network
             get => _pushServerBareJid;
             set => SetProperty(ref _pushServerBareJid, value);
         }
-        private bool _pushNodePublished;
-        public bool pushNodePublished
+        private bool _pushPublished;
+        public bool pushPublished
         {
-            get => _pushNodePublished;
-            set => SetProperty(ref _pushNodePublished, value);
+            get => _pushPublished;
+            set => SetProperty(ref _pushPublished, value);
         }
         private bool _pushEnabled;
         public bool pushEnabled
@@ -152,7 +152,7 @@ namespace XMPP_API.Classes.Network
             pushNodeSecret = null;
             pushServerBareJid = null;
             pushEnabled = false;
-            pushNodePublished = false;
+            pushPublished = true; // By default push is disabled and therefore publishing was successful.
         }
 
         #endregion
@@ -231,7 +231,7 @@ namespace XMPP_API.Classes.Network
                     string.Equals(o.pushNode, pushNode) &&
                     string.Equals(o.pushNodeSecret, pushNodeSecret) &&
                     string.Equals(o.pushServerBareJid, pushServerBareJid) &&
-                    o.pushNodePublished == pushNodePublished &&
+                    o.pushPublished == pushPublished &&
                     o.pushEnabled == pushEnabled;
             }
             return false;

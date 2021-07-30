@@ -1,9 +1,9 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Package xmlns="http://schemas.microsoft.com/appx/manifest/foundation/windows10" xmlns:mp="http://schemas.microsoft.com/appx/2014/phone/manifest" xmlns:uap="http://schemas.microsoft.com/appx/manifest/uap/windows10" xmlns:iot="http://schemas.microsoft.com/appx/manifest/iot/windows10" IgnorableNamespaces="uap mp iot">
-  <Identity Name="790FabianSauter.UWPXAlpha" Publisher="CN=8AFEBA0F-E085-403B-A05B-71A8952F40A3" Version="0.34.0.0" />
-  <mp:PhoneIdentity PhoneProductId="a78ff2d9-c4cc-400f-bb4a-2bbf14101904" PhonePublisherId="00000000-0000-0000-0000-000000000000" />
+  <Identity Name="790FabianSauter.UWPX" Publisher="CN=8AFEBA0F-E085-403B-A05B-71A8952F40A3" Version="0.34.0.0" />
+  <mp:PhoneIdentity PhoneProductId="97ac2b8f-0445-43ed-955d-628a4438d59d" PhonePublisherId="00000000-0000-0000-0000-000000000000" />
   <Properties>
-    <DisplayName>UWPX Alpha</DisplayName>
+    <DisplayName>UWPX</DisplayName>
     <PublisherDisplayName>Fabian Sauter</PublisherDisplayName>
     <Logo>assets\Store\StoreLogo.png</Logo>
   </Properties>
@@ -15,7 +15,7 @@
   </Resources>
   <Applications>
     <Application Id="App" Executable="$targetnametoken$.exe" EntryPoint="UWPX_UI.App">
-      <uap:VisualElements DisplayName="UWPX Alpha" Square150x150Logo="assets\Medium\Medium150x150Logo.png" Square44x44Logo="assets\AppList\AppList.png" Description="An XMPP client for the Universal Windows Platform." BackgroundColor="transparent">
+      <uap:VisualElements DisplayName="UWPX" Square150x150Logo="assets\Medium\Medium150x150Logo.png" Square44x44Logo="assets\AppList\AppList.png" Description="An XMPP client for the Universal Windows Platform." BackgroundColor="transparent">
         <uap:LockScreen Notification="badge" BadgeLogo="assets\Badge\Badge.png" />
         <uap:DefaultTile Wide310x150Logo="assets\Wide\Wide310x150Logo.png" Square310x310Logo="assets\Large\Large310x310Logo.png" Square71x71Logo="assets\Small\Small71x71Logo.png" ShortName="UWPX">
           <uap:ShowNameOnTiles>

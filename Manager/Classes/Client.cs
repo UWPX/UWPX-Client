@@ -1,4 +1,6 @@
 ﻿using System.ComponentModel;
+using System.Threading.Tasks;
+using Logging;
 using Shared.Classes;
 using Storage.Classes;
 using Storage.Classes.Models.Account;
@@ -42,7 +44,62 @@ namespace Manager.Classes
         #endregion
         //--------------------------------------------------------Misc Methods:---------------------------------------------------------------\\
         #region --Misc Methods (Public)--
+        public void UpdatePush(string node, string secret, string pushServerBareJid)
+        {
+            // Already up to date?
+            if (!(dbAccount.push is null) && string.Equals(node, dbAccount.push.node) && string.Equals(secret, dbAccount.push.secret) && string.Equals(pushServerBareJid, dbAccount.push.bareJid))
+            {
+                Logger.Info($"No need to update push information for '{dbAccount.bareJid}'. Already up to date.");
+            }
+            else
+            {
+                // Update the DB:
+                if (dbAccount.push is null)
+                {
+                    dbAccount.push = new PushAccountModel();
+                }
+                dbAccount.push.node = node;
+                dbAccount.push.secret = secret;
+                dbAccount.push.published = false;
+                dbAccount.push.bareJid = pushServerBareJid;
+                dbAccount.Update();
 
+                // Update the client:
+                XMPPAccount account = xmppClient.getXMPPAccount();
+                account.pushEnabled = true;
+                account.pushPublished = false;
+                account.pushNode = node;
+                account.pushNodeSecret = secret;
+                account.pushServerBareJid = pushServerBareJid;
+            }
+
+            if (Settings.GetSettingBoolean(SettingsConsts.PUSH_ENABLED) && !dbAccount.push.published)
+            {
+                Task.Run(async () => await xmppClient.tryEnablePushAsync());
+            }
+        }
+
+        public void DisablePush()
+        {
+            // Already disabled?
+            if (dbAccount.push.enabled)
+            {
+                // Update the DB:
+                dbAccount.push.enabled = false;
+                dbAccount.push.published = false;
+                dbAccount.Update();
+
+                // Update the client:
+                XMPPAccount account = xmppClient.getXMPPAccount();
+                account.pushEnabled = false;
+                account.pushPublished = false;
+            }
+
+            if (!dbAccount.push.published)
+            {
+                Task.Run(async () => await xmppClient.tryDisablePushAsync());
+            }
+        }
 
         #endregion
 
@@ -108,6 +165,11 @@ namespace Manager.Classes
 
                     case nameof(XMPPAccount.omemoDeviceLabel) when !string.Equals(account.omemoDeviceLabel, dbAccount.omemoInfo.deviceLabel):
                         dbAccount.omemoInfo.deviceLabel = account.omemoDeviceLabel;
+                        dbAccount.Update();
+                        break;
+
+                    case nameof(XMPPAccount.pushPublished) when (account.pushPublished != dbAccount.push.published) && !(dbAccount.push is null):
+                        dbAccount.push.published = account.pushPublished;
                         dbAccount.Update();
                         break;
                 }

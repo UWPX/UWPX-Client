@@ -1,16 +1,19 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Security.Cryptography;
+using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 using Logging;
 using Manager.Classes;
 using Push.Classes.Events;
 using Push.Classes.Messages;
+using Shared.Classes;
 using Storage.Classes;
 using Storage.Classes.Contexts;
 using Windows.Networking.PushNotifications;
-using XMPP_API.Classes.Network;
+using XMPP_API.Classes.Crypto;
 using XMPP_API.Classes.Network.TCP;
 
 namespace Push.Classes
@@ -205,21 +208,29 @@ namespace Push.Classes
             Logger.Debug("Updating push settings for " + accounts.Count + " accounts.");
             foreach (PushAccount pushAccount in accounts)
             {
-                Client client = ConnectionHandler.INSTANCE.GetClient(pushAccount.bareJid).client;
-                if (!(client is null))
+                bool found = false;
+                foreach (ClientConnectionHandler c in ConnectionHandler.INSTANCE.GetClients())
                 {
-                    XMPPAccount account = client.xmppClient.getXMPPAccount();
-                    account.pushNodePublished = account.pushNodePublished && string.Equals(account.pushNode, pushAccount.node) && string.Equals(account.pushNodeSecret, pushAccount.secret);
-                    account.pushNode = pushAccount.node;
-                    account.pushNodeSecret = pushAccount.secret;
-                    account.pushServerBareJid = pushServerBareJid;
-                    account.pushEnabled = true;
-                    Logger.Info("Push node and secret updated for: " + pushAccount.bareJid);
-                    Logger.Debug("Node: '" + pushAccount.node + "', secret: '" + pushAccount.secret + "'");
+                    if (string.Equals(ToAccountId(c.client.dbAccount.bareJid), pushAccount.accountId))
+                    {
+                        if (pushAccount.success)
+                        {
+                            c.client.UpdatePush(pushAccount.node, pushAccount.secret, pushServerBareJid);
+                            Logger.Info("Push node and secret updated for: " + pushAccount.accountId);
+                            Logger.Debug("Node: '" + pushAccount.node + "', secret: '" + pushAccount.secret + "'");
+                        }
+                        else
+                        {
+                            c.client.DisablePush();
+                            Logger.Error($"Requesting a new push node for account '{pushAccount.accountId}' failed. Disabling push...");
+                        }
+                        found = true;
+                        break;
+                    }
                 }
-                else
+                if (!found)
                 {
-                    Logger.Error("Failed to update push for account '" + pushAccount.bareJid + "' - account not found");
+                    Logger.Error($"Received a push node for an unknown accountId ('{pushAccount.accountId}')!");
                 }
             }
         }
@@ -231,8 +242,16 @@ namespace Push.Classes
                 try
                 {
                     await connection.ConnectAsync();
+                    List<string> accountIds = new List<string>();
                     // If push is disabled, send an empty list:
-                    SetPushAccountsMessage msg = Settings.GetSettingBoolean(SettingsConsts.PUSH_ENABLED) ? new SetPushAccountsMessage(ConnectionHandler.INSTANCE.GetClients().Select(x => x.client.dbAccount.bareJid).ToList()) : new SetPushAccountsMessage(new List<string>());
+                    if (Settings.GetSettingBoolean(SettingsConsts.PUSH_ENABLED))
+                    {
+                        using (MainDbContext ctx = new MainDbContext())
+                        {
+                            accountIds = ctx.Accounts.Select(a => ToAccountId(a.bareJid)).ToList();
+                        }
+                    }
+                    SetPushAccountsMessage msg = new SetPushAccountsMessage(accountIds);
                     await connection.SendAsync(msg.ToString());
                 }
                 catch (Exception e)
@@ -454,6 +473,22 @@ namespace Push.Classes
         {
             string remoteUri = Settings.GetSettingString(SettingsConsts.PUSH_CHANNEL_URI_SEND_TO_PUSH_SERVER);
             return !string.Equals(channel.Uri, remoteUri);
+        }
+
+        /// <summary>
+        /// Generates a SHA256 hex string based on the given bare JID and the current device ID.
+        /// </summary>
+        /// <param name="bareJid">The bare JID (e.g. 'someone@example.com').</param>
+        /// <returns>A SHA256 hex string.</returns>
+        private static string ToAccountId(string bareJid)
+        {
+            string input = SharedUtils.GetUniqueDeviceId() + bareJid;
+            byte[] result;
+            using (SHA256 sha = SHA256.Create())
+            {
+                result = sha.ComputeHash(Encoding.UTF8.GetBytes(input));
+            }
+            return CryptoUtils.byteArrayToHexString(result);
         }
 
         #endregion

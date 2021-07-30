@@ -255,8 +255,8 @@ namespace XMPP_API.Classes.Network
                 }
                 else
                 {
-                    account.pushNodePublished = true;
-                    account.CONNECTION_INFO.pushState = PushState.ENABLED;
+                    account.pushPublished = true;
+                    account.CONNECTION_INFO.pushState = PushState.DISABLED;
                     Logger.Info("Successfully enabled push notifications for: '" + account.getBareJid() + '\'');
                 }
             }
@@ -264,6 +264,35 @@ namespace XMPP_API.Classes.Network
             {
                 account.CONNECTION_INFO.pushState = PushState.ERROR;
                 Logger.Error("Failed to enable push notifications for '" + account.getBareJid() + "' - " + result.STATE);
+            }
+        }
+
+        public async Task DisbalePushNotificationsAsync()
+        {
+            MessageResponseHelperResult<IQMessage> result = await GENERAL_COMMAND_HELPER.disablePushNotificationsAsync(account.pushServerBareJid);
+            if (result.STATE == MessageResponseHelperResultState.SUCCESS)
+            {
+                if (result.RESULT is IQErrorMessage errorMessage)
+                {
+                    account.CONNECTION_INFO.pushState = PushState.ERROR;
+                    Logger.Error("Failed to disable push notifications for '" + account.getBareJid() + "' - " + errorMessage.ERROR_OBJ.ToString());
+                }
+                else if (result.RESULT.TYPE != IQMessage.RESULT)
+                {
+                    account.CONNECTION_INFO.pushState = PushState.ERROR;
+                    Logger.Error("Failed to disable push notifications for '" + account.getBareJid() + "' - server responded with: " + result.RESULT.TYPE);
+                }
+                else
+                {
+                    account.pushPublished = true;
+                    account.CONNECTION_INFO.pushState = PushState.ENABLED;
+                    Logger.Info("Successfully disable push notifications for: '" + account.getBareJid() + '\'');
+                }
+            }
+            else
+            {
+                account.CONNECTION_INFO.pushState = PushState.ERROR;
+                Logger.Error("Failed to disable push notifications for '" + account.getBareJid() + "' - " + result.STATE);
             }
         }
 

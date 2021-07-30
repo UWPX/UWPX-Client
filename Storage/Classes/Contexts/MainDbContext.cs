@@ -24,6 +24,7 @@ namespace Storage.Classes.Contexts
         public DbSet<AccountModel> Accounts { get; set; }
         public DbSet<JidModel> Jids { get; set; }
         public DbSet<ServerModel> Servers { get; set; }
+        public DbSet<PushAccountModel> PushAccounts { get; set; }
         public DbSet<MamRequestModel> MamRequests { get; set; }
 
         public DbSet<ChatModel> Chats { get; set; }
