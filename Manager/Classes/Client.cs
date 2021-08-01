@@ -168,7 +168,7 @@ namespace Manager.Classes
                         dbAccount.Update();
                         break;
 
-                    case nameof(XMPPAccount.pushPublished) when (account.pushPublished != dbAccount.push.published) && !(dbAccount.push is null):
+                    case nameof(XMPPAccount.pushPublished) when account.pushPublished != dbAccount.push.published:
                         dbAccount.push.published = account.pushPublished;
                         dbAccount.Update();
                         break;

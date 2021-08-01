@@ -63,6 +63,10 @@ namespace UWPX_UI_Context.Classes.DataContext.Pages
                 account.user.password = MODEL.Password;
                 Vault.StorePassword(account);
 
+                // Push:
+                MODEL.Account.push.enabled = Settings.GetSettingBoolean(SettingsConsts.PUSH_ENABLED);
+                MODEL.Account.push.published = false;
+
                 // New account add it to the DB:
                 if (MODEL.OldAccount is null)
                 {
