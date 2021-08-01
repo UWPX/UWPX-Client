@@ -15,7 +15,7 @@ namespace Push.Classes.Messages
         {
             return new JObject()
             {
-                ["accountId"] = accountId,
+                ["account_id"] = accountId,
                 ["node"] = node,
                 ["secret"] = secret,
                 ["success"] = success,
@@ -26,7 +26,7 @@ namespace Push.Classes.Messages
         {
             return new PushAccount
             {
-                accountId = json.Value<string>("accountId"),
+                accountId = json.Value<string>("account_id"),
                 node = json.Value<string>("node"),
                 secret = json.Value<string>("secret"),
                 success = json.Value<bool>("success")

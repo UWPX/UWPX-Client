@@ -34,7 +34,7 @@ namespace Push.Classes.Messages
         {
             JObject json = base.ToJson();
             json["device_id"] = SharedUtils.GetUniqueDeviceId();
-            json["accounts"] = new JArray(from a in accounts select new JObject(new JProperty("accountId", a)));
+            json["accounts"] = new JArray(from a in accounts select new JObject(new JProperty("account_id", a)));
             return json;
         }
 
@@ -52,7 +52,7 @@ namespace Push.Classes.Messages
             accounts = new List<string>();
             foreach (JObject item in json.Value<JArray>("accounts"))
             {
-                accounts.Append(item.Value<string>("accountId"));
+                accounts.Append(item.Value<string>("account_id"));
             }
         }
 
