@@ -211,6 +211,7 @@ namespace Push.Classes
         private void UpdatePushForAccounts(List<PushAccount> accounts, string pushServerBareJid)
         {
             Logger.Debug("Updating push settings for " + accounts.Count + " accounts.");
+            HashSet<string> updatedAccounts = new HashSet<string>();
             foreach (PushAccount pushAccount in accounts)
             {
                 bool found = false;
@@ -230,12 +231,23 @@ namespace Push.Classes
                             Logger.Error($"Requesting a new push node for account '{pushAccount.accountId}' failed. Disabling push...");
                         }
                         found = true;
+                        updatedAccounts.Add(c.client.dbAccount.bareJid);
                         break;
                     }
                 }
                 if (!found)
                 {
                     Logger.Error($"Received a push node for an unknown accountId ('{pushAccount.accountId}')!");
+                }
+            }
+
+            // Disable for all missing accounts:
+            foreach (ClientConnectionHandler c in ConnectionHandler.INSTANCE.GetClients())
+            {
+                if (!updatedAccounts.Contains(c.client.dbAccount.bareJid))
+                {
+                    c.client.DisablePush();
+                    Logger.Info($"Making sure push for '{c.client.dbAccount.bareJid}' is disabled.");
                 }
             }
         }

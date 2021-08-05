@@ -59,10 +59,7 @@ namespace Manager.Classes
                 // Update the DB:
                 dbAccount.push.node = node;
                 dbAccount.push.secret = secret;
-                if (dbAccount.push.state == PushState.ENABLED)
-                {
-                    dbAccount.push.state = PushState.ENABLING;
-                }
+                dbAccount.push.state = PushState.ENABLING;
                 dbAccount.push.bareJid = pushServerBareJid;
                 dbAccount.push.Update();
 
