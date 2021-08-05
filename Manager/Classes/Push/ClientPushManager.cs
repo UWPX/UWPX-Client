@@ -179,7 +179,7 @@ namespace Manager.Classes.Push
                 }
                 else
                 {
-                    push.state = PushState.ENABLED;
+                    push.state = PushState.DISABLED;
                     push.Update();
                     Logger.Info($"Successfully disabled push notifications for: '{CLIENT.dbAccount.bareJid}'");
                 }

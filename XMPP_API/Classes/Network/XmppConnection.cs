@@ -247,23 +247,23 @@ namespace XMPP_API.Classes.Network
                 if (result.RESULT is IQErrorMessage errorMessage)
                 {
                     account.CONNECTION_INFO.msgCarbonsState = MessageCarbonsState.ERROR;
-                    Logger.Error("Failed to enable push message carbons for '" + account.getBareJid() + "' - " + errorMessage.ERROR_OBJ.ToString());
+                    Logger.Error("Failed to enable message carbons for '" + account.getBareJid() + "' - " + errorMessage.ERROR_OBJ.ToString());
                 }
                 else if (result.RESULT.TYPE != IQMessage.RESULT)
                 {
                     account.CONNECTION_INFO.msgCarbonsState = MessageCarbonsState.ERROR;
-                    Logger.Error("Failed to enable push message carbons for '" + account.getBareJid() + "' - server responded with: " + result.RESULT.TYPE);
+                    Logger.Error("Failed to enable message carbons for '" + account.getBareJid() + "' - server responded with: " + result.RESULT.TYPE);
                 }
                 else
                 {
                     account.CONNECTION_INFO.msgCarbonsState = MessageCarbonsState.ENABLED;
-                    Logger.Info("Successfully enable push message carbons for: '" + account.getBareJid() + '\'');
+                    Logger.Info("Successfully enabled message carbons for: '" + account.getBareJid() + '\'');
                 }
             }
             else
             {
                 account.CONNECTION_INFO.msgCarbonsState = MessageCarbonsState.ERROR;
-                Logger.Error("Failed to enable push message carbons for '" + account.getBareJid() + "' - " + result.STATE);
+                Logger.Error("Failed to enable message carbons for '" + account.getBareJid() + "' - " + result.STATE);
             }
         }
 
