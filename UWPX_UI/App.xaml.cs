@@ -96,11 +96,10 @@ namespace UWPX_UI
             }
         }
 
-        private void InitPush()
+        private void SubscribeToPushManagerEvents()
         {
             PushManager.INSTANCE.StateChanged -= PushManager_StateChanged;
             PushManager.INSTANCE.StateChanged += PushManager_StateChanged;
-            PushManager.INSTANCE.Init();
         }
 
         private void OnActivatedOrLaunched(IActivatedEventArgs args)
@@ -117,7 +116,7 @@ namespace UWPX_UI
             isRunning = true;
 
             // Initialize push:
-            InitPush();
+            SubscribeToPushManagerEvents();
 
             // Register a handler to show a dialog when we catch a crash:
             AppCenterCrashHelper.INSTANCE.OnTrackError += OnTrackError;
@@ -321,8 +320,8 @@ namespace UWPX_UI
             ConnectionHandler.INSTANCE.ConnectAll();
             isRunning = true;
 
-            // Initialize push:
-            InitPush();
+            // Actually initializing the push manager will happen later in extended splash screen once all clients are loaded:
+            SubscribeToPushManagerEvents();
         }
 
         private void OnNavigationFailed(object sender, NavigationFailedEventArgs e)
@@ -390,17 +389,31 @@ namespace UWPX_UI
                 {
                     Logger.Info("No need to update push accounts on the push server.");
                 }
-            }
-            else if (args.NEW_STATE == PushManagerState.DEAKTIVATED && args.OLD_STATE == PushManagerState.INITIALIZED)
-            {
-                // Setup done, now send an updated list of all push accounts:
-                if (PushManager.ShouldUpdatePushForAccounts())
+
+                // Inform the clients that the PushManager initialized successfully:
+                foreach (ClientConnectionHandler c in ConnectionHandler.INSTANCE.GetClients())
                 {
-                    await PushManager.INSTANCE.InitPushForAccountsAsync();
+                    c.client.PUSH_MANAGER.OnPushManagerInitialized();
                 }
-                else
+            }
+            else if (args.NEW_STATE == PushManagerState.DEAKTIVATED)
+            {
+                if (args.OLD_STATE == PushManagerState.INITIALIZED)
                 {
-                    Logger.Info("No need to update push accounts on the push server.");
+                    // Setup done, now send an updated list of all push accounts:
+                    if (PushManager.ShouldUpdatePushForAccounts())
+                    {
+                        await PushManager.INSTANCE.InitPushForAccountsAsync();
+                    }
+                    else
+                    {
+                        Logger.Info("No need to update push accounts on the push server.");
+                    }
+                }
+                // Inform the clients that the PushManager got disabled:
+                foreach (ClientConnectionHandler c in ConnectionHandler.INSTANCE.GetClients())
+                {
+                    c.client.PUSH_MANAGER.OnPushManagerInitialized();
                 }
             }
         }

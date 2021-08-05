@@ -160,16 +160,18 @@ namespace Push.Classes
         {
             Task.Run(async () =>
             {
+                await INIT_SEMA.WaitAsync();
+
                 // Push is disabled:
                 if (!Settings.GetSettingBoolean(SettingsConsts.PUSH_ENABLED))
                 {
                     await SetStateAsync(PushManagerState.DEAKTIVATED);
+                    INIT_SEMA.Release();
                     Logger.Info("Push is disabled. Discarding initialization.");
                     return;
                 }
 
                 // Push is enabled:
-                await INIT_SEMA.WaitAsync();
                 if (state != PushManagerState.NOT_INITIALIZED && state != PushManagerState.INITIALIZED && state != PushManagerState.ERROR && state != PushManagerState.DEAKTIVATED)
                 {
                     INIT_SEMA.Release();
@@ -178,18 +180,19 @@ namespace Push.Classes
                 }
 
                 await SetStateAsync(PushManagerState.INITIALIZING);
-                INIT_SEMA.Release();
 
                 Logger.Info(Consts.LOGGER_TAG + "Initializing push...");
                 await SetStateAsync(PushManagerState.REQUESTING_CHANNEL);
                 if (!await RequestChannelAsync())
                 {
+                    INIT_SEMA.Release();
                     return;
                 }
 
                 await SetStateAsync(PushManagerState.STORING_CHANNEL);
                 if (StoreAndCompareChannel() && !ShouldSendChannelUriToPushServer())
                 {
+                    Logger.Info(Consts.LOGGER_TAG + "No need to send an update channel URI to the push server. Already up to date.");
                     await SetStateAsync(PushManagerState.INITIALIZED);
                 }
 
@@ -197,9 +200,11 @@ namespace Push.Classes
                 if (await SendUpdatedChannelUriToPushServerAsync())
                 {
                     await SetStateAsync(PushManagerState.INITIALIZED);
+                    INIT_SEMA.Release();
                     return;
                 }
                 await SetStateAsync(PushManagerState.ERROR);
+                INIT_SEMA.Release();
             });
         }
 

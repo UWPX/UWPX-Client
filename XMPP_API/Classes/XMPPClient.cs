@@ -163,41 +163,6 @@ namespace XMPP_API.Classes
             }
         }
 
-        /// <summary>
-        /// Tries to enable push messages in case the account is connected and the server supports it.
-        /// </summary>
-        public async Task tryEnablePushAsync()
-        {
-            if (!isConnected())
-            {
-                Logger.Debug("Failed to enable push. Account not connected.");
-                return;
-            }
-
-            if (!connection.DISCO_HELPER.HasFeature(Consts.XML_XEP_0357_NAMESPACE, getXMPPAccount().getBareJid()))
-            {
-                Logger.Debug("Failed to enable push. Not supported by the server.");
-                return;
-            }
-            await connection.EnablePushNotificationsAsync();
-        }
-
-        public async Task tryDisablePushAsync()
-        {
-            if (!isConnected())
-            {
-                Logger.Debug("Failed to disable push. Account not connected.");
-                return;
-            }
-
-            if (!connection.DISCO_HELPER.HasFeature(Consts.XML_XEP_0357_NAMESPACE, getXMPPAccount().getBareJid()))
-            {
-                Logger.Debug("Failed to disable push. Not supported by the server anyway.");
-                return;
-            }
-            await connection.DisbalePushNotificationsAsync();
-        }
-
         public async Task reconnectAsync()
         {
             Logger.Info("Reconnecting account: " + getXMPPAccount().getBareJid());

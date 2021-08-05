@@ -136,6 +136,7 @@
     <Compile Include="Classes\MucJoinHelper.cs" />
     <Compile Include="Classes\OmemoStorage.cs" />
     <Compile Include="Classes\PostClientConnectedHandler.cs" />
+    <Compile Include="Classes\Push\ClientPushManager.cs" />
     <Compile Include="Classes\SpamHelper.cs" />
     <Compile Include="Classes\Toast\AbstractToastActivation.cs" />
     <Compile Include="Classes\Toast\ChatMessageToasterType.cs" />

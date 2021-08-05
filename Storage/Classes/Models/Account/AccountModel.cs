@@ -264,11 +264,6 @@ namespace Storage.Classes.Models.Account
                 omemoBundleInfoAnnounced = omemoInfo.bundleInfoAnnounced,
                 omemoSignedPreKey = omemoInfo.signedPreKey,
                 omemoDeviceLabel = omemoInfo.deviceLabel,
-                pushPublished = push.published,
-                pushEnabled = push.enabled,
-                pushNode = push.node,
-                pushNodeSecret = push.secret,
-                pushServerBareJid = push.bareJid
             };
             account.connectionConfiguration.IGNORED_CERTIFICATE_ERRORS.AddRange(server.ignoredCertificateErrors);
             account.connectionConfiguration.tlsMode = server.tlsMode;

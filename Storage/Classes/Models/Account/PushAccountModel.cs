@@ -3,6 +3,9 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace Storage.Classes.Models.Account
 {
+    /// <summary>
+    /// Represents the current state of the XEP 0357 push integration.
+    /// </summary>
     public class PushAccountModel: AbstractModel
     {
         //--------------------------------------------------------Attributes:-----------------------------------------------------------------\\
@@ -50,35 +53,23 @@ namespace Storage.Classes.Models.Account
         private string _bareJid;
 
         /// <summary>
-        /// True in case this configuration is valid and push should be enabled.
+        /// Represents the current state of enabling/disabling push at the XMPP server.
         /// </summary>
         [Required]
-        public bool enabled
+        public PushState state
         {
-            get => _enabled;
-            set => SetProperty(ref _enabled, value);
+            get => _state;
+            set => SetProperty(ref _state, value);
         }
         [NotMapped]
-        private bool _enabled;
-
-        /// <summary>
-        /// True in case enabling/disabling was successful.
-        /// </summary>
-        [Required]
-        public bool published
-        {
-            get => _published;
-            set => SetProperty(ref _published, value);
-        }
-        [NotMapped]
-        private bool _published;
+        private PushState _state;
 
         #endregion
         //--------------------------------------------------------Constructor:----------------------------------------------------------------\\
         #region --Constructors--
         public PushAccountModel()
         {
-            published = true;
+            state = PushState.DISABLED;
         }
 
         #endregion

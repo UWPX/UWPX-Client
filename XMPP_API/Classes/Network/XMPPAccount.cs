@@ -93,38 +93,6 @@ namespace XMPP_API.Classes.Network
         }
         public readonly CustomObservableCollection<PreKeyModel> OMEMO_PRE_KEYS;
 
-        // XEP-0357 (Push Notifications):
-        private string _pushNode;
-        public string pushNode
-        {
-            get => _pushNode;
-            set => SetProperty(ref _pushNode, value);
-        }
-        private string _pushNodeSecret;
-        public string pushNodeSecret
-        {
-            get => _pushNodeSecret;
-            set => SetProperty(ref _pushNodeSecret, value);
-        }
-        private string _pushServerBareJid;
-        public string pushServerBareJid
-        {
-            get => _pushServerBareJid;
-            set => SetProperty(ref _pushServerBareJid, value);
-        }
-        private bool _pushPublished;
-        public bool pushPublished
-        {
-            get => _pushPublished;
-            set => SetProperty(ref _pushPublished, value);
-        }
-        private bool _pushEnabled;
-        public bool pushEnabled
-        {
-            get => _pushEnabled;
-            set => SetProperty(ref _pushEnabled, value);
-        }
-
         #endregion
         //--------------------------------------------------------Constructor:----------------------------------------------------------------\\
         #region --Constructors--
@@ -148,11 +116,6 @@ namespace XMPP_API.Classes.Network
             OMEMO_PRE_KEYS.CollectionChanged += OMEMO_PRE_KEYS_CollectionChanged;
             omemoDeviceId = 0;
             omemoBundleInfoAnnounced = false;
-            pushNode = null;
-            pushNodeSecret = null;
-            pushServerBareJid = null;
-            pushEnabled = false;
-            pushPublished = true; // By default push is disabled and therefore publishing was successful.
         }
 
         #endregion
@@ -227,12 +190,7 @@ namespace XMPP_API.Classes.Network
                     o.omemoBundleInfoAnnounced == omemoBundleInfoAnnounced &&
                     Equals(o.omemoIdentityKey, omemoIdentityKey) &&
                     Equals(o.omemoSignedPreKey, omemoSignedPreKey) &&
-                    o.OMEMO_PRE_KEYS.SequenceEqual(OMEMO_PRE_KEYS) &&
-                    string.Equals(o.pushNode, pushNode) &&
-                    string.Equals(o.pushNodeSecret, pushNodeSecret) &&
-                    string.Equals(o.pushServerBareJid, pushServerBareJid) &&
-                    o.pushPublished == pushPublished &&
-                    o.pushEnabled == pushEnabled;
+                    o.OMEMO_PRE_KEYS.SequenceEqual(OMEMO_PRE_KEYS);
             }
             return false;
         }

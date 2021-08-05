@@ -127,6 +127,7 @@
     <Compile Include="Classes\Models\Account\JidModel.cs" />
     <Compile Include="Classes\Models\Account\MamRequestModel.cs" />
     <Compile Include="Classes\Models\Account\PushAccountModel.cs" />
+    <Compile Include="Classes\Models\Account\PushState.cs" />
     <Compile Include="Classes\Models\Account\ServerModel.cs" />
     <Compile Include="Classes\Models\Chat\ChatMessageImageModel.cs" />
     <Compile Include="Classes\Models\Chat\ChatModel.cs" />

@@ -148,7 +148,7 @@
                                                                     Text="Request test push"
                                                                     Visibility="{x:Bind VIEW_MODEL.MODEL.DebugSettingsEnabled, Mode=OneWay, Converter={StaticResource BoolVisibilityValueConverter}}"/>
                                 <controls:IconProgressButtonControl x:Name="initPushForAccounts_btn"
-                                                                    Margin="0,10,0,0"
+                                                                    Margin="0,10,0,10"
                                                                     HorizontalAlignment="Left"
                                                                     Click="InitPushForAccounts_btn_Click"
                                                                     Glyph="&#xE72C;"

@@ -1,9 +1,9 @@
 ﻿using System;
 using Logging;
+using Storage.Classes.Models.Account;
 using Windows.UI;
 using Windows.UI.Xaml.Data;
 using Windows.UI.Xaml.Media;
-using XMPP_API.Classes.Network;
 
 namespace UWPX_UI_Context.Classes.ValueConverter
 {
@@ -33,11 +33,11 @@ namespace UWPX_UI_Context.Classes.ValueConverter
                 switch (state)
                 {
                     case PushState.DISABLED:
-                    case PushState.ERROR:
                     case PushState.NOT_SUPPORTED:
                         return new SolidColorBrush(Colors.Red);
 
-                    case PushState.REQUESTED:
+                    case PushState.DISABLING:
+                    case PushState.ENABLING:
                         return new SolidColorBrush(Colors.Orange);
 
                     case PushState.ENABLED:

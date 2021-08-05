@@ -1,7 +1,7 @@
 ﻿using System;
 using Logging;
+using Storage.Classes.Models.Account;
 using Windows.UI.Xaml.Data;
-using XMPP_API.Classes.Network;
 
 namespace UWPX_UI_Context.Classes.ValueConverter
 {
@@ -34,16 +34,16 @@ namespace UWPX_UI_Context.Classes.ValueConverter
                         return "Disabled";
 
                     case PushState.NOT_SUPPORTED:
-                        return "Not supported by your server";
+                        return "Not supported by your server.";
 
-                    case PushState.REQUESTED:
-                        return "Requested";
+                    case PushState.ENABLING:
+                        return "Enabling...";
+
+                    case PushState.DISABLING:
+                        return "Disabling...";
 
                     case PushState.ENABLED:
                         return "Enabled";
-
-                    case PushState.ERROR:
-                        return "Error";
                 }
             }
             Logger.Warn("Invalid " + nameof(PushState) + ": " + value);

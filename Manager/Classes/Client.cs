@@ -1,6 +1,6 @@
 ﻿using System.ComponentModel;
-using System.Threading.Tasks;
 using Logging;
+using Manager.Classes.Push;
 using Shared.Classes;
 using Storage.Classes;
 using Storage.Classes.Models.Account;
@@ -27,6 +27,8 @@ namespace Manager.Classes
         }
         private AccountModel _dbAccount;
 
+        public readonly ClientPushManager PUSH_MANAGER;
+
         #endregion
         //--------------------------------------------------------Constructor:----------------------------------------------------------------\\
         #region --Constructors--
@@ -34,6 +36,7 @@ namespace Manager.Classes
         {
             this.dbAccount = dbAccount;
             xmppClient = LoadXmppClient(dbAccount);
+            PUSH_MANAGER = new ClientPushManager(this);
         }
 
         #endregion
@@ -47,57 +50,38 @@ namespace Manager.Classes
         public void UpdatePush(string node, string secret, string pushServerBareJid)
         {
             // Already up to date?
-            if (!(dbAccount.push is null) && string.Equals(node, dbAccount.push.node) && string.Equals(secret, dbAccount.push.secret) && string.Equals(pushServerBareJid, dbAccount.push.bareJid))
+            if (string.Equals(node, dbAccount.push.node) && string.Equals(secret, dbAccount.push.secret) && string.Equals(pushServerBareJid, dbAccount.push.bareJid))
             {
                 Logger.Info($"No need to update push information for '{dbAccount.bareJid}'. Already up to date.");
             }
             else
             {
                 // Update the DB:
-                if (dbAccount.push is null)
-                {
-                    dbAccount.push = new PushAccountModel();
-                }
                 dbAccount.push.node = node;
                 dbAccount.push.secret = secret;
-                dbAccount.push.published = false;
+                if (dbAccount.push.state == PushState.ENABLED)
+                {
+                    dbAccount.push.state = PushState.ENABLING;
+                }
                 dbAccount.push.bareJid = pushServerBareJid;
-                dbAccount.Update();
+                dbAccount.push.Update();
 
-                // Update the client:
-                XMPPAccount account = xmppClient.getXMPPAccount();
-                account.pushEnabled = true;
-                account.pushPublished = false;
-                account.pushNode = node;
-                account.pushNodeSecret = secret;
-                account.pushServerBareJid = pushServerBareJid;
-            }
-
-            if (Settings.GetSettingBoolean(SettingsConsts.PUSH_ENABLED) && !dbAccount.push.published)
-            {
-                Task.Run(async () => await xmppClient.tryEnablePushAsync());
+                // Ensure we update the push configuration on the XMPP server if needed:
+                PUSH_MANAGER.TryUpdateClientPush();
             }
         }
 
         public void DisablePush()
         {
             // Already disabled?
-            if (dbAccount.push.enabled)
+            if (dbAccount.push.state != PushState.DISABLED && dbAccount.push.state != PushState.DISABLING)
             {
                 // Update the DB:
-                dbAccount.push.enabled = false;
-                dbAccount.push.published = false;
-                dbAccount.Update();
+                dbAccount.push.state = PushState.DISABLING;
+                dbAccount.push.Update();
 
-                // Update the client:
-                XMPPAccount account = xmppClient.getXMPPAccount();
-                account.pushEnabled = false;
-                account.pushPublished = false;
-            }
-
-            if (!dbAccount.push.published)
-            {
-                Task.Run(async () => await xmppClient.tryDisablePushAsync());
+                // Ensure we update the push configuration on the XMPP server if needed:
+                PUSH_MANAGER.TryUpdateClientPush();
             }
         }
 
@@ -165,11 +149,6 @@ namespace Manager.Classes
 
                     case nameof(XMPPAccount.omemoDeviceLabel) when !string.Equals(account.omemoDeviceLabel, dbAccount.omemoInfo.deviceLabel):
                         dbAccount.omemoInfo.deviceLabel = account.omemoDeviceLabel;
-                        dbAccount.Update();
-                        break;
-
-                    case nameof(XMPPAccount.pushPublished) when account.pushPublished != dbAccount.push.published:
-                        dbAccount.push.published = account.pushPublished;
                         dbAccount.Update();
                         break;
                 }

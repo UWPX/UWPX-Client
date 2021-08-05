@@ -1,4 +1,6 @@
-﻿using Shared.Classes;
+﻿using System.ComponentModel;
+using Shared.Classes;
+using Storage.Classes.Models.Account;
 using Windows.Networking.Sockets;
 using Windows.UI.Xaml;
 using XMPP_API.Classes.Network;
@@ -66,7 +68,7 @@ namespace UWPX_UI_Context.Classes.DataTemplates.Controls
                 Subscribe(accountNew);
                 ParserStats = accountNew.Client.xmppClient.getMessageParserStats();
                 MsgCarbonsState = accountNew.Client.xmppClient.getXMPPAccount().CONNECTION_INFO.msgCarbonsState;
-                PushState = accountNew.Client.xmppClient.getXMPPAccount().CONNECTION_INFO.pushState;
+                PushState = accountNew.Client.dbAccount.push.state;
                 SocketInfo = accountNew.Client.xmppClient.getXMPPAccount().CONNECTION_INFO.socketInfo;
                 TlsConnected = accountNew.Client.xmppClient.getXMPPAccount().CONNECTION_INFO.tlsConnected;
             }
@@ -81,12 +83,14 @@ namespace UWPX_UI_Context.Classes.DataTemplates.Controls
         #region --Misc Methods (Private)--
         private void Unsubscribe(AccountDataTemplate account)
         {
-            account.Client.xmppClient.getXMPPAccount().CONNECTION_INFO.PropertyChanged -= CONNECTION_INFO_PropertyChanged;
+            account.Client.xmppClient.getXMPPAccount().CONNECTION_INFO.PropertyChanged -= OnConnectionInfoPropertyChanged;
+            account.Client.dbAccount.push.PropertyChanged -= OnPushAccountModelPropertyChanged;
         }
 
         private void Subscribe(AccountDataTemplate account)
         {
-            account.Client.xmppClient.getXMPPAccount().CONNECTION_INFO.PropertyChanged += CONNECTION_INFO_PropertyChanged;
+            account.Client.xmppClient.getXMPPAccount().CONNECTION_INFO.PropertyChanged += OnConnectionInfoPropertyChanged;
+            account.Client.dbAccount.push.PropertyChanged += OnPushAccountModelPropertyChanged;
         }
 
         #endregion
@@ -97,7 +101,7 @@ namespace UWPX_UI_Context.Classes.DataTemplates.Controls
         #endregion
         //--------------------------------------------------------Events:---------------------------------------------------------------------\\
         #region --Events--
-        private void CONNECTION_INFO_PropertyChanged(object sender, System.ComponentModel.PropertyChangedEventArgs e)
+        private void OnConnectionInfoPropertyChanged(object sender, PropertyChangedEventArgs e)
         {
             if (sender is ConnectionInformation connectionInfo)
             {
@@ -105,10 +109,6 @@ namespace UWPX_UI_Context.Classes.DataTemplates.Controls
                 {
                     case nameof(connectionInfo.msgCarbonsState):
                         MsgCarbonsState = connectionInfo.msgCarbonsState;
-                        break;
-
-                    case nameof(connectionInfo.pushState):
-                        PushState = connectionInfo.pushState;
                         break;
 
                     case nameof(connectionInfo.tlsConnected):
@@ -119,6 +119,14 @@ namespace UWPX_UI_Context.Classes.DataTemplates.Controls
                         SocketInfo = connectionInfo.socketInfo;
                         break;
                 }
+            }
+        }
+
+        private void OnPushAccountModelPropertyChanged(object sender, PropertyChangedEventArgs e)
+        {
+            if (sender is PushAccountModel push && e.PropertyName.Equals(nameof(PushAccountModel.state)))
+            {
+                PushState = push.state;
             }
         }
 

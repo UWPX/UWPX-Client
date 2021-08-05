@@ -64,8 +64,7 @@ namespace UWPX_UI_Context.Classes.DataContext.Pages
                 Vault.StorePassword(account);
 
                 // Push:
-                MODEL.Account.push.enabled = Settings.GetSettingBoolean(SettingsConsts.PUSH_ENABLED);
-                MODEL.Account.push.published = false;
+                MODEL.Account.push.state = Settings.GetSettingBoolean(SettingsConsts.PUSH_ENABLED) ? PushState.ENABLING : PushState.DISABLED;
 
                 // New account add it to the DB:
                 if (MODEL.OldAccount is null)
@@ -73,11 +72,8 @@ namespace UWPX_UI_Context.Classes.DataContext.Pages
                     MODEL.Account.Add();
                     ConnectionHandler.INSTANCE.AddAccount(MODEL.Account);
 
-                    // Update push accounts:
-                    if (Settings.GetSettingBoolean(SettingsConsts.PUSH_ENABLED))
-                    {
-                        await PushManager.INSTANCE.InitPushForAccountsAsync();
-                    }
+                    // Initialize Push:
+                    PushManager.INSTANCE.Init();
                 }
                 // Update the old account:
                 else

@@ -5,6 +5,7 @@ using Manager.Classes;
 using Manager.Classes.Chat;
 using Manager.Classes.Toast;
 using Microsoft.AppCenter.Push;
+using Push.Classes;
 using Shared.Classes;
 using Storage.Classes;
 using UWPX_UI.Classes;
@@ -174,7 +175,10 @@ namespace UWPX_UI.Pages
             // Connect to all clients:
             ConnectionHandler.INSTANCE.ConnectAll();
 
-            // Remove the messages will be send later toast:
+            // Initialize push:
+            PushManager.INSTANCE.Init();
+
+            // Remove the messages will be send later toasts:
             ToastHelper.RemoveToastGroup(ToastHelper.WILL_BE_SEND_LATER_TOAST_GROUP);
 
             // Update badge notification count:

@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Logging;
+using XMPP_API.Classes.Events;
 using XMPP_API.Classes.Network.XML.Messages;
 using XMPP_API.Classes.Network.XML.Messages.Helper;
 using XMPP_API.Classes.Network.XML.Messages.XEP_0030;
@@ -18,6 +19,8 @@ namespace XMPP_API.Classes.Network
         private delegate Task CheckDiscoFeaturesAsync(List<DiscoFeature> features, string discoTarget);
         private readonly Dictionary<string, HashSet<string>> DISCO_INFO_RESULT = new Dictionary<string, HashSet<string>>();
 
+        public delegate void DicoFeaturesDicoveredEventHandler(DiscoFeatureHelper sender, DicoFeaturesDicoveredEventArgs args);
+        public event DicoFeaturesDicoveredEventHandler DicoFeaturesDicovered;
 
         #endregion
         //--------------------------------------------------------Constructor:----------------------------------------------------------------\\
@@ -82,7 +85,6 @@ namespace XMPP_API.Classes.Network
             }
 
             CONNECTION.account.CONNECTION_INFO.msgCarbonsState = MessageCarbonsState.ERROR;
-            CONNECTION.account.CONNECTION_INFO.pushState = PushState.ERROR;
         }
 
         private async Task OnDiscoResponseMessage(DiscoResponseMessage disco, CheckDiscoFeaturesAsync action, string discoTarget)
@@ -118,6 +120,7 @@ namespace XMPP_API.Classes.Network
         private async Task CheckDiscoFeaturesDomainPartAsync(List<DiscoFeature> features, string discoTarget)
         {
             AddFeaturesForTarget(features, discoTarget);
+            DicoFeaturesDicovered?.Invoke(this, new DicoFeaturesDicoveredEventArgs(DISCO_INFO_RESULT[discoTarget], discoTarget));
 
             if (CONNECTION.account.connectionConfiguration.disableMessageCarbons)
             {
@@ -150,44 +153,12 @@ namespace XMPP_API.Classes.Network
             Logger.Info("Features for " + discoTarget + " updated.");
         }
 
+#pragma warning disable CS1998 // Async method lacks 'await' operators and will run synchronously
         private async Task CheckDiscoFeaturesBareJidAsync(List<DiscoFeature> features, string discoTarget)
+#pragma warning restore CS1998 // Async method lacks 'await' operators and will run synchronously
         {
             AddFeaturesForTarget(features, discoTarget);
-
-            // Check if the server supports 'XEP-0357: Push Notifications':
-            bool supportsPush = HasFeature(Consts.XML_XEP_0357_NAMESPACE, discoTarget);
-            if (supportsPush)
-            {
-                if (CONNECTION.account.pushEnabled)
-                {
-                    if (!CONNECTION.account.pushPublished)
-                    {
-                        await CONNECTION.EnablePushNotificationsAsync();
-                    }
-                    else
-                    {
-                        Logger.Info("No need to enable push for '" + CONNECTION.account.getBareJid() + "' - already enabled");
-                    }
-                    CONNECTION.account.CONNECTION_INFO.pushState = PushState.ENABLED;
-                }
-                else
-                {
-                    if (!CONNECTION.account.pushPublished)
-                    {
-                        await CONNECTION.DisbalePushNotificationsAsync();
-                    }
-                    else
-                    {
-                        Logger.Info("No need to disable push for '" + CONNECTION.account.getBareJid() + "' - already disabled");
-                    }
-                    CONNECTION.account.CONNECTION_INFO.pushState = PushState.DISABLED;
-                }
-            }
-            else
-            {
-                CONNECTION.account.CONNECTION_INFO.pushState = PushState.NOT_SUPPORTED;
-                Logger.Warn("Unable to enable push notifications for '" + CONNECTION.account.getBareJid() + "' - not supported by the server.");
-            }
+            DicoFeaturesDicovered?.Invoke(this, new DicoFeaturesDicoveredEventArgs(DISCO_INFO_RESULT[discoTarget], discoTarget));
         }
 
         #endregion
