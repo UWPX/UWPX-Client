@@ -130,9 +130,21 @@
     </PackageReference>
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\Logging\Logging.csproj">
+      <Project>{0c1fb090-4492-441d-b182-c999df71f917}</Project>
+      <Name>Logging</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Manager\Manager.csproj">
       <Project>{e06e9cca-7196-497e-a129-8ffb4a30a3f8}</Project>
       <Name>Manager</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Storage\Storage.csproj">
+      <Project>{9f088dac-a37a-469c-afbc-12be2ebfdd2d}</Project>
+      <Name>Storage</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\XMPP_API\XMPP_API.csproj">
+      <Project>{64b9a47f-d404-4d0b-a34a-bec280c5ff6b}</Project>
+      <Name>XMPP_API</Name>
     </ProjectReference>
   </ItemGroup>
   <PropertyGroup Condition=" '$(VisualStudioVersion)' == '' or '$(VisualStudioVersion)' &lt; '14.0' ">
