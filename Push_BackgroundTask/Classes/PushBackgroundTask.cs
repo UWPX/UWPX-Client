@@ -83,6 +83,11 @@ namespace Push_BackgroundTask.Classes
             return null;
         }
 
+        private static bool IsTestMessage(XElement node)
+        {
+            return !(XMLUtils.getNodeFromXElement(node, "test") is null);
+        }
+
         #endregion
         //--------------------------------------------------------Misc Methods:---------------------------------------------------------------\\
         #region --Misc Methods (Public)--
@@ -116,6 +121,14 @@ namespace Push_BackgroundTask.Classes
             catch (Exception e)
             {
                 Logger.Error("Failed to parse push notification.", e);
+                return;
+            }
+
+            // Test push:
+            if (IsTestMessage(doc.Root))
+            {
+                ToastHelper.ShowSimpleToast("Here is your test push message successfully received from the push server!🎉");
+                Logger.Info("Test push message received.");
                 return;
             }
 
