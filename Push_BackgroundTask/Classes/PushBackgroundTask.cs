@@ -83,11 +83,6 @@ namespace Push_BackgroundTask.Classes
             return null;
         }
 
-        private static bool IsTestMessage(XElement node)
-        {
-            return !(XMLUtils.getNodeFromXElement(node, "test") is null);
-        }
-
         #endregion
         //--------------------------------------------------------Misc Methods:---------------------------------------------------------------\\
         #region --Misc Methods (Public)--
@@ -125,7 +120,7 @@ namespace Push_BackgroundTask.Classes
             }
 
             // Test push:
-            if (IsTestMessage(doc.Root))
+            if (string.Equals(doc.Root.Name.LocalName, "test"))
             {
                 ToastHelper.ShowSimpleToast("Here is your test push message successfully received from the push server!🎉");
                 Logger.Info("Test push message received.");
