@@ -44,6 +44,20 @@ namespace UWPX_UI_Context.Classes.DataTemplates.Pages
             set => SetProperty(ref _DebugSettingsEnabled, value);
         }
 
+        private bool _PushInitialized;
+        public bool PushInitialized
+        {
+            get => _PushInitialized;
+            set => SetProperty(ref _PushInitialized, value);
+        }
+
+        private bool _PushError;
+        public bool PushError
+        {
+            get => _PushError;
+            set => SetProperty(ref _PushError, value);
+        }
+
         #endregion
         //--------------------------------------------------------Constructor:----------------------------------------------------------------\\
         #region --Constructors--

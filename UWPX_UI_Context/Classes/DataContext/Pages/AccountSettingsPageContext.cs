@@ -38,6 +38,8 @@ namespace UWPX_UI_Context.Classes.DataContext.Pages
             PushManager.INSTANCE.StateChanged -= PushManager_StateChanged;
             PushManager.INSTANCE.StateChanged += PushManager_StateChanged;
             MODEL.PushManagerState = PushManager.INSTANCE.GetState().ToString();
+            MODEL.PushInitialized = PushManager.INSTANCE.GetState() == PushManagerState.INITIALIZED;
+            MODEL.PushError = PushManager.INSTANCE.GetState() == PushManagerState.ERROR;
         }
 
         public void OnUnloaded()
@@ -82,6 +84,8 @@ namespace UWPX_UI_Context.Classes.DataContext.Pages
         private void PushManager_StateChanged(PushManager sender, Push.Classes.Events.PushManagerStateChangedEventArgs args)
         {
             MODEL.PushManagerState = args.NEW_STATE.ToString();
+            MODEL.PushInitialized = args.NEW_STATE == PushManagerState.INITIALIZED;
+            MODEL.PushError = args.NEW_STATE == PushManagerState.ERROR;
             LoadSettings();
         }
 

@@ -119,13 +119,11 @@
   </resheader>
   <data name="AccountSettingsPage_enable_push_tooltip.Text" xml:space="preserve">
     <value>**Enabled**  
-The app will use an [external push server](https://github.com/UWPX/UWPX-Push-Server) for sending push notifications to the device once a new message arrives and the app is not running at the moment.
+The app will use an [external push server](https://github.com/UWPX/UWPX-Push-Server#uwpx-push-server) for sending push notifications to the device once a new message arrives and the app is not running or the account is not connected right now.
 
-At the moment it's **not** recommend to enable this, since the server is still **work in progress**.
-This means **it will** leak information to **me**, the developer while I'm making sure it's running like it should.  
-These information include your [unique device ID](https://github.com/UWPX/UWPX-Push-Server#publishing-the-channel-uri) and the [JIDs](https://github.com/UWPX/UWPX-Push-Server#publishing-the-channel-uri) of all your accounts.
+More information about how this is implemented and which information is being stored can be found [here](https://github.com/UWPX/UWPX-Push-Server/blob/master/README.md).
 
-More information about how this is implemented and which information are being stored can be found [here](https://github.com/UWPX/UWPX-Push-Server/blob/master/README.md).  
+Privacy Policy: https://github.com/UWPX/UWPX-Client/blob/master/PRIVACY_POLICY.md
 
 **Disabled**  
 Push notifications are disabled.</value>

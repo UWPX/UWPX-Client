@@ -4,6 +4,7 @@ using System.Linq;
 using System.Xml.Linq;
 using Logging;
 using Manager.Classes.Toast;
+using Storage.Classes;
 using Storage.Classes.Contexts;
 using Storage.Classes.Models.Chat;
 using Windows.ApplicationModel.Background;
@@ -91,7 +92,14 @@ namespace Push_BackgroundTask.Classes
             deferral = taskInstance.GetDeferral();
             if (taskInstance.TriggerDetails is RawNotification notification)
             {
-                ParseAndShowNotification(notification.Content);
+                if (Settings.GetSettingBoolean(SettingsConsts.PUSH_ENABLED))
+                {
+                    ParseAndShowNotification(notification.Content);
+                }
+                else
+                {
+                    Logger.Warn("Received a push notification, but push is disabled. Dropping it.");
+                }
             }
             deferral.Complete();
         }
