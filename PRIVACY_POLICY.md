@@ -5,8 +5,9 @@ UWPX is an XMPP client, that connects to XMPP servers.
 It does not collect any personal data and all ways data is collected can be disabled.
 
 ## Crash reporting
-After a crash, the App will collect data about what happened and uploads this bundle to [App Center](https://appcenter.ms) or for versions lower than [v.0.6.0.0](https://github.com/UWPX/UWPX-Client/releases/tag/v.0.6.0.0) to [HockeyApp](https://hockeyapp.net/features/crashreports/).  
-Although it's not recommended, it can be disabled via `Settings` -> `Misc` -> `Disable crash reporting`.
+After a crash, the App will collect data about what happened and uploads this bundle to [App Center](https://appcenter.ms).  
+Although it's not recommended, this can be disabled via `Settings` -> `Misc` -> `Disable crash reporting`.
+The data collected this way only gets used for internal bug hunting and statistics. It will not be shared with others.
 
 <details>
 <summary>Example report:</summary>
@@ -36,10 +37,12 @@ Data_Manager2.Classes.DBManager.ImageManager.<>c__DisplayClass9_0.<<contiuneAllD
 ## Analytics
 Since version [`0.11.0.0`](https://github.com/UWPX/UWPX-Client/releases/tag/v.0.11.0.0) UWPX uses [AppCenter](https://appcenter.ms) [Analytics](https://docs.microsoft.com/en-us/appcenter/analytics/) to report basic information like session count, duration and which OS version you are running on.
 Like Crash Reporting, Analytics can be disabled via `Settings` -> `Misc` -> `Disable analytics`.
+The data collected this way only gets used for internal bug hunting and statistics. It will not be shared with others.  
+More information: https://docs.microsoft.com/en-us/appcenter/sdk/data-collected
 
 ## Accounts
-XMPP accounts you add, get stored in a local [SQLite-net database](https://github.com/praeclarum/sqlite-net). This database is located in the apps [ApplicationData](https://docs.microsoft.com/en-us/uwp/api/windows.storage.applicationdata) folder, where by design no other applications have access to.  
-The password for each account gets stored in a [PasswordVault](https://docs.microsoft.com/en-us/uwp/api/windows.security.credentials.passwordvault) ([implementation](https://github.com/UWPX/UWPX-Client/blob/master/Data_Manager2/Classes/Vault.cs)).  
+XMPP accounts you add, get stored in a local [SQLite EF Core database](https://docs.microsoft.com/en-us/ef/core/providers/sqlite/?tabs=dotnet-core-cli). This database is located in the apps [ApplicationData](https://docs.microsoft.com/en-us/uwp/api/windows.storage.applicationdata) folder, where by design no other applications have access to.  
+The password for each account gets stored in a [PasswordVault](https://docs.microsoft.com/en-us/uwp/api/windows.security.credentials.passwordvault) ([implementation](https://github.com/UWPX/UWPX-Client/blob/master/Storage/Classes/Vault.cs)).  
 Passwords for [MUC](https://xmpp.org/extensions/xep-0045.html)s and all [OMEMO](https://xmpp.org/extensions/xep-0384.html) keys get stored in plain text in the above mentioned database.
 
 ## Picture library
