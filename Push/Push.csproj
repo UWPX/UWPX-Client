@@ -135,6 +135,7 @@
     <Compile Include="Classes\PushManager.cs" />
     <Compile Include="Classes\PushManagerState.cs" />
     <Compile Include="Classes\TcpConnection.cs" />
+    <Compile Include="Classes\Utils.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <EmbeddedResource Include="Properties\Push.rd.xml" />
   </ItemGroup>

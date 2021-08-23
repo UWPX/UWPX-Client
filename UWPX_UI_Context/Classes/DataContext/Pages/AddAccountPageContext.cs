@@ -6,7 +6,6 @@ using Storage.Classes;
 using Storage.Classes.Models.Account;
 using UWPX_UI_Context.Classes.DataTemplates.Dialogs;
 using UWPX_UI_Context.Classes.DataTemplates.Pages;
-using XMPP_API.Classes;
 using XMPP_API.Classes.Network;
 
 namespace UWPX_UI_Context.Classes.DataContext.Pages
@@ -36,9 +35,9 @@ namespace UWPX_UI_Context.Classes.DataContext.Pages
             {
                 JidModel jid = new JidModel
                 {
-                    localPart = Utils.getJidLocalPart(MODEL.BareJidText),
-                    domainPart = Utils.getJidDomainPart(MODEL.BareJidText),
-                    resourcePart = Utils.getRandomResourcePart()
+                    localPart = XMPP_API.Classes.Utils.getJidLocalPart(MODEL.BareJidText),
+                    domainPart = XMPP_API.Classes.Utils.getJidDomainPart(MODEL.BareJidText),
+                    resourcePart = XMPP_API.Classes.Utils.getRandomResourcePart()
                 };
                 AccountModel account = new AccountModel(jid, UiUtils.GenRandomHexColor());
                 account.omemoInfo.GenerateOmemoKeys();

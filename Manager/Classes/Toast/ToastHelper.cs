@@ -42,14 +42,14 @@ namespace Manager.Classes.Toast
         #endregion
         //--------------------------------------------------------Set-, Get- Methods:---------------------------------------------------------\\
         #region --Set-, Get- Methods--
-        public static void SetBadgeNumber(int i)
+        public static void SetBadgeNewMessages(bool newMessages)
         {
             // Get the blank badge XML payload for a badge number
             XmlDocument badgeXml = BadgeUpdateManager.GetTemplateContent(BadgeTemplateType.BadgeNumber);
 
             // Set the value of the badge in the XML to our number
             XmlElement badgeElement = badgeXml.SelectSingleNode("/badge") as XmlElement;
-            badgeElement.SetAttribute("value", i.ToString());
+            badgeElement.SetAttribute("value", newMessages ? "newMessage" : "none");
 
             // Create the badge notification
             BadgeNotification badge = new BadgeNotification(badgeXml);
@@ -106,7 +106,7 @@ namespace Manager.Classes.Toast
                         {
                             new AdaptiveText()
                             {
-                                Text = chat.bareJid,
+                                Text = string.IsNullOrEmpty(chat.customName) ? chat.bareJid : chat.customName,
                                 HintMaxLines = 1
                             },
                             new AdaptiveText()
@@ -129,6 +129,76 @@ namespace Manager.Classes.Toast
             PopToast(toastContent, chat);
         }
 
+        public static void ShowPushChatTextToast(string msg, string bareJid)
+        {
+            ToastContent toastContent = new ToastContent
+            {
+                Visual = new ToastVisual
+                {
+                    BindingGeneric = new ToastBindingGeneric
+                    {
+                        Children =
+                        {
+                            new AdaptiveText()
+                            {
+                                Text = bareJid,
+                                HintMaxLines = 1
+                            },
+                            new AdaptiveText()
+                            {
+                                Text = msg
+                            }
+                        },
+                        AppLogoOverride = new ToastGenericAppLogo
+                        {
+                            Source = DEFAULT_USER_IMAGE_PATH,
+                            HintCrop = ToastGenericAppLogoCrop.Circle
+                        }
+                    }
+                },
+                Actions = null,
+                DisplayTimestamp = DateTime.Now,
+                Launch = null
+            };
+
+            PopToast(toastContent);
+        }
+
+        public static void ShowPushChatTextToast(string msg, ChatModel chat)
+        {
+            ToastContent toastContent = new ToastContent
+            {
+                Visual = new ToastVisual
+                {
+                    BindingGeneric = new ToastBindingGeneric
+                    {
+                        Children =
+                        {
+                            new AdaptiveText()
+                            {
+                                Text = string.IsNullOrEmpty(chat.customName) ? chat.bareJid : chat.customName,
+                                HintMaxLines = 1
+                            },
+                            new AdaptiveText()
+                            {
+                                Text = msg
+                            }
+                        },
+                        AppLogoOverride = new ToastGenericAppLogo
+                        {
+                            Source = chat.chatType == ChatType.CHAT ? DEFAULT_USER_IMAGE_PATH : DEFAULT_MUC_IMAGE_PATH,
+                            HintCrop = ToastGenericAppLogoCrop.Circle
+                        }
+                    }
+                },
+                Actions = null,
+                DisplayTimestamp = DateTime.Now,
+                Launch = new ChatToastActivation(chat.id, -1).Generate()
+            };
+
+            PopToast(toastContent, chat);
+        }
+
         public static void ShowChatTextImageToast(ChatMessageModel msg, ChatModel chat)
         {
             ToastContent toastContent = new ToastContent
@@ -141,7 +211,7 @@ namespace Manager.Classes.Toast
                         {
                             new AdaptiveText
                             {
-                                Text = chat.bareJid,
+                                Text = string.IsNullOrEmpty(chat.customName) ? chat.bareJid : chat.customName,
                                 HintMaxLines = 1
                             },
                             new AdaptiveText
@@ -170,12 +240,12 @@ namespace Manager.Classes.Toast
 
         public static void UpdateBadgeNumber()
         {
-            int count;
+            bool newMessages;
             using (MainDbContext ctx = new MainDbContext())
             {
-                count = ctx.GetUnreadMessageCount();
+                newMessages = ctx.GetUnreadMessageCount() > 0;
             }
-            SetBadgeNumber(count);
+            SetBadgeNewMessages(newMessages);
         }
 
         public static void ShowSimpleToast(string text)
@@ -197,16 +267,19 @@ namespace Manager.Classes.Toast
                 },
             };
 
-            ToastNotification toast = new ToastNotification(toastContent.GetXml());
-            OnChatMessageToastEventArgs args = new OnChatMessageToastEventArgs(toast, null);
-            OnChatMessageToast?.Invoke(args);
-
-            PopToast(toast, args);
+            PopToast(toastContent);
         }
 
         #endregion
 
         #region --Misc Methods (Private)--
+        private static void PopToast(ToastContent content)
+        {
+            ToastNotification toast = new ToastNotification(content.GetXml());
+            OnChatMessageToastEventArgs args = new OnChatMessageToastEventArgs(toast, null);
+            OnChatMessageToast?.Invoke(args);
+        }
+
         private static void PopToast(ToastContent content, ChatModel chat)
         {
             PopToast(content, chat, chat.id.ToString());

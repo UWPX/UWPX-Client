@@ -1,7 +1,11 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.Linq;
 using System.Xml.Linq;
 using Logging;
 using Manager.Classes.Toast;
+using Storage.Classes.Contexts;
+using Storage.Classes.Models.Chat;
 using Windows.ApplicationModel.Background;
 using Windows.Networking.PushNotifications;
 using XMPP_API.Classes;
@@ -61,7 +65,21 @@ namespace Push_BackgroundTask.Classes
                 return;
             }
 
-            // Validate the sender:
+            // Validate account:
+            string accountId = GetAccountId(doc.Root);
+            if (accountId is null)
+            {
+                Logger.Warn($"Received a push notification without a valid account ID. Dropping it.");
+                return;
+            }
+            string accountBareJid = GetAccountBareJid(accountId);
+            if (accountBareJid is null)
+            {
+                Logger.Warn($"Received a push notification for an unknown account ID '{accountId}'. Dropping it.");
+                return;
+            }
+
+            // Validate sender:
             string from = GetValue(doc.Root, "last-message-sender");
             if (from is null)
             {
@@ -84,10 +102,56 @@ namespace Push_BackgroundTask.Classes
                 return;
             }
 
+            // Body:
             string body = GetValue(doc.Root, "last-message-body");
-            ToastHelper.ShowSimpleToast(body);
+            if (string.IsNullOrEmpty(body))
+            {
+                body = "You received a new message ✉.";
+            }
 
-            ToastHelper.ShowSimpleToast(s);
+            // Get chat:
+            ChatModel chat = GetChat(accountBareJid, bareJid);
+            if (chat is null)
+            {
+                ToastHelper.ShowPushChatTextToast(body, bareJid);
+            }
+            else
+            {
+                ToastHelper.ShowPushChatTextToast(body, chat);
+            }
+            ToastHelper.SetBadgeNewMessages(true);
+        }
+
+        private string GetAccountBareJid(string accountId)
+        {
+            List<string> accounts;
+            using (MainDbContext ctx = new MainDbContext())
+            {
+                accounts = ctx.Accounts.Select(a => a.bareJid).ToList();
+            }
+            return accounts.Where(a => string.Equals(Push.Classes.Utils.ToAccountId(a), accountId)).FirstOrDefault();
+        }
+
+        private ChatModel GetChat(string accountBareJid, string chatBareJid)
+        {
+            using (MainDbContext ctx = new MainDbContext())
+            {
+                return ctx.GetChat(accountBareJid, chatBareJid);
+            }
+        }
+
+        private string GetAccountId(XElement node)
+        {
+            XElement accountNode = XMLUtils.getNodeFromXElement(node, "account");
+            if (!(accountNode is null))
+            {
+                XAttribute idAttribute = accountNode.Attribute("id");
+                if (!(idAttribute is null) && !string.IsNullOrEmpty(idAttribute.Value))
+                {
+                    return idAttribute.Value;
+                }
+            }
+            return null;
         }
 
         private string GetValue(XElement node, string var)
@@ -99,7 +163,6 @@ namespace Push_BackgroundTask.Classes
                 {
                     if (string.Equals(n.Name.LocalName, "field"))
                     {
-                        System.Collections.Generic.IEnumerable<XAttribute> z = n.Attributes();
                         XAttribute attribute = n.Attribute("var");
                         if (!(attribute is null) && string.Equals(attribute.Value, var))
                         {

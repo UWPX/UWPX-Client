@@ -138,6 +138,14 @@
       <Project>{e06e9cca-7196-497e-a129-8ffb4a30a3f8}</Project>
       <Name>Manager</Name>
     </ProjectReference>
+    <ProjectReference Include="..\Push\Push.csproj">
+      <Project>{e15572a6-ad1a-4ecc-8920-4070dd779516}</Project>
+      <Name>Push</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Shared\Shared.csproj">
+      <Project>{C4AF94DA-11CF-4147-B5B7-4B2DC7C624A0}</Project>
+      <Name>Shared</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Storage\Storage.csproj">
       <Project>{9f088dac-a37a-469c-afbc-12be2ebfdd2d}</Project>
       <Name>Storage</Name>

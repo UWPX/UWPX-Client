@@ -1,19 +1,15 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Security.Cryptography;
-using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 using Logging;
 using Manager.Classes;
 using Push.Classes.Events;
 using Push.Classes.Messages;
-using Shared.Classes;
 using Storage.Classes;
 using Storage.Classes.Contexts;
 using Windows.Networking.PushNotifications;
-using XMPP_API.Classes.Crypto;
 using XMPP_API.Classes.Network.TCP;
 
 namespace Push.Classes
@@ -217,7 +213,7 @@ namespace Push.Classes
                 bool found = false;
                 foreach (ClientConnectionHandler c in ConnectionHandler.INSTANCE.GetClients())
                 {
-                    if (string.Equals(ToAccountId(c.client.dbAccount.bareJid), pushAccount.accountId))
+                    if (string.Equals(Utils.ToAccountId(c.client.dbAccount.bareJid), pushAccount.accountId))
                     {
                         if (pushAccount.success)
                         {
@@ -265,7 +261,7 @@ namespace Push.Classes
                     {
                         using (MainDbContext ctx = new MainDbContext())
                         {
-                            accountIds = ctx.Accounts.Select(a => ToAccountId(a.bareJid)).ToList();
+                            accountIds = ctx.Accounts.Select(a => Utils.ToAccountId(a.bareJid)).ToList();
                         }
                     }
                     SetPushAccountsMessage msg = new SetPushAccountsMessage(accountIds);
@@ -490,22 +486,6 @@ namespace Push.Classes
         {
             string remoteUri = Settings.GetSettingString(SettingsConsts.PUSH_CHANNEL_URI_SEND_TO_PUSH_SERVER);
             return !string.Equals(channel.Uri, remoteUri);
-        }
-
-        /// <summary>
-        /// Generates a SHA256 hex string based on the given bare JID and the current device ID.
-        /// </summary>
-        /// <param name="bareJid">The bare JID (e.g. 'someone@example.com').</param>
-        /// <returns>A SHA256 hex string.</returns>
-        private static string ToAccountId(string bareJid)
-        {
-            string input = SharedUtils.GetUniqueDeviceId() + bareJid;
-            byte[] result;
-            using (SHA256 sha = SHA256.Create())
-            {
-                result = sha.ComputeHash(Encoding.UTF8.GetBytes(input));
-            }
-            return CryptoUtils.byteArrayToHexString(result);
         }
 
         #endregion
