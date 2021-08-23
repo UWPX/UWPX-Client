@@ -55,3 +55,10 @@ Since version [`0.20.0.0`](https://github.com/UWPX/UWPX-Client/releases/tag/v.0.
 
 ## Webcam
 Since version [`0.20.0.0`](https://github.com/UWPX/UWPX-Client/releases/tag/v.0.20.0.0) UWPX can use your webcam to scan XMPP realted Qr-Codes. This is used for scanning/validating OMEMO fingerprints and experimental XMPP IoT setup QR-Codes.
+
+## Push Server
+Since version [`0.35.0.0`](https://github.com/UWPX/UWPX-Client/releases/tag/v.0.35.0.0) UWPX uses an external [push server](https://github.com/UWPX/UWPX-Push-Server#uwpx-push-server). This push server [stores](https://github.com/UWPX/UWPX-Push-Server#what-the-push-server-stores) data persistent. Besides that, no [direct identifiers](https://github.com/UWPX/UWPX-Push-Server#update-push-accounts) for accounts will be stored persistent. Logging in a productive environment is reduced to a minimal and will not contain personal information.
+
+### GPDR
+European GDPR allows users to request a copy of all data retained about them. Please send GDPR requests to [gpdr@uwpx.org](mailto:gpdr@uwpx.org).
+Before we can comply with your request, we will ask you to send additional information to a specific JID so we can identify you, since UWPX and the push server does **not** save any direct links to your or your JID.
