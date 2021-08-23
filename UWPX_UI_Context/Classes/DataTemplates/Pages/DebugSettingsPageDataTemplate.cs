@@ -40,14 +40,29 @@ namespace UWPX_UI_Context.Classes.DataTemplates.Pages
             get => _SpamRegex;
             set => SetSpamRegexProperty(value);
         }
+        private string _DeviceNonce;
+        public string DeviceNonce
+        {
+            get => _DeviceNonce;
+            set => SetProperty(ref _DeviceNonce, value);
+        }
+        private string _DeviceID;
+        public string DeviceID
+        {
+            get => _DeviceID;
+            set => SetProperty(ref _DeviceID, value);
+        }
+        private string _AccountIds;
+        public string AccountIds
+        {
+            get => _AccountIds;
+            set => SetProperty(ref _AccountIds, value);
+        }
 
         #endregion
         //--------------------------------------------------------Constructor:----------------------------------------------------------------\\
         #region --Constructors--
-        public DebugSettingsPageDataTemplate()
-        {
-            LoadSettings();
-        }
+
 
         #endregion
         //--------------------------------------------------------Set-, Get- Methods:---------------------------------------------------------\\
@@ -86,25 +101,12 @@ namespace UWPX_UI_Context.Classes.DataTemplates.Pages
         #endregion
         //--------------------------------------------------------Misc Methods:---------------------------------------------------------------\\
         #region --Misc Methods (Public)--
-        public void ResetSpamRegex()
-        {
-            SpamRegex = SpamHelper.DEFAULT_SPAM_REGEX;
-        }
+
 
         #endregion
 
         #region --Misc Methods (Private)--
-        private void LoadSettings()
-        {
-            // Debug:
-            DisableTcpTimeout = Settings.GetSettingBoolean(SettingsConsts.DEBUG_DISABLE_TCP_TIMEOUT);
-            DisableTlsTimeout = Settings.GetSettingBoolean(SettingsConsts.DEBUG_DISABLE_TLS_TIMEOUT);
 
-            // Spam:
-            SpamRegex = Settings.GetSettingString(SettingsConsts.SPAM_REGEX, SpamHelper.DEFAULT_SPAM_REGEX);
-            SpamDetectionNewChatsOnly = !Settings.GetSettingBoolean(SettingsConsts.SPAM_DETECTION_FOR_ALL_CHAT_MESSAGES);
-            SpamDetectionEnabled = Settings.GetSettingBoolean(SettingsConsts.SPAM_DETECTION_ENABLED);
-        }
 
         #endregion
 

@@ -62,7 +62,7 @@ namespace Shared.Classes
         /// This nonce is stored persistently.
         /// </summary>
         /// <returns>64 byte long device nonce.</returns>
-        private static byte[] GetDeviceNonce()
+        public static byte[] GetDeviceNonce()
         {
             object nonceObj = null;
             try

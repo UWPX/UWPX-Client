@@ -40,12 +40,15 @@
                 <controlsComp:NavigationViewItem Content="Spam"
                                                  Icon="Flag"
                                                  Tag="Spam"/>
+                <controlsComp:NavigationViewItem Content="Device/Account IDs"
+                                                 Icon="Contact"
+                                                 Tag="deviceId"/>
             </controlsComp:NavigationView.MenuItems>
             <ScrollViewer x:Name="main_scv"
                           HorizontalScrollMode="Disabled"
                           VerticalScrollBarVisibility="Hidden"
                           VerticalScrollMode="Auto">
-                <StackPanel>
+                <StackPanel Margin="0,0,0,10">
                     <!--  Debug:  -->
                     <settings:SettingsContentControl x:Name="debug_scp"
                                                      Header="Debug:">
@@ -119,6 +122,33 @@
                             </StackPanel>
                         </settings:SettingsContentControl.MainContent>
                     </settings:SettingsContentControl>
+
+                    <!--  Device Identifiers:  -->
+                    <settings:SettingsContentControl x:Name="deviceId_scp"
+                                                     Header="Device and account identifier:">
+                        <settings:SettingsContentControl.MainContent>
+                            <StackPanel>
+                                <TextBlock Margin="0,10,0,0"
+                                           IsTextSelectionEnabled="True"
+                                           TextWrapping="Wrap">
+                                    <Run FontWeight="Bold"
+                                         Text="Device ID:"/>
+                                    <LineBreak/>
+                                    <Run Text="{x:Bind VIEW_MODEL.MODEL.DeviceID, Mode=OneWay}"/>
+                                    <LineBreak/>
+                                    <Run FontWeight="Bold"
+                                         Text="Device nonce:"/>
+                                    <LineBreak/>
+                                    <Run Text="{x:Bind VIEW_MODEL.MODEL.DeviceNonce, Mode=OneWay}"/>
+                                    <LineBreak/>
+                                    <Run FontWeight="Bold"
+                                         Text="Account IDs:"/>
+                                    <LineBreak/>
+                                    <Run Text="{x:Bind VIEW_MODEL.MODEL.AccountIds, Mode=OneWay}"/>
+                                </TextBlock>
+                            </StackPanel>
+                        </settings:SettingsContentControl.MainContent>
+                    </settings:SettingsContentControl>
                 </StackPanel>
             </ScrollViewer>
         </controlsComp:NavigationView>
@@ -129,7 +159,7 @@
                                                 Grid.Row="0"
                                                 Background="{ThemeResource AppBackgroundAcrylicWindowBrush}"
                                                 Frame="{x:Bind Frame, Mode=OneWay}"
-                                                Glyph="&#xE12B;"
-                                                Text="Data"/>
+                                                Glyph="&#xEBE8;"
+                                                Text="Debug"/>
     </Grid>
 </Page>

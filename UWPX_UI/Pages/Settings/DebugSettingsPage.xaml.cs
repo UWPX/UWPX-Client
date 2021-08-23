@@ -55,6 +55,10 @@ namespace UWPX_UI.Pages.Settings
                     case "Spam":
                         ScrollViewerExtensions.ScrollIntoViewVertically(main_scv, spam_scp, false);
                         break;
+
+                    case "DeviceID":
+                        ScrollViewerExtensions.ScrollIntoViewVertically(main_scv, deviceId_scp, false);
+                        break;
                 }
             }
         }
