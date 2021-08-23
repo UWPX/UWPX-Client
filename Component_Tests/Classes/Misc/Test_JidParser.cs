@@ -75,6 +75,14 @@ namespace Component_Tests.Classes.Misc
 
         [TestCategory("Misc")]
         [TestMethod]
+        public void Test_IsBareJid_9()
+        {
+            string s = "juliet@example.com/foo";
+            Assert.IsFalse(Utils.isBareJid(s));
+        }
+
+        [TestCategory("Misc")]
+        [TestMethod]
         public void Test_IsFullJid_1()
         {
             string s = "juliet@example.com/foo";

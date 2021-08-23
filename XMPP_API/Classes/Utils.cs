@@ -190,7 +190,7 @@ namespace XMPP_API.Classes
         /// <param name="s">The string, that should get checked.</param>
         public static bool isBareJid(string s)
         {
-            if (!s.Contains("@"))
+            if (!s.Contains("@") || s.Contains("/"))
             {
                 return false;
             }
