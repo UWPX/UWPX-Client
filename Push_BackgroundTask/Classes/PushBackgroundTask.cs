@@ -122,7 +122,7 @@ namespace Push_BackgroundTask.Classes
             // Test push:
             if (string.Equals(doc.Root.Name.LocalName, "test"))
             {
-                ToastHelper.ShowSimpleToast("Here is your test push message successfully received from the push server!🎉");
+                ToastHelper.ShowSimpleToast("Here is your test push message. It got successfully received from the push server!🎉");
                 Logger.Info("Test push message received.");
                 return;
             }

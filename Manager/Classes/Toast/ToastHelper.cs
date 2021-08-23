@@ -278,6 +278,7 @@ namespace Manager.Classes.Toast
             ToastNotification toast = new ToastNotification(content.GetXml());
             OnChatMessageToastEventArgs args = new OnChatMessageToastEventArgs(toast, null);
             OnChatMessageToast?.Invoke(args);
+            PopToast(toast, args);
         }
 
         private static void PopToast(ToastContent content, ChatModel chat)

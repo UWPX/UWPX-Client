@@ -376,10 +376,6 @@ namespace UWPX_UI
         {
             if (args.NEW_STATE == PushManagerState.INITIALIZED)
             {
-                PushNotificationChannel channel = PushManager.INSTANCE.GetChannel();
-                channel.PushNotificationReceived -= WNS_PushNotificationReceived;
-                channel.PushNotificationReceived += WNS_PushNotificationReceived;
-
                 // Setup done, now send an updated list of all push accounts:
                 if (PushManager.ShouldUpdatePushForAccounts())
                 {
@@ -415,15 +411,6 @@ namespace UWPX_UI
                 {
                     c.client.PUSH_MANAGER.OnPushManagerInitialized();
                 }
-            }
-        }
-
-        private void WNS_PushNotificationReceived(PushNotificationChannel sender, PushNotificationReceivedEventArgs args)
-        {
-            if (args.NotificationType == PushNotificationType.Raw)
-            {
-                RawNotification notification = args.RawNotification;
-                ToastHelper.ShowSimpleToast(notification.Content);
             }
         }
 
