@@ -27,7 +27,61 @@ namespace Push_BackgroundTask.Classes
         #endregion
         //--------------------------------------------------------Set-, Get- Methods:---------------------------------------------------------\\
         #region --Set-, Get- Methods--
+        private string GetAccountBareJid(string accountId)
+        {
+            List<string> accounts;
+            using (MainDbContext ctx = new MainDbContext())
+            {
+                accounts = ctx.Accounts.Select(a => a.bareJid).ToList();
+            }
+            return accounts.Where(a => string.Equals(Push.Classes.Utils.ToAccountId(a), accountId)).FirstOrDefault();
+        }
 
+        private ChatModel GetChat(string accountBareJid, string chatBareJid)
+        {
+            using (MainDbContext ctx = new MainDbContext())
+            {
+                return ctx.GetChat(accountBareJid, chatBareJid);
+            }
+        }
+
+        private string GetAccountId(XElement node)
+        {
+            XElement accountNode = XMLUtils.getNodeFromXElement(node, "account");
+            if (!(accountNode is null))
+            {
+                XAttribute idAttribute = accountNode.Attribute("id");
+                if (!(idAttribute is null) && !string.IsNullOrEmpty(idAttribute.Value))
+                {
+                    return idAttribute.Value;
+                }
+            }
+            return null;
+        }
+
+        private string GetValue(XElement node, string var)
+        {
+            XElement xNode = XMLUtils.getNodeFromXElement(node, "x");
+            if (!(xNode is null))
+            {
+                foreach (XElement n in xNode.Elements())
+                {
+                    if (string.Equals(n.Name.LocalName, "field"))
+                    {
+                        XAttribute attribute = n.Attribute("var");
+                        if (!(attribute is null) && string.Equals(attribute.Value, var))
+                        {
+                            XElement valueNode = XMLUtils.getNodeFromXElement(n, "value");
+                            if (!(valueNode is null))
+                            {
+                                return valueNode.Value;
+                            }
+                        }
+                    }
+                }
+            }
+            return null;
+        }
 
         #endregion
         //--------------------------------------------------------Misc Methods:---------------------------------------------------------------\\
@@ -120,62 +174,6 @@ namespace Push_BackgroundTask.Classes
                 ToastHelper.ShowPushChatTextToast(body, chat);
             }
             ToastHelper.SetBadgeNewMessages(true);
-        }
-
-        private string GetAccountBareJid(string accountId)
-        {
-            List<string> accounts;
-            using (MainDbContext ctx = new MainDbContext())
-            {
-                accounts = ctx.Accounts.Select(a => a.bareJid).ToList();
-            }
-            return accounts.Where(a => string.Equals(Push.Classes.Utils.ToAccountId(a), accountId)).FirstOrDefault();
-        }
-
-        private ChatModel GetChat(string accountBareJid, string chatBareJid)
-        {
-            using (MainDbContext ctx = new MainDbContext())
-            {
-                return ctx.GetChat(accountBareJid, chatBareJid);
-            }
-        }
-
-        private string GetAccountId(XElement node)
-        {
-            XElement accountNode = XMLUtils.getNodeFromXElement(node, "account");
-            if (!(accountNode is null))
-            {
-                XAttribute idAttribute = accountNode.Attribute("id");
-                if (!(idAttribute is null) && !string.IsNullOrEmpty(idAttribute.Value))
-                {
-                    return idAttribute.Value;
-                }
-            }
-            return null;
-        }
-
-        private string GetValue(XElement node, string var)
-        {
-            XElement xNode = XMLUtils.getNodeFromXElement(node, "x");
-            if (!(xNode is null))
-            {
-                foreach (XElement n in xNode.Elements())
-                {
-                    if (string.Equals(n.Name.LocalName, "field"))
-                    {
-                        XAttribute attribute = n.Attribute("var");
-                        if (!(attribute is null) && string.Equals(attribute.Value, var))
-                        {
-                            XElement valueNode = XMLUtils.getNodeFromXElement(n, "value");
-                            if (!(valueNode is null))
-                            {
-                                return valueNode.Value;
-                            }
-                        }
-                    }
-                }
-            }
-            return null;
         }
 
         #endregion
