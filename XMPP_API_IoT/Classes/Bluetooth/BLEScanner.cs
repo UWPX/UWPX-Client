@@ -100,7 +100,7 @@ namespace XMPP_API_IoT.Classes.Bluetooth
                 return;
             }
 
-            if (!BluetoothLEHelper.IsBluetoothLESupported)
+            if (!BluetoothLEHelper.Context.IsCentralRoleSupported)
             {
                 SetState(BLEScannerState.ERROR_BLE_NOT_SUPPORTED);
                 Logger.Warn("No Bluetooth radio supports BLE.");

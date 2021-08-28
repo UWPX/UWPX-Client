@@ -9,7 +9,7 @@ namespace Storage.Classes
     {
         //--------------------------------------------------------Attributes:-----------------------------------------------------------------\\
         #region --Attributes--
-        public static readonly LocalObjectStorageHelper LOCAL_OBJECT_STORAGE_HELPER = new LocalObjectStorageHelper();
+        public static readonly LocalObjectStorageHelper LOCAL_OBJECT_STORAGE_HELPER = new LocalObjectStorageHelper(new JsonObjectSerializer());
 
         public static event PropertyChangedEventHandler SettingChanged;
 

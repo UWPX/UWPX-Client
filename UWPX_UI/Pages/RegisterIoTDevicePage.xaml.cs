@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.ObjectModel;
+using System.Numerics;
 using Logging;
 using Manager.Classes;
 using Microsoft.Toolkit.Uwp.UI.Animations;
@@ -139,7 +140,7 @@ namespace UWPX_UI.Pages
 
             LastPopUpElement = VisualTreeHelper.GetParent(VisualTreeHelper.GetParent(deviceModeSelection) as FrameworkElement) as FrameworkElement;
             Canvas.SetZIndex(LastPopUpElement, 10);
-            LastPopUpElement.Scale(scaleX: 1.05f, scaleY: 1.05f, easingType: EasingType.Sine).Start();
+            AnimationBuilder.Create().Scale(to: new Vector2(1.05f), easingType: EasingType.Sine).Start(LastPopUpElement);
         }
 
         private void SettingsSelectionControl_PointerExited(object sender, Windows.UI.Xaml.Input.PointerRoutedEventArgs e)
@@ -150,7 +151,7 @@ namespace UWPX_UI.Pages
             }
 
             Canvas.SetZIndex(LastPopUpElement, 0);
-            LastPopUpElement.Scale(easingType: EasingType.Sine).Start();
+            AnimationBuilder.Create().Scale(to: new Vector2(1.0f), easingType: EasingType.Sine).Start(LastPopUpElement);
             LastPopUpElement = null;
         }
 

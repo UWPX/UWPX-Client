@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Numerics;
 using Microsoft.Toolkit.Uwp.UI.Animations;
 using Microsoft.Toolkit.Uwp.UI.Controls;
 using Shared.Classes;
@@ -71,7 +72,7 @@ namespace UWPX_UI.Pages
 
             LastPopUpElement = settingsSelection;
             Canvas.SetZIndex(LastPopUpElement, 10);
-            LastPopUpElement.Scale(scaleX: 1.05f, scaleY: 1.05f, easingType: EasingType.Sine).Start();
+            AnimationBuilder.Create().Scale(to: new Vector2(1.05f), easingType: EasingType.Sine).Start(LastPopUpElement);
         }
 
         private void OnSelectionButtonPointerExited(object sender, PointerRoutedEventArgs e)
@@ -82,7 +83,7 @@ namespace UWPX_UI.Pages
             }
 
             Canvas.SetZIndex(LastPopUpElement, 0);
-            LastPopUpElement.Scale(easingType: EasingType.Sine).Start();
+            AnimationBuilder.Create().Scale(to: new Vector2(1.0f), easingType: EasingType.Sine).Start(LastPopUpElement);
             LastPopUpElement = null;
         }
 

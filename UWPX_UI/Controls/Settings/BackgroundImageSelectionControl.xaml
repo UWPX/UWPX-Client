@@ -31,7 +31,7 @@
                                                         IsEnabled="{x:Bind imageBackground_rbtn.IsChecked, Mode=OneWay, Converter={StaticResource NullableBoolBoolValueConverter}}"
                                                         IsSelected="{x:Bind VIEW_MODEL.MODEL.IsCustomImageBackgroundSelected, Mode=TwoWay}"/>
         <controls:AdaptiveGridView Margin="0,10,0,0"
-                                   animations:ReorderGridAnimation.Duration="300"
+                                   animations:ItemsReorderAnimation.Duration="0:0:0.3"
                                    DesiredWidth="160"
                                    IsEnabled="{x:Bind imageBackground_rbtn.IsChecked, Mode=OneWay, Converter={StaticResource NullableBoolBoolValueConverter}}"
                                    ItemHeight="180"

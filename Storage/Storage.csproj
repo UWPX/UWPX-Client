@@ -12,7 +12,7 @@
     <DefaultLanguage>en-US</DefaultLanguage>
     <TargetPlatformIdentifier>UAP</TargetPlatformIdentifier>
     <TargetPlatformVersion Condition=" '$(TargetPlatformVersion)' == '' ">10.0.19041.0</TargetPlatformVersion>
-    <TargetPlatformMinVersion>10.0.16299.0</TargetPlatformMinVersion>
+    <TargetPlatformMinVersion>10.0.17763.0</TargetPlatformMinVersion>
     <MinimumVisualStudioVersion>14</MinimumVisualStudioVersion>
     <FileAlignment>512</FileAlignment>
     <ProjectTypeGuids>{A5A43C5B-DE2A-4C0C-9213-0A381AF9435A};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
@@ -122,6 +122,7 @@
   <ItemGroup>
     <Compile Include="Classes\Contexts\AbstractDbContext.cs" />
     <Compile Include="Classes\Contexts\MainDbContext.cs" />
+    <Compile Include="Classes\JsonObjectSerializer.cs" />
     <Compile Include="Classes\Models\AbstractModel.cs" />
     <Compile Include="Classes\Models\Account\AccountModel.cs" />
     <Compile Include="Classes\Models\Account\JidModel.cs" />
@@ -167,7 +168,7 @@
       <Version>6.2.12</Version>
     </PackageReference>
     <PackageReference Include="Microsoft.Toolkit.Uwp">
-      <Version>6.1.1</Version>
+      <Version>7.0.2</Version>
     </PackageReference>
   </ItemGroup>
   <ItemGroup>

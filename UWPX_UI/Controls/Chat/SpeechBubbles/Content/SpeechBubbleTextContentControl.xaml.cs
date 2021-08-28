@@ -1,4 +1,4 @@
-﻿using Microsoft.Toolkit.Uwp.UI.Extensions;
+﻿using Microsoft.Toolkit.Uwp.UI;
 using Storage.Classes;
 using UWPX_UI_Context.Classes.DataContext.Controls;
 using Windows.Foundation;
@@ -99,7 +99,7 @@ namespace UWPX_UI.Controls.Chat.SpeechBubbles.Content
 
         private void ResendMsg_mfi_Click(object sender, RoutedEventArgs e)
         {
-            ChatDetailsControl chatDetails = VisualTree.FindAscendant<ChatDetailsControl>(this);
+            ChatDetailsControl chatDetails = DependencyObjectExtensions.FindAscendant<ChatDetailsControl>(this);
             SpeechBubbleContentViewModel.ResendMessage(chatDetails?.VIEW_MODEL);
         }
 

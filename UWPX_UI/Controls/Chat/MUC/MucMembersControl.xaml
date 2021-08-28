@@ -4,7 +4,7 @@
              xmlns:controls="using:Microsoft.Toolkit.Uwp.UI.Controls"
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:dataTemplates="using:UWPX_UI_Context.Classes.DataTemplates.Controls.Chat.MUC"
-             xmlns:extensions="using:Microsoft.Toolkit.Uwp.UI.Extensions"
+             xmlns:extensions="using:Microsoft.Toolkit.Uwp.UI"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              xmlns:muc="using:UWPX_UI.Controls.Chat.MUC"
              mc:Ignorable="d">
