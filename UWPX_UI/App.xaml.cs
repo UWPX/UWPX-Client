@@ -21,10 +21,7 @@ using UWPX_UI_Context.Classes;
 using Windows.ApplicationModel;
 using Windows.ApplicationModel.Activation;
 using Windows.ApplicationModel.Background;
-using Windows.ApplicationModel.Core;
 using Windows.Foundation.Collections;
-using Windows.Networking.PushNotifications;
-using Windows.UI.Core;
 using Windows.UI.Notifications;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
@@ -136,7 +133,7 @@ namespace UWPX_UI
                 Window.Current.Content = rootFrame;
             }
 
-            ExtendedSplashScreenPage extendedSplashScreen = new ExtendedSplashScreenPage(args, rootFrame, AppCenter_PushNotificationReceived);
+            ExtendedSplashScreenPage extendedSplashScreen = new ExtendedSplashScreenPage(args, rootFrame);
             rootFrame.Content = extendedSplashScreen;
 
             Window.Current.Activate();
@@ -327,37 +324,6 @@ namespace UWPX_UI
         private void OnNavigationFailed(object sender, NavigationFailedEventArgs e)
         {
             throw new Exception("Failed to load Page " + e.SourcePageType.FullName);
-        }
-
-        private async void AppCenter_PushNotificationReceived(object sender, Microsoft.AppCenter.Push.PushNotificationReceivedEventArgs e)
-        {
-            // Add the notification message and title to the message:
-            StringBuilder pushSummary = new StringBuilder("Push notification received:\n");
-            pushSummary.Append($"\tNotification title: {e.Title}\n");
-            pushSummary.Append($"\tMessage: {e.Message}");
-
-            // If there is custom data associated width the notification, print the entries:
-            if (e.CustomData != null)
-            {
-                pushSummary.Append("\n\tCustom data:\n");
-                foreach (string key in e.CustomData.Keys)
-                {
-                    pushSummary.Append($"\t\t{key} : {e.CustomData[key]}\n");
-                }
-            }
-
-            // Log notification summary:
-            Logger.Info(pushSummary.ToString());
-
-            // Show push dialog:
-            if (e.CustomData.TryGetValue("markdown", out string markdownText))
-            {
-                await CoreApplication.MainView.CoreWindow.Dispatcher.RunAsync(CoreDispatcherPriority.Normal, async () =>
-                {
-                    AppCenterPushDialog dialog = new AppCenterPushDialog(e.Title, markdownText);
-                    await UiUtils.ShowDialogAsync(dialog);
-                });
-            }
         }
 
         private void App_UnhandledException(object sender, Windows.UI.Xaml.UnhandledExceptionEventArgs e)

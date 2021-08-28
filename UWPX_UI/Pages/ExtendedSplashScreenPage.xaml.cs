@@ -4,7 +4,6 @@ using Logging;
 using Manager.Classes;
 using Manager.Classes.Chat;
 using Manager.Classes.Toast;
-using Microsoft.AppCenter.Push;
 using Push.Classes;
 using Shared.Classes;
 using Storage.Classes;
@@ -28,18 +27,16 @@ namespace UWPX_UI.Pages
         #region --Attributes--
         private readonly IActivatedEventArgs ACTIVATION_ARGS;
         private readonly Frame ROOT_FRAME;
-        private readonly EventHandler<PushNotificationReceivedEventArgs> APP_CENTER_PUSH_CALLBACK;
         private SplashScreenImageScale curImageScale = SplashScreenImageScale.TINY;
         private double deviceScaleFactor;
 
         #endregion
         //--------------------------------------------------------Constructor:----------------------------------------------------------------\\
         #region --Constructors--
-        public ExtendedSplashScreenPage(IActivatedEventArgs args, Frame rootFrame, EventHandler<PushNotificationReceivedEventArgs> appCenterPushCallback)
+        public ExtendedSplashScreenPage(IActivatedEventArgs args, Frame rootFrame)
         {
             ACTIVATION_ARGS = args;
             ROOT_FRAME = rootFrame;
-            APP_CENTER_PUSH_CALLBACK = appCenterPushCallback;
             InitializeComponent();
 
             SetupSplashScreen();
@@ -153,7 +150,7 @@ namespace UWPX_UI.Pages
             UiUtils.SetupWindow(Application.Current);
 
             // Setup App Center crashes, push:
-            AppCenterHelper.SetupAppCenter(APP_CENTER_PUSH_CALLBACK);
+            AppCenterHelper.SetupAppCenter();
 
             // Perform app update tasks if necessary:
             await AppUpdateHelper.OnAppStartAsync();
@@ -262,8 +259,6 @@ namespace UWPX_UI.Pages
             }
             else if (ACTIVATION_ARGS is LaunchActivatedEventArgs launchActivationArgs)
             {
-                Microsoft.AppCenter.Push.Push.CheckLaunchedFromNotification(launchActivationArgs);
-
                 // If launched with arguments (not a normal primary tile/applist launch)
                 if (launchActivationArgs.Arguments.Length > 0)
                 {

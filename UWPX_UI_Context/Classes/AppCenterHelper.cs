@@ -2,10 +2,10 @@
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using Logging;
-using Microsoft.AppCenter;
 using Microsoft.AppCenter.Analytics;
 using Microsoft.AppCenter.Crashes;
 #if !DEBUG
+using Microsoft.AppCenter;
 using Storage.Classes;
 #endif
 
@@ -65,9 +65,9 @@ namespace UWPX_UI_Context.Classes
         //--------------------------------------------------------Misc Methods:---------------------------------------------------------------\\
         #region --Misc Methods (Public)--
         /// <summary>
-        /// Sets up App Center crash, analytics and push support.
+        /// Sets up App Center crash and analytics support.
         /// </summary>
-        public static void SetupAppCenter(EventHandler<Microsoft.AppCenter.Push.PushNotificationReceivedEventArgs> appCenterPushCallback)
+        public static void SetupAppCenter()
         {
             try
             {
@@ -85,15 +85,7 @@ namespace UWPX_UI_Context.Classes
                     Analytics.SetEnabledAsync(false);
                     Logger.Info("AppCenter analytics are disabled.");
                 }
-                // Only enable push for debug builds:
-                AppCenter.Start(APP_CENTER_SECRET, typeof(Microsoft.AppCenter.Push.Push));
 #endif
-
-                if (!AppCenter.Configured)
-                {
-                    Microsoft.AppCenter.Push.Push.PushNotificationReceived -= appCenterPushCallback;
-                    Microsoft.AppCenter.Push.Push.PushNotificationReceived += appCenterPushCallback;
-                }
             }
             catch (Exception e)
             {
@@ -101,7 +93,6 @@ namespace UWPX_UI_Context.Classes
                 throw e;
             }
             Logger.Info("App Center crash reporting registered.");
-            Logger.Info("App Center push registered.");
         }
 
         #endregion
