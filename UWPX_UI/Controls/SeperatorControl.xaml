@@ -11,13 +11,14 @@
             <RowDefinition Height="*"/>
         </Grid.RowDefinitions>
         <TextBlock x:Name="text_tbx"
+                   Grid.Row="0"
                    Margin="10,10,0,2"
-                   Foreground="{ThemeResource TextControlBorderBrush}"
+                   Foreground="{ThemeResource CaptionTextBrush}"
                    Text="{x:Bind Text, Mode=OneWay}"
                    Visibility="{x:Bind Text, Converter={StaticResource StringEmptyVisibilityValueConverter}, Mode=OneWay}"/>
         <Line Grid.Row="1"
               Stretch="UniformToFill"
-              Stroke="{ThemeResource TextControlBorderBrush}"
+              Stroke="{ThemeResource CaptionTextBrush}"
               StrokeThickness="1"
               X1="0"
               X2="1"
