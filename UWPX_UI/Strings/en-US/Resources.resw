@@ -357,7 +357,8 @@ So if you have the ability to make SEPA bank transfers at a low cost (for exampl
     <value>http://git.uwpx.org</value>
   </data>
   <data name="InitialStartDialog_analytics_markdown.Text" xml:space="preserve">
-    <value># Crash Reporting and Analytics</value>
+    <value># Crash Reporting and Analytics
+This can be changed later at any time in the settings.</value>
   </data>
   <data name="InitialStartDialog_welcome_markdown.Text" xml:space="preserve">
     <value># Welcome
