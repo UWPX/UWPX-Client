@@ -189,10 +189,10 @@ namespace Push_BackgroundTask.Classes
             }
 
             // Check if the account is enabled:
-            // if (!account.enabled)
-            // {
-            //     Logger.Info($"Received a push notification for a deactivated account ('{account.bareJid}'). Dropping it.");
-            // }
+            if (!account.enabled)
+            {
+                Logger.Info($"Received a push notification for a deactivated account ('{account.bareJid}'). Dropping it.");
+            }
 
             // Validate sender:
             string from = GetValue(doc.Root, "last-message-sender");
