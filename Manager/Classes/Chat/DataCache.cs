@@ -312,32 +312,44 @@ namespace Manager.Classes.Chat
             // Update the cache:
             if (initialized)
             {
+                bool isSelectedChat = !(SelectedChat is null) && SelectedChat.Chat.id == chat.id;
+                ChatDataTemplate chatTemplate;
+
                 CHATS_SEMA.Wait();
-                if (!(SelectedChat is null) && SelectedChat.Chat.id == chat.id)
+                if (isSelectedChat)
                 {
                     CHATS_MESSAGES_SEMA.Wait();
                     CHAT_MESSAGES.Add(new ChatMessageDataTemplate(msg, chat));
                     CHATS_MESSAGES_SEMA.Release();
-                }
-
-                ChatDataTemplate chatTemplate = CHATS.GetChat(chat.id);
-                if (chatTemplate.LastMsg is null || chatTemplate.LastMsg.date.CompareTo(msg.date) < 0)
-                {
-                    chatTemplate.LastMsg = msg;
+                    chatTemplate = SelectedChat;
 
                     if (msg.state == MessageState.UNREAD)
                     {
                         msg.state = MessageState.READ;
+                        msg.Update();
                     }
                 }
+                else
+                {
+                    chatTemplate = CHATS.GetChat(chat.id);
+                }
 
-                if (msg.state == MessageState.UNREAD && SelectedChat != chatTemplate)
+                if (chatTemplate.LastMsg is null || chatTemplate.LastMsg.date.CompareTo(msg.date) < 0)
+                {
+                    chatTemplate.LastMsg = msg;
+                }
+
+                if (isSelectedChat && msg.state == MessageState.UNREAD)
                 {
                     chatTemplate.UnreadCount++;
                 }
-                else if (SelectedChat == chatTemplate)
+                else if (isSelectedChat)
                 {
                     SelectedChat.UnreadCount = 0;
+                }
+                else
+                {
+                    chatTemplate.UpdateUnreadCount();
                 }
                 CHATS_SEMA.Release();
             }

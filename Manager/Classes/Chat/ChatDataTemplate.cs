@@ -60,6 +60,7 @@ namespace Manager.Classes.Chat
             Client = client;
             Image = image;
             CHAT_STATE_HELPER = new ChatStateHelper(chat, client);
+            UpdateUnreadCount();
         }
 
         #endregion
