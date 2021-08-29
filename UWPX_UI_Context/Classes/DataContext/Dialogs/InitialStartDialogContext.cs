@@ -1,4 +1,5 @@
-﻿using UWPX_UI_Context.Classes.DataTemplates.Dialogs;
+﻿using Storage.Classes;
+using UWPX_UI_Context.Classes.DataTemplates.Dialogs;
 
 namespace UWPX_UI_Context.Classes.DataContext.Dialogs
 {
@@ -11,7 +12,10 @@ namespace UWPX_UI_Context.Classes.DataContext.Dialogs
         #endregion
         //--------------------------------------------------------Constructor:----------------------------------------------------------------\\
         #region --Constructors--
-
+        public InitialStartDialogContext()
+        {
+            LoadSettings();
+        }
 
         #endregion
         //--------------------------------------------------------Set-, Get- Methods:---------------------------------------------------------\\
@@ -21,7 +25,13 @@ namespace UWPX_UI_Context.Classes.DataContext.Dialogs
         #endregion
         //--------------------------------------------------------Misc Methods:---------------------------------------------------------------\\
         #region --Misc Methods (Public)--
-
+        private void LoadSettings()
+        {
+            MODEL.ShowOnStartup = !Settings.GetSettingBoolean(SettingsConsts.HIDE_INITIAL_START_DIALOG_ALPHA);
+            MODEL.Analytics = !Settings.GetSettingBoolean(SettingsConsts.DISABLE_ANALYTICS);
+            MODEL.CrashReports = !Settings.GetSettingBoolean(SettingsConsts.DISABLE_CRASH_REPORTING);
+            MODEL.AutomaticExtendedCrashReports = Settings.GetSettingBoolean(SettingsConsts.ALWAYS_REPORT_CRASHES_WITHOUT_ASKING);
+        }
 
         #endregion
 

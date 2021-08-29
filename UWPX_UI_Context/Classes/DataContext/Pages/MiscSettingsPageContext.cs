@@ -29,37 +29,37 @@ namespace UWPX_UI_Context.Classes.DataContext.Pages
         #region --Misc Methods (Public)--
         public async Task ShowAnalyticsCrashesMoreInformationAsync()
         {
-            await UiUtils.LaunchUriAsync(new Uri("https://github.com/UWPX/UWPX-Client/blob/master/PRIVACY_POLICY.md#crash-reporting"));
+            await UiUtils.LaunchUriAsync(new Uri(Localisation.GetLocalizedString("PrivacyPolicyCrashReportingUrl")));
         }
 
         public async Task ShowLicenceAsync()
         {
-            await UiUtils.LaunchUriAsync(new Uri("https://github.com/UWPX/UWPX-Client/blob/master/LICENSE"));
+            await UiUtils.LaunchUriAsync(new Uri(Localisation.GetLocalizedString("LicenceUrl")));
         }
 
         public async Task ShowPrivacyPolicy()
         {
-            await UiUtils.LaunchUriAsync(new Uri("https://github.com/UWPX/UWPX-Client/blob/master/PRIVACY_POLICY.md"));
+            await UiUtils.LaunchUriAsync(new Uri(Localisation.GetLocalizedString("PrivacyPolicyUrl")));
         }
 
         public async Task ViewOnGithubAsync()
         {
-            await UiUtils.LaunchUriAsync(new Uri("http://git.uwpx.org"));
+            await UiUtils.LaunchUriAsync(new Uri(Localisation.GetLocalizedString("GitHubUrl")));
         }
 
         public async Task ViewCreditsAsync()
         {
-            await UiUtils.LaunchUriAsync(new Uri("https://uwpx.org/about/"));
+            await UiUtils.LaunchUriAsync(new Uri(Localisation.GetLocalizedString("CreditsUrl")));
         }
 
         public async Task ReportBugAsync()
         {
-            await UiUtils.LaunchUriAsync(new Uri("https://github.com/UWPX/UWPX-Client/issues"));
+            await UiUtils.LaunchUriAsync(new Uri(Localisation.GetLocalizedString("BugReportUrl")));
         }
 
         public async Task GiveFeedbackAsync()
         {
-            await UiUtils.LaunchUriAsync(new Uri("https://github.com/UWPX/UWPX-Client/issues"));
+            await UiUtils.LaunchUriAsync(new Uri(Localisation.GetLocalizedString("FeedbackUrl")));
         }
 
         public async Task OpenAppDataFolderAsync()

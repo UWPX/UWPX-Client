@@ -134,6 +134,9 @@ Push notifications are disabled.</value>
   <data name="AddAccountPage_resource_tooltip.Text" xml:space="preserve">
     <value>It's recommend to choose a name that doesn't give others too much information about you and your device, since it will be public.</value>
   </data>
+  <data name="BugReportUrl" xml:space="preserve">
+    <value>https://github.com/UWPX/UWPX-Client/issues</value>
+  </data>
   <data name="ChatSettingsPage_account_color_tooltip.Text" xml:space="preserve">
     <value>**Auto**  
 Shows the account color if you have multiple accounts.
@@ -328,6 +331,9 @@ Also special thanks to all the Alpha (and hopefully soon Beta) testers that repo
     <value>* [**Microsoft.UI.Xaml**](https://github.com/Microsoft/microsoft-ui-xaml) Provides backward-compatible implementations of the default Microsoft UWP XAML UI platform for Windows 10.
 * [**Windows Community Toolkit**](https://github.com/Microsoft/WindowsCommunityToolkit) They provide an awesome collection of helper functions, custom controls and app services.</value>
   </data>
+  <data name="CreditsUrl" xml:space="preserve">
+    <value>https://uwpx.org/about/</value>
+  </data>
   <data name="DebugSettingsPage_tcp_timeout_tooltip.Text" xml:space="preserve">
     <value>Requires an app restart to work.</value>
   </data>
@@ -344,9 +350,18 @@ So if you have the ability to make SEPA bank transfers at a low cost (for exampl
   <data name="DonateSettingsPage_bank_details2.Text" xml:space="preserve">
     <value>Never the less PayPal donations are still very much appreciated!</value>
   </data>
-  <data name="InitialStartDialog_markdown.Text" xml:space="preserve">
-    <value>Thanks for downloading and supporting the development!  
-Don't forget this app is still in **Alpha**, so expect regular crashes and unexpected behavior!.  
+  <data name="FeedbackUrl" xml:space="preserve">
+    <value>https://github.com/UWPX/UWPX-Client/issues</value>
+  </data>
+  <data name="GitHubUrl" xml:space="preserve">
+    <value>http://git.uwpx.org</value>
+  </data>
+  <data name="InitialStartDialog_analytics_markdown.Text" xml:space="preserve">
+    <value># Crash Reporting and Analytics</value>
+  </data>
+  <data name="InitialStartDialog_welcome_markdown.Text" xml:space="preserve">
+    <value># Welcome
+Don't forget this app is still in **Beta**, so expect unexpected behavior sometimes!  
 If you encounter **ANY** unexpected behavior please report it here:
 
 * [Issue Tracker](https://github.com/UWPX/UWPX-Client/issues)
@@ -357,6 +372,9 @@ For more up to date information visit:
 * [Website](https://uwpx.org/)
 * [Twitter](https://twitter.com/uwpx_app)</value>
   </data>
+  <data name="LicenceUrl" xml:space="preserve">
+    <value>https://github.com/UWPX/UWPX-Client/blob/master/LICENSE</value>
+  </data>
   <data name="MiscSettingsPage_automated_crash_reports_tooltip.Text" xml:space="preserve">
     <value>**On**  
 Do not show the report "Something went wrong..." crash dialog, in case we cought an exception. Just report it.
@@ -366,6 +384,12 @@ In case we cought a crash, you will receive a dialog informing you about the cra
   </data>
   <data name="PersonalizeSettingsPage_change_theme_tooltip.Text" xml:space="preserve">
     <value>Requires an app restart to work properly once changed.</value>
+  </data>
+  <data name="PrivacyPolicyCrashReportingUrl" xml:space="preserve">
+    <value>https://github.com/UWPX/UWPX-Client/blob/master/PRIVACY_POLICY.md#crash-reporting</value>
+  </data>
+  <data name="PrivacyPolicyUrl" xml:space="preserve">
+    <value>https://github.com/UWPX/UWPX-Client/blob/master/PRIVACY_POLICY.md</value>
   </data>
   <data name="RegisterIoTDevicePage_qr_code_scanner.QrCodeResultFilterRegex" xml:space="preserve">
     <value>(xmpp)\:(iot-register)\?(mac)=(([0-9A-Fa-f]{2}[:-]){5}([0-9A-Fa-f]{2}))&amp;(algo)=([0-9a-z-]+)&amp;(key)=(.+)</value>
