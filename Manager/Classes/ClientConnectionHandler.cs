@@ -364,10 +364,10 @@ namespace Manager.Classes
             using (SemaLock semaLock = DataCache.INSTANCE.NewChatSemaLock())
             {
                 chats = DataCache.INSTANCE.GetChats(client.dbAccount.bareJid, semaLock);
-            }
-            foreach (ChatModel chat in chats)
-            {
-                chat.presence = Presence.Unavailable;
+                foreach (ChatModel chat in chats)
+                {
+                    chat.presence = Presence.Unavailable;
+                }
             }
             using (MainDbContext ctx = new MainDbContext())
             {
