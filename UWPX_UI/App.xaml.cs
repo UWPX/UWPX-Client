@@ -20,6 +20,7 @@ using UWPX_UI.Pages;
 using UWPX_UI_Context.Classes;
 using Windows.ApplicationModel;
 using Windows.ApplicationModel.Activation;
+using Windows.ApplicationModel.AppService;
 using Windows.ApplicationModel.Background;
 using Windows.Foundation.Collections;
 using Windows.UI.Notifications;
@@ -231,6 +232,19 @@ namespace UWPX_UI
         #region --Misc Methods (Protected)--
         protected override async void OnBackgroundActivated(BackgroundActivatedEventArgs args)
         {
+            base.OnBackgroundActivated(args);
+
+            if (args.TaskInstance.TriggerDetails is AppServiceTriggerDetails appServiceTriggerDetails)
+            {
+                Logger.Info("App service background activation.");
+                BackgroundTaskDeferral appServiceDeferral = args.TaskInstance.GetDeferral();
+                args.TaskInstance.Canceled += (IBackgroundTaskInstance sender, BackgroundTaskCancellationReason reason) => appServiceDeferral.Complete();
+                AppServiceConnection appServiceConnection = appServiceTriggerDetails.AppServiceConnection;
+                appServiceConnection.ServiceClosed += (AppServiceConnection sender, AppServiceClosedEventArgs args) => appServiceDeferral.Complete();
+                appServiceConnection.RequestReceived += OnAppServiceRequestReceived;
+                return;
+            }
+
             BackgroundTaskDeferral deferral = args.TaskInstance.GetDeferral();
 
             switch (args.TaskInstance.Task.Name)
@@ -397,6 +411,48 @@ namespace UWPX_UI
                     Settings.SetSetting(SettingsConsts.ALWAYS_REPORT_CRASHES_WITHOUT_ASKING, true);
                 }
             }
+        }
+
+        private async void OnAppServiceRequestReceived(AppServiceConnection sender, AppServiceRequestReceivedEventArgs args)
+        {
+            AppServiceDeferral msgDeferral = args.GetDeferral();
+            ValueSet msg = args.Request.Message;
+            try
+            {
+                string request = msg["request"] as string;
+
+                ValueSet response = new();
+                bool validRequest = true;
+                switch (request)
+                {
+                    case "is_running":
+                        response.Add("response", isRunning ? "true" : "false");
+                        break;
+
+                    case "is_connected":
+                        string bareJid = msg["bare_jid"] as string;
+                        Client client = ConnectionHandler.INSTANCE.GetClient(bareJid)?.client;
+                        bool connected = (client is not null) && client.xmppClient.isConnected();
+                        response.Add("response", connected ? "true" : "false");
+                        break;
+
+                    default:
+                        Logger.Warn($"Unknown app service request '{request}' received!");
+                        validRequest = false;
+                        break;
+                }
+
+                if (validRequest)
+                {
+                    _ = await args.Request.SendResponseAsync(response);
+                }
+            }
+            catch (Exception e)
+            {
+                Logger.Error("Processing the app service request failed.", e);
+            }
+
+            msgDeferral.Complete();
         }
 
         #endregion

@@ -249,7 +249,7 @@ namespace Manager.Classes.Toast
                 },
                 Actions = null,
                 DisplayTimestamp = DateTime.Now,
-                Launch = new ChatToastActivation(chat.id, -1).Generate()
+                Launch = new ChatToastActivation(chat.id, -1).Generate(),
             };
 
             PopToast(toastContent, chat);

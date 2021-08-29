@@ -33,6 +33,9 @@
             <uap:DisplayName>XMPP</uap:DisplayName>
           </uap:Protocol>
         </uap:Extension>
+        <uap:Extension Category="windows.appService">
+          <uap:AppService Name="uwpx.status" />
+        </uap:Extension>
         <Extension Category="windows.backgroundTasks" EntryPoint="Push_BackgroundTask.Classes.PushBackgroundTask">
           <BackgroundTasks>
             <Task Type="pushNotification"/>
