@@ -1,6 +1,6 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Package xmlns="http://schemas.microsoft.com/appx/manifest/foundation/windows10" xmlns:mp="http://schemas.microsoft.com/appx/2014/phone/manifest" xmlns:uap="http://schemas.microsoft.com/appx/manifest/uap/windows10" xmlns:iot="http://schemas.microsoft.com/appx/manifest/iot/windows10" IgnorableNamespaces="uap mp iot">
-  <Identity Name="790FabianSauter.UWPX" Publisher="CN=8AFEBA0F-E085-403B-A05B-71A8952F40A3" Version="0.34.0.0" />
+  <Identity Name="790FabianSauter.UWPX" Publisher="CN=8AFEBA0F-E085-403B-A05B-71A8952F40A3" Version="0.35.0.0" />
   <mp:PhoneIdentity PhoneProductId="97ac2b8f-0445-43ed-955d-628a4438d59d" PhonePublisherId="00000000-0000-0000-0000-000000000000" />
   <Properties>
     <DisplayName>UWPX</DisplayName>
