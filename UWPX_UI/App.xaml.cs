@@ -252,7 +252,7 @@ namespace UWPX_UI
                         }
                         else if (abstractToastActivation is MarkChatAsReadToastActivation markChatAsRead)
                         {
-                            ToastHelper.RemoveToastGroup(markChatAsRead.CHAT_ID.ToString());
+                            ToastHelper.RemoveToastGroup(ToastHelper.GetChatToastGroup(markChatAsRead.CHAT_ID.ToString()));
                             DataCache.INSTANCE.MarkAllChatMessagesAsRead(markChatAsRead.CHAT_ID);
                         }
                         else if (abstractToastActivation is MarkMessageAsReadToastActivation markMessageAsRead)
@@ -273,8 +273,6 @@ namespace UWPX_UI
                             }
                             DataCache.INSTANCE.MarkChatMessageAsRead(sendReply.CHAT_ID, sendReply.CHAT_MESSAGE_ID);
                         }
-
-                        ToastHelper.UpdateBadgeNumber();
                     }
                     break;
 
@@ -319,6 +317,10 @@ namespace UWPX_UI
 
             // Actually initializing the push manager will happen later in extended splash screen once all clients are loaded:
             SubscribeToPushManagerEvents();
+
+            // Remove toasts:
+            ToastHelper.RemoveToastGroup(ToastHelper.WILL_BE_SEND_LATER_TOAST_GROUP);
+            ToastHelper.RemoveChatToastGroups();
         }
 
         private void OnNavigationFailed(object sender, NavigationFailedEventArgs e)

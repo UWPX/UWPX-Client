@@ -184,12 +184,17 @@ namespace Push_BackgroundTask.Classes
             if (chat is null)
             {
                 ToastHelper.ShowPushChatTextToast(body, bareJid);
+                ToastHelper.IncBadgeCount();
+            }
+            else if (!chat.muted)
+            {
+                ToastHelper.ShowPushChatTextToast(body, chat);
+                ToastHelper.IncBadgeCount();
             }
             else
             {
-                ToastHelper.ShowPushChatTextToast(body, chat);
+                Logger.Debug("Muted chat. Discarding push.");
             }
-            ToastHelper.SetBadgeNewMessages(true);
         }
 
         #endregion

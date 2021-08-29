@@ -165,6 +165,11 @@ namespace Manager.Classes.Push
         private async Task DisablePushAsync()
         {
             PushAccountModel push = CLIENT.dbAccount.push;
+            if (string.IsNullOrEmpty(push.bareJid))
+            {
+                Logger.Info("No need to disable push. Has never been activated on this device (push bare JID is null).");
+                return;
+            }
 
             MessageResponseHelperResult<IQMessage> result = await CLIENT.xmppClient.GENERAL_COMMAND_HELPER.disablePushNotificationsAsync(push.bareJid);
             if (result.STATE == MessageResponseHelperResultState.SUCCESS)

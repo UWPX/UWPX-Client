@@ -301,9 +301,6 @@ namespace Manager.Classes
                                     {
                                         ToastHelper.ShowChatTextToast(message, chat);
                                     }
-
-                                    // Update badge notification count:
-                                    ToastHelper.UpdateBadgeNumber();
                                 }
                                 break;
 

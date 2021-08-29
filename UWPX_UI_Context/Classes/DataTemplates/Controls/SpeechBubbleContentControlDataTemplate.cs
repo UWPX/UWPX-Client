@@ -1,6 +1,5 @@
 ﻿using System.Threading.Tasks;
 using Manager.Classes.Chat;
-using Manager.Classes.Toast;
 using Shared.Classes;
 using Storage.Classes.Models.Chat;
 
@@ -30,11 +29,7 @@ namespace UWPX_UI_Context.Classes.DataTemplates.Controls
             if (SetProperty(ref _Message, value, nameof(Message)) && !(value is null) && value.Message.state == MessageState.UNREAD)
             {
                 value.Message.state = MessageState.READ;
-                Task.Run(() =>
-                {
-                    value.Message.Update();
-                    ToastHelper.UpdateBadgeNumber();
-                });
+                Task.Run(() => value.Message.Update());
             }
         }
 

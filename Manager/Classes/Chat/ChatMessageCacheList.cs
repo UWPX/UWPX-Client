@@ -128,7 +128,7 @@ namespace Manager.Classes.Chat
             List<ChatMessageDataTemplate> msgs = await loadMoreMessagesTask;
             if (!loadMoreMessagesToken.IsCancellationRequested && msgs.Count > 0)
             {
-                ToastHelper.RemoveToastGroup(chat.Chat.id.ToString());
+                ToastHelper.RemoveToastGroup(ToastHelper.GetChatToastGroup(chat.Chat.id.ToString()));
                 foreach (ChatMessageDataTemplate msg in msgs)
                 {
                     InsertSorted(msg);

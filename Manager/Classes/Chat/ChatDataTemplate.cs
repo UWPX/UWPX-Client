@@ -2,7 +2,6 @@
 using System.ComponentModel;
 using System.Linq;
 using System.Threading.Tasks;
-using Manager.Classes.Toast;
 using Shared.Classes;
 using Storage.Classes.Contexts;
 using Storage.Classes.Models.Chat;
@@ -121,7 +120,6 @@ namespace Manager.Classes.Chat
                 DataCache.INSTANCE.MarkAllChatMessagesAsRead(Chat.id);
                 UpdateUnreadCount();
                 LoadLastMsg();
-                ToastHelper.UpdateBadgeNumber();
             });
         }
 

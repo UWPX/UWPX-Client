@@ -1,16 +1,16 @@
 ﻿using System;
+using System.Collections.Generic;
 using Logging;
 using Microsoft.Toolkit.Uwp.Notifications;
 using Shared.Classes;
 using Storage.Classes;
-using Storage.Classes.Contexts;
 using Storage.Classes.Models.Chat;
 using Windows.Data.Xml.Dom;
 using Windows.UI.Notifications;
 
 namespace Manager.Classes.Toast
 {
-    public class ToastHelper
+    public static class ToastHelper
     {
         //--------------------------------------------------------Attributes:-----------------------------------------------------------------\\
         #region --Attributes--
@@ -20,6 +20,7 @@ namespace Manager.Classes.Toast
         private const string SEND_BUTTON_ENCRYPTED_IMAGE_PATH = "Assets/Images/send_encrypted.png";
         public const string TEXT_BOX_ID = "msg_tbx";
         public const string WILL_BE_SEND_LATER_TOAST_GROUP = "will_be_send_later";
+        public const string CHAT_GROUP_PREFIX = "CHAT_";
 
         private static readonly TimeSpan VIBRATE_TS = TimeSpan.FromMilliseconds(150);
         private static readonly TimeSpan VIBRATE_TIMEOUT_TS = TimeSpan.FromSeconds(3);
@@ -42,14 +43,36 @@ namespace Manager.Classes.Toast
         #endregion
         //--------------------------------------------------------Set-, Get- Methods:---------------------------------------------------------\\
         #region --Set-, Get- Methods--
-        public static void SetBadgeNewMessages(bool newMessages)
+        public static string GetChatToastGroup(string chatId)
+        {
+            return CHAT_GROUP_PREFIX + chatId;
+        }
+
+        #endregion
+        //--------------------------------------------------------Misc Methods:---------------------------------------------------------------\\
+        #region --Misc Methods (Public)--
+        public static void IncBadgeCount()
         {
             // Get the blank badge XML payload for a badge number
             XmlDocument badgeXml = BadgeUpdateManager.GetTemplateContent(BadgeTemplateType.BadgeNumber);
 
             // Set the value of the badge in the XML to our number
             XmlElement badgeElement = badgeXml.SelectSingleNode("/badge") as XmlElement;
-            badgeElement.SetAttribute("value", newMessages ? "newMessage" : "none");
+            string value = null;
+            try
+            {
+                value = badgeElement.GetAttribute("value");
+            }
+            catch (Exception) { Logger.Debug("Failed to retrieve badge count value node."); }
+
+            if (int.TryParse(value, out int count))
+            {
+                badgeElement.SetAttribute("value", (count + 1).ToString());
+            }
+            else
+            {
+                badgeElement.SetAttribute("value", "1");
+            }
 
             // Create the badge notification
             BadgeNotification badge = new BadgeNotification(badgeXml);
@@ -61,12 +84,45 @@ namespace Manager.Classes.Toast
             badgeUpdater.Update(badge);
         }
 
-        #endregion
-        //--------------------------------------------------------Misc Methods:---------------------------------------------------------------\\
-        #region --Misc Methods (Public)--
+        public static void ResetBadgeCount()
+        {
+            // Get the blank badge XML payload for a badge number
+            XmlDocument badgeXml = BadgeUpdateManager.GetTemplateContent(BadgeTemplateType.BadgeNumber);
+
+            // Set the value of the badge in the XML to our number
+            XmlElement badgeElement = badgeXml.SelectSingleNode("/badge") as XmlElement;
+            badgeElement.SetAttribute("value", "none");
+
+            // Create the badge notification
+            BadgeNotification badge = new BadgeNotification(badgeXml);
+
+            // Create the badge updater for the application
+            BadgeUpdater badgeUpdater = BadgeUpdateManager.CreateBadgeUpdaterForApplication();
+
+            // And update the badge
+            badgeUpdater.Update(badge);
+        }
+
         public static void RemoveToastGroup(string group)
         {
             ToastNotificationManager.History.RemoveGroup(group);
+        }
+
+        public static void RemoveChatToastGroups()
+        {
+            HashSet<string> groups = new HashSet<string>();
+            foreach (ToastNotification toast in ToastNotificationManager.History.GetHistory())
+            {
+                if (toast.Group.StartsWith(CHAT_GROUP_PREFIX))
+                {
+                    groups.Add(toast.Group);
+                }
+            }
+
+            foreach (string group in groups)
+            {
+                RemoveToastGroup(group);
+            }
         }
 
         public static void ShowWillBeSendLaterToast(ChatModel chat)
@@ -238,16 +294,6 @@ namespace Manager.Classes.Toast
             PopToast(toastContent, chat);
         }
 
-        public static void UpdateBadgeNumber()
-        {
-            bool newMessages;
-            using (MainDbContext ctx = new MainDbContext())
-            {
-                newMessages = ctx.GetUnreadMessageCount() > 0;
-            }
-            SetBadgeNewMessages(newMessages);
-        }
-
         public static void ShowSimpleToast(string text)
         {
             ToastContent toastContent = new ToastContent
@@ -283,7 +329,7 @@ namespace Manager.Classes.Toast
 
         private static void PopToast(ToastContent content, ChatModel chat)
         {
-            PopToast(content, chat, chat.id.ToString());
+            PopToast(content, chat, GetChatToastGroup(chat.id.ToString()));
         }
 
         private static void PopToast(ToastContent content, ChatModel chat, string group)

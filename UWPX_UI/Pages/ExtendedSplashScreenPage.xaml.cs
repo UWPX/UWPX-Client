@@ -175,11 +175,12 @@ namespace UWPX_UI.Pages
             // Initialize push:
             PushManager.INSTANCE.Init();
 
-            // Remove the messages will be send later toasts:
+            // Remove toasts:
             ToastHelper.RemoveToastGroup(ToastHelper.WILL_BE_SEND_LATER_TOAST_GROUP);
+            ToastHelper.RemoveChatToastGroups();
 
             // Update badge notification count:
-            ToastHelper.UpdateBadgeNumber();
+            ToastHelper.ResetBadgeCount();
 
             // Show initial start dialog:
             if (!Storage.Classes.Settings.GetSettingBoolean(SettingsConsts.HIDE_INITIAL_START_DIALOG_ALPHA))
@@ -300,9 +301,6 @@ namespace UWPX_UI.Pages
         private void ExtendedSplashScreenPage_Loaded(object sender, RoutedEventArgs e)
         {
             Loaded -= ExtendedSplashScreenPage_Loaded;
-
-            // Update badge notification count:
-            ToastHelper.UpdateBadgeNumber();
 
             EvaluateActivationArgs();
         }
