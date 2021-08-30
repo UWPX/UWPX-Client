@@ -27,7 +27,7 @@ namespace UWPX_UI_Context.Classes.DataContext.Dialogs
         #region --Misc Methods (Public)--
         private void LoadSettings()
         {
-            MODEL.ShowOnStartup = !Settings.GetSettingBoolean(SettingsConsts.HIDE_INITIAL_START_DIALOG_ALPHA);
+            MODEL.ShowOnStartup = !Settings.GetSettingBoolean(SettingsConsts.HIDE_WELCOME_DIALOG);
             MODEL.Analytics = !Settings.GetSettingBoolean(SettingsConsts.DISABLE_ANALYTICS);
             MODEL.CrashReports = !Settings.GetSettingBoolean(SettingsConsts.DISABLE_CRASH_REPORTING);
             MODEL.AutomaticExtendedCrashReports = Settings.GetSettingBoolean(SettingsConsts.ALWAYS_REPORT_CRASHES_WITHOUT_ASKING);

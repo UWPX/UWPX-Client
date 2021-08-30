@@ -410,9 +410,11 @@ For more providers have a look at:
 You can disable this again by changing `Settings` -&gt; `Misc` -&gt; `Automatic extended crash reports` to false.</value>
   </data>
   <data name="WhatsNewDialog_markdown.Text" xml:space="preserve">
-    <value>[August 2021] Beta Preparations
-This release focuses on fixing bugs, so we are on track for releasing the first beta 🎉 of UWPX next month (ETA 01.09.2021).
-Besides that, it fixes and enhances the [XEP-0085](https://xmpp.org/extensions/xep-0085.html) (Chat State Notifications) integration with a brand-new typing indicator and updated activity indicators.
+    <value># [September 2021] Beta and Push 📨🎉
+It has been done. The first beta release of UWPX is out, and it's packed full of features.
+After just 1451 days (3 Years, 11 Months and 21 Days) in development, UWPX finally has a stable [push server](https://github.com/UWPX/UWPX-Push-Server) up and running!
+Now, even if you close the app, you still receive push notifications 🎉.
+Besides that, I reworked and fixed the unread counter for messages and added a new welcome dialog.
 
 **Please report bugs [here](https://github.com/UWPX/UWPX-Client/issues)!**
 
@@ -426,15 +428,10 @@ Follow [@UWPX_APP](https://twitter.com/UWPX_APP) on ![Twitter](http://i.imgur.co
 * Removing a chat does not perform cascade deletion [#151](https://github.com/UWPX/UWPX-Client/issues/151)
 
 ### Changes
-* Added a typing indicator.
-* Changed: Using B-tier providers as suggestion instead of C-tier ones for registration suggestions.
-* Fixed: Going back to register page after login.
-* Fixed: Marking chat messages as read when at the bottom.
-* Fixed: Typing indicator for XEP-0085 chat states.
-* Fixed: Not publishing the OMEMO bundle on each start.
-* Fixed: Parsing nodes with null as attributes (Text nodes).
-* Fixed: Loading accounts when initializing push.
+* Added push support.
+* Added a new welcome dialog.
+* Fixed the unread notifications and counter.
 
-**Continue reading on [GitHub](https://github.com/UWPX/UWPX-Client/releases/tag/v.0.34.0.0).**</value>
+**Continue reading on [GitHub](https://github.com/UWPX/UWPX-Client/releases/tag/v.0.35.0.0).**</value>
   </data>
 </root>

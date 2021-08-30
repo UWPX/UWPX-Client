@@ -13,7 +13,7 @@ namespace UWPX_UI_Context.Classes.DataTemplates.Dialogs
         public bool ShowOnStartup
         {
             get => _ShowOnStartup;
-            set => SetBoolInvertedProperty(ref _ShowOnStartup, value, SettingsConsts.HIDE_INITIAL_START_DIALOG_ALPHA);
+            set => SetBoolInvertedProperty(ref _ShowOnStartup, value, SettingsConsts.HIDE_WELCOME_DIALOG);
         }
 
         private bool _Analytics;
@@ -49,7 +49,7 @@ namespace UWPX_UI_Context.Classes.DataTemplates.Dialogs
         {
             if (SetProperty(ref _ShowOnStartup, value, nameof(ShowOnStartup)))
             {
-                Settings.SetSetting(SettingsConsts.HIDE_INITIAL_START_DIALOG_ALPHA, !value);
+                Settings.SetSetting(SettingsConsts.HIDE_WELCOME_DIALOG, !value);
             }
         }
 

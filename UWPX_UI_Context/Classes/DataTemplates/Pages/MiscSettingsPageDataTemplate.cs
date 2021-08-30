@@ -34,7 +34,7 @@ namespace UWPX_UI_Context.Classes.DataTemplates.Pages
         public bool ShowWelcomeDialogOnStartup
         {
             get => _ShowWelcomeDialogOnStartup;
-            set => SetBoolInvertedProperty(ref _ShowWelcomeDialogOnStartup, value, SettingsConsts.HIDE_INITIAL_START_DIALOG_ALPHA);
+            set => SetBoolInvertedProperty(ref _ShowWelcomeDialogOnStartup, value, SettingsConsts.HIDE_WELCOME_DIALOG);
         }
         private bool _ShowWhatsNewDialogOnStartup;
         public bool ShowWhatsNewDialogOnStartup
@@ -124,7 +124,7 @@ namespace UWPX_UI_Context.Classes.DataTemplates.Pages
             Analytics = !Settings.GetSettingBoolean(SettingsConsts.DISABLE_ANALYTICS);
             CrashReports = !Settings.GetSettingBoolean(SettingsConsts.DISABLE_CRASH_REPORTING);
             AutomaticExtendedCrashReports = Settings.GetSettingBoolean(SettingsConsts.ALWAYS_REPORT_CRASHES_WITHOUT_ASKING);
-            ShowWelcomeDialogOnStartup = !Settings.GetSettingBoolean(SettingsConsts.HIDE_INITIAL_START_DIALOG_ALPHA);
+            ShowWelcomeDialogOnStartup = !Settings.GetSettingBoolean(SettingsConsts.HIDE_WELCOME_DIALOG);
             ShowWhatsNewDialogOnStartup = !Settings.GetSettingBoolean(SettingsConsts.HIDE_WHATS_NEW_DIALOG);
             IsRunningOnPc = DeviceFamilyHelper.IsRunningOnDesktopDevice();
 

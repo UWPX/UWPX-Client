@@ -182,8 +182,8 @@ namespace UWPX_UI.Pages
             // Update badge notification count:
             ToastHelper.ResetBadgeCount();
 
-            // Show initial start dialog:
-            if (!Storage.Classes.Settings.GetSettingBoolean(SettingsConsts.HIDE_INITIAL_START_DIALOG_ALPHA))
+            // Show welcome dialog:
+            if (!Storage.Classes.Settings.GetSettingBoolean(SettingsConsts.HIDE_WELCOME_DIALOG))
             {
                 InitialStartDialog initialStartDialog = new InitialStartDialog();
                 await UiUtils.ShowDialogAsync(initialStartDialog);
