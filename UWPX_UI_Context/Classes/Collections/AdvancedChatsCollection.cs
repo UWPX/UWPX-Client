@@ -120,9 +120,10 @@ namespace UWPX_UI_Context.Classes.Collections
             deferNotifyCollectionChanged = false;
             if (oldIndex != newIndex)
             {
-                OnCollectionChanged(new NotifyCollectionChangedEventArgs(NotifyCollectionChangedAction.Remove, chat, oldIndex));
-                OnCollectionChanged(new NotifyCollectionChangedEventArgs(NotifyCollectionChangedAction.Add, chat, newIndex));
-                // OnCollectionChanged(new NotifyCollectionChangedEventArgs(NotifyCollectionChangedAction.Move, chat, newIndex, oldIndex));
+                // OnCollectionChanged(new NotifyCollectionChangedEventArgs(NotifyCollectionChangedAction.Remove, chat, oldIndex));
+                // OnCollectionChanged(new NotifyCollectionChangedEventArgs(NotifyCollectionChangedAction.Add, chat, newIndex));
+                // Lets the screen flicker, since this results in a rest of the chat list:
+                OnCollectionChanged(new NotifyCollectionChangedEventArgs(NotifyCollectionChangedAction.Move, chat, newIndex, oldIndex));
             }
         }
 
