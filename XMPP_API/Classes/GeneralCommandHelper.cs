@@ -274,7 +274,7 @@ namespace XMPP_API.Classes
                 {
                     return true;
                 }
-                return x is QueryArchiveFinishMessage fin && string.Equals(fin.ID, msg.ID) && string.Equals(fin.QUERY_ID, msg.QUERY_ID);
+                return x is QueryArchiveFinishMessage fin && string.Equals(fin.ID, msg.ID);
             };
             AsyncMessageResponseHelper<AbstractAddressableMessage> helper = new AsyncMessageResponseHelper<AbstractAddressableMessage>(CONNECTION, predicate)
             {
@@ -288,11 +288,14 @@ namespace XMPP_API.Classes
                 {
                     mamResult = new MamResult(finResult.RESULT as QueryArchiveFinishMessage, results);
                 }
-                else if (finResult.RESULT is IQErrorMessage errorMessage)
+                else
                 {
-                    Logger.Warn($"Failed to request MAM from {to} with: {errorMessage.ERROR_OBJ}");
+                    if (finResult.RESULT is IQErrorMessage errorMessage)
+                    {
+                        Logger.Warn($"Failed to request MAM from {to} with: {errorMessage.ERROR_OBJ}");
+                    }
+                    return new MessageResponseHelperResult<MamResult>(MessageResponseHelperResultState.ERROR, null);
                 }
-                return new MessageResponseHelperResult<MamResult>(MessageResponseHelperResultState.ERROR, null);
             }
             return new MessageResponseHelperResult<MamResult>(finResult.STATE, mamResult);
         }

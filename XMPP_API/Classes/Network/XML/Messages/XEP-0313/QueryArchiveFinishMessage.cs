@@ -9,7 +9,6 @@ namespace XMPP_API.Classes.Network.XML.Messages.XEP_0313
         #region --Attributes--
         public readonly Set RESULT_SET;
         public readonly bool COMPLETE;
-        public readonly string QUERY_ID;
 
         #endregion
         //--------------------------------------------------------Constructor:----------------------------------------------------------------\\
@@ -19,7 +18,6 @@ namespace XMPP_API.Classes.Network.XML.Messages.XEP_0313
             XmlNode finNode = XMLUtils.getChildNode(answer, "fin", Consts.XML_XMLNS, Consts.XML_XEP_0313_NAMESPACE);
             if (!(finNode is null))
             {
-                QUERY_ID = finNode.Attributes["queryid"]?.Value;
                 COMPLETE = XMLUtils.tryParseToBool(finNode.Attributes["complete"]?.Value);
                 XmlNode setNode = XMLUtils.getChildNode(finNode, "set", Consts.XML_XMLNS, Consts.XML_XEP_0059_NAMESPACE);
                 if (!(setNode is null))
