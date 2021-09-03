@@ -171,26 +171,35 @@ namespace XMPP_API.Classes.Network.XML
 
                     // Presence:
                     case "presence":
-                        foreach (XmlNode n1 in n)
+                        string type = XMLUtils.getAttribute(n, "type")?.InnerText;
+                        // XEP-0045 (MUC something (e.g. joining) failed):
+                        if (string.Equals(type, "error"))
                         {
-                            if (string.Equals(n1.Name, "x"))
+                            messages.Add(new MUCPresenceErrorMessage(n));
+                        }
+                        else
+                        {
+                            foreach (XmlNode n1 in n)
                             {
-                                switch (n1.NamespaceURI)
+                                if (string.Equals(n1.Name, "x"))
                                 {
-                                    case Consts.XML_XEP_0045_NAMESPACE_USER:
-                                        messages.Add(new MUCMemberPresenceMessage(n));
-                                        continue;
+                                    switch (n1.NamespaceURI)
+                                    {
+                                        case Consts.XML_XEP_0045_NAMESPACE_USER:
+                                            messages.Add(new MUCMemberPresenceMessage(n));
+                                            continue;
 
-                                    case Consts.XML_XEP_0045_NAMESPACE:
-                                        // messages.Add(new MUCErrorMessage(n)); // Issue #58
-                                        continue;
+                                        case Consts.XML_XEP_0045_NAMESPACE:
+                                            // messages.Add(new MUCErrorMessage(n)); // Issue #58
+                                            continue;
 
-                                    default:
-                                        break;
+                                        default:
+                                            break;
+                                    }
                                 }
                             }
+                            messages.Add(new PresenceMessage(n));
                         }
-                        messages.Add(new PresenceMessage(n));
                         break;
 
                     // IQ:

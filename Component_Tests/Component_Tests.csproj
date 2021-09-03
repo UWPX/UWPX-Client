@@ -134,6 +134,7 @@
     <Compile Include="Classes\Misc\Test_ConsistentColorGenerator.cs" />
     <Compile Include="Classes\Misc\Test_JidParser.cs" />
     <Compile Include="Classes\Misc\Test_UriUtils.cs" />
+    <Compile Include="Classes\XmppMessages\Test_MessageParsing.cs" />
     <Compile Include="Classes\XmppMessages\Test_MessageParser2.cs" />
     <Compile Include="Classes\XmppMessages\Test_ScramSHA256SASLMechanism.cs" />
     <Compile Include="Classes\XmppMessages\Test_ScramSHA1SASLMechanism.cs" />

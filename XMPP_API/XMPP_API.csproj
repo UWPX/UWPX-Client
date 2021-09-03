@@ -258,6 +258,7 @@
     <Compile Include="Classes\Network\XML\Messages\XEP-0045\MUCPresenceStatusCode.cs" />
     <Compile Include="Classes\Network\XML\Messages\XEP-0045\MUCRole.cs" />
     <Compile Include="Classes\Network\XML\Messages\XEP-0045\MUCRoomSubjectMessage.cs" />
+    <Compile Include="Classes\Network\XML\Messages\XEP-0045\MUCPresenceErrorMessage.cs" />
     <Compile Include="Classes\Network\XML\Messages\XEP-0045\UpdateBanListMessage.cs" />
     <Compile Include="Classes\Network\XML\Messages\XEP-0048\BookmarksResultMessage.cs" />
     <Compile Include="Classes\Network\XML\Messages\XEP-0048\ConferenceItem.cs" />

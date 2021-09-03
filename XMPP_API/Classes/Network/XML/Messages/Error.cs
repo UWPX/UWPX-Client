@@ -11,46 +11,35 @@ namespace XMPP_API.Classes.Network.XML.Messages
         public readonly ErrorType ERROR_TYPE;
         public readonly ErrorName ERROR_NAME;
         public readonly string ERROR_MESSAGE;
+        /// <summary>
+        /// Who has send this error?
+        /// Mostly just used for XEP-0045 (MUC).
+        /// https://xmpp.org/extensions/xep-0045.html#enter
+        /// </summary>
+        public readonly string BY;
 
         #endregion
         //--------------------------------------------------------Constructor:----------------------------------------------------------------\\
         #region --Constructors--
-        /// <summary>
-        /// Basic Constructor
-        /// </summary>
-        /// <history>
-        /// 29/06/2018 Created [Fabian Sauter]
-        /// </history>
         public Error()
         {
             ERROR_TYPE = ErrorType.UNKNOWN;
             ERROR_NAME = ErrorName.UNKNOWN;
-            ERROR_MESSAGE = "\"No message found.\"";
+            ERROR_MESSAGE = "No message found.";
+            BY = null;
         }
 
         public Error(XmlNode n)
         {
             ERROR_NAME = getErrorName(n);
             ERROR_TYPE = getErrorType(n);
-            ERROR_MESSAGE = '"' + n.InnerText + '"';
+            ERROR_MESSAGE = n.InnerText;
+            BY = XMLUtils.getAttribute(n, "by")?.InnerText;
         }
 
         #endregion
         //--------------------------------------------------------Set-, Get- Methods:---------------------------------------------------------\\
         #region --Set-, Get- Methods--
-
-
-        #endregion
-        //--------------------------------------------------------Misc Methods:---------------------------------------------------------------\\
-        #region --Misc Methods (Public)--
-        public override string ToString()
-        {
-            return "type: " + ERROR_TYPE + ", name: " + ERROR_NAME + ", message: " + ERROR_MESSAGE;
-        }
-
-        #endregion
-
-        #region --Misc Methods (Private)--
         private static ErrorType getErrorType(XmlNode n)
         {
             switch (n.Attributes["type"]?.Value)
@@ -69,27 +58,6 @@ namespace XMPP_API.Classes.Network.XML.Messages
 
                 default:
                     return ErrorType.UNKNOWN;
-            }
-        }
-
-        private static string errorTypeToString(ErrorType errorType)
-        {
-            switch (errorType)
-            {
-                case ErrorType.AUTH:
-                    return "auth";
-
-                case ErrorType.WAIT:
-                    return "wait";
-
-                case ErrorType.MODIFY:
-                    return "modify";
-
-                case ErrorType.CANCEL:
-                    return "cancel";
-
-                default: // Should not happen
-                    throw new NotImplementedException("No string representation for ErrorType: " + errorType.ToString());
             }
         }
 
@@ -173,6 +141,38 @@ namespace XMPP_API.Classes.Network.XML.Messages
                 }
             }
             return ErrorName.UNKNOWN;
+        }
+
+        #endregion
+        //--------------------------------------------------------Misc Methods:---------------------------------------------------------------\\
+        #region --Misc Methods (Public)--
+        public override string ToString()
+        {
+            return "type: " + ERROR_TYPE + ", name: " + ERROR_NAME + ", message: " + ERROR_MESSAGE;
+        }
+
+        #endregion
+
+        #region --Misc Methods (Private)--
+        private static string errorTypeToString(ErrorType errorType)
+        {
+            switch (errorType)
+            {
+                case ErrorType.AUTH:
+                    return "auth";
+
+                case ErrorType.WAIT:
+                    return "wait";
+
+                case ErrorType.MODIFY:
+                    return "modify";
+
+                case ErrorType.CANCEL:
+                    return "cancel";
+
+                default: // Should not happen
+                    throw new NotImplementedException("No string representation for ErrorType: " + errorType.ToString());
+            }
         }
 
         private static string errorNameToString(ErrorName errorName)
