@@ -38,6 +38,7 @@ namespace XMPP_API.Classes
         public delegate void MessageSendEventHandler(XMPPClient client, MessageSendEventArgs args);
         public delegate void NewBookmarksResultMessageEventHandler(XMPPClient client, NewBookmarksResultMessageEventArgs args);
         public delegate void NewMUCMemberPresenceMessageEventHandler(XMPPClient client, NewMUCMemberPresenceMessageEventArgs args);
+        public delegate void NewMUCPresenceErrorMessageEventHandler(XMPPClient client, NewMUCPresenceErrorMessageEventArgs args);
         public delegate void NewDeliveryReceiptHandler(XMPPClient client, NewDeliveryReceiptEventArgs args);
         public delegate void NewPubSubEventHandler(XMPPClient client, NewPubSubEventEventArgs args);
         public delegate void OmemoSessionBuildErrorEventHandler(XMPPClient client, OmemoSessionBuildErrorEventArgs args);
@@ -49,6 +50,7 @@ namespace XMPP_API.Classes
         public event NewChatStateEventHandler NewChatState;
         public event MessageSendEventHandler MessageSend;
         public event NewMUCMemberPresenceMessageEventHandler NewMUCMemberPresenceMessage;
+        public event NewMUCPresenceErrorMessageEventHandler NewMUCPresenceErrorMessage;
         public event NewValidMessageEventHandler NewValidMessage;
         public event NewBookmarksResultMessageEventHandler NewBookmarksResultMessage;
         public event NewDeliveryReceiptHandler NewDeliveryReceipt;
@@ -307,9 +309,13 @@ namespace XMPP_API.Classes
         private void Connection_ConnectionNewPresenceMessage(IMessageSender connection, NewValidMessageEventArgs args)
         {
             // XEP-0045 (MUC member presence):
-            if (args.MESSAGE is MUCMemberPresenceMessage)
+            if (args.MESSAGE is MUCMemberPresenceMessage mucPresence)
             {
-                NewMUCMemberPresenceMessage?.Invoke(this, new NewMUCMemberPresenceMessageEventArgs(args.MESSAGE as MUCMemberPresenceMessage));
+                NewMUCMemberPresenceMessage?.Invoke(this, new NewMUCMemberPresenceMessageEventArgs(mucPresence));
+            }
+            else if (args.MESSAGE is MUCPresenceErrorMessage mucPresenceError)
+            {
+                NewMUCPresenceErrorMessage?.Invoke(this, new NewMUCPresenceErrorMessageEventArgs(mucPresenceError));
             }
             else
             {

@@ -153,6 +153,7 @@
     <Compile Include="Classes\Network\Events\NewChatMessageEventArgs.cs" />
     <Compile Include="Classes\Network\Events\NewChatStateEventArgs.cs" />
     <Compile Include="Classes\Network\Events\NewDataReceivedEventArgs.cs" />
+    <Compile Include="Classes\Network\Events\NewMUCPresenceErrorMessageEventArgs.cs" />
     <Compile Include="Classes\Network\Events\NewPubSubEventEventArgs.cs" />
     <Compile Include="Classes\Network\Events\NewDeliveryReceiptEventArgs.cs" />
     <Compile Include="Classes\Network\Events\NewDiscoResponseMessageEventArgs.cs" />

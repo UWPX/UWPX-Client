@@ -66,10 +66,12 @@ namespace Manager.Classes
             // Subscribe to events for receiving answers:
             CLIENT.NewMUCMemberPresenceMessage -= OnMucMemberPresenceMessage;
             CLIENT.NewMUCMemberPresenceMessage += OnMucMemberPresenceMessage;
+            CLIENT.NewMUCPresenceErrorMessage -= OnMucPresenceErrorMessage;
+            CLIENT.NewMUCPresenceErrorMessage += OnMucPresenceErrorMessage;
 
             // Send message:
             await CLIENT.SendAsync(msg);
-            Logger.Info("Entering MUC room '" + INFO.chat.bareJid + "' as '" + INFO.nickname + '\'');
+            Logger.Info($"Entering MUC room '{INFO.chat.bareJid}' as '{INFO.nickname }'...");
         }
 
         public bool CanGetRemoved()
@@ -111,6 +113,7 @@ namespace Manager.Classes
                             case MUCPresenceStatusCode.PRESENCE_SELFE_REFERENCE:
                                 // Remove event subscription:
                                 CLIENT.NewMUCMemberPresenceMessage -= OnMucMemberPresenceMessage;
+                                CLIENT.NewMUCPresenceErrorMessage -= OnMucPresenceErrorMessage;
 
                                 using (SemaLock semaLock = INFO.NewSemaLock())
                                 {
@@ -118,12 +121,9 @@ namespace Manager.Classes
                                     INFO.state = MucState.ENTERD;
                                     INFO.affiliation = args.mucMemberPresenceMessage.AFFILIATION;
                                     INFO.role = args.mucMemberPresenceMessage.ROLE;
-                                    using (MainDbContext ctx = new MainDbContext())
-                                    {
-                                        ctx.Update(INFO);
-                                    }
+                                    INFO.Update();
                                 }
-                                Logger.Info("Entered MUC room '" + roomJId + "' as '" + INFO.nickname + "' with role '" + INFO.role + "' and affiliation '" + INFO.affiliation + '\'');
+                                Logger.Info($"Entered MUC room '{roomJId}' as '{INFO.nickname}' with role '{INFO.role}' and affiliation '{INFO.affiliation}'");
                                 break;
 
                             default:
@@ -135,6 +135,21 @@ namespace Manager.Classes
                 default:
                     break;
             }
+        }
+
+        private void OnMucPresenceErrorMessage(XMPPClient client, NewMUCPresenceErrorMessageEventArgs args)
+        {
+            // Remove event subscription:
+            CLIENT.NewMUCMemberPresenceMessage -= OnMucMemberPresenceMessage;
+            CLIENT.NewMUCPresenceErrorMessage -= OnMucPresenceErrorMessage;
+
+            using (SemaLock semaLock = INFO.NewSemaLock())
+            {
+                // Update MUC info:
+                INFO.state = MucState.ERROR;
+                INFO.Update();
+            }
+            Logger.Error($"Failed to join '{INFO.chat.bareJid}' with: {args.mucPresenceErrorMessage.ERROR}");
         }
 
         #endregion
