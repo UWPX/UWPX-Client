@@ -103,7 +103,7 @@
                                                 Grid.Row="0"
                                                 Background="{ThemeResource AppBackgroundAcrylicWindowBrush}"
                                                 Frame="{x:Bind Frame, Mode=OneWay}"
-                                                Glyph="&#xE12B;"
-                                                Text="Data"/>
+                                                Glyph="&#xE771;"
+                                                Text="Personalize"/>
     </Grid>
 </Page>
