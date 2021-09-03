@@ -20,7 +20,7 @@ pool:
 variables:
   Solution: 'UWPX-Client.sln'
   BuildConfiguration: 'Debug'
-  BuildPlatform: 'x86'
+  BuildPlatform: 'x64'
   AppxPackageDir: '$(Build.artifactStagingDirectory)\AppxPackages\\'
   ArtifactName: 'UWPX-$(BuildPlatform)-$(BuildConfiguration)'
   System.Debug: true
@@ -48,31 +48,16 @@ steps:
     platform: '$(BuildPlatform)'
     configuration: '$(BuildConfiguration)'
 
-# Does not discover any tests:
-- task: VisualStudioTestPlatformInstaller@1
-  inputs:
-    packageFeedSelector: 'nugetOrg'
-    versionSelector: 'latestPreRelease'
-- task: VSTest@2
-  inputs:
-    testSelector: 'testAssemblies'
-    testAssemblyVer2: |
-      **\*.build.appxrecipe
-      !**\obj\** 
-    searchFolder: '$(Build.SourcesDirectory)'
-    resultsFolder: '$(System.DefaultWorkingDirectory)\TestResults'
-    otherConsoleOptions: '/Logger:trx'
-    platform: '$(BuildPlatform)'
-    configuration: '$(BuildConfiguration)'
-    runInParallel: false
-    codeCoverageEnabled: true
-    rerunFailedTests: false
-    runTestsInIsolation: true
-    runOnlyImpactedTests: false
+# Connecting to the test app fails with a timeout:
+#- task: VSTest@2
+#  inputs:
+#    testSelector: 'testAssemblies'
+#    testAssemblyVer2: '**\*_$(BuildPlatform)_$(BuildConfiguration).appxbundle'
+#    searchFolder: '$(AppxPackageDir)'
+#    otherConsoleOptions: '/Logger:trx'
 
-- task: PublishTestResults@2
+- task: PublishBuildArtifacts@1
+  displayName: 'Publish Artifact'
   inputs:
-    testResultsFormat: 'JUnit'
-    testResultsFiles: '**/TEST-*.xml'
-    searchFolder: '$(System.DefaultWorkingDirectory)\TestResults'
-    failTaskOnFailedTests: true
+    PathtoPublish: '$(Build.ArtifactStagingDirectory)'
+    ArtifactName: '$(ArtifactName)'
