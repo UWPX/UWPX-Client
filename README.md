@@ -1,4 +1,4 @@
-[<img src="https://developer.microsoft.com/en-us/store/badges/images/English_get-it-from-MS.png" width="80">](https://www.microsoft.com/store/apps/9NW16X9JB5WV?ocid=badge)
+[<img src="https://developer.microsoft.com/en-us/store/badges/images/English_get-it-from-MS.png" width="80">](https://www.microsoft.com/store/apps/9N2S5V8HMVLM?ocid=badge)
 [![Donate](https://liberapay.com/assets/widgets/donate.svg)](http://liberapay.uwpx.org)
 [![Donate](https://www.paypalobjects.com/webstatic/de_DE/i/de-pp-logo-100px.png)](http://paypal.uwpx.org)
 
