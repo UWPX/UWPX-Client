@@ -4,9 +4,9 @@
 
 | Platform | Branch | Build Status | Latest Version - Store | Latest Version - Sideload |
 | :---: | :---: | :---: | :---: | :---: |
-| x64 | [master](https://github.com/UWPX/UWPX-Client/tree/master) | [![Build Status](https://dev.azure.com/uwpx/UWPX%20Client/_apis/build/status/CI/Debug%20x64?branchName=master)](https://dev.azure.com/uwpx/UWPX%20Client/_build/latest?definitionId=13&branchName=master) | [v.0.33.0.0](https://www.microsoft.com/store/apps/9NW16X9JB5WV?ocid=badge)  | [v.0.33.0.0](https://github.com/UWPX/UWPX-Client/releases/download/v.0.33.0.0/UWPX-Installer.exe) |
-| x86 | [master](https://github.com/UWPX/UWPX-Client/tree/master) | [![Build Status](https://dev.azure.com/uwpx/UWPX%20Client/_apis/build/status/CI/Debug%20x86?branchName=master)](https://dev.azure.com/uwpx/UWPX%20Client/_build/latest?definitionId=15&branchName=master) | [v.0.33.0.0](https://www.microsoft.com/store/apps/9NW16X9JB5WV?ocid=badge) | [v.0.33.0.0](https://github.com/UWPX/UWPX-Client/releases/download/v.0.33.0.0/UWPX-Installer.exe) |
-| ARM | [master](https://github.com/UWPX/UWPX-Client/tree/master) | [![Build Status](https://dev.azure.com/uwpx/UWPX%20Client/_apis/build/status/CI/Debug%20ARM?branchName=master)](https://dev.azure.com/uwpx/UWPX%20Client/_build/latest?definitionId=16&branchName=master) | [v.0.33.0.0](https://www.microsoft.com/store/apps/9NW16X9JB5WV?ocid=badge) | [v.0.33.0.0](https://github.com/UWPX/UWPX-Client/releases/download/v.0.33.0.0/UWPX-Installer.exe) |
+| x64 | [master](https://github.com/UWPX/UWPX-Client/tree/master) | [![Build Status](https://dev.azure.com/uwpx/UWPX%20Client/_apis/build/status/CI/Debug%20x64?branchName=master)](https://dev.azure.com/uwpx/UWPX%20Client/_build/latest?definitionId=13&branchName=master) | [v.0.35.1.0](https://www.microsoft.com/store/apps/9NW16X9JB5WV?ocid=badge)  | [v.0.35.1.0](https://github.com/UWPX/UWPX-Client/releases/download/v.0.35.1.0/UWPX-Installer.exe) |
+| x86 | [master](https://github.com/UWPX/UWPX-Client/tree/master) | [![Build Status](https://dev.azure.com/uwpx/UWPX%20Client/_apis/build/status/CI/Debug%20x86?branchName=master)](https://dev.azure.com/uwpx/UWPX%20Client/_build/latest?definitionId=15&branchName=master) | [v.0.35.1.0](https://www.microsoft.com/store/apps/9NW16X9JB5WV?ocid=badge) | [v.0.35.1.0](https://github.com/UWPX/UWPX-Client/releases/download/v.0.35.1.0/UWPX-Installer.exe) |
+| ARM | [master](https://github.com/UWPX/UWPX-Client/tree/master) | [![Build Status](https://dev.azure.com/uwpx/UWPX%20Client/_apis/build/status/CI/Debug%20ARM?branchName=master)](https://dev.azure.com/uwpx/UWPX%20Client/_build/latest?definitionId=16&branchName=master) | [v.0.35.1.0](https://www.microsoft.com/store/apps/9NW16X9JB5WV?ocid=badge) | [v.0.35.1.0](https://github.com/UWPX/UWPX-Client/releases/download/v.0.35.1.0/UWPX-Installer.exe) |
 
 # UWP-XMPP-Client - Now with [OMEMO](https://conversations.im/omemo/) :tropical_fish: support [read on...](https://github.com/UWPX/UWPX-Client/releases)
 [This app is still in alpha stage!]
@@ -74,12 +74,12 @@ There are three ways how you can get access to the app.
 ### 1. Microsoft Store:
 The simplest way is to just download it via the [Microsoft Store](https://www.microsoft.com/store/apps/9NW16X9JB5WV).
 
-[<img src="https://developer.microsoft.com/en-us/store/badges/images/English_get-it-from-MS.png" width="150">](https://www.microsoft.com/store/apps/9NW16X9JB5WV?ocid=badge)
+[<img src="https://developer.microsoft.com/en-us/store/badges/images/English_get-it-from-MS.png" width="150">](https://www.microsoft.com/store/apps/9N2S5V8HMVLM?ocid=badge)
 
 ### 2. Sideload:
 If you don't want to use the [Microsoft Store](https://www.microsoft.com/store/apps/9NW16X9JB5WV) for getting access to UWPX you can also sideload a pre build app.  
-For this head over to [releases](https://github.com/UWPX/UWPX-Client/releases) and download the latest `UWPX_UI_X.Y.Z.0.zip`.  
-Once downloaded, unpack and right click `Add-AppDevPackage.ps1` -> `Execute with PowerShell` to install it.
+For this head over to [releases](https://github.com/UWPX/UWPX-Client/releases) and download the latest `UWPX-Installer.exe`.  
+Once downloaded, run it and you are ready to go!
 
 **For this to work you first have to enable `Sideload app` in your Windows settings! Click [here](https://www.windowscentral.com/how-enable-windows-10-sideload-apps-outside-store) for more information about this.**
 
@@ -95,11 +95,22 @@ Once downloaded, unpack and right click `Add-AppDevPackage.ps1` -> `Execute with
 An extended guide on how to build UWP with images to guide you through can be found [here](https://uwpx.org/development/).
 
 ## Examples:
-<img src="https://user-images.githubusercontent.com/11741404/54202934-67182500-44d1-11e9-8bc6-ce28675aea3f.jpg" width="400"> <img src="https://user-images.githubusercontent.com/11741404/54202932-667f8e80-44d1-11e9-887c-e199c69693ad.jpg" width="400">
-<img src="https://user-images.githubusercontent.com/11741404/54202935-67182500-44d1-11e9-8feb-925a1fd49a6c.png" width="400">  
 
-<img src="https://user-images.githubusercontent.com/11741404/54202930-65e6f800-44d1-11e9-92eb-d73e0bbdace1.jpg" width="800">
-<img src="https://user-images.githubusercontent.com/11741404/54202931-667f8e80-44d1-11e9-883c-1142fad08763.jpg" width="800">
+### Chat
+<img src="https://user-images.githubusercontent.com/11741404/132220103-2b4767e4-edff-418e-b97e-5b53b2e1ad11.png" width="800" height="auto"/>
+<img src="https://user-images.githubusercontent.com/11741404/132220142-ec03de28-089a-4fc8-b9a9-33ea6aca7421.png" width="800" height="auto"/>
+
+### Group Chat
+<img src="https://user-images.githubusercontent.com/11741404/132220121-c1c54f2c-a712-4089-889b-5968ea505c48.png" width="800" height="auto"/>
+<img src="https://user-images.githubusercontent.com/11741404/132220150-ff1c50cf-65e0-4311-837a-5c8c978dc43d.png" width="800" height="auto"/>
+
+### Contacts and OMEMO
+<img src="https://user-images.githubusercontent.com/11741404/132220115-ea13e993-8da5-4708-8f32-5e558b9a7bb1.png" width="800" height="auto"/>
+<img src="https://user-images.githubusercontent.com/11741404/132220145-55ae61e1-ea47-4351-be78-bac41481347d.png" width="800" height="auto"/>
+
+### Registration
+<img src="https://user-images.githubusercontent.com/11741404/132220129-8e32c7f8-7d88-4a19-b89e-4cf6e2696875.png" width="800" height="auto"/>
+<img src="https://user-images.githubusercontent.com/11741404/132220166-325b0991-3c93-4020-ad3a-a4f906ba0f47.png" width="800" height="auto"/>
 
 ## References:
 This project wouldn’t be possible without the great work of all those people working on the libraries used by UWPX.
