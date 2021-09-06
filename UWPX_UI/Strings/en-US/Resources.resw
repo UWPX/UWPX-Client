@@ -224,11 +224,12 @@ Messages received from devices with an untrusted fingerprint will be accepted an
   </data>
   <data name="CreditsPage_code_markdown.Text" xml:space="preserve">
     <value>* [**App Center Crashes/Push/Analytics**](https://github.com/Microsoft/AppCenter-SDK-DotNet) Allows me to collect crash reports ([UWPX Privacy Policy](https://github.com/UWPX/UWPX-Client/blob/master/PRIVACY_POLICY.md#crash-reporting)).
-* [**libsignal-protocol-pcl**](https://github.com/langboost/libsignal-protocol-pcl) A port of the [libsignal-protocol-java](https://github.com/signalapp/libsignal-protocol-java) library for C# UWP.
+* [**Chaos.NaCl**](https://github.com/dlech/Chaos.NaCl) A cryptography library written in C#. It is based on djb's NaCl.
+* [**BouncyCastle**](https://www.bouncycastle.org/) A lightweight cryptography API for C#.
 * [**NLog**](https://github.com/NLog/NLog) The library for logging used by UWPX.
 * [**openluopworld**](https://github.com/openluopworld) He has done an awesome and simple to use [AES-GCM](https://github.com/openluopworld/aes_gcm) implementation written in C.
 * [**QRCoder**](https://github.com/codebude/QRCoder) An awesome QR-Code library.
-* [**sqlite-net-pcl**](https://github.com/praeclarum/sqlite-net) The backend for storing all messages, chats and accounts.
+* [**Microsoft.EntityFrameworkCore**](https://docs.microsoft.com/en-us/ef/core/) The backend for storing all messages, chats and accounts.
 * [**Unicode.net (fork)**](https://github.com/UWPX/unicode.net) A super easy to use and powerful emoji and text-processing library for .NET.
 * [**ZXing.Net**](https://github.com/micjahn/ZXing.Net/)  A library which supports decoding and generating of barcodes (like QR Code, PDF 417, EAN, UPC, Aztec, Data Matrix, Codabar) within images.
 * [**DnsClient.NET**](http://dnsclient.michaco.net/) DnsClient.NET is a simple yet very powerful and high performant open source library for the .NET Framework to do DNS lookups.
@@ -238,7 +239,7 @@ Messages received from devices with an untrusted fingerprint will be accepted an
     <value>This project wouldn't be possible without the great work of all those people working on the libraries used by UWPX. So take a second, head over and take a look at their great work!</value>
   </data>
   <data name="CreditsPage_images_markdown.Text" xml:space="preserve">
-    <value>* **Splashscreen**: Thanks to **[anie.diamond](https://www.instagram.com/anie.diamond/)** for the great work she has done designing the UWP [splashscreen image](). It consists out of the following icons/images. Their color has been changed for this.
+    <value>* **Splashscreen**: Thanks to **[Stefanie](https://instagram.com/estefanieart)** for the great work she has done designing the UWP [splashscreen image](https://github.com/UWPX/UWPX-Client/blob/v.0.34.0.0/UWPX_UI/Assets/Images/SplashScreen/splash_screen_4000.png). It consists out of the following icons/images. Their color has been changed for this.
 
 | Name: | Accessed: | License: | Source: |
 |:-----:|:---------:|:--------:|:-------:|
@@ -412,7 +413,7 @@ You can disable this again by changing `Settings` -&gt; `Misc` -&gt; `Automatic 
   <data name="WhatsNewDialog_markdown.Text" xml:space="preserve">
     <value># [September 2021] Beta and Push 📨🎉
 It has been done. The first beta release of UWPX is out, and it's packed full of features.
-After just 1451 days (3 Years, 11 Months and 21 Days) in development, UWPX finally has a stable [push server](https://github.com/UWPX/UWPX-Push-Server) up and running!
+After just 1451 days (3 Years, 11 Months and 27 Days) in development, UWPX finally has a stable [push server](https://github.com/UWPX/UWPX-Push-Server) up and running!
 Now, even if you close the app, you still receive push notifications 🎉.
 Besides that, I reworked and fixed the unread counter for messages and added a new welcome dialog.
 
@@ -422,16 +423,18 @@ Besides that, I reworked and fixed the unread counter for messages and added a n
 Follow [@UWPX_APP](https://twitter.com/UWPX_APP) on ![Twitter](http://i.imgur.com/wWzX9uB.png).
 
 ### Known bugs
-* Not receiving offline messages [#27](https://github.com/UWPX/UWPX-Client/issues/27)
 * MUC subject changing leads to an account disconnect [#34](https://github.com/UWPX/UWPX-Client/issues/34)
-* MUC Errors broken [#58](https://github.com/UWPX/UWPX-Client/issues/58)
 * Removing a chat does not perform cascade deletion [#151](https://github.com/UWPX/UWPX-Client/issues/151)
 
 ### Changes
 * Added push support.
 * Added a new welcome dialog.
+* Added MUC presence error parsing and handling support.
+* Fixed MAM fails, when archive is empty.
+* Fixed personalize settings page title bar content.
+* Fixed selecting wrong chat when the chats changed.
 * Fixed the unread notifications and counter.
 
-**Continue reading on [GitHub](https://github.com/UWPX/UWPX-Client/releases/tag/v.0.35.0.0).**</value>
+**Continue reading on [GitHub](https://github.com/UWPX/UWPX-Client/releases/tag/v.0.35.1.0).**</value>
   </data>
 </root>
