@@ -24,10 +24,9 @@ Follow [@UWPX_APP](https://twitter.com/UWPX_APP) on ![Twitter](http://i.imgur.co
 ## Table of Contents
 1. [Features](#features)
 2. [ToDo](#todo)
-3. [Alpha/Beta tester](#alphabeta-tester)
-4. [Installation](#installation)
-5. [Examples](#examples)
-6. [References](#references)
+3. [Installation](#installation)
+4. [Examples](#examples)
+5. [References](#references)
 
 ## Features:
 | Name | XEPs | Version |
