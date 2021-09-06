@@ -194,6 +194,7 @@
     <Compile Include="Classes\DataContext\Dialogs\ConfirmDialogContext.cs" />
     <Compile Include="Classes\DataContext\Dialogs\DeleteAccountConfirmDialogContext.cs" />
     <Compile Include="Classes\DataContext\Dialogs\DeleteChatConfirmDialogContext.cs" />
+    <Compile Include="Classes\DataContext\Dialogs\DeprecationInfoDialogContext.cs" />
     <Compile Include="Classes\DataContext\Dialogs\InitialStartDialogContext.cs" />
     <Compile Include="Classes\DataContext\Controls\Chat\MUC\MucSuggestionsControlContext.cs" />
     <Compile Include="Classes\DataContext\Dialogs\MucInviteDialogContext.cs" />
@@ -280,6 +281,7 @@
     <Compile Include="Classes\DataTemplates\Dialogs\ConfirmDialogDataTemplate.cs" />
     <Compile Include="Classes\DataTemplates\Dialogs\DeleteAccountConfirmDialogDataTemplate.cs" />
     <Compile Include="Classes\DataTemplates\Dialogs\DeleteChatConfirmDialogDataTemplate.cs" />
+    <Compile Include="Classes\DataTemplates\Dialogs\DeprecationInfoDialogDataTemplate.cs" />
     <Compile Include="Classes\DataTemplates\Dialogs\InitialStartDialogDataTemplate.cs" />
     <Compile Include="Classes\DataTemplates\Dialogs\MucInviteDialogDataTemplate.cs" />
     <Compile Include="Classes\DataTemplates\Dialogs\MucSuggestionsControlDataTemplate.cs" />

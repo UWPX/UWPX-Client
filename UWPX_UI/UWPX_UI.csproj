@@ -415,6 +415,9 @@
     <Compile Include="Dialogs\DeleteChatConfirmDialog.xaml.cs">
       <DependentUpon>DeleteChatConfirmDialog.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Dialogs\DeprecationInfoDialog.xaml.cs">
+      <DependentUpon>DeprecationInfoDialog.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Dialogs\InfoDialog.xaml.cs">
       <DependentUpon>InfoDialog.xaml</DependentUpon>
     </Compile>
@@ -566,6 +569,7 @@
     <Content Include="Assets\BackgroundImages\walls.jpeg" />
     <Content Include="Assets\BackgroundImages\wood.jpeg" />
     <Content Include="Assets\BackgroundImages\wood_moos.jpeg" />
+    <Content Include="Assets\Images\ms_store.png" />
     <Content Include="Assets\Large\Large310x310Logo.scale-100.png" />
     <Content Include="Assets\Large\Large310x310Logo.scale-125.png" />
     <Content Include="Assets\Large\Large310x310Logo.scale-150.png" />
@@ -1008,6 +1012,10 @@
     <Page Include="Dialogs\DeleteChatConfirmDialog.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Dialogs\DeprecationInfoDialog.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Dialogs\InfoDialog.xaml">
       <Generator>MSBuild:Compile</Generator>

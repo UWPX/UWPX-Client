@@ -180,27 +180,9 @@ namespace UWPX_UI.Pages
             // Update badge notification count:
             ToastHelper.UpdateBadgeNumber();
 
-            // Show initial start dialog:
-            if (!Storage.Classes.Settings.GetSettingBoolean(SettingsConsts.HIDE_INITIAL_START_DIALOG_ALPHA))
-            {
-                InitialStartDialog initialStartDialog = new InitialStartDialog();
-                await UiUtils.ShowDialogAsync(initialStartDialog);
-            }
-
-            // Show what's new dialog:
-            if (!Storage.Classes.Settings.GetSettingBoolean(SettingsConsts.HIDE_WHATS_NEW_DIALOG))
-            {
-                WhatsNewDialog whatsNewDialog = new WhatsNewDialog();
-                await UiUtils.ShowDialogAsync(whatsNewDialog);
-                if (whatsNewDialog.VIEW_MODEL.MODEL.ToDonatePageNavigated)
-                {
-                    if (!Storage.Classes.Settings.GetSettingBoolean(SettingsConsts.INITIALLY_STARTED))
-                    {
-                        PerformInitialStartSetup();
-                    }
-                    return;
-                }
-            }
+            // Show the deprecation warning dialog:
+            DeprecationInfoDialog deprecationInfoDialog = new DeprecationInfoDialog();
+            await UiUtils.ShowDialogAsync(deprecationInfoDialog);
 
             EvaluateActivationArgs();
         }

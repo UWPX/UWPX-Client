@@ -336,6 +336,14 @@ Also special thanks to all the Alpha (and hopefully soon Beta) testers that repo
   <data name="DebugSettingsPage_tls_timeout_tooltip.Text" xml:space="preserve">
     <value>Requires an app restart to work.</value>
   </data>
+  <data name="DeprecationInfoDialog_markdown.Text" xml:space="preserve">
+    <value>This version of UWPX is now deprecated!
+In order to get push notifications up and running, I had to republish the app with a new name in the Microsoft Store.
+You can find more information about why [here](https://twitter.com/UWPX_APP/status/1254786200134578178) and [here](https://github.com/UWPX/UWPX-Client/releases/tag/v.0.26.0.0).
+
+From now on, this app will not receive any further updates any more.
+Get the new one here:</value>
+  </data>
   <data name="DonateSettingsPage_bank_details0.Text" xml:space="preserve">
     <value>It takes a lot of time and effort to develop and maintain a complex app like UWPX. So, if you like UWPX or simply want to support the development please consider donating to keep the development going.</value>
   </data>
@@ -365,6 +373,9 @@ Do not show the report "Something went wrong..." crash dialog, in case we cought
 
 **Off**  
 In case we cought a crash, you will receive a dialog informing you about the crash and what will be reported.</value>
+  </data>
+  <data name="MSStoreLink_Url" xml:space="preserve">
+    <value>https://www.microsoft.com/store/apps/9N2S5V8HMVLM?ocid=badge</value>
   </data>
   <data name="PersonalizeSettingsPage_change_theme_tooltip.Text" xml:space="preserve">
     <value>Requires an app restart to work properly once changed.</value>
