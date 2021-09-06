@@ -176,7 +176,7 @@ namespace UWPX_UI.Controls.Toolkit.MasterDetailsView
         {
             if (e.NewValue is int index)
             {
-                object item = index >= 0 && Items.Count >= index ? Items[index] : null;
+                object item = index >= 0 && Items.Count > index ? Items[index] : null;
                 if (SelectedItem != item)
                 {
                     if (item is null)
