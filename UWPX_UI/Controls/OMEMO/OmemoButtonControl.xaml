@@ -4,6 +4,7 @@
              xmlns:controls="using:UWPX_UI.Controls"
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:omemo="using:UWPX_UI.Controls.OMEMO"
              xmlns:valueconverter="using:UWPX_UI_Context.Classes.ValueConverter"
              mc:Ignorable="d">
 
@@ -23,7 +24,7 @@
             Style="{ThemeResource TransparentIconButtonStyle}"
             ToolTipService.ToolTip="Enable/Disable Encryption">
         <Button.Flyout>
-            <Flyout>
+            <Flyout Opened="OnFlyoutOpened">
                 <StackPanel>
                     <RadioButton GroupName="OMEMO"
                                  IsChecked="{x:Bind OmemoEnabled, Mode=TwoWay}">
@@ -37,6 +38,10 @@
                                                        GlyphForeground="DarkRed"
                                                        Text="Unencrypted"/>
                     </RadioButton>
+                    <omemo:OmemoCheckSupportsControl x:Name="omemoSupportControl"
+                                                     MaxWidth="300"
+                                                     Margin="0,10,0,0"
+                                                     Chat="{x:Bind Chat, Mode=OneWay}"/>
                     <HyperlinkButton x:Name="readOnOmemo_link"
                                      Margin="0,10,0,0"
                                      Click="ReadOnOmemo_link_Click"

@@ -1,4 +1,5 @@
 ﻿using System;
+using Manager.Classes.Chat;
 using UWPX_UI_Context.Classes.DataContext.Controls;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
@@ -15,6 +16,13 @@ namespace UWPX_UI.Controls.OMEMO
             set => SetValue(OmemoEnabledProperty, value);
         }
         public static readonly DependencyProperty OmemoEnabledProperty = DependencyProperty.Register(nameof(OmemoEnabled), typeof(bool), typeof(OmemoButtonControl), new PropertyMetadata(false, OnOmemoEnabledChanged));
+
+        public ChatDataTemplate Chat
+        {
+            get => (ChatDataTemplate)GetValue(ChatProperty);
+            set => SetValue(ChatProperty, value);
+        }
+        public static readonly DependencyProperty ChatProperty = DependencyProperty.Register(nameof(ChatDataTemplate), typeof(ChatDataTemplate), typeof(OmemoButtonControl), new PropertyMetadata(null));
 
         public delegate void OmemoEnabledChangedEventHandler(OmemoButtonControl sender, EventArgs e);
         public event OmemoEnabledChangedEventHandler OmemoEnabledChanged;
@@ -65,6 +73,11 @@ namespace UWPX_UI.Controls.OMEMO
             }
         }
 
-        #endregion
+        private void OnFlyoutOpened(object sender, object e)
+        {
+            omemoSupportControl.Refresh();
+        }
+
+        #endregion        
     }
 }

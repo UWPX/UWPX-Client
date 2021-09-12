@@ -217,7 +217,7 @@ namespace Omemo.Classes
         /// <param name="keyExchangeMsg">The received <see cref="OmemoKeyExchangeMessage"/>.</param>
         public OmemoSessionModel(IdentityKeyPairModel receiverIdentityKey, SignedPreKeyModel receiverSignedPreKey, PreKeyModel receiverPreKey, OmemoKeyExchangeMessage keyExchangeMsg)
         {
-            dhS = new GenericECKeyPairModel(receiverIdentityKey.privKey.Clone(), receiverIdentityKey.pubKey.Clone()); // Prevent cascading deletion when we delete an onld session
+            dhS = new GenericECKeyPairModel(receiverIdentityKey.privKey.Clone(), receiverIdentityKey.pubKey.Clone()); // Prevent cascading deletion when we delete an old session
             rk = CryptoUtils.GenerateReceiverSessionKey(keyExchangeMsg.IK, keyExchangeMsg.EK, receiverIdentityKey.privKey, receiverSignedPreKey.preKey.privKey, receiverPreKey.privKey);
             assData = CryptoUtils.Concat(keyExchangeMsg.IK.key, receiverIdentityKey.pubKey.key);
             ek = keyExchangeMsg.EK;

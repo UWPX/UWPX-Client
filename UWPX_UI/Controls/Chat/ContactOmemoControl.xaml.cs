@@ -44,6 +44,8 @@ namespace UWPX_UI.Controls.Chat
         private void UpdateView(DependencyPropertyChangedEventArgs e)
         {
             VIEW_MODEL.UpdateView(e);
+            omemoSupportControl.Chat = Chat;
+            omemoSupportControl.Refresh();
         }
 
         #endregion

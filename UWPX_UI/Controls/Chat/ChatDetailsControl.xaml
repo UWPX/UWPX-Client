@@ -126,6 +126,7 @@
                                Visibility="{x:Bind VIEW_MODEL.MODEL.StatusText, Mode=OneWay, Converter={StaticResource StringEmptyVisibilityValueConverter}}"/>
                 </Grid>
                 <omemoControls:OmemoButtonControl Grid.Column="2"
+                                                  Chat="{x:Bind Chat, Mode=OneWay}"
                                                   OmemoEnabled="{x:Bind Chat.Chat.omemoInfo.enabled, Mode=OneWay}"
                                                   OmemoEnabledChanged="OnOmemoEnabledChanged"
                                                   Visibility="{x:Bind VIEW_MODEL.MODEL.OmemoVisibility, Mode=OneWay}"/>
@@ -337,8 +338,8 @@
                                    VerticalAlignment="Center"
                                    EnterKeyDown="Message_tbx_EnterKeyDown"
                                    GotFocus="OnMessageBoxGotFocus"
-                                   LostFocus="OnMessageBoxLostFocus"
                                    KeyDown="OnMessageBoxKeyDown"
+                                   LostFocus="OnMessageBoxLostFocus"
                                    Style="{ThemeResource MessageTextBoxStyle}"
                                    Text="{x:Bind VIEW_MODEL.MODEL.MessageText, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
                 <Button x:Name="send_btn"

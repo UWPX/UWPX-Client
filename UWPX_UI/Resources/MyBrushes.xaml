@@ -75,9 +75,32 @@
                                 FallbackColor="#FF2A2A2A"
                                 TintColor="#FF2A2A2A"
                                 TintOpacity="0.6"/>
+
+            <!--  Source: https://github.com/microsoft/microsoft-ui-xaml/blob/0a65a71ebcd881a94541bd92296dfadac7a18f7a/dev/CommonStyles/Common_themeresources_any.xaml#L94-L105  -->
+            <Color x:Key="SystemFillColorCriticalBackground">#442726</Color>
+            <Color x:Key="SystemFillColorSuccessBackground">#393D1B</Color>
+            <Color x:Key="SystemFillColorCautionBackground">#433519</Color>
+            <Color x:Key="SystemFillColorCritical">#FF99A4</Color>
+            <Color x:Key="SystemFillColorSuccess">#6CCB5F</Color>
+            <Color x:Key="SystemFillColorCaution">#FCE100</Color>
+            <Color x:Key="TextFillColorInverse">#E4000000</Color>
+            <SolidColorBrush x:Key="SystemFillColorSuccessBackgroundBrush"
+                             Color="{StaticResource SystemFillColorSuccessBackground}"/>
+            <SolidColorBrush x:Key="SystemFillColorCriticalBackgroundBrush"
+                             Color="{StaticResource SystemFillColorCriticalBackground}"/>
+            <SolidColorBrush x:Key="SystemFillColorCautionBackgroundBrush"
+                             Color="{StaticResource SystemFillColorCautionBackground}"/>
+            <SolidColorBrush x:Key="SystemFillColorCriticalBrush"
+                             Color="{ThemeResource SystemFillColorCritical}"/>
+            <SolidColorBrush x:Key="SystemFillColorSuccessBrush"
+                             Color="{ThemeResource SystemFillColorSuccess}"/>
+            <SolidColorBrush x:Key="TextFillColorInverseBrush"
+                             Color="{StaticResource TextFillColorInverse}"/>
+            <SolidColorBrush x:Key="SystemFillColorCautionBrush"
+                             Color="{StaticResource SystemFillColorCaution}"/>
         </ResourceDictionary>
         <ResourceDictionary x:Key="Light">
-            <Color x:Key="DropShadowColor">#FF000000</Color>
+            <Color x:Key="DropShadowColor">#E4000000</Color>
 
             <media:AcrylicBrush x:Key="AppBackgroundAcrylicWindowBrush"
                                 BackgroundSource="HostBackdrop"
@@ -104,6 +127,29 @@
                                 FallbackColor="#FFEDEDED"
                                 TintColor="#FFEDEDED"
                                 TintOpacity="0.6"/>
+
+            <!--  Source: https://github.com/microsoft/microsoft-ui-xaml/blob/0a65a71ebcd881a94541bd92296dfadac7a18f7a/dev/CommonStyles/Common_themeresources_any.xaml#L338-L349  -->
+            <Color x:Key="SystemFillColorCriticalBackground">#FCB7B7</Color>
+            <Color x:Key="SystemFillColorSuccessBackground">#ABF6A5</Color>
+            <Color x:Key="SystemFillColorCautionBackground">#FCE9A6</Color>
+            <Color x:Key="SystemFillColorCritical">#C42B1C</Color>
+            <Color x:Key="SystemFillColorSuccess">#0F7B0F</Color>
+            <Color x:Key="SystemFillColorCaution">#9D5D00</Color>
+            <Color x:Key="TextFillColorInverse">#FFFFFF</Color>
+            <SolidColorBrush x:Key="SystemFillColorSuccessBackgroundBrush"
+                             Color="{StaticResource SystemFillColorSuccessBackground}"/>
+            <SolidColorBrush x:Key="SystemFillColorCriticalBackgroundBrush"
+                             Color="{StaticResource SystemFillColorCriticalBackground}"/>
+            <SolidColorBrush x:Key="SystemFillColorCautionBackgroundBrush"
+                             Color="{StaticResource SystemFillColorCautionBackground}"/>
+            <SolidColorBrush x:Key="SystemFillColorCriticalBrush"
+                             Color="{ThemeResource SystemFillColorCritical}"/>
+            <SolidColorBrush x:Key="SystemFillColorSuccessBrush"
+                             Color="{ThemeResource SystemFillColorSuccess}"/>
+            <SolidColorBrush x:Key="TextFillColorInverseBrush"
+                             Color="{StaticResource TextFillColorInverse}"/>
+            <SolidColorBrush x:Key="SystemFillColorCautionBrush"
+                             Color="{StaticResource SystemFillColorCaution}"/>
         </ResourceDictionary>
     </ResourceDictionary.ThemeDictionaries>
 

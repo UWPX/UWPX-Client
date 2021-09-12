@@ -302,6 +302,9 @@
     <Compile Include="Controls\OMEMO\OmemoButtonControl.xaml.cs">
       <DependentUpon>OmemoButtonControl.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Controls\OMEMO\OmemoCheckSupportsControl.xaml.cs">
+      <DependentUpon>OmemoCheckSupportsControl.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Controls\OMEMO\OmemoDeviceControl.xaml.cs">
       <DependentUpon>OmemoDeviceControl.xaml</DependentUpon>
     </Compile>
@@ -866,6 +869,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Controls\OMEMO\OmemoButtonControl.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Controls\OMEMO\OmemoCheckSupportsControl.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

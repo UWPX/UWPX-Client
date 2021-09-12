@@ -37,9 +37,14 @@
                     <RowDefinition Height="Auto"/>
                     <RowDefinition Height="Auto"/>
                     <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
                 </Grid.RowDefinitions>
+                <omemo:OmemoCheckSupportsControl x:Name="omemoSupportControl"
+                                                 Grid.Row="0"/>
+
                 <!--  Header:  -->
-                <Grid Grid.Row="0">
+                <Grid Grid.Row="1"
+                      Margin="0,10,0,0">
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="Auto"/>
                         <ColumnDefinition Width="*"/>
@@ -72,10 +77,10 @@
                         </Button.Flyout>
                     </Button>
                 </Grid>
-                <controls1:SeperatorControl Grid.Row="1"/>
+                <controls1:SeperatorControl Grid.Row="2"/>
 
                 <!--  Loading:  -->
-                <controls:Loading Grid.Row="2"
+                <controls:Loading Grid.Row="3"
                                   Margin="0,10,0,0"
                                   IsLoading="True"
                                   Visibility="{x:Bind VIEW_MODEL.MODEL.Loading, Mode=OneWay, Converter={StaticResource BoolVisibilityValueConverter}}">
@@ -83,7 +88,7 @@
                 </controls:Loading>
 
                 <!--  Content:  -->
-                <Grid Grid.Row="2"
+                <Grid Grid.Row="3"
                       Margin="0,10,0,0"
                       Visibility="{x:Bind VIEW_MODEL.MODEL.Loading, Mode=OneWay, Converter={StaticResource BoolInvertedVisibilityValueConverter}}">
                     <Grid.RowDefinitions>

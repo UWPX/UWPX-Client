@@ -1,0 +1,135 @@
+﻿<UserControl x:Class="UWPX_UI.Controls.OMEMO.OmemoCheckSupportsControl"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:muxc="using:Microsoft.UI.Xaml.Controls"
+             mc:Ignorable="d">
+
+    <Grid>
+        <!--  Checking:  -->
+        <Grid x:Name="checkingGrid">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="Auto"/>
+                <ColumnDefinition Width="Auto"/>
+            </Grid.ColumnDefinitions>
+
+            <muxc:ProgressRing Grid.Column="0"
+                               MaxWidth="20"
+                               MaxHeight="20"
+                               IsActive="True"/>
+            <TextBlock Grid.Column="1"
+                       Margin="10,0,0,0"
+                       VerticalAlignment="Center"
+                       Text="Checking OMEMO status.."
+                       TextWrapping="Wrap"/>
+        </Grid>
+
+        <!--  Status:  -->
+        <Border x:Name="statusBanner"
+                Background="{ThemeResource SystemFillColorCautionBackgroundBrush}"
+                CornerRadius="{ThemeResource ControlCornerRadius}"
+                Visibility="Collapsed">
+            <Grid Margin="10">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="Auto"/>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="Auto"/>
+                </Grid.ColumnDefinitions>
+                <Grid Grid.Column="0"
+                      VerticalAlignment="Center">
+                    <TextBlock x:Name="statusBannerIconBackground"
+                               Grid.Column="0"
+                               VerticalAlignment="Top"
+                               AutomationProperties.AccessibilityView="Raw"
+                               FontFamily="{ThemeResource SymbolThemeFontFamily}"
+                               FontSize="16"
+                               Foreground="{ThemeResource SystemFillColorCautionBrush}"
+                               Text="&#xF136;"/>
+
+                    <TextBlock x:Name="statusBannerIcon"
+                               Grid.Column="0"
+                               VerticalAlignment="Top"
+                               FontFamily="{ThemeResource SymbolThemeFontFamily}"
+                               FontSize="16"
+                               Foreground="{ThemeResource TextFillColorInverseBrush}"
+                               Text="&#xF13C;"/>
+                </Grid>
+                <TextBlock x:Name="statusBannerText"
+                           Grid.Column="1"
+                           Margin="10,0,0,0"
+                           VerticalAlignment="Center"
+                           IsTextSelectionEnabled="True"
+                           Text="Something went wrong..."
+                           TextWrapping="Wrap"/>
+                <Button Grid.Column="2"
+                        Margin="10,0,0,0"
+                        Click="OnRefreshClicked"
+                        Content="&#xE72C;"
+                        FontFamily="{ThemeResource SymbolThemeFontFamily}"
+                        ToolTipService.ToolTip="Refresh"/>
+            </Grid>
+        </Border>
+
+        <VisualStateManager.VisualStateGroups>
+            <VisualStateGroup>
+                <VisualState x:Name="Checking">
+                    <VisualState.Setters>
+                        <Setter Target="checkingGrid.Visibility" Value="Visible"/>
+                        <Setter Target="statusBanner.Visibility" Value="Collapsed"/>
+                    </VisualState.Setters>
+                </VisualState>
+                <VisualState x:Name="Supported">
+                    <VisualState.Setters>
+                        <Setter Target="checkingGrid.Visibility" Value="Collapsed"/>
+                        <Setter Target="statusBanner.Visibility" Value="Visible"/>
+                        <Setter Target="statusBanner.Background" Value="{ThemeResource SystemFillColorSuccessBackgroundBrush}"/>
+                        <Setter Target="statusBannerIconBackground.Foreground" Value="{ThemeResource SystemFillColorSuccessBrush}"/>
+                        <Setter Target="statusBannerIcon.Text" Value="&#xF13E;"/>
+                        <Setter Target="statusBannerText.Text" Value="Your contact supports OMEMO."/>
+                    </VisualState.Setters>
+                </VisualState>
+                <VisualState x:Name="Unknown">
+                    <VisualState.Setters>
+                        <Setter Target="checkingGrid.Visibility" Value="Collapsed"/>
+                        <Setter Target="statusBanner.Visibility" Value="Visible"/>
+                        <Setter Target="statusBanner.Background" Value="{ThemeResource SystemFillColorCautionBackgroundBrush}"/>
+                        <Setter Target="statusBannerIconBackground.Foreground" Value="{ThemeResource SystemFillColorCautionBrush}"/>
+                        <Setter Target="statusBannerIcon.Text" Value="&#xF13C;"/>
+                        <Setter Target="statusBannerText.Text" Value="Click on retry to start checking if your contact supports OMEMO."/>
+                    </VisualState.Setters>
+                </VisualState>
+                <VisualState x:Name="Error">
+                    <VisualState.Setters>
+                        <Setter Target="checkingGrid.Visibility" Value="Collapsed"/>
+                        <Setter Target="statusBanner.Visibility" Value="Visible"/>
+                        <Setter Target="statusBanner.Background" Value="{ThemeResource SystemFillColorCriticalBackgroundBrush}"/>
+                        <Setter Target="statusBannerIconBackground.Foreground" Value="{ThemeResource SystemFillColorCriticalBrush}"/>
+                        <Setter Target="statusBannerIcon.Text" Value="&#xF13D;"/>
+                        <Setter Target="statusBannerText.Text" Value="{x:Bind VIEW_MODEL.MODEL.ErrorText, Mode=OneWay}"/>
+                    </VisualState.Setters>
+                </VisualState>
+                <VisualState x:Name="OldVersion">
+                    <VisualState.Setters>
+                        <Setter Target="checkingGrid.Visibility" Value="Collapsed"/>
+                        <Setter Target="statusBanner.Visibility" Value="Visible"/>
+                        <Setter Target="statusBanner.Background" Value="{ThemeResource SystemFillColorCautionBackgroundBrush}"/>
+                        <Setter Target="statusBannerIconBackground.Foreground" Value="{ThemeResource SystemFillColorCautionBrush}"/>
+                        <Setter Target="statusBannerIcon.Text" Value="&#xF13C;"/>
+                        <Setter Target="statusBannerText.Text" Value="Your contact does not support the latest OMEMO 0.7.0 (2020-09-05) standard."/>
+                    </VisualState.Setters>
+                </VisualState>
+                <VisualState x:Name="Unsupported">
+                    <VisualState.Setters>
+                        <Setter Target="checkingGrid.Visibility" Value="Collapsed"/>
+                        <Setter Target="statusBanner.Visibility" Value="Visible"/>
+                        <Setter Target="statusBanner.Background" Value="{ThemeResource SystemFillColorCautionBackgroundBrush}"/>
+                        <Setter Target="statusBannerIconBackground.Foreground" Value="{ThemeResource SystemFillColorCautionBrush}"/>
+                        <Setter Target="statusBannerIcon.Text" Value="&#xF13C;"/>
+                        <Setter Target="statusBannerText.Text" Value="OMEMO not supported by your contact."/>
+                    </VisualState.Setters>
+                </VisualState>
+            </VisualStateGroup>
+        </VisualStateManager.VisualStateGroups>
+    </Grid>
+</UserControl>
