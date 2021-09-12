@@ -41,6 +41,7 @@ namespace XMPP_API.Classes.Network.XML.Messages.XEP_0384
         public OmemoEncryptedMessage(string from, string to, string message, string type, bool reciptRequested) : base(from, to, message, type, reciptRequested)
         {
             includeBody = false;
+            IS_PURE_KEY_EXCHANGE_MESSAGE = string.IsNullOrEmpty(message);
         }
 
         public OmemoEncryptedMessage(XmlNode node, CarbonCopyType ccType) : base(node, ccType)
@@ -64,6 +65,7 @@ namespace XMPP_API.Classes.Network.XML.Messages.XEP_0384
             if (payloadNode is null)
             {
                 MESSAGE = null;
+                IS_PURE_KEY_EXCHANGE_MESSAGE = true;
             }
             else
             {
@@ -107,9 +109,8 @@ namespace XMPP_API.Classes.Network.XML.Messages.XEP_0384
             encryptedNode.Add(headerNode);
 
             // Payload:
-            if (!string.IsNullOrEmpty(BASE_64_PAYLOAD))
+            if (!IS_PURE_KEY_EXCHANGE_MESSAGE)
             {
-
                 encryptedNode.Add(new XElement("payload", BASE_64_PAYLOAD));
             }
 
@@ -128,16 +129,25 @@ namespace XMPP_API.Classes.Network.XML.Messages.XEP_0384
             try
             {
                 SID = sid;
-                XElement contentNode = generateContent();
-                byte[] contentData = Encoding.UTF8.GetBytes(contentNode.ToString());
+                if (IS_PURE_KEY_EXCHANGE_MESSAGE)
+                {
+                    // Encrypt 32 zero bytes as dummy data for devices:
+                    DoubleRachet rachet = new DoubleRachet(senderIdentityKey);
+                    keys = rachet.EncryptKeyHmacForDevices(new byte[32], devices).Select(x => new OmemoKeys(x.Item1, x.Item2.Select(x => new OmemoKey(x)).ToList())).ToList();
+                }
+                else
+                {
+                    XElement contentNode = generateContent();
+                    byte[] contentData = Encoding.UTF8.GetBytes(contentNode.ToString());
 
-                // Encrypt message:
-                DoubleRachet rachet = new DoubleRachet(senderIdentityKey);
-                Tuple<byte[], byte[]> encrypted = rachet.EncryptMessasge(contentData);
-                BASE_64_PAYLOAD = Convert.ToBase64String(encrypted.Item1);
+                    // Encrypt message:
+                    DoubleRachet rachet = new DoubleRachet(senderIdentityKey);
+                    Tuple<byte[], byte[]> encrypted = rachet.EncryptMessasge(contentData);
+                    BASE_64_PAYLOAD = Convert.ToBase64String(encrypted.Item1);
 
-                // Encrypt key || HMAC for devices:
-                keys = rachet.EncryptKeyHmacForDevices(encrypted.Item2, devices).Select(x => new OmemoKeys(x.Item1, x.Item2.Select(x => new OmemoKey(x)).ToList())).ToList();
+                    // Encrypt key || HMAC for devices:
+                    keys = rachet.EncryptKeyHmacForDevices(encrypted.Item2, devices).Select(x => new OmemoKeys(x.Item1, x.Item2.Select(x => new OmemoKey(x)).ToList())).ToList();
+                }
 
                 // Store all sessions:
                 foreach (OmemoDeviceGroup group in devices)
@@ -199,7 +209,7 @@ namespace XMPP_API.Classes.Network.XML.Messages.XEP_0384
                         // Process only the auth message: 
                         decryptCtx.authMsg = decryptCtx.keyExchangeMsg.MESSAGE;
                         decryptCtx.keyExchange = false;
-                        Logger.Info($"Received an {nameof(OmemoKeyExchangeMessage)} for a session from '{decryptCtx.senderAddress.ToString()}' that already exists. This could be because we have not yet responded with an own message to the sender.");
+                        Logger.Info($"Received an {nameof(OmemoKeyExchangeMessage)} for a session from '{decryptCtx.senderAddress}' that already exists. This could be because we have not yet responded with an own message to the sender.");
                     }
                     else
                     {
@@ -207,13 +217,13 @@ namespace XMPP_API.Classes.Network.XML.Messages.XEP_0384
                         decryptCtx.authMsg = decryptCtx.keyExchangeMsg.MESSAGE;
                         if (decryptCtx.keyExchangeMsg.SPK_ID != decryptCtx.RECEIVER_SIGNED_PRE_KEY.preKey.keyId)
                         {
-                            throw new NotForDeviceException("Failed to decrypt message. Signed PreKey with id " + decryptCtx.keyExchangeMsg.SPK_ID + " not available any more.");
+                            throw new NotForDeviceException($"Failed to decrypt message. Signed PreKey with id {decryptCtx.keyExchangeMsg.SPK_ID} not available any more.");
                         }
 
                         decryptCtx.usedPreKey = decryptCtx.RECEIVER_PRE_KEYS.Where(k => k.keyId == decryptCtx.keyExchangeMsg.PK_ID).FirstOrDefault();
                         if (decryptCtx.usedPreKey is null)
                         {
-                            throw new NotForDeviceException("Failed to decrypt message. PreKey with id " + decryptCtx.keyExchangeMsg.PK_ID + " not available any more.");
+                            throw new NotForDeviceException($"Failed to decrypt message. PreKey with id {decryptCtx.keyExchangeMsg.PK_ID} not available any more.");
                         }
                     }
                 }
@@ -223,22 +233,14 @@ namespace XMPP_API.Classes.Network.XML.Messages.XEP_0384
                 }
 
                 // Content can be null in case we have a pure keys exchange message:
-                byte[] contentEnc = null;
-                if (!string.IsNullOrEmpty(BASE_64_PAYLOAD))
-                {
-                    contentEnc = Convert.FromBase64String(BASE_64_PAYLOAD);
-                }
-                else
-                {
-                    IS_PURE_KEY_EXCHANGE_MESSAGE = true;
-                }
+                byte[] contentEnc = Convert.FromBase64String(BASE_64_PAYLOAD);
 
                 // Check the senders fingerprint and handle new devices:
                 ValidateSender(decryptCtx);
 
-                byte[] contentDec = decryptContent(contentEnc, decryptCtx);
                 if (!IS_PURE_KEY_EXCHANGE_MESSAGE)
                 {
+                    byte[] contentDec = decryptContent(contentEnc, decryptCtx);
                     string contentStr = Encoding.UTF8.GetString(contentDec);
                     XmlNode contentNode = getContentNode(contentStr);
                     parseContentNode(contentNode);

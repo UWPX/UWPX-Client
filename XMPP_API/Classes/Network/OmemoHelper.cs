@@ -165,10 +165,23 @@ namespace XMPP_API.Classes.Network
                 account.OMEMO_PRE_KEYS.Add(newPreKey);
                 await announceBundleInfoAsync();
                 Logger.Info("Bundle for '" + receiverAddress.BARE_JID + "' republished.");
-            }
 
-            // Reply with an empty message to confirm the successful key exchange:
-            // TODO: This is no good way, since there it would be possible to stalk people without them knowing.
+                // Reply with an empty message to confirm the successful key exchange:
+                // TODO: This is no good way, since there it would be possible to stalk people without them knowing.
+                OmemoEncryptedMessage reply = new OmemoEncryptedMessage(msg.getTo(), msg.getFrom(), null, msg.TYPE, false);
+                OmemoDeviceGroup deviceGroup = new OmemoDeviceGroup(decryptCtx.senderAddress.BARE_JID);
+                deviceGroup.SESSIONS.Add(decryptCtx.senderAddress.DEVICE_ID, decryptCtx.session);
+                try
+                {
+                    reply.encrypt(CONNECTION.account.omemoDeviceId, CONNECTION.account.omemoIdentityKey, OMEMO_STORAGE, new List<OmemoDeviceGroup> { deviceGroup });
+                    await CONNECTION.SendAsync(reply);
+                }
+                catch (Exception e)
+                {
+                    Logger.Error("[OMEMO HELPER] Failed to encrypt and the empty OMEMO message reply with: ", e);
+                }
+                Logger.Info($"Send an empty OMEMO message to confirm the successful key exchange with '{msg.getFrom()}'.");
+            }
         }
 
         #endregion
