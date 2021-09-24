@@ -1,4 +1,5 @@
-﻿using UWPX_UI_Context.Classes.DataContext.Controls;
+﻿using System;
+using UWPX_UI_Context.Classes.DataContext.Controls;
 using UWPX_UI_Context.Classes.DataTemplates;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
@@ -14,7 +15,7 @@ namespace UWPX_UI.Controls.OMEMO
             get => (AccountDataTemplate)GetValue(AccountProperty);
             set => SetValue(AccountProperty, value);
         }
-        public static readonly DependencyProperty AccountProperty = DependencyProperty.Register(nameof(Account), typeof(AccountDataTemplate), typeof(OmemoDeviceListControl), new PropertyMetadata(null));
+        public static readonly DependencyProperty AccountProperty = DependencyProperty.Register(nameof(Account), typeof(AccountDataTemplate), typeof(OmemoDeviceListControl), new PropertyMetadata(null, OnAccountChanged));
 
         public readonly OmemoDeviceListControlContext VIEW_MODEL = new OmemoDeviceListControlContext();
 
@@ -56,6 +57,14 @@ namespace UWPX_UI.Controls.OMEMO
         private async void Refresh_ibtn_Click(IconProgressButtonControl sender, RoutedEventArgs args)
         {
             await VIEW_MODEL.RefreshDevicesAsync(Account.Client);
+        }
+
+        private static void OnAccountChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
+        {
+            if (d is OmemoDeviceListControl control)
+            {
+                control.VIEW_MODEL.LoadDevices(control.Account?.Client);
+            }
         }
 
         #endregion

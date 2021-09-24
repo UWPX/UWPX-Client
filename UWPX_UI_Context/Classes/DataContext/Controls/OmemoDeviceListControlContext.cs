@@ -32,6 +32,7 @@ namespace UWPX_UI_Context.Classes.DataContext.Controls
             devices.DEVICES.Add(new OmemoXmlDevice(client.dbAccount.omemoInfo.deviceId, client.dbAccount.omemoInfo.deviceLabel));
             await client.xmppClient.OMEMO_COMMAND_HELPER.setDeviceListAsync(devices);
             await client.xmppClient.getOmemoHelper().refreshDevicesAsync();
+            LoadDevices(client);
             MODEL.ResettingDevices = false;
             MODEL.Loading = false;
         }
@@ -41,8 +42,18 @@ namespace UWPX_UI_Context.Classes.DataContext.Controls
             MODEL.Loading = true;
             MODEL.RefreshingDevices = true;
             await client.xmppClient.getOmemoHelper().refreshDevicesAsync();
+            LoadDevices(client);
             MODEL.RefreshingDevices = false;
             MODEL.Loading = false;
+        }
+
+        public void LoadDevices(Client client)
+        {
+            MODEL.DEVICES.Clear();
+            if (client is not null)
+            {
+                MODEL.DEVICES.AddRange(client.dbAccount.omemoInfo.devices);
+            }
         }
 
         #endregion

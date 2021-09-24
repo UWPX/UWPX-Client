@@ -1,4 +1,6 @@
 ﻿using Shared.Classes;
+using Shared.Classes.Collections;
+using Storage.Classes.Models.Omemo;
 
 namespace UWPX_UI_Context.Classes.DataTemplates.Controls
 {
@@ -26,6 +28,8 @@ namespace UWPX_UI_Context.Classes.DataTemplates.Controls
             get => _Loading;
             set => SetProperty(ref _Loading, value);
         }
+
+        public readonly CustomObservableCollection<OmemoDeviceModel> DEVICES = new CustomObservableCollection<OmemoDeviceModel>(true);
 
         #endregion
         //--------------------------------------------------------Constructor:----------------------------------------------------------------\\

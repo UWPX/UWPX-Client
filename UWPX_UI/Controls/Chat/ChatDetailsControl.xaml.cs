@@ -193,7 +193,7 @@ namespace UWPX_UI.Controls.Chat
         {
             if (!IsDummy)
             {
-                MessageResponseHelperResult<IQMessage> result = await Chat.Client.xmppClient.OMEMO_COMMAND_HELPER.requestBundleInformationAsync(Chat.Client.dbAccount.bareJid, 3804956857);
+                MessageResponseHelperResult<IQMessage> result = await Chat.Client.xmppClient.OMEMO_COMMAND_HELPER.requestBundleInformationAsync(Chat.Client.dbAccount.bareJid, Chat.Client.dbAccount.omemoInfo.deviceId);
             }
         }
 

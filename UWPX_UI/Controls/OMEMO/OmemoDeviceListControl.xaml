@@ -33,13 +33,13 @@
                   extensions:ListViewExtensions.AlternateColor="{ThemeResource AppBackgroundAcrylicElementBrush}"
                   extensions:ListViewExtensions.ItemContainerStretchDirection="Both"
                   ItemTemplate="{StaticResource DeviceTemplate}"
-                  ItemsSource="{x:Bind Account.Client.dbAccount.omemoInfo.devices, Mode=OneWay}"
+                  ItemsSource="{x:Bind VIEW_MODEL.MODEL.DEVICES, Mode=OneWay}"
                   SelectionMode="None"/>
 
         <TextBlock Grid.Row="2"
                    Margin="0,10,0,0"
                    TextWrapping="Wrap">
-            <Run Text="{x:Bind Account.Client.dbAccount.omemoInfo.devices.Count.ToString(), Mode=OneWay, FallbackValue='0'}"/>
+            <Run Text="{x:Bind VIEW_MODEL.MODEL.DEVICES.Count.ToString(), Mode=OneWay, FallbackValue='0'}"/>
             <Run Text="device(s) found."/>
             <LineBreak/>
             <LineBreak/>
