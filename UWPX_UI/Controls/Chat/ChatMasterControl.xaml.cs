@@ -10,6 +10,7 @@ using UWPX_UI_Context.Classes.Events;
 using Windows.UI;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
+using Windows.UI.Xaml.Input;
 using Windows.UI.Xaml.Media;
 
 namespace UWPX_UI.Controls.Chat
@@ -90,7 +91,7 @@ namespace UWPX_UI.Controls.Chat
         }
 
         #endregion
-        private void UserControl_RightTapped(object sender, Windows.UI.Xaml.Input.RightTappedRoutedEventArgs e)
+        private void OnRightTapped(object sender, RightTappedRoutedEventArgs e)
         {
             if (Chat is null || Chat.Chat is null)
             {

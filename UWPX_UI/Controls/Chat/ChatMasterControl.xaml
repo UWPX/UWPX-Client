@@ -7,7 +7,6 @@
              xmlns:valueconverter="using:UWPX_UI_Context.Classes.ValueConverter"
              d:DesignHeight="120"
              d:DesignWidth="500"
-             RightTapped="UserControl_RightTapped"
              mc:Ignorable="d">
 
     <UserControl.Resources>
@@ -175,7 +174,8 @@
         </MenuFlyout>
     </UserControl.Resources>
 
-    <SwipeControl>
+    <SwipeControl IsRightTapEnabled="True"
+                  RightTapped="OnRightTapped">
         <SwipeControl.LeftItems>
             <SwipeItems Mode="Execute">
                 <SwipeItem BehaviorOnInvoked="Close"
@@ -201,7 +201,6 @@
             </SwipeItems>
         </SwipeControl.RightItems>
         <Grid Margin="0,5,0,5">
-
             <Grid.RowDefinitions>
                 <RowDefinition Height="Auto"/>
                 <RowDefinition Height="Auto"/>
