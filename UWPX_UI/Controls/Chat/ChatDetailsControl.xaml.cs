@@ -120,6 +120,21 @@ namespace UWPX_UI.Controls.Chat
             }
         }
 
+        private void NavigateToChatInfoPage()
+        {
+            if (!IsDummy)
+            {
+                if (Chat.Chat.chatType == ChatType.MUC)
+                {
+                    UiUtils.NavigateToPage(typeof(MucInfoPage), new NavigatedToMucInfoPageEventArgs(Chat));
+                }
+                else
+                {
+                    UiUtils.NavigateToPage(typeof(ContactInfoPage), new NavigatedToContactInfoPageEventArgs(Chat));
+                }
+            }
+        }
+
         #endregion
 
         #region --Misc Methods (Protected)--
@@ -161,17 +176,7 @@ namespace UWPX_UI.Controls.Chat
 
         private void Info_mfo_Click(object sender, RoutedEventArgs e)
         {
-            if (!IsDummy)
-            {
-                if (Chat.Chat.chatType == ChatType.MUC)
-                {
-                    UiUtils.NavigateToPage(typeof(MucInfoPage), new NavigatedToMucInfoPageEventArgs(Chat));
-                }
-                else
-                {
-                    UiUtils.NavigateToPage(typeof(ContactInfoPage), new NavigatedToContactInfoPageEventArgs(Chat));
-                }
-            }
+            NavigateToChatInfoPage();
         }
 
         private async void Enter_mfo_Click(object sender, RoutedEventArgs e)
@@ -298,6 +303,11 @@ namespace UWPX_UI.Controls.Chat
         private void OnMessageBoxKeyDown(object sender, KeyRoutedEventArgs e)
         {
             Chat.CHAT_STATE_HELPER.OnMessageBoxKeyDown();
+        }
+
+        private void OnHeaderTapped(object sender, TappedRoutedEventArgs e)
+        {
+            NavigateToChatInfoPage();
         }
         #endregion
     }

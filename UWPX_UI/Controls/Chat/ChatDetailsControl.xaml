@@ -9,6 +9,7 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              xmlns:omemoControls="using:UWPX_UI.Controls.OMEMO"
+             xmlns:ui="using:Microsoft.Toolkit.Uwp.UI"
              xmlns:valueconverter="using:UWPX_UI_Context.Classes.ValueConverter"
              mc:Ignorable="d">
     <UserControl.Resources>
@@ -77,7 +78,36 @@
                         <RowDefinition Height="Auto"/>
                     </Grid.RowDefinitions>
 
-                    <Grid.ContextFlyout>
+                    <!--  Name:  -->
+                    <TextBlock Grid.Row="0"
+                               HorizontalAlignment="Center"
+                               Style="{ThemeResource BaseLineTextBlockStyle}"
+                               Text="{x:Bind VIEW_MODEL.MODEL.NameText, Mode=OneWay}"
+                               TextTrimming="CharacterEllipsis"/>
+                    <!--  Account:  -->
+                    <TextBlock Grid.Row="1"
+                               HorizontalAlignment="Center"
+                               Foreground="{ThemeResource CaptionTextBrush}"
+                               Style="{ThemeResource CaptionLineTextBlockStyle}"
+                               Text="{x:Bind VIEW_MODEL.MODEL.AccountText, Mode=OneWay}"
+                               TextTrimming="CharacterEllipsis"/>
+                    <!--  Status:  -->
+                    <TextBlock Grid.Row="2"
+                               HorizontalAlignment="Center"
+                               Foreground="{ThemeResource CaptionTextBrush}"
+                               Style="{ThemeResource CaptionLineTextBlockStyle}"
+                               Text="{x:Bind VIEW_MODEL.MODEL.StatusText, Mode=OneWay}"
+                               TextTrimming="CharacterEllipsis"
+                               Visibility="{x:Bind VIEW_MODEL.MODEL.StatusText, Mode=OneWay, Converter={StaticResource StringEmptyVisibilityValueConverter}}"/>
+                </Grid>
+
+                <Rectangle Grid.Column="0"
+                           Grid.ColumnSpan="2"
+                           HorizontalAlignment="Stretch"
+                           ui:FrameworkElementExtensions.Cursor="Hand"
+                           Fill="Transparent"
+                           Tapped="OnHeaderTapped">
+                    <Rectangle.ContextFlyout>
                         <MenuFlyout>
                             <MenuFlyoutItem x:Name="copyNameText_mfi"
                                             Click="CopyNameText_mfi_Click"
@@ -101,30 +131,9 @@
                                 </MenuFlyoutItem.Icon>
                             </MenuFlyoutItem>
                         </MenuFlyout>
-                    </Grid.ContextFlyout>
+                    </Rectangle.ContextFlyout>
+                </Rectangle>
 
-                    <!--  Name:  -->
-                    <TextBlock Grid.Row="0"
-                               HorizontalAlignment="Center"
-                               Style="{ThemeResource BaseLineTextBlockStyle}"
-                               Text="{x:Bind VIEW_MODEL.MODEL.NameText, Mode=OneWay}"
-                               TextTrimming="CharacterEllipsis"/>
-                    <!--  Account:  -->
-                    <TextBlock Grid.Row="1"
-                               HorizontalAlignment="Center"
-                               Foreground="{ThemeResource CaptionTextBrush}"
-                               Style="{ThemeResource CaptionLineTextBlockStyle}"
-                               Text="{x:Bind VIEW_MODEL.MODEL.AccountText, Mode=OneWay}"
-                               TextTrimming="CharacterEllipsis"/>
-                    <!--  Status:  -->
-                    <TextBlock Grid.Row="2"
-                               HorizontalAlignment="Center"
-                               Foreground="{ThemeResource CaptionTextBrush}"
-                               Style="{ThemeResource CaptionLineTextBlockStyle}"
-                               Text="{x:Bind VIEW_MODEL.MODEL.StatusText, Mode=OneWay}"
-                               TextTrimming="CharacterEllipsis"
-                               Visibility="{x:Bind VIEW_MODEL.MODEL.StatusText, Mode=OneWay, Converter={StaticResource StringEmptyVisibilityValueConverter}}"/>
-                </Grid>
                 <omemoControls:OmemoButtonControl Grid.Column="2"
                                                   Chat="{x:Bind Chat, Mode=OneWay}"
                                                   OmemoEnabled="{x:Bind Chat.Chat.omemoInfo.enabled, Mode=OneWay}"
