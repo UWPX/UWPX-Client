@@ -8,7 +8,6 @@
       xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
       xmlns:datatemplates="using:Manager.Classes.Chat"
       xmlns:iot="using:UWPX_UI.Controls.IoT"
-      xmlns:masterdetailsview="using:UWPX_UI.Controls.Toolkit.MasterDetailsView"
       xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
       xmlns:selectors="using:UWPX_UI_Context.Classes.DataTemplates.Selectors"
       Background="{ThemeResource AppBackgroundAcrylicWindowBrush}"

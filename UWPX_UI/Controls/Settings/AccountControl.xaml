@@ -45,7 +45,6 @@
                            Fill="{x:Bind Account.Client.dbAccount.color, Mode=OneWay, Converter={StaticResource HexColorToSolidColorBrushValueConverter}, TargetNullValue='Transparent'}"/>
                 <Button x:Name="edit_btn"
                         Grid.Column="1"
-                        Width="40"
                         VerticalAlignment="Stretch"
                         Click="Edit_btn_Click"
                         Content="&#xE1C2;"
@@ -62,7 +61,6 @@
                                                       PresenceProp="{x:Bind Account.State, Mode=OneWay, Converter={StaticResource ConnectionStatePresenceValueConverter}}"/>
                 <Button x:Name="info_btn"
                         Grid.Column="3"
-                        Width="40"
                         VerticalAlignment="Stretch"
                         Click="Info_btn_Click"
                         Content="&#xE946;"

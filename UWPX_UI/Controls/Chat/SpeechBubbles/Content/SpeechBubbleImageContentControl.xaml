@@ -170,7 +170,6 @@
                 Content="&#xE896;"
                 FontFamily="{ThemeResource SymbolThemeFontFamily}"
                 FontSize="30"
-                Style="{ThemeResource ButtonRevealStyle}"
                 Visibility="{x:Bind SpeechBubbleContentViewModel.MODEL.Message.Message.image.state, Mode=OneWay, Converter={StaticResource DownloadStateVisibilityValueConverter_Download}, FallbackValue=Collapsed}"/>
 
         <!--  Downloading:  -->

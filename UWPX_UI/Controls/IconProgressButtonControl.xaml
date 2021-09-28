@@ -10,8 +10,7 @@
             HorizontalAlignment="{x:Bind HorizontalAlignment}"
             VerticalAlignment="{x:Bind VerticalAlignment, Mode=TwoWay}"
             Click="Button_Click"
-            Foreground="{x:Bind Foreground, Mode=OneWay}"
-            Style="{StaticResource ButtonRevealStyle}">
+            Foreground="{x:Bind Foreground, Mode=OneWay}">
         <Grid>
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="Auto"/>

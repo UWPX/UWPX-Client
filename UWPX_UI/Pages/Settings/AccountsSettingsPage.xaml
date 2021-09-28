@@ -19,8 +19,7 @@
                 <ResourceDictionary Source="ms-appx:///Resources/Styles/InfoButtonStyle.xaml"/>
             </ResourceDictionary.MergedDictionaries>
 
-            <Style BasedOn="{StaticResource ButtonRevealStyle}"
-                   TargetType="Button">
+            <Style TargetType="Button">
                 <Setter Property="Margin" Value="0,10,0,0"/>
             </Style>
         </ResourceDictionary>

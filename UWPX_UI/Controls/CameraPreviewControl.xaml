@@ -41,7 +41,6 @@
                         Content="&#xE89E;"
                         FontFamily="{StaticResource SymbolThemeFontFamily}"
                         FontSize="20"
-                        Style="{ThemeResource ButtonRevealStyle}"
                         ToolTipService.ToolTip="Next camera"
                         Visibility="{x:Bind VIEW_MODEL.MODEL.MultipleCamerasAvailable, Mode=OneWay, Converter={StaticResource BoolVisibilityValueConverter}}"/>
                 <ToggleButton x:Name="flashlight_btn"
@@ -51,7 +50,6 @@
                               Content="&#xE754;"
                               FontFamily="{StaticResource SymbolThemeFontFamily}"
                               FontSize="20"
-                              Style="{ThemeResource ToggleButtonRevealStyle}"
                               ToolTipService.ToolTip="Toggle Flashlight"
                               Visibility="{x:Bind VIEW_MODEL.MODEL.LampAvailable, Mode=OneWay, Converter={StaticResource BoolVisibilityValueConverter}}"/>
             </Grid>

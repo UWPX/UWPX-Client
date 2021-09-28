@@ -6,7 +6,6 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              xmlns:unicode="using:NeoSmart.Unicode"
-             Width="300"
              Height="300"
              mc:Ignorable="d">
     <UserControl.Resources>
@@ -130,6 +129,7 @@
 
         <GridView x:Name="emoji_gridv"
                   Grid.Row="2"
+                  MaxWidth="300"
                   IsItemClickEnabled="True"
                   ItemClick="Emojis_grid_ItemClick"
                   ItemTemplate="{StaticResource EmojiTemplate}"
@@ -158,13 +158,13 @@
                       VerticalAlignment="Center"
                       IsActive="{x:Bind VIEW_MODEL.MODEL.IsLoading, Mode=OneWay}"/>
         <controls1:SeperatorControl Grid.Row="3"/>
-        <StackPanel Grid.Row="4"
+        <StackPanel x:Name="CategoriesStackPanel"
+                    Grid.Row="4"
                     Margin="0,5,0,0"
                     HorizontalAlignment="Left"
                     Orientation="Horizontal">
             <StackPanel.Resources>
-                <Style BasedOn="{StaticResource ToggleButtonRevealStyle}"
-                       TargetType="ToggleButton">
+                <Style TargetType="ToggleButton">
                     <Setter Property="FontFamily" Value="{ThemeResource SymbolThemeFontFamily}"/>
                     <Setter Property="Background" Value="Transparent"/>
                     <Setter Property="FontSize" Value="20"/>

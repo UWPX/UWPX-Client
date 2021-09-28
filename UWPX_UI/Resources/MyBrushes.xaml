@@ -4,22 +4,16 @@
                     xmlns:media1="using:Microsoft.Toolkit.Uwp.UI.Media">
 
     <SolidColorBrush x:Key="PresenceOnlineBrush"
-                     Opacity="0.9"
                      Color="#54A81B"/>
     <SolidColorBrush x:Key="PresenceChatBrush"
-                     Opacity="0.9"
                      Color="White"/>
     <SolidColorBrush x:Key="PresenceAwayBrush"
-                     Opacity="0.9"
                      Color="#EB8C10"/>
     <SolidColorBrush x:Key="PresenceXaBrush"
-                     Opacity="0.9"
                      Color="#EB4910"/>
     <SolidColorBrush x:Key="PresenceDndBrush"
-                     Opacity="0.9"
                      Color="#A21025"/>
     <SolidColorBrush x:Key="PresenceUnavailableBrush"
-                     Opacity="0.9"
                      Color="#4C4A4B"/>
 
     <SolidColorBrush x:Key="SpeechBubbleBackgroundDarkBrush"
@@ -48,7 +42,7 @@
                               Amount="6.0"/>
 
     <ResourceDictionary.ThemeDictionaries>
-        <ResourceDictionary x:Key="Dark">
+        <ResourceDictionary x:Key="Default">
             <Color x:Key="DropShadowColor">#FF000000</Color>
             <media:AcrylicBrush x:Key="AppBackgroundAcrylicWindowBrush"
                                 BackgroundSource="HostBackdrop"
@@ -67,7 +61,7 @@
                                 TintColor="#FF1A1A1A"
                                 TintOpacity="0.6"/>
             <SolidColorBrush x:Key="CaptionTextBrush"
-                             Color="#99FFFFFF"/>
+                             Color="#AAFFFFFF"/>
             <SolidColorBrush x:Key="GoldBrush"
                              Color="#FFFFD700"/>
             <media:AcrylicBrush x:Key="NavigationViewExpandedPaneBackground"

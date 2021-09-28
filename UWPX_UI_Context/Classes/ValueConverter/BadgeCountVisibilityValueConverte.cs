@@ -1,9 +1,10 @@
 ﻿using System;
+using Windows.UI.Xaml;
 using Windows.UI.Xaml.Data;
 
 namespace UWPX_UI_Context.Classes.ValueConverter
 {
-    public sealed class BadgeCountStringValueConverter: IValueConverter
+    public sealed class BadgeCountVisibilityValueConverte: IValueConverter
     {
         //--------------------------------------------------------Attributes:-----------------------------------------------------------------\\
         #region --Attributes--
@@ -26,13 +27,9 @@ namespace UWPX_UI_Context.Classes.ValueConverter
         {
             if (value is int i && i > 0)
             {
-                if (i > 99)
-                {
-                    return "99+";
-                }
-                return i.ToString();
+                return Visibility.Visible;
             }
-            return "";
+            return Visibility.Collapsed;
         }
 
         public object ConvertBack(object value, Type targetType, object parameter, string language)

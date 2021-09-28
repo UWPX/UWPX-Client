@@ -80,8 +80,7 @@
                     Grid.Column="0"
                     Margin="0,10,0,0"
                     Click="ExportCert_btn_Click"
-                    IsEnabled="{x:Bind VIEW_MODEL.MODEL.SocketInfo, Mode=OneWay, Converter={StaticResource IsNullBoolValueConverter}}"
-                    Style="{ThemeResource ButtonRevealStyle}">
+                    IsEnabled="{x:Bind VIEW_MODEL.MODEL.SocketInfo, Mode=OneWay, Converter={StaticResource IsNullBoolValueConverter}}">
                 <StackPanel Orientation="Horizontal">
                     <TextBlock VerticalAlignment="Center"
                                FontFamily="{ThemeResource SymbolThemeFontFamily}"

@@ -19,38 +19,45 @@
                         <Ellipse Width="{TemplateBinding Width}"
                                  Height="{TemplateBinding Height}"
                                  Fill="{TemplateBinding Background}"
-                                 Stroke="{ThemeResource SystemColorButtonTextColor}"
+                                 Stroke="{ThemeResource PersonPictureEllipseFillStrokeBrush}"
                                  StrokeThickness="{ThemeResource PersonPictureEllipseStrokeThickness}"/>
+
                         <TextBlock x:Name="InitialsTextBlock"
                                    HorizontalAlignment="Center"
                                    VerticalAlignment="Center"
                                    AutomationProperties.AccessibilityView="Raw"
                                    FontFamily="{TemplateBinding FontFamily}"
-                                   FontSize="36"
+                                   FontSize="20"
                                    FontWeight="{TemplateBinding FontWeight}"
                                    Foreground="{TemplateBinding Foreground}"
                                    IsTextScaleFactorEnabled="False"
                                    Text="{TemplateBinding Initials}"
                                    TextLineBounds="Tight"/>
+
                         <Ellipse x:Name="PersonPictureEllipse"
                                  Width="{TemplateBinding Width}"
                                  Height="{TemplateBinding Height}"
                                  x:DeferLoadStrategy="Lazy"
                                  FlowDirection="LeftToRight"/>
+
                         <Grid x:Name="BadgeGrid"
+                              Margin="{ThemeResource PersonPictureBadgeGridMargin}"
                               HorizontalAlignment="Right"
-                              VerticalAlignment="Bottom"
+                              VerticalAlignment="Top"
                               Visibility="Collapsed">
+
                             <Ellipse x:Name="BadgingBackgroundEllipse"
                                      x:DeferLoadStrategy="Lazy"
                                      Fill="{TemplateBinding Background}"
                                      Opacity="{ThemeResource PersonPictureEllipseBadgeStrokeOpacity}"
                                      Stroke="{ThemeResource PersonPictureEllipseBadgeStrokeThemeBrush}"
                                      StrokeThickness="{ThemeResource PersonPictureEllipseBadgeStrokeThickness}"/>
+
                             <Ellipse x:Name="BadgingEllipse"
                                      x:DeferLoadStrategy="Lazy"
                                      FlowDirection="LeftToRight"
                                      Opacity="0"/>
+
                             <TextBlock x:Name="BadgeNumberTextBlock"
                                        HorizontalAlignment="Center"
                                        VerticalAlignment="Center"
@@ -61,6 +68,8 @@
                                        Foreground="{ThemeResource PersonPictureEllipseBadgeForegroundThemeBrush}"
                                        IsTextScaleFactorEnabled="False"
                                        TextLineBounds="Tight"/>
+
+                            <!--  Default font family to "Segoe MDL2 Assets"  -->
                             <FontIcon x:Name="BadgeGlyphIcon"
                                       HorizontalAlignment="Center"
                                       VerticalAlignment="Center"
@@ -72,8 +81,29 @@
                         </Grid>
                         <VisualStateManager.VisualStateGroups>
                             <VisualStateGroup x:Name="CommonStates">
-                                <VisualState x:Name="Photo"/>
+                                <!--  Visual State when a Photo is available for display  -->
+                                <VisualState x:Name="Photo">
+                                    <VisualState.Setters>
+                                        <Setter Target="PersonPictureEllipse.Fill" Value="{Binding RelativeSource={RelativeSource TemplatedParent}, Path=TemplateSettings.ActualImageBrush}"/>
+                                    </VisualState.Setters>
+                                </VisualState>
+                                <!--  Visual State when no Photo is available (but there are initials).  -->
                                 <VisualState x:Name="Initials"/>
+                                <VisualState x:Name="NoPhotoOrInitials">
+                                    <VisualState.Setters>
+                                        <Setter Target="InitialsTextBlock.FontFamily" Value="{ThemeResource SymbolThemeFontFamily}"/>
+                                        <!--  Placeholder symbol for 'Contact' (https://docs.microsoft.com/en-us/windows/uwp/design/style/segoe-ui-symbol-font)  -->
+                                        <Setter Target="InitialsTextBlock.Text" Value="&#xE77B;"/>
+                                    </VisualState.Setters>
+                                </VisualState>
+                                <!--  Visual State when in Group mode  -->
+                                <VisualState x:Name="Group">
+                                    <VisualState.Setters>
+                                        <Setter Target="InitialsTextBlock.FontFamily" Value="{ThemeResource SymbolThemeFontFamily}"/>
+                                        <!--  Placeholder symbol for 'People' (https://docs.microsoft.com/en-us/windows/uwp/design/style/segoe-ui-symbol-font)  -->
+                                        <Setter Target="InitialsTextBlock.Text" Value="&#xE716;"/>
+                                    </VisualState.Setters>
+                                </VisualState>
                             </VisualStateGroup>
                             <VisualStateGroup x:Name="BadgeStates">
                                 <VisualState x:Name="NoBadge"/>

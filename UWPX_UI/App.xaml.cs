@@ -105,12 +105,6 @@ namespace UWPX_UI
             // Sets the log level:
             InitLogger();
 
-            // Override resources to increase the UI performance on mobile devices:
-            if (DeviceFamilyHelper.GetDeviceFamilyType() == DeviceFamilyType.Mobile)
-            {
-                ThemeUtils.OverrideThemeResources();
-            }
-
             isRunning = true;
 
             // Initialize push:

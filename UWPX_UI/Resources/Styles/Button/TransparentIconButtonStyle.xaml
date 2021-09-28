@@ -2,13 +2,13 @@
                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
 
     <Style x:Key="TransparentIconButtonStyle"
-           BasedOn="{StaticResource ButtonRevealStyle}"
            TargetType="Button">
         <Setter Property="Background" Value="Transparent"/>
         <Setter Property="FontFamily" Value="{StaticResource SymbolThemeFontFamily}"/>
         <Setter Property="FontWeight" Value="Bold"/>
         <Setter Property="Height" Value="35"/>
         <Setter Property="FontSize" Value="20"/>
+        <Setter Property="BorderThickness" Value="0"/>
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="Button">

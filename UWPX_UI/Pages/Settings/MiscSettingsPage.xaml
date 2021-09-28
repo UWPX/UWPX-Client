@@ -15,14 +15,14 @@
             <ResourceDictionary.MergedDictionaries>
                 <ResourceDictionary Source="ms-appx:///Resources/Styles/SettingsNavigationViewStyle.xaml"/>
                 <ResourceDictionary Source="ms-appx:///Resources/Styles/InfoButtonStyle.xaml"/>
+                <ResourceDictionary Source="ms-appx:///Resources/Styles/Button/TransparentIconButtonStyle.xaml"/>
             </ResourceDictionary.MergedDictionaries>
 
             <Style TargetType="ToggleSwitch">
                 <Setter Property="Margin" Value="0,10,0,0"/>
             </Style>
 
-            <Style BasedOn="{StaticResource ButtonRevealStyle}"
-                   TargetType="Button">
+            <Style TargetType="Button">
                 <Setter Property="Margin" Value="0,10,0,0"/>
             </Style>
         </ResourceDictionary>
@@ -171,8 +171,8 @@
                         <settings:SettingsContentControl.MainContent>
                             <StackPanel>
                                 <StackPanel.Resources>
-                                    <Style BasedOn="{StaticResource ButtonRevealStyle}"
-                                           TargetType="Button">
+                                    <Style TargetType="Button">
+                                        <Setter Property="BorderThickness" Value="0"/>
                                         <Setter Property="Background" Value="Transparent"/>
                                         <Setter Property="Margin" Value="0,0,0,0"/>
                                     </Style>

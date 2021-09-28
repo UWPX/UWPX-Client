@@ -53,8 +53,7 @@
                                         Height="30"
                                         Margin="0,10,0,0"
                                         Padding="5,3,5,3"
-                                        Click="DonatePP_btn_Click"
-                                        Style="{ThemeResource ButtonRevealStyle}">
+                                        Click="DonatePP_btn_Click">
                                     <Image Source="ms-appx:///Assets/Images/pp.png"/>
                                 </Button>
                                 <Button x:Name="donateLP_btn"
@@ -62,8 +61,7 @@
                                         Margin="0,10,0,0"
                                         Padding="0"
                                         Background="Transparent"
-                                        Click="DonateLP_btn_Click"
-                                        Style="{ThemeResource ButtonRevealStyle}">
+                                        Click="DonateLP_btn_Click">
                                     <Image Source="ms-appx:///Assets/Images/lp.png"/>
                                 </Button>
                             </StackPanel>

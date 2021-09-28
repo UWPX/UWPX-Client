@@ -202,8 +202,7 @@
                                         Windows10version1809:CornerRadius="0,2,2,0"
                                         Click="PickColor_btn_Click"
                                         Content="&#xE790;"
-                                        FontFamily="{ThemeResource SymbolThemeFontFamily}"
-                                        Style="{ThemeResource ButtonRevealStyle}"/>
+                                        FontFamily="{ThemeResource SymbolThemeFontFamily}"/>
                             </Grid>
                             <Grid Margin="0,10,0,0">
                                 <Grid.ColumnDefinitions>

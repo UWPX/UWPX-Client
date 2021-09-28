@@ -1,9 +1,7 @@
 ﻿using System;
 using Microsoft.Toolkit.Uwp.UI.Helpers;
 using Storage.Classes;
-using Windows.UI;
 using Windows.UI.Xaml;
-using Windows.UI.Xaml.Media;
 
 namespace UWPX_UI_Context.Classes
 {
@@ -156,52 +154,6 @@ namespace UWPX_UI_Context.Classes
 
             ResourceDictionary themeResources = resources.ThemeDictionaries[actualTheme.ToString()] as ResourceDictionary;
             themeResources[key] = value;
-        }
-
-        /// <summary>
-        /// Overrides the default resources like "ButtonRevealStyle" with more performant versions
-        /// to increase the UI performance on low end devices like phones.
-        /// </summary>
-        public static void OverrideThemeResources()
-        {
-            // Styles:
-            SetResourceAll("ButtonRevealStyle", GetThemeResource<object>("DefaultButtonStyle"));
-            SetResourceAll("AcceptButtonRevealStyle", GetThemeResource<object>("AcceptButtonStyle"));
-            SetResourceAll("DeclineButtonRevealStyle", GetThemeResource<object>("DeclineButtonStyle"));
-            SetResourceAll("SaveButtonRevealStyle", GetThemeResource<object>("SaveButtonStyle"));
-
-            // Brushes:
-            // Dark:
-            SetThemeResource("AppBackgroundAcrylicWindowBrush", new SolidColorBrush(new Color()
-            {
-                A = 0xFF,
-                R = 0x24,
-                G = 0x24,
-                B = 0x24,
-            }), ElementTheme.Dark);
-            SetThemeResource("AppBackgroundAcrylicElementBrush", new SolidColorBrush(new Color()
-            {
-                A = 0xFF,
-                R = 0x2D,
-                G = 0x2D,
-                B = 0x2D,
-            }), ElementTheme.Dark);
-
-            // Light:
-            SetThemeResource("AppBackgroundAcrylicWindowBrush", new SolidColorBrush(new Color()
-            {
-                A = 0xFF,
-                R = 0xD6,
-                G = 0xD6,
-                B = 0xD6,
-            }), ElementTheme.Light);
-            SetThemeResource("AppBackgroundAcrylicElementBrush", new SolidColorBrush(new Color()
-            {
-                A = 0xFF,
-                R = 0xCD,
-                G = 0xCD,
-                B = 0xCD,
-            }), ElementTheme.Light);
         }
 
         #endregion

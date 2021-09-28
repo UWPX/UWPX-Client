@@ -8,13 +8,19 @@
              mc:Ignorable="d">
 
     <UserControl.Resources>
-        <valueconverter:LogLevelWarningVisibilityValueConverter x:Key="LogLevelWarningVisibilityValueConverter"/>
-        <valueconverter:LogLevelStringValueConverter x:Key="LogLevelStringValueConverter"/>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="ms-appx:///Resources/Styles/Button/TransparentIconButtonStyle.xaml"/>
+            </ResourceDictionary.MergedDictionaries>
 
-        <DataTemplate x:Key="LogLevelTemplate"
-                      x:DataType="datatemplates:LogLevelDataTemplate">
-            <TextBlock Text="{x:Bind LogLevel, Mode=OneWay, Converter={StaticResource LogLevelStringValueConverter}}"/>
-        </DataTemplate>
+            <valueconverter:LogLevelWarningVisibilityValueConverter x:Key="LogLevelWarningVisibilityValueConverter"/>
+            <valueconverter:LogLevelStringValueConverter x:Key="LogLevelStringValueConverter"/>
+
+            <DataTemplate x:Key="LogLevelTemplate"
+                          x:DataType="datatemplates:LogLevelDataTemplate">
+                <TextBlock Text="{x:Bind LogLevel, Mode=OneWay, Converter={StaticResource LogLevelStringValueConverter}}"/>
+            </DataTemplate>
+        </ResourceDictionary>
     </UserControl.Resources>
 
     <Grid>
@@ -45,12 +51,10 @@
                 Grid.Column="1"
                 Margin="10,0,0,0"
                 VerticalAlignment="Center"
-                Background="Transparent"
                 Content="&#xE7BA;"
-                FontFamily="{ThemeResource SymbolThemeFontFamily}"
                 FontSize="15"
                 Foreground="Red"
-                Style="{ThemeResource ButtonRevealStyle}"
+                Style="{ThemeResource TransparentIconButtonStyle}"
                 Visibility="{x:Bind VIEW_MODEL.MODEL.LogLevelSelectedItem, Mode=OneWay, Converter={StaticResource LogLevelWarningVisibilityValueConverter}}">
             <Button.Flyout>
                 <Flyout>
