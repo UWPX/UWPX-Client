@@ -17,12 +17,8 @@
                 <!--  Styles:  -->
                 <ResourceDictionary Source="ms-appx:///Resources/Styles/GeneralStyles.xaml"/>
 
-
                 <!--  Value Converters:  -->
                 <ResourceDictionary Source="ms-appx:///Resources/MyValueConverters.xaml"/>
-
-                <!--  Controls:  -->
-                <ResourceDictionary Source="ms-appx:///Controls/Toolkit/MasterDetailsView/MasterDetailsView.xaml"/>
             </ResourceDictionary.MergedDictionaries>
         </ResourceDictionary>
     </Application.Resources>
