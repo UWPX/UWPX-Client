@@ -1,6 +1,6 @@
 ﻿using System;
+using Microsoft.Toolkit.Uwp.UI.Controls;
 using Shared.Classes;
-using UWPX_UI.Controls.Toolkit.MasterDetailsView;
 using UWPX_UI.Pages;
 using UWPX_UI_Context.Classes;
 using Windows.ApplicationModel.Core;
@@ -22,12 +22,12 @@ namespace UWPX_UI.Controls
         }
         public static readonly DependencyProperty FrameProperty = DependencyProperty.Register(nameof(Frame), typeof(Frame), typeof(CustomTitleBarControl), new PropertyMetadata(null, OnFrameChanged));
 
-        public MasterDetailsView MasterDetailsView
+        public ListDetailsView ListDetailsView
         {
-            get => (MasterDetailsView)GetValue(MasterDetailsViewProperty);
-            set => SetValue(MasterDetailsViewProperty, value);
+            get => (ListDetailsView)GetValue(ListDetailsViewProperty);
+            set => SetValue(ListDetailsViewProperty, value);
         }
-        public static readonly DependencyProperty MasterDetailsViewProperty = DependencyProperty.Register(nameof(MasterDetailsView), typeof(MasterDetailsView), typeof(CustomTitleBarControl), new PropertyMetadata(null));
+        public static readonly DependencyProperty ListDetailsViewProperty = DependencyProperty.Register(nameof(ListDetailsView), typeof(ListDetailsView), typeof(CustomTitleBarControl), new PropertyMetadata(null));
 
         public Visibility BackRequestButtonVisibility
         {
@@ -91,9 +91,9 @@ namespace UWPX_UI.Controls
                 return false;
             }
 
-            if (!(MasterDetailsView is null) && MasterDetailsView.ViewState == MasterDetailsViewState.Details)
+            if (!(ListDetailsView is null) && ListDetailsView.ViewState == ListDetailsViewState.Details)
             {
-                MasterDetailsView.ClearSelectedItem();
+                ListDetailsView.ClearSelectedItem();
                 return true;
             }
 

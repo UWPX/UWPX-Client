@@ -380,11 +380,6 @@
     <Compile Include="Controls\Settings\SettingsSelectionSmallControl.xaml.cs">
       <DependentUpon>SettingsSelectionSmallControl.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Controls\Toolkit\MasterDetailsView\BackButtonBehavior.cs" />
-    <Compile Include="Controls\Toolkit\MasterDetailsView\MasterDetailsView.BackButton.cs" />
-    <Compile Include="Controls\Toolkit\MasterDetailsView\MasterDetailsView.cs" />
-    <Compile Include="Controls\Toolkit\MasterDetailsView\MasterDetailsView.Events.cs" />
-    <Compile Include="Controls\Toolkit\MasterDetailsView\MasterDetailsViewState.cs" />
     <Compile Include="Dialogs\AccountInfoDialog.xaml.cs">
       <DependentUpon>AccountInfoDialog.xaml</DependentUpon>
     </Compile>
@@ -635,25 +630,25 @@
       <Version>6.2.12</Version>
     </PackageReference>
     <PackageReference Include="Microsoft.Toolkit.Uwp">
-      <Version>7.0.2</Version>
+      <Version>7.1.0</Version>
     </PackageReference>
     <PackageReference Include="Microsoft.Toolkit.Uwp.UI">
-      <Version>7.0.2</Version>
+      <Version>7.1.0</Version>
     </PackageReference>
     <PackageReference Include="Microsoft.Toolkit.Uwp.UI.Animations">
-      <Version>7.0.2</Version>
+      <Version>7.1.0</Version>
     </PackageReference>
     <PackageReference Include="Microsoft.Toolkit.Uwp.UI.Behaviors">
-      <Version>7.0.2</Version>
+      <Version>7.1.0</Version>
     </PackageReference>
     <PackageReference Include="Microsoft.Toolkit.Uwp.UI.Controls">
-      <Version>7.0.2</Version>
+      <Version>7.1.0</Version>
     </PackageReference>
     <PackageReference Include="Microsoft.Toolkit.Uwp.UI.Controls.DataGrid">
-      <Version>7.0.2</Version>
+      <Version>7.1.0</Version>
     </PackageReference>
     <PackageReference Include="Microsoft.Toolkit.Uwp.UI.Media">
-      <Version>7.0.2</Version>
+      <Version>7.1.0</Version>
     </PackageReference>
     <PackageReference Include="Microsoft.UI.Xaml">
       <Version>2.6.2</Version>
@@ -979,10 +974,6 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="Controls\Toolkit\MasterDetailsView\MasterDetailsView.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
     <Page Include="Dialogs\AccountInfoDialog.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
@@ -1237,9 +1228,6 @@
       <Project>{85ce85c2-f71e-4f58-9631-95d3b99eac69}</Project>
       <Name>XMPP_API_IoT</Name>
     </ProjectReference>
-  </ItemGroup>
-  <ItemGroup>
-    <Compile Include="Controls\Toolkit\MasterDetailsView\MasterDetailsView.Properties.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\Lottie\Analytics.json" />
