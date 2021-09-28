@@ -172,6 +172,7 @@
                             Opening="Master_cmdb_Opening">
                     <AppBarButton x:Name="addChat_abb"
                                   Grid.Column="0"
+                                  Margin="-2,0,-2,0"
                                   Click="AddChat_abb_Click"
                                   Label="Add"
                                   ToolTipService.ToolTip="Add/Join chat">
@@ -216,6 +217,7 @@
                         </AppBarButton.ContextFlyout>
                     </AppBarButton>
                     <AppBarButton x:Name="filterChats_tabb"
+                                  Margin="-2,0,-2,0"
                                   Click="FilterChats_tabb_Click"
                                   Label="Filter"
                                   ToolTipService.ToolTip="Filter chats">
@@ -329,6 +331,7 @@
                     </AppBarButton>
                     <AppBarToggleButton x:Name="filterQuery_abb"
                                         Grid.Column="1"
+                                        Margin="-2,0,-2,0"
                                         IsChecked="{x:Bind VIEW_MODEL.MODEL.CHAT_FILTER.ChatQueryEnabled, Mode=TwoWay}"
                                         Label="Search"
                                         ToolTipService.ToolTip="Search chat">
@@ -339,6 +342,7 @@
                     </AppBarToggleButton>
                     <AppBarButton x:Name="settings_abb"
                                   Grid.Column="1"
+                                  Margin="-2,0,-2,0"
                                   Click="Settings_abb_Click"
                                   Label="Settings"
                                   ToolTipService.ToolTip="Settings">
