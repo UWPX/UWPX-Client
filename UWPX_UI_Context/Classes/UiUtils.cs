@@ -185,10 +185,10 @@ namespace UWPX_UI_Context.Classes
         //--------------------------------------------------------Misc Methods:---------------------------------------------------------------\\
         #region --Misc Methods (Public)--
         /// <summary>
-        /// Shows the given content dialog on the screen, if no other dialog is shown right now.
+        /// Shows the given <see cref="ContentDialog"/> on the screen, if no other dialog is shown right now.
         /// If there is an other one being shown, the dialog will be shown afterwards.
         /// </summary>
-        /// <param name="dialog">The dialog that should get shown.</param>
+        /// <param name="dialog">The dialog that should be shown.</param>
         public static async Task<ContentDialogResult> ShowDialogAsync(ContentDialog dialog)
         {
             // Make sure it gets invoked by the UI thread:
@@ -213,7 +213,7 @@ namespace UWPX_UI_Context.Classes
         /// <summary>
         /// Launches the default application for the given Uri.
         /// </summary>
-        /// <param name="url">The Uri that defines the application that should get launched.</param>
+        /// <param name="url">The <see cref="Uri"/> that defines the application that should get launched.</param>
         /// <returns>Returns true on success.</returns>
         public static async Task<bool> LaunchUriAsync(Uri url)
         {

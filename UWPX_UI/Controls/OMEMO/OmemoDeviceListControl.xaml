@@ -51,15 +51,13 @@
         <StackPanel Grid.Row="3"
                     Margin="0,10,0,0"
                     Orientation="Horizontal">
-            <local:IconProgressButtonControl x:Name="reset_ibtn"
-                                             Click="Reset_ibtn_Click"
+            <local:IconProgressButtonControl Click="Reset_ibtn_Click"
                                              Glyph="&#xED62;"
                                              IsEnabled="{x:Bind VIEW_MODEL.MODEL.Loading, Mode=OneWay, Converter={StaticResource BoolInverterValueConverter}}"
                                              ProgressRingVisibility="{x:Bind VIEW_MODEL.MODEL.ResettingDevices, Mode=OneWay, Converter={StaticResource BoolVisibilityValueConverter}}"
                                              Text="Reset"
                                              ToolTipService.ToolTip="Clears all inactive OMEMO devices."/>
-            <local:IconProgressButtonControl x:Name="reload_ibtn"
-                                             Margin="10,0,0,0"
+            <local:IconProgressButtonControl Margin="10,0,0,0"
                                              Click="Refresh_ibtn_Click"
                                              Glyph="&#xE72C;"
                                              IsEnabled="{x:Bind VIEW_MODEL.MODEL.Loading, Mode=OneWay, Converter={StaticResource BoolInverterValueConverter}}"

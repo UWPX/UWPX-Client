@@ -317,6 +317,9 @@
     <Compile Include="Controls\OMEMO\OmemoOwnFingerprintControl.xaml.cs">
       <DependentUpon>OmemoOwnFingerprintControl.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Controls\OMEMO\OmemoTroubleshooterControl.xaml.cs">
+      <DependentUpon>OmemoTroubleshooterControl.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Controls\OMEMO\OmemoTrustFingerprintControl.xaml.cs">
       <DependentUpon>OmemoTrustFingerprintControl.xaml</DependentUpon>
     </Compile>
@@ -653,7 +656,7 @@
       <Version>7.0.2</Version>
     </PackageReference>
     <PackageReference Include="Microsoft.UI.Xaml">
-      <Version>2.5.0</Version>
+      <Version>2.6.2</Version>
     </PackageReference>
     <PackageReference Include="ZXing.Net">
       <Version>0.16.6</Version>
@@ -889,6 +892,10 @@
       <SubType>Designer</SubType>
     </Page>
     <Page Include="Controls\OMEMO\OmemoOwnFingerprintControl.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Controls\OMEMO\OmemoTroubleshooterControl.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

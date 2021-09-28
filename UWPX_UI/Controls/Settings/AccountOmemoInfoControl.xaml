@@ -101,6 +101,11 @@
             <controlsOmemo:OmemoDeviceListControl Margin="0,10,0,0"
                                                   Account="{x:Bind Account, Mode=OneWay}"/>
 
+            <controls:SeperatorControl Margin="-10,0,0,0"
+                                       Text="Troubleshoot:"/>
+            <controlsOmemo:OmemoTroubleshooterControl Margin="0,10,0,0"
+                                                      Account="{x:Bind Account, Mode=OneWay}"/>
+
         </StackPanel>
 
         <VisualStateManager.VisualStateGroups>

@@ -1,30 +1,27 @@
-﻿using System;
-using UWPX_UI.Dialogs;
-using UWPX_UI_Context.Classes;
-using UWPX_UI_Context.Classes.DataContext.Controls;
+﻿using UWPX_UI_Context.Classes.DataContext.Controls.OMEMO;
 using UWPX_UI_Context.Classes.DataTemplates;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 
 namespace UWPX_UI.Controls.OMEMO
 {
-    public sealed partial class OmemoDeviceListControl: UserControl
+    public sealed partial class OmemoTroubleshooterControl: UserControl
     {
         //--------------------------------------------------------Attributes:-----------------------------------------------------------------\\
         #region --Attributes--
+        public readonly OmemoTroubleshooterControlContext VIEW_MODEL = new OmemoTroubleshooterControlContext();
+
         public AccountDataTemplate Account
         {
             get => (AccountDataTemplate)GetValue(AccountProperty);
             set => SetValue(AccountProperty, value);
         }
-        public static readonly DependencyProperty AccountProperty = DependencyProperty.Register(nameof(Account), typeof(AccountDataTemplate), typeof(OmemoDeviceListControl), new PropertyMetadata(null, OnAccountChanged));
-
-        public readonly OmemoDeviceListControlContext VIEW_MODEL = new OmemoDeviceListControlContext();
+        public static readonly DependencyProperty AccountProperty = DependencyProperty.Register(nameof(Account), typeof(AccountDataTemplate), typeof(OmemoTroubleshooterControl), new PropertyMetadata(null));
 
         #endregion
         //--------------------------------------------------------Constructor:----------------------------------------------------------------\\
         #region --Constructors--
-        public OmemoDeviceListControl()
+        public OmemoTroubleshooterControl()
         {
             InitializeComponent();
         }
@@ -43,6 +40,7 @@ namespace UWPX_UI.Controls.OMEMO
 
         #region --Misc Methods (Private)--
 
+
         #endregion
 
         #region --Misc Methods (Protected)--
@@ -51,22 +49,14 @@ namespace UWPX_UI.Controls.OMEMO
         #endregion
         //--------------------------------------------------------Events:---------------------------------------------------------------------\\
         #region --Events--
-        private async void Reset_ibtn_Click(IconProgressButtonControl sender, RoutedEventArgs args)
+        private void OnTroubleshootClicked(IconProgressButtonControl sender, RoutedEventArgs args)
         {
-            await VIEW_MODEL.ResetDevicesAsync(Account.Client);
+            VIEW_MODEL.Troubleshoote(Account);
         }
 
-        private async void Refresh_ibtn_Click(IconProgressButtonControl sender, RoutedEventArgs args)
+        private void OnFixClicked(IconProgressButtonControl sender, RoutedEventArgs args)
         {
-            await VIEW_MODEL.RefreshDevicesAsync(Account.Client);
-        }
-
-        private static void OnAccountChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
-        {
-            if (d is OmemoDeviceListControl control)
-            {
-                control.VIEW_MODEL.LoadDevices(control.Account?.Client);
-            }
+            VIEW_MODEL.Fix(Account);
         }
 
         #endregion

@@ -178,6 +178,7 @@
     <Compile Include="Classes\DataContext\Controls\OMEMO\OmemoDeviceControlContext.cs" />
     <Compile Include="Classes\DataContext\Controls\OMEMO\OmemoFingerprintControlContext.cs" />
     <Compile Include="Classes\DataContext\Controls\OMEMO\OmemoOwnFingerprintControlContext.cs" />
+    <Compile Include="Classes\DataContext\Controls\OMEMO\OmemoTroubleshooterControlContext.cs" />
     <Compile Include="Classes\DataContext\Controls\OMEMO\OmemoTrustFingerprintControlContext.cs" />
     <Compile Include="Classes\DataContext\Controls\QrCodeControlContext.cs" />
     <Compile Include="Classes\DataContext\Controls\QrCodeScannerControlContext.cs" />
@@ -264,6 +265,7 @@
     <Compile Include="Classes\DataTemplates\Controls\OMEMO\OmemoDeviceControlDataTemplate.cs" />
     <Compile Include="Classes\DataTemplates\Controls\OMEMO\OmemoFingerprintControlDataTemplate.cs" />
     <Compile Include="Classes\DataTemplates\Controls\OMEMO\OmemoOwnFingerprintControlDataTemplate.cs" />
+    <Compile Include="Classes\DataTemplates\Controls\OMEMO\OmemoTroubleshooterControlDataTemplate.cs" />
     <Compile Include="Classes\DataTemplates\Controls\OMEMO\OmemoTrustFingerprintControlDataTemplate.cs" />
     <Compile Include="Classes\DataTemplates\Controls\QrCodeControlDataTemplate.cs" />
     <Compile Include="Classes\DataTemplates\Controls\QrCodeScannerControlDataTemplate.cs" />
@@ -408,7 +410,7 @@
       <Version>7.0.2</Version>
     </PackageReference>
     <PackageReference Include="Microsoft.UI.Xaml">
-      <Version>2.5.0</Version>
+      <Version>2.6.2</Version>
     </PackageReference>
     <PackageReference Include="QRCoder">
       <Version>1.4.1</Version>
