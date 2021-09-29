@@ -2,7 +2,7 @@ using System.Collections.Generic;
 
 namespace NeoSmart.Unicode
 {
-    // This file is machine-generated based on the official Unicode Consortium publication (https://unicode.org/Public/emoji/13.0/emoji-test.txt).
+    // This file is machine-generated based on the official Unicode Consortium publication (https://unicode.org/Public/emoji/14.0/emoji-test.txt).
     // See https://github.com/UWPX/Emoji-List-Parser for the generator.
     public static partial class Emoji
     {
@@ -69,13 +69,14 @@ namespace NeoSmart.Unicode
             /* 🎿 */ Skis_E0_6,
             /* 🛷 */ Sled_E5_0,
             /* 🥌 */ CurlingStone_E5_0,
-            /* 🎯 */ DirectHit_E0_6,
+            /* 🎯 */ Bullseye_E0_6,
             /* 🪀 */ YoYo_E12_0,
             /* 🪁 */ Kite_E12_0,
             /* 🎱 */ Pool8Ball_E0_6,
             /* 🔮 */ CrystalBall_E0_6,
             /* 🪄 */ MagicWand_E13_0,
             /* 🧿 */ NazarAmulet_E11_0,
+            /* 🪬 */ Hamsa_E14_0,
             /* 🎮 */ VideoGame_E0_6,
             /* 🕹️ */ Joystick_E0_7,
             /* 🎰 */ SlotMachine_E0_6,
@@ -83,6 +84,7 @@ namespace NeoSmart.Unicode
             /* 🧩 */ PuzzlePiece_E11_0,
             /* 🧸 */ TeddyBear_E11_0,
             /* 🪅 */ Piñata_E13_0,
+            /* 🪩 */ MirrorBall_E14_0,
             /* 🪆 */ NestingDolls_E13_0,
             /* ♠️ */ SpadeSuit_E0_6,
             /* ♥️ */ HeartSuit_E0_6,

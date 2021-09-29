@@ -2,7 +2,7 @@ using System.Collections.Generic;
 
 namespace NeoSmart.Unicode
 {
-    // This file is machine-generated based on the official Unicode Consortium publication (https://unicode.org/Public/emoji/13.0/emoji-test.txt).
+    // This file is machine-generated based on the official Unicode Consortium publication (https://unicode.org/Public/emoji/14.0/emoji-test.txt).
     // See https://github.com/UWPX/Emoji-List-Parser for the generator.
     public static partial class Emoji
     {
@@ -48,6 +48,7 @@ namespace NeoSmart.Unicode
             /* 🧅 */ Onion_E12_0,
             /* 🍄 */ Mushroom_E0_6,
             /* 🥜 */ Peanuts_E3_0,
+            /* 🫘 */ Beans_E14_0,
             /* 🌰 */ Chestnut_E0_6,
             /* 🍞 */ Bread_E0_6,
             /* 🥐 */ Croissant_E3_0,
@@ -133,6 +134,7 @@ namespace NeoSmart.Unicode
             /* 🍻 */ ClinkingBeerMugs_E0_6,
             /* 🥂 */ ClinkingGlasses_E3_0,
             /* 🥃 */ TumblerGlass_E3_0,
+            /* 🫗 */ PouringLiquid_E14_0,
             /* 🥤 */ CupStraw_E5_0,
             /* 🧋 */ BubbleTea_E13_0,
             /* 🧃 */ BeverageBox_E12_0,
@@ -143,6 +145,7 @@ namespace NeoSmart.Unicode
             /* 🍴 */ ForkKnife_E0_6,
             /* 🥄 */ Spoon_E3_0,
             /* 🔪 */ KitchenKnife_E0_6,
+            /* 🫙 */ Jar_E14_0,
             /* 🏺 */ Amphora_E1_0,
         };
     }

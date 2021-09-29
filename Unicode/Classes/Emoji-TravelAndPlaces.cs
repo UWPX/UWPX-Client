@@ -2,7 +2,7 @@ using System.Collections.Generic;
 
 namespace NeoSmart.Unicode
 {
-    // This file is machine-generated based on the official Unicode Consortium publication (https://unicode.org/Public/emoji/13.0/emoji-test.txt).
+    // This file is machine-generated based on the official Unicode Consortium publication (https://unicode.org/Public/emoji/14.0/emoji-test.txt).
     // See https://github.com/UWPX/Emoji-List-Parser for the generator.
     public static partial class Emoji
     {
@@ -76,6 +76,7 @@ namespace NeoSmart.Unicode
             /* 🌉 */ BridgeAtNight_E0_6,
             /* ♨️ */ HotSprings_E0_6,
             /* 🎠 */ CarouselHorse_E0_6,
+            /* 🛝 */ PlaygroundSlide_E14_0,
             /* 🎡 */ FerrisWheel_E0_6,
             /* 🎢 */ RollerCoaster_E0_6,
             /* 💈 */ BarberPole_E0_6,
@@ -124,12 +125,14 @@ namespace NeoSmart.Unicode
             /* 🛤️ */ RailwayTrack_E0_7,
             /* 🛢️ */ OilDrum_E0_7,
             /* ⛽ */ FuelPump_E0_6,
+            /* 🛞 */ Wheel_E14_0,
             /* 🚨 */ PoliceCarLight_E0_6,
             /* 🚥 */ HorizontalTrafficLight_E0_6,
             /* 🚦 */ VerticalTrafficLight_E1_0,
             /* 🛑 */ StopSign_E3_0,
             /* 🚧 */ Construction_E0_6,
             /* ⚓ */ Anchor_E0_6,
+            /* 🛟 */ RingBuoy_E14_0,
             /* ⛵ */ Sailboat_E0_6,
             /* 🛶 */ Canoe_E3_0,
             /* 🚤 */ Speedboat_E0_6,

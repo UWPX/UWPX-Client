@@ -2,7 +2,7 @@ using System.Collections.Generic;
 
 namespace NeoSmart.Unicode
 {
-    // This file is machine-generated based on the official Unicode Consortium publication (https://unicode.org/Public/emoji/13.0/emoji-test.txt).
+    // This file is machine-generated based on the official Unicode Consortium publication (https://unicode.org/Public/emoji/14.0/emoji-test.txt).
     // See https://github.com/UWPX/Emoji-List-Parser for the generator.
     public static partial class Emoji
     {
@@ -94,6 +94,7 @@ namespace NeoSmart.Unicode
             /* 📟 */ Pager_E0_6,
             /* 📠 */ FaxMachine_E0_6,
             /* 🔋 */ Battery_E0_6,
+            /* 🪫 */ LowBattery_E14_0,
             /* 🔌 */ ElectricPlug_E0_6,
             /* 💻 */ Laptop_E0_6,
             /* 🖥️ */ DesktopComputer_E0_7,
@@ -205,7 +206,7 @@ namespace NeoSmart.Unicode
             /* 🛠️ */ HammerWrench_E0_7,
             /* 🗡️ */ Dagger_E0_7,
             /* ⚔️ */ CrossedSwords_E1_0,
-            /* 🔫 */ Pistol_E0_6,
+            /* 🔫 */ WaterPistol_E0_6,
             /* 🪃 */ Boomerang_E13_0,
             /* 🏹 */ BowArrow_E1_0,
             /* 🛡️ */ Shield_E0_7,
@@ -234,7 +235,9 @@ namespace NeoSmart.Unicode
             /* 🩸 */ DropBlood_E12_0,
             /* 💊 */ Pill_E0_6,
             /* 🩹 */ AdhesiveBandage_E12_0,
+            /* 🩼 */ Crutch_E14_0,
             /* 🩺 */ Stethoscope_E12_0,
+            /* 🩻 */ XRay_E14_0,
             /* 🚪 */ Door_E0_6,
             /* 🛗 */ Elevator_E13_0,
             /* 🪞 */ Mirror_E13_0,
@@ -255,6 +258,7 @@ namespace NeoSmart.Unicode
             /* 🧻 */ RollPaper_E11_0,
             /* 🪣 */ Bucket_E13_0,
             /* 🧼 */ Soap_E11_0,
+            /* 🫧 */ Bubbles_E14_0,
             /* 🪥 */ Toothbrush_E13_0,
             /* 🧽 */ Sponge_E11_0,
             /* 🧯 */ FireExtinguisher_E11_0,
@@ -265,6 +269,7 @@ namespace NeoSmart.Unicode
             /* ⚱️ */ FuneralUrn_E1_0,
             /* 🗿 */ Moai_E0_6,
             /* 🪧 */ Placard_E13_0,
+            /* 🪪 */ IdentificationCard_E14_0,
         };
     }
 }

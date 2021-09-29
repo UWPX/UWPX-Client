@@ -2,7 +2,7 @@ using System.Collections.Generic;
 
 namespace NeoSmart.Unicode
 {
-    // This file is machine-generated based on the official Unicode Consortium publication (https://unicode.org/Public/emoji/13.0/emoji-test.txt).
+    // This file is machine-generated based on the official Unicode Consortium publication (https://unicode.org/Public/emoji/14.0/emoji-test.txt).
     // See https://github.com/UWPX/Emoji-List-Parser for the generator.
     public static partial class Emoji
     {
@@ -25,6 +25,7 @@ namespace NeoSmart.Unicode
             /* 😂 */ FaceTearsJoy_E0_6,
             /* 🙂 */ SlightlySmilingFace_E1_0,
             /* 🙃 */ UpsideDownFace_E1_0,
+            /* 🫠 */ MeltingFace_E14_0,
             /* 😉 */ WinkingFace_E0_6,
             /* 😊 */ SmilingFaceSmilingEyes_E0_6,
             /* 😇 */ SmilingFaceHalo_E1_0,
@@ -43,19 +44,25 @@ namespace NeoSmart.Unicode
             /* 🤪 */ ZanyFace_E5_0,
             /* 😝 */ SquintingFaceTongue_E0_6,
             /* 🤑 */ MoneyMouthFace_E1_0,
-            /* 🤗 */ HuggingFace_E1_0,
+            /* 🤗 */ SmilingFaceOpenHands_E1_0,
             /* 🤭 */ FaceHandOverMouth_E5_0,
+            /* 🫢 */ FaceOpenEyesHandOverMouth_E14_0,
+            /* 🫣 */ FacePeekingEye_E14_0,
             /* 🤫 */ ShushingFace_E5_0,
             /* 🤔 */ ThinkingFace_E1_0,
+            /* 🫡 */ SalutingFace_E14_0,
             /* 🤐 */ ZipperMouthFace_E1_0,
             /* 🤨 */ FaceRaisedEyebrow_E5_0,
             /* 😐 */ NeutralFace_E0_7,
             /* 😑 */ ExpressionlessFace_E1_0,
             /* 😶 */ FaceMouth_E1_0,
+            /* 🫥 */ DottedLineFace_E14_0,
+            /* 😶‍🌫️ */ FaceClouds_E13_1,
             /* 😏 */ SmirkingFace_E0_6,
             /* 😒 */ UnamusedFace_E0_6,
             /* 🙄 */ FaceRollingEyes_E1_0,
             /* 😬 */ GrimacingFace_E1_0,
+            /* 😮‍💨 */ FaceExhaling_E13_1,
             /* 🤥 */ LyingFace_E3_0,
             /* 😌 */ RelievedFace_E0_6,
             /* 😔 */ PensiveFace_E0_6,
@@ -71,7 +78,8 @@ namespace NeoSmart.Unicode
             /* 🥵 */ HotFace_E11_0,
             /* 🥶 */ ColdFace_E11_0,
             /* 🥴 */ WoozyFace_E11_0,
-            /* 😵 */ DizzyFace_E0_6,
+            /* 😵 */ FaceCrossedOutEyes_E0_6,
+            /* 😵‍💫 */ FaceSpiralEyes_E13_1,
             /* 🤯 */ ExplodingHead_E5_0,
             /* 🤠 */ CowboyHatFace_E3_0,
             /* 🥳 */ PartyingFace_E11_0,
@@ -80,6 +88,7 @@ namespace NeoSmart.Unicode
             /* 🤓 */ NerdFace_E1_0,
             /* 🧐 */ FaceMonocle_E5_0,
             /* 😕 */ ConfusedFace_E1_0,
+            /* 🫤 */ FaceDiagonalMouth_E14_0,
             /* 😟 */ WorriedFace_E1_0,
             /* 🙁 */ SlightlyFrowningFace_E1_0,
             /* ☹️ */ FrowningFace_E0_7,
@@ -88,6 +97,7 @@ namespace NeoSmart.Unicode
             /* 😲 */ AstonishedFace_E0_6,
             /* 😳 */ FlushedFace_E0_6,
             /* 🥺 */ PleadingFace_E11_0,
+            /* 🥹 */ FaceHoldingBackTears_E14_0,
             /* 😦 */ FrowningFaceOpenMouth_E1_0,
             /* 😧 */ AnguishedFace_E1_0,
             /* 😨 */ FearfulFace_E0_6,
@@ -143,6 +153,8 @@ namespace NeoSmart.Unicode
             /* 💟 */ HeartDecoration_E0_6,
             /* ❣️ */ HeartExclamation_E1_0,
             /* 💔 */ BrokenHeart_E0_6,
+            /* ❤️‍🔥 */ HeartFire_E13_1,
+            /* ❤️‍🩹 */ MendingHeart_E13_1,
             /* ❤️ */ RedHeart_E0_6,
             /* 🧡 */ OrangeHeart_E5_0,
             /* 💛 */ YellowHeart_E0_6,

@@ -2,7 +2,7 @@ using System.Collections.Generic;
 
 namespace NeoSmart.Unicode
 {
-    // This file is machine-generated based on the official Unicode Consortium publication (https://unicode.org/Public/emoji/13.0/emoji-test.txt).
+    // This file is machine-generated based on the official Unicode Consortium publication (https://unicode.org/Public/emoji/14.0/emoji-test.txt).
     // See https://github.com/UWPX/Emoji-List-Parser for the generator.
     public static partial class Emoji
     {
@@ -42,7 +42,7 @@ namespace NeoSmart.Unicode
             /* 🤪 */ ZanyFace_E5_0,
             /* 😝 */ SquintingFaceTongue_E0_6,
             /* 🤑 */ MoneyMouthFace_E1_0,
-            /* 🤗 */ HuggingFace_E1_0,
+            /* 🤗 */ SmilingFaceOpenHands_E1_0,
             /* 🤭 */ FaceHandOverMouth_E5_0,
             /* 🤫 */ ShushingFace_E5_0,
             /* 🤔 */ ThinkingFace_E1_0,
@@ -70,7 +70,7 @@ namespace NeoSmart.Unicode
             /* 🥵 */ HotFace_E11_0,
             /* 🥶 */ ColdFace_E11_0,
             /* 🥴 */ WoozyFace_E11_0,
-            /* 😵 */ DizzyFace_E0_6,
+            /* 😵 */ FaceCrossedOutEyes_E0_6,
             /* 🤯 */ ExplodingHead_E5_0,
             /* 🤠 */ CowboyHatFace_E3_0,
             /* 🥳 */ PartyingFace_E11_0,
@@ -219,7 +219,7 @@ namespace NeoSmart.Unicode
             /* 🧑 */ Person_E5_0,
             /* 👱 */ PersonBlondHair_E0_6,
             /* 👨 */ Man_E0_6,
-            /* 🧔 */ ManBeard_E5_0,
+            /* 🧔 */ PersonBeard_E5_0,
             /* 👨‍🦰 */ ManRedHair_E11_0,
             /* 👨‍🦱 */ ManCurlyHair_E11_0,
             /* 👨‍🦳 */ ManWhiteHair_E11_0,
@@ -991,7 +991,7 @@ namespace NeoSmart.Unicode
             /* 🎿 */ Skis_E0_6,
             /* 🛷 */ Sled_E5_0,
             /* 🥌 */ CurlingStone_E5_0,
-            /* 🎯 */ DirectHit_E0_6,
+            /* 🎯 */ Bullseye_E0_6,
             /* 🪀 */ YoYo_E12_0,
             /* 🪁 */ Kite_E12_0,
             /* 🎱 */ Pool8Ball_E0_6,
@@ -1201,7 +1201,7 @@ namespace NeoSmart.Unicode
             /* 🛠️ */ HammerWrench_E0_7,
             /* 🗡️ */ Dagger_E0_7,
             /* ⚔️ */ CrossedSwords_E1_0,
-            /* 🔫 */ Pistol_E0_6,
+            /* 🔫 */ WaterPistol_E0_6,
             /* 🏹 */ BowArrow_E1_0,
             /* 🛡️ */ Shield_E0_7,
             /* 🔧 */ Wrench_E0_6,
@@ -1353,10 +1353,10 @@ namespace NeoSmart.Unicode
             /* ♾️ */ Infinity_E11_0,
             /* ‼️ */ DoubleExclamationMark_E0_6,
             /* ⁉️ */ ExclamationQuestionMark_E0_6,
-            /* ❓ */ QuestionMark_E0_6,
+            /* ❓ */ RedQuestionMark_E0_6,
             /* ❔ */ WhiteQuestionMark_E0_6,
             /* ❕ */ WhiteExclamationMark_E0_6,
-            /* ❗ */ ExclamationMark_E0_6,
+            /* ❗ */ RedExclamationMark_E0_6,
             /* 〰️ */ WavyDash_E0_6,
             /* 💱 */ CurrencyExchange_E0_6,
             /* 💲 */ HeavyDollarSign_E0_6,

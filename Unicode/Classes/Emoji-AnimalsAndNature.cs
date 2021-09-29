@@ -2,7 +2,7 @@ using System.Collections.Generic;
 
 namespace NeoSmart.Unicode
 {
-    // This file is machine-generated based on the official Unicode Consortium publication (https://unicode.org/Public/emoji/13.0/emoji-test.txt).
+    // This file is machine-generated based on the official Unicode Consortium publication (https://unicode.org/Public/emoji/14.0/emoji-test.txt).
     // See https://github.com/UWPX/Emoji-List-Parser for the generator.
     public static partial class Emoji
     {
@@ -122,6 +122,7 @@ namespace NeoSmart.Unicode
             /* 🦈 */ Shark_E3_0,
             /* 🐙 */ Octopus_E0_6,
             /* 🐚 */ SpiralShell_E0_6,
+            /* 🪸 */ Coral_E14_0,
             /* 🐌 */ Snail_E0_6,
             /* 🦋 */ Butterfly_E3_0,
             /* 🐛 */ Bug_E0_6,
@@ -141,6 +142,7 @@ namespace NeoSmart.Unicode
             /* 💐 */ Bouquet_E0_6,
             /* 🌸 */ CherryBlossom_E0_6,
             /* 💮 */ WhiteFlower_E0_6,
+            /* 🪷 */ Lotus_E14_0,
             /* 🏵️ */ Rosette_E0_7,
             /* 🌹 */ Rose_E0_6,
             /* 🥀 */ WiltedFlower_E3_0,
@@ -161,6 +163,8 @@ namespace NeoSmart.Unicode
             /* 🍁 */ MapleLeaf_E0_6,
             /* 🍂 */ FallenLeaf_E0_6,
             /* 🍃 */ LeafFlutteringWind_E0_6,
+            /* 🪹 */ EmptyNest_E14_0,
+            /* 🪺 */ NestEggs_E14_0,
         };
     }
 }

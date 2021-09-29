@@ -2,7 +2,7 @@ using System.Collections.Generic;
 
 namespace NeoSmart.Unicode
 {
-    // This file is machine-generated based on the official Unicode Consortium publication (https://unicode.org/Public/emoji/13.0/emoji-test.txt).
+    // This file is machine-generated based on the official Unicode Consortium publication (https://unicode.org/Public/emoji/14.0/emoji-test.txt).
     // See https://github.com/UWPX/Emoji-List-Parser for the generator.
     public static partial class Emoji
     {
@@ -118,13 +118,14 @@ namespace NeoSmart.Unicode
             /* ➕ */ Plus_E0_6,
             /* ➖ */ Minus_E0_6,
             /* ➗ */ Divide_E0_6,
+            /* 🟰 */ HeavyEqualsSign_E14_0,
             /* ♾️ */ Infinity_E11_0,
             /* ‼️ */ DoubleExclamationMark_E0_6,
             /* ⁉️ */ ExclamationQuestionMark_E0_6,
-            /* ❓ */ QuestionMark_E0_6,
+            /* ❓ */ RedQuestionMark_E0_6,
             /* ❔ */ WhiteQuestionMark_E0_6,
             /* ❕ */ WhiteExclamationMark_E0_6,
-            /* ❗ */ ExclamationMark_E0_6,
+            /* ❗ */ RedExclamationMark_E0_6,
             /* 〰️ */ WavyDash_E0_6,
             /* 💱 */ CurrencyExchange_E0_6,
             /* 💲 */ HeavyDollarSign_E0_6,
