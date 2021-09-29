@@ -19,6 +19,9 @@
 
                 <!--  Value Converters:  -->
                 <ResourceDictionary Source="ms-appx:///Resources/MyValueConverters.xaml"/>
+
+                <!--  Value Converters:  -->
+                <ResourceDictionary Source="ms-appx:///Controls/Toolkit/ListDetailsView.xaml"/>
             </ResourceDictionary.MergedDictionaries>
         </ResourceDictionary>
     </Application.Resources>

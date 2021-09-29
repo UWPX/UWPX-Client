@@ -380,6 +380,12 @@
     <Compile Include="Controls\Settings\SettingsSelectionSmallControl.xaml.cs">
       <DependentUpon>SettingsSelectionSmallControl.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Controls\Toolkit\BackButtonBehavior.cs" />
+    <Compile Include="Controls\Toolkit\ListDetailsView.BackButton.cs" />
+    <Compile Include="Controls\Toolkit\ListDetailsView.cs" />
+    <Compile Include="Controls\Toolkit\ListDetailsView.Events.cs" />
+    <Compile Include="Controls\Toolkit\ListDetailsView.Properties.cs" />
+    <Compile Include="Controls\Toolkit\ListDetailsViewState.cs" />
     <Compile Include="Dialogs\AccountInfoDialog.xaml.cs">
       <DependentUpon>AccountInfoDialog.xaml</DependentUpon>
     </Compile>
@@ -974,6 +980,10 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
+    <Page Include="Controls\Toolkit\ListDetailsView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
     <Page Include="Dialogs\AccountInfoDialog.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
@@ -1254,6 +1264,7 @@
     </None>
     <None Include="UWPX_TemporaryKey.pfx" />
   </ItemGroup>
+  <ItemGroup />
   <PropertyGroup Condition=" '$(VisualStudioVersion)' == '' or '$(VisualStudioVersion)' &lt; '14.0' ">
     <VisualStudioVersion>14.0</VisualStudioVersion>
   </PropertyGroup>

@@ -1,6 +1,6 @@
 ﻿using System;
-using Microsoft.Toolkit.Uwp.UI.Controls;
 using Shared.Classes;
+using UWPX_UI.Controls.Toolkit;
 using UWPX_UI.Pages;
 using UWPX_UI_Context.Classes;
 using Windows.ApplicationModel.Core;

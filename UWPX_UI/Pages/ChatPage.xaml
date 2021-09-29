@@ -4,7 +4,7 @@
       xmlns:animations="using:Microsoft.Toolkit.Uwp.UI.Animations"
       xmlns:chat="using:UWPX_UI.Controls.Chat"
       xmlns:controls="using:UWPX_UI.Controls"
-      xmlns:controls1="using:Microsoft.Toolkit.Uwp.UI.Controls"
+      xmlns:controls1="using:UWPX_UI.Controls.Toolkit"
       xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
       xmlns:datatemplates="using:Manager.Classes.Chat"
       xmlns:iot="using:UWPX_UI.Controls.IoT"
