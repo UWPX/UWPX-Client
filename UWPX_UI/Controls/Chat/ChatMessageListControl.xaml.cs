@@ -113,7 +113,10 @@ namespace UWPX_UI.Controls.Chat
                 if (!scrolledToTheTop && !VIEW_MODEL.MODEL.CHAT_MESSAGES.IsLoading)
                 {
                     scrolledToTheTop = true;
-                    _ = LoadMoreMessagesAsync();
+                    if (!IsDummy)
+                    {
+                        _ = LoadMoreMessagesAsync();
+                    }
                 }
             }
             else
@@ -128,7 +131,10 @@ namespace UWPX_UI.Controls.Chat
             double offsetFromBottom = scrollViewer.ScrollableHeight - scrollViewer.VerticalOffset;
             if (offsetFromBottom <= 10)
             {
-                Chat?.MarkAllAsRead();
+                if (!IsDummy)
+                {
+                    Chat?.MarkAllAsRead();
+                }
             }
         }
 
@@ -137,7 +143,7 @@ namespace UWPX_UI.Controls.Chat
         /// </summary>
         private async Task LoadMoreMessagesAsync()
         {
-            if (loaded && VIEW_MODEL.MODEL.CHAT_MESSAGES.HasMoreMessages)
+            if (!IsDummy && loaded && VIEW_MODEL.MODEL.CHAT_MESSAGES.HasMoreMessages)
             {
                 if (scrolledToTheTop)
                 {
@@ -173,9 +179,9 @@ namespace UWPX_UI.Controls.Chat
 
         private static void OnIsDummyChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
-            if (d is ChatMessageListControl control)
+            if (d is ChatMessageListControl control && e.NewValue is bool b)
             {
-                control.VIEW_MODEL.MODEL.IsDummy = e.NewValue is bool b && b;
+                control.VIEW_MODEL.MODEL.IsDummy = b;
             }
         }
 
@@ -194,6 +200,10 @@ namespace UWPX_UI.Controls.Chat
             loaded = true;
             itemsStackPanel = mainListView.FindDescendant<ItemsStackPanel>();
             scrollViewer = mainListView.FindDescendant<ScrollViewer>();
+            if (scrollViewer is null)
+            {
+                return;
+            }
             scrollViewer.ViewChanged += OnScrollViewerViewChanged;
             VIEW_MODEL.MODEL.CHAT_MESSAGES.CollectionChanged += OnChatMessagesCollectionChanged;
             UpdateBehavior();

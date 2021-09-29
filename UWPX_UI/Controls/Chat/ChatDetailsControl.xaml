@@ -11,6 +11,7 @@
              xmlns:omemoControls="using:UWPX_UI.Controls.OMEMO"
              xmlns:ui="using:Microsoft.Toolkit.Uwp.UI"
              xmlns:valueconverter="using:UWPX_UI_Context.Classes.ValueConverter"
+             IsEnabled="{x:Bind IsDummy, Mode=OneWay, Converter={StaticResource BoolInverterValueConverter}}"
              mc:Ignorable="d">
     <UserControl.Resources>
         <ResourceDictionary>
@@ -45,7 +46,8 @@
                                          Grid.Row="0"
                                          Grid.RowSpan="2"
                                          Chat="{x:Bind Chat, Mode=OneWay}"
-                                         IsDummy="{x:Bind IsDummy, Mode=OneWay}"/>
+                                         IsDummy="{x:Bind IsDummy, Mode=OneWay}"
+                                         Visibility="{x:Bind IsDummy, Mode=OneWay, Converter={StaticResource BoolInvertedVisibilityValueConverter}}"/>
 
             <!--  Header:  -->
             <Grid x:Name="header_grid"
