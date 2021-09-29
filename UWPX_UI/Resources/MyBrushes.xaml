@@ -42,7 +42,7 @@
                               Amount="6.0"/>
 
     <ResourceDictionary.ThemeDictionaries>
-        <ResourceDictionary x:Key="Default">
+        <ResourceDictionary x:Key="Dark">
             <Color x:Key="DropShadowColor">#FF000000</Color>
             <media:AcrylicBrush x:Key="AppBackgroundAcrylicWindowBrush"
                                 BackgroundSource="HostBackdrop"
