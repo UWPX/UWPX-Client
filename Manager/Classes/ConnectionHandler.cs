@@ -151,15 +151,26 @@ namespace Manager.Classes
         }
 
         /// <summary>
-        /// Reconnects all XMPPClients.
+        /// Reconnects all <see cref="ClientConnectionHandler"/>.
         /// </summary>
-        public void ReconnectAll()
+        public async Task ReconnectAllAsync()
         {
-            Parallel.ForEach(CLIENTS, async (c) => await ReconnectClientAsync(c));
+            Task[] tasks = new Task[CLIENTS.Count];
+            await CLIENT_SEMA.WaitAsync();
+            for (int i = 0; i < CLIENTS.Count; i++)
+            {
+                tasks[i] = ReconnectClientAsync(CLIENTS[i]);
+            }
+            CLIENT_SEMA.Release();
+
+            for (int i = 0; i < tasks.Length; i++)
+            {
+                await tasks[i].ConfigureAwait(true);
+            }
         }
 
         /// <summary>
-        /// Updates a <see cref="Client"/> with the given <paramref name="account"/>.
+        /// Updates a <see cref="ClientConnectionHandler"/> with the given <paramref name="account"/>.
         /// Handles reconnecting the account in case <see cref="AccountModel.enabled"/> is true.
         /// </summary>
         /// <param name="account">The new <see cref="AccountModel"/>.</param>

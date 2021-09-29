@@ -91,11 +91,11 @@ namespace UWPX_UI.Pages.Settings
             UiUtils.NavigateToPage(typeof(RegisterPage));
         }
 
-        private void ReconnectAll_ibtn_Click(object sender, RoutedEventArgs args)
+        private async void ReconnectAll_ibtn_Click(object sender, RoutedEventArgs args)
         {
             reconnectAll_ibtn.ProgressRingVisibility = Visibility.Visible;
             reconnectAll_ibtn.IsEnabled = false;
-            VIEW_MODEL.ReconnectAll();
+            await VIEW_MODEL.ReconnectAllAsync();
             reconnectAll_ibtn.ProgressRingVisibility = Visibility.Collapsed;
             reconnectAll_ibtn.IsEnabled = true;
         }
