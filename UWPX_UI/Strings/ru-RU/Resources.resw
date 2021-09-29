@@ -1,64 +1,5 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <root>
-  <!-- 
-    Microsoft ResX Schema 
-    
-    Version 2.0
-    
-    The primary goals of this format is to allow a simple XML format 
-    that is mostly human readable. The generation and parsing of the 
-    various data types are done through the TypeConverter classes 
-    associated with the data types.
-    
-    Example:
-    
-    ... ado.net/XML headers & schema ...
-    <resheader name="resmimetype">text/microsoft-resx</resheader>
-    <resheader name="version">2.0</resheader>
-    <resheader name="reader">System.Resources.ResXResourceReader, System.Windows.Forms, ...</resheader>
-    <resheader name="writer">System.Resources.ResXResourceWriter, System.Windows.Forms, ...</resheader>
-    <data name="Name1"><value>this is my long string</value><comment>this is a comment</comment></data>
-    <data name="Color1" type="System.Drawing.Color, System.Drawing">Blue</data>
-    <data name="Bitmap1" mimetype="application/x-microsoft.net.object.binary.base64">
-        <value>[base64 mime encoded serialized .NET Framework object]</value>
-    </data>
-    <data name="Icon1" type="System.Drawing.Icon, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
-        <value>[base64 mime encoded string representing a byte array form of the .NET Framework object]</value>
-        <comment>This is a comment</comment>
-    </data>
-                
-    There are any number of "resheader" rows that contain simple 
-    name/value pairs.
-    
-    Each data row contains a name, and value. The row also contains a 
-    type or mimetype. Type corresponds to a .NET class that support 
-    text/value conversion through the TypeConverter architecture. 
-    Classes that don't support this are serialized and stored with the 
-    mimetype set.
-    
-    The mimetype is used for serialized objects, and tells the 
-    ResXResourceReader how to depersist the object. This is currently not 
-    extensible. For a given mimetype the value must be set accordingly:
-    
-    Note - application/x-microsoft.net.object.binary.base64 is the format 
-    that the ResXResourceWriter will generate, however the reader can 
-    read any of the formats listed below.
-    
-    mimetype: application/x-microsoft.net.object.binary.base64
-    value   : The object must be serialized with 
-            : System.Runtime.Serialization.Formatters.Binary.BinaryFormatter
-            : and then encoded with base64 encoding.
-    
-    mimetype: application/x-microsoft.net.object.soap.base64
-    value   : The object must be serialized with 
-            : System.Runtime.Serialization.Formatters.Soap.SoapFormatter
-            : and then encoded with base64 encoding.
-
-    mimetype: application/x-microsoft.net.object.bytearray.base64
-    value   : The object must be serialized into a byte array 
-            : using a System.ComponentModel.TypeConverter
-            : and then encoded with base64 encoding.
-    -->
   <xsd:schema id="root" xmlns="" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
     <xsd:import namespace="http://www.w3.org/XML/1998/namespace" />
     <xsd:element name="root" msdata:IsDataSet="true">
@@ -118,15 +59,14 @@
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <data name="AccountSettingsPage_enable_push_tooltip.Text" xml:space="preserve">
-    <value>**Enabled**  
-The app will use an [external push server](https://github.com/UWPX/UWPX-Push-Server#uwpx-push-server) for sending push notifications to the device once a new message arrives and the app is not running or the account is not connected right now.
+    <value>**Включенно**  
+Приложение может использовать [сторонний пуш сервер](https://github.com/UWPX/UWPX-Push-Server#uwpx-push-server) для отправки пуш уведомлений на устройство при получении нового сообщения тогда, когда приложение не запущено или аккаунт отключён в данный момент.
 
-More information about how this is implemented and which information is being stored can be found [here](https://github.com/UWPX/UWPX-Push-Server/blob/master/README.md).
+Больше информации о том, как это устроено и какая информация храниться можете найти [здесь](https://github.com/UWPX/UWPX-Push-Server/blob/master/README.md).
+Политика Конфиденциальности: https://github.com/UWPX/UWPX-Client/blob/master/PRIVACY_POLICY.md
 
-Privacy Policy: https://github.com/UWPX/UWPX-Client/blob/master/PRIVACY_POLICY.md
-
-**Disabled**  
-Push notifications are disabled.</value>
+**Выключенно**  
+Пуш уведомления выключены.</value>
   </data>
   <data name="AddAccountPage_presence_priority_tooltip.Text" xml:space="preserve">
     <value>If you have multiple devices that are online, it defines the order in wich your presence gets send to others.</value>
@@ -141,50 +81,51 @@ Push notifications are disabled.</value>
     <value>**Auto**  
 Shows the account color if you have multiple accounts.
 
-**Show**  
-Always shows the account color.
+**Показывать**  
+Всегда показывать цвет аккаунта.
 
-**Hide**  
-Never shows the account color.</value>
+**Скрывать**  
+Никогда не показывать цвет аккаунта.</value>
   </data>
   <data name="ChatSettingsPage_advanced_chat_message_processing_tooltip.Text" xml:space="preserve">
-    <value>**On**  
+    <value>**Вкл**  
 Enables link, Emoji, email, ... detection in chat messages.
 ![Emoji button example](ms-appx:///Assets/SettingsPreview/advanced_chat_message_processing_on.png)
 
-**Off**  
+**Выкл**  
 Disables link, Emoji, email, ... detection in chat messages.
 ![Emoji button example](ms-appx:///Assets/SettingsPreview/advanced_chat_message_processing_off.png)</value>
   </data>
   <data name="ChatSettingsPage_device_vibration_new_messages_tooltip.Text" xml:space="preserve">
-    <value>**On**  
-Vibrate when a new message arrives.
+    <value>**Вкл**  
+Вибрировать когда приходит новое сообщение.
 
-**Off**  
-Don't vibrate when a new message arrives.</value>
+**Выкл**  
+Не вибрировать когда приходит новое сообщение.</value>
   </data>
   <data name="ChatSettingsPage_enable_emoji_button_tooltip.Text" xml:space="preserve">
-    <value>**On**  
-Shows the Emoji button in the chat window.
+    <value>**Вкл**  
+Показывать кнопку Эмоджи в окне чата.
 ![Emoji button example](ms-appx:///Assets/SettingsPreview/emoji_button.gif)
 
-**Off**  
-Hides the Emoji button in the chat window.</value>
+**Выкл**  
+Скрывать кнопку Эмоджи в окне чата.</value>
   </data>
   <data name="ChatSettingsPage_enable_mam_tooltip.Text" xml:space="preserve">
-    <value>**On**  
-Request your message archive for the last n days from the server by default for all chats.
+    <value>**Вкл**  
+Запрашивать архив ваших сообщений за последнее n количество дней у сервера по умолчанию для всех чатов.
 
-**Off**  
-Do not request the message archive.</value>
+**Выкл**  
+Не запрашивать архив сообщений.</value>
   </data>
   <data name="ChatSettingsPage_enter_to_send_tooltip.Text" xml:space="preserve">
-    <value>**On**  
-Pressing the `enter` key will result in sending the message.  
-A new line can be forced by pressing `shift` + `enter`.
+    <value>**Вкл**  
+Pressing the `enter` key will result in sending the message.
+Нажатие клавиши `enter` приводит к отправке сообщения.
+Новая линия может начинаться нажатием `shift` + `enter`.
 
-**Off**  
-Pressing enter won't result in sending the message.</value>
+**Выкл**  
+Нажатие enter не приводит к отправке сообщения.</value>
   </data>
   <data name="ChatSettingsPage_mam_days_tooltip.Text" xml:space="preserve">
     <value>Defines for how may days your message archive should be retrieved by default for.
@@ -193,32 +134,32 @@ If you set the value to **-1**, UWPX will retrieve your complete message archive
 Be aware this might use a lot of resources and badwidth.</value>
   </data>
   <data name="ChatSettingsPage_play_sound_new_messages_tooltip.Text" xml:space="preserve">
-    <value>**On**  
+    <value>**Вкл**  
 Play a sound when a new message arrives.
 
-**Off**  
+**Выкл**  
 Don't play a sound when a new message arrives.</value>
   </data>
   <data name="ChatSettingsPage_send_chat_message_received_markers_tooltip.Text" xml:space="preserve">
-    <value>**On**  
+    <value>**Вкл**  
 Sends delivery conformations for arrived messages.
 
-**Off**  
+**Выкл**  
 Does no send delivery conformations for arrived messages.</value>
   </data>
   <data name="ChatSettingsPage_send_chat_state_tooltip.Text" xml:space="preserve">
-    <value>**On**  
+    <value>**Вкл**  
 Sends your current chat state to your contacts (e.g. `online`, `typin`, ...).
 
-**Off**  
+**Выкл**  
 Does not send your current chat state to your contacts (e.g. `online`, `typin`, ...).</value>
   </data>
   <data name="ContactOmemoControl_trusted_fingerprints_only_tooltip.Text" xml:space="preserve">
-    <value>**On**  
+    <value>**Вкл**  
 Messages will be send only to devices their fingerprint is trusted by you.  
 Messages received from devices with an untrusted fingerprint will be silently discarded.
 
-**Off**  
+**Выкл**  
 Messages will be send to all devices even if their fingerprint is not trusted by you.  
 Messages received from devices with an untrusted fingerprint will be accepted and decrypted.</value>
   </data>
@@ -336,10 +277,10 @@ Also special thanks to all the Alpha (and hopefully soon Beta) testers that repo
     <value>https://uwpx.org/about/</value>
   </data>
   <data name="DebugSettingsPage_tcp_timeout_tooltip.Text" xml:space="preserve">
-    <value>Requires an app restart to work.</value>
+    <value>Необходимо перезапустить приложения, чтобы это сработало.</value>
   </data>
   <data name="DebugSettingsPage_tls_timeout_tooltip.Text" xml:space="preserve">
-    <value>Requires an app restart to work.</value>
+    <value>Необходимо перезапустить приложения, чтобы это сработало.</value>
   </data>
   <data name="DonateSettingsPage_bank_details0.Text" xml:space="preserve">
     <value>It takes a lot of time and effort to develop and maintain a complex app like UWPX. So, if you like UWPX or simply want to support the development please consider donating to keep the development going.</value>
@@ -362,13 +303,13 @@ So if you have the ability to make SEPA bank transfers at a low cost (for exampl
 This can be changed later at any time in the settings.</value>
   </data>
   <data name="InitialStartDialog_welcome_markdown.Text" xml:space="preserve">
-    <value># Welcome
-Don't forget this app is still in **Beta**, so expect unexpected behavior sometimes!  
-If you encounter **ANY** unexpected behavior please report it here:
+    <value># Добро пожаловать
+Не забывайте что это приложения находиться в стадии **Beta**, может вести себя иногда непредсказуемо!  
+Если заметили **ЛЮБОЕ** непредсказуемое поведение, пожалуйста сообщите об этом здесь:
 
 * [Issue Tracker](https://github.com/UWPX/UWPX-Client/issues)
 
-For more up to date information visit:
+Чтобы получить больше актуальной информации посетите:
 
 * [GitHub](https://github.com/UWPX/UWPX-Client)
 * [Website](https://uwpx.org/)
@@ -378,10 +319,10 @@ For more up to date information visit:
     <value>https://github.com/UWPX/UWPX-Client/blob/master/LICENSE</value>
   </data>
   <data name="MiscSettingsPage_automated_crash_reports_tooltip.Text" xml:space="preserve">
-    <value>**On**  
+    <value>**Вкл**  
 Do not show the report "Something went wrong..." crash dialog, in case we cought an exception. Just report it.
 
-**Off**  
+**Выкл**  
 In case we cought a crash, you will receive a dialog informing you about the crash and what will be reported.</value>
   </data>
   <data name="PersonalizeSettingsPage_change_theme_tooltip.Text" xml:space="preserve">
