@@ -28,9 +28,8 @@
         <Grid.RowDefinitions>
             <RowDefinition Height="*"/>
         </Grid.RowDefinitions>
-        <Image Grid.Row="0"
-               Source="ms-appx:///Assets/Images/splash_screen.png"
-               Stretch="UniformToFill"/>
+        <!--  Background Image:  -->
+        <chat:ChatBackgroundControl/>
 
         <!--  Main:  -->
         <Grid Grid.Row="0">
