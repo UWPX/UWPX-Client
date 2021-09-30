@@ -411,11 +411,11 @@ For more providers have a look at:
 You can disable this again by changing `Settings` -&gt; `Misc` -&gt; `Automatic extended crash reports` to false.</value>
   </data>
   <data name="WhatsNewDialog_markdown.Text" xml:space="preserve">
-    <value># [September 2021] Beta and Push 📨🎉
-It has been done. The first beta release of UWPX is out, and it's packed full of features.
-After just 1451 days (3 Years, 11 Months and 27 Days) in development, UWPX finally has a stable [push server](https://github.com/UWPX/UWPX-Push-Server) up and running!
-Now, even if you close the app, you still receive push notifications 🎉.
-Besides that, I reworked and fixed the unread counter for messages and added a new welcome dialog.
+    <value># [October 2021] OMEMO Status, UI and Bugfixes
+This month was dedicated to fixing bugs and improving the usability.
+Besides that, I updated to [WinUI 2.7](https://docs.microsoft.com/en-us/windows/apps/winui/winui2/release-notes/winui-2.7) from [WinUI 2.5](https://docs.microsoft.com/en-us/windows/apps/winui/winui2/release-notes/winui-2.5) and updated a bunch of UI light and dark theme inconsistencies.
+
+Since UWPX is one of the few clients that support the "latest" OMEMO (0.7.0 (2020-09-05)) standard, I added a status indicator when enabling OMEMO, informing you if your contact supports it.
 
 **Please report bugs [here](https://github.com/UWPX/UWPX-Client/issues)!**
 
@@ -425,16 +425,21 @@ Follow [@UWPX_APP](https://twitter.com/UWPX_APP) on ![Twitter](http://i.imgur.co
 ### Known bugs
 * MUC subject changing leads to an account disconnect [#34](https://github.com/UWPX/UWPX-Client/issues/34)
 * Removing a chat does not perform cascade deletion [#151](https://github.com/UWPX/UWPX-Client/issues/151)
+* ListDetailsView looses selection on reorder [#166](https://github.com/UWPX/UWPX-Client/issues/166)
 
 ### Changes
-* Added push support.
-* Added a new welcome dialog.
-* Added MUC presence error parsing and handling support.
-* Fixed MAM fails, when archive is empty.
-* Fixed personalize settings page title bar content.
-* Fixed selecting wrong chat when the chats changed.
-* Fixed the unread notifications and counter.
+* Added an OMEMO status control
+* Added support for empty OMEMO key exchange messages
+* A first pass for Russian translation ([#165](https://github.com/UWPX/UWPX-Client/issues/165))
+* Updated to Unicode 14 and Segoe UI Emoji 1.29
+* Updated to WinUI 2.7
+* Chat details header is now clickable
+* Improved chat right click detection
+* Fixed reconnect button locking the app up
+* Fixed chat preview crash
+* Fixed chat image backgrounds
+* Fixed changing the OMEMO status via contact info
 
-**Continue reading on [GitHub](https://github.com/UWPX/UWPX-Client/releases/tag/v.0.35.1.0).**</value>
+**Continue reading on [GitHub](https://github.com/UWPX/UWPX-Client/releases/tag/v.0.36.0.0).**</value>
   </data>
 </root>

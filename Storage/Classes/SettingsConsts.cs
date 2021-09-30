@@ -4,7 +4,7 @@
     {
         public const string INITIALLY_STARTED = "initially_started";
         public const string HIDE_WELCOME_DIALOG = "hide_welcome_dialog";
-        public const string HIDE_WHATS_NEW_DIALOG = "hide_whats_new_dialog_alpha_35_1";
+        public const string HIDE_WHATS_NEW_DIALOG = "hide_whats_new_dialog_alpha_36";
 
         public const string APP_REQUESTED_THEME = "app_requested_theme";
 
