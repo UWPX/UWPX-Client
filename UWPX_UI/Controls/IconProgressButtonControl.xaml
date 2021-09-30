@@ -10,6 +10,7 @@
             HorizontalAlignment="{x:Bind HorizontalAlignment}"
             VerticalAlignment="{x:Bind VerticalAlignment, Mode=TwoWay}"
             Click="Button_Click"
+            CornerRadius="{ThemeResource ControlCornerRadius}"
             Foreground="{x:Bind Foreground, Mode=OneWay}">
         <Grid>
             <Grid.ColumnDefinitions>

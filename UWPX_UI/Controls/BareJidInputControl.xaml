@@ -6,19 +6,10 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              mc:Ignorable="d">
 
-    <UserControl.Resources>
-        <ResourceDictionary>
-            <ResourceDictionary.MergedDictionaries>
-                <ResourceDictionary Source="ms-appx:///Resources/Styles/BareJidAutoSuggestBoxStyle.xaml"/>
-            </ResourceDictionary.MergedDictionaries>
-        </ResourceDictionary>
-    </UserControl.Resources>
-
     <StackPanel>
         <AutoSuggestBox Header="{x:Bind Header, Mode=OneWay}"
                         ItemsSource="{x:Bind VIEW_MODEL.MODEL.SUGGESTIONS}"
                         PlaceholderText="{x:Bind PlaceholderText, Mode=OneWay}"
-                        Style="{StaticResource BareJidAutoSuggestBoxStyle}"
                         SuggestionChosen="AutoSuggestBox_SuggestionChosen"
                         Text="{x:Bind VIEW_MODEL.MODEL.Text, Mode=TwoWay}"
                         TextChanged="AutoSuggestBox_TextChanged"

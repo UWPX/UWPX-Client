@@ -52,7 +52,9 @@
             <!--  Header:  -->
             <Grid x:Name="header_grid"
                   Grid.Row="0"
+                  Margin="5,5,5,0"
                   Background="{ThemeResource AppBackgroundAcrylicElementBrush}"
+                  CornerRadius="{ThemeResource OverlayCornerRadius}"
                   SizeChanged="Header_grid_SizeChanged">
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="Auto"/>
@@ -233,7 +235,9 @@
 
             <!--  Input:  -->
             <Grid Grid.Row="3"
-                  Background="{ThemeResource AppBackgroundAcrylicElementBrush}">
+                  Margin="5,0,5,5"
+                  Background="{ThemeResource AppBackgroundAcrylicElementBrush}"
+                  CornerRadius="{ThemeResource OverlayCornerRadius}">
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="Auto"/>
                     <ColumnDefinition Width="Auto"/>

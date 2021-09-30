@@ -189,19 +189,19 @@
                                 <TextBox x:Name="color_tbx"
                                          Grid.Column="1"
                                          Margin="5,0,0,0"
-                                         Windows10version1809:CornerRadius="2,0,0,2"
                                          extensions:TextBoxExtensions.CustomMask="h:[0-9a-fA-F]"
                                          extensions:TextBoxExtensions.Mask="#hhhhhh"
                                          extensions:TextBoxExtensions.MaskPlaceholder="0"
+                                         CornerRadius="4,0,0,4"
                                          PlaceholderText="#D50000"
                                          Text="{x:Bind VIEW_MODEL.MODEL.Account.color, Mode=TwoWay}"/>
                                 <Button x:Name="pickColor_btn"
                                         Grid.Column="2"
                                         Height="32"
                                         VerticalAlignment="Bottom"
-                                        Windows10version1809:CornerRadius="0,2,2,0"
                                         Click="PickColor_btn_Click"
                                         Content="&#xE790;"
+                                        CornerRadius="0,4,4,0"
                                         FontFamily="{ThemeResource SymbolThemeFontFamily}"/>
                             </Grid>
                             <Grid Margin="0,10,0,0">

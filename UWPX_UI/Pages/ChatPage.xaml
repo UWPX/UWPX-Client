@@ -77,7 +77,7 @@
                     <Border HorizontalAlignment="Center"
                             VerticalAlignment="Center"
                             Background="{ThemeResource AppBackgroundAcrylicElementLightBrush}"
-                            CornerRadius="20">
+                            CornerRadius="{ThemeResource OverlayCornerRadius}">
                         <StackPanel Grid.Row="0"
                                     Padding="10">
                             <Image Width="120"

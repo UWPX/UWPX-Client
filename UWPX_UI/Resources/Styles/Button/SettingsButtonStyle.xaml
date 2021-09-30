@@ -5,6 +5,7 @@
            TargetType="Button">
         <Setter Property="HorizontalAlignment" Value="Stretch"/>
         <Setter Property="VerticalAlignment" Value="Stretch"/>
+        <Setter Property="CornerRadius" Value="{ThemeResource ControlCornerRadius}"/>
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="Button">
@@ -29,53 +30,75 @@
                         <VisualStateManager.VisualStateGroups>
                             <VisualStateGroup x:Name="CommonStates">
                                 <VisualState x:Name="Normal">
-
                                     <Storyboard>
-                                        <PointerUpThemeAnimation Storyboard.TargetName="RootGrid"/>
+                                        <PointerUpThemeAnimation Storyboard.TargetName="ContentPresenter"/>
                                     </Storyboard>
                                 </VisualState>
 
                                 <VisualState x:Name="PointerOver">
-                                    <VisualState.Setters>
-                                        <Setter Target="RootGrid.(RevealBrush.State)" Value="PointerOver"/>
-                                        <Setter Target="SubRootGrid.Background">
-                                            <Setter.Value>
-                                                <RevealBackgroundBrush/>
-                                            </Setter.Value>
-                                        </Setter>
-                                        <Setter Target="ContentPresenter.BorderBrush" Value="{ThemeResource ButtonRevealBorderBrushPointerOver}"/>
-                                        <Setter Target="ContentPresenter.Foreground" Value="{ThemeResource ButtonForegroundPointerOver}"/>
-                                    </VisualState.Setters>
-
                                     <Storyboard>
-                                        <PointerUpThemeAnimation Storyboard.TargetName="RootGrid"/>
+                                        <ObjectAnimationUsingKeyFrames Storyboard.TargetName="ContentPresenter"
+                                                                       Storyboard.TargetProperty="Background">
+                                            <DiscreteObjectKeyFrame KeyTime="0"
+                                                                    Value="{ThemeResource ButtonBackgroundPointerOver}"/>
+                                        </ObjectAnimationUsingKeyFrames>
+                                        <ObjectAnimationUsingKeyFrames Storyboard.TargetName="ContentPresenter"
+                                                                       Storyboard.TargetProperty="BorderBrush">
+                                            <DiscreteObjectKeyFrame KeyTime="0"
+                                                                    Value="{ThemeResource ButtonBorderBrushPointerOver}"/>
+                                        </ObjectAnimationUsingKeyFrames>
+                                        <ObjectAnimationUsingKeyFrames Storyboard.TargetName="ContentPresenter"
+                                                                       Storyboard.TargetProperty="Foreground">
+                                            <DiscreteObjectKeyFrame KeyTime="0"
+                                                                    Value="{ThemeResource ButtonForegroundPointerOver}"/>
+                                        </ObjectAnimationUsingKeyFrames>
+                                        <PointerUpThemeAnimation Storyboard.TargetName="ContentPresenter"/>
                                     </Storyboard>
                                 </VisualState>
 
                                 <VisualState x:Name="Pressed">
-                                    <VisualState.Setters>
-                                        <Setter Target="RootGrid.(RevealBrush.State)" Value="Pressed"/>
-                                        <Setter Target="ContentPresenter.Foreground" Value="{ThemeResource ButtonForegroundPressed}"/>
-                                    </VisualState.Setters>
-
                                     <Storyboard>
-                                        <PointerDownThemeAnimation Storyboard.TargetName="RootGrid"/>
+                                        <ObjectAnimationUsingKeyFrames Storyboard.TargetName="ContentPresenter"
+                                                                       Storyboard.TargetProperty="Background">
+                                            <DiscreteObjectKeyFrame KeyTime="0"
+                                                                    Value="{ThemeResource ButtonBackgroundPressed}"/>
+                                        </ObjectAnimationUsingKeyFrames>
+                                        <ObjectAnimationUsingKeyFrames Storyboard.TargetName="ContentPresenter"
+                                                                       Storyboard.TargetProperty="BorderBrush">
+                                            <DiscreteObjectKeyFrame KeyTime="0"
+                                                                    Value="{ThemeResource ButtonBorderBrushPressed}"/>
+                                        </ObjectAnimationUsingKeyFrames>
+                                        <ObjectAnimationUsingKeyFrames Storyboard.TargetName="ContentPresenter"
+                                                                       Storyboard.TargetProperty="Foreground">
+                                            <DiscreteObjectKeyFrame KeyTime="0"
+                                                                    Value="{ThemeResource ButtonForegroundPressed}"/>
+                                        </ObjectAnimationUsingKeyFrames>
+                                        <PointerDownThemeAnimation Storyboard.TargetName="ContentPresenter"/>
                                     </Storyboard>
                                 </VisualState>
 
                                 <VisualState x:Name="Disabled">
-                                    <VisualState.Setters>
-                                        <Setter Target="RootGrid.Background" Value="{ThemeResource ButtonRevealBackgroundDisabled}"/>
-                                        <Setter Target="ContentPresenter.BorderBrush" Value="{ThemeResource ButtonRevealBorderBrushDisabled}"/>
-                                        <Setter Target="ContentPresenter.Foreground" Value="{ThemeResource ButtonForegroundDisabled}"/>
-                                    </VisualState.Setters>
+                                    <Storyboard>
+                                        <ObjectAnimationUsingKeyFrames Storyboard.TargetName="ContentPresenter"
+                                                                       Storyboard.TargetProperty="Background">
+                                            <DiscreteObjectKeyFrame KeyTime="0"
+                                                                    Value="{ThemeResource ButtonBackgroundDisabled}"/>
+                                        </ObjectAnimationUsingKeyFrames>
+                                        <ObjectAnimationUsingKeyFrames Storyboard.TargetName="ContentPresenter"
+                                                                       Storyboard.TargetProperty="BorderBrush">
+                                            <DiscreteObjectKeyFrame KeyTime="0"
+                                                                    Value="{ThemeResource ButtonBorderBrushDisabled}"/>
+                                        </ObjectAnimationUsingKeyFrames>
+                                        <ObjectAnimationUsingKeyFrames Storyboard.TargetName="ContentPresenter"
+                                                                       Storyboard.TargetProperty="Foreground">
+                                            <DiscreteObjectKeyFrame KeyTime="0"
+                                                                    Value="{ThemeResource ButtonForegroundDisabled}"/>
+                                        </ObjectAnimationUsingKeyFrames>
+                                    </Storyboard>
                                 </VisualState>
-
                             </VisualStateGroup>
-
                         </VisualStateManager.VisualStateGroups>
                     </Grid>
-
                 </ControlTemplate>
             </Setter.Value>
         </Setter>
