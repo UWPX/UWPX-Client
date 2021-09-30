@@ -8,8 +8,8 @@
 | x86 | [master](https://github.com/UWPX/UWPX-Client/tree/master) | [![Build Status](https://dev.azure.com/uwpx/UWPX%20Client/_apis/build/status/CI/Debug%20x86?branchName=master)](https://dev.azure.com/uwpx/UWPX%20Client/_build/latest?definitionId=15&branchName=master) | [v.0.35.1.0](https://www.microsoft.com/store/apps/9NW16X9JB5WV?ocid=badge) | [v.0.35.1.0](https://github.com/UWPX/UWPX-Client/releases/download/v.0.35.1.0/UWPX-Installer.exe) |
 | ARM | [master](https://github.com/UWPX/UWPX-Client/tree/master) | [![Build Status](https://dev.azure.com/uwpx/UWPX%20Client/_apis/build/status/CI/Debug%20ARM?branchName=master)](https://dev.azure.com/uwpx/UWPX%20Client/_build/latest?definitionId=16&branchName=master) | [v.0.35.1.0](https://www.microsoft.com/store/apps/9NW16X9JB5WV?ocid=badge) | [v.0.35.1.0](https://github.com/UWPX/UWPX-Client/releases/download/v.0.35.1.0/UWPX-Installer.exe) |
 
-# UWP-XMPP-Client - Now with [OMEMO](https://conversations.im/omemo/) :tropical_fish: support [read on...](https://github.com/UWPX/UWPX-Client/releases)
-[This app is still in alpha stage!]
+# UWP-XMPP-Client - Now with Push 📨 support [read on...](https://github.com/UWPX/UWPX-Client/releases/tag/v.0.35.1.0)
+[This app is still in beta stage!]
 
 Chat with all your XMPP contacts.
 
@@ -46,6 +46,7 @@ Follow [@UWPX_APP](https://twitter.com/UWPX_APP) on ![Twitter](http://i.imgur.co
 | Chat Markers | [XEP-0333](https://xmpp.org/extensions/xep-0333.html "XEP-0333") | 0.4 (2020-04-15) |
 | Message Processing Hints | [XEP-0334](https://xmpp.org/extensions/xep-0334.html "XEP-0334") | 0.3.0 (2018-01-25) |
 | Data Forms - Dynamic Forms | [XEP-0336](https://xmpp.org/extensions/xep-0336.html) | 0.2 (2015-11-09) |
+| Push Notifications | [XEP-0357](https://xmpp.org/extensions/xep-0357.html) | 0.4.1 (2020-02-11) |
 | Unique and Stable Stanza IDs | [XEP-0359](https://xmpp.org/extensions/xep-0359.html) | 0.6.0 (2018-10-01) |
 | HTTP File Upload **(DOWNLOAD)** | [XEP-0363](https://xmpp.org/extensions/xep-0363.html "XEP-0363") | 1.0.0 (2020-02-11) |
 | OMEMO [#5](https://github.com/UWPX/UWPX-Client/issues/5), [#125](https://github.com/UWPX/UWPX-Client/issues/125) **(EXPERIMENTAL)** | [XEP-0384](https://xmpp.org/extensions/xep-0384.html "XEP-0384") | 0.7.0 (2020-09-05) |
