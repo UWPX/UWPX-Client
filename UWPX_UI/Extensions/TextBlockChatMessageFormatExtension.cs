@@ -199,18 +199,13 @@ namespace UWPX_UI.Extensions
 
                 do
                 {
-                    await Task.Run(() =>
+                    try
                     {
-                        try
-                        {
-                            matches[0] = URL_REGEX.Match(text, lastPosition);
-                            matches[1] = EMAIL_REGEX.Match(text, lastPosition);
-                            matches[2] = PHONE_REGEX.Match(text, lastPosition);
-                        }
-                        catch (RegexMatchTimeoutException)
-                        {
-                        }
-                    });
+                        matches[0] = URL_REGEX.Match(text, lastPosition);
+                        matches[1] = EMAIL_REGEX.Match(text, lastPosition);
+                        matches[2] = PHONE_REGEX.Match(text, lastPosition);
+                    }
+                    catch (RegexMatchTimeoutException) { }
 
                     Match firstMatch = matches.Where(x => !(x is null) && x.Success).OrderBy(x => x.Index)?.FirstOrDefault();
                     if (firstMatch == matches[0])
