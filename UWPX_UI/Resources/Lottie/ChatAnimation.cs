@@ -6,10 +6,10 @@
 //           7.0.5+g85c2a9d9e7
 //       
 //       Command:
-//           LottieGen -Language CSharp -Public -WinUIVersion 2.5 -InputFile ChatAnimation.json
+//           LottieGen -Language CSharp -Public -WinUIVersion 2.7 -InputFile ChatAnimation.json
 //       
 //       Input file:
-//           ChatAnimation.json (111784 bytes created 15:15+02:00 Aug 29 2021)
+//           ChatAnimation.json (111784 bytes created 18:14+02:00 Sep 6 2021)
 //       
 //       LottieGen source:
 //           http://aka.ms/Lottie
@@ -61,6 +61,7 @@ namespace AnimatedVisuals
     // Duration:    10000.0 mS
     sealed class ChatAnimation
         : Microsoft.UI.Xaml.Controls.IAnimatedVisualSource
+        , Microsoft.UI.Xaml.Controls.IAnimatedVisualSource2
     {
         // Animation duration: 10.000 seconds.
         internal const long c_durationTicks = 100000000;
