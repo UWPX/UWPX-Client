@@ -4,7 +4,6 @@
 // MIT License:
 // https://github.com/UWPX/unicode.net/blob/master/LICENSE
 
-using System;
 using System.Collections.Generic;
 
 namespace NeoSmart.Unicode

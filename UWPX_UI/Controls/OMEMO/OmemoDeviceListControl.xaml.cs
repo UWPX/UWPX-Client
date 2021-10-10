@@ -1,7 +1,4 @@
-﻿using System;
-using UWPX_UI.Dialogs;
-using UWPX_UI_Context.Classes;
-using UWPX_UI_Context.Classes.DataContext.Controls;
+﻿using UWPX_UI_Context.Classes.DataContext.Controls;
 using UWPX_UI_Context.Classes.DataTemplates;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;

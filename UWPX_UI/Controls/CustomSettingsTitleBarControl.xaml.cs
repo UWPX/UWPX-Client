@@ -1,5 +1,4 @@
 ﻿using System;
-using Microsoft.UI.Xaml.Controls;
 using Shared.Classes;
 using UWPX_UI.Pages;
 using UWPX_UI.Pages.Settings;

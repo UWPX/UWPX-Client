@@ -43,13 +43,12 @@
 // | Gradient stops           |            34 |           34 |           34 |
 // | CompositionVisualSurface |             2 |            2 |            - |
 // --------------------------------------------------------------------------
-using Microsoft.Graphics.Canvas;
-using Microsoft.Graphics.Canvas.Effects;
-using Microsoft.Graphics.Canvas.Geometry;
 using System;
 using System.Collections.Generic;
 using System.Numerics;
-using Windows.Graphics;
+using Microsoft.Graphics.Canvas;
+using Microsoft.Graphics.Canvas.Effects;
+using Microsoft.Graphics.Canvas.Geometry;
 using Windows.UI;
 using Windows.UI.Composition;
 
@@ -151,7 +150,7 @@ namespace AnimatedVisuals
         {
         }
 
-        sealed class ChatAnimation_AnimatedVisual_UAPv11 : Microsoft.UI.Xaml.Controls.IAnimatedVisual
+        sealed class ChatAnimation_AnimatedVisual_UAPv11: Microsoft.UI.Xaml.Controls.IAnimatedVisual
         {
             const long c_durationTicks = 100000000;
             readonly Compositor _c;
@@ -5115,7 +5114,7 @@ namespace AnimatedVisuals
             }
         }
 
-        sealed class ChatAnimation_AnimatedVisual_UAPv8 : Microsoft.UI.Xaml.Controls.IAnimatedVisual
+        sealed class ChatAnimation_AnimatedVisual_UAPv8: Microsoft.UI.Xaml.Controls.IAnimatedVisual
         {
             const long c_durationTicks = 100000000;
             readonly Compositor _c;
@@ -9255,7 +9254,7 @@ namespace AnimatedVisuals
             }
         }
 
-        sealed class ChatAnimation_AnimatedVisual_UAPv7 : Microsoft.UI.Xaml.Controls.IAnimatedVisual
+        sealed class ChatAnimation_AnimatedVisual_UAPv7: Microsoft.UI.Xaml.Controls.IAnimatedVisual
         {
             const long c_durationTicks = 100000000;
             readonly Compositor _c;

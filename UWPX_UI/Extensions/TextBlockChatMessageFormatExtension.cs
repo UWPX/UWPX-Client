@@ -1,12 +1,10 @@
 ﻿using System;
 using System.Linq;
 using System.Text.RegularExpressions;
-using System.Threading.Tasks;
 using NeoSmart.Unicode;
 using Storage.Classes;
 using UWPX_UI_Context.Classes;
 using Windows.ApplicationModel.Contacts;
-using Windows.UI;
 using Windows.UI.Text;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
