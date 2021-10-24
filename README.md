@@ -4,19 +4,19 @@
 
 | Platform | Branch | Build Status | Latest Version - Store | Latest Version - Sideload |
 | :---: | :---: | :---: | :---: | :---: |
-| x64 | [master](https://github.com/UWPX/UWPX-Client/tree/master) | [![Build Status](https://dev.azure.com/uwpx/UWPX%20Client/_apis/build/status/CI/Debug%20x64?branchName=master)](https://dev.azure.com/uwpx/UWPX%20Client/_build/latest?definitionId=13&branchName=master) | [v.0.35.1.0](https://www.microsoft.com/store/apps/9NW16X9JB5WV?ocid=badge)  | [v.0.35.1.0](https://github.com/UWPX/UWPX-Client/releases/download/v.0.35.1.0/UWPX-Installer.exe) |
-| x86 | [master](https://github.com/UWPX/UWPX-Client/tree/master) | [![Build Status](https://dev.azure.com/uwpx/UWPX%20Client/_apis/build/status/CI/Debug%20x86?branchName=master)](https://dev.azure.com/uwpx/UWPX%20Client/_build/latest?definitionId=15&branchName=master) | [v.0.35.1.0](https://www.microsoft.com/store/apps/9NW16X9JB5WV?ocid=badge) | [v.0.35.1.0](https://github.com/UWPX/UWPX-Client/releases/download/v.0.35.1.0/UWPX-Installer.exe) |
-| ARM | [master](https://github.com/UWPX/UWPX-Client/tree/master) | [![Build Status](https://dev.azure.com/uwpx/UWPX%20Client/_apis/build/status/CI/Debug%20ARM?branchName=master)](https://dev.azure.com/uwpx/UWPX%20Client/_build/latest?definitionId=16&branchName=master) | [v.0.35.1.0](https://www.microsoft.com/store/apps/9NW16X9JB5WV?ocid=badge) | [v.0.35.1.0](https://github.com/UWPX/UWPX-Client/releases/download/v.0.35.1.0/UWPX-Installer.exe) |
+| x64 | [master](https://github.com/UWPX/UWPX-Client/tree/master) | [![Build Status](https://dev.azure.com/uwpx/UWPX%20Client/_apis/build/status/CI/Debug%20x64?branchName=master)](https://dev.azure.com/uwpx/UWPX%20Client/_build/latest?definitionId=13&branchName=master) | [v.0.36.0.0](https://www.microsoft.com/store/apps/9NW16X9JB5WV?ocid=badge)  | [v.0.36.0.0](https://github.com/UWPX/UWPX-Client/releases/download/v.0.36.0.0/UWPX-Installer.exe) |
+| x86 | [master](https://github.com/UWPX/UWPX-Client/tree/master) | [![Build Status](https://dev.azure.com/uwpx/UWPX%20Client/_apis/build/status/CI/Debug%20x86?branchName=master)](https://dev.azure.com/uwpx/UWPX%20Client/_build/latest?definitionId=15&branchName=master) | [v.0.36.0.0](https://www.microsoft.com/store/apps/9NW16X9JB5WV?ocid=badge) | [v.0.36.0.0](https://github.com/UWPX/UWPX-Client/releases/download/v.0.36.0.0/UWPX-Installer.exe) |
+| ARM | [master](https://github.com/UWPX/UWPX-Client/tree/master) | [![Build Status](https://dev.azure.com/uwpx/UWPX%20Client/_apis/build/status/CI/Debug%20ARM?branchName=master)](https://dev.azure.com/uwpx/UWPX%20Client/_build/latest?definitionId=16&branchName=master) | [v.0.36.0.0](https://www.microsoft.com/store/apps/9NW16X9JB5WV?ocid=badge) | [v.0.36.0.0](https://github.com/UWPX/UWPX-Client/releases/download/v.0.36.0.0/UWPX-Installer.exe) |
 
-# UWP-XMPP-Client - Now with Push 📨 support [read on...](https://github.com/UWPX/UWPX-Client/releases/tag/v.0.35.1.0)
+# UWP-XMPP-Client - Now with Push 📨 support [read on...](https://github.com/UWPX/UWPX-Client/releases/tag/v.0.36.0.0)
 [This app is still in beta stage!]
 
 Chat with all your XMPP contacts.
 
-**UWPX is a secure and Open Source XMPP app for all your UWP (Windows 10) devices.**
+**UWPX is a secure and Open Source XMPP app for all your UWP (Windows 10 and 11) devices.**
 
 It implements the E**x**tensible **M**essaging and **P**resence **P**rotocol ([XMPP](https://xmpp.org/)).
-At the moment UWPX is still in ALPHA state so expect regular crashes and unexpected behavior.
+At the moment UWPX is in BETA stage so expect unexpected behavior sometimes.
 
 ### Want more up to date news?
 Follow [@UWPX_APP](https://twitter.com/UWPX_APP) on ![Twitter](http://i.imgur.com/wWzX9uB.png).
