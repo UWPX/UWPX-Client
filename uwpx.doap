@@ -8,9 +8,9 @@
 
     <created>2018-01-01</created>
 
-    <shortdesc xml:lang="en">UWPX is a secure and open-source XMPP app for all your UWP (Windows 10) devices </shortdesc>
+    <shortdesc xml:lang="en">UWPX is a secure and open-source XMPP app for all your UWP (Windows 10 and 11) devices.</shortdesc>
     <description xml:lang="en">
-    UWPX is a app for your UWP (Windows 10) devices. It implements the Extensible Messaging and Presence Protocol (XMPP). At the moment UWPX is still in ALPHA state so expect regular crashes and unexpected behavior. If you encounter bugs or even crashes and somehow can reproduce them please report them over at GitHub. UWPX is completely Open Source. It's licensed under Mozilla Public License 2.0. Feel free to clone, change and submit features and bug fixes - there are always bugs waiting to be fixed. You are not limited to normal chats with only one recipient. UWPX supports XEP-0045: Multi-User Chat (MUC). Just click "Add Group Chat (MUC)", enter the room name and voila you created a new or joind an existing MUC. 
+    UWPX is an app for your UWP (Windows 10 and 11) devices. It implements the Extensible Messaging and Presence Protocol (XMPP). UWPX is a app for your UWP (Windows 10 and Windows 11) devices. It implements the Extensible Messaging and Presence Protocol (XMPP). At the moment UWPX is in BETA stage so expect unexpected behavior sometimes. If you encounter bugs or even crashes and somehow can reproduce them please report them over at GitHub. UWPX is completely Open Source. It's licensed under Mozilla Public License 2.0. Feel free to clone, change and submit features and bug fixes - there are always bugs waiting to be fixed. You are not limited to normal chats with only one recipient. UWPX supports XEP-0045: Multi-User Chat (MUC). Just click "Add Group Chat (MUC)", enter the room name and voila you created a new or joind an existing MUC. 
     </description>
 
     <homepage rdf:resource="https://uwpx.org/" />
@@ -26,11 +26,14 @@
     <os>UWP</os>
 
     <schema:logo rdf:resource="https://raw.githubusercontent.com/UWPX/UWPX-Logos/master/Logo/v3/uwpx_logo.svg" />
-    <schema:screenshot rdf:resource='https://user-images.githubusercontent.com/11741404/54202930-65e6f800-44d1-11e9-92eb-d73e0bbdace1.jpg' />
-    <schema:screenshot rdf:resource='https://user-images.githubusercontent.com/11741404/54202931-667f8e80-44d1-11e9-883c-1142fad08763.jpg' />
-    <schema:screenshot rdf:resource='https://user-images.githubusercontent.com/11741404/54202934-67182500-44d1-11e9-8bc6-ce28675aea3f.jpg' />
-    <schema:screenshot rdf:resource='https://user-images.githubusercontent.com/11741404/54202932-667f8e80-44d1-11e9-887c-e199c69693ad.jpg' />
-    <schema:screenshot rdf:resource='https://user-images.githubusercontent.com/11741404/54202935-67182500-44d1-11e9-8feb-925a1fd49a6c.png' />
+    <schema:screenshot rdf:resource='https://user-images.githubusercontent.com/11741404/132220103-2b4767e4-edff-418e-b97e-5b53b2e1ad11.png' />
+    <schema:screenshot rdf:resource='https://user-images.githubusercontent.com/11741404/132220142-ec03de28-089a-4fc8-b9a9-33ea6aca7421.png' />
+    <schema:screenshot rdf:resource='https://user-images.githubusercontent.com/11741404/132220121-c1c54f2c-a712-4089-889b-5968ea505c48.png' />
+    <schema:screenshot rdf:resource='https://user-images.githubusercontent.com/11741404/132220150-ff1c50cf-65e0-4311-837a-5c8c978dc43d.png' />
+    <schema:screenshot rdf:resource='https://user-images.githubusercontent.com/11741404/132220115-ea13e993-8da5-4708-8f32-5e558b9a7bb1.png' />
+    <schema:screenshot rdf:resource='https://user-images.githubusercontent.com/11741404/132220145-55ae61e1-ea47-4351-be78-bac41481347d.png' />
+    <schema:screenshot rdf:resource='https://user-images.githubusercontent.com/11741404/132220129-8e32c7f8-7d88-4a19-b89e-4cf6e2696875.png' />
+    <schema:screenshot rdf:resource='https://user-images.githubusercontent.com/11741404/132220166-325b0991-3c93-4020-ad3a-a4f906ba0f47.png' />
 
     <category rdf:resource="https://linkmauve.fr/ns/xmpp-doap#category-xmpp" />
     <category rdf:resource="https://linkmauve.fr/ns/xmpp-doap#category-jabber" />
@@ -156,6 +159,13 @@
     </implements>
     <implements>
       <xmpp:SupportedXep>
+        <xmpp:xep rdf:resource="https://xmpp.org/extensions/xep-0357.html" />
+        <xmpp:status>complete</xmpp:status>
+        <xmpp:version>0.4.1</xmpp:version>
+      </xmpp:SupportedXep>
+    </implements>
+    <implements>
+      <xmpp:SupportedXep>
         <xmpp:xep rdf:resource="https://xmpp.org/extensions/xep-0359.html" />
         <xmpp:status>complete</xmpp:status>
         <xmpp:version>0.6.0</xmpp:version>
@@ -193,9 +203,9 @@
 
     <release>
       <Version>
-        <revision>v.0.33.0.0</revision>
-        <created>2021-06-27</created>
-        <file-release rdf:resource="https://github.com/UWPX/UWPX-Client/releases/download/v.0.33/UWPX-Installer.exe" />
+        <revision>v.0.36.0.0</revision>
+        <created>2021-09-30</created>
+        <file-release rdf:resource="https://github.com/UWPX/UWPX-Client/releases/download/v.0.36.0.0/UWPX-Installer.exe" />
       </Version>
     </release>
   </Project>
