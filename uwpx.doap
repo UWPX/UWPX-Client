@@ -10,7 +10,7 @@
 
     <shortdesc xml:lang="en">UWPX is a secure and open-source XMPP app for all your UWP (Windows 10 and 11) devices.</shortdesc>
     <description xml:lang="en">
-    UWPX is an app for your UWP (Windows 10 and 11) devices. It implements the Extensible Messaging and Presence Protocol (XMPP). UWPX is a app for your UWP (Windows 10 and Windows 11) devices. It implements the Extensible Messaging and Presence Protocol (XMPP). At the moment UWPX is in BETA stage so expect unexpected behavior sometimes. If you encounter bugs or even crashes and somehow can reproduce them please report them over at GitHub. UWPX is completely Open Source. It's licensed under Mozilla Public License 2.0. Feel free to clone, change and submit features and bug fixes - there are always bugs waiting to be fixed. You are not limited to normal chats with only one recipient. UWPX supports XEP-0045: Multi-User Chat (MUC). Just click "Add Group Chat (MUC)", enter the room name and voila you created a new or joind an existing MUC. 
+      UWPX is an app for your UWP (Windows 10 and 11) devices. It implements the Extensible Messaging and Presence Protocol (XMPP). UWPX is a app for your UWP (Windows 10 and Windows 11) devices. It implements the Extensible Messaging and Presence Protocol (XMPP). At the moment UWPX is in BETA stage so expect unexpected behavior sometimes. If you encounter bugs or even crashes and somehow can reproduce them please report them over at GitHub. UWPX is completely Open Source. It's licensed under Mozilla Public License 2.0. Feel free to clone, change and submit features and bug fixes - there are always bugs waiting to be fixed. You are not limited to normal chats with only one recipient. UWPX supports XEP-0045: Multi-User Chat (MUC). Just click "Add Group Chat (MUC)", enter the room name and voila you created a new or joind an existing MUC.
     </description>
 
     <homepage rdf:resource="https://uwpx.org/" />
@@ -203,9 +203,9 @@
 
     <release>
       <Version>
-        <revision>v.0.36.0.0</revision>
-        <created>2021-09-30</created>
-        <file-release rdf:resource="https://github.com/UWPX/UWPX-Client/releases/download/v.0.36.0.0/UWPX-Installer.exe" />
+        <revision>v.0.37.0.0</revision>
+        <created>2021-11-02</created>
+        <file-release rdf:resource="https://github.com/UWPX/UWPX-Client/releases/download/v.0.37.0.0/UWPX-Installer.exe" />
       </Version>
     </release>
   </Project>
