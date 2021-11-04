@@ -111,8 +111,6 @@ namespace UWPX_UI
             // Register a handler to show a dialog when we catch a crash:
             AppCenterCrashHelper.INSTANCE.OnTrackError += OnTrackError;
 
-
-
             // Do not repeat app initialization when the Window already has content,
             // just ensure that the window is active
             if (Window.Current.Content is not Frame rootFrame)
