@@ -398,7 +398,7 @@
       <Version>6.2.12</Version>
     </PackageReference>
     <PackageReference Include="Microsoft.Toolkit.Uwp.Connectivity">
-      <Version>7.1.0</Version>
+      <Version>7.1.1</Version>
     </PackageReference>
   </ItemGroup>
   <ItemGroup>
