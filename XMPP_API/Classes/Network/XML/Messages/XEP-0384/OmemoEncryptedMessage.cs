@@ -137,7 +137,7 @@ namespace XMPP_API.Classes.Network.XML.Messages.XEP_0384
                 }
                 else
                 {
-                    XElement contentNode = generateContent();
+                    XElement contentNode = generateEnvelope();
                     byte[] contentData = Encoding.UTF8.GetBytes(contentNode.ToString());
 
                     // Encrypt message:
@@ -242,8 +242,8 @@ namespace XMPP_API.Classes.Network.XML.Messages.XEP_0384
                 {
                     byte[] contentDec = decryptContent(contentEnc, decryptCtx);
                     string contentStr = Encoding.UTF8.GetString(contentDec);
-                    XmlNode contentNode = getContentNode(contentStr);
-                    parseContentNode(contentNode);
+                    XmlNode envelopeNode = getEnvelopeNode(contentStr);
+                    parseEnvelopeNode(envelopeNode);
                 }
 
                 // In case nothing went wrong, store the session:
@@ -263,37 +263,37 @@ namespace XMPP_API.Classes.Network.XML.Messages.XEP_0384
         #endregion
 
         #region --Misc Methods (Private)--
-        private XElement generateContent()
+        private XElement generateEnvelope()
         {
             XNamespace ns = Consts.XML_XEP_0420_NAMESPACE;
-            XElement contentNode = new XElement(ns + "content");
+            XElement envelopeNode = new XElement(ns + "envelope");
 
-            // Payload:
-            XElement payloadNode = new XElement("payload");
+            // Content:
+            XElement contentNode = new XElement("content");
             XNamespace bodyNs = Consts.XML_CLIENT;
-            payloadNode.Add(new XElement(bodyNs + "body", MESSAGE));
-            contentNode.Add(payloadNode);
+            contentNode.Add(new XElement(bodyNs + "body", MESSAGE));
+            envelopeNode.Add(contentNode);
 
             // Padding
-            contentNode.Add(generatePaddingNode(1, 200, ns));
+            envelopeNode.Add(generatePaddingNode(1, 200, ns));
 
             // From:
             XElement fromNode = new XElement("from");
             fromNode.Add(new XAttribute("jid", FROM));
-            contentNode.Add(fromNode);
+            envelopeNode.Add(fromNode);
 
             // To:
             XElement toNode = new XElement("to");
             toNode.Add(new XAttribute("jid", TO));
-            contentNode.Add(toNode);
+            envelopeNode.Add(toNode);
 
             // Time:
             timeStamp = DateTime.Now;
             XElement timeNode = new XElement("time");
             timeNode.Add(new XAttribute("stamp", DateTimeHelper.ToString(timeStamp)));
-            contentNode.Add(timeNode);
+            envelopeNode.Add(timeNode);
 
-            return contentNode;
+            return envelopeNode;
         }
 
         private byte[] decryptContent(byte[] content, OmemoDecryptionContext decryptCtx)
@@ -314,12 +314,12 @@ namespace XMPP_API.Classes.Network.XML.Messages.XEP_0384
             return rachet.DecryptMessage(decryptCtx.authMsg, decryptCtx.session, content);
         }
 
-        private XmlNode getContentNode(string contentNodeStr)
+        private XmlNode getEnvelopeNode(string contentNodeStr)
         {
             List<XmlNode> nodes = MessageParser2.parseToXmlNodes(contentNodeStr);
             foreach (XmlNode n in nodes)
             {
-                if (string.Equals(n.Name, "content") && string.Equals(n.Attributes[Consts.XML_XMLNS]?.Value, Consts.XML_XEP_0420_NAMESPACE))
+                if (string.Equals(n.Name, "envelope") && string.Equals(n.Attributes[Consts.XML_XMLNS]?.Value, Consts.XML_XEP_0420_NAMESPACE))
                 {
                     return n;
                 }
@@ -327,10 +327,10 @@ namespace XMPP_API.Classes.Network.XML.Messages.XEP_0384
             return null;
         }
 
-        private void parseContentNode(XmlNode contentNode)
+        private void parseEnvelopeNode(XmlNode envelopeNode)
         {
             // Validate the message:
-            XmlNode fromNode = XMLUtils.getChildNode(contentNode, "from");
+            XmlNode fromNode = XMLUtils.getChildNode(envelopeNode, "from");
             if (!(fromNode is null))
             {
                 refFrom = fromNode.Attributes["jid"]?.Value;
@@ -339,7 +339,7 @@ namespace XMPP_API.Classes.Network.XML.Messages.XEP_0384
                     throw new OmemoException("Failed to parse OMEMO message. Content 'from' does not match: " + refFrom + " != " + FROM);
                 }
             }
-            XmlNode toNode = XMLUtils.getChildNode(contentNode, "to");
+            XmlNode toNode = XMLUtils.getChildNode(envelopeNode, "to");
             if (toNode is null)
             {
                 throw new OmemoException("Failed to parse OMEMO message. Content does not contain a 'to' node for validation, which is mandatory.");
@@ -349,7 +349,7 @@ namespace XMPP_API.Classes.Network.XML.Messages.XEP_0384
             {
                 throw new OmemoException("Failed to parse OMEMO message. Content 'to' does not match: " + refTo + " != " + TO);
             }
-            XmlNode timeNode = XMLUtils.getChildNode(contentNode, "time");
+            XmlNode timeNode = XMLUtils.getChildNode(envelopeNode, "time");
             if (!(timeNode is null))
             {
                 timeStamp = DateTimeHelper.Parse(timeNode.Attributes["stamp"]?.Value);
@@ -360,10 +360,10 @@ namespace XMPP_API.Classes.Network.XML.Messages.XEP_0384
             }
 
             // Load the payload:
-            XmlNode payloadNode = XMLUtils.getChildNode(contentNode, "payload");
-            if (!(payloadNode is null))
+            XmlNode contentNode = XMLUtils.getChildNode(envelopeNode, "content");
+            if (!(contentNode is null))
             {
-                XmlNode bodyNode = XMLUtils.getChildNode(payloadNode, "body");
+                XmlNode bodyNode = XMLUtils.getChildNode(contentNode, "body");
                 MESSAGE = bodyNode.InnerText;
             }
         }

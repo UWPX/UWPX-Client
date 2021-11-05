@@ -83,6 +83,21 @@ namespace UWPX_UI_Context.Classes.DataContext.Controls.OMEMO
                     return OmemoSupportedStatus.ERROR;
                 }
 
+                // OMEMO == 0.7.0:
+                result = await MODEL.Chat.Client.xmppClient.PUB_SUB_COMMAND_HELPER.requestNodeAsync(MODEL.Chat.Chat.bareJid, "urn:xmpp:omemo:1:devices", 1);
+                if (result.STATE == MessageResponseHelperResultState.SUCCESS)
+                {
+                    if (result.RESULT is not IQErrorMessage)
+                    {
+                        return OmemoSupportedStatus.OLD_VERSION;
+                    }
+                }
+                else
+                {
+                    MODEL.ErrorText = "Requesting devices failed.";
+                    return OmemoSupportedStatus.ERROR;
+                }
+
                 // OMEMO <= 0.3.0:
                 result = await MODEL.Chat.Client.xmppClient.PUB_SUB_COMMAND_HELPER.requestNodeAsync(MODEL.Chat.Chat.bareJid, "eu.siacs.conversations.axolotl.devicelist", 1);
                 if (result.STATE == MessageResponseHelperResultState.SUCCESS)

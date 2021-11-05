@@ -116,7 +116,7 @@
                         <Setter Target="statusBanner.Background" Value="{ThemeResource SystemFillColorCautionBackgroundBrush}"/>
                         <Setter Target="statusBannerIconBackground.Foreground" Value="{ThemeResource SystemFillColorCautionBrush}"/>
                         <Setter Target="statusBannerIcon.Text" Value="&#xF13C;"/>
-                        <Setter Target="statusBannerText.Text" Value="Your contact does not support the latest OMEMO 0.7.0 (2020-09-05) standard."/>
+                        <Setter Target="statusBannerText.Text" Value="Your contact does not support the latest OMEMO 0.8.1 (2021-10-07) standard."/>
                     </VisualState.Setters>
                 </VisualState>
                 <VisualState x:Name="Unsupported">

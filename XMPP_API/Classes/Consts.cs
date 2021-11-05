@@ -74,9 +74,9 @@ namespace XMPP_API.Classes
         // XEP-0184 (Message Delivery Receipts):
         public const string XML_XEP_0184_NAMESPACE = "urn:xmpp:receipts";
         // XEP-0384 (OMEMO Encryption):
-        public const string XML_XEP_0384_NAMESPACE = "urn:xmpp:omemo:1";
-        public const string XML_XEP_0384_DEVICE_LIST_NODE = "urn:xmpp:omemo:1:devices";
-        public const string XML_XEP_0384_BUNDLES_NODE = "urn:xmpp:omemo:1:bundles";
+        public const string XML_XEP_0384_NAMESPACE = "urn:xmpp:omemo:2";
+        public const string XML_XEP_0384_DEVICE_LIST_NODE = "urn:xmpp:omemo:2:devices";
+        public const string XML_XEP_0384_BUNDLES_NODE = "urn:xmpp:omemo:2:bundles";
         // XEP-0280 (Message Carbons):
         public const string XML_XEP_0280_NAMESPACE = "urn:xmpp:carbons:2";
         public const string XML_XEP_0280_NAMESPACE_FORWARDED = "urn:xmpp:forward:0";
@@ -99,7 +99,7 @@ namespace XMPP_API.Classes
         // XEP-0059 (Result Set Management)
         public const string XML_XEP_0059_NAMESPACE = "http://jabber.org/protocol/rsm";
         // XEP-0420 (Stanza Content Encryption)
-        public const string XML_XEP_0420_NAMESPACE = "urn:xmpp:sce:0";
+        public const string XML_XEP_0420_NAMESPACE = "urn:xmpp:sce:1";
 
     }
 }
