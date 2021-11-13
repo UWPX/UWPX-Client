@@ -47,19 +47,20 @@
                     HorizontalAlignment="{x:Bind HorizontalContentAlignment, Mode=OneWay}"
                     VerticalAlignment="{x:Bind VerticalContentAlignment, Mode=OneWay}"
                     Orientation="Horizontal">
-            <TextBlock x:Name="nick_tbx"
-                       Margin="0,0,5,0"
-                       ContextFlyout="{x:Bind ContextFlyout, Mode=OneWay}"
-                       Foreground="{x:Bind ViewModel.MODEL.Message.Message.fromNickname, Mode=OneWay, Converter={StaticResource StringBrushValueConverter}}"
-                       Style="{ThemeResource ReplacedContectMenuCaptionTextBlock}"
-                       Text="{x:Bind ViewModel.MODEL.Message.Message.fromNickname, Mode=OneWay}"
-                       TextTrimming="CharacterEllipsis"
-                       Visibility="{x:Bind ViewModel.MODEL.Message.Message.fromNickname, Mode=OneWay, Converter={StaticResource StringEmptyVisibilityValueConverter}}"/>
-            <FontIcon Margin="0,0,5,1"
-                      FontSize="{x:Bind nick_tbx.FontSize, Mode=OneWay}"
-                      Glyph="&#xECCC;"
-                      Style="{ThemeResource ReplacedContectMenuCaptionFontIcon}"
-                      Visibility="{x:Bind ViewModel.MODEL.Message.Message.fromNickname, Mode=OneWay, Converter={StaticResource StringEmptyVisibilityValueConverter}}"/>
+            <Border Margin="0,2,5,0"
+                    Padding="5,0,5,0"
+                    Background="{ThemeResource SpeechBubbleCaptionForegroundBrush}"
+                    ContextFlyout="{x:Bind ContextFlyout, Mode=OneWay}"
+                    CornerRadius="5"
+                    Visibility="{x:Bind ViewModel.MODEL.Message.Message.fromNickname, Mode=OneWay, Converter={StaticResource StringEmptyVisibilityValueConverter}}">
+                <TextBlock x:Name="nick_tbx"
+                           VerticalAlignment="Center"
+                           ContextFlyout="{x:Bind ContextFlyout, Mode=OneWay}"
+                           Foreground="{x:Bind ViewModel.MODEL.Message.Message.fromNickname, Mode=OneWay, Converter={StaticResource StringBrushValueConverter}}"
+                           Style="{ThemeResource ReplacedContectMenuCaptionTextBlock}"
+                           Text="{x:Bind ViewModel.MODEL.Message.Message.fromNickname, Mode=OneWay}"
+                           TextTrimming="CharacterEllipsis"/>
+            </Border>
             <TextBlock Margin="0,0,5,0"
                        ContextFlyout="{x:Bind ContextFlyout, Mode=OneWay}"
                        Style="{ThemeResource ReplacedContectMenuCaptionTextBlock}"
