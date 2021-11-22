@@ -128,6 +128,7 @@ namespace Omemo.Classes
         private OmemoAuthenticatedMessage EncryptKeyHmacForDevices(byte[] keyHmac, OmemoSessionModel session, byte[] assData)
         {
             byte[] mk = LibSignalUtils.KDF_CK(session.ckS, 0x01);
+            Logger.Trace("[" + nameof(DecryptKeyHmacForDevice) + "] " + nameof(session.ckS) + ": " + CryptoUtils.ToHexString(session.ckS));
             session.ckS = LibSignalUtils.KDF_CK(session.ckS, 0x02);
             OmemoMessage omemoMessage = new OmemoMessage(session);
             ++session.nS;
@@ -139,6 +140,18 @@ namespace Omemo.Classes
             byte[] hmacInput = CryptoUtils.Concat(assData, omemoMessageBytes);
             byte[] hmacResult = CryptoUtils.HmacSha256(authKey, hmacInput);
             byte[] hmacTruncated = CryptoUtils.Truncate(hmacResult, 16);
+
+            // Debug trace output:
+            Logger.Trace("[" + nameof(DecryptKeyHmacForDevice) + "] " + nameof(mk) + ": " + CryptoUtils.ToHexString(mk));
+            Logger.Trace("[" + nameof(DecryptKeyHmacForDevice) + "] " + nameof(assData) + ": " + CryptoUtils.ToHexString(assData));
+            Logger.Trace("[" + nameof(DecryptKeyHmacForDevice) + "] " + nameof(hkdfOutput) + ": " + CryptoUtils.ToHexString(hkdfOutput));
+            Logger.Trace("[" + nameof(DecryptKeyHmacForDevice) + "] " + nameof(encKey) + ": " + CryptoUtils.ToHexString(encKey));
+            Logger.Trace("[" + nameof(DecryptKeyHmacForDevice) + "] " + nameof(authKey) + ": " + CryptoUtils.ToHexString(authKey));
+            Logger.Trace("[" + nameof(DecryptKeyHmacForDevice) + "] " + nameof(iv) + ": " + CryptoUtils.ToHexString(iv));
+            Logger.Trace("[" + nameof(DecryptKeyHmacForDevice) + "] " + nameof(hmacInput) + ": " + CryptoUtils.ToHexString(hmacInput));
+            Logger.Trace("[" + nameof(DecryptKeyHmacForDevice) + "] " + nameof(hmacResult) + ": " + CryptoUtils.ToHexString(hmacResult));
+            Logger.Trace("[" + nameof(DecryptKeyHmacForDevice) + "] " + nameof(hmacTruncated) + ": " + CryptoUtils.ToHexString(hmacTruncated));
+
             return new OmemoAuthenticatedMessage(hmacTruncated, omemoMessageBytes);
         }
 
@@ -166,13 +179,15 @@ namespace Omemo.Classes
             {
                 throw new OmemoException("Failed to decrypt. Would skip to many message keys from " + session.nR + " to " + until + ", which is more than " + OmemoSessionModel.MAX_SKIP + '.');
             }
+
             if (!(session.ckR is null))
             {
                 while (session.nR < until)
                 {
                     byte[] mk = LibSignalUtils.KDF_CK(session.ckR, 0x01);
+                    Logger.Trace($"[{nameof(SkipMessageKeys)}] {nameof(mk)} - {session.nR}: {CryptoUtils.ToHexString(mk)}");
                     session.ckR = LibSignalUtils.KDF_CK(session.ckR, 0x02);
-                    session.MK_SKIPPED.SetMessageKey(session.dhR.pubKey, session.nR, mk);
+                    session.MK_SKIPPED.SetMessageKey(session.dhR, session.nR, mk);
                     ++session.nR;
                 }
             }
@@ -194,6 +209,19 @@ namespace Omemo.Classes
             byte[] hmacInput = CryptoUtils.Concat(assData, msg.ToByteArray());
             byte[] hmacResult = CryptoUtils.HmacSha256(authKey, hmacInput);
             byte[] hmacTruncated = CryptoUtils.Truncate(hmacResult, 16);
+
+            // Debug trace output:
+            Logger.Trace("[" + nameof(DecryptKeyHmacForDevice) + "] " + nameof(mk) + ": " + CryptoUtils.ToHexString(mk));
+            Logger.Trace("[" + nameof(DecryptKeyHmacForDevice) + "] " + nameof(msgHmac) + ": " + CryptoUtils.ToHexString(msgHmac));
+            Logger.Trace("[" + nameof(DecryptKeyHmacForDevice) + "] " + nameof(assData) + ": " + CryptoUtils.ToHexString(assData));
+            Logger.Trace("[" + nameof(DecryptKeyHmacForDevice) + "] " + nameof(hkdfOutput) + ": " + CryptoUtils.ToHexString(hkdfOutput));
+            Logger.Trace("[" + nameof(DecryptKeyHmacForDevice) + "] " + nameof(encKey) + ": " + CryptoUtils.ToHexString(encKey));
+            Logger.Trace("[" + nameof(DecryptKeyHmacForDevice) + "] " + nameof(authKey) + ": " + CryptoUtils.ToHexString(authKey));
+            Logger.Trace("[" + nameof(DecryptKeyHmacForDevice) + "] " + nameof(iv) + ": " + CryptoUtils.ToHexString(iv));
+            Logger.Trace("[" + nameof(DecryptKeyHmacForDevice) + "] " + nameof(hmacInput) + ": " + CryptoUtils.ToHexString(hmacInput));
+            Logger.Trace("[" + nameof(DecryptKeyHmacForDevice) + "] " + nameof(hmacResult) + ": " + CryptoUtils.ToHexString(hmacResult));
+            Logger.Trace("[" + nameof(DecryptKeyHmacForDevice) + "] " + nameof(hmacTruncated) + ": " + CryptoUtils.ToHexString(hmacTruncated));
+
             if (!hmacTruncated.SequenceEqual(msgHmac))
             {
                 throw new OmemoException("Failed to decrypt. HMAC of OmemoMessage does not match.");
@@ -216,21 +244,15 @@ namespace Omemo.Classes
                 return plainText;
             }
 
-            if (session.dhR is null || !msg.DH.Equals(session.dhR.pubKey))
+            if (session.dhR is null || !msg.DH.Equals(session.dhR))
             {
                 SkipMessageKeys(session, msg.PN);
                 session.InitDhRatchet(msg);
             }
             SkipMessageKeys(session, msg.N);
 
-            // If no receive chain has been initialized yet, initialize it now.
-            // This happens in case we received a key exchange message with a new session and now would like to send our first message.
-            if (session.ckR is null)
-            {
-                session.InitReceiverKeyChain();
-            }
-
             byte[] mk = LibSignalUtils.KDF_CK(session.ckR, 0x01);
+            Logger.Trace("[" + nameof(DecryptKeyHmacForDevice) + "] " + nameof(session.ckR) + ": " + CryptoUtils.ToHexString(session.ckR));
             session.ckR = LibSignalUtils.KDF_CK(session.ckR, 0x02);
             ++session.nR;
             return DecryptKeyHmacForDevice(mk, msg, authMsg.HMAC, session.assData);

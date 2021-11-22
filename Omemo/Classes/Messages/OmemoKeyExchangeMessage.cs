@@ -1,5 +1,4 @@
 ﻿using System;
-using Chaos.NaCl;
 using Omemo.Classes.Exceptions;
 using Omemo.Classes.Keys;
 
@@ -46,9 +45,9 @@ namespace Omemo.Classes.Messages
         {
             PK_ID = BitConverter.ToUInt32(data, 0);
             SPK_ID = BitConverter.ToUInt32(data, 4);
-            IK = new ECPubKeyModel(new byte[Ed25519.PublicKeySizeInBytes]);
+            IK = new ECPubKeyModel(new byte[KeyHelper.PUB_KEY_SIZE]);
             Buffer.BlockCopy(data, 8, IK.key, 0, IK.key.Length);
-            EK = new ECPubKeyModel(new byte[Ed25519.PublicKeySizeInBytes]);
+            EK = new ECPubKeyModel(new byte[KeyHelper.PUB_KEY_SIZE]);
             Buffer.BlockCopy(data, 8 + IK.key.Length, EK.key, 0, EK.key.Length);
             byte[] msg = new byte[data.Length - 4 - 4 - IK.key.Length - EK.key.Length];
             Buffer.BlockCopy(data, 8 + IK.key.Length + EK.key.Length, msg, 0, msg.Length);
@@ -78,11 +77,11 @@ namespace Omemo.Classes.Messages
 
         public void Validate()
         {
-            if (IK?.key is null || IK.key.Length != Ed25519.PublicKeySizeInBytes)
+            if (IK?.key is null || IK.key.Length != KeyHelper.PUB_KEY_SIZE)
             {
                 throw new OmemoException("Invalid " + nameof(OmemoKeyExchangeMessage) + " IK.key.Length: " + IK?.key?.Length);
             }
-            if (EK?.key is null || EK.key.Length != Ed25519.PublicKeySizeInBytes)
+            if (EK?.key is null || EK.key.Length != KeyHelper.PUB_KEY_SIZE)
             {
                 throw new OmemoException("Invalid " + nameof(OmemoKeyExchangeMessage) + " IK.key.Length: " + EK?.key?.Length);
             }

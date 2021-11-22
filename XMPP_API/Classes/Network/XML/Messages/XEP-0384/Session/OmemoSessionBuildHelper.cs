@@ -168,7 +168,7 @@ namespace XMPP_API.Classes.Network.XML.Messages.XEP_0384.Session
             }
             else
             {
-                Logger.Debug("[OmemoSessionBuildHelper] Session for " + device.ToString() + " loaded from cache.");
+                Logger.Debug("[OmemoSessionBuildHelper] Session for " + device.ToString() + " loaded from cache: " + session.ToString());
             }
 
             if (!(session is null))

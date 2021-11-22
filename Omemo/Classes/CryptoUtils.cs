@@ -4,12 +4,12 @@ using System.Diagnostics;
 using System.IO;
 using System.Security.Cryptography;
 using System.Text;
-using Chaos.NaCl;
 using Omemo.Classes.Keys;
 using Org.BouncyCastle.Crypto.Digests;
 using Org.BouncyCastle.Crypto.Generators;
 using Org.BouncyCastle.Crypto.Parameters;
 using Windows.Security.Cryptography;
+using X25519;
 
 namespace Omemo.Classes
 {
@@ -192,9 +192,7 @@ namespace Omemo.Classes
         /// <param name="b">An Ed25519 public key.</param>
         public static byte[] SharedSecret(ECPrivKeyModel a, ECPubKeyModel b)
         {
-#pragma warning disable CS0618 // Type or member is obsolete but can be ignored here since this function just needs more testing.
-            return Ed25519.KeyExchange(b.key, a.key);
-#pragma warning restore CS0618 // Type or member is obsolete but can be ignored here since this function just needs more testing.
+            return X25519KeyAgreement.Agreement(a.key, b.key);
         }
 
         /// <summary>
@@ -274,6 +272,20 @@ namespace Omemo.Classes
             byte[] dh3 = SharedSecret(receiverSignedPreKey, senderEphemeralKeyPair);
             byte[] dh4 = SharedSecret(receiverPreKey, senderEphemeralKeyPair);
             return Concat(new byte[][] { dh1, dh2, dh3, dh4 });
+        }
+
+        /// <summary>
+        /// Converts the given byte array to a hex-string and returns it.
+        /// </summary>
+        public static string ToHexString(byte[] data)
+        {
+            StringBuilder hex = new StringBuilder(data.Length * 2);
+            foreach (byte b in data)
+            {
+                hex.AppendFormat("{0:x2}", b);
+            }
+
+            return hex.ToString();
         }
 
         #endregion

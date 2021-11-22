@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using Chaos.NaCl;
 using Windows.Security.Cryptography;
 
 namespace Omemo.Classes.Keys
@@ -61,7 +60,7 @@ namespace Omemo.Classes.Keys
         /// <returns>True in case the signature is valid.</returns>
         public bool Verify()
         {
-            return Ed25519.Verify(preKeySignature, signedPreKey.key, identityKey.key);
+            return KeyHelper.VerifySignature(signedPreKey, identityKey.key, preKeySignature);
         }
 
         #endregion

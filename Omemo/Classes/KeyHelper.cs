@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
-using Chaos.NaCl;
+using NSec.Cryptography;
 using Omemo.Classes.Keys;
+using X25519;
 
 namespace Omemo.Classes
 {
@@ -8,7 +9,8 @@ namespace Omemo.Classes
     {
         //--------------------------------------------------------Attributes:-----------------------------------------------------------------\\
         #region --Attributes--
-
+        public static int PUB_KEY_SIZE = SignatureAlgorithm.Ed25519.PublicKeySize;
+        public static int PRIV_KEY_SIZE = SignatureAlgorithm.Ed25519.PrivateKeySize;
 
         #endregion
         //--------------------------------------------------------Constructor:----------------------------------------------------------------\\
@@ -67,8 +69,20 @@ namespace Omemo.Classes
         public static SignedPreKeyModel GenerateSignedPreKey(uint id, ECPrivKeyModel identiyKey)
         {
             PreKeyModel preKey = GeneratePreKey(id);
-            byte[] signature = Ed25519.Sign(preKey.pubKey.key, identiyKey.key);
+            byte[] signature = SignatureAlgorithm.Ed25519.Sign(Key.Import(SignatureAlgorithm.Ed25519, identiyKey.key, KeyBlobFormat.RawPrivateKey), preKey.pubKey.key);
             return new SignedPreKeyModel(preKey, signature);
+        }
+
+        /// <summary>
+        /// Verifies the signature of the given data with the given <see cref="ECPubKeyModel"/>.
+        /// </summary>
+        /// <param name="pubKey">The <see cref="ECPubKeyModel"/> used for validating the signature.</param>
+        /// <param name="data">The data the signature should be verified for.</param>
+        /// <param name="signature">The signature that should be verified.</param>
+        /// <returns></returns>
+        public static bool VerifySignature(ECPubKeyModel pubKey, byte[] data, byte[] signature)
+        {
+            return SignatureAlgorithm.Ed25519.Verify(PublicKey.Import(SignatureAlgorithm.Ed25519, pubKey.key, KeyBlobFormat.RawPublicKey), data, signature);
         }
 
         /// <summary>
@@ -85,8 +99,8 @@ namespace Omemo.Classes
         /// </summary>
         public static GenericECKeyPairModel GenerateKeyPair()
         {
-            Ed25519.KeyPairFromSeed(out byte[] pubKey, out byte[] privKey, new byte[Ed25519.PrivateKeySeedSizeInBytes]);
-            return new GenericECKeyPairModel(new ECPrivKeyModel(privKey), new ECPubKeyModel(pubKey));
+            X25519KeyPair pair = X25519KeyAgreement.GenerateKeyPair();
+            return new GenericECKeyPairModel(new ECPrivKeyModel(pair.PrivateKey), new ECPubKeyModel(pair.PublicKey));
         }
 
         /// <summary>

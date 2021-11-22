@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Linq;
-using Chaos.NaCl;
 using Omemo.Classes.Exceptions;
 using Omemo.Classes.Keys;
 
@@ -30,7 +29,7 @@ namespace Omemo.Classes.Messages
         /// <summary>
         /// The minimum size in bytes for a valid version of this message.
         /// </summary>
-        public static int MIN_SIZE = sizeof(uint) + sizeof(uint) + Ed25519.PublicKeySizeInBytes;
+        public static int MIN_SIZE = sizeof(uint) + sizeof(uint) + KeyHelper.PUB_KEY_SIZE;
 
         #endregion
         //--------------------------------------------------------Constructor:----------------------------------------------------------------\\
@@ -39,7 +38,7 @@ namespace Omemo.Classes.Messages
         {
             N = (uint)BitConverter.ToInt32(data, 0);
             PN = (uint)BitConverter.ToInt32(data, 4);
-            DH = new ECPubKeyModel(new byte[Ed25519.PublicKeySizeInBytes]);
+            DH = new ECPubKeyModel(new byte[KeyHelper.PUB_KEY_SIZE]);
             Buffer.BlockCopy(data, 8, DH.key, 0, DH.key.Length);
             int cipherTextLenth = data.Length - (8 + DH.key.Length);
 
@@ -88,7 +87,7 @@ namespace Omemo.Classes.Messages
 
         public void Validate()
         {
-            if (DH?.key is null || DH.key.Length != Ed25519.PublicKeySizeInBytes)
+            if (DH?.key is null || DH.key.Length != KeyHelper.PUB_KEY_SIZE)
             {
                 throw new OmemoException("Invalid " + nameof(OmemoMessage) + " DH.key.Length: " + DH?.key?.Length);
             }

@@ -2,6 +2,7 @@
 using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
+using Newtonsoft.Json;
 using Omemo.Classes.Keys;
 using Omemo.Classes.Messages;
 using Shared.Classes;
@@ -40,13 +41,13 @@ namespace Omemo.Classes
         /// Key pair for the receiving ratchet.
         /// </summary>
         [Required]
-        public GenericECKeyPairModel dhR
+        public ECPubKeyModel dhR
         {
             get => _dhR;
             set => SetDhrProperty(value);
         }
         [NotMapped]
-        private GenericECKeyPairModel _dhR;
+        private ECPubKeyModel _dhR;
 
         /// <summary>
         /// Ephemeral key used for initiating this session. 
@@ -197,10 +198,8 @@ namespace Omemo.Classes
             // We are only interested in the public key and discard the private key.
             ek = ephemeralKeyPair.pubKey;
             dhS = KeyHelper.GenerateKeyPair();
-            dhR = new GenericECKeyPairModel(null, receiverBundle.identityKey);
-            Tuple<byte[], byte[]> tmp = LibSignalUtils.KDF_RK(sk, CryptoUtils.SharedSecret(dhS.privKey, dhR.pubKey));
-            rk = tmp.Item1;
-            ckS = tmp.Item2;
+            dhR = receiverBundle.identityKey.Clone();
+            (rk, ckS) = LibSignalUtils.KDF_RK(sk, CryptoUtils.SharedSecret(dhS.privKey, dhR));
             signedPreKeyId = receiverBundle.signedPreKeyId;
             preKeyId = receiverBundle.preKeys[receiverPreKeyIndex].keyId;
             assData = CryptoUtils.Concat(senderIdentityKeyPair.pubKey.key, receiverBundle.identityKey.key);
@@ -250,9 +249,9 @@ namespace Omemo.Classes
             }
         }
 
-        private void SetDhrProperty(GenericECKeyPairModel value)
+        private void SetDhrProperty(ECPubKeyModel value)
         {
-            GenericECKeyPairModel old = _dhR;
+            ECPubKeyModel old = _dhR;
             if (SetProperty(ref _dhR, value, nameof(dhR)))
             {
                 if (!(old is null))
@@ -294,24 +293,15 @@ namespace Omemo.Classes
             pn = nS;
             nS = 0;
             nR = 0;
-            dhR = new GenericECKeyPairModel(null, msg.DH);
-            Tuple<byte[], byte[]> tmp = LibSignalUtils.KDF_RK(rk, CryptoUtils.SharedSecret(dhS.privKey, dhR.pubKey));
-            rk = tmp.Item1;
-            ckR = tmp.Item2;
+            dhR = msg.DH.Clone();
+            (rk, ckR) = LibSignalUtils.KDF_RK(rk, CryptoUtils.SharedSecret(dhS.privKey, dhR));
             dhS = KeyHelper.GenerateKeyPair();
-            tmp = LibSignalUtils.KDF_RK(rk, CryptoUtils.SharedSecret(dhS.privKey, dhR.pubKey));
-            rk = tmp.Item1;
-            ckS = tmp.Item2;
+            (rk, ckS) = LibSignalUtils.KDF_RK(rk, CryptoUtils.SharedSecret(dhS.privKey, dhR));
         }
 
-        /// <summary>
-        /// Initializes the receiving chain key (<see cref="ckR"/>) and updates the root key (<see cref="rk"/>) accordingly.
-        /// </summary>
-        public void InitReceiverKeyChain()
+        public override string ToString()
         {
-            Tuple<byte[], byte[]> tmp = LibSignalUtils.KDF_RK(rk, CryptoUtils.SharedSecret(dhS.privKey, dhR.pubKey));
-            rk = tmp.Item1;
-            ckR = tmp.Item2;
+            return JsonConvert.SerializeObject(this);
         }
 
         #endregion

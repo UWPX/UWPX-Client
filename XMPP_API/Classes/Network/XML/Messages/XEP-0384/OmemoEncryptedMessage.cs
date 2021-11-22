@@ -100,7 +100,7 @@ namespace XMPP_API.Classes.Network.XML.Messages.XEP_0384
             msgNode.Add(encryptedNode);
 
             // Header:
-            XElement headerNode = new XElement("header");
+            XElement headerNode = new XElement(ns + "header");
             headerNode.Add(new XAttribute("sid", SID));
             foreach (OmemoKeys key in keys)
             {
@@ -111,7 +111,7 @@ namespace XMPP_API.Classes.Network.XML.Messages.XEP_0384
             // Payload:
             if (!IS_PURE_KEY_EXCHANGE_MESSAGE)
             {
-                encryptedNode.Add(new XElement("payload", BASE_64_PAYLOAD));
+                encryptedNode.Add(new XElement(ns + "payload", BASE_64_PAYLOAD));
             }
 
             return msgNode;
@@ -309,6 +309,7 @@ namespace XMPP_API.Classes.Network.XML.Messages.XEP_0384
                 {
                     throw new InvalidOperationException("Failed to decrypt. No session found.");
                 }
+                Logger.Debug("Loaded OMEMO session for decrypting: " + decryptCtx.session.ToString());
             }
             DoubleRachet rachet = new DoubleRachet(decryptCtx.RECEIVER_IDENTITY_KEY);
             return rachet.DecryptMessage(decryptCtx.authMsg, decryptCtx.session, content);
