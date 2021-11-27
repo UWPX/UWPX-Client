@@ -434,6 +434,9 @@
     <Compile Include="Dialogs\ReportCrashDialog.xaml.cs">
       <DependentUpon>ReportCrashDialog.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Dialogs\ResetOmemoSessionsDialog.xaml.cs">
+      <DependentUpon>ResetOmemoSessionsDialog.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Dialogs\WhatsNewDialog.xaml.cs">
       <DependentUpon>WhatsNewDialog.xaml</DependentUpon>
     </Compile>
@@ -1043,6 +1046,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Dialogs\ReportCrashDialog.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Dialogs\ResetOmemoSessionsDialog.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

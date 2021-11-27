@@ -22,7 +22,7 @@
             <DataTemplate x:Name="FingerprintTemplate"
                           x:DataType="omemoModels:OmemoFingerprintModel">
                 <omemo:OmemoTrustFingerprintControl Fingerprint="{x:Bind}"
-                                                    OmemoFingerprintTrustChanged="OmemoTrustFingerprintControl_OmemoFingerprintTrustChanged"/>
+                                                    OmemoFingerprintTrustChanged="OnOmemoFingerprintTrustChanged"/>
             </DataTemplate>
         </ResourceDictionary>
     </UserControl.Resources>
@@ -59,17 +59,26 @@
                     <Button.Flyout>
                         <MenuFlyout>
                             <MenuFlyoutItem x:Name="scanQrCode_mfo"
-                                            Click="ScanQrCode_mfo_Click"
+                                            Click="OnScanQrCodeClicked"
                                             Text="Scan QR Code">
                                 <MenuFlyoutItem.Icon>
                                     <FontIcon Glyph="&#xE722;"/>
                                 </MenuFlyoutItem.Icon>
                             </MenuFlyoutItem>
                             <MenuFlyoutItem x:Name="showOwnFingerprint_mfo"
-                                            Click="ShowOwnFingerprint_mfo_Click"
+                                            Click="OnShowOwnFingerprintClicked"
                                             Text="Show your fingerprint">
                                 <MenuFlyoutItem.Icon>
                                     <FontIcon Glyph="&#xE779;"/>
+                                </MenuFlyoutItem.Icon>
+                            </MenuFlyoutItem>
+                            <MenuFlyoutItem x:Name="resetSessions_mfo"
+                                            Click="OnResetSessionsClicked"
+                                            Text="Reset sessions"
+                                            ToolTipService.ToolTip="Reset all OMEMO sessions for this contact">
+                                <MenuFlyoutItem.Icon>
+                                    <FontIcon Foreground="Red"
+                                              Glyph="&#xE74D;"/>
                                 </MenuFlyoutItem.Icon>
                             </MenuFlyoutItem>
                         </MenuFlyout>

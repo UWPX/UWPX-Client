@@ -38,7 +38,7 @@ namespace UWPX_UI_Context.Classes.DataContext.Controls.Chat
             {
                 MODEL.Chat = chat;
 
-                if (!(chat is null))
+                if (chat is not null)
                 {
                     LoadFingerprints();
                 }
@@ -116,10 +116,7 @@ namespace UWPX_UI_Context.Classes.DataContext.Controls.Chat
             }
         }
 
-        #endregion
-
-        #region --Misc Methods (Private)--
-        private void LoadFingerprints()
+        public void LoadFingerprints()
         {
             if (MODEL.Loading)
             {
@@ -153,6 +150,11 @@ namespace UWPX_UI_Context.Classes.DataContext.Controls.Chat
                 MODEL.Loading = false;
             });
         }
+
+        #endregion
+
+        #region --Misc Methods (Private)--
+
 
         #endregion
 

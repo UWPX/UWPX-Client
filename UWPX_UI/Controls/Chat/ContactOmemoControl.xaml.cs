@@ -72,14 +72,14 @@ namespace UWPX_UI.Controls.Chat
             }
         }
 
-        private async void ScanQrCode_mfo_Click(object sender, RoutedEventArgs e)
+        private async void OnScanQrCodeClicked(object sender, RoutedEventArgs e)
         {
             QrCodeScannerDialog dialog = new QrCodeScannerDialog();
             await UiUtils.ShowDialogAsync(dialog);
             VIEW_MODEL.OnQrCodeScannerShown(dialog.VIEW_MODEL.MODEL);
         }
 
-        private async void ShowOwnFingerprint_mfo_Click(object sender, RoutedEventArgs e)
+        private async void OnShowOwnFingerprintClicked(object sender, RoutedEventArgs e)
         {
             OmemoOwnFingerprintDialog dialog = new OmemoOwnFingerprintDialog()
             {
@@ -88,9 +88,16 @@ namespace UWPX_UI.Controls.Chat
             await UiUtils.ShowDialogAsync(dialog);
         }
 
-        private void OmemoTrustFingerprintControl_OmemoFingerprintTrustChanged(object sender, OmemoFingerprintTrustChangedEventArgs args)
+        private void OnOmemoFingerprintTrustChanged(object sender, OmemoFingerprintTrustChangedEventArgs args)
         {
             VIEW_MODEL.OnFingerprintTrustedChanged(args.FINGERPRINT);
+        }
+
+        private async void OnResetSessionsClicked(object sender, RoutedEventArgs e)
+        {
+            ResetOmemoSessionsDialog dialog = new ResetOmemoSessionsDialog(Chat);
+            await UiUtils.ShowDialogAsync(dialog);
+            VIEW_MODEL.LoadFingerprints();
         }
         #endregion
     }
