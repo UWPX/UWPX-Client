@@ -5,6 +5,8 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:dataforms="using:UWPX_UI.Controls.DataForms"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:media="using:Microsoft.Toolkit.Uwp.UI.Media"
+             xmlns:ui="using:Microsoft.Toolkit.Uwp.UI"
              Loaded="UserControl_Loaded"
              Visibility="{x:Bind VIEW_MODEL.MODEL.IsAvailable, Mode=OneWay, Converter={StaticResource BoolVisibilityValueConverter}}"
              mc:Ignorable="d">
@@ -12,418 +14,58 @@
     <UserControl.Resources>
         <ResourceDictionary>
             <ResourceDictionary.MergedDictionaries>
-                <ResourceDictionary Source="ms-appx:///Resources/Styles/RoundedExpanderHeaderStyle.xaml"/>
                 <ResourceDictionary Source="ms-appx:///Resources/Styles/Button/TransparentThemeButtonStyle.xaml"/>
             </ResourceDictionary.MergedDictionaries>
-
-            <!--  Based on: https://github.com/windows-toolkit/WindowsCommunityToolkit/blob/v6.0.0/Microsoft.Toolkit.Uwp.UI.Controls/Expander/Expander.xaml  -->
-            <!--  Added rounded edges (CornerRadius)  -->
-            <Style x:Key="CustomHeaderToggleButtonStyle"
-                   TargetType="ToggleButton">
-                <Setter Property="Background" Value="{ThemeResource SystemControlBackgroundChromeMediumLowBrush}"/>
-                <Setter Property="Foreground" Value="{ThemeResource SystemControlForegroundBaseHighBrush}"/>
-                <Setter Property="BorderBrush" Value="{ThemeResource SystemControlForegroundTransparentBrush}"/>
-                <Setter Property="BorderThickness" Value="0"/>
-                <Setter Property="Padding" Value="2,0,0,0"/>
-                <Setter Property="Height" Value="40"/>
-                <Setter Property="HorizontalAlignment" Value="Stretch"/>
-                <Setter Property="HorizontalContentAlignment" Value="Stretch"/>
-                <Setter Property="VerticalAlignment" Value="Stretch"/>
-                <Setter Property="FontFamily" Value="{ThemeResource ContentControlThemeFontFamily}"/>
-                <Setter Property="FontWeight" Value="Normal"/>
-                <Setter Property="FontSize" Value="{ThemeResource ControlContentThemeFontSize}"/>
-                <Setter Property="UseSystemFocusVisuals" Value="True"/>
-                <Setter Property="Template">
-                    <Setter.Value>
-                        <ControlTemplate TargetType="ToggleButton">
-                            <Grid x:Name="RootGrid"
-                                  Background="{TemplateBinding Background}"
-                                  CornerRadius="{ThemeResource OverlayCornerRadius}">
-                                <Grid.ColumnDefinitions>
-                                    <ColumnDefinition Width="Auto"/>
-                                    <ColumnDefinition Width="*"/>
-                                    <ColumnDefinition Width="Auto"/>
-                                    <ColumnDefinition Width="Auto"/>
-                                    <ColumnDefinition Width="Auto"/>
-                                </Grid.ColumnDefinitions>
-
-                                <Rectangle x:Name="HoverPanel"
-                                           Grid.ColumnSpan="5"
-                                           Fill="Transparent"/>
-
-                                <Slider x:Name="ArrowRotation"
-                                        Maximum="180"
-                                        Minimum="-180"
-                                        Visibility="Collapsed"
-                                        Value="90"/>
-
-                                <FontIcon x:Name="Arrow"
-                                          Margin="12"
-                                          FontFamily="Segoe MDL2 Assets"
-                                          FontSize="12"
-                                          Glyph="&#xE76C;"
-                                          RenderTransformOrigin="0.5,0.5">
-                                    <FontIcon.RenderTransform>
-                                        <RotateTransform/>
-                                    </FontIcon.RenderTransform>
-                                </FontIcon>
-
-                                <ContentPresenter x:Name="ContentPresenter"
-                                                  Grid.Column="1"
-                                                  Margin="0,0,12,0"
-                                                  Padding="{TemplateBinding Padding}"
-                                                  HorizontalAlignment="{TemplateBinding HorizontalAlignment}"
-                                                  VerticalAlignment="{TemplateBinding VerticalAlignment}"
-                                                  HorizontalContentAlignment="{TemplateBinding HorizontalContentAlignment}"
-                                                  VerticalContentAlignment="{TemplateBinding VerticalContentAlignment}"
-                                                  AutomationProperties.AccessibilityView="Raw"
-                                                  BorderBrush="{TemplateBinding BorderBrush}"
-                                                  BorderThickness="{TemplateBinding BorderThickness}"
-                                                  Content="{TemplateBinding Content}"
-                                                  ContentTemplate="{TemplateBinding ContentTemplate}"
-                                                  ContentTransitions="{TemplateBinding ContentTransitions}"
-                                                  Foreground="{TemplateBinding Foreground}"
-                                                  RenderTransformOrigin="0.5,0.5"/>
-
-                                <!--  Added the error button  -->
-                                <Button x:Name="error_btn"
-                                        Grid.Column="2"
-                                        Margin="10,0,0,0"
-                                        VerticalAlignment="Center"
-                                        Click="Error_btn_Click"
-                                        Content="&#xE783;"
-                                        FontFamily="{ThemeResource SymbolThemeFontFamily}"
-                                        FontSize="20"
-                                        Foreground="Red"
-                                        Loaded="error_btn_Loaded"
-                                        Style="{ThemeResource TransparentThemeButtonStyle}"
-                                        ToolTipService.ToolTip="Show error"
-                                        Visibility="Collapsed"/>
-
-                                <!--  Added the reload button  -->
-                                <Button x:Name="reload_btn"
-                                        Grid.Column="3"
-                                        VerticalAlignment="Center"
-                                        Click="Reload_btn_Click"
-                                        Content="&#xE72C;"
-                                        FontFamily="{ThemeResource SymbolThemeFontFamily}"
-                                        FontSize="20"
-                                        Loaded="reload_btn_Loaded"
-                                        Style="{ThemeResource TransparentThemeButtonStyle}"
-                                        ToolTipService.ToolTip="Reload"/>
-
-                                <!--  Added the save button  -->
-                                <Button x:Name="save_btn"
-                                        Grid.Column="4"
-                                        VerticalAlignment="Center"
-                                        Click="Save_btn_Click"
-                                        Content="&#xE74E;"
-                                        FontFamily="{ThemeResource SymbolThemeFontFamily}"
-                                        FontSize="20"
-                                        Foreground="Green"
-                                        Loaded="save_btn_Loaded"
-                                        Style="{ThemeResource TransparentThemeButtonStyle}"
-                                        ToolTipService.ToolTip="Save"/>
-
-                                <VisualStateManager.VisualStateGroups>
-                                    <VisualStateGroup x:Name="CommonStates">
-                                        <VisualState x:Name="Normal">
-                                            <Storyboard>
-                                                <PointerUpThemeAnimation Storyboard.TargetName="RootGrid"/>
-                                                <DoubleAnimation BeginTime="0:0:0"
-                                                                 Storyboard.TargetName="Arrow"
-                                                                 Storyboard.TargetProperty="(UIElement.RenderTransform).(RotateTransform.Angle)"
-                                                                 To="0.0"
-                                                                 Duration="0:0:0.1"/>
-                                            </Storyboard>
-                                        </VisualState>
-                                        <VisualState x:Name="PointerOver">
-                                            <Storyboard>
-                                                <ObjectAnimationUsingKeyFrames Storyboard.TargetName="HoverPanel"
-                                                                               Storyboard.TargetProperty="Fill">
-                                                    <DiscreteObjectKeyFrame KeyTime="0"
-                                                                            Value="{ThemeResource SystemControlBackgroundListLowBrush}"/>
-                                                </ObjectAnimationUsingKeyFrames>
-
-                                                <PointerUpThemeAnimation Storyboard.TargetName="RootGrid"/>
-                                                <DoubleAnimation BeginTime="0:0:0"
-                                                                 Storyboard.TargetName="Arrow"
-                                                                 Storyboard.TargetProperty="(UIElement.RenderTransform).(RotateTransform.Angle)"
-                                                                 To="0.0"
-                                                                 Duration="0:0:0.1"/>
-                                            </Storyboard>
-                                        </VisualState>
-                                        <VisualState x:Name="Pressed">
-                                            <Storyboard>
-                                                <ObjectAnimationUsingKeyFrames Storyboard.TargetName="HoverPanel"
-                                                                               Storyboard.TargetProperty="Fill">
-                                                    <DiscreteObjectKeyFrame KeyTime="0"
-                                                                            Value="{ThemeResource SystemControlBackgroundListMediumBrush}"/>
-                                                </ObjectAnimationUsingKeyFrames>
-
-                                                <DoubleAnimation BeginTime="0:0:0"
-                                                                 Storyboard.TargetName="Arrow"
-                                                                 Storyboard.TargetProperty="(UIElement.RenderTransform).(RotateTransform.Angle)"
-                                                                 To="0.0"
-                                                                 Duration="0:0:0.1"/>
-                                                <PointerDownThemeAnimation Storyboard.TargetName="RootGrid"/>
-                                            </Storyboard>
-                                        </VisualState>
-                                        <VisualState x:Name="Disabled">
-                                            <Storyboard>
-                                                <ObjectAnimationUsingKeyFrames Storyboard.TargetName="HoverPanel"
-                                                                               Storyboard.TargetProperty="Fill">
-                                                    <DiscreteObjectKeyFrame KeyTime="0"
-                                                                            Value="{ThemeResource SystemControlBackgroundBaseLowBrush}"/>
-                                                </ObjectAnimationUsingKeyFrames>
-
-                                                <DoubleAnimation BeginTime="0:0:0"
-                                                                 Storyboard.TargetName="Arrow"
-                                                                 Storyboard.TargetProperty="(UIElement.RenderTransform).(RotateTransform.Angle)"
-                                                                 To="0.0"
-                                                                 Duration="0:0:0.1"/>
-                                            </Storyboard>
-                                        </VisualState>
-                                        <VisualState x:Name="Checked">
-                                            <Storyboard>
-                                                <ObjectAnimationUsingKeyFrames Storyboard.TargetName="HoverPanel"
-                                                                               Storyboard.TargetProperty="Fill">
-                                                    <DiscreteObjectKeyFrame KeyTime="0"
-                                                                            Value="{ThemeResource SystemControlHighlightListAccentLowBrush}"/>
-                                                </ObjectAnimationUsingKeyFrames>
-
-                                                <PointerUpThemeAnimation Storyboard.TargetName="RootGrid"/>
-                                                <DoubleAnimation BeginTime="0:0:0"
-                                                                 Storyboard.TargetName="Arrow"
-                                                                 Storyboard.TargetProperty="(UIElement.RenderTransform).(RotateTransform.Angle)"
-                                                                 To="{Binding ElementName=ArrowRotation, Path=Value}"
-                                                                 Duration="0:0:0.1"/>
-                                            </Storyboard>
-                                            <VisualState.Setters>
-                                                <Setter Target="RootGrid.CornerRadius" Value="2,2,0,0"/>
-                                            </VisualState.Setters>
-                                        </VisualState>
-                                        <VisualState x:Name="CheckedPointerOver">
-                                            <Storyboard>
-                                                <ObjectAnimationUsingKeyFrames Storyboard.TargetName="HoverPanel"
-                                                                               Storyboard.TargetProperty="Fill">
-                                                    <DiscreteObjectKeyFrame KeyTime="0"
-                                                                            Value="{ThemeResource SystemControlHighlightListAccentMediumBrush}"/>
-                                                </ObjectAnimationUsingKeyFrames>
-
-                                                <PointerUpThemeAnimation Storyboard.TargetName="RootGrid"/>
-                                                <DoubleAnimation BeginTime="0:0:0"
-                                                                 Storyboard.TargetName="Arrow"
-                                                                 Storyboard.TargetProperty="(UIElement.RenderTransform).(RotateTransform.Angle)"
-                                                                 To="{Binding ElementName=ArrowRotation, Path=Value}"
-                                                                 Duration="0:0:0.1"/>
-                                            </Storyboard>
-                                            <VisualState.Setters>
-                                                <Setter Target="RootGrid.CornerRadius" Value="2,2,0,0"/>
-                                            </VisualState.Setters>
-                                        </VisualState>
-                                        <VisualState x:Name="CheckedPressed">
-                                            <Storyboard>
-                                                <ObjectAnimationUsingKeyFrames Storyboard.TargetName="HoverPanel"
-                                                                               Storyboard.TargetProperty="Fill">
-                                                    <DiscreteObjectKeyFrame KeyTime="0"
-                                                                            Value="{ThemeResource SystemControlHighlightListAccentHighBrush}"/>
-                                                </ObjectAnimationUsingKeyFrames>
-
-                                                <DoubleAnimation BeginTime="0:0:0"
-                                                                 Storyboard.TargetName="Arrow"
-                                                                 Storyboard.TargetProperty="(UIElement.RenderTransform).(RotateTransform.Angle)"
-                                                                 To="{Binding ElementName=ArrowRotation, Path=Value}"
-                                                                 Duration="0:0:0.1"/>
-                                                <PointerDownThemeAnimation Storyboard.TargetName="RootGrid"/>
-                                            </Storyboard>
-                                            <VisualState.Setters>
-                                                <Setter Target="RootGrid.CornerRadius" Value="2,2,0,0"/>
-                                            </VisualState.Setters>
-                                        </VisualState>
-                                        <VisualState x:Name="CheckedDisabled">
-                                            <Storyboard>
-                                                <ObjectAnimationUsingKeyFrames Storyboard.TargetName="HoverPanel"
-                                                                               Storyboard.TargetProperty="Fill">
-                                                    <DiscreteObjectKeyFrame KeyTime="0"
-                                                                            Value="{ThemeResource SystemControlBackgroundBaseLowBrush}"/>
-                                                </ObjectAnimationUsingKeyFrames>
-
-                                                <ObjectAnimationUsingKeyFrames Storyboard.TargetName="Arrow"
-                                                                               Storyboard.TargetProperty="Foreground">
-                                                    <DiscreteObjectKeyFrame KeyTime="0"
-                                                                            Value="{ThemeResource SystemControlDisabledBaseLowBrush}"/>
-                                                </ObjectAnimationUsingKeyFrames>
-                                                <ObjectAnimationUsingKeyFrames Storyboard.TargetName="ContentPresenter"
-                                                                               Storyboard.TargetProperty="Foreground">
-                                                    <DiscreteObjectKeyFrame KeyTime="0"
-                                                                            Value="{ThemeResource SystemControlDisabledBaseLowBrush}"/>
-                                                </ObjectAnimationUsingKeyFrames>
-
-                                                <DoubleAnimation BeginTime="0:0:0"
-                                                                 Storyboard.TargetName="Arrow"
-                                                                 Storyboard.TargetProperty="(UIElement.RenderTransform).(RotateTransform.Angle)"
-                                                                 To="{Binding ElementName=ArrowRotation, Path=Value}"
-                                                                 Duration="0:0:0.1"/>
-                                            </Storyboard>
-                                            <VisualState.Setters>
-                                                <Setter Target="RootGrid.CornerRadius" Value="2,2,0,0"/>
-                                            </VisualState.Setters>
-                                        </VisualState>
-                                        <VisualState x:Name="Indeterminate">
-                                            <Storyboard>
-                                                <PointerUpThemeAnimation Storyboard.TargetName="RootGrid"/>
-                                            </Storyboard>
-                                            <VisualState.Setters>
-                                                <Setter Target="RootGrid.CornerRadius" Value="2,2,0,0"/>
-                                            </VisualState.Setters>
-                                        </VisualState>
-                                        <VisualState x:Name="IndeterminatePointerOver">
-                                            <Storyboard>
-                                                <ObjectAnimationUsingKeyFrames Storyboard.TargetName="HoverPanel"
-                                                                               Storyboard.TargetProperty="Fill">
-                                                    <DiscreteObjectKeyFrame KeyTime="0"
-                                                                            Value="{ThemeResource SystemControlBackgroundBaseLowBrush}"/>
-                                                </ObjectAnimationUsingKeyFrames>
-
-                                                <ObjectAnimationUsingKeyFrames Storyboard.TargetName="Arrow"
-                                                                               Storyboard.TargetProperty="Foreground">
-                                                    <DiscreteObjectKeyFrame KeyTime="0"
-                                                                            Value="{ThemeResource SystemControlHighlightBaseHighBrush}"/>
-                                                </ObjectAnimationUsingKeyFrames>
-                                                <ObjectAnimationUsingKeyFrames Storyboard.TargetName="ContentPresenter"
-                                                                               Storyboard.TargetProperty="Foreground">
-                                                    <DiscreteObjectKeyFrame KeyTime="0"
-                                                                            Value="{ThemeResource SystemControlHighlightBaseHighBrush}"/>
-                                                </ObjectAnimationUsingKeyFrames>
-
-                                                <PointerUpThemeAnimation Storyboard.TargetName="RootGrid"/>
-                                            </Storyboard>
-                                            <VisualState.Setters>
-                                                <Setter Target="RootGrid.CornerRadius" Value="2,2,0,0"/>
-                                            </VisualState.Setters>
-                                        </VisualState>
-                                        <VisualState x:Name="IndeterminatePressed">
-                                            <Storyboard>
-                                                <ObjectAnimationUsingKeyFrames Storyboard.TargetName="HoverPanel"
-                                                                               Storyboard.TargetProperty="Fill">
-                                                    <DiscreteObjectKeyFrame KeyTime="0"
-                                                                            Value="{ThemeResource SystemControlBackgroundBaseMediumLowBrush}"/>
-                                                </ObjectAnimationUsingKeyFrames>
-
-                                                <ObjectAnimationUsingKeyFrames Storyboard.TargetName="Arrow"
-                                                                               Storyboard.TargetProperty="Foreground">
-                                                    <DiscreteObjectKeyFrame KeyTime="0"
-                                                                            Value="{ThemeResource SystemControlHighlightBaseHighBrush}"/>
-                                                </ObjectAnimationUsingKeyFrames>
-                                                <ObjectAnimationUsingKeyFrames Storyboard.TargetName="ContentPresenter"
-                                                                               Storyboard.TargetProperty="Foreground">
-                                                    <DiscreteObjectKeyFrame KeyTime="0"
-                                                                            Value="{ThemeResource SystemControlHighlightBaseHighBrush}"/>
-                                                </ObjectAnimationUsingKeyFrames>
-
-                                                <PointerDownThemeAnimation Storyboard.TargetName="RootGrid"/>
-                                            </Storyboard>
-                                            <VisualState.Setters>
-                                                <Setter Target="RootGrid.CornerRadius" Value="2,2,0,0"/>
-                                            </VisualState.Setters>
-                                        </VisualState>
-                                        <VisualState x:Name="IndeterminateDisabled">
-                                            <Storyboard>
-                                                <ObjectAnimationUsingKeyFrames Storyboard.TargetName="HoverPanel"
-                                                                               Storyboard.TargetProperty="Fill">
-                                                    <DiscreteObjectKeyFrame KeyTime="0"
-                                                                            Value="{ThemeResource SystemControlBackgroundBaseLowBrush}"/>
-                                                </ObjectAnimationUsingKeyFrames>
-
-                                                <ObjectAnimationUsingKeyFrames Storyboard.TargetName="Arrow"
-                                                                               Storyboard.TargetProperty="Foreground">
-                                                    <DiscreteObjectKeyFrame KeyTime="0"
-                                                                            Value="{ThemeResource SystemControlDisabledBaseLowBrush}"/>
-                                                </ObjectAnimationUsingKeyFrames>
-                                                <ObjectAnimationUsingKeyFrames Storyboard.TargetName="ContentPresenter"
-                                                                               Storyboard.TargetProperty="Foreground">
-                                                    <DiscreteObjectKeyFrame KeyTime="0"
-                                                                            Value="{ThemeResource SystemControlDisabledBaseLowBrush}"/>
-                                                </ObjectAnimationUsingKeyFrames>
-                                            </Storyboard>
-                                            <VisualState.Setters>
-                                                <Setter Target="RootGrid.CornerRadius" Value="2,2,0,0"/>
-                                            </VisualState.Setters>
-                                        </VisualState>
-                                    </VisualStateGroup>
-
-                                    <VisualStateGroup x:Name="ExpandDirectionStates">
-                                        <VisualState x:Name="RightDirection"/>
-
-                                        <VisualState x:Name="DownDirection"/>
-
-                                        <VisualState x:Name="LeftDirection">
-                                            <VisualState.Setters>
-                                                <Setter Target="ArrowRotation.Value" Value="-90"/>
-                                            </VisualState.Setters>
-                                        </VisualState>
-
-                                        <VisualState x:Name="UpDirection">
-                                            <VisualState.Setters>
-                                                <Setter Target="ArrowRotation.Value" Value="-90"/>
-                                            </VisualState.Setters>
-                                        </VisualState>
-                                    </VisualStateGroup>
-                                </VisualStateManager.VisualStateGroups>
-                            </Grid>
-                        </ControlTemplate>
-                    </Setter.Value>
-                </Setter>
-            </Style>
         </ResourceDictionary>
     </UserControl.Resources>
 
-    <controls:DropShadowPanel x:Name="mainShadow"
-                              HorizontalContentAlignment="Stretch">
-        <Border Background="{ThemeResource AppBackgroundAcrylicWindowBrush}"
-                CornerRadius="{ThemeResource OverlayCornerRadius}">
-            <Grid>
-                <Grid.RowDefinitions>
-                    <RowDefinition Height="Auto"/>
-                    <RowDefinition Height="Auto"/>
-                </Grid.RowDefinitions>
-                <ProgressBar Grid.Row="0"
-                             IsIndeterminate="True"
-                             Visibility="{x:Bind VIEW_MODEL.MODEL.IsLoading, Mode=OneWay, Converter={StaticResource BoolVisibilityValueConverter}}"/>
-                <controls:Expander x:Name="expander"
-                                   Grid.Row="1"
-                                   HorizontalContentAlignment="Stretch"
-                                   Background="{ThemeResource AppBackgroundAcrylicElementBrush}"
-                                   Header="Configuration"
-                                   HeaderStyle="{StaticResource CustomHeaderToggleButtonStyle}">
-                    <Grid Margin="0,5,0,5">
-                        <dataforms:DataFormsControl Form="{x:Bind VIEW_MODEL.MODEL.Form, Mode=TwoWay}"
-                                                    ShowInstructions="False"
-                                                    ShowTitle="False"
-                                                    Visibility="{x:Bind VIEW_MODEL.MODEL.Success, Mode=OneWay, Converter={StaticResource BoolVisibilityValueConverter}}"/>
+    <Border>
+        <Grid Background="{ThemeResource AppBackgroundAcrylicWindowBrush}"
+              CornerRadius="{ThemeResource OverlayCornerRadius}">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+            </Grid.RowDefinitions>
+            <ProgressBar Grid.Row="0"
+                         IsIndeterminate="True"
+                         Visibility="{x:Bind VIEW_MODEL.MODEL.IsLoading, Mode=OneWay, Converter={StaticResource BoolVisibilityValueConverter}}"/>
+            <controls:Expander x:Name="expander"
+                               Grid.Row="1"
+                               HorizontalContentAlignment="Stretch"
+                               Background="{ThemeResource AppBackgroundAcrylicElementBrush}"
+                               Header="Configuration">
+                <Grid Margin="0,5,0,5">
+                    <dataforms:DataFormsControl Form="{x:Bind VIEW_MODEL.MODEL.Form, Mode=TwoWay}"
+                                                ShowInstructions="False"
+                                                ShowTitle="False"
+                                                Visibility="{x:Bind VIEW_MODEL.MODEL.Success, Mode=OneWay, Converter={StaticResource BoolVisibilityValueConverter}}"/>
 
-                        <TextBlock Margin="10,0,10,0"
-                                   IsTextSelectionEnabled="True"
-                                   TextWrapping="Wrap"
-                                   Visibility="{x:Bind VIEW_MODEL.MODEL.Success, Mode=OneWay, Converter={StaticResource BoolInvertedVisibilityValueConverter}}">
-                            <Run Text="Something went wrong..."/>
-                            <LineBreak/>
-                            <Run Text="Please try again, by clicking on the"/>
-                            <Run FontFamily="{ThemeResource SymbolThemeFontFamily}"
-                                 Foreground="{ThemeResource SystemAccentColor}"
-                                 Text="&#xE72C;"/>
-                            <Run Text="button."/>
-                            <LineBreak/>
-                            <Run Text="For more information click on the"/>
-                            <Run FontFamily="{ThemeResource SymbolThemeFontFamily}"
-                                 Foreground="Red"
-                                 Text="&#xE783;"/>
-                            <Run Text="button."/>
-                        </TextBlock>
-                    </Grid>
-                </controls:Expander>
-            </Grid>
-        </Border>
-    </controls:DropShadowPanel>
+                    <TextBlock Margin="10,0,10,0"
+                               IsTextSelectionEnabled="True"
+                               TextWrapping="Wrap"
+                               Visibility="{x:Bind VIEW_MODEL.MODEL.Success, Mode=OneWay, Converter={StaticResource BoolInvertedVisibilityValueConverter}}">
+                        <Run Text="Something went wrong..."/>
+                        <LineBreak/>
+                        <Run Text="Please try again, by clicking on the"/>
+                        <Run FontFamily="{ThemeResource SymbolThemeFontFamily}"
+                             Foreground="{ThemeResource SystemAccentColor}"
+                             Text="&#xE72C;"/>
+                        <Run Text="button."/>
+                        <LineBreak/>
+                        <Run Text="For more information click on the"/>
+                        <Run FontFamily="{ThemeResource SymbolThemeFontFamily}"
+                             Foreground="Red"
+                             Text="&#xE783;"/>
+                        <Run Text="button."/>
+                    </TextBlock>
+                </Grid>
+            </controls:Expander>
+        </Grid>
+
+        <ui:Effects.Shadow>
+            <media:AttachedCardShadow BlurRadius="10"
+                                      CornerRadius="8"
+                                      Opacity="0.50"/>
+        </ui:Effects.Shadow>
+    </Border>
 </UserControl>

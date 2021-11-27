@@ -8,14 +8,12 @@
       xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
       xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
       xmlns:settings="using:UWPX_UI.Controls.Settings"
+      xmlns:ui="using:Microsoft.Toolkit.Uwp.UI"
       Background="{ThemeResource AppBackgroundAcrylicWindowBrush}"
       mc:Ignorable="d">
 
     <Page.Resources>
         <ResourceDictionary>
-            <ResourceDictionary.MergedDictionaries>
-                <ResourceDictionary Source="ms-appx:///Resources/Styles/Button/SettingsButtonStyle.xaml"/>
-            </ResourceDictionary.MergedDictionaries>
 
             <x:String x:Key="TranslationAnimationDuration">0:0:0.5</x:String>
             <x:String x:Key="OpacityAnimationDuration">0:0:0.5</x:String>
@@ -155,33 +153,31 @@
                                              LinkClicked="OnInfoLinkClicked"
                                              TextWrapping="Wrap"/>
 
-                <controls1:DropShadowPanel Grid.Row="2"
-                                           Margin="0,10,0,0"
-                                           HorizontalAlignment="Center">
-                    <Button x:Name="login_btn"
-                            Background="{ThemeResource AppBackgroundAcrylicWindowBrush}"
-                            Click="OnLoginClicked"
-                            Style="{ThemeResource SettingsButtonStyle}"
-                            ToolTipService.ToolTip="Login to an existing account.">
-                        <Grid Margin="5,5,5,0"
-                              VerticalAlignment="Center">
-                            <Grid.RowDefinitions>
-                                <RowDefinition Height="Auto"/>
-                                <RowDefinition Height="Auto"/>
-                                <RowDefinition Height="Auto"/>
-                            </Grid.RowDefinitions>
-                            <FontIcon Margin="0,0,0,10"
-                                      HorizontalAlignment="Center"
-                                      FontSize="25"
-                                      Foreground="{ThemeResource SystemAccentColor}"
-                                      Glyph="&#xEBDB;"/>
-                            <TextBlock Grid.Row="1"
-                                       HorizontalAlignment="Center"
-                                       Style="{ThemeResource CaptionTextBlockStyle}"
-                                       Text="Login"/>
-                        </Grid>
-                    </Button>
-                </controls1:DropShadowPanel>
+                <Button x:Name="login_btn"
+                        Grid.Row="2"
+                        Margin="0,10,0,0"
+                        HorizontalAlignment="Center"
+                        ui:Effects.Shadow="{StaticResource DefaultAttachedCardShadowControl}"
+                        Click="OnLoginClicked"
+                        ToolTipService.ToolTip="Login to an existing account.">
+                    <Grid Margin="5,5,5,0"
+                          VerticalAlignment="Center">
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="Auto"/>
+                            <RowDefinition Height="Auto"/>
+                            <RowDefinition Height="Auto"/>
+                        </Grid.RowDefinitions>
+                        <FontIcon Margin="0,0,0,10"
+                                  HorizontalAlignment="Center"
+                                  FontSize="25"
+                                  Foreground="{ThemeResource SystemAccentColor}"
+                                  Glyph="&#xEBDB;"/>
+                        <TextBlock Grid.Row="1"
+                                   HorizontalAlignment="Center"
+                                   Style="{ThemeResource CaptionTextBlockStyle}"
+                                   Text="Login"/>
+                    </Grid>
+                </Button>
             </Grid>
         </Grid>
 

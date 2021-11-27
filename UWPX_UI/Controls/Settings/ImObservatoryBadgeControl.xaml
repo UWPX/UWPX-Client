@@ -14,7 +14,7 @@
             <Setter Property="Foreground" Value="{ThemeResource ButtonForeground}"/>
             <Setter Property="BorderBrush" Value="{ThemeResource ButtonRevealBorderBrush}"/>
             <Setter Property="BorderThickness" Value="{ThemeResource ButtonRevealBorderThemeThickness}"/>
-            <Setter Property="Padding" Value="{ThemeResource ButtonPadding}"/>
+            <Setter Property="Padding" Value="0"/>
             <Setter Property="HorizontalAlignment" Value="Center"/>
             <Setter Property="VerticalAlignment" Value="Center"/>
             <Setter Property="FontFamily" Value="{ThemeResource ContentControlThemeFontFamily}"/>

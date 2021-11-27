@@ -5,8 +5,10 @@
              xmlns:controls1="using:UWPX_UI.Controls"
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:media="using:Microsoft.Toolkit.Uwp.UI.Media"
              xmlns:omemo="using:UWPX_UI.Controls.OMEMO"
              xmlns:omemoModels="using:Storage.Classes.Models.Omemo"
+             xmlns:ui="using:Microsoft.Toolkit.Uwp.UI"
              MinHeight="100"
              mc:Ignorable="d">
 
@@ -25,116 +27,118 @@
         </ResourceDictionary>
     </UserControl.Resources>
 
-    <controls:DropShadowPanel Grid.Row="1"
-                              HorizontalContentAlignment="Stretch">
-        <Border HorizontalAlignment="Stretch"
-                Background="{ThemeResource AppBackgroundAcrylicWindowBrush}"
-                CornerRadius="{ThemeResource OverlayCornerRadius}">
-            <Grid x:Name="main_grid"
-                  Padding="30,20,30,30"
-                  Background="{ThemeResource AppBackgroundAcrylicElementBrush}">
+    <Border>
+        <Grid x:Name="main_grid"
+              Padding="30,20,30,30"
+              Background="{ThemeResource AppBackgroundAcrylicElementBrush}"
+              CornerRadius="{ThemeResource OverlayCornerRadius}">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+            </Grid.RowDefinitions>
+            <omemo:OmemoCheckSupportsControl x:Name="omemoSupportControl"
+                                             Grid.Row="0"/>
+
+            <!--  Header:  -->
+            <Grid Grid.Row="1"
+                  Margin="0,10,0,0">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="Auto"/>
+                    <ColumnDefinition Width="*"/>
+                </Grid.ColumnDefinitions>
+                <TextBlock VerticalAlignment="Center"
+                           Style="{ThemeResource BaseTextBlockStyle}"
+                           Text="Fingerprints (OMEMO):"/>
+                <Button Grid.Column="1"
+                        HorizontalAlignment="Right"
+                        Content="&#xE712;"
+                        Style="{ThemeResource TransparentIconButtonStyle}"
+                        ToolTipService.ToolTip="More">
+                    <Button.Flyout>
+                        <MenuFlyout>
+                            <MenuFlyoutItem x:Name="scanQrCode_mfo"
+                                            Click="ScanQrCode_mfo_Click"
+                                            Text="Scan QR Code">
+                                <MenuFlyoutItem.Icon>
+                                    <FontIcon Glyph="&#xE722;"/>
+                                </MenuFlyoutItem.Icon>
+                            </MenuFlyoutItem>
+                            <MenuFlyoutItem x:Name="showOwnFingerprint_mfo"
+                                            Click="ShowOwnFingerprint_mfo_Click"
+                                            Text="Show your fingerprint">
+                                <MenuFlyoutItem.Icon>
+                                    <FontIcon Glyph="&#xE779;"/>
+                                </MenuFlyoutItem.Icon>
+                            </MenuFlyoutItem>
+                        </MenuFlyout>
+                    </Button.Flyout>
+                </Button>
+            </Grid>
+            <controls1:SeperatorControl Grid.Row="2"/>
+
+            <!--  Loading:  -->
+            <controls:Loading Grid.Row="3"
+                              Margin="0,10,0,0"
+                              IsLoading="True"
+                              Visibility="{x:Bind VIEW_MODEL.MODEL.Loading, Mode=OneWay, Converter={StaticResource BoolVisibilityValueConverter}}">
+                <controls1:LoadingContentControl Text="Loading fingerprints..."/>
+            </controls:Loading>
+
+            <!--  Content:  -->
+            <Grid Grid.Row="3"
+                  Margin="0,10,0,0"
+                  Visibility="{x:Bind VIEW_MODEL.MODEL.Loading, Mode=OneWay, Converter={StaticResource BoolInvertedVisibilityValueConverter}}">
                 <Grid.RowDefinitions>
                     <RowDefinition Height="Auto"/>
                     <RowDefinition Height="Auto"/>
-                    <RowDefinition Height="Auto"/>
-                    <RowDefinition Height="Auto"/>
                 </Grid.RowDefinitions>
-                <omemo:OmemoCheckSupportsControl x:Name="omemoSupportControl"
-                                                 Grid.Row="0"/>
-
-                <!--  Header:  -->
-                <Grid Grid.Row="1"
-                      Margin="0,10,0,0">
-                    <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="Auto"/>
-                        <ColumnDefinition Width="*"/>
-                    </Grid.ColumnDefinitions>
-                    <TextBlock VerticalAlignment="Center"
-                               Style="{ThemeResource BaseTextBlockStyle}"
-                               Text="Fingerprints (OMEMO):"/>
-                    <Button Grid.Column="1"
-                            HorizontalAlignment="Right"
-                            Content="&#xE712;"
-                            Style="{ThemeResource TransparentIconButtonStyle}"
-                            ToolTipService.ToolTip="More">
+                <StackPanel Grid.Row="0"
+                            Orientation="Horizontal">
+                    <ToggleSwitch Margin="0,0,-20,0"
+                                  Header="Trusted only"
+                                  IsOn="{x:Bind VIEW_MODEL.MODEL.TrustedOnly, Mode=TwoWay}"/>
+                    <Button Style="{ThemeResource InfoButtonStyle}">
                         <Button.Flyout>
-                            <MenuFlyout>
-                                <MenuFlyoutItem x:Name="scanQrCode_mfo"
-                                                Click="ScanQrCode_mfo_Click"
-                                                Text="Scan QR Code">
-                                    <MenuFlyoutItem.Icon>
-                                        <FontIcon Glyph="&#xE722;"/>
-                                    </MenuFlyoutItem.Icon>
-                                </MenuFlyoutItem>
-                                <MenuFlyoutItem x:Name="showOwnFingerprint_mfo"
-                                                Click="ShowOwnFingerprint_mfo_Click"
-                                                Text="Show your fingerprint">
-                                    <MenuFlyoutItem.Icon>
-                                        <FontIcon Glyph="&#xE779;"/>
-                                    </MenuFlyoutItem.Icon>
-                                </MenuFlyoutItem>
-                            </MenuFlyout>
+                            <Flyout>
+                                <controls:MarkdownTextBlock x:Uid="ContactOmemoControl_trusted_fingerprints_only_tooltip"
+                                                            MaxWidth="400"
+                                                            TextWrapping="Wrap"/>
+                            </Flyout>
                         </Button.Flyout>
                     </Button>
-                </Grid>
-                <controls1:SeperatorControl Grid.Row="2"/>
-
-                <!--  Loading:  -->
-                <controls:Loading Grid.Row="3"
-                                  Margin="0,10,0,0"
-                                  IsLoading="True"
-                                  Visibility="{x:Bind VIEW_MODEL.MODEL.Loading, Mode=OneWay, Converter={StaticResource BoolVisibilityValueConverter}}">
-                    <controls1:LoadingContentControl Text="Loading fingerprints..."/>
-                </controls:Loading>
-
-                <!--  Content:  -->
-                <Grid Grid.Row="3"
-                      Margin="0,10,0,0"
-                      Visibility="{x:Bind VIEW_MODEL.MODEL.Loading, Mode=OneWay, Converter={StaticResource BoolInvertedVisibilityValueConverter}}">
-                    <Grid.RowDefinitions>
-                        <RowDefinition Height="Auto"/>
-                        <RowDefinition Height="Auto"/>
-                    </Grid.RowDefinitions>
-                    <StackPanel Grid.Row="0"
-                                Orientation="Horizontal">
-                        <ToggleSwitch Margin="0,0,-20,0"
-                                      Header="Trusted only"
-                                      IsOn="{x:Bind VIEW_MODEL.MODEL.TrustedOnly, Mode=TwoWay}"/>
-                        <Button Style="{ThemeResource InfoButtonStyle}">
-                            <Button.Flyout>
-                                <Flyout>
-                                    <controls:MarkdownTextBlock x:Uid="ContactOmemoControl_trusted_fingerprints_only_tooltip"
-                                                                MaxWidth="400"
-                                                                TextWrapping="Wrap"/>
-                                </Flyout>
-                            </Button.Flyout>
-                        </Button>
-                    </StackPanel>
-                    <ListView Grid.Row="1"
-                              ItemTemplate="{StaticResource FingerprintTemplate}"
-                              ItemsSource="{x:Bind VIEW_MODEL.MODEL.FINGERPRINTS}"
-                              SelectionMode="None"
-                              Visibility="{x:Bind VIEW_MODEL.MODEL.Loading, Mode=OneWay, Converter={StaticResource BoolInvertedVisibilityValueConverter}}">
-                        <ListView.ItemContainerStyle>
-                            <Style TargetType="ListViewItem">
-                                <Setter Property="HorizontalContentAlignment" Value="Stretch"/>
-                                <Setter Property="Padding" Value="0,5,0,5"/>
-                            </Style>
-                        </ListView.ItemContainerStyle>
-                    </ListView>
-                    <TextBlock Grid.Row="1"
-                               Margin="0,10,0,0"
-                               IsTextSelectionEnabled="True"
-                               TextWrapping="WrapWholeWords"
-                               Visibility="{x:Bind VIEW_MODEL.MODEL.NoFingerprintsFound, Mode=OneWay, Converter={StaticResource BoolVisibilityValueConverter}}">
-                        <Run FontWeight="Bold"
-                             Text="No fingerprints found!"/>
-                        <LineBreak/>
-                        <Run Text="Either your contact has no supported devices, or you have never send/received an OMEMO encrypted message from him."/>
-                    </TextBlock>
-                </Grid>
+                </StackPanel>
+                <ListView Grid.Row="1"
+                          ItemTemplate="{StaticResource FingerprintTemplate}"
+                          ItemsSource="{x:Bind VIEW_MODEL.MODEL.FINGERPRINTS}"
+                          SelectionMode="None"
+                          Visibility="{x:Bind VIEW_MODEL.MODEL.Loading, Mode=OneWay, Converter={StaticResource BoolInvertedVisibilityValueConverter}}">
+                    <ListView.ItemContainerStyle>
+                        <Style TargetType="ListViewItem">
+                            <Setter Property="HorizontalContentAlignment" Value="Stretch"/>
+                            <Setter Property="Padding" Value="0,5,0,5"/>
+                        </Style>
+                    </ListView.ItemContainerStyle>
+                </ListView>
+                <TextBlock Grid.Row="1"
+                           Margin="0,10,0,0"
+                           IsTextSelectionEnabled="True"
+                           TextWrapping="WrapWholeWords"
+                           Visibility="{x:Bind VIEW_MODEL.MODEL.NoFingerprintsFound, Mode=OneWay, Converter={StaticResource BoolVisibilityValueConverter}}">
+                    <Run FontWeight="Bold"
+                         Text="No fingerprints found!"/>
+                    <LineBreak/>
+                    <Run Text="Either your contact has no supported devices, or you have never send/received an OMEMO encrypted message from him."/>
+                </TextBlock>
             </Grid>
-        </Border>
+        </Grid>
+
+        <ui:Effects.Shadow>
+            <media:AttachedCardShadow BlurRadius="10"
+                                      CornerRadius="8"
+                                      Opacity="0.50"/>
+        </ui:Effects.Shadow>
 
         <VisualStateManager.VisualStateGroups>
             <VisualStateGroup>
@@ -156,5 +160,5 @@
                 </VisualState>
             </VisualStateGroup>
         </VisualStateManager.VisualStateGroups>
-    </controls:DropShadowPanel>
+    </Border>
 </UserControl>

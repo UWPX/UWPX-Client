@@ -6,7 +6,9 @@
              xmlns:controls1="using:UWPX_UI.Controls"
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:media="using:Microsoft.Toolkit.Uwp.UI.Media"
              xmlns:settings="using:UWPX_UI.Controls.Settings"
+             xmlns:ui="using:Microsoft.Toolkit.Uwp.UI"
              MinWidth="300"
              MaxHeight="600"
              mc:Ignorable="d">
@@ -44,80 +46,80 @@
         </DataTemplate>
     </UserControl.Resources>
 
-    <controls:DropShadowPanel x:Name="step2Advanced_dsp"
-                              Grid.Row="2"
-                              HorizontalAlignment="{x:Bind HorizontalAlignment, Mode=OneWay}"
-                              HorizontalContentAlignment="Stretch">
-        <Border HorizontalAlignment="Stretch"
-                Background="{ThemeResource AppBackgroundAcrylicWindowBrush}"
-                CornerRadius="{ThemeResource OverlayCornerRadius}">
-            <controls:Expander HorizontalContentAlignment="Left"
-                               Header="{x:Bind ServerProvider, Mode=OneWay}"
-                               HeaderTemplate="{StaticResource HeaderTemplate}">
-                <StackPanel Margin="10,5,10,5">
-                    <StackPanel.Resources>
-                        <Style TargetType="TextBlock">
-                            <Setter Property="IsTextSelectionEnabled" Value="True"/>
-                        </Style>
-                    </StackPanel.Resources>
-                    <TextBlock>
-                        <Run FontWeight="Bold"
-                             Text="Free:"/>
-                        <Run Text="{x:Bind VIEW_MODEL.MODEL.FreeText, Mode=OneWay}"
-                             ToolTipService.ToolTip="Do you have to pay for an account on this server?"/>
-                        <LineBreak/>
+    <Border>
+        <controls:Expander HorizontalAlignment="{x:Bind HorizontalAlignment, Mode=OneWay}"
+                           HorizontalContentAlignment="Left"
+                           Header="{x:Bind ServerProvider, Mode=OneWay}"
+                           HeaderTemplate="{StaticResource HeaderTemplate}">
+            <StackPanel Margin="10,5,10,5">
+                <StackPanel.Resources>
+                    <Style TargetType="TextBlock">
+                        <Setter Property="IsTextSelectionEnabled" Value="True"/>
+                    </Style>
+                </StackPanel.Resources>
+                <TextBlock>
+                    <Run FontWeight="Bold"
+                         Text="Free:"/>
+                    <Run Text="{x:Bind VIEW_MODEL.MODEL.FreeText, Mode=OneWay}"
+                         ToolTipService.ToolTip="Do you have to pay for an account on this server?"/>
+                    <LineBreak/>
 
-                        <Run FontWeight="Bold"
-                             Text="Company:"/>
-                        <Run Text="{x:Bind VIEW_MODEL.MODEL.CompanyText, Mode=OneWay}"
-                             ToolTipService.ToolTip="Is the server being hosted by a company?"/>
-                        <LineBreak/>
+                    <Run FontWeight="Bold"
+                         Text="Company:"/>
+                    <Run Text="{x:Bind VIEW_MODEL.MODEL.CompanyText, Mode=OneWay}"
+                         ToolTipService.ToolTip="Is the server being hosted by a company?"/>
+                    <LineBreak/>
 
-                        <Run FontWeight="Bold"
-                             Text="Professional hosted:"/>
-                        <Run Text="{x:Bind VIEW_MODEL.MODEL.HostedText, Mode=OneWay}"
-                             ToolTipService.ToolTip="Is the server being hosted and monitored professionally?"/>
-                        <LineBreak/>
+                    <Run FontWeight="Bold"
+                         Text="Professional hosted:"/>
+                    <Run Text="{x:Bind VIEW_MODEL.MODEL.HostedText, Mode=OneWay}"
+                         ToolTipService.ToolTip="Is the server being hosted and monitored professionally?"/>
+                    <LineBreak/>
 
-                        <Run FontWeight="Bold"
-                             Text="Password reset:"/>
-                        <Run Text="{x:Bind VIEW_MODEL.MODEL.PasswordResetText, Mode=OneWay}"
-                             ToolTipService.ToolTip="Is there a way to reset your password in case you lost it?"/>
-                        <LineBreak/>
+                    <Run FontWeight="Bold"
+                         Text="Password reset:"/>
+                    <Run Text="{x:Bind VIEW_MODEL.MODEL.PasswordResetText, Mode=OneWay}"
+                         ToolTipService.ToolTip="Is there a way to reset your password in case you lost it?"/>
+                    <LineBreak/>
 
-                        <Run FontWeight="Bold"
-                             Text="Legal notice:"/>
-                        <Hyperlink Click="OnLegalNoticeClicked">
-                            <Run Text="{x:Bind VIEW_MODEL.MODEL.LegalNoticeUrl, Mode=OneWay}"
-                                 ToolTipService.ToolTip="A link to the legal notice of this server."/>
-                        </Hyperlink>
-                        <LineBreak/>
+                    <Run FontWeight="Bold"
+                         Text="Legal notice:"/>
+                    <Hyperlink Click="OnLegalNoticeClicked">
+                        <Run Text="{x:Bind VIEW_MODEL.MODEL.LegalNoticeUrl, Mode=OneWay}"
+                             ToolTipService.ToolTip="A link to the legal notice of this server."/>
+                    </Hyperlink>
+                    <LineBreak/>
 
-                        <Run FontWeight="Bold"
-                             Text="Online since:"/>
-                        <Run Text="{x:Bind VIEW_MODEL.MODEL.OnlinceSiceText, Mode=OneWay}"
-                             ToolTipService.ToolTip="Since when is this server available for users?"/>
-                        <LineBreak/>
+                    <Run FontWeight="Bold"
+                         Text="Online since:"/>
+                    <Run Text="{x:Bind VIEW_MODEL.MODEL.OnlinceSiceText, Mode=OneWay}"
+                         ToolTipService.ToolTip="Since when is this server available for users?"/>
+                    <LineBreak/>
 
-                        <Run FontWeight="Bold"
-                             Text="Message archive storage time:"/>
-                        <Run Text="{x:Bind VIEW_MODEL.MODEL.MamStorageTimeText, Mode=OneWay}"
-                             ToolTipService.ToolTip="How long (days) will messages be stored on the server in case they are not received directly?"/>
-                        <LineBreak/>
+                    <Run FontWeight="Bold"
+                         Text="Message archive storage time:"/>
+                    <Run Text="{x:Bind VIEW_MODEL.MODEL.MamStorageTimeText, Mode=OneWay}"
+                         ToolTipService.ToolTip="How long (days) will messages be stored on the server in case they are not received directly?"/>
+                    <LineBreak/>
 
-                        <Run FontWeight="Bold"
-                             Text="File upload size limit:"/>
-                        <Run Text="{x:Bind VIEW_MODEL.MODEL.MaxUploadSizeText, Mode=OneWay}"
-                             ToolTipService.ToolTip="How large can the files (images) be you can upload to this server?"/>
-                        <LineBreak/>
+                    <Run FontWeight="Bold"
+                         Text="File upload size limit:"/>
+                    <Run Text="{x:Bind VIEW_MODEL.MODEL.MaxUploadSizeText, Mode=OneWay}"
+                         ToolTipService.ToolTip="How large can the files (images) be you can upload to this server?"/>
+                    <LineBreak/>
 
-                        <Run FontWeight="Bold"
-                             Text="File upload storage time:"/>
-                        <Run Text="{x:Bind VIEW_MODEL.MODEL.UploadStorageTime, Mode=OneWay}"
-                             ToolTipService.ToolTip="How long (days) will files (images) be stored on the server in case they are not received directly?"/>
-                    </TextBlock>
-                </StackPanel>
-            </controls:Expander>
-        </Border>
-    </controls:DropShadowPanel>
+                    <Run FontWeight="Bold"
+                         Text="File upload storage time:"/>
+                    <Run Text="{x:Bind VIEW_MODEL.MODEL.UploadStorageTime, Mode=OneWay}"
+                         ToolTipService.ToolTip="How long (days) will files (images) be stored on the server in case they are not received directly?"/>
+                </TextBlock>
+            </StackPanel>
+        </controls:Expander>
+
+        <ui:Effects.Shadow>
+            <media:AttachedCardShadow BlurRadius="10"
+                                      CornerRadius="6"
+                                      Opacity="0.50"/>
+        </ui:Effects.Shadow>
+    </Border>
 </UserControl>

@@ -2,9 +2,9 @@
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:controls="using:UWPX_UI.Controls"
-             xmlns:controls1="using:Microsoft.Toolkit.Uwp.UI.Controls"
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:ui="using:Microsoft.Toolkit.Uwp.UI"
              xmlns:valueconverter="using:UWPX_UI_Context.Classes.ValueConverter"
              d:DesignHeight="120"
              d:DesignWidth="500"
@@ -19,6 +19,13 @@
         <valueconverter:MucStateMucJoinVisibilityValueConverter x:Key="MucStateMucJoinVisibilityValueConverter"/>
         <valueconverter:MucStateMucLeaveVisibilityValueConverter x:Key="MucStateMucLeaveVisibilityValueConverter"/>
         <valueconverter:HexColorToSolidColorBrushValueConverter x:Key="HexColorToSolidColorBrushValueConverter"/>
+
+        <ui:AttachedDropShadow x:Key="RosterIconShadow"
+                               BlurRadius="10"
+                               CastTo="{x:Bind RosterIconShadowTarget}"
+                               Opacity="0.75"
+                               Offset="0"/>
+
         <MenuFlyout x:Name="chat_mfo">
             <MenuFlyout.Items>
                 <MenuFlyoutItem x:Name="showProfile_mfo"
@@ -271,21 +278,19 @@
                         <RowDefinition Height="16"/>
                         <RowDefinition Height="16"/>
                     </Grid.RowDefinitions>
-                    <controls1:DropShadowPanel Grid.Row="0"
-                                               Margin="0,0,2,0"
-                                               HorizontalAlignment="Right"
-                                               VerticalAlignment="Center"
-                                               BlurRadius="5"
-                                               IsMasked="True"
-                                               OffsetX="1"
-                                               OffsetY="1"
-                                               Visibility="{x:Bind VIEW_MODEL.MODEL.InRosterVisibility, Mode=OneWay}">
-                        <TextBlock x:Name="in_rooster_icon"
-                                   FontFamily="{ThemeResource SymbolThemeFontFamily}"
-                                   FontSize="11"
-                                   Foreground="{ThemeResource GoldBrush}"
-                                   Text="&#xE735;"/>
-                    </controls1:DropShadowPanel>
+                    <Border x:Name="RosterIconShadowTarget"
+                            Grid.Row="0"/>
+                    <TextBlock x:Name="in_rooster_icon"
+                               Grid.Row="0"
+                               Margin="0,0,2,0"
+                               HorizontalAlignment="Right"
+                               VerticalAlignment="Center"
+                               ui:Effects.Shadow="{StaticResource RosterIconShadow}"
+                               FontFamily="{ThemeResource SymbolThemeFontFamily}"
+                               FontSize="11"
+                               Foreground="{ThemeResource GoldBrush}"
+                               Text="&#xE735;"
+                               Visibility="{x:Bind VIEW_MODEL.MODEL.InRosterVisibility, Mode=OneWay}"/>
                     <FontIcon x:Name="muted_tbck"
                               Grid.Row="1"
                               HorizontalAlignment="Right"

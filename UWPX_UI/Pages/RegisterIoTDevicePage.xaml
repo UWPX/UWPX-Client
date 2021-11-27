@@ -9,6 +9,8 @@
       xmlns:datatemplates="using:UWPX_UI_Context.Classes.DataTemplates"
       xmlns:iot="using:UWPX_UI.Controls.IoT"
       xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+      xmlns:media="using:Microsoft.Toolkit.Uwp.UI.Media"
+      xmlns:ui="using:Microsoft.Toolkit.Uwp.UI"
       Background="{ThemeResource AppBackgroundAcrylicWindowBrush}"
       mc:Ignorable="d">
 
@@ -73,11 +75,10 @@
                                                TextBlockStyle="{ThemeResource TitleTextBlockStyle}"/>
 
                 <!--  Step 0:  -->
-                <controls1:DropShadowPanel x:Name="step0DeviceType_dsp"
-                                           Grid.Row="1"
-                                           MaxWidth="400"
-                                           HorizontalContentAlignment="Stretch"
-                                           Visibility="Visible">
+                <Border x:Name="step0DeviceType_dsp"
+                        Grid.Row="1"
+                        MaxWidth="400"
+                        Visibility="Visible">
                     <animations:Implicit.ShowAnimations>
                         <animations:OpacityAnimation From="{StaticResource AnimationOpacityMin}"
                                                      To="{StaticResource AnimationOpacityMax}"
@@ -166,14 +167,19 @@
                                                         Text="Cancel"/>
                         </Grid>
                     </Border>
-                </controls1:DropShadowPanel>
+
+                    <ui:Effects.Shadow>
+                        <media:AttachedCardShadow BlurRadius="10"
+                                                  CornerRadius="8"
+                                                  Opacity="0.50"/>
+                    </ui:Effects.Shadow>
+                </Border>
 
                 <!--  Step 1:  -->
-                <controls1:DropShadowPanel x:Name="step1ScanQrCode_dsp"
-                                           Grid.Row="1"
-                                           MaxWidth="400"
-                                           HorizontalContentAlignment="Stretch"
-                                           Visibility="Collapsed">
+                <Border x:Name="step1ScanQrCode_dsp"
+                        Grid.Row="1"
+                        MaxWidth="400"
+                        Visibility="Collapsed">
                     <animations:Implicit.ShowAnimations>
                         <animations:OpacityAnimation From="{StaticResource AnimationOpacityMin}"
                                                      To="{StaticResource AnimationOpacityMax}"
@@ -226,14 +232,19 @@
                             </Grid>
                         </StackPanel>
                     </Border>
-                </controls1:DropShadowPanel>
+
+                    <ui:Effects.Shadow>
+                        <media:AttachedCardShadow BlurRadius="10"
+                                                  CornerRadius="8"
+                                                  Opacity="0.50"/>
+                    </ui:Effects.Shadow>
+                </Border>
 
                 <!--  Step 2:  -->
-                <controls1:DropShadowPanel x:Name="step2Bluetooth_dsp"
-                                           Grid.Row="1"
-                                           MaxWidth="400"
-                                           HorizontalContentAlignment="Stretch"
-                                           Visibility="Collapsed">
+                <Border x:Name="step2Bluetooth_dsp"
+                        Grid.Row="1"
+                        MaxWidth="400"
+                        Visibility="Collapsed">
                     <animations:Implicit.ShowAnimations>
                         <animations:OpacityAnimation From="{StaticResource AnimationOpacityMin}"
                                                      To="{StaticResource AnimationOpacityMax}"
@@ -281,14 +292,19 @@
                             </Grid>
                         </StackPanel>
                     </Border>
-                </controls1:DropShadowPanel>
+
+                    <ui:Effects.Shadow>
+                        <media:AttachedCardShadow BlurRadius="10"
+                                                  CornerRadius="8"
+                                                  Opacity="0.50"/>
+                    </ui:Effects.Shadow>
+                </Border>
 
                 <!--  Step 3:  -->
-                <controls1:DropShadowPanel x:Name="step3BtInfo_dsp"
-                                           Grid.Row="1"
-                                           MaxWidth="400"
-                                           HorizontalContentAlignment="Stretch"
-                                           Visibility="Collapsed">
+                <Border x:Name="step3BtInfo_dsp"
+                        Grid.Row="1"
+                        MaxWidth="400"
+                        Visibility="Collapsed">
                     <animations:Implicit.ShowAnimations>
                         <animations:OpacityAnimation From="{StaticResource AnimationOpacityMin}"
                                                      To="{StaticResource AnimationOpacityMax}"
@@ -343,14 +359,19 @@
                             </Grid>
                         </StackPanel>
                     </Border>
-                </controls1:DropShadowPanel>
+
+                    <ui:Effects.Shadow>
+                        <media:AttachedCardShadow BlurRadius="10"
+                                                  CornerRadius="8"
+                                                  Opacity="0.50"/>
+                    </ui:Effects.Shadow>
+                </Border>
 
                 <!--  Step 4:  -->
-                <controls1:DropShadowPanel x:Name="step4SendingInfo_dsp"
-                                           Grid.Row="1"
-                                           MaxWidth="400"
-                                           HorizontalContentAlignment="Stretch"
-                                           Visibility="Collapsed">
+                <Border x:Name="step4SendingInfo_dsp"
+                        Grid.Row="1"
+                        MaxWidth="400"
+                        Visibility="Collapsed">
                     <animations:Implicit.ShowAnimations>
                         <animations:OpacityAnimation From="{StaticResource AnimationOpacityMin}"
                                                      To="{StaticResource AnimationOpacityMax}"
@@ -379,14 +400,19 @@
                             </controls1:Loading>
                         </StackPanel>
                     </Border>
-                </controls1:DropShadowPanel>
+
+                    <ui:Effects.Shadow>
+                        <media:AttachedCardShadow BlurRadius="10"
+                                                  CornerRadius="8"
+                                                  Opacity="0.50"/>
+                    </ui:Effects.Shadow>
+                </Border>
 
                 <!--  Step 5:  -->
-                <controls1:DropShadowPanel x:Name="step5waitingForMessages_dsp"
-                                           Grid.Row="1"
-                                           MaxWidth="400"
-                                           HorizontalContentAlignment="Stretch"
-                                           Visibility="Collapsed">
+                <Border x:Name="step5waitingForMessages_dsp"
+                        Grid.Row="1"
+                        MaxWidth="400"
+                        Visibility="Collapsed">
                     <animations:Implicit.ShowAnimations>
                         <animations:OpacityAnimation From="{StaticResource AnimationOpacityMin}"
                                                      To="{StaticResource AnimationOpacityMax}"
@@ -414,14 +440,19 @@
                             </controls1:Loading>
                         </StackPanel>
                     </Border>
-                </controls1:DropShadowPanel>
+
+                    <ui:Effects.Shadow>
+                        <media:AttachedCardShadow BlurRadius="10"
+                                                  CornerRadius="8"
+                                                  Opacity="0.50"/>
+                    </ui:Effects.Shadow>
+                </Border>
 
                 <!--  Step 6:  -->
-                <controls1:DropShadowPanel x:Name="step6done_dsp"
-                                           Grid.Row="1"
-                                           MaxWidth="400"
-                                           HorizontalContentAlignment="Stretch"
-                                           Visibility="Collapsed">
+                <Border x:Name="step6done_dsp"
+                        Grid.Row="1"
+                        MaxWidth="400"
+                        Visibility="Collapsed">
                     <animations:Implicit.ShowAnimations>
                         <animations:OpacityAnimation From="{StaticResource AnimationOpacityMin}"
                                                      To="{StaticResource AnimationOpacityMax}"
@@ -478,7 +509,13 @@
                             </Grid>
                         </StackPanel>
                     </Border>
-                </controls1:DropShadowPanel>
+
+                    <ui:Effects.Shadow>
+                        <media:AttachedCardShadow BlurRadius="10"
+                                                  CornerRadius="8"
+                                                  Opacity="0.50"/>
+                    </ui:Effects.Shadow>
+                </Border>
             </Grid>
         </ScrollViewer>
 

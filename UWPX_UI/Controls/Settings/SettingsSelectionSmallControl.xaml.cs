@@ -63,7 +63,7 @@ namespace UWPX_UI.Controls.Settings
         #endregion
         //--------------------------------------------------------Events:---------------------------------------------------------------------\\
         #region --Events--
-        private void Button_Click(object sender, RoutedEventArgs e)
+        private void OnButtonClicked(object sender, RoutedEventArgs e)
         {
             Click?.Invoke(this, e);
             if (EnableNavigationOnClick)
