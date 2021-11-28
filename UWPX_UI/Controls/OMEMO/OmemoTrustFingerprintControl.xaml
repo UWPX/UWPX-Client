@@ -27,7 +27,7 @@
                       Grid.Column="0"
                       Margin="0,0,-30,0"
                       VerticalAlignment="Center"
-                      IsOn="{x:Bind Fingerprint.trusted, Mode=TwoWay}"
+                      IsOn="{x:Bind Fingerprint.Fingerprint.trusted, Mode=TwoWay}"
                       OffContent="Untrusted"
                       OnContent="Trusted"
                       Toggled="Trust_tgls_Toggled"/>
@@ -36,16 +36,18 @@
                                        HorizontalAlignment="Right"
                                        VerticalAlignment="Center"
                                        CopyButtonVisibility="Collapsed"
-                                       IdentityPubKey="{x:Bind Fingerprint.identityKey, Mode=OneWay}"/>
+                                       IdentityPubKey="{x:Bind Fingerprint.Fingerprint.identityKey, Mode=OneWay}"/>
         <StackPanel Grid.Row="2"
                     Grid.Column="0"
                     Grid.ColumnSpan="2"
                     HorizontalAlignment="Right"
                     Orientation="Horizontal">
             <TextBlock IsTextSelectionEnabled="True"
-                       Style="{ThemeResource CaptionLineTextBlockStyle}">
+                       Style="{ThemeResource CaptionLineTextBlockStyle}"
+                       ToolTipService.ToolTip="{x:Bind VIEW_MODEL.MODEL.StatusTooltip, Mode=OneWay}">
+                <Run Text="{x:Bind VIEW_MODEL.MODEL.StatusText, Mode=OneWay}"/>
                 <Run Text="Last seen:"/>
-                <Run Text="{x:Bind Fingerprint.lastSeen, Mode=OneWay, Converter={StaticResource ChatDateTimeStringValueConverter}}"/>
+                <Run Text="{x:Bind Fingerprint.Fingerprint.lastSeen, Mode=OneWay, Converter={StaticResource ChatDateTimeStringValueConverter}}"/>
             </TextBlock>
         </StackPanel>
     </Grid>

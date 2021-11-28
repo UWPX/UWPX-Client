@@ -7,7 +7,7 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              xmlns:media="using:Microsoft.Toolkit.Uwp.UI.Media"
              xmlns:omemo="using:UWPX_UI.Controls.OMEMO"
-             xmlns:omemoModels="using:Storage.Classes.Models.Omemo"
+             xmlns:omemoModels="using:UWPX_UI_Context.Classes.DataTemplates.Controls.Chat"
              xmlns:ui="using:Microsoft.Toolkit.Uwp.UI"
              MinHeight="100"
              mc:Ignorable="d">
@@ -20,7 +20,7 @@
             </ResourceDictionary.MergedDictionaries>
 
             <DataTemplate x:Name="FingerprintTemplate"
-                          x:DataType="omemoModels:OmemoFingerprintModel">
+                          x:DataType="omemoModels:OmemoFingerprintDataTemplate">
                 <omemo:OmemoTrustFingerprintControl Fingerprint="{x:Bind}"
                                                     OmemoFingerprintTrustChanged="OnOmemoFingerprintTrustChanged"/>
             </DataTemplate>

@@ -246,6 +246,7 @@
     <Compile Include="Classes\DataTemplates\Controls\Chat\MUC\MucMemberDataTemplate.cs" />
     <Compile Include="Classes\DataTemplates\Controls\Chat\MUC\MucMembersControlDataTemplate.cs" />
     <Compile Include="Classes\DataTemplates\Controls\Chat\MUC\MucRoleControlDataTemplate.cs" />
+    <Compile Include="Classes\DataTemplates\Controls\Chat\OmemoFingerprintDataTemplate.cs" />
     <Compile Include="Classes\DataTemplates\Controls\Chat\SpeechBubbles\SpeechBubbleMucDirectInvitationControlDataTemplate.cs" />
     <Compile Include="Classes\DataTemplates\Controls\Chat\TypingIndicatorControlDataTemplate.cs" />
     <Compile Include="Classes\DataTemplates\Controls\ComplianceTesterBadgeControlDataTemplate.cs" />

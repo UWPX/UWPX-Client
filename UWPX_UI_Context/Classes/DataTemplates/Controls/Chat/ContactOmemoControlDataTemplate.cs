@@ -1,4 +1,6 @@
-﻿using Manager.Classes.Chat;
+﻿using System;
+using Manager.Classes.Chat;
+using Omemo.Classes;
 using Shared.Classes;
 using Shared.Classes.Collections;
 using Storage.Classes.Models.Omemo;
@@ -37,7 +39,7 @@ namespace UWPX_UI_Context.Classes.DataTemplates.Controls.Chat
             set => SetProperty(ref _NoFingerprintsFound, value);
         }
 
-        public readonly CustomObservableCollection<OmemoFingerprintModel> FINGERPRINTS = new CustomObservableCollection<OmemoFingerprintModel>(true);
+        public readonly CustomObservableCollection<OmemoFingerprintDataTemplate> FINGERPRINTS = new CustomObservableCollection<OmemoFingerprintDataTemplate>(true);
 
         #endregion
         //--------------------------------------------------------Constructor:----------------------------------------------------------------\\

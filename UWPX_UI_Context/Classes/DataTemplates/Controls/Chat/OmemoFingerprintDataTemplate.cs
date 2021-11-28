@@ -1,23 +1,25 @@
-﻿using Shared.Classes;
+﻿using Omemo.Classes;
+using Shared.Classes;
+using Storage.Classes.Models.Omemo;
 
-namespace UWPX_UI_Context.Classes.DataTemplates.Controls.OMEMO
+namespace UWPX_UI_Context.Classes.DataTemplates.Controls.Chat
 {
-    public class OmemoTrustFingerprintControlDataTemplate: AbstractDataTemplate
+    public class OmemoFingerprintDataTemplate: AbstractDataTemplate
     {
         //--------------------------------------------------------Attributes:-----------------------------------------------------------------\\
         #region --Attributes--
-        private string _StatusText;
-        public string StatusText
+        private OmemoFingerprintModel _Fingerprint;
+        public OmemoFingerprintModel Fingerprint
         {
-            get => _StatusText;
-            set => SetProperty(ref _StatusText, value);
+            get => _Fingerprint;
+            set => SetProperty(ref _Fingerprint, value);
         }
 
-        private string _StatusTooltip;
-        public string StatusTooltip
+        private SessionState _State;
+        public SessionState State
         {
-            get => _StatusTooltip;
-            set => SetProperty(ref _StatusTooltip, value);
+            get => _State;
+            set => SetProperty(ref _State, value);
         }
 
         #endregion
