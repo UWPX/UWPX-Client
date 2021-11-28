@@ -8,6 +8,7 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              xmlns:network="using:Shared.Classes.Network"
+             xmlns:ui="using:Microsoft.Toolkit.Uwp.UI"
              d:DesignHeight="300"
              d:DesignWidth="400"
              mc:Ignorable="d">
@@ -130,13 +131,14 @@
         <controls:ImageEx x:Name="image_img"
                           Grid.Row="0"
                           MaxHeight="250"
+                          ui:FrameworkElementExtensions.Cursor="Hand"
                           ImageExFailed="Image_img_ImageExFailed"
                           ImageExOpened="Image_img_ImageExOpened"
                           IsCacheEnabled="True"
                           PlaceholderSource="Assets/Images/placeholder.png"
                           Source="{x:Bind VIEW_MODEL.MODEL.ImageBitmap, Mode=OneWay}"
                           Tapped="Image_img_Tapped"
-                          ToolTipService.ToolTip="Click to view"
+                          ToolTipService.ToolTip="Click to view image"
                           Visibility="{x:Bind SpeechBubbleContentViewModel.MODEL.Message.Message.image.state, Mode=OneWay, Converter={StaticResource DownloadStateVisibilityValueConverter_Content}, FallbackValue=Collapsed}"/>
         <!--  Error:  -->
         <Grid Grid.Row="0"
