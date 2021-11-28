@@ -236,7 +236,10 @@ namespace XMPP_API.Classes.Network.XML.Messages.XEP_0384
                 }
 
                 // Check the senders fingerprint and handle new devices:
-                ValidateSender(decryptCtx);
+                validateSender(decryptCtx);
+
+                // Load the existing OMEMO session and create a new one if the message is a key exchange message:
+                loadSession(decryptCtx);
 
                 if (!IS_PURE_KEY_EXCHANGE_MESSAGE)
                 {
@@ -298,7 +301,7 @@ namespace XMPP_API.Classes.Network.XML.Messages.XEP_0384
             return envelopeNode;
         }
 
-        private byte[] decryptContent(byte[] content, OmemoDecryptionContext decryptCtx)
+        private void loadSession(OmemoDecryptionContext decryptCtx)
         {
             if (decryptCtx.keyExchange)
             {
@@ -313,6 +316,10 @@ namespace XMPP_API.Classes.Network.XML.Messages.XEP_0384
                 }
                 Logger.Debug("Loaded OMEMO session for decrypting: " + decryptCtx.session.ToString());
             }
+        }
+
+        private byte[] decryptContent(byte[] content, OmemoDecryptionContext decryptCtx)
+        {
             DoubleRachet rachet = new DoubleRachet(decryptCtx.RECEIVER_IDENTITY_KEY);
             return rachet.DecryptMessage(decryptCtx.authMsg, decryptCtx.session, content);
         }
@@ -371,7 +378,7 @@ namespace XMPP_API.Classes.Network.XML.Messages.XEP_0384
             }
         }
 
-        private void ValidateSender(OmemoDecryptionContext decryptCtx)
+        private void validateSender(OmemoDecryptionContext decryptCtx)
         {
             OmemoFingerprint fingerprint = decryptCtx.STORAGE.LoadFingerprint(decryptCtx.senderAddress);
             // New device:
