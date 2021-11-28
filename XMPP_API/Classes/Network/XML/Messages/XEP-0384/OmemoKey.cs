@@ -44,7 +44,7 @@ namespace XMPP_API.Classes.Network.XML.Messages.XEP_0384
         #region --Misc Methods (Public)--
         public XElement toXElement(XNamespace ns)
         {
-            XElement keyNode = new XElement("key", BASE64_PAYLOAD);
+            XElement keyNode = new XElement(ns + "key", BASE64_PAYLOAD);
             keyNode.Add(new XAttribute("rid", DEVICE_ID));
             if (KEY_EXCHANGE)
             {
