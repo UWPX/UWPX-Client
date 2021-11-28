@@ -9,6 +9,25 @@ using Shared.Classes;
 
 namespace Omemo.Classes
 {
+    /// <summary>
+    /// The current session state.
+    /// </summary>
+    public enum SessionState
+    {
+        /// <summary>
+        /// We have send a message, but have not received one yet.
+        /// </summary>
+        SEND,
+        /// <summary>
+        /// We have received a message, but have not send one yet.
+        /// </summary>
+        RECEIVED,
+        /// <summary>
+        /// We send and received a message and the session is build.
+        /// </summary>
+        READY
+    }
+
     public class OmemoSessionModel: AbstractDataTemplate
     {
         //--------------------------------------------------------Attributes:-----------------------------------------------------------------\\
@@ -24,6 +43,18 @@ namespace Omemo.Classes
         }
         [NotMapped]
         private int _id;
+
+        /// <summary>
+        /// The current state of the session.
+        /// </summary>
+        [Required]
+        public SessionState state
+        {
+            get => _state;
+            set => SetProperty(ref _state, value);
+        }
+        [NotMapped]
+        private SessionState _state;
 
         /// <summary>
         /// Key pair for the sending ratchet.
@@ -203,6 +234,7 @@ namespace Omemo.Classes
             signedPreKeyId = receiverBundle.signedPreKeyId;
             preKeyId = receiverBundle.preKeys[receiverPreKeyIndex].keyId;
             assData = CryptoUtils.Concat(senderIdentityKeyPair.pubKey.key, receiverBundle.identityKey.key);
+            state = SessionState.SEND;
 
             MK_SKIPPED.PropertyChanged += OnMK_SKIPPEDPropertyChanged;
         }
@@ -221,6 +253,7 @@ namespace Omemo.Classes
             assData = CryptoUtils.Concat(keyExchangeMsg.IK.key, receiverIdentityKey.pubKey.key);
             ek = keyExchangeMsg.EK;
             preKeyId = receiverPreKey.keyId;
+            state = SessionState.RECEIVED;
 
             MK_SKIPPED.PropertyChanged += OnMK_SKIPPEDPropertyChanged;
         }

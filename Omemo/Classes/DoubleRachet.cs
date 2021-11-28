@@ -69,7 +69,7 @@ namespace Omemo.Classes
                         OmemoAuthenticatedMessage authMsg = EncryptKeyHmacForDevices(keyHmac, device.Value, session.assData);
 
                         // To account for lost and out-of-order messages during the key exchange, OmemoKeyExchange structures are sent until a response by the recipient confirms that the key exchange was successfully completed.
-                        if (session.nS == 0 || session.nR == 0)
+                        if (session.state != SessionState.READY)
                         {
                             OmemoKeyExchangeMessage kexMsg = new OmemoKeyExchangeMessage(session.preKeyId, session.signedPreKeyId, OWN_IDENTITY_KEY.pubKey, session.ek, authMsg);
                             groupMsgs.Add(new Tuple<uint, IOmemoMessage>(device.Key, kexMsg));
@@ -113,7 +113,46 @@ namespace Omemo.Classes
             {
                 throw new OmemoException("Failed to decrypt. HMAC does not match.");
             }
+
             return CryptoUtils.Aes256CbcDecrypt(encKey, iv, cipherContent);
+        }
+
+        /// <summary>
+        /// Decrypts the key and HMAC concatenation (<see cref="OmemoMessage.cipherText"/>) with the given <paramref name="session"/>.
+        /// </summary>
+        /// <param name="authMsg">The <see cref="OmemoAuthenticatedMessage"/> containing the key and HMAC.</param>
+        /// <param name="session">The <see cref="OmemoSessionModel"/> that should be used for decryption.</param>
+        /// <returns>key || HMAC</returns>
+        public byte[] DecryptKeyHmacForDevice(OmemoAuthenticatedMessage authMsg, OmemoSessionModel session)
+        {
+            OmemoMessage msg = new OmemoMessage(authMsg.OMEMO_MESSAGE);
+            byte[] plainText = TrySkippedMessageKeys(msg, authMsg.HMAC, session);
+            if (!(plainText is null))
+            {
+                return plainText;
+            }
+
+            if (session.dhR is null || !msg.DH.Equals(session.dhR))
+            {
+                SkipMessageKeys(session, msg.PN);
+                session.InitDhRatchet(msg);
+            }
+            SkipMessageKeys(session, msg.N);
+
+            byte[] mk = LibSignalUtils.KDF_CK(session.ckR, 0x01);
+            Logger.Trace("[" + nameof(DecryptKeyHmacForDevice) + "] " + nameof(session.ckR) + ": " + CryptoUtils.ToHexString(session.ckR));
+            session.ckR = LibSignalUtils.KDF_CK(session.ckR, 0x02);
+            ++session.nR;
+            byte[] result = DecryptKeyHmacForDevice(mk, msg, authMsg.HMAC, session.assData);
+
+            // Update the session state:
+            if (session.state == SessionState.SEND)
+            {
+                session.state = SessionState.READY;
+            }
+            Logger.Trace("[" + nameof(DecryptKeyHmacForDevice) + "] " + nameof(session.state) + ": " + session.state);
+
+            return result;
         }
 
         #endregion
@@ -128,10 +167,11 @@ namespace Omemo.Classes
         private OmemoAuthenticatedMessage EncryptKeyHmacForDevices(byte[] keyHmac, OmemoSessionModel session, byte[] assData)
         {
             byte[] mk = LibSignalUtils.KDF_CK(session.ckS, 0x01);
-            Logger.Trace("[" + nameof(DecryptKeyHmacForDevice) + "] " + nameof(session.ckS) + ": " + CryptoUtils.ToHexString(session.ckS));
+            Logger.Trace("[" + nameof(EncryptKeyHmacForDevices) + "] " + nameof(session.ckS) + ": " + CryptoUtils.ToHexString(session.ckS));
             session.ckS = LibSignalUtils.KDF_CK(session.ckS, 0x02);
             OmemoMessage omemoMessage = new OmemoMessage(session);
             ++session.nS;
+
             // 32 byte (256 bit) of salt. Initialized with 0s.
             byte[] hkdfOutput = CryptoUtils.HkdfSha256(mk, new byte[32], "OMEMO Message Key Material", 80);
             CryptoUtils.SplitKey(hkdfOutput, out byte[] encKey, out byte[] authKey, out byte[] iv);
@@ -141,16 +181,23 @@ namespace Omemo.Classes
             byte[] hmacResult = CryptoUtils.HmacSha256(authKey, hmacInput);
             byte[] hmacTruncated = CryptoUtils.Truncate(hmacResult, 16);
 
+            // Update the session state:
+            if (session.state == SessionState.RECEIVED)
+            {
+                session.state = SessionState.READY;
+            }
+
             // Debug trace output:
-            Logger.Trace("[" + nameof(DecryptKeyHmacForDevice) + "] " + nameof(mk) + ": " + CryptoUtils.ToHexString(mk));
-            Logger.Trace("[" + nameof(DecryptKeyHmacForDevice) + "] " + nameof(assData) + ": " + CryptoUtils.ToHexString(assData));
-            Logger.Trace("[" + nameof(DecryptKeyHmacForDevice) + "] " + nameof(hkdfOutput) + ": " + CryptoUtils.ToHexString(hkdfOutput));
-            Logger.Trace("[" + nameof(DecryptKeyHmacForDevice) + "] " + nameof(encKey) + ": " + CryptoUtils.ToHexString(encKey));
-            Logger.Trace("[" + nameof(DecryptKeyHmacForDevice) + "] " + nameof(authKey) + ": " + CryptoUtils.ToHexString(authKey));
-            Logger.Trace("[" + nameof(DecryptKeyHmacForDevice) + "] " + nameof(iv) + ": " + CryptoUtils.ToHexString(iv));
-            Logger.Trace("[" + nameof(DecryptKeyHmacForDevice) + "] " + nameof(hmacInput) + ": " + CryptoUtils.ToHexString(hmacInput));
-            Logger.Trace("[" + nameof(DecryptKeyHmacForDevice) + "] " + nameof(hmacResult) + ": " + CryptoUtils.ToHexString(hmacResult));
-            Logger.Trace("[" + nameof(DecryptKeyHmacForDevice) + "] " + nameof(hmacTruncated) + ": " + CryptoUtils.ToHexString(hmacTruncated));
+            Logger.Trace("[" + nameof(EncryptKeyHmacForDevices) + "] " + nameof(mk) + ": " + CryptoUtils.ToHexString(mk));
+            Logger.Trace("[" + nameof(EncryptKeyHmacForDevices) + "] " + nameof(assData) + ": " + CryptoUtils.ToHexString(assData));
+            Logger.Trace("[" + nameof(EncryptKeyHmacForDevices) + "] " + nameof(hkdfOutput) + ": " + CryptoUtils.ToHexString(hkdfOutput));
+            Logger.Trace("[" + nameof(EncryptKeyHmacForDevices) + "] " + nameof(encKey) + ": " + CryptoUtils.ToHexString(encKey));
+            Logger.Trace("[" + nameof(EncryptKeyHmacForDevices) + "] " + nameof(authKey) + ": " + CryptoUtils.ToHexString(authKey));
+            Logger.Trace("[" + nameof(EncryptKeyHmacForDevices) + "] " + nameof(iv) + ": " + CryptoUtils.ToHexString(iv));
+            Logger.Trace("[" + nameof(EncryptKeyHmacForDevices) + "] " + nameof(hmacInput) + ": " + CryptoUtils.ToHexString(hmacInput));
+            Logger.Trace("[" + nameof(EncryptKeyHmacForDevices) + "] " + nameof(hmacResult) + ": " + CryptoUtils.ToHexString(hmacResult));
+            Logger.Trace("[" + nameof(EncryptKeyHmacForDevices) + "] " + nameof(hmacTruncated) + ": " + CryptoUtils.ToHexString(hmacTruncated));
+            Logger.Trace("[" + nameof(EncryptKeyHmacForDevices) + "] " + nameof(session.state) + ": " + session.state);
 
             return new OmemoAuthenticatedMessage(hmacTruncated, omemoMessageBytes);
         }
@@ -227,35 +274,6 @@ namespace Omemo.Classes
                 throw new OmemoException("Failed to decrypt. HMAC of OmemoMessage does not match.");
             }
             return CryptoUtils.Aes256CbcDecrypt(encKey, iv, msg.cipherText);
-        }
-
-        /// <summary>
-        /// Decrypts the key and HMAC concatenation (<see cref="OmemoMessage.cipherText"/>) with the given <paramref name="session"/>.
-        /// </summary>
-        /// <param name="authMsg">The <see cref="OmemoAuthenticatedMessage"/> containing the key and HMAC.</param>
-        /// <param name="session">The <see cref="OmemoSessionModel"/> that should be used for decryption.</param>
-        /// <returns>key || HMAC</returns>
-        private byte[] DecryptKeyHmacForDevice(OmemoAuthenticatedMessage authMsg, OmemoSessionModel session)
-        {
-            OmemoMessage msg = new OmemoMessage(authMsg.OMEMO_MESSAGE);
-            byte[] plainText = TrySkippedMessageKeys(msg, authMsg.HMAC, session);
-            if (!(plainText is null))
-            {
-                return plainText;
-            }
-
-            if (session.dhR is null || !msg.DH.Equals(session.dhR))
-            {
-                SkipMessageKeys(session, msg.PN);
-                session.InitDhRatchet(msg);
-            }
-            SkipMessageKeys(session, msg.N);
-
-            byte[] mk = LibSignalUtils.KDF_CK(session.ckR, 0x01);
-            Logger.Trace("[" + nameof(DecryptKeyHmacForDevice) + "] " + nameof(session.ckR) + ": " + CryptoUtils.ToHexString(session.ckR));
-            session.ckR = LibSignalUtils.KDF_CK(session.ckR, 0x02);
-            ++session.nR;
-            return DecryptKeyHmacForDevice(mk, msg, authMsg.HMAC, session.assData);
         }
 
         #endregion

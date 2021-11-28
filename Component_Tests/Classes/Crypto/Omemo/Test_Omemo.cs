@@ -511,6 +511,129 @@ namespace Component_Tests.Classes.Crypto.Omemo
 
         [TestCategory("Crypto")]
         [TestMethod]
+        public void Test_Omemo_Key_Exchange()
+        {
+            // Generate Alices keys:
+            IdentityKeyPairModel aliceIdentKey = KeyHelper.GenerateIdentityKeyPair();
+            List<PreKeyModel> alicePreKeys = KeyHelper.GeneratePreKeys(0, 1);
+            SignedPreKeyModel aliceSignedPreKey = KeyHelper.GenerateSignedPreKey(0, aliceIdentKey.privKey);
+            Bundle aliceBundle = new Bundle()
+            {
+                identityKey = aliceIdentKey.pubKey,
+                preKeys = alicePreKeys.Select(key => new PreKeyModel(null, key.pubKey, key.keyId)).ToList(),
+                preKeySignature = aliceSignedPreKey.signature,
+                signedPreKey = aliceSignedPreKey.preKey.pubKey,
+                signedPreKeyId = aliceSignedPreKey.preKey.keyId
+            };
+            InMemmoryOmemoStorage aliceStorage = new InMemmoryOmemoStorage();
+            DoubleRachet aliceRachet = new DoubleRachet(aliceIdentKey);
+
+            // Generate Bobs keys:
+            IdentityKeyPairModel bobIdentKey = KeyHelper.GenerateIdentityKeyPair();
+            List<PreKeyModel> bobPreKeys = KeyHelper.GeneratePreKeys(0, 1);
+            SignedPreKeyModel bobSignedPreKey = KeyHelper.GenerateSignedPreKey(0, bobIdentKey.privKey);
+            Bundle bobBundle = new Bundle()
+            {
+                identityKey = bobIdentKey.pubKey,
+                preKeys = bobPreKeys.Select(key => new PreKeyModel(null, key.pubKey, key.keyId)).ToList(),
+                preKeySignature = bobSignedPreKey.signature,
+                signedPreKey = bobSignedPreKey.preKey.pubKey,
+                signedPreKeyId = bobSignedPreKey.preKey.keyId
+            };
+            InMemmoryOmemoStorage bobStorage = new InMemmoryOmemoStorage();
+            DoubleRachet bobRachet = new DoubleRachet(bobIdentKey);
+
+            //-----------------OMEOMO Session Building:-----------------
+            MessageParser2 parser = new MessageParser2();
+
+            string deviceListMsg = GetBobsDeviceListMsg();
+            List<AbstractMessage> messages = parser.parseMessages(ref deviceListMsg);
+            Assert.IsTrue(messages.Count == 1);
+            Assert.IsTrue(messages[0] is OmemoDeviceListResultMessage);
+            OmemoDeviceListResultMessage devList = messages[0] as OmemoDeviceListResultMessage;
+
+            uint selectedBobDeviceId = devList.DEVICES.getRandomDeviceId();
+            Assert.IsTrue(selectedBobDeviceId == BOB_ADDRESS.DEVICE_ID);
+
+            // Alice builds a session to Bob:
+            string bundleInfoMsg = GetBobsBundleInfoMsg(bobBundle);
+            messages = parser.parseMessages(ref bundleInfoMsg);
+            Assert.IsTrue(messages.Count == 1);
+            Assert.IsTrue(messages[0] is OmemoBundleInformationResultMessage);
+            OmemoBundleInformationResultMessage bundleInfo = messages[0] as OmemoBundleInformationResultMessage;
+            Assert.IsTrue(bundleInfo.BUNDLE_INFO.deviceId == BOB_ADDRESS.DEVICE_ID);
+            aliceStorage.StoreFingerprint(new OmemoFingerprint(bobBundle.identityKey, BOB_ADDRESS));
+
+            // Encrypt Message 1:
+            string msg1 = "Hello OMEMO";
+            OmemoEncryptedMessage omemoEncryptedMessage = new OmemoEncryptedMessage(ALICE_ADDRESS.BARE_JID, BOB_ADDRESS.BARE_JID, msg1, MessageMessage.TYPE_CHAT, false);
+            List<OmemoDeviceGroup> bobDevices = new List<OmemoDeviceGroup>();
+            OmemoDeviceGroup bobDeviceGroup = new OmemoDeviceGroup(BOB_ADDRESS.BARE_JID);
+            bobDeviceGroup.SESSIONS[BOB_ADDRESS.DEVICE_ID] = new OmemoSessionModel(bobBundle, 0, aliceIdentKey);
+            bobDevices.Add(bobDeviceGroup);
+            omemoEncryptedMessage.encrypt(ALICE_ADDRESS.DEVICE_ID, aliceIdentKey, aliceStorage, bobDevices);
+            Assert.IsTrue(omemoEncryptedMessage.ENCRYPTED);
+            Assert.IsNotNull(aliceStorage.LoadFingerprint(BOB_ADDRESS));
+            Assert.IsNotNull(aliceStorage.LoadSession(BOB_ADDRESS));
+            Assert.AreEqual(aliceStorage.LoadSession(BOB_ADDRESS).state, SessionState.SEND);
+
+            // Decrypt Message 1:
+            // Throws an exception in case something goes wrong:
+            OmemoDecryptionContext decryptCtx1 = new OmemoDecryptionContext(BOB_ADDRESS, bobIdentKey, bobSignedPreKey, bobPreKeys, false, bobStorage);
+            omemoEncryptedMessage.decrypt(decryptCtx1);
+            Assert.AreEqual(msg1, omemoEncryptedMessage.MESSAGE);
+            Assert.IsFalse(omemoEncryptedMessage.IS_PURE_KEY_EXCHANGE_MESSAGE);
+            Assert.IsFalse(omemoEncryptedMessage.ENCRYPTED);
+            Assert.IsNotNull(bobStorage.LoadFingerprint(ALICE_ADDRESS));
+            Assert.IsNotNull(bobStorage.LoadSession(ALICE_ADDRESS));
+            Assert.AreEqual(bobStorage.LoadSession(ALICE_ADDRESS).state, SessionState.RECEIVED);
+
+            // Encrypt Key Exchange message reply:
+            OmemoEncryptedMessage omemoEncryptedMessage2 = new OmemoEncryptedMessage(BOB_ADDRESS.BARE_JID, ALICE_ADDRESS.BARE_JID, null, MessageMessage.TYPE_CHAT, false);
+
+            List<OmemoDeviceGroup> aliceDevices = new List<OmemoDeviceGroup>();
+            OmemoDeviceGroup aliceDeviceGroup = new OmemoDeviceGroup(ALICE_ADDRESS.BARE_JID);
+            aliceDeviceGroup.SESSIONS[ALICE_ADDRESS.DEVICE_ID] = bobStorage.LoadSession(ALICE_ADDRESS);
+            aliceDevices.Add(aliceDeviceGroup);
+            omemoEncryptedMessage2.encrypt(BOB_ADDRESS.DEVICE_ID, bobIdentKey, bobStorage, aliceDevices);
+            Assert.IsTrue(omemoEncryptedMessage2.ENCRYPTED);
+            Assert.AreEqual(bobStorage.LoadSession(ALICE_ADDRESS).state, SessionState.READY);
+
+            // Decrypt Message 2:
+            // Throws an exception in case something goes wrong:
+            OmemoDecryptionContext decryptCtx2 = new OmemoDecryptionContext(ALICE_ADDRESS, aliceIdentKey, aliceSignedPreKey, alicePreKeys, false, aliceStorage);
+            omemoEncryptedMessage2.decrypt(decryptCtx2);
+            Assert.IsTrue(omemoEncryptedMessage2.IS_PURE_KEY_EXCHANGE_MESSAGE);
+            Assert.IsFalse(omemoEncryptedMessage2.ENCRYPTED);
+            Assert.AreEqual(aliceStorage.LoadSession(BOB_ADDRESS).state, SessionState.READY);
+
+            // Encrypt Message 3:
+            string msg3 = "Hello OMEMO 3";
+            OmemoEncryptedMessage omemoEncryptedMessage3 = new OmemoEncryptedMessage(ALICE_ADDRESS.BARE_JID, BOB_ADDRESS.BARE_JID, msg3, MessageMessage.TYPE_CHAT, false);
+            bobDeviceGroup.SESSIONS[BOB_ADDRESS.DEVICE_ID] = aliceStorage.LoadSession(BOB_ADDRESS);
+            omemoEncryptedMessage3.encrypt(ALICE_ADDRESS.DEVICE_ID, aliceIdentKey, aliceStorage, bobDevices);
+            Assert.IsFalse(omemoEncryptedMessage3.IS_PURE_KEY_EXCHANGE_MESSAGE);
+            Assert.IsTrue(omemoEncryptedMessage3.ENCRYPTED);
+            Assert.IsNotNull(aliceStorage.LoadFingerprint(BOB_ADDRESS));
+            Assert.IsNotNull(aliceStorage.LoadSession(BOB_ADDRESS));
+            Assert.AreEqual(aliceStorage.LoadSession(BOB_ADDRESS).state, SessionState.READY);
+
+            // Decrypt Message 3:
+            // Throws an exception in case something goes wrong:
+            OmemoDecryptionContext decryptCtx3 = new OmemoDecryptionContext(BOB_ADDRESS, bobIdentKey, bobSignedPreKey, bobPreKeys, false, bobStorage);
+            omemoEncryptedMessage3.decrypt(decryptCtx3);
+            Assert.AreEqual(msg3, omemoEncryptedMessage3.MESSAGE);
+            // Check for no key exchange messages:
+            Assert.IsTrue(omemoEncryptedMessage3.keys.Where(k => k.KEYS.Where(kk => kk.KEY_EXCHANGE).FirstOrDefault() is not null).FirstOrDefault() is null);
+            Assert.IsFalse(omemoEncryptedMessage3.IS_PURE_KEY_EXCHANGE_MESSAGE);
+            Assert.IsFalse(omemoEncryptedMessage3.ENCRYPTED);
+            Assert.IsNotNull(bobStorage.LoadFingerprint(ALICE_ADDRESS));
+            Assert.IsNotNull(bobStorage.LoadSession(ALICE_ADDRESS));
+            Assert.AreEqual(bobStorage.LoadSession(ALICE_ADDRESS).state, SessionState.READY);
+        }
+
+        [TestCategory("Crypto")]
+        [TestMethod]
         public void Test_OmemoBundleInformation()
         {
             IdentityKeyPairModel bobIdentKey = KeyHelper.GenerateIdentityKeyPair();

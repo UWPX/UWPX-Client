@@ -250,8 +250,21 @@ namespace XMPP_API.Classes.Network.XML.Messages.XEP_0384
                     XmlNode envelopeNode = getEnvelopeNode(contentStr);
                     parseEnvelopeNode(envelopeNode);
                 }
+                else
+                {
+                    // For pure key exchange messages we decrypt 32 zero bytes instead the (key || HMAC) combination:
+                    byte[] dummyKeyHmac = decryptKeyHmac(decryptCtx);
+                    if (!dummyKeyHmac.SequenceEqual(new byte[32]))
+                    {
+                        throw new OmemoException($"Expected to decrypt 32 zero bytes from pure key exchange messages, but received: {CryptoUtils.ToHexString(dummyKeyHmac)}");
+                    }
+                }
 
                 // In case nothing went wrong, store the session:
+                if (decryptCtx.session.state == SessionState.SEND)
+                {
+                    decryptCtx.session.state = SessionState.READY;
+                }
                 decryptCtx.STORAGE.StoreSession(decryptCtx.senderAddress, decryptCtx.session);
                 ENCRYPTED = false;
             }
@@ -322,6 +335,12 @@ namespace XMPP_API.Classes.Network.XML.Messages.XEP_0384
         {
             DoubleRachet rachet = new DoubleRachet(decryptCtx.RECEIVER_IDENTITY_KEY);
             return rachet.DecryptMessage(decryptCtx.authMsg, decryptCtx.session, content);
+        }
+
+        private byte[] decryptKeyHmac(OmemoDecryptionContext decryptCtx)
+        {
+            DoubleRachet rachet = new DoubleRachet(decryptCtx.RECEIVER_IDENTITY_KEY);
+            return rachet.DecryptKeyHmacForDevice(decryptCtx.authMsg, decryptCtx.session);
         }
 
         private XmlNode getEnvelopeNode(string contentNodeStr)
