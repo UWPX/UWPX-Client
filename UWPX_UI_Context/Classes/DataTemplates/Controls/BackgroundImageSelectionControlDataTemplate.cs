@@ -57,7 +57,7 @@ namespace UWPX_UI_Context.Classes.DataTemplates.Controls
         #region --Set-, Get- Methods--
         private void SetSelectedItem(BackgroundImageSelectionControlItemDataTemplate value)
         {
-            if (SetProperty(ref _SelectedItem, value, nameof(SelectedItem)) && !(value is null))
+            if (SetProperty(ref _SelectedItem, value, nameof(SelectedItem)) && value is not null)
             {
                 ChatBackgroundHelper.INSTANCE.ImagePath = value.Path;
                 IsCustomImageBackgroundSelected = false;
@@ -101,7 +101,7 @@ namespace UWPX_UI_Context.Classes.DataTemplates.Controls
             {
                 ChatBackgroundHelper.INSTANCE.BackgroundMode = ChatBackgroundMode.CustomImage;
             }
-            else if (!(SelectedItem is null))
+            else if (SelectedItem is not null)
             {
                 ChatBackgroundHelper.INSTANCE.BackgroundMode = string.Equals(SelectedItem.Path, SPLASH_SCREEN_IMAGE_PATH) ? ChatBackgroundMode.SplashImage : ChatBackgroundMode.Image;
             }

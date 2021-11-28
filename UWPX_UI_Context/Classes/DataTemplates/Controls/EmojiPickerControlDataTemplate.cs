@@ -128,7 +128,7 @@ namespace UWPX_UI_Context.Classes.DataTemplates.Controls
         #region --Set-, Get- Methods--
         private void SetEmojiQueryProperty(string value)
         {
-            if (!(value is null))
+            if (value is not null)
             {
                 value = value.ToLower();
             }

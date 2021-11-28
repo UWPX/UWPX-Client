@@ -129,7 +129,7 @@ namespace UWPX_UI_Context.Classes.DataTemplates.Dialogs
 
         private void SetClientProperty(Client value)
         {
-            if (SetProperty(ref _Client, value, nameof(Client)) && !(value is null))
+            if (SetProperty(ref _Client, value, nameof(Client)) && value is not null)
             {
                 Nickname = value.dbAccount.fullJid.localPart;
             }

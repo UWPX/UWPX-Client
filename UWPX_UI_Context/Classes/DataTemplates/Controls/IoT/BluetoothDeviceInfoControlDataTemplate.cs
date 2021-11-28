@@ -139,7 +139,7 @@ namespace UWPX_UI_Context.Classes.DataTemplates.Controls.IoT
         #region --Misc Methods (Private)--
         private void ValidateInput()
         {
-            IsInputValid = !string.IsNullOrEmpty(WifiSsid) && !string.IsNullOrEmpty(Jid) && Utils.isBareJid(Jid) && !(Client is null);
+            IsInputValid = !string.IsNullOrEmpty(WifiSsid) && !string.IsNullOrEmpty(Jid) && Utils.isBareJid(Jid) && Client is not null;
         }
 
         #endregion

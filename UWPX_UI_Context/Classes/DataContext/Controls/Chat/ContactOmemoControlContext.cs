@@ -125,7 +125,7 @@ namespace UWPX_UI_Context.Classes.DataContext.Controls.Chat
             Task.Run(() =>
             {
                 MODEL.Loading = true;
-                List<OmemoFingerprintModel> fingerprints = MODEL.Chat.Chat.omemoInfo.devices.Where(d => !(d.fingerprint is null)).Select(d => d.fingerprint).ToList();
+                List<OmemoFingerprintModel> fingerprints = MODEL.Chat.Chat.omemoInfo.devices.Where(d => d.fingerprint is not null).Select(d => d.fingerprint).ToList();
                 // Sort based on the last seen date. If it's the same prefer trusted ones:
                 fingerprints.Sort((x, y) =>
                 {

@@ -37,7 +37,7 @@ namespace UWPX_UI_Context.Classes.DataTemplates.Controls.OMEMO
         #region --Misc Methods (Public)--
         public void UpdateView(Client client)
         {
-            if (!(client is null))
+            if (client is not null)
             {
                 IdentPubKey = client.dbAccount.omemoInfo.identityKey.pubKey;
                 QrCodeFingerprint = CryptoUtils.generateOmemoQrCodeFingerprint(IdentPubKey, client.xmppClient.getXMPPAccount());

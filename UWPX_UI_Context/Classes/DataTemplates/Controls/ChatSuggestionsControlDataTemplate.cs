@@ -96,7 +96,7 @@ namespace UWPX_UI_Context.Classes.DataTemplates.Controls
 
         private async Task LoadSuggestionsAsync(Client client)
         {
-            if (!(loadingTask is null))
+            if (loadingTask is not null)
             {
                 await loadingTask;
             }

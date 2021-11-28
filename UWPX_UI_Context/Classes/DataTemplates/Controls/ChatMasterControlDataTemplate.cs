@@ -154,7 +154,7 @@ namespace UWPX_UI_Context.Classes.DataTemplates.Controls
 
         public void UpdateView(ChatModel chat)
         {
-            if (!(chat is null))
+            if (chat is not null)
             {
                 AccountActionsVisibility = Visibility.Collapsed;
                 if (chat.chatType != ChatType.MUC)
@@ -225,7 +225,7 @@ namespace UWPX_UI_Context.Classes.DataTemplates.Controls
 
         public void UpdateView(MucInfoModel muc)
         {
-            if (!(muc is null))
+            if (muc is not null)
             {
                 NameText = string.IsNullOrWhiteSpace(muc.name) ? muc.chat.bareJid : muc.name;
                 RemoveFromRosterText = muc.chat.inRoster ? "Remove bookmark" : "Bookmark";

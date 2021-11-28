@@ -42,7 +42,7 @@ namespace UWPX_UI_Context.Classes.DataContext.Controls.OMEMO
             MODEL.Status = OmemoSupportedStatus.CHECKING;
 
             // Wait for the old update to finish first:
-            if (!(updateTask is null) && !updateTask.IsCompleted)
+            if (updateTask is not null && !updateTask.IsCompleted)
             {
                 MODEL.Status = await updateTask.ConfAwaitFalse();
             }

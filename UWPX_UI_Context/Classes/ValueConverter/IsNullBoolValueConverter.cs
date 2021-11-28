@@ -24,7 +24,7 @@ namespace UWPX_UI_Context.Classes.ValueConverter
         #region --Misc Methods (Public)--
         public object Convert(object value, Type targetType, object parameter, string language)
         {
-            return !(value is null);
+            return value is not null;
         }
 
         public object ConvertBack(object value, Type targetType, object parameter, string language)

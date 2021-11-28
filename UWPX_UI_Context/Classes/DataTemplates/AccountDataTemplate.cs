@@ -49,7 +49,7 @@ namespace UWPX_UI_Context.Classes.DataTemplates
         #region --Set-, Get- Methods--
         private void SetClient(Client value)
         {
-            if (!(Client is null))
+            if (Client is not null)
             {
                 Client.xmppClient.ConnectionStateChanged -= ConnectionStateChanged;
             }
@@ -61,7 +61,7 @@ namespace UWPX_UI_Context.Classes.DataTemplates
                 ProcessLastConnectionError(value.xmppClient.getLastConnectionError());
             }
 
-            if (!(Client is null))
+            if (Client is not null)
             {
                 Client.xmppClient.ConnectionStateChanged += ConnectionStateChanged;
             }

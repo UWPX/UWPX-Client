@@ -79,11 +79,11 @@ namespace UWPX_UI_Context.Classes.DataTemplates.Dialogs
             Client old = Client;
             if (SetProperty(ref _Client, value, nameof(Client)))
             {
-                if (!(old is null))
+                if (old is not null)
                 {
                     old.xmppClient.ConnectionStateChanged -= Client_ConnectionStateChanged;
                 }
-                if (!(value is null))
+                if (value is not null)
                 {
                     SelectedItem = PRESENCES.Where(x => value.xmppClient.getXMPPAccount().presence == x.Presence).FirstOrDefault();
                     Status = Client.xmppClient.getXMPPAccount().status;

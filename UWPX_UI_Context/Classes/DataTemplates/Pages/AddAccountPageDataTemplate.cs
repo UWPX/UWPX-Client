@@ -86,7 +86,7 @@ namespace UWPX_UI_Context.Classes.DataTemplates.Pages
         {
             if (SetProperty(ref _BareJidText, value, nameof(BareJidText)))
             {
-                AccountExists = !(ConnectionHandler.INSTANCE.GetClient(value) is null);
+                AccountExists = ConnectionHandler.INSTANCE.GetClient(value) is not null;
                 IsValidBareJid = Utils.isBareJid(value);
                 Step1ValidJid = IsValidBareJid && !AccountExists;
             }
@@ -94,7 +94,7 @@ namespace UWPX_UI_Context.Classes.DataTemplates.Pages
 
         private void SetIsValidBareJidProperty(bool value)
         {
-            if (SetProperty(ref _IsValidBareJid, value, nameof(IsValidBareJid)) && value && !(Account is null))
+            if (SetProperty(ref _IsValidBareJid, value, nameof(IsValidBareJid)) && value && Account is not null)
             {
                 // Update domain and local part if needed:
                 string domainPart = Utils.getJidDomainPart(BareJidText);

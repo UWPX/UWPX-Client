@@ -31,7 +31,7 @@ namespace UWPX_UI_Context.Classes.DataContext.Controls
         {
             if (args.OldValue is ChatDataTemplate oldChat)
             {
-                if (!(oldChat.Chat is null))
+                if (oldChat.Chat is not null)
                 {
                     oldChat.Chat.PropertyChanged -= OnChatPropertyChanged;
                 }
@@ -39,7 +39,7 @@ namespace UWPX_UI_Context.Classes.DataContext.Controls
 
             if (args.NewValue is ChatDataTemplate newChat)
             {
-                if (!(newChat.Chat is null))
+                if (newChat.Chat is not null)
                 {
                     newChat.Chat.PropertyChanged += OnChatPropertyChanged;
                 }

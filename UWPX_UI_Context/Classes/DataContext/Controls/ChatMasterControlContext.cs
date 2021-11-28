@@ -92,11 +92,11 @@ namespace UWPX_UI_Context.Classes.DataContext.Controls
             ChatDataTemplate newChat = null;
             if (args.OldValue is ChatDataTemplate oldChat)
             {
-                if (!(oldChat.Chat is null))
+                if (oldChat.Chat is not null)
                 {
                     oldChat.Chat.PropertyChanged -= OnChatPropertyChanged;
                 }
-                if (!(oldChat.Chat.muc is null))
+                if (oldChat.Chat.muc is not null)
                 {
                     oldChat.Chat.muc.PropertyChanged -= OnMucPropertyChanged;
                 }
@@ -106,11 +106,11 @@ namespace UWPX_UI_Context.Classes.DataContext.Controls
             if (args.NewValue is ChatDataTemplate)
             {
                 newChat = args.NewValue as ChatDataTemplate;
-                if (!(newChat.Chat is null))
+                if (newChat.Chat is not null)
                 {
                     newChat.Chat.PropertyChanged += OnChatPropertyChanged;
                 }
-                if (!(newChat.Chat.muc is null))
+                if (newChat.Chat.muc is not null)
                 {
                     newChat.Chat.muc.PropertyChanged += OnMucPropertyChanged;
                 }
@@ -221,7 +221,7 @@ namespace UWPX_UI_Context.Classes.DataContext.Controls
         #region --Misc Methods (Private)--
         private void UpdateView(ChatDataTemplate chatTemplate)
         {
-            if (!(chatTemplate is null))
+            if (chatTemplate is not null)
             {
                 MODEL.UpdateView(chatTemplate.Chat);
                 MODEL.UpdateLastChatMessage(chatTemplate.LastMsg);

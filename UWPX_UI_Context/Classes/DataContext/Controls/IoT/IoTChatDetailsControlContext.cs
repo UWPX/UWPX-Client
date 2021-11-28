@@ -71,7 +71,7 @@ namespace UWPX_UI_Context.Classes.DataContext.Controls.IoT
         public void UpdateView(ChatDataTemplate chat)
         {
             MODEL.Chat = chat;
-            if (!(chat is null))
+            if (chat is not null)
             {
                 _ = LoadAsync();
             }
@@ -189,12 +189,12 @@ namespace UWPX_UI_Context.Classes.DataContext.Controls.IoT
 
         private void UpdateForm(DataForm form)
         {
-            if (!(MODEL.Form is null))
+            if (MODEL.Form is not null)
             {
                 MODEL.Form.FieldValueChangedByUser -= Form_FieldValueChangedByUser;
             }
             MODEL.Form = new DataFormDataTemplate(form);
-            if (!(MODEL.Form is null))
+            if (MODEL.Form is not null)
             {
                 MODEL.Form.FieldValueChangedByUser += Form_FieldValueChangedByUser;
             }

@@ -48,13 +48,13 @@ namespace UWPX_UI_Context.Classes.DataTemplates.Controls
         #region --Misc Methods (Private)--
         private async Task CalcFolderSizeAsync(string path)
         {
-            if (!(calcSizeCancelToken is null))
+            if (calcSizeCancelToken is not null)
             {
                 calcSizeCancelToken.Cancel();
             }
             calcSizeCancelToken = new CancellationTokenSource();
 
-            if (!(calcSizeTask is null))
+            if (calcSizeTask is not null)
             {
                 await calcSizeTask;
             }
@@ -69,7 +69,7 @@ namespace UWPX_UI_Context.Classes.DataTemplates.Controls
                     try
                     {
                         StorageFolder folder = await StorageFolder.GetFolderFromPathAsync(path);
-                        if (!(folder is null))
+                        if (folder is not null)
                         {
                             StorageFileQueryResult result = folder.CreateFileQuery(CommonFileQuery.OrderByName);
                             System.Collections.Generic.IEnumerable<Task<ulong>> fileSizeTasks = (await result.GetFilesAsync()).Select(async file => (await file.GetBasicPropertiesAsync()).Size);

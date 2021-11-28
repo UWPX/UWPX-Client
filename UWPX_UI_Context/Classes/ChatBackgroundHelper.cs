@@ -92,14 +92,14 @@ namespace UWPX_UI_Context.Classes
             try
             {
                 StorageFolder folder = await ApplicationData.Current.LocalFolder.CreateFolderAsync(CUSTOM_BACKGROUND_IMAGE_FOLDER_NAME, CreationCollisionOption.OpenIfExists);
-                if (!(folder is null))
+                if (folder is not null)
                 {
                     // Delete image:
                     await DeleteCustomBackgroundImageAsync();
 
                     // Save new image:
                     StorageFile f = await folder.CreateFileAsync(DateTime.Now.ToString("MM_dd_yyyy-HH_mm_ss") + file.FileType, CreationCollisionOption.OpenIfExists);
-                    if (!(f is null))
+                    if (f is not null)
                     {
                         await file.CopyAndReplaceAsync(f);
                         Logger.Info("Saved custom background image.");
@@ -119,7 +119,7 @@ namespace UWPX_UI_Context.Classes
             try
             {
                 StorageFile f = await StorageFile.GetFileFromPathAsync(CustomImagePath);
-                if (!(f is null))
+                if (f is not null)
                 {
                     await f.DeleteAsync();
                 }

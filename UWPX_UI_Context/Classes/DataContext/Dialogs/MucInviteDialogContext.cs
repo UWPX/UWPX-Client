@@ -60,7 +60,7 @@ namespace UWPX_UI_Context.Classes.DataContext.Dialogs
 
         public void Cancel()
         {
-            if (!(inviteCTS is null))
+            if (inviteCTS is not null)
             {
                 inviteCTS.Cancel();
                 MODEL.IsInviting = false;

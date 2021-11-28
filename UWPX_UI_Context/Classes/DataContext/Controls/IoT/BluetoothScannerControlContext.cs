@@ -37,7 +37,7 @@ namespace UWPX_UI_Context.Classes.DataContext.Controls.IoT
         #region --Misc Methods (Public)--
         public async Task StartAsync(string mac)
         {
-            if (!(scanner is null))
+            if (scanner is not null)
             {
                 Stop();
             }

@@ -142,7 +142,7 @@ namespace UWPX_UI_Context.Classes.DataContext.Controls
         #region --Misc Methods (Private)--
         private void UpdateView(OmemoAccountInformationModel omemoInfo)
         {
-            if (!(omemoInfo is null))
+            if (omemoInfo is not null)
             {
                 MODEL.DeviceLabel = string.IsNullOrEmpty(omemoInfo.deviceLabel) ? (omemoInfo.deviceId == 0 ? "-" : omemoInfo.deviceId.ToString()) : omemoInfo.deviceLabel;
             }
@@ -150,7 +150,7 @@ namespace UWPX_UI_Context.Classes.DataContext.Controls
 
         public void UpdateView(AccountDataTemplate account)
         {
-            if (!(account is null))
+            if (account is not null)
             {
                 MODEL.OmemoState = account.Client.xmppClient.getOmemoHelper()?.STATE ?? OmemoHelperState.DISABLED;
             }

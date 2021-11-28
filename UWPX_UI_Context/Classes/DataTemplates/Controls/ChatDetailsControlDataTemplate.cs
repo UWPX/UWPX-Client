@@ -152,7 +152,7 @@ namespace UWPX_UI_Context.Classes.DataTemplates.Controls
         #region --Misc Methods (Public)--
         public void UpdateView(AccountModel account)
         {
-            if (!(account is null))
+            if (account is not null)
             {
                 AccountText = account.bareJid;
             }
@@ -160,7 +160,7 @@ namespace UWPX_UI_Context.Classes.DataTemplates.Controls
 
         public void UpdateView(ChatModel chat)
         {
-            if (!(chat is null))
+            if (chat is not null)
             {
                 if (isDummy)
                 {
@@ -181,7 +181,7 @@ namespace UWPX_UI_Context.Classes.DataTemplates.Controls
 
         public void UpdateView(MucInfoModel muc)
         {
-            if (!(muc is null))
+            if (muc is not null)
             {
                 NameText = string.IsNullOrWhiteSpace(muc.name) ? muc.chat.bareJid : muc.name;
                 StatusText = muc.subject ?? "";

@@ -26,7 +26,7 @@ namespace UWPX_UI_Context.Classes.DataTemplates.Controls
         #region --Set-, Get- Methods--
         private void SetMessageProperty(ChatMessageDataTemplate value)
         {
-            if (SetProperty(ref _Message, value, nameof(Message)) && !(value is null) && value.Message.state == MessageState.UNREAD)
+            if (SetProperty(ref _Message, value, nameof(Message)) && value is not null && value.Message.state == MessageState.UNREAD)
             {
                 value.Message.state = MessageState.READ;
                 Task.Run(() => value.Message.Update());

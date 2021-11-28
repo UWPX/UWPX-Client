@@ -42,7 +42,7 @@ namespace UWPX_UI_Context.Classes.DataTemplates.Controls
         {
             Task.Run(async () =>
             {
-                if (!(loadingAccountsTask is null))
+                if (loadingAccountsTask is not null)
                 {
                     await loadingAccountsTask;
                 }

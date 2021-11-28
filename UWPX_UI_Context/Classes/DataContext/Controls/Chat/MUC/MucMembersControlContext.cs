@@ -35,7 +35,7 @@ namespace UWPX_UI_Context.Classes.DataContext.Controls.Chat.MUC
         {
             if (args.OldValue is ChatDataTemplate oldChat)
             {
-                if (!(oldChat.Chat.muc is null))
+                if (oldChat.Chat.muc is not null)
                 {
                     oldChat.Chat.muc.PropertyChanged -= OnMucPropertyChanged;
                 }
@@ -45,7 +45,7 @@ namespace UWPX_UI_Context.Classes.DataContext.Controls.Chat.MUC
             if (args.NewValue is ChatDataTemplate tmp)
             {
                 newChat = tmp;
-                if (!(newChat.Chat.muc is null))
+                if (newChat.Chat.muc is not null)
                 {
                     newChat.Chat.muc.PropertyChanged += OnMucPropertyChanged;
                 }
@@ -87,7 +87,7 @@ namespace UWPX_UI_Context.Classes.DataContext.Controls.Chat.MUC
         #region --Events--
         private void OnMucPropertyChanged(object sender, PropertyChangedEventArgs e)
         {
-            if (sender is MucInfoModel && !(MODEL.chat is null) && (string.Equals(e.PropertyName, nameof(MucInfoModel.occupants)) || string.Equals(e.PropertyName, nameof(MucInfoModel.state))))
+            if (sender is MucInfoModel && MODEL.chat is not null && (string.Equals(e.PropertyName, nameof(MucInfoModel.occupants)) || string.Equals(e.PropertyName, nameof(MucInfoModel.state))))
             {
                 LoadMembers(MODEL.chat);
             }

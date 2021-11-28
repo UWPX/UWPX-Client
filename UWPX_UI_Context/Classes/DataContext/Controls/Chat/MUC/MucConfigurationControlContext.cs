@@ -40,7 +40,7 @@ namespace UWPX_UI_Context.Classes.DataContext.Controls.Chat.MUC
         {
             if (args.OldValue is ChatDataTemplate oldChat)
             {
-                if (!(oldChat.Chat.muc is null))
+                if (oldChat.Chat.muc is not null)
                 {
                     oldChat.Chat.muc.PropertyChanged -= OnMucPropertyChanged;
                 }
@@ -50,7 +50,7 @@ namespace UWPX_UI_Context.Classes.DataContext.Controls.Chat.MUC
             if (args.OldValue is ChatDataTemplate tmp)
             {
                 newChat = tmp;
-                if (!(newChat.Chat.muc is null))
+                if (newChat.Chat.muc is not null)
                 {
                     newChat.Chat.muc.PropertyChanged += OnMucPropertyChanged;
                     OnMucChanged(newChat.Chat.muc);
@@ -102,7 +102,7 @@ namespace UWPX_UI_Context.Classes.DataContext.Controls.Chat.MUC
         #region --Misc Methods (Private)--
         private void OnMucChanged(MucInfoModel muc)
         {
-            if (!(muc is null) && !(MODEL.chat is null) && muc.affiliation == MUCAffiliation.OWNER && muc.state == MucState.ENTERD)
+            if (muc is not null && MODEL.chat is not null && muc.affiliation == MUCAffiliation.OWNER && muc.state == MucState.ENTERD)
             {
                 MODEL.IsAvailable = true;
                 RequestConfiguartion(MODEL.chat);

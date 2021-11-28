@@ -59,7 +59,7 @@ namespace UWPX_UI_Context.Classes.DataTemplates.Controls.Chat
         #region --Misc Methods (Private)--
         private void SetTrustedOnlyPropery(bool value)
         {
-            if (SetProperty(ref _TrustedOnly, value, nameof(TrustedOnly)) && !(Chat is null) && Chat.Chat.omemoInfo.trustedKeysOnly != value)
+            if (SetProperty(ref _TrustedOnly, value, nameof(TrustedOnly)) && Chat is not null && Chat.Chat.omemoInfo.trustedKeysOnly != value)
             {
                 Chat.Chat.omemoInfo.trustedKeysOnly = value;
                 Chat.Chat.omemoInfo.Update();
@@ -70,7 +70,7 @@ namespace UWPX_UI_Context.Classes.DataTemplates.Controls.Chat
         {
             if (SetProperty(ref _Chat, value, nameof(Chat)))
             {
-                TrustedOnly = !(Chat is null) && Chat.Chat.omemoInfo.trustedKeysOnly;
+                TrustedOnly = Chat is not null && Chat.Chat.omemoInfo.trustedKeysOnly;
             }
         }
 

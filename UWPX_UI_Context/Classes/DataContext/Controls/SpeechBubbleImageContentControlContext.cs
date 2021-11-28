@@ -50,7 +50,7 @@ namespace UWPX_UI_Context.Classes.DataContext.Controls
             if (args.NewValue is SpeechBubbleContentControlContext newValue)
             {
                 Debug.Assert(newValue.MODEL.Message.Message.isImage);
-                Debug.Assert(!(newValue.MODEL.Message.Message.image is null));
+                Debug.Assert(newValue.MODEL.Message.Message.image is not null);
                 SpeechBubbleViewModel = newValue;
                 SpeechBubbleViewModel.MODEL.Message.Message.image.PropertyChanged += OnImagePropertyChanged;
                 LoadImageProperties(SpeechBubbleViewModel.MODEL.Message.Message.image);
@@ -119,7 +119,7 @@ namespace UWPX_UI_Context.Classes.DataContext.Controls
         #region --Misc Methods (Private)--
         private void LoadImageProperties(ChatMessageImageModel image)
         {
-            if (!(image is null))
+            if (image is not null)
             {
                 MODEL.ErrorText = image.error.ToString();
                 // Only set the image path in case the image was successfully downloaded to prevent exceptions:
@@ -132,7 +132,7 @@ namespace UWPX_UI_Context.Classes.DataContext.Controls
             ChatMessageImageModel img = SpeechBubbleViewModel.MODEL.Message.Message.image;
             if (img.state == DownloadState.DONE)
             {
-                if (!(loadImageCancellationSource is null))
+                if (loadImageCancellationSource is not null)
                 {
                     loadImageCancellationSource.Cancel();
                 }
@@ -190,7 +190,7 @@ namespace UWPX_UI_Context.Classes.DataContext.Controls
                 });
 
                 // If loading the image failed log the exception:
-                if (!(ex is null))
+                if (ex is not null)
                 {
                     Logger.Error("Failed to load image: " + path, ex);
                     MODEL.ErrorText = "Failed to load image. Try downloading it again.";

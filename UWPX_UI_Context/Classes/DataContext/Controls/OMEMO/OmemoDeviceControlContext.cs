@@ -40,7 +40,7 @@ namespace UWPX_UI_Context.Classes.DataContext.Controls.OMEMO
 
         public void UpdateView(OmemoDeviceModel device)
         {
-            if (!(device is null))
+            if (device is not null)
             {
                 MODEL.Label = string.IsNullOrEmpty(device.deviceLabel) ? (device.deviceId == 0 ? "-" : device.deviceId.ToString()) : device.deviceLabel;
             }

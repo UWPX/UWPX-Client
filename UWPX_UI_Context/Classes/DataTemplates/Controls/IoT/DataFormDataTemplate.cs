@@ -52,7 +52,7 @@ namespace UWPX_UI_Context.Classes.DataTemplates.Controls.IoT
             {
                 UnsubscribeFromAllFields();
                 FIELDS.Clear();
-                if (!(value is null))
+                if (value is not null)
                 {
                     // Show only all non  hidden fields:
                     FIELDS.AddRange(value.fields.Where(x => x.type != FieldType.HIDDEN).Select(x =>

@@ -47,12 +47,12 @@ namespace UWPX_UI_Context.Classes.DataTemplates
             Client oldValue = Client;
             if (SetProperty(ref _Client, value, nameof(Client)))
             {
-                if (!(oldValue is null))
+                if (oldValue is not null)
                 {
                     oldValue.xmppClient.ConnectionStateChanged -= Client_ConnectionStateChanged;
                 }
 
-                if (!(value is null))
+                if (value is not null)
                 {
                     value.xmppClient.ConnectionStateChanged += Client_ConnectionStateChanged;
                     Account = value.xmppClient.getXMPPAccount();
