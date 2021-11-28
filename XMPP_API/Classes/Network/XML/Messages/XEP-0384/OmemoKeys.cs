@@ -42,7 +42,7 @@ namespace XMPP_API.Classes.Network.XML.Messages.XEP_0384
         #region --Misc Methods (Public)--
         public XElement toXElement(XNamespace ns)
         {
-            XElement keysNode = new XElement("keys");
+            XElement keysNode = new XElement(ns + "keys");
             keysNode.Add(new XAttribute("jid", BARE_JID));
             foreach (OmemoKey key in KEYS)
             {

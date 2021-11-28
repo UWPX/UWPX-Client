@@ -62,7 +62,7 @@ namespace XMPP_API.Classes.Network.XML.Messages.XEP_0384
 
             // Can be null for empty messages:
             XmlNode payloadNode = XMLUtils.getChildNode(encryptedNode, "payload");
-            if (payloadNode is null)
+            if (string.IsNullOrEmpty(payloadNode?.InnerText))
             {
                 MESSAGE = null;
                 IS_PURE_KEY_EXCHANGE_MESSAGE = true;
@@ -92,8 +92,11 @@ namespace XMPP_API.Classes.Network.XML.Messages.XEP_0384
             XElement msgNode = base.toXElement();
 
             // Fallback for clients that do not support OMEMO:
-            XNamespace bodyNs = Consts.XML_CLIENT;
-            msgNode.Add(new XElement(bodyNs + "body", "I sent you an OMEMO encrypted message but your client doesn’t seem to support that. Find more information on: https://conversations.im/omemo"));
+            if (!IS_PURE_KEY_EXCHANGE_MESSAGE)
+            {
+                XNamespace bodyNs = Consts.XML_CLIENT;
+                msgNode.Add(new XElement(bodyNs + "body", "I sent you an OMEMO encrypted message but your client doesn’t seem to support that. Find more information on: https://conversations.im/omemo"));
+            }
 
             XNamespace ns = Consts.XML_XEP_0384_NAMESPACE;
             XElement encryptedNode = new XElement(ns + "encrypted");
@@ -185,7 +188,7 @@ namespace XMPP_API.Classes.Network.XML.Messages.XEP_0384
             {
                 // Check if the message has been encrypted for us:
                 OmemoKeys omemoKeys = keys.Where(k => string.Equals(k.BARE_JID, decryptCtx.RECEIVER_ADDRESS.BARE_JID)).FirstOrDefault();
-                if (keys is null)
+                if (omemoKeys is null)
                 {
                     throw new NotForDeviceException("Failed to decrypt message. Not encrypted for JID.");
                 }
@@ -232,14 +235,13 @@ namespace XMPP_API.Classes.Network.XML.Messages.XEP_0384
                     decryptCtx.authMsg = new OmemoAuthenticatedMessage(data);
                 }
 
-                // Content can be null in case we have a pure keys exchange message:
-                byte[] contentEnc = Convert.FromBase64String(BASE_64_PAYLOAD);
-
                 // Check the senders fingerprint and handle new devices:
                 ValidateSender(decryptCtx);
 
                 if (!IS_PURE_KEY_EXCHANGE_MESSAGE)
                 {
+                    // Content can be null in case we have a pure keys exchange message:
+                    byte[] contentEnc = Convert.FromBase64String(BASE_64_PAYLOAD);
                     byte[] contentDec = decryptContent(contentEnc, decryptCtx);
                     string contentStr = Encoding.UTF8.GetString(contentDec);
                     XmlNode envelopeNode = getEnvelopeNode(contentStr);

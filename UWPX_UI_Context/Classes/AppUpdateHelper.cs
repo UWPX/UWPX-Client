@@ -2,6 +2,8 @@
 using System.Threading.Tasks;
 using Logging;
 using Storage.Classes;
+using Storage.Classes.Contexts;
+using Storage.Classes.Models.Omemo;
 using Windows.ApplicationModel;
 using Windows.Storage;
 
@@ -71,7 +73,7 @@ namespace UWPX_UI_Context.Classes
             // Check if version != 0.0.0.0 => first ever start of the App:
             if (!(versionLastStart.Major == 0 && versionLastStart.Major == versionLastStart.Minor && versionLastStart.Minor == versionLastStart.Revision && versionLastStart.Revision == versionLastStart.Build) || Settings.GetSettingBoolean(SettingsConsts.INITIALLY_STARTED))
             {
-                if (!Compare(versionLastStart, GetPackageVersion()))
+                if (true || !Compare(versionLastStart, GetPackageVersion()))
                 {
                     if (versionLastStart.Major <= 0 && versionLastStart.Minor < 31)
                     {
@@ -86,6 +88,22 @@ namespace UWPX_UI_Context.Classes
                         catch (Exception e)
                         {
                             Logger.Error("Error during updating DB to version 0.31.0.0", e);
+                        }
+                    }
+
+                    if (versionLastStart.Major <= 0 && versionLastStart.Minor < 38)
+                    {
+                        try
+                        {
+                            Logger.Info("Started updating DB to version 0.38.0.0.");
+                            Logger.Info("Clearing old application data...");
+                            await ApplicationData.Current.ClearAsync();
+                            Logger.Info("Old application data cleared.");
+                            Logger.Info("Finished updating DB to version 0.38.0.0.");
+                        }
+                        catch (Exception e)
+                        {
+                            Logger.Error("Error during updating DB to version 0.38.0.0", e);
                         }
                     }
                 }
