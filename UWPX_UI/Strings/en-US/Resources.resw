@@ -411,13 +411,9 @@ For more providers have a look at:
 You can disable this again by changing `Settings` -&gt; `Misc` -&gt; `Automatic extended crash reports` to false.</value>
   </data>
   <data name="WhatsNewDialog_markdown.Text" xml:space="preserve">
-    <value># [November 2021] Inline Text Quotations
-This month has not been too productive in regards to UWPX development since for me the new semester started and required a lot of attention.
-Besides that, I added support for inline text quotations and updated the welcome screen animations to [WinUI 2.7](https://docs.microsoft.com/en-us/windows/apps/winui/winui2/release-notes/winui-2.7).  
-While I was working on adding inline text quotations I noticed, that I was creating a new [Task](https://docs.microsoft.com/en-us/dotnet/api/system.threading.tasks.task?view=net-5.0) for each chat message highlighting call. This resulted in a lot of overhead for small chat messages. While this might be a good idea for larger chat messages to prevent highlighting occupying a lot of time from the UI-Task, its usually not a good idea for a lot of small messages.
-When I removed the task creation I noticed an up to 3x speedup in text rendering and highlighting 🤐.
-
-Since I would like to add support for [XEP-0393: Message Styling](https://xmpp.org/extensions/xep-0393.html) at some point I will probably change this again in a way, that we create tasks only for larger amounts of text and for everything else, we do it inline.
+    <value># [December 2021] OMEMO and Windows 11
+With this release I increased the target platform target version from `10.0.19041.0` to `10.0.22000.0` (Windows 11) and the target platform minimum version from `10.0.17763.0` to `10.0.18362.0`. This means UWPX now officially targets Windows 11 and drops support for all versions of Windows 10 before the May 2019 update.  
+Besides that, this release includes a bunch of OMEMO related bug fixes and adds support for OMEMO [0.8.1 (2021-10-07)](https://xmpp.org/extensions/xep-0384.html). With this change, I decided to reset the database again, so you have to login to your accounts again.
 
 **Please report bugs [here](https://github.com/UWPX/UWPX-Client/issues)!**
 
@@ -430,9 +426,20 @@ Follow [@UWPX_APP](https://twitter.com/UWPX_APP) on ![Twitter](http://i.imgur.co
 * ListDetailsView looses selection on reorder [#166](https://github.com/UWPX/UWPX-Client/issues/166)
 
 ### Changes
-* Added support for inline text quotations
-* Updated welcome dialog animations to WinUI 2.7
+* Added an option to reset OMEMO sessions (might require an app restart to work currently)
+* Added an OMEMO session status indicator
+* Increased target platform minimum version from `10.0.17763.0` to `10.0.18362.0`
+* Increased target platform target version from `10.0.19041.0` to `10.0.22000.0`
+* Updated OMEMO to [0.8.1 (2021-10-07)](https://xmpp.org/extensions/xep-0384.html)
+* Better contrast for nicknames in group chats
+* Updated to Visual Studio 2022
+* Fixed OMEMO Double Ratchet initialization
+* Replaced `DropShadowPanel` with `AttachedCardShadow`
+* Hand mouse cursor for images
+* Fixed null pointer when decrypting OMEMO messages
+* Fixed not loading OMEMO sessions for pure key exchange (kex) messages
+* Fixed not keeping track of the OMEMO session state
 
-**Continue reading on [GitHub](https://github.com/UWPX/UWPX-Client/releases/tag/v.0.37.0.0).**</value>
+**Continue reading on [GitHub](https://github.com/UWPX/UWPX-Client/releases/tag/v.0.38.0.0).**</value>
   </data>
 </root>
