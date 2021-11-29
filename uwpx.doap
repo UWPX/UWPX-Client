@@ -210,9 +210,9 @@
 
     <release>
       <Version>
-        <revision>v.0.37.0.0</revision>
-        <created>2021-11-02</created>
-        <file-release rdf:resource="https://github.com/UWPX/UWPX-Client/releases/download/v.0.37.0.0/UWPX-Installer.exe" />
+        <revision>v.0.38.0.0</revision>
+        <created>2021-11-29</created>
+        <file-release rdf:resource="https://github.com/UWPX/UWPX-Client/releases/download/v.0.38.0.0/UWPX-Installer.exe" />
       </Version>
     </release>
   </Project>
