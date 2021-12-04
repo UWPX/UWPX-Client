@@ -53,7 +53,7 @@ namespace Manager.Classes
                 using (MainDbContext ctx = new MainDbContext())
                 {
                     // Clear MUC members:
-                    ctx.RemoveRange(INFO.occupants);
+                    INFO.occupants.ForEach(o => o.Remove(ctx, true));
                     INFO.occupants.Clear();
                     INFO.OnOccupantsChanged();
                     ctx.Update(INFO);

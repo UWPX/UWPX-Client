@@ -1,6 +1,7 @@
 ﻿using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.IO;
+using Microsoft.EntityFrameworkCore;
 
 namespace Shared.Classes.Network
 {
@@ -110,7 +111,15 @@ namespace Shared.Classes.Network
         #endregion
         //--------------------------------------------------------Misc Methods:---------------------------------------------------------------\\
         #region --Misc Methods (Public)--
-
+        /// <summary>
+        /// Removes the current model in the <see cref="DbContext"/> either recursively or not.
+        /// </summary>
+        /// <param name="ctx">The <see cref="MainDbContext"/> the model should be removed from.</param>
+        /// <param name="recursive">Recursively remove the current model.</param>
+        public void Remove(DbContext ctx, bool recursive)
+        {
+            ctx.Remove(this);
+        }
 
         #endregion
 

@@ -54,19 +54,7 @@ namespace UWPX_UI_Context.Classes.DataContext.Dialogs
                         }
 
                         // Disco:
-                        /*if (MODEL.DiscoFeatures)
-                        {
-                            ctx.Remove(ctx.Disc);
-                            AbstractDBManager.dB.RecreateTable<DiscoFeatureTable>();
-                        }
-                        if (MODEL.DiscoIdentities)
-                        {
-                            AbstractDBManager.dB.RecreateTable<DiscoIdentityTable>();
-                        }
-                        if (MODEL.DiscoItems)
-                        {
-                            AbstractDBManager.dB.RecreateTable<DiscoItemTable>();
-                        }*/
+
 
                         // MUC:
                         if (MODEL.MucChatInfo)

@@ -367,39 +367,30 @@ namespace Manager.Classes.Chat
                 CHATS.RemoveId(chat.id);
             }
 
-            // Update the DB:
-            if (!keepChatMessages)
+            using (MainDbContext ctx = new MainDbContext())
             {
-                using (MainDbContext ctx = new MainDbContext())
+                // Update the DB:
+                if (!keepChatMessages)
                 {
-                    ctx.RemoveRange(ctx.ChatMessages.Where(msg => msg.chatId == chat.id));
+                    foreach (ChatMessageModel msg in ctx.ChatMessages.Where(msg => msg.chatId == chat.id))
+                    {
+                        msg.Remove(ctx, true);
+                    }
                     Logger.Info("Deleted chat messages for: " + chat.bareJid);
                 }
-            }
 
-            if (chat.chatType == ChatType.MUC)
-            {
-                MucInfoModel muc = chat.muc;
-                using (MainDbContext ctx = new MainDbContext())
-                {
-                    chat.muc = null;
-                    ctx.Remove(muc);
-                }
-            }
 
-            if (chat.chatType == ChatType.MUC || removeFromRoster || forceDelete)
-            {
-                using (MainDbContext ctx = new MainDbContext())
+                if (removeFromRoster || forceDelete)
                 {
-                    ctx.Remove(chat);
+                    chat.Remove(ctx, true);
+                    Logger.Info("Deleted chat: " + chat.bareJid);
                 }
-                Logger.Info("Deleted chat: " + chat.bareJid);
-            }
-            else
-            {
-                chat.isChatActive = false;
-                chat.Update();
-                Logger.Info("Marked chat as not active: " + chat.bareJid);
+                else
+                {
+                    chat.isChatActive = false;
+                    ctx.Update(chat);
+                    Logger.Info("Marked chat as not active: " + chat.bareJid);
+                }
             }
 
         }
@@ -427,10 +418,7 @@ namespace Manager.Classes.Chat
             }
 
             // Update the DB:
-            using (MainDbContext ctx = new MainDbContext())
-            {
-                ctx.Remove(msg.Message);
-            }
+            msg.Message.Remove(true);
         }
 
         /// <summary>
@@ -498,10 +486,7 @@ namespace Manager.Classes.Chat
                     }
 
                     Logger.Info($"Chats and chat messages for '{account.bareJid}' deleted.");
-                    using (MainDbContext ctx = new MainDbContext())
-                    {
-                        ctx.Remove(account);
-                    }
+                    account.Remove(true);
                     Logger.Info($"Account '{account.bareJid}' deleted.");
                 }
                 catch (Exception e)

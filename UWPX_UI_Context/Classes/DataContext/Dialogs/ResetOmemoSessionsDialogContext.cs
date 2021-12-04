@@ -39,7 +39,7 @@ namespace UWPX_UI_Context.Classes.DataContext.Dialogs
                     {
                         if (device.session is not null)
                         {
-                            ctx.Remove(device.session);
+                            device.session.Remove(ctx, true);
                             device.session = null;
                             ctx.Update(device);
                             count++;
@@ -58,7 +58,7 @@ namespace UWPX_UI_Context.Classes.DataContext.Dialogs
                         {
                             if (device.session is not null)
                             {
-                                ctx.Remove(device.session);
+                                device.session.Remove(ctx, true);
                                 device.session = null;
                                 ctx.Update(device);
                                 count++;

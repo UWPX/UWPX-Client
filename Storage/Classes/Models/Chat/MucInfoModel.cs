@@ -2,6 +2,7 @@
 using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
+using Storage.Classes.Contexts;
 using XMPP_API.Classes;
 using XMPP_API.Classes.Network.XML.Messages.XEP_0045;
 using XMPP_API.Classes.Network.XML.Messages.XEP_0048;
@@ -205,6 +206,24 @@ namespace Storage.Classes.Models.Chat
                 password = password,
                 jid = chat.bareJid
             };
+        }
+
+        public override void Remove(MainDbContext ctx, bool recursive)
+        {
+            Remove(ctx, recursive, recursive);
+        }
+
+        public void Remove(MainDbContext ctx, bool recursive, bool removeChat)
+        {
+            if (recursive)
+            {
+                if (removeChat && removeChat)
+                {
+                    chat?.Remove(ctx, recursive, false);
+                }
+                occupants.ForEach(d => d.Remove(ctx, recursive));
+            }
+            ctx.Remove(this);
         }
 
         /// <summary>

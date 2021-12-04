@@ -2,6 +2,7 @@
 using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
+using Storage.Classes.Contexts;
 using Storage.Classes.Models.Account;
 using Storage.Classes.Models.Omemo;
 using XMPP_API.Classes;
@@ -279,6 +280,24 @@ namespace Storage.Classes.Models.Chat
         public int CompareTo(object obj)
         {
             return obj is ChatModel c ? lastActive.CompareTo(c.lastActive) : -1;
+        }
+
+        public void Remove(MainDbContext ctx, bool recursive, bool removeMuc)
+        {
+            if (recursive)
+            {
+                omemoInfo?.Remove(ctx, recursive);
+                if (removeMuc)
+                {
+                    muc?.Remove(ctx, true, false);
+                }
+            }
+            ctx.Remove(this);
+        }
+
+        public override void Remove(MainDbContext ctx, bool recursive)
+        {
+            Remove(ctx, recursive, recursive);
         }
 
         #endregion

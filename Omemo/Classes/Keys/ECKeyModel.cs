@@ -2,6 +2,7 @@
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Diagnostics;
 using System.Linq;
+using Microsoft.EntityFrameworkCore;
 using Shared.Classes;
 
 namespace Omemo.Classes.Keys
@@ -63,6 +64,16 @@ namespace Omemo.Classes.Keys
         public ECKeyModel Clone()
         {
             return new ECKeyModel(key);
+        }
+
+        /// <summary>
+        /// Removes the current model in the <see cref="DbContext"/> either recursively or not.
+        /// </summary>
+        /// <param name="ctx">The <see cref="MainDbContext"/> the model should be removed from.</param>
+        /// <param name="recursive">Recursively remove the current model.</param>
+        public void Remove(DbContext ctx, bool recursive)
+        {
+            ctx.Remove(this);
         }
 
         #endregion

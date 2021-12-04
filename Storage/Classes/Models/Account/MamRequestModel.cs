@@ -1,6 +1,7 @@
 ﻿using System;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
+using Storage.Classes.Contexts;
 
 namespace Storage.Classes.Models.Account
 {
@@ -67,7 +68,10 @@ namespace Storage.Classes.Models.Account
         #endregion
         //--------------------------------------------------------Misc Methods:---------------------------------------------------------------\\
         #region --Misc Methods (Public)--
-
+        public override void Remove(MainDbContext ctx, bool recursive)
+        {
+            ctx.Remove(this);
+        }
 
         #endregion
 

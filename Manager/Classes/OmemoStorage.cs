@@ -115,7 +115,7 @@ namespace Manager.Classes
             {
                 // Remove the old key:
                 dbAccount.omemoInfo.preKeys.Remove(preKey);
-                ctx.Remove(preKey);
+                preKey.Remove(ctx, true);
 
                 // Generate a new one:
                 PreKeyModel newPreKey = KeyHelper.GeneratePreKey(dbAccount.omemoInfo.maxPreKeyId++);
@@ -169,7 +169,7 @@ namespace Manager.Classes
             {
                 using (MainDbContext ctx = new MainDbContext())
                 {
-                    ctx.RemoveRange(dbAccount.omemoInfo.devices);
+                    dbAccount.omemoInfo.devices.ForEach(d => d.Remove(ctx, true));
                     dbAccount.omemoInfo.devices.Clear();
                     ctx.Update(dbAccount.omemoInfo);
                     dbAccount.omemoInfo.devices.AddRange(newDevices.Where(d => d.deviceId != dbAccount.omemoInfo.deviceId));
@@ -189,7 +189,7 @@ namespace Manager.Classes
                 }
                 using (MainDbContext ctx = new MainDbContext())
                 {
-                    ctx.RemoveRange(omemoChatInfo.devices);
+                    omemoChatInfo.devices.ForEach(d => d.Remove(ctx, true));
                     omemoChatInfo.devices.Clear();
                     ctx.Update(omemoChatInfo);
                     omemoChatInfo.devices.AddRange(newDevices);
@@ -285,7 +285,7 @@ namespace Manager.Classes
             {
                 using (MainDbContext ctx = new MainDbContext())
                 {
-                    ctx.Remove(oldSession);
+                    oldSession.Remove(ctx, true);
                 }
             }
         }

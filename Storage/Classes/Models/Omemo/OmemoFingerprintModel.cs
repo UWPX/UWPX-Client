@@ -2,8 +2,10 @@
 using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
+using Microsoft.EntityFrameworkCore;
 using Omemo.Classes;
 using Omemo.Classes.Keys;
+using Storage.Classes.Contexts;
 using XMPP_API.Classes.Network.XML.Messages.XEP_0384;
 
 namespace Storage.Classes.Models.Omemo
@@ -93,6 +95,15 @@ namespace Storage.Classes.Models.Omemo
             lastSeen = fingerprint.lastSeen;
             trusted = fingerprint.trusted;
             identityKey = fingerprint.IDENTITY_KEY;
+        }
+
+        public override void Remove(MainDbContext ctx, bool recursive)
+        {
+            if (recursive)
+            {
+                identityKey?.Remove(ctx, recursive);
+            }
+            ctx.Remove(this);
         }
 
         #endregion

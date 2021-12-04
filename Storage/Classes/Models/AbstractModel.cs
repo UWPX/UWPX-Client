@@ -47,6 +47,25 @@ namespace Storage.Classes.Models
         }
 
         /// <summary>
+        /// Removes the current model in the <see cref="MainDbContext"/> either recursively or not.
+        /// </summary>
+        /// <param name="ctx">The <see cref="MainDbContext"/> the model should be removed from.</param>
+        /// <param name="recursive">Recursively remove the current model.</param>
+        public abstract void Remove(MainDbContext ctx, bool recursive);
+
+        /// <summary>
+        /// Removes the current model in the <see cref="MainDbContext"/> either recursively or not.
+        /// </summary>
+        /// <param name="recursive">Recursively remove the current model.</param>
+        public void Remove(bool recursive)
+        {
+            using (MainDbContext ctx = new MainDbContext())
+            {
+                Remove(ctx, recursive);
+            }
+        }
+
+        /// <summary>
         /// Returns a new locked <see cref="SemaLock"/>.
         /// </summary>
         public SemaLock NewSemaLock()

@@ -1,6 +1,7 @@
 ﻿using System;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
+using Storage.Classes.Contexts;
 using XMPP_API.Classes.Network.XML.Messages.XEP_0384;
 
 namespace Storage.Classes.Models.Omemo
@@ -75,7 +76,10 @@ namespace Storage.Classes.Models.Omemo
         #endregion
         //--------------------------------------------------------Misc Methods:---------------------------------------------------------------\\
         #region --Misc Methods (Public)--
-
+        public override void Remove(MainDbContext ctx, bool recursive)
+        {
+            ctx.Remove(this);
+        }
 
         #endregion
 

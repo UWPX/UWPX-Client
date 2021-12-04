@@ -1,6 +1,7 @@
 ﻿using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
+using Microsoft.EntityFrameworkCore;
 using Shared.Classes;
 
 namespace Omemo.Classes.Keys
@@ -102,6 +103,21 @@ namespace Omemo.Classes.Keys
             }
 
             return hash;
+        }
+
+        /// <summary>
+        /// Removes the current model in the <see cref="DbContext"/> either recursively or not.
+        /// </summary>
+        /// <param name="ctx">The <see cref="MainDbContext"/> the model should be removed from.</param>
+        /// <param name="recursive">Recursively remove the current model.</param>
+        public void Remove(DbContext ctx, bool recursive)
+        {
+            if (recursive)
+            {
+                privKey?.Remove(ctx, recursive);
+                pubKey?.Remove(ctx, recursive);
+            }
+            ctx.Remove(this);
         }
 
         #endregion

@@ -2,6 +2,7 @@
 using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
+using Storage.Classes.Contexts;
 
 namespace Storage.Classes.Models.Omemo
 {
@@ -111,7 +112,15 @@ namespace Storage.Classes.Models.Omemo
         #endregion
         //--------------------------------------------------------Misc Methods:---------------------------------------------------------------\\
         #region --Misc Methods (Public)--
-
+        public override void Remove(MainDbContext ctx, bool recursive)
+        {
+            if (recursive)
+            {
+                deviceListSubscription?.Remove(ctx, recursive);
+                devices.ForEach(d => d.Remove(ctx, recursive));
+            }
+            ctx.Remove(this);
+        }
 
         #endregion
 

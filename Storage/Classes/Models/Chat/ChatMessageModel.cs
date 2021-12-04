@@ -3,6 +3,7 @@ using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Text.RegularExpressions;
+using Storage.Classes.Contexts;
 using XMPP_API.Classes.Network.XML;
 using XMPP_API.Classes.Network.XML.Messages;
 using XMPP_API.Classes.Network.XML.Messages.XEP_0384;
@@ -266,6 +267,15 @@ namespace Storage.Classes.Models.Chat
             msg.addDelay(date);
             msg.chatMessageId = id;
             return msg;
+        }
+
+        public override void Remove(MainDbContext ctx, bool recursive)
+        {
+            if (recursive)
+            {
+                image?.Remove(ctx, recursive);
+            }
+            ctx.Remove(this);
         }
 
         #endregion

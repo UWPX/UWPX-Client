@@ -1,6 +1,7 @@
 ﻿using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
+using Storage.Classes.Contexts;
 using Storage.Classes.Models.Omemo;
 using XMPP_API.Classes;
 using XMPP_API.Classes.Network;
@@ -270,6 +271,19 @@ namespace Storage.Classes.Models.Account
             account.connectionConfiguration.disableMessageCarbons = server.disableMessageCarbons;
             account.connectionConfiguration.disableStreamManagement = server.disableStreamManagement;
             return account;
+        }
+
+        public override void Remove(MainDbContext ctx, bool recursive)
+        {
+            if (recursive)
+            {
+                fullJid?.Remove(ctx, recursive);
+                server?.Remove(ctx, recursive);
+                push?.Remove(ctx, recursive);
+                omemoInfo?.Remove(ctx, recursive);
+                mamRequest?.Remove(ctx, recursive);
+            }
+            ctx.Remove(this);
         }
 
         #endregion

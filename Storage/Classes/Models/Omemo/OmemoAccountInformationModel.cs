@@ -4,6 +4,7 @@ using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using Omemo.Classes;
 using Omemo.Classes.Keys;
+using Storage.Classes.Contexts;
 
 namespace Storage.Classes.Models.Omemo
 {
@@ -65,7 +66,7 @@ namespace Storage.Classes.Models.Omemo
         public IdentityKeyPairModel identityKey
         {
             get => _identityKey;
-            set => SetProperty(ref _identityKey, value);
+            set => SetIdentityKeyProperty(value);
         }
         [NotMapped]
         private IdentityKeyPairModel _identityKey;
@@ -216,6 +217,19 @@ namespace Storage.Classes.Models.Omemo
             signedPreKey = KeyHelper.GenerateSignedPreKey(0, identityKey.privKey);
             preKeys = KeyHelper.GeneratePreKeys(maxPreKeyId, 100);
             maxPreKeyId += 100;
+        }
+
+        public override void Remove(MainDbContext ctx, bool recursive)
+        {
+            if (recursive)
+            {
+                identityKey?.Remove(ctx, recursive);
+                signedPreKey?.Remove(ctx, recursive);
+                preKeys.ForEach(d => d.Remove(ctx, recursive));
+                devices.ForEach(d => d.Remove(ctx, recursive));
+                deviceListSubscription?.Remove(ctx, recursive);
+            }
+            ctx.Remove(this);
         }
 
         #endregion

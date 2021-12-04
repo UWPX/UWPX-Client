@@ -2,6 +2,7 @@
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using Omemo.Classes;
+using Storage.Classes.Contexts;
 
 namespace Storage.Classes.Models.Omemo
 {
@@ -114,7 +115,15 @@ namespace Storage.Classes.Models.Omemo
         #endregion
         //--------------------------------------------------------Misc Methods:---------------------------------------------------------------\\
         #region --Misc Methods (Public)--
-
+        public override void Remove(MainDbContext ctx, bool recursive)
+        {
+            if (recursive)
+            {
+                session?.Remove(ctx, recursive);
+                fingerprint?.Remove(ctx, recursive);
+            }
+            ctx.Remove(this);
+        }
 
         #endregion
 

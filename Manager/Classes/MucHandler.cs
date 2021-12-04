@@ -407,11 +407,7 @@ namespace Manager.Classes
                                     chat.muc.occupants.Remove(occupant);
                                     chat.muc.OnOccupantsChanged();
                                     ctx.Update(chat.muc);
-                                }
-
-                                using (MainDbContext ctx = new MainDbContext())
-                                {
-                                    ctx.Remove(occupant);
+                                    occupant.Remove(ctx, true);
                                 }
                             }
                         }

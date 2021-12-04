@@ -2,6 +2,7 @@
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using Shared.Classes.Collections;
+using Storage.Classes.Contexts;
 using Windows.Security.Cryptography.Certificates;
 using XMPP_API.Classes.Network.TCP;
 
@@ -128,7 +129,10 @@ namespace Storage.Classes.Models.Account
         #endregion
         //--------------------------------------------------------Misc Methods:---------------------------------------------------------------\\
         #region --Misc Methods (Public)--
-
+        public override void Remove(MainDbContext ctx, bool recursive)
+        {
+            ctx.Remove(this);
+        }
 
         #endregion
 

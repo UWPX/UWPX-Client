@@ -2,6 +2,7 @@
 using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
+using Microsoft.EntityFrameworkCore;
 using Newtonsoft.Json;
 using Omemo.Classes.Keys;
 using Omemo.Classes.Messages;
@@ -335,6 +336,22 @@ namespace Omemo.Classes
         public override string ToString()
         {
             return JsonConvert.SerializeObject(this);
+        }
+
+        /// <summary>
+        /// Removes the current model in the <see cref="DbContext"/> either recursively or not.
+        /// </summary>
+        /// <param name="ctx">The <see cref="MainDbContext"/> the model should be removed from.</param>
+        /// <param name="recursive">Recursively remove the current model.</param>
+        public void Remove(DbContext ctx, bool recursive)
+        {
+            if (recursive)
+            {
+                dhS?.Remove(ctx, recursive);
+                dhR?.Remove(ctx, recursive);
+                ek?.Remove(ctx, recursive);
+            }
+            ctx.Remove(this);
         }
 
         #endregion
