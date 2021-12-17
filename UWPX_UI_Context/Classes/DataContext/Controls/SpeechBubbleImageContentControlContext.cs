@@ -222,6 +222,10 @@ namespace UWPX_UI_Context.Classes.DataContext.Controls
         private void OnImagePropertyChanged(object sender, PropertyChangedEventArgs e)
         {
             ChatMessageImageModel img = SpeechBubbleViewModel.MODEL.Message.Message.image;
+            if(img is null)
+            {
+                return;
+            }
             switch (e.PropertyName)
             {
                 case nameof(ChatMessageImageModel.state):
