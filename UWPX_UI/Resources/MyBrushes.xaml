@@ -36,6 +36,8 @@
                      Color="#99FFFFFF"/>
     <SolidColorBrush x:Key="TileBackgroundBrush"
                      Color="#33691E"/>
+    <SolidColorBrush x:Key="LinkAccentColorBrush"
+                     Color="White"/>
 
     <!--  ContentDialog background backdrop  -->
     <media1:BackdropBlurBrush x:Key="SystemControlPageBackgroundMediumAltMediumBrush"

@@ -62,6 +62,11 @@ namespace UWPX_UI.Extensions
             return ThemeUtils.GetThemeResource<SolidColorBrush>("CaptionTextBrush");
         }
 
+        private static SolidColorBrush GetHyperlinkLinkForeground(FrameworkElement element)
+        {
+            return ThemeUtils.GetThemeResource<SolidColorBrush>("LinkAccentColorBrush");
+        }
+
         private static void ToQuoteRun(Run run)
         {
             run.Foreground = GetQuoteForeground();
@@ -88,7 +93,11 @@ namespace UWPX_UI.Extensions
         private static void CreateRunElement(TextBlock textBlock, string rawText, int startPosition, int endPosition, bool isQuote)
         {
             string fragment = rawText.Substring(startPosition, endPosition - startPosition);
-            Run run = new Run { Text = fragment };
+            Run run = new Run
+            {
+                Text = fragment,
+                Foreground = GetHyperlinkLinkForeground(textBlock)
+            };
             if (isQuote)
             {
                 ToQuoteRun(run);
@@ -105,7 +114,11 @@ namespace UWPX_UI.Extensions
         /// <returns>the newest position on the source string for the parsing</returns>
         private static int CreateUrlElement(TextBlock textBlock, Match urlMatch, bool isQuote)
         {
-            Run run = new Run { Text = urlMatch.Value };
+            Run run = new Run
+            {
+                Text = urlMatch.Value,
+                Foreground = GetHyperlinkLinkForeground(textBlock)
+            };
             if (isQuote)
             {
                 ToQuoteRun(run);
@@ -146,7 +159,11 @@ namespace UWPX_UI.Extensions
         {
             Match currentMatch = emailMatch ?? phoneMatch;
 
-            Run run = new Run { Text = currentMatch.Value };
+            Run run = new Run
+            {
+                Text = currentMatch.Value,
+                Foreground = GetHyperlinkLinkForeground(textBlock)
+            };
             if (isQuote)
             {
                 ToQuoteRun(run);
