@@ -468,7 +468,7 @@ namespace Manager.Classes
         #region --Events--
         private void OnOmemoSessionBuildError(XMPPClient xmppClient, OmemoSessionBuildErrorEventArgs args)
         {
-            Task.Run(() =>
+            Task.Run(async () =>
             {
                 ChatModel chat;
                 using (SemaLock semaLock = DataCache.INSTANCE.NewChatSemaLock())
@@ -493,7 +493,7 @@ namespace Manager.Classes
                         state = MessageState.UNREAD,
                         type = MessageMessage.TYPE_ERROR
                     };
-                    DataCache.INSTANCE.AddChatMessageAsync(msg, chat);
+                    await DataCache.INSTANCE.AddChatMessageAsync(msg, chat);
 
                     // Set chat messages to encrypted failed:
                     SetOmemoChatMessagesSendFailed(args.MESSAGES, chat);
