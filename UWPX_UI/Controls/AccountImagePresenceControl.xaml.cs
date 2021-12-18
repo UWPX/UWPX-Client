@@ -39,13 +39,6 @@ namespace UWPX_UI.Controls
         }
         public static readonly DependencyProperty ChatTypeProperty = DependencyProperty.Register(nameof(ChatType), typeof(ChatType), typeof(AccountImagePresenceControl), new PropertyMetadata(ChatType.CHAT, OnChatTypeChanged));
 
-        public int BadgeCount
-        {
-            get => (int)GetValue(BadgeCountProperty);
-            set => SetValue(BadgeCountProperty, value);
-        }
-        public static readonly DependencyProperty BadgeCountProperty = DependencyProperty.Register(nameof(BadgeCount), typeof(int), typeof(AccountImagePresenceControl), new PropertyMetadata(0));
-
         public Visibility PresenceVisibility
         {
             get => (Visibility)GetValue(PresenceVisibilityProperty);

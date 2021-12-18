@@ -19,8 +19,6 @@
 
             <valueconverter:StringBrushValueConverter x:Key="StringBrushValueConverter"/>
             <valueconverter:ChatTypeFontFamilyConverter x:Key="ChatTypeFontFamilyConverter"/>
-            <valueconverter:BadgeCountCaptedValueConverter x:Key="BadgeCountCaptedValueConverter"/>
-            <valueconverter:BadgeCountVisibilityValueConverte x:Key="BadgeCountVisibilityValueConverte"/>
 
             <ui:AttachedDropShadow x:Key="InfoBadgeShadow"
                                    BlurRadius="8"
@@ -58,13 +56,5 @@
                         Background="{x:Bind PresenceProp, Mode=OneWay, Converter={StaticResource PresenceBrushValueConverter}}"
                         Style="{StaticResource AttentionDotInfoBadgeStyle}"
                         Visibility="{x:Bind PresenceVisibility, Mode=OneWay}"/>
-        <muxc:InfoBadge Grid.Row="0"
-                        Margin="0,0,-2,-2"
-                        HorizontalAlignment="Right"
-                        VerticalAlignment="Top"
-                        ui:Effects.Shadow="{StaticResource InfoBadgeShadow}"
-                        Style="{StaticResource AttentionValueInfoBadgeStyle}"
-                        Visibility="{x:Bind BadgeCount, Mode=OneWay, Converter={StaticResource BadgeCountVisibilityValueConverte}}"
-                        Value="{x:Bind BadgeCount, Mode=OneWay, Converter={StaticResource BadgeCountCaptedValueConverter}}"/>
     </Grid>
 </UserControl>

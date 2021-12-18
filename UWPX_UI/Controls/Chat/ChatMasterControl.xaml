@@ -4,6 +4,7 @@
              xmlns:controls="using:UWPX_UI.Controls"
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:muxc="using:Microsoft.UI.Xaml.Controls"
              xmlns:ui="using:Microsoft.Toolkit.Uwp.UI"
              xmlns:valueconverter="using:UWPX_UI_Context.Classes.ValueConverter"
              d:DesignHeight="120"
@@ -19,6 +20,8 @@
         <valueconverter:MucStateMucJoinVisibilityValueConverter x:Key="MucStateMucJoinVisibilityValueConverter"/>
         <valueconverter:MucStateMucLeaveVisibilityValueConverter x:Key="MucStateMucLeaveVisibilityValueConverter"/>
         <valueconverter:HexColorToSolidColorBrushValueConverter x:Key="HexColorToSolidColorBrushValueConverter"/>
+        <valueconverter:BadgeCountCaptedValueConverter x:Key="BadgeCountCaptedValueConverter"/>
+        <valueconverter:BadgeCountVisibilityValueConverte x:Key="BadgeCountVisibilityValueConverte"/>
 
         <ui:AttachedDropShadow x:Key="RosterIconShadow"
                                BlurRadius="10"
@@ -229,59 +232,39 @@
                 <controls:AccountImagePresenceControl x:Name="image_aciwp"
                                                       Grid.Column="1"
                                                       Margin="5,0,0,0"
-                                                      BadgeCount="{x:Bind Chat.UnreadCount, Mode=OneWay}"
                                                       BareJid="{x:Bind Chat.Chat.bareJid, Mode=OneWay}"
                                                       ChatType="{x:Bind Chat.Chat.chatType, Mode=OneWay}"
                                                       PresenceProp="{x:Bind VIEW_MODEL.MODEL.ChatPresence, Mode=OneWay}"/>
-                <StackPanel Grid.Column="2"
-                            HorizontalAlignment="Stretch">
+
+                <Grid Grid.Column="2"
+                      Margin="0,0,5,0"
+                      HorizontalAlignment="Stretch">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                    </Grid.RowDefinitions>
+
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="Auto"/>
+                    </Grid.ColumnDefinitions>
+
+                    <!--  Row 1  -->
                     <TextBlock x:Name="name_tblck"
+                               Grid.Row="0"
+                               Grid.Column="0"
                                Margin="10,0,0,0"
                                Style="{ThemeResource BodyLineTextBlockStyle}"
                                Text="{x:Bind VIEW_MODEL.MODEL.NameText, Mode=OneWay}"
                                TextTrimming="CharacterEllipsis"/>
-                    <Grid Margin="10,0,10,0">
-                        <Grid.ColumnDefinitions>
-                            <ColumnDefinition Width="Auto"/>
-                            <ColumnDefinition Width="*"/>
-                        </Grid.ColumnDefinitions>
-                        <TextBlock x:Name="lastActionIcon_tblck"
-                                   Grid.Column="0"
-                                   Margin="0,0,5,0"
-                                   VerticalAlignment="Center"
-                                   FontFamily="{ThemeResource SymbolThemeFontFamily}"
-                                   Style="{ThemeResource CaptionLineTextBlockStyle}"
-                                   Text="{x:Bind VIEW_MODEL.MODEL.LastActionIconText, Mode=OneWay}"
-                                   Visibility="{x:Bind VIEW_MODEL.MODEL.LastActionIconText, Mode=OneWay, Converter={StaticResource StringEmptyVisibilityValueConverter}}"/>
-                        <TextBlock x:Name="lastAction_tblck"
-                                   Grid.Column="1"
-                                   VerticalAlignment="Center"
-                                   MaxLines="1"
-                                   Style="{ThemeResource CaptionLineTextBlockStyle}"
-                                   Text="{x:Bind VIEW_MODEL.MODEL.LastActionText, Mode=OneWay}"
-                                   TextTrimming="CharacterEllipsis"/>
-                    </Grid>
-                    <TextBlock x:Name="info_tblck"
-                               Grid.Column="0"
-                               Margin="10,0,0,0"
-                               Style="{ThemeResource CaptionLineTextBlockStyle}"
-                               Text="{x:Bind VIEW_MODEL.MODEL.InfoText, Mode=OneWay}"
-                               TextTrimming="CharacterEllipsis"
-                               Visibility="{x:Bind VIEW_MODEL.MODEL.InfoTextVisibility, Mode=OneWay}"/>
-                </StackPanel>
 
-                <Grid Grid.Column="3"
-                      Margin="0,0,10,0"
-                      HorizontalAlignment="Right">
-                    <Grid.RowDefinitions>
-                        <RowDefinition Height="16"/>
-                        <RowDefinition Height="16"/>
-                        <RowDefinition Height="16"/>
-                    </Grid.RowDefinitions>
                     <Border x:Name="RosterIconShadowTarget"
-                            Grid.Row="0"/>
+                            Grid.Row="0"
+                            Grid.Column="1"/>
                     <TextBlock x:Name="in_rooster_icon"
                                Grid.Row="0"
+                               Grid.Column="1"
                                Margin="0,0,2,0"
                                HorizontalAlignment="Right"
                                VerticalAlignment="Center"
@@ -291,19 +274,73 @@
                                Foreground="{ThemeResource GoldBrush}"
                                Text="&#xE735;"
                                Visibility="{x:Bind VIEW_MODEL.MODEL.InRosterVisibility, Mode=OneWay}"/>
+
+                    <!--  Row 2  -->
+                    <Grid Grid.Row="1"
+                          Grid.Column="0"
+                          Margin="10,0,10,0">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="Auto"/>
+                            <ColumnDefinition Width="Auto"/>
+                            <ColumnDefinition Width="*"/>
+                        </Grid.ColumnDefinitions>
+                        <muxc:InfoBadge Grid.Column="0"
+                                        Margin="0,0,5,0"
+                                        VerticalAlignment="Center"
+                                        Style="{StaticResource AttentionValueInfoBadgeStyle}"
+                                        Visibility="{x:Bind Chat.UnreadCount, Mode=OneWay, Converter={StaticResource BadgeCountVisibilityValueConverte}}"
+                                        Value="{x:Bind Chat.UnreadCount, Mode=OneWay, Converter={StaticResource BadgeCountCaptedValueConverter}}"/>
+                        <TextBlock x:Name="lastActionIcon_tblck"
+                                   Grid.Column="1"
+                                   Margin="0,0,5,0"
+                                   VerticalAlignment="Center"
+                                   FontFamily="{ThemeResource SymbolThemeFontFamily}"
+                                   Style="{ThemeResource CaptionLineTextBlockStyle}"
+                                   Text="{x:Bind VIEW_MODEL.MODEL.LastActionIconText, Mode=OneWay}"
+                                   Visibility="{x:Bind VIEW_MODEL.MODEL.LastActionIconText, Mode=OneWay, Converter={StaticResource StringEmptyVisibilityValueConverter}}"/>
+                        <TextBlock x:Name="lastAction_tblck"
+                                   Grid.Column="2"
+                                   VerticalAlignment="Center"
+                                   MaxLines="1"
+                                   Style="{ThemeResource CaptionLineTextBlockStyle}"
+                                   Text="{x:Bind VIEW_MODEL.MODEL.LastActionText, Mode=OneWay}"
+                                   TextTrimming="CharacterEllipsis"/>
+                    </Grid>
+
                     <FontIcon x:Name="muted_tbck"
                               Grid.Row="1"
+                              Grid.Column="1"
                               HorizontalAlignment="Right"
                               VerticalAlignment="Center"
                               FontSize="13"
                               Glyph="&#xE74F;"
                               Visibility="{x:Bind Chat.Chat.muted, Mode=OneWay, Converter={StaticResource BoolVisibilityValueConverter}}"/>
-                    <TextBlock x:Name="lastActionDate_tblck"
-                               Grid.Row="2"
-                               HorizontalAlignment="Right"
-                               FontSize="10"
-                               Text="{x:Bind Chat.Chat.lastActive, Mode=OneWay, Converter={StaticResource ChatDateTimeStringValueConverter}}"
-                               TextTrimming="CharacterEllipsis"/>
+
+                    <!--  Row 3  -->
+                    <Grid Grid.Row="2"
+                          Grid.Column="0"
+                          Grid.ColumnSpan="2">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*"/>
+                            <ColumnDefinition Width="Auto"/>
+                        </Grid.ColumnDefinitions>
+                        <TextBlock x:Name="info_tblck"
+                                   Grid.Row="2"
+                                   Grid.Column="0"
+                                   Margin="10,0,0,0"
+                                   Style="{ThemeResource CaptionLineTextBlockStyle}"
+                                   Text="{x:Bind VIEW_MODEL.MODEL.InfoText, Mode=OneWay}"
+                                   TextTrimming="CharacterEllipsis"
+                                   Visibility="{x:Bind VIEW_MODEL.MODEL.InfoTextVisibility, Mode=OneWay}"/>
+
+                        <TextBlock x:Name="lastActionDate_tblck"
+                                   Grid.Row="2"
+                                   Grid.Column="1"
+                                   HorizontalAlignment="Right"
+                                   FontSize="10"
+                                   Text="{x:Bind Chat.Chat.lastActive, Mode=OneWay, Converter={StaticResource ChatDateTimeStringValueConverter}}"
+                                   TextTrimming="CharacterEllipsis"/>
+                    </Grid>
                 </Grid>
             </Grid>
             <Grid x:Name="accountAction_grid"
