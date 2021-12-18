@@ -233,12 +233,11 @@ namespace Manager.Classes
                 return;
             }
             message = new ChatMessageModel(msg, chat);
-            // Set the image path and file name:
-            if (message.isImage)
+            await DataCache.INSTANCE.AddChatMessageAsync(message, chat);
+            if (message.isImage && !Settings.GetSettingBoolean(SettingsConsts.DISABLE_IMAGE_AUTO_DOWNLOAD))
             {
-                await DataCache.PrepareImageModelPathAndNameAsync(message.image);
+                await ConnectionHandler.INSTANCE.IMAGE_DOWNLOAD_HANDLER.StartDownloadAsync(message.image);
             }
-            DataCache.INSTANCE.AddChatMessage(message, chat);
 
             // Handle MUC invite messages:
             if (msg is DirectMUCInvitationMessage inviteMessage)
@@ -494,7 +493,7 @@ namespace Manager.Classes
                         state = MessageState.UNREAD,
                         type = MessageMessage.TYPE_ERROR
                     };
-                    DataCache.INSTANCE.AddChatMessage(msg, chat);
+                    DataCache.INSTANCE.AddChatMessageAsync(msg, chat);
 
                     // Set chat messages to encrypted failed:
                     SetOmemoChatMessagesSendFailed(args.MESSAGES, chat);

@@ -254,15 +254,7 @@ namespace Manager.Classes.Chat
                                 if (abstractMessage is MessageMessage msg)
                                 {
                                     ChatMessageDataTemplate tmp = new ChatMessageDataTemplate(new ChatMessageModel(msg, chat.Chat), chat.Chat);
-
-                                    // Set the image path and file name:
-                                    if (tmp.Message.isImage)
-                                    {
-                                        await DataCache.PrepareImageModelPathAndNameAsync(tmp.Message.image);
-                                    }
-
-                                    ctx.Add(tmp.Message);
-                                    msgs.Add(tmp);
+                                    await DataCache.INSTANCE.AddChatMessageAsync(tmp.Message, tmp.Chat);
                                 }
                                 else
                                 {

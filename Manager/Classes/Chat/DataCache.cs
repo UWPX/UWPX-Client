@@ -9,6 +9,7 @@ using Microsoft.EntityFrameworkCore;
 using Shared.Classes;
 using Shared.Classes.AppCenter;
 using Shared.Classes.Threading;
+using Storage.Classes;
 using Storage.Classes.Contexts;
 using Storage.Classes.Models.Account;
 using Storage.Classes.Models.Chat;
@@ -223,16 +224,6 @@ namespace Manager.Classes.Chat
             return chat;
         }
 
-        /// <summary>
-        /// Prepares the <see cref="ChatMessageImageModel"/> file name and folder path.
-        /// </summary>
-        public static async Task PrepareImageModelPathAndNameAsync(ChatMessageImageModel img)
-        {
-            img.targetFileName = ConnectionHandler.INSTANCE.IMAGE_DOWNLOAD_HANDLER.CreateUniqueFileName(img.sourceUrl);
-            StorageFolder folder = await ConnectionHandler.INSTANCE.IMAGE_DOWNLOAD_HANDLER.GetCacheFolderAsync();
-            img.targetFolderPath = folder.Path;
-        }
-
         #endregion
         //--------------------------------------------------------Misc Methods:---------------------------------------------------------------\\
         #region --Misc Methods (Public)--
@@ -304,8 +295,14 @@ namespace Manager.Classes.Chat
             }
         }
 
-        public void AddChatMessage(ChatMessageModel msg, ChatModel chat)
+        public async Task AddChatMessageAsync(ChatMessageModel msg, ChatModel chat)
         {
+            // Prepare image:
+            if (msg.isImage)
+            {
+                await PrepareImageModelPathAndNameAsync(msg.image);
+            }
+
             // Update the DB:
             msg.Add();
 
@@ -315,10 +312,10 @@ namespace Manager.Classes.Chat
                 bool isSelectedChat = !(SelectedChat is null) && SelectedChat.Chat.id == chat.id;
                 ChatDataTemplate chatTemplate;
 
-                CHATS_SEMA.Wait();
+                await CHATS_SEMA.WaitAsync();
                 if (isSelectedChat)
                 {
-                    CHATS_MESSAGES_SEMA.Wait();
+                    await CHATS_MESSAGES_SEMA.WaitAsync();
                     CHAT_MESSAGES.Add(new ChatMessageDataTemplate(msg, chat));
                     CHATS_MESSAGES_SEMA.Release();
                     chatTemplate = SelectedChat;
@@ -352,6 +349,12 @@ namespace Manager.Classes.Chat
                     chatTemplate.UpdateUnreadCount();
                 }
                 CHATS_SEMA.Release();
+            }
+
+            // Start automatic image download in case it's enabled:
+            if (msg.isImage && !Settings.GetSettingBoolean(SettingsConsts.DISABLE_IMAGE_AUTO_DOWNLOAD))
+            {
+                await ConnectionHandler.INSTANCE.IMAGE_DOWNLOAD_HANDLER.StartDownloadAsync(msg.image);
             }
         }
 
@@ -521,6 +524,16 @@ namespace Manager.Classes.Chat
             ChatDataTemplate chatDataTemplate = new ChatDataTemplate(chat, client, null);
             chatDataTemplate.LoadLastMsg(ctx);
             return chatDataTemplate;
+        }
+
+        /// <summary>
+        /// Prepares the <see cref="ChatMessageImageModel"/> file name and folder path.
+        /// </summary>
+        private static async Task PrepareImageModelPathAndNameAsync(ChatMessageImageModel img)
+        {
+            img.targetFileName = ConnectionHandler.INSTANCE.IMAGE_DOWNLOAD_HANDLER.CreateUniqueFileName(img.sourceUrl);
+            StorageFolder folder = await ConnectionHandler.INSTANCE.IMAGE_DOWNLOAD_HANDLER.GetCacheFolderAsync();
+            img.targetFolderPath = folder.Path;
         }
 
         #endregion

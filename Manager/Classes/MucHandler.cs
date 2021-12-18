@@ -273,7 +273,7 @@ namespace Manager.Classes
                 state = MessageState.UNREAD,
                 type = MessageMessage.TYPE_ERROR
             };
-            DataCache.INSTANCE.AddChatMessage(msg, chat);
+            DataCache.INSTANCE.AddChatMessageAsync(msg, chat);
         }
 
         private void AddOccupantKickedMessage(ChatModel chat, string roomJid, string nickname)
@@ -302,7 +302,7 @@ namespace Manager.Classes
                 type = TYPE_CHAT_INFO,
                 stableId = AbstractMessage.getRandomId()
             };
-            DataCache.INSTANCE.AddChatMessage(msg, chat);
+            DataCache.INSTANCE.AddChatMessageAsync(msg, chat);
         }
 
         #endregion
