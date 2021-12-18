@@ -207,6 +207,8 @@
         <!--  Loading:  -->
         <controls1:LoadingContentControl Grid.Row="0"
                                          Margin="10"
+                                         Foreground="White"
+                                         ProgressRingForeground="White"
                                          Visibility="{x:Bind VIEW_MODEL.MODEL.IsLoadingImage, Mode=OneWay, Converter={StaticResource BoolVisibilityValueConverter}, FallbackValue=Visible}"/>
 
         <!--  Infos:  -->

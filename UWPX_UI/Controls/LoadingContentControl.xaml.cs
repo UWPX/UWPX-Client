@@ -1,5 +1,8 @@
-﻿using Windows.UI.Xaml;
+﻿using UWPX_UI_Context.Classes;
+using Windows.UI;
+using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
+using Windows.UI.Xaml.Media;
 
 namespace UWPX_UI.Controls
 {
@@ -13,6 +16,13 @@ namespace UWPX_UI.Controls
             set => SetValue(TextProperty, value);
         }
         public static readonly DependencyProperty TextProperty = DependencyProperty.Register(nameof(Text), typeof(string), typeof(LoadingContentControl), new PropertyMetadata("Loading..."));
+
+        public SolidColorBrush ProgressRingForeground
+        {
+            get => (SolidColorBrush)GetValue(ProgressRingForegroundProperty);
+            set => SetValue(ProgressRingForegroundProperty, value);
+        }
+        public static readonly DependencyProperty ProgressRingForegroundProperty = DependencyProperty.Register(nameof(ProgressRingForeground), typeof(SolidColorBrush), typeof(LoadingContentControl), new PropertyMetadata(new SolidColorBrush(ThemeUtils.GetThemeResource<Color>("SystemAccentColor"))));
 
         #endregion
         //--------------------------------------------------------Constructor:----------------------------------------------------------------\\

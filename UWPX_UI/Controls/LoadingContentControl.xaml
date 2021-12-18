@@ -14,11 +14,12 @@
             <ColumnDefinition Width="Auto"/>
         </Grid.ColumnDefinitions>
         <muxc:ProgressRing Grid.Column="0"
-                           Foreground="{ThemeResource SystemAccentColor}"
+                           Foreground="{x:Bind ProgressRingForeground, Mode=OneWay}"
                            IsActive="True"/>
         <TextBlock Grid.Column="1"
                    Margin="10,0,0,0"
                    VerticalAlignment="Center"
+                   Foreground="{x:Bind Foreground, Mode=OneWay}"
                    Text="{x:Bind Text, Mode=OneWay}"
                    TextWrapping="Wrap"/>
     </Grid>
