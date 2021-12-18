@@ -174,6 +174,7 @@
                 Content="&#xE896;"
                 FontFamily="{ThemeResource SymbolThemeFontFamily}"
                 FontSize="30"
+                Foreground="White"
                 ToolTipService.ToolTip="Download image"
                 Visibility="{x:Bind SpeechBubbleContentViewModel.MODEL.Message.Message.image.state, Mode=OneWay, Converter={StaticResource DownloadStateVisibilityValueConverter_Download}, FallbackValue=Collapsed}"/>
 
@@ -191,11 +192,14 @@
             <muxc:ProgressRing Grid.Row="0"
                                Width="30"
                                Height="30"
+                               Foreground="White"
                                IsActive="True"/>
             <TextBlock Grid.Row="1"
                        HorizontalAlignment="Center"
+                       Foreground="White"
                        Text="Downloading..."/>
             <muxc:ProgressBar Grid.Row="2"
+                              Foreground="White"
                               IsIndeterminate="{x:Bind SpeechBubbleContentViewModel.MODEL.Message.Message.image.state, Mode=OneWay, Converter={StaticResource DownloadStateQueuedBoolValueConverter}, FallbackValue=True}"
                               Value="{x:Bind SpeechBubbleContentViewModel.MODEL.Message.Message.image.progress, Mode=OneWay}"/>
         </Grid>
