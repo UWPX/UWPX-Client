@@ -6,6 +6,7 @@
              xmlns:dataforms="using:UWPX_UI.Controls.DataForms"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              xmlns:media="using:Microsoft.Toolkit.Uwp.UI.Media"
+             xmlns:muxc="using:Microsoft.UI.Xaml.Controls"
              xmlns:ui="using:Microsoft.Toolkit.Uwp.UI"
              Loaded="UserControl_Loaded"
              Visibility="{x:Bind VIEW_MODEL.MODEL.IsAvailable, Mode=OneWay, Converter={StaticResource BoolVisibilityValueConverter}}"
@@ -26,9 +27,9 @@
                 <RowDefinition Height="Auto"/>
                 <RowDefinition Height="Auto"/>
             </Grid.RowDefinitions>
-            <ProgressBar Grid.Row="0"
-                         IsIndeterminate="True"
-                         Visibility="{x:Bind VIEW_MODEL.MODEL.IsLoading, Mode=OneWay, Converter={StaticResource BoolVisibilityValueConverter}}"/>
+            <muxc:ProgressBar Grid.Row="0"
+                              IsIndeterminate="True"
+                              Visibility="{x:Bind VIEW_MODEL.MODEL.IsLoading, Mode=OneWay, Converter={StaticResource BoolVisibilityValueConverter}}"/>
             <controls:Expander x:Name="expander"
                                Grid.Row="1"
                                HorizontalContentAlignment="Stretch"

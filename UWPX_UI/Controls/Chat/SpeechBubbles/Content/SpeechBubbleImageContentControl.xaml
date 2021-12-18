@@ -7,6 +7,7 @@
              xmlns:converter="using:UWPX_UI_Context.Classes.ValueConverter"
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:muxc="using:Microsoft.UI.Xaml.Controls"
              xmlns:network="using:Shared.Classes.Network"
              xmlns:ui="using:Microsoft.Toolkit.Uwp.UI"
              d:DesignHeight="300"
@@ -185,16 +186,16 @@
                 <RowDefinition Height="Auto"/>
                 <RowDefinition Height="Auto"/>
             </Grid.RowDefinitions>
-            <ProgressRing Grid.Row="0"
-                          Width="30"
-                          Height="30"
-                          IsActive="True"/>
+            <muxc:ProgressRing Grid.Row="0"
+                               Width="30"
+                               Height="30"
+                               IsActive="True"/>
             <TextBlock Grid.Row="1"
                        HorizontalAlignment="Center"
                        Text="Downloading..."/>
-            <ProgressBar Grid.Row="2"
-                         IsIndeterminate="{x:Bind SpeechBubbleContentViewModel.MODEL.Message.Message.image.state, Mode=OneWay, Converter={StaticResource DownloadStateQueuedBoolValueConverter}, FallbackValue=True}"
-                         Value="{x:Bind SpeechBubbleContentViewModel.MODEL.Message.Message.image.progress, Mode=OneWay}"/>
+            <muxc:ProgressBar Grid.Row="2"
+                              IsIndeterminate="{x:Bind SpeechBubbleContentViewModel.MODEL.Message.Message.image.state, Mode=OneWay, Converter={StaticResource DownloadStateQueuedBoolValueConverter}, FallbackValue=True}"
+                              Value="{x:Bind SpeechBubbleContentViewModel.MODEL.Message.Message.image.progress, Mode=OneWay}"/>
         </Grid>
 
         <!--  Loading:  -->

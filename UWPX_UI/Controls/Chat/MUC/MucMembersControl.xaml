@@ -8,6 +8,7 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              xmlns:media="using:Microsoft.Toolkit.Uwp.UI.Media"
              xmlns:muc="using:UWPX_UI.Controls.Chat.MUC"
+             xmlns:muxc="using:Microsoft.UI.Xaml.Controls"
              xmlns:ui="using:Microsoft.Toolkit.Uwp.UI"
              mc:Ignorable="d">
 
@@ -30,9 +31,9 @@
                 <RowDefinition Height="Auto"/>
                 <RowDefinition Height="Auto"/>
             </Grid.RowDefinitions>
-            <ProgressBar Grid.Row="0"
-                         IsIndeterminate="True"
-                         Visibility="{x:Bind VIEW_MODEL.MODEL.IsLoading, Mode=OneWay, Converter={StaticResource BoolVisibilityValueConverter}}"/>
+            <muxc:ProgressBar Grid.Row="0"
+                              IsIndeterminate="True"
+                              Visibility="{x:Bind VIEW_MODEL.MODEL.IsLoading, Mode=OneWay, Converter={StaticResource BoolVisibilityValueConverter}}"/>
             <controls:Expander x:Name="expander"
                                Grid.Row="1"
                                HorizontalContentAlignment="Stretch"

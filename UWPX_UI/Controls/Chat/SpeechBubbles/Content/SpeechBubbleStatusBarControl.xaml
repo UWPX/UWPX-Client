@@ -3,6 +3,7 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:muxc="using:Microsoft.UI.Xaml.Controls"
              xmlns:valueConverter="using:UWPX_UI_Context.Classes.ValueConverter"
              HorizontalAlignment="Right"
              VerticalAlignment="Bottom"
@@ -39,9 +40,9 @@
             <RowDefinition Height="Auto"/>
             <RowDefinition Height="Auto"/>
         </Grid.RowDefinitions>
-        <ProgressBar Grid.Row="1"
-                     IsIndeterminate="True"
-                     Visibility="{x:Bind ViewModel.MODEL.Message.Message.state, Mode=OneWay, Converter={StaticResource MessageStateEncryptingVisibilityValueConverter}}"/>
+        <muxc:ProgressBar Grid.Row="1"
+                          IsIndeterminate="True"
+                          Visibility="{x:Bind ViewModel.MODEL.Message.Message.state, Mode=OneWay, Converter={StaticResource MessageStateEncryptingVisibilityValueConverter}}"/>
 
         <StackPanel Grid.Row="0"
                     HorizontalAlignment="{x:Bind HorizontalContentAlignment, Mode=OneWay}"

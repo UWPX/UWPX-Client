@@ -7,6 +7,7 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:interactivity="using:Microsoft.Xaml.Interactivity"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:muxc="using:Microsoft.UI.Xaml.Controls"
              xmlns:selectors="using:UWPX_UI_Context.Classes.DataTemplates.Selectors"
              xmlns:speechbubbles="using:UWPX_UI.Controls.Chat.SpeechBubbles"
              xmlns:templates="using:Manager.Classes.Chat"
@@ -74,11 +75,11 @@
                             <ColumnDefinition Width="Auto"/>
                             <ColumnDefinition Width="Auto"/>
                         </Grid.ColumnDefinitions>
-                        <ProgressRing Grid.Column="0"
-                                      Width="20"
-                                      Height="20"
-                                      VerticalAlignment="Center"
-                                      IsActive="{x:Bind VIEW_MODEL.MODEL.CHAT_MESSAGES.IsLoading, Mode=OneWay}"/>
+                        <muxc:ProgressRing Grid.Column="0"
+                                           Width="20"
+                                           Height="20"
+                                           VerticalAlignment="Center"
+                                           IsActive="{x:Bind VIEW_MODEL.MODEL.CHAT_MESSAGES.IsLoading, Mode=OneWay}"/>
                         <TextBlock Grid.Column="1"
                                    Margin="10,0,0,0"
                                    VerticalAlignment="Center"

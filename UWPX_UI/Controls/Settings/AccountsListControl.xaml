@@ -4,6 +4,7 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:datatemplates="using:UWPX_UI_Context.Classes.DataTemplates"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:muxc="using:Microsoft.UI.Xaml.Controls"
              xmlns:settings="using:UWPX_UI.Controls.Settings"
              mc:Ignorable="d">
 
@@ -83,12 +84,12 @@
                 <RowDefinition Height="Auto"/>
                 <RowDefinition Height="Auto"/>
             </Grid.RowDefinitions>
-            <ProgressRing Grid.Row="0"
-                          Width="50"
-                          Height="50"
-                          Margin="0,10,0,0"
-                          HorizontalAlignment="Center"
-                          IsActive="True"/>
+            <muxc:ProgressRing Grid.Row="0"
+                               Width="50"
+                               Height="50"
+                               Margin="0,10,0,0"
+                               HorizontalAlignment="Center"
+                               IsActive="True"/>
             <TextBlock Grid.Row="1"
                        Margin="0,10,0,0"
                        HorizontalAlignment="Center"

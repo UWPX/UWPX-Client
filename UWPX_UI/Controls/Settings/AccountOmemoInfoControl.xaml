@@ -7,6 +7,7 @@
              xmlns:controlsOmemo="using:UWPX_UI.Controls.OMEMO"
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:muxc="using:Microsoft.UI.Xaml.Controls"
              xmlns:omemo="using:UWPX_UI_Context.Classes.ValueConverter.OMEMO"
              Loaded="UserControl_Loaded"
              mc:Ignorable="d">
@@ -44,8 +45,8 @@
             <TextBlock Margin="0,10,0,0"
                        FontWeight="Bold"
                        Text="This device:"/>
-            <ProgressBar IsIndeterminate="True"
-                         Visibility="{x:Bind VIEW_MODEL.MODEL.Saving, Mode=OneWay, Converter={StaticResource BoolVisibilityValueConverter}}"/>
+            <muxc:ProgressBar IsIndeterminate="True"
+                              Visibility="{x:Bind VIEW_MODEL.MODEL.Saving, Mode=OneWay, Converter={StaticResource BoolVisibilityValueConverter}}"/>
             <Grid>
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="*"/>

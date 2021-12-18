@@ -5,9 +5,11 @@
              xmlns:controls1="using:UWPX_UI.Controls"
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:muxc="using:Microsoft.UI.Xaml.Controls"
              xmlns:unicode="using:NeoSmart.Unicode"
              Height="300"
              mc:Ignorable="d">
+
     <UserControl.Resources>
         <ResourceDictionary>
             <ResourceDictionary.MergedDictionaries>
@@ -150,13 +152,13 @@
                        Text="We couldn't find this one."/>
         </StackPanel>
 
-        <ProgressRing Grid.Row="1"
-                      Grid.RowSpan="2"
-                      Width="50"
-                      Height="50"
-                      HorizontalAlignment="Center"
-                      VerticalAlignment="Center"
-                      IsActive="{x:Bind VIEW_MODEL.MODEL.IsLoading, Mode=OneWay}"/>
+        <muxc:ProgressRing Grid.Row="1"
+                           Grid.RowSpan="2"
+                           Width="50"
+                           Height="50"
+                           HorizontalAlignment="Center"
+                           VerticalAlignment="Center"
+                           IsActive="{x:Bind VIEW_MODEL.MODEL.IsLoading, Mode=OneWay}"/>
         <controls1:SeperatorControl Grid.Row="3"/>
         <StackPanel x:Name="CategoriesStackPanel"
                     Grid.Row="4"
