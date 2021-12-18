@@ -166,13 +166,15 @@
         <Button x:Name="download_btn"
                 Grid.Row="0"
                 Margin="10"
-                HorizontalAlignment="Center"
+                HorizontalAlignment="Stretch"
                 VerticalAlignment="Center"
                 Background="Transparent"
+                BorderThickness="0"
                 Click="Download_btn_Click"
                 Content="&#xE896;"
                 FontFamily="{ThemeResource SymbolThemeFontFamily}"
                 FontSize="30"
+                ToolTipService.ToolTip="Download image"
                 Visibility="{x:Bind SpeechBubbleContentViewModel.MODEL.Message.Message.image.state, Mode=OneWay, Converter={StaticResource DownloadStateVisibilityValueConverter_Download}, FallbackValue=Collapsed}"/>
 
         <!--  Downloading:  -->
