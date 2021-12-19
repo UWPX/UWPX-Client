@@ -23,19 +23,19 @@ namespace UWPX_UI_Context.Classes.DataContext.Pages
         #endregion
         //--------------------------------------------------------Misc Methods:---------------------------------------------------------------\\
         #region --Misc Methods (Public)--
-        public async Task DonateViaLiberapayAsync()
+        public Task DonateViaLiberapayAsync()
         {
-            await UiUtils.LaunchUriAsync(new Uri("http://liberapay.uwpx.org"));
+            return UiUtils.LaunchUriAsync(new Uri("http://liberapay.uwpx.org"));
         }
 
-        public async Task DonateViaPayPalAsync()
+        public Task DonateViaPayPalAsync()
         {
-            await UiUtils.LaunchUriAsync(new Uri("http://paypal.uwpx.org"));
+            return UiUtils.LaunchUriAsync(new Uri("http://paypal.uwpx.org"));
         }
 
-        public async Task SendBankDetailsMailAsync()
+        public Task SendBankDetailsMailAsync()
         {
-            await UiUtils.LaunchUriAsync(new Uri("mailto:support@uwpx.org?subject=[Donation]%20Bank%20details"));
+            return UiUtils.LaunchUriAsync(new Uri("mailto:support@uwpx.org?subject=[Donation]%20Bank%20details"));
         }
 
         #endregion

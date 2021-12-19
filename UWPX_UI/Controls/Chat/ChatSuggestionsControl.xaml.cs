@@ -50,9 +50,9 @@ namespace UWPX_UI.Controls.Chat
         #endregion
 
         #region --Misc Methods (Private)--
-        private async Task UpdateViewAsync()
+        private Task UpdateViewAsync()
         {
-            await VIEW_MODEL.UpdateViewAsync(Client);
+            return VIEW_MODEL.UpdateViewAsync(Client);
         }
 
         private void UpdateView()

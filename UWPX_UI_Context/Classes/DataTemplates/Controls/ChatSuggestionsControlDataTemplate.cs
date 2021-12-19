@@ -70,9 +70,9 @@ namespace UWPX_UI_Context.Classes.DataTemplates.Controls
         #endregion
         //--------------------------------------------------------Misc Methods:---------------------------------------------------------------\\
         #region --Misc Methods (Public)--
-        public async Task UpdateViewAsync(Client client)
+        public Task UpdateViewAsync(Client client)
         {
-            await LoadSuggestionsAsync(client);
+            return LoadSuggestionsAsync(client);
         }
 
         public void UpdateView(string filterText)

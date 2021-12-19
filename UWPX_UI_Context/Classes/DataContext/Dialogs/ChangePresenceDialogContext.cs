@@ -24,9 +24,9 @@ namespace UWPX_UI_Context.Classes.DataContext.Dialogs
         #endregion
         //--------------------------------------------------------Misc Methods:---------------------------------------------------------------\\
         #region --Misc Methods (Public)--
-        public async Task<bool> SavePresenceAsync()
+        public Task<bool> SavePresenceAsync()
         {
-            return await Task.Run(async () =>
+            return Task.Run(async () =>
             {
                 MODEL.IsSaving = true;
                 // Save presence and status:

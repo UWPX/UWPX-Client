@@ -92,14 +92,14 @@ namespace UWPX_UI_Context.Classes.DataContext.Controls.Chat.MUC
             SetChatBookmarked(chat, !chat.Chat.inRoster);
         }
 
-        public async Task LeaveMucAsync(ChatDataTemplate chat)
+        public Task LeaveMucAsync(ChatDataTemplate chat)
         {
-            await MucHandler.INSTANCE.LeaveRoomAsync(chat.Client.xmppClient, chat.Chat.muc);
+            return MucHandler.INSTANCE.LeaveRoomAsync(chat.Client.xmppClient, chat.Chat.muc);
         }
 
-        public async Task EnterMucAsync(ChatDataTemplate chat)
+        public Task EnterMucAsync(ChatDataTemplate chat)
         {
-            await MucHandler.INSTANCE.EnterMucAsync(chat.Client.xmppClient, chat.Chat.muc);
+            return MucHandler.INSTANCE.EnterMucAsync(chat.Client.xmppClient, chat.Chat.muc);
         }
 
         #endregion

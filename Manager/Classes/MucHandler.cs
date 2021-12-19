@@ -126,12 +126,12 @@ namespace Manager.Classes
             }
         }
 
-        public async Task EnterMucAsync(XMPPClient client, MucInfoModel info)
+        public Task EnterMucAsync(XMPPClient client, MucInfoModel info)
         {
             MucJoinHelper helper = new MucJoinHelper(client, info);
             TIMED_LIST.AddTimed(helper);
 
-            await helper.EnterRoomAsync();
+            return helper.EnterRoomAsync();
         }
 
         public async Task LeaveRoomAsync(XMPPClient client, MucInfoModel info)
@@ -164,12 +164,12 @@ namespace Manager.Classes
             }
         }
 
-        private async Task SendMucLeaveMessageAsync(XMPPClient client, MucInfoModel info)
+        private Task SendMucLeaveMessageAsync(XMPPClient client, MucInfoModel info)
         {
             string from = client.getXMPPAccount().getFullJid();
             string to = info.chat.bareJid + '/' + info.nickname;
             LeaveRoomMessage msg = new LeaveRoomMessage(from, to);
-            await client.SendAsync(msg);
+            return client.SendAsync(msg);
         }
 
         private async Task<bool> DelayAsync(string bareJid)

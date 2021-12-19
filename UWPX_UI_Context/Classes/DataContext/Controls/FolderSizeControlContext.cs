@@ -31,9 +31,9 @@ namespace UWPX_UI_Context.Classes.DataContext.Controls
             }
         }
 
-        public async Task RecalculateFolderSizeAsync(string path)
+        public Task RecalculateFolderSizeAsync(string path)
         {
-            await MODEL.UpdateViewAsync(path);
+            return MODEL.UpdateViewAsync(path);
         }
 
         #endregion

@@ -227,11 +227,11 @@ namespace Manager.Classes.Chat
         #endregion
         //--------------------------------------------------------Misc Methods:---------------------------------------------------------------\\
         #region --Misc Methods (Public)--
-        public async Task InitAsync()
+        public Task InitAsync()
         {
             Debug.Assert(!initialized);
             initialized = true;
-            await LoadChatsAsync();
+            return LoadChatsAsync();
         }
 
         public void MarkAllChatMessagesAsRead(int chatId)
@@ -455,51 +455,51 @@ namespace Manager.Classes.Chat
             }
         }
 
-        public async Task DeleteAccountAsync(AccountModel account)
+        public Task DeleteAccountAsync(AccountModel account)
         {
-            await Task.Run(async () =>
-            {
-                Logger.Info($"Deleting account '{account.bareJid}'...");
-                Logger.Info($"Making sure the account '{account.bareJid}' is disconnected before removing...");
+            return Task.Run(async () =>
+             {
+                 Logger.Info($"Deleting account '{account.bareJid}'...");
+                 Logger.Info($"Making sure the account '{account.bareJid}' is disconnected before removing...");
 
-                try
-                {
-                    await ConnectionHandler.INSTANCE.RemoveAccountAsync(account.bareJid);
-                }
-                catch (Exception e)
-                {
-                    Logger.Error($"Failed to disconnect account '{account.bareJid}' for deletion.", e);
-                    return;
-                }
-                Logger.Info($"Account '{account.bareJid}' disconnected.");
+                 try
+                 {
+                     await ConnectionHandler.INSTANCE.RemoveAccountAsync(account.bareJid);
+                 }
+                 catch (Exception e)
+                 {
+                     Logger.Error($"Failed to disconnect account '{account.bareJid}' for deletion.", e);
+                     return;
+                 }
+                 Logger.Info($"Account '{account.bareJid}' disconnected.");
 
-                CHATS_SEMA.Wait();
-                CHATS_MESSAGES_SEMA.Wait();
-                try
-                {
-                    Logger.Info($"Deleting chats and chat messages for '{account.bareJid}'...");
-                    List<ChatModel> chats;
-                    using (MainDbContext ctx = new MainDbContext())
-                    {
-                        chats = ctx.Chats.Where(c => string.Equals(c.accountBareJid, account.bareJid)).Include(ctx.GetIncludePaths(typeof(ChatModel))).ToList();
-                    }
-                    foreach (ChatModel chat in chats)
-                    {
-                        DeleteChatUnsafe(chat, false, false, true);
-                    }
+                 CHATS_SEMA.Wait();
+                 CHATS_MESSAGES_SEMA.Wait();
+                 try
+                 {
+                     Logger.Info($"Deleting chats and chat messages for '{account.bareJid}'...");
+                     List<ChatModel> chats;
+                     using (MainDbContext ctx = new MainDbContext())
+                     {
+                         chats = ctx.Chats.Where(c => string.Equals(c.accountBareJid, account.bareJid)).Include(ctx.GetIncludePaths(typeof(ChatModel))).ToList();
+                     }
+                     foreach (ChatModel chat in chats)
+                     {
+                         DeleteChatUnsafe(chat, false, false, true);
+                     }
 
-                    Logger.Info($"Chats and chat messages for '{account.bareJid}' deleted.");
-                    account.Remove(true);
-                    Logger.Info($"Account '{account.bareJid}' deleted.");
-                }
-                catch (Exception e)
-                {
-                    Logger.Error($"Failed to delete account '{account.bareJid}'.", e);
-                }
-                CHATS_MESSAGES_SEMA.Release();
-                CHATS_SEMA.Release();
-                await LoadChatsAsync();
-            });
+                     Logger.Info($"Chats and chat messages for '{account.bareJid}' deleted.");
+                     account.Remove(true);
+                     Logger.Info($"Account '{account.bareJid}' deleted.");
+                 }
+                 catch (Exception e)
+                 {
+                     Logger.Error($"Failed to delete account '{account.bareJid}'.", e);
+                 }
+                 CHATS_MESSAGES_SEMA.Release();
+                 CHATS_SEMA.Release();
+                 await LoadChatsAsync();
+             });
         }
 
         #endregion

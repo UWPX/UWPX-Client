@@ -121,9 +121,9 @@ namespace UWPX_UI_Context.Classes.DataContext.Controls
             UpdateView(newChat);
         }
 
-        public async Task ToggleChatInRosterAsync(ChatDataTemplate chat)
+        public Task ToggleChatInRosterAsync(ChatDataTemplate chat)
         {
-            await SetChatInRosterAsync(chat, !chat.Chat.inRoster);
+            return SetChatInRosterAsync(chat, !chat.Chat.inRoster);
         }
 
         public void ToggleChatBookmarked(ChatDataTemplate chat)
@@ -154,24 +154,24 @@ namespace UWPX_UI_Context.Classes.DataContext.Controls
             }
         }
 
-        public async Task LeaveMucAsync(ChatDataTemplate chatTemplate)
+        public Task LeaveMucAsync(ChatDataTemplate chatTemplate)
         {
-            await MucHandler.INSTANCE.LeaveRoomAsync(chatTemplate.Client.xmppClient, chatTemplate.Chat.muc);
+            return MucHandler.INSTANCE.LeaveRoomAsync(chatTemplate.Client.xmppClient, chatTemplate.Chat.muc);
         }
 
-        public async Task EnterMucAsync(ChatDataTemplate chatTemplate)
+        public Task EnterMucAsync(ChatDataTemplate chatTemplate)
         {
-            await MucHandler.INSTANCE.EnterMucAsync(chatTemplate.Client.xmppClient, chatTemplate.Chat.muc);
+            return MucHandler.INSTANCE.EnterMucAsync(chatTemplate.Client.xmppClient, chatTemplate.Chat.muc);
         }
 
-        public async Task SendPresenceProbeAsync(ChatDataTemplate chatTemplate)
+        public Task SendPresenceProbeAsync(ChatDataTemplate chatTemplate)
         {
-            await chatTemplate.Client.xmppClient.GENERAL_COMMAND_HELPER.sendPresenceProbeAsync(chatTemplate.Client.dbAccount.fullJid.FullJid(), chatTemplate.Chat.bareJid);
+            return chatTemplate.Client.xmppClient.GENERAL_COMMAND_HELPER.sendPresenceProbeAsync(chatTemplate.Client.dbAccount.fullJid.FullJid(), chatTemplate.Chat.bareJid);
         }
 
-        public async Task RequestPresenceSubscriptionAsync(ChatDataTemplate chatTemplate)
+        public Task RequestPresenceSubscriptionAsync(ChatDataTemplate chatTemplate)
         {
-            await chatTemplate.Client.xmppClient.GENERAL_COMMAND_HELPER.requestPresenceSubscriptionAsync(chatTemplate.Chat.bareJid);
+            return chatTemplate.Client.xmppClient.GENERAL_COMMAND_HELPER.requestPresenceSubscriptionAsync(chatTemplate.Chat.bareJid);
         }
 
         public async Task CancelPresenceSubscriptionAsync(ChatDataTemplate chatTemplate)

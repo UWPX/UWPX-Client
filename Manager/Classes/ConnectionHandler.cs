@@ -174,11 +174,11 @@ namespace Manager.Classes
         /// Handles reconnecting the account in case <see cref="AccountModel.enabled"/> is true.
         /// </summary>
         /// <param name="account">The new <see cref="AccountModel"/>.</param>
-        public async Task UpdateAccountAsync(AccountModel account)
+        public Task UpdateAccountAsync(AccountModel account)
         {
             ClientConnectionHandler client = GetClient(account.bareJid);
             Debug.Assert(!(client is null));
-            await client.UpdateAccountAsync(account);
+            return client.UpdateAccountAsync(account);
         }
 
         /// <summary>

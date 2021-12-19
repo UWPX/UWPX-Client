@@ -215,9 +215,9 @@ namespace UWPX_UI_Context.Classes
         /// </summary>
         /// <param name="url">The <see cref="Uri"/> that defines the application that should get launched.</param>
         /// <returns>Returns true on success.</returns>
-        public static async Task<bool> LaunchUriAsync(Uri url)
+        public static Task<bool> LaunchUriAsync(Uri url)
         {
-            return await Launcher.LaunchUriAsync(url);
+            return Launcher.LaunchUriAsync(url);
         }
 
         public static void SetupWindow(Application application)

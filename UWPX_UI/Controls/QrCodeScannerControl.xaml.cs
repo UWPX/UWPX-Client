@@ -166,9 +166,9 @@ namespace UWPX_UI.Controls
             await StopAsync();
         }
 
-        private async void Current_Resuming(object sender, object e)
+        private Task Current_Resuming(object sender, object e)
         {
-            await StartAsync();
+            return StartAsync();
         }
 
         private void QR_CODE_READER_ResultFound(Result result)

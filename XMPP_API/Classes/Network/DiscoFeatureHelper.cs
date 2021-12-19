@@ -52,14 +52,14 @@ namespace XMPP_API.Classes.Network
         #endregion
 
         #region --Misc Methods (Private)--
-        private async Task DiscoDomainPartAsync()
+        private Task DiscoDomainPartAsync()
         {
-            await DiscoAsync(CONNECTION.account.user.domainPart, CheckDiscoFeaturesDomainPartAsync);
+            return DiscoAsync(CONNECTION.account.user.domainPart, CheckDiscoFeaturesDomainPartAsync);
         }
 
-        private async Task DiscoBareJidAsync()
+        private Task DiscoBareJidAsync()
         {
-            await DiscoAsync(CONNECTION.account.user.getBareJid(), CheckDiscoFeaturesBareJidAsync);
+            return DiscoAsync(CONNECTION.account.user.getBareJid(), CheckDiscoFeaturesBareJidAsync);
         }
 
         private async Task DiscoAsync(string discoTarget, CheckDiscoFeaturesAsync action)

@@ -33,9 +33,9 @@ namespace UWPX_UI_Context.Classes.DataContext.Dialogs
             MODEL.Confirmed = false;
         }
 
-        public async Task OnLinkClickedAsync(string link)
+        public Task OnLinkClickedAsync(string link)
         {
-            await UiUtils.LaunchUriAsync(new Uri(link));
+            return UiUtils.LaunchUriAsync(new Uri(link));
         }
 
         #endregion

@@ -28,9 +28,9 @@ namespace UWPX_UI_Context.Classes.DataContext.Controls
             MODEL.UpdateViewModel(e);
         }
 
-        public async Task ExportCertificateAsync()
+        public Task ExportCertificateAsync()
         {
-            await MODEL.ExportCertificateAsync();
+            return MODEL.ExportCertificateAsync();
         }
 
         #endregion

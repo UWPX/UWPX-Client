@@ -38,10 +38,10 @@ namespace Manager.Classes
         #endregion
         //--------------------------------------------------------Misc Methods:---------------------------------------------------------------\\
         #region --Misc Methods (Public)--
-        public async Task RequestReservedNicksAsync()
+        public Task RequestReservedNicksAsync()
         {
             DiscoReservedRoomNicknamesMessages msg = new DiscoReservedRoomNicknamesMessages(CLIENT.getXMPPAccount().getFullJid(), INFO.chat.bareJid);
-            await CLIENT.SendAsync(msg);
+            return CLIENT.SendAsync(msg);
         }
 
         public async Task EnterRoomAsync()

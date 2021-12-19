@@ -23,9 +23,9 @@ namespace UWPX_UI_Context.Classes.DataContext.Controls
         #endregion
         //--------------------------------------------------------Misc Methods:---------------------------------------------------------------\\
         #region --Misc Methods (Public)--
-        public async Task UpdateViewAsync(Client client)
+        public Task UpdateViewAsync(Client client)
         {
-            await MODEL.UpdateViewAsync(client);
+            return MODEL.UpdateViewAsync(client);
         }
 
         public void UpdateView(string filterText)

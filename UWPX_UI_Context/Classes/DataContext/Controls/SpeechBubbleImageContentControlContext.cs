@@ -94,14 +94,14 @@ namespace UWPX_UI_Context.Classes.DataContext.Controls
         /// Tries to open the current image URL with the default web browser.
         /// </summary>
         /// <returns>Returns true on success.</returns>
-        public async Task<bool> OpenImageUrlWithDefaultBrowserAsync(SpeechBubbleContentControlContext speechBubbleContentViewModel)
+        public Task<bool> OpenImageUrlWithDefaultBrowserAsync(SpeechBubbleContentControlContext speechBubbleContentViewModel)
         {
-            return await UiUtils.LaunchUriAsync(new Uri(speechBubbleContentViewModel.MODEL.Message.Message.message));
+            return UiUtils.LaunchUriAsync(new Uri(speechBubbleContentViewModel.MODEL.Message.Message.message));
         }
 
-        public async Task RedownloadImageAsync()
+        public Task RedownloadImageAsync()
         {
-            await ConnectionHandler.INSTANCE.IMAGE_DOWNLOAD_HANDLER.RedownloadAsync(SpeechBubbleViewModel.MODEL.Message.Message.image);
+            return ConnectionHandler.INSTANCE.IMAGE_DOWNLOAD_HANDLER.RedownloadAsync(SpeechBubbleViewModel.MODEL.Message.Message.image);
         }
 
         public void CancelImageDownload()
@@ -109,9 +109,9 @@ namespace UWPX_UI_Context.Classes.DataContext.Controls
             ConnectionHandler.INSTANCE.IMAGE_DOWNLOAD_HANDLER.CancelDownload(SpeechBubbleViewModel.MODEL.Message.Message.image);
         }
 
-        public async Task StartImageDownloadAsync()
+        public Task StartImageDownloadAsync()
         {
-            await ConnectionHandler.INSTANCE.IMAGE_DOWNLOAD_HANDLER.StartDownloadAsync(SpeechBubbleViewModel.MODEL.Message.Message.image);
+            return ConnectionHandler.INSTANCE.IMAGE_DOWNLOAD_HANDLER.StartDownloadAsync(SpeechBubbleViewModel.MODEL.Message.Message.image);
         }
 
         #endregion

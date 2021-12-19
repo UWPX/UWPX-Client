@@ -64,10 +64,10 @@ namespace Manager.Classes
         #endregion
         //--------------------------------------------------------Misc Methods:---------------------------------------------------------------\\
         #region --Misc Methods (Public)--
-        public async ValueTask DisposeAsync()
+        public ValueTask DisposeAsync()
         {
             UnsubscribeFromEvents();
-            await DisconnectAsync();
+            return DisconnectAsync();
         }
 
         /// <summary>
@@ -97,25 +97,25 @@ namespace Manager.Classes
         /// <summary>
         /// Connects the client.
         /// </summary>
-        public async Task ConnectAsync()
+        public Task ConnectAsync()
         {
-            await client.xmppClient.connectAsync();
+            return client.xmppClient.connectAsync();
         }
 
         /// <summary>
         /// Disconnects the client.
         /// </summary>
-        public async Task DisconnectAsync()
+        public Task DisconnectAsync()
         {
-            await client.xmppClient.disconnectAsync();
+            return client.xmppClient.disconnectAsync();
         }
 
         /// <summary>
         /// Reconnects the client.
         /// </summary>
-        public async Task ReconnectAsync()
+        public Task ReconnectAsync()
         {
-            await client.xmppClient.reconnectAsync();
+            return client.xmppClient.reconnectAsync();
         }
 
         private async Task<bool> DecryptOmemoEncryptedMessageAsync(OmemoEncryptedMessage msg, bool trustedKeysOnly)

@@ -49,12 +49,12 @@ namespace UWPX_UI.Controls.IoT
         #endregion
         //--------------------------------------------------------Misc Methods:---------------------------------------------------------------\\
         #region --Misc Methods (Public)--
-        public async Task StartAsync()
+        public Task StartAsync()
         {
             VIEW_MODEL.ScannerDeviceFound += VIEW_MODEL_ScannerDeviceFound;
             VIEW_MODEL.ScannerStateChanged += VIEW_MODEL_ScannerStateChanged;
 
-            await VIEW_MODEL.StartAsync(RegisterIoTUriAction.MAC);
+            return VIEW_MODEL.StartAsync(RegisterIoTUriAction.MAC);
         }
 
         public void Stop()

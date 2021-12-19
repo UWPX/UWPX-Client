@@ -117,9 +117,9 @@ namespace XMPP_API.Classes.Network
         #endregion
         //--------------------------------------------------------Misc Methods:---------------------------------------------------------------\\
         #region --Misc Methods (Public)--
-        public async void Dispose()
+        public Task Dispose()
         {
-            await DisconnectAsync();
+            return DisconnectAsync();
         }
 
         public Task<bool> SendAsync(AbstractMessage msg)
@@ -213,13 +213,13 @@ namespace XMPP_API.Classes.Network
         /// Reconnects to the server.
         /// </summary>
         /// <param name="resetErrorCount">Whether the connectionErrorCount should get reset.</param>
-        public async Task ReconnectAsync(bool resetErrorCount)
+        public Task ReconnectAsync(bool resetErrorCount)
         {
             if (resetErrorCount)
             {
                 errorCount = 0;
             }
-            await InternalDisconnectAsync(true);
+            return InternalDisconnectAsync(true);
         }
 
         /// <summary>
@@ -342,13 +342,13 @@ namespace XMPP_API.Classes.Network
         /// <summary>
         /// Called once the connection timer got triggered.
         /// </summary>
-        private async Task OnConnetionTimerTimeoutAsync()
+        private Task OnConnetionTimerTimeoutAsync()
         {
             string errorMessage = "Connection timeout got triggered for account: " + account.getBareJid();
             Logger.Warn(LOGGER_TAG + errorMessage);
             lastConnectionError = new ConnectionError(ConnectionErrorCode.XMPP_CONNECTION_TIMEOUT, errorMessage);
 
-            await OnConnectionErrorAsync();
+            return OnConnectionErrorAsync();
         }
 
         /// <summary>
@@ -411,19 +411,19 @@ namespace XMPP_API.Classes.Network
         /// Resends the stream header.
         /// </summary>
         /// <returns></returns>
-        private async Task SoftRestartAsync()
+        private Task SoftRestartAsync()
         {
             OpenStreamMessage openStreamMessage = new OpenStreamMessage(account.getBareJid(), account.user.domainPart);
-            await SendAsync(openStreamMessage, true);
+            return SendAsync(openStreamMessage, true);
         }
 
         /// <summary>
         /// Performs a reconnect.
         /// </summary>
         /// <returns></returns>
-        private async Task HardRestartAsync()
+        private Task HardRestartAsync()
         {
-            await ReconnectAsync(false);
+            return ReconnectAsync(false);
         }
 
         /// <summary>

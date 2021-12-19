@@ -23,9 +23,9 @@ namespace UWPX_UI_Context.Classes.DataContext.Controls
         #endregion
         //--------------------------------------------------------Misc Methods:---------------------------------------------------------------\\
         #region --Misc Methods (Public)--
-        public async Task OnReadOnOmemoClickedAsync()
+        public Task OnReadOnOmemoClickedAsync()
         {
-            await UiUtils.LaunchUriAsync(new Uri("https://conversations.im/omemo/"));
+            return UiUtils.LaunchUriAsync(new Uri("https://conversations.im/omemo/"));
         }
 
         #endregion

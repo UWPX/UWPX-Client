@@ -38,9 +38,9 @@ namespace UWPX_UI_Context.Classes.DataTemplates.Controls
         #endregion
         //--------------------------------------------------------Misc Methods:---------------------------------------------------------------\\
         #region --Misc Methods (Public)--
-        public async Task UpdateViewAsync(string path)
+        public Task UpdateViewAsync(string path)
         {
-            await CalcFolderSizeAsync(path);
+            return CalcFolderSizeAsync(path);
         }
 
         #endregion

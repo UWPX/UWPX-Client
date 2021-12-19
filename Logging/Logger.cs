@@ -41,7 +41,7 @@ namespace Logging
         /// Opens a FileSavePicker and lets the user pick the destination.
         /// </summary>
         /// <returns>Returns the selected path.</returns>
-        private static async Task<StorageFile> GetTargetPathAsync()
+        private static Task<StorageFile> GetTargetPathAsync()
         {
             FileSavePicker savePicker = new FileSavePicker
             {
@@ -49,7 +49,7 @@ namespace Logging
             };
             savePicker.FileTypeChoices.Add("Logs", new List<string>() { ".zip" });
             savePicker.SuggestedFileName = "Logs";
-            return await savePicker.PickSaveFileAsync();
+            return savePicker.PickSaveFileAsync();
         }
 
         /// <summary>
@@ -71,9 +71,9 @@ namespace Logging
         /// Returns the "Logs" folder and creates it, if it does not exist.
         /// </summary>
         /// <returns>Returns the "Logs" folder.</returns>
-        public static async Task<StorageFolder> GetLogFolderAsync()
+        public static Task<StorageFolder> GetLogFolderAsync()
         {
-            return await ApplicationData.Current.LocalFolder.CreateFolderAsync("Logs", CreationCollisionOption.OpenIfExists);
+            return ApplicationData.Current.LocalFolder.CreateFolderAsync("Logs", CreationCollisionOption.OpenIfExists);
         }
 
         private static string getLogsFolderPath()
@@ -168,10 +168,10 @@ namespace Logging
         /// Opens the log folder.
         /// </summary>
         /// <returns>An async Task.</returns>
-        public static async Task OpenLogFolderAsync()
+        public static Task OpenLogFolderAsync()
         {
             StorageFolder folder = ApplicationData.Current.LocalFolder;
-            await Windows.System.Launcher.LaunchFolderAsync(folder);
+            return Windows.System.Launcher.LaunchFolderAsync(folder);
         }
 
         /// <summary>

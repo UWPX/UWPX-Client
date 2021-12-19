@@ -29,58 +29,58 @@ namespace UWPX_UI_Context.Classes.DataContext.Pages
         #endregion
         //--------------------------------------------------------Misc Methods:---------------------------------------------------------------\\
         #region --Misc Methods (Public)--
-        public async Task CreateAccountAsync()
+        public Task CreateAccountAsync()
         {
-            await Task.Run(async () =>
-            {
-                JidModel jid = new JidModel
-                {
-                    localPart = XMPP_API.Classes.Utils.getJidLocalPart(MODEL.BareJidText),
-                    domainPart = XMPP_API.Classes.Utils.getJidDomainPart(MODEL.BareJidText),
-                    resourcePart = XMPP_API.Classes.Utils.getRandomResourcePart()
-                };
-                AccountModel account = new AccountModel(jid, UiUtils.GenRandomHexColor());
-                account.omemoInfo.GenerateOmemoKeys();
+            return Task.Run(async () =>
+             {
+                 JidModel jid = new JidModel
+                 {
+                     localPart = XMPP_API.Classes.Utils.getJidLocalPart(MODEL.BareJidText),
+                     domainPart = XMPP_API.Classes.Utils.getJidDomainPart(MODEL.BareJidText),
+                     resourcePart = XMPP_API.Classes.Utils.getRandomResourcePart()
+                 };
+                 AccountModel account = new AccountModel(jid, UiUtils.GenRandomHexColor());
+                 account.omemoInfo.GenerateOmemoKeys();
 
                 // Look up the DNS SRV record:
                 SRVLookupResult result = await XMPPAccount.dnsSrvLookupAsync(jid.domainPart);
-                if (result.SUCCESS)
-                {
-                    account.server.address = result.SERVER_ADDRESS;
-                    account.server.port = result.PORT;
-                }
-                MODEL.Account = account;
-            });
+                 if (result.SUCCESS)
+                 {
+                     account.server.address = result.SERVER_ADDRESS;
+                     account.server.port = result.PORT;
+                 }
+                 MODEL.Account = account;
+             });
         }
 
-        public async Task SaveAccountAsync()
+        public Task SaveAccountAsync()
         {
-            await Task.Run(async () =>
-            {
+            return Task.Run(async () =>
+             {
                 // Update the password:
                 XMPPAccount account = MODEL.Account.ToXMPPAccount();
-                account.user.password = MODEL.Password;
-                Vault.StorePassword(account);
+                 account.user.password = MODEL.Password;
+                 Vault.StorePassword(account);
 
                 // Push:
                 MODEL.Account.push.state = Settings.GetSettingBoolean(SettingsConsts.PUSH_ENABLED) ? PushState.ENABLING : PushState.DISABLED;
 
                 // New account add it to the DB:
                 if (MODEL.OldAccount is null)
-                {
-                    MODEL.Account.Add();
-                    ConnectionHandler.INSTANCE.AddAccount(MODEL.Account);
+                 {
+                     MODEL.Account.Add();
+                     ConnectionHandler.INSTANCE.AddAccount(MODEL.Account);
 
                     // Initialize Push:
                     PushManager.INSTANCE.Init();
-                }
+                 }
                 // Update the old account:
                 else
-                {
-                    MODEL.Account.Update();
-                    await ConnectionHandler.INSTANCE.UpdateAccountAsync(MODEL.Account);
-                }
-            });
+                 {
+                     MODEL.Account.Update();
+                     await ConnectionHandler.INSTANCE.UpdateAccountAsync(MODEL.Account);
+                 }
+             });
         }
 
         public void ColorSelected(ColorPickerDialogDataTemplate dataTemplate)
@@ -121,9 +121,9 @@ namespace UWPX_UI_Context.Classes.DataContext.Pages
             }
         }
 
-        public async Task OnWhatIsAJidAsync()
+        public Task OnWhatIsAJidAsync()
         {
-            await UiUtils.LaunchUriAsync(new System.Uri("https://uwpx.org/support/"));
+            return UiUtils.LaunchUriAsync(new System.Uri("https://uwpx.org/support/"));
         }
 
         #endregion

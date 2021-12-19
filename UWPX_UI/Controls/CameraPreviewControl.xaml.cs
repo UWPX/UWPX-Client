@@ -330,9 +330,9 @@ namespace UWPX_UI.Controls
         #endregion
         //--------------------------------------------------------Events:---------------------------------------------------------------------\\
         #region --Events--
-        private async void Current_Resuming(object sender, object e)
+        private Task Current_Resuming(object sender, object e)
         {
-            await StartPreviewAsync();
+            return StartPreviewAsync();
         }
 
         private async void Current_Suspending(object sender, SuspendingEventArgs e)

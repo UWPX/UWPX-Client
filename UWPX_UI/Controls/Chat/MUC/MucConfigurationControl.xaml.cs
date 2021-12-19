@@ -53,10 +53,10 @@ namespace UWPX_UI.Controls.Chat.MUC
             VIEW_MODEL.UpdateView(e);
         }
 
-        private async Task ShowErrorDialogAsync()
+        private Task ShowErrorDialogAsync()
         {
             InfoDialog dialog = new InfoDialog("Error", VIEW_MODEL.MODEL.ErrorMarkdownText);
-            await UiUtils.ShowDialogAsync(dialog);
+            return UiUtils.ShowDialogAsync(dialog);
         }
 
         private async Task UpdateErrorButtonAsync()

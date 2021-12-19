@@ -47,20 +47,20 @@ namespace UWPX_UI_Context.Classes.DataContext.Pages
             catch (System.Exception) { }
         }
 
-        private async Task AddIoTDevice(string deviceBareJid, Client client)
+        private Task AddIoTDevice(string deviceBareJid, Client client)
         {
             // Run it in a new Task since we want to access the DB and this is a blocking action.
-            await Task.Run(async () =>
-            {
+            return Task.Run(async () =>
+             {
                 // Add to DB:
                 ChatModel chat = new ChatModel(deviceBareJid, client.dbAccount)
-                {
-                    chatType = ChatType.IOT_DEVICE,
-                    isChatActive = true
-                };
-                SemaLock semaLock = DataCache.INSTANCE.NewChatSemaLock();
-                DataCache.INSTANCE.AddChatUnsafe(chat, client);
-                semaLock.Dispose();
+                 {
+                     chatType = ChatType.IOT_DEVICE,
+                     isChatActive = true
+                 };
+                 SemaLock semaLock = DataCache.INSTANCE.NewChatSemaLock();
+                 DataCache.INSTANCE.AddChatUnsafe(chat, client);
+                 semaLock.Dispose();
 
                 // Add to the roster:
                 await client.xmppClient.GENERAL_COMMAND_HELPER.addToRosterAsync(deviceBareJid);

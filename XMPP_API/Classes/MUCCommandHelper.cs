@@ -71,12 +71,12 @@ namespace XMPP_API.Classes
         /// </summary>
         /// <param name="roomJid">The bare JID if the room you would like to request the room configuration for. e.g. 'witches@conference.jabber.org'</param>
         /// <returns>The <see cref="RequestRoomConfigurationMessage"/> result</returns>
-        public async Task<MessageResponseHelperResult<IQMessage>> requestRoomConfigurationAsync(string roomJid)
+        public Task<MessageResponseHelperResult<IQMessage>> requestRoomConfigurationAsync(string roomJid)
         {
             Predicate<IQMessage> predicate = (x) => { return x is RoomConfigMessage || x is IQErrorMessage; };
             AsyncMessageResponseHelper<IQMessage> helper = new AsyncMessageResponseHelper<IQMessage>(CONNECTION, predicate);
             RequestRoomConfigurationMessage msg = new RequestRoomConfigurationMessage(roomJid, MUCAffiliation.OWNER);
-            return await helper.startAsync(msg);
+            return helper.startAsync(msg);
         }
 
         /// <summary>
@@ -85,12 +85,12 @@ namespace XMPP_API.Classes
         /// <param name="roomJid">The bare JID if the room you would like to save the room configuration for. e.g. 'witches@conference.jabber.org'</param>
         /// <param name="roomConfiguration">The new room configuration.</param>
         /// <returns>The <see cref="RoomConfigMessage"/> result</returns>
-        public async Task<MessageResponseHelperResult<IQMessage>> saveRoomConfigurationAsync(string roomJid, DataForm roomConfiguration)
+        public Task<MessageResponseHelperResult<IQMessage>> saveRoomConfigurationAsync(string roomJid, DataForm roomConfiguration)
         {
             Predicate<IQMessage> predicate = (x) => { return true; };
             AsyncMessageResponseHelper<IQMessage> helper = new AsyncMessageResponseHelper<IQMessage>(CONNECTION, predicate);
             RoomConfigMessage msg = new RoomConfigMessage(CONNECTION.account.getFullJid(), roomJid, roomConfiguration, MUCAffiliation.OWNER);
-            return await helper.startAsync(msg);
+            return helper.startAsync(msg);
         }
 
         /// <summary>
@@ -118,7 +118,7 @@ namespace XMPP_API.Classes
         /// <param name="roomJid">The bare JID if the room you would like to change your nickname for. e.g. 'witches@conference.jabber.org'</param>
         /// <param name="newNickname">The new nickname for the given room.</param>
         /// <returns>Returns a MessageResponseHelper listening for MUCChangeNicknameMessage answers.</returns>
-        public async Task<MessageResponseHelperResult<MUCMemberPresenceMessage>> changeNicknameAsync(string roomJid, string newNickname)
+        public Task<MessageResponseHelperResult<MUCMemberPresenceMessage>> changeNicknameAsync(string roomJid, string newNickname)
         {
             Predicate<MUCMemberPresenceMessage> predicate = (x) =>
             {
@@ -132,7 +132,7 @@ namespace XMPP_API.Classes
                 matchId = false
             };
             MUCChangeNicknameMessage msg = new MUCChangeNicknameMessage(CONNECTION.account.getFullJid(), roomJid, newNickname);
-            return await helper.startAsync(msg);
+            return helper.startAsync(msg);
         }
 
         /// <summary>

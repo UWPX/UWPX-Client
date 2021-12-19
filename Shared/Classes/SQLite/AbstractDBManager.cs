@@ -119,7 +119,7 @@ namespace Shared.Classes.SQLite
         /// Opens a FileSavePicker and lets the user pick the destination.
         /// </summary>
         /// <returns>Returns the selected path.</returns>
-        private static async Task<StorageFile> GetTargetSavePathAsync()
+        private static Task<StorageFile> GetTargetSavePathAsync()
         {
             FileSavePicker savePicker = new FileSavePicker
             {
@@ -127,21 +127,21 @@ namespace Shared.Classes.SQLite
             };
             savePicker.FileTypeChoices.Add("SQLite DB", new List<string>() { ".db" });
             savePicker.SuggestedFileName = "data";
-            return await savePicker.PickSaveFileAsync();
+            return savePicker.PickSaveFileAsync();
         }
 
         /// <summary>
         /// Opens a FileSavePicker and lets the user pick the destination.
         /// </summary>
         /// <returns>Returns the selected path.</returns>
-        private static async Task<StorageFile> GetTargetOpenPathAsync()
+        private static Task<StorageFile> GetTargetOpenPathAsync()
         {
             FileOpenPicker openPicker = new FileOpenPicker
             {
                 SuggestedStartLocation = PickerLocationId.DocumentsLibrary
             };
             openPicker.FileTypeFilter.Add(".db");
-            return await openPicker.PickSingleFileAsync();
+            return openPicker.PickSingleFileAsync();
         }
 
         /// <summary>

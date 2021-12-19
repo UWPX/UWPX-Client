@@ -34,9 +34,9 @@ namespace UWPX_UI.Controls.Settings
         #endregion
         //--------------------------------------------------------Misc Methods:---------------------------------------------------------------\\
         #region --Misc Methods (Public)--
-        public async Task RecalculateFolderSizeAsync()
+        public Task RecalculateFolderSizeAsync()
         {
-            await VIEW_MODEL.RecalculateFolderSizeAsync(FolderPath);
+            return VIEW_MODEL.RecalculateFolderSizeAsync(FolderPath);
         }
 
         #endregion

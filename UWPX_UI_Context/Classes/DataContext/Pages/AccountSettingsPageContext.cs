@@ -28,9 +28,9 @@ namespace UWPX_UI_Context.Classes.DataContext.Pages
         #endregion
         //--------------------------------------------------------Misc Methods:---------------------------------------------------------------\\
         #region --Misc Methods (Public)--
-        public async Task ReconnectAllAsync()
+        public Task ReconnectAllAsync()
         {
-            await ConnectionHandler.INSTANCE.ReconnectAllAsync();
+            return ConnectionHandler.INSTANCE.ReconnectAllAsync();
         }
 
         public void OnLoaded()

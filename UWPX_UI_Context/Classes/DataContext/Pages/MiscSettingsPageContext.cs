@@ -27,55 +27,55 @@ namespace UWPX_UI_Context.Classes.DataContext.Pages
         #endregion
         //--------------------------------------------------------Misc Methods:---------------------------------------------------------------\\
         #region --Misc Methods (Public)--
-        public async Task ShowAnalyticsCrashesMoreInformationAsync()
+        public Task ShowAnalyticsCrashesMoreInformationAsync()
         {
-            await UiUtils.LaunchUriAsync(new Uri(Localisation.GetLocalizedString("PrivacyPolicyCrashReportingUrl")));
+            return UiUtils.LaunchUriAsync(new Uri(Localisation.GetLocalizedString("PrivacyPolicyCrashReportingUrl")));
         }
 
-        public async Task ShowLicenceAsync()
+        public Task ShowLicenceAsync()
         {
-            await UiUtils.LaunchUriAsync(new Uri(Localisation.GetLocalizedString("LicenceUrl")));
+            return UiUtils.LaunchUriAsync(new Uri(Localisation.GetLocalizedString("LicenceUrl")));
         }
 
-        public async Task ShowPrivacyPolicy()
+        public Task ShowPrivacyPolicy()
         {
-            await UiUtils.LaunchUriAsync(new Uri(Localisation.GetLocalizedString("PrivacyPolicyUrl")));
+            return UiUtils.LaunchUriAsync(new Uri(Localisation.GetLocalizedString("PrivacyPolicyUrl")));
         }
 
-        public async Task ViewOnGithubAsync()
+        public Task ViewOnGithubAsync()
         {
-            await UiUtils.LaunchUriAsync(new Uri(Localisation.GetLocalizedString("GitHubUrl")));
+            return UiUtils.LaunchUriAsync(new Uri(Localisation.GetLocalizedString("GitHubUrl")));
         }
 
-        public async Task ViewCreditsAsync()
+        public Task ViewCreditsAsync()
         {
-            await UiUtils.LaunchUriAsync(new Uri(Localisation.GetLocalizedString("CreditsUrl")));
+            return UiUtils.LaunchUriAsync(new Uri(Localisation.GetLocalizedString("CreditsUrl")));
         }
 
-        public async Task ReportBugAsync()
+        public Task ReportBugAsync()
         {
-            await UiUtils.LaunchUriAsync(new Uri(Localisation.GetLocalizedString("BugReportUrl")));
+            return UiUtils.LaunchUriAsync(new Uri(Localisation.GetLocalizedString("BugReportUrl")));
         }
 
-        public async Task GiveFeedbackAsync()
+        public Task GiveFeedbackAsync()
         {
-            await UiUtils.LaunchUriAsync(new Uri(Localisation.GetLocalizedString("FeedbackUrl")));
+            return UiUtils.LaunchUriAsync(new Uri(Localisation.GetLocalizedString("FeedbackUrl")));
         }
 
-        public async Task OpenAppDataFolderAsync()
+        public Task OpenAppDataFolderAsync()
         {
             StorageFolder folder = ApplicationData.Current.LocalFolder;
-            await Windows.System.Launcher.LaunchFolderAsync(folder);
+            return Windows.System.Launcher.LaunchFolderAsync(folder);
         }
 
-        public async Task OpenImageCacheFolderAsync()
+        public Task OpenImageCacheFolderAsync()
         {
-            await ConnectionHandler.INSTANCE.IMAGE_DOWNLOAD_HANDLER.OpenCacheFolderAsync();
+            return ConnectionHandler.INSTANCE.IMAGE_DOWNLOAD_HANDLER.OpenCacheFolderAsync();
         }
 
-        public async Task ExportLogsAsync()
+        public Task ExportLogsAsync()
         {
-            await Logger.ExportLogsAsync();
+            return Logger.ExportLogsAsync();
         }
 
         public async Task DeleteLogsAsync(ConfirmDialogContext viewModel)

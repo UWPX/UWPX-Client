@@ -295,9 +295,9 @@ namespace XMPP_API_IoT.Classes.Bluetooth
             return data;
         }
 
-        public async Task<GattWriteResult> WriteStringAsync(Guid uuid, string data)
+        public Task<GattWriteResult> WriteStringAsync(Guid uuid, string data)
         {
-            return await WriteBytesAsync(uuid, Encoding.UTF8.GetBytes(data));
+            return WriteBytesAsync(uuid, Encoding.UTF8.GetBytes(data));
         }
 
         public async Task<GattWriteResult> WriteBytesAsync(Guid uuid, byte[] data)

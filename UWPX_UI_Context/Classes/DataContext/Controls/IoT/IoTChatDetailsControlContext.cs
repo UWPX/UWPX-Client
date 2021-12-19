@@ -200,12 +200,12 @@ namespace UWPX_UI_Context.Classes.DataContext.Controls.IoT
             }
         }
 
-        private async Task UpdateNodeAsync(Field field)
+        private Task UpdateNodeAsync(Field field)
         {
             IoTValue value = new IoTValue(field);
             IoTPubSubItem item = new IoTPubSubItem(value, field.var);
             PublishIoTNodeMessage msg = new PublishIoTNodeMessage(MODEL.Chat.Client.dbAccount.fullJid.FullJid(), MODEL.Chat.Chat.bareJid, IoTConsts.NODE_NAME_ACTUATORS, item);
-            await MODEL.Chat.Client.xmppClient.SendAsync(msg);
+            return MODEL.Chat.Client.xmppClient.SendAsync(msg);
         }
 
         private void UpdateFields(List<IoTValue> values)

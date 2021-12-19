@@ -31,13 +31,13 @@ namespace Manager.Classes
         #endregion
         //--------------------------------------------------------Set-, Get- Methods:---------------------------------------------------------\\
         #region --Set-, Get- Methods--
-        public async Task<StorageFolder> GetCacheFolderAsync()
+        public Task<StorageFolder> GetCacheFolderAsync()
         {
             if (Settings.GetSettingBoolean(SettingsConsts.DISABLE_DOWNLOAD_IMAGES_TO_LIBARY))
             {
-                return await ApplicationData.Current.LocalFolder.CreateFolderAsync("cachedImages", CreationCollisionOption.OpenIfExists);
+                return ApplicationData.Current.LocalFolder.CreateFolderAsync("cachedImages", CreationCollisionOption.OpenIfExists);
             }
-            return await KnownFolders.PicturesLibrary.CreateFolderAsync("UWPX", CreationCollisionOption.OpenIfExists);
+            return KnownFolders.PicturesLibrary.CreateFolderAsync("UWPX", CreationCollisionOption.OpenIfExists);
         }
 
         #endregion
@@ -53,9 +53,9 @@ namespace Manager.Classes
             DOWNLOAD_SEMA.Release();
         }
 
-        public async Task RedownloadAsync(ChatMessageImageModel image)
+        public Task RedownloadAsync(ChatMessageImageModel image)
         {
-            await DOWNLOAD_HANDLER.EnqueueDownloadAsync(image);
+            return DOWNLOAD_HANDLER.EnqueueDownloadAsync(image);
         }
 
         public void CancelDownload(ChatMessageImageModel image)

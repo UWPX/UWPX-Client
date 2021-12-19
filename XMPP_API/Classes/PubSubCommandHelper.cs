@@ -47,11 +47,11 @@ namespace XMPP_API.Classes
         /// https://xmpp.org/extensions/xep-0048.html#storage-pubsub-retrieve
         /// </summary>
         /// <returns>The XEP-0048 RequestBookmarksMessage result.</returns>
-        public async Task<MessageResponseHelperResult<IQMessage>> requestBookmars_xep_0048Async()
+        public Task<MessageResponseHelperResult<IQMessage>> requestBookmars_xep_0048Async()
         {
             AsyncMessageResponseHelper<IQMessage> helper = new AsyncMessageResponseHelper<IQMessage>(CONNECTION);
             Network.XML.Messages.XEP_0048.RequestBookmarksMessage msg = new Network.XML.Messages.XEP_0048.RequestBookmarksMessage(CONNECTION.account.getFullJid());
-            return await helper.startAsync(msg);
+            return helper.startAsync(msg);
         }
 
         /// <summary>
@@ -75,11 +75,11 @@ namespace XMPP_API.Classes
         /// </summary>
         /// <param name="conferences">A list of XEP-0048 <seealso cref="Network.XML.Messages.XEP_0048.ConferenceItem"/> objects that should be set.</param>
         /// <returns>The XEP-0048 SetBookmarksMessage result.</returns>
-        public async Task<MessageResponseHelperResult<IQMessage>> setBookmars_xep_0048Async(IList<Network.XML.Messages.XEP_0048.ConferenceItem> conferences)
+        public Task<MessageResponseHelperResult<IQMessage>> setBookmars_xep_0048Async(IList<Network.XML.Messages.XEP_0048.ConferenceItem> conferences)
         {
             AsyncMessageResponseHelper<IQMessage> helper = new AsyncMessageResponseHelper<IQMessage>(CONNECTION);
             Network.XML.Messages.XEP_0048.SetBookmarksMessage msg = new Network.XML.Messages.XEP_0048.SetBookmarksMessage(CONNECTION.account.getFullJid(), conferences);
-            return await helper.startAsync(msg);
+            return helper.startAsync(msg);
         }
 
         /// <summary>
@@ -170,11 +170,11 @@ namespace XMPP_API.Classes
         /// <param name="to">The target e.g. 'witches@conference.jabber.org' or 'pubsub.example.org'.</param>
         /// <param name="nodeName">The name of the node, you want to subscribe to.</param>
         /// <returns>Returns a MessageResponseHelperResult listening for DiscoNodeItemsRequestMessage answers.</returns>
-        public async Task<MessageResponseHelperResult<IQMessage>> requestNodeSubscriptionAsync(string to, string nodeName)
+        public Task<MessageResponseHelperResult<IQMessage>> requestNodeSubscriptionAsync(string to, string nodeName)
         {
             AsyncMessageResponseHelper<IQMessage> helper = new AsyncMessageResponseHelper<IQMessage>(CONNECTION);
             PubSubSubscribeMessage msg = new PubSubSubscribeMessage(CONNECTION.account.getFullJid(), CONNECTION.account.getBareJid(), to, nodeName);
-            return await helper.startAsync(msg);
+            return helper.startAsync(msg);
         }
 
         /// <summary>
@@ -219,11 +219,11 @@ namespace XMPP_API.Classes
         /// <param name="toBareJid">The target pubsub server (can be null).</param>
         /// <param name="nodeName">The name of the node, you want to delete.</param>
         /// <returns>The result of the PubSubDeleteNodeMessage.</returns>
-        public async Task<MessageResponseHelperResult<IQMessage>> deleteNodeAsync(string toBareJid, string nodeName)
+        public Task<MessageResponseHelperResult<IQMessage>> deleteNodeAsync(string toBareJid, string nodeName)
         {
             AsyncMessageResponseHelper<IQMessage> helper = new AsyncMessageResponseHelper<IQMessage>(CONNECTION);
             PubSubDeleteNodeMessage msg = new PubSubDeleteNodeMessage(CONNECTION.account.getFullJid(), toBareJid, nodeName);
-            return await helper.startAsync(msg);
+            return helper.startAsync(msg);
         }
 
         /// <summary>
@@ -264,11 +264,11 @@ namespace XMPP_API.Classes
         /// </summary>
         /// <param name="to">The target e.g. 'witches@conference.jabber.org' or 'pubsub.example.org'.</param>
         /// <returns>Returns a MessageResponseHelperResult listening for DiscoRequestMessage answers.</returns>
-        public async Task<MessageResponseHelperResult<IQMessage>> discoNodesAsync(string to)
+        public Task<MessageResponseHelperResult<IQMessage>> discoNodesAsync(string to)
         {
             AsyncMessageResponseHelper<IQMessage> helper = new AsyncMessageResponseHelper<IQMessage>(CONNECTION);
             DiscoRequestMessage msg = new DiscoRequestMessage(CONNECTION.account.getFullJid(), to, DiscoType.ITEMS);
-            return await helper.startAsync(msg);
+            return helper.startAsync(msg);
         }
 
         /// <summary>
@@ -277,11 +277,11 @@ namespace XMPP_API.Classes
         /// </summary>
         /// <param name="to">The target e.g. 'witches@conference.jabber.org' or 'pubsub.example.org'.</param>
         /// <returns>Returns a MessageResponseHelperResult listening for DiscoNodeItemsRequestMessage answers.</returns>
-        public async Task<MessageResponseHelperResult<IQMessage>> discoNodesItemsAsync(string to, string nodeName)
+        public Task<MessageResponseHelperResult<IQMessage>> discoNodesItemsAsync(string to, string nodeName)
         {
             AsyncMessageResponseHelper<IQMessage> helper = new AsyncMessageResponseHelper<IQMessage>(CONNECTION);
             DiscoNodeItemsRequestMessage msg = new DiscoNodeItemsRequestMessage(CONNECTION.account.getFullJid(), to, nodeName);
-            return await helper.startAsync(msg);
+            return helper.startAsync(msg);
         }
 
         /// <summary>
@@ -292,11 +292,11 @@ namespace XMPP_API.Classes
         /// <param name="nodeName">The name of the node, you want retreive the items for.</param>
         /// <param name="maxItems">The maximum number of items returned (if maxItems > 0, else unsepcified).</param>
         /// <returns>Returns a MessageResponseHelperResult listening for PubSubRequestNodeMessage answers.</returns>
-        public async Task<MessageResponseHelperResult<IQMessage>> requestNodeAsync(string to, string nodeName, uint maxItems)
+        public Task<MessageResponseHelperResult<IQMessage>> requestNodeAsync(string to, string nodeName, uint maxItems)
         {
             AsyncMessageResponseHelper<IQMessage> helper = new AsyncMessageResponseHelper<IQMessage>(CONNECTION);
             PubSubRequestNodeMessage msg = new PubSubRequestNodeMessage(CONNECTION.account.getFullJid(), to, nodeName, maxItems);
-            return await helper.startAsync(msg);
+            return helper.startAsync(msg);
         }
 
         #endregion

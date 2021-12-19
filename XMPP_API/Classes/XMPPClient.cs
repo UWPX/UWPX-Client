@@ -165,19 +165,19 @@ namespace XMPP_API.Classes
             }
         }
 
-        public async Task reconnectAsync()
+        public Task reconnectAsync()
         {
             Logger.Info("Reconnecting account: " + getXMPPAccount().getBareJid());
             StopReconnectTimer();
-            await connection.ReconnectAsync(true);
+            return connection.ReconnectAsync(true);
         }
 
-        public async Task disconnectAsync()
+        public Task disconnectAsync()
         {
             Logger.Info("Disconnecting account: " + getXMPPAccount().getBareJid());
             holdConnection = false;
             StopReconnectTimer();
-            await connection.DisconnectAsync();
+            return connection.DisconnectAsync();
         }
 
         public async Task sendOmemoMessageAsync(OmemoEncryptedMessage msg, string chatJid, string accountJid, bool trustedSrcKeysOnly, bool trustedDstKeysOnly)
@@ -193,9 +193,9 @@ namespace XMPP_API.Classes
             }
         }
 
-        public async Task<bool> SendAsync(AbstractMessage msg)
+        public Task<bool> SendAsync(AbstractMessage msg)
         {
-            return await connection.SendAsync(msg);
+            return connection.SendAsync(msg);
         }
 
         public XMPPAccount getXMPPAccount()

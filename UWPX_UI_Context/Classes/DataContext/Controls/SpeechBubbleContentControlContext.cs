@@ -63,16 +63,16 @@ namespace UWPX_UI_Context.Classes.DataContext.Controls
             UiUtils.SetClipboardText((string)converter.Convert(MODEL.Message.Message.date, typeof(string), null, null));
         }
 
-        public async Task MarkAsSpamAsync()
+        public Task MarkAsSpamAsync()
         {
-            await Task.Run(() =>
-            {
-                using (MainDbContext ctx = new MainDbContext())
-                {
-                    ctx.Add(new SpamMessageModel(MODEL.Message.Message.message));
-                }
-                Logger.Info("Marked message as spam: " + MODEL.Message.Message.message);
-            });
+            return Task.Run(() =>
+             {
+                 using (MainDbContext ctx = new MainDbContext())
+                 {
+                     ctx.Add(new SpamMessageModel(MODEL.Message.Message.message));
+                 }
+                 Logger.Info("Marked message as spam: " + MODEL.Message.Message.message);
+             });
         }
 
         public void DeleteMessage()
