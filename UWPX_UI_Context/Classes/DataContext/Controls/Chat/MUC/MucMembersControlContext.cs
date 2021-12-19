@@ -69,7 +69,7 @@ namespace UWPX_UI_Context.Classes.DataContext.Controls.Chat.MUC
             {
                 MODEL.IsLoading = true;
                 MODEL.MEMBERS.Clear();
-                MODEL.MEMBERS.AddRange(chat.Chat.muc.occupants.Select((x) => new MucMemberDataTemplate() { Member = x, Chat = chat }));
+                MODEL.MEMBERS.AddRange(chat.Chat.muc.occupants.Select((x) => new MucMemberDataTemplate() { Member = x, Chat = chat }).ToList());
                 MODEL.MembersFound = chat.Chat.muc.occupants.Count > 0;
                 await SharedUtils.CallDispatcherAsync(() => MODEL.MEMBERS_SORTED.Source = MODEL.MEMBERS);
                 MODEL.HeaderText = "Members (" + chat.Chat.muc.occupants.Count + ')';
