@@ -52,18 +52,16 @@ namespace XMPP_API.Classes
         }
 
         /// <summary>
-        /// Sends a DiscoRequestMessage and requests the MUC room info for the given room.
+        /// Sends a <see cref="DiscoRequestMessage"/> to query for room information.
+        /// See also: https://xmpp.org/extensions/xep-0045.html#disco-roominfo
         /// </summary>
-        /// <param name="roomJid">The bare JID if the room you would like to request the information for. e.g. 'witches@conference.jabber.org'</param>
-        /// <param name="onMessage">The method that should get executed once the helper receives a new valid message.</param>
-        /// <param name="onTimeout">The method that should get executed once the helper timeout gets triggered.</param>
-        /// <returns>Returns a MessageResponseHelper listening for DiscoRequestMessage answers.</returns>
-        public MessageResponseHelper<ExtendedDiscoResponseMessage> requestRoomInfo(string roomJid, MessageResponseHelper<ExtendedDiscoResponseMessage>.OnMessageHandler onMessage, MessageResponseHelper<ExtendedDiscoResponseMessage>.OnTimeoutHandler onTimeout)
+        /// <param name="roomJId">The bare JID for the room that should be queried.</param>
+        /// <returns>Returns the <see cref="MessageResponseHelper{ExtendedDiscoResponseMessage}"/> listening for answers to the request.</returns>
+        public Task<MessageResponseHelperResult<ExtendedDiscoResponseMessage>> requestRoomInfoAsync(string roomJId)
         {
-            MessageResponseHelper<ExtendedDiscoResponseMessage> helper = new MessageResponseHelper<ExtendedDiscoResponseMessage>(CONNECTION, onMessage, onTimeout);
-            DiscoRequestMessage disco = new DiscoRequestMessage(CONNECTION.account.getFullJid(), roomJid, DiscoType.INFO);
-            helper.start(disco);
-            return helper;
+            AsyncMessageResponseHelper<ExtendedDiscoResponseMessage> helper = new AsyncMessageResponseHelper<ExtendedDiscoResponseMessage>(CONNECTION);
+            DiscoRequestMessage disco = new DiscoRequestMessage(CONNECTION.account.getFullJid(), roomJId, DiscoType.INFO);
+            return helper.startAsync(disco);
         }
 
         /// <summary>
@@ -91,25 +89,6 @@ namespace XMPP_API.Classes
             AsyncMessageResponseHelper<IQMessage> helper = new AsyncMessageResponseHelper<IQMessage>(CONNECTION, predicate);
             RoomConfigMessage msg = new RoomConfigMessage(CONNECTION.account.getFullJid(), roomJid, roomConfiguration, MUCAffiliation.OWNER);
             return helper.startAsync(msg);
-        }
-
-        /// <summary>
-        /// Sends a MUCChangeNicknameMessage for changing your own MUC nickname.
-        /// </summary>
-        /// <param name="roomJid">The bare JID if the room you would like to change your nickname for. e.g. 'witches@conference.jabber.org'</param>
-        /// <param name="newNickname">The new nickname for the given room.</param>
-        /// <param name="onMessage">The method that should get executed once the helper receives a new valid message.</param>
-        /// <param name="onTimeout">The method that should get executed once the helper timeout gets triggered.</param>
-        /// <returns>Returns a MessageResponseHelper listening for MUCChangeNicknameMessage answers.</returns>
-        public MessageResponseHelper<PresenceMessage> changeNickname(string roomJid, string newNickname, MessageResponseHelper<PresenceMessage>.OnMessageHandler onMessage, MessageResponseHelper<PresenceMessage>.OnTimeoutHandler onTimeout)
-        {
-            MessageResponseHelper<PresenceMessage> helper = new MessageResponseHelper<PresenceMessage>(CONNECTION, onMessage, onTimeout)
-            {
-                matchId = false
-            };
-            MUCChangeNicknameMessage msg = new MUCChangeNicknameMessage(CONNECTION.account.getFullJid(), roomJid, newNickname);
-            helper.start(msg);
-            return helper;
         }
 
         /// <summary>

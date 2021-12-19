@@ -7,6 +7,7 @@ using Storage.Classes.Contexts;
 using Storage.Classes.Models.Chat;
 using XMPP_API.Classes;
 using XMPP_API.Classes.Network.Events;
+using XMPP_API.Classes.Network.XML.Messages.Helper;
 using XMPP_API.Classes.Network.XML.Messages.XEP_0045;
 
 /// <summary>
@@ -84,7 +85,24 @@ namespace Manager.Classes
         #endregion
 
         #region --Misc Methods (Private)--
-
+        private async Task<string> RequestMucIdentityAsync(string roomJId)
+        {
+            Logger.Debug($"Requesting the room name for '{roomJId}'...");
+            MessageResponseHelperResult<ExtendedDiscoResponseMessage> result = await CLIENT.MUC_COMMAND_HELPER.requestRoomInfoAsync(roomJId);
+            if (result.STATE == MessageResponseHelperResultState.SUCCESS)
+            {
+                if (result.RESULT.IDENTITIES.Count <= 0)
+                {
+                    Logger.Warn($"Querying the room name for '{roomJId}' failed: No identity provided.");
+                    return null;
+                }
+                string name = result.RESULT.IDENTITIES[0].NAME;
+                Logger.Debug($"Received '{name}' as room name for '{roomJId}'.");
+                return name;
+            }
+            Logger.Warn($"Querying the room name for '{roomJId}' failed: {result.STATE}");
+            return null;
+        }
 
         #endregion
 
@@ -94,7 +112,7 @@ namespace Manager.Classes
         #endregion
         //--------------------------------------------------------Events:---------------------------------------------------------------------\\
         #region --Events--
-        private void OnMucMemberPresenceMessage(XMPPClient client, NewMUCMemberPresenceMessageEventArgs args)
+        private async void OnMucMemberPresenceMessage(XMPPClient client, NewMUCMemberPresenceMessageEventArgs args)
         {
             string roomJId = Utils.getBareJidFromFullJid(args.mucMemberPresenceMessage.getFrom());
             if (!Equals(roomJId, INFO.chat.bareJid))
@@ -115,14 +133,25 @@ namespace Manager.Classes
                                 CLIENT.NewMUCMemberPresenceMessage -= OnMucMemberPresenceMessage;
                                 CLIENT.NewMUCPresenceErrorMessage -= OnMucPresenceErrorMessage;
 
+                                string name = await RequestMucIdentityAsync(roomJId);
+
                                 using (SemaLock semaLock = INFO.NewSemaLock())
                                 {
                                     // Update MUC info:
                                     INFO.state = MucState.ENTERD;
                                     INFO.affiliation = args.mucMemberPresenceMessage.AFFILIATION;
                                     INFO.role = args.mucMemberPresenceMessage.ROLE;
+                                    if (!(name is null))
+                                    {
+                                        if (string.Equals(name, INFO.name))
+                                        {
+                                            Logger.Debug($"New MUC name ({name}) found for '{roomJId}'.");
+                                        }
+                                        INFO.name = name;
+                                    }
                                     INFO.Update();
                                 }
+
                                 Logger.Info($"Entered MUC room '{roomJId}' as '{INFO.nickname}' with role '{INFO.role}' and affiliation '{INFO.affiliation}'");
                                 break;
 
