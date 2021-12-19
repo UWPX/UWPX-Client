@@ -18,7 +18,6 @@ namespace UWPX_UI_Context.Classes.DataContext.Controls.Chat.MUC
         #region --Attributes--
         public readonly MucInfoControlDataTemplate MODEL = new MucInfoControlDataTemplate();
 
-        private MessageResponseHelper<IQMessage> updateBookmarksHelper;
         #endregion
         //--------------------------------------------------------Constructor:----------------------------------------------------------------\\
         #region --Constructors--

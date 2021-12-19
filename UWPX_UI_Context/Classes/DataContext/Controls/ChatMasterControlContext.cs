@@ -25,8 +25,6 @@ namespace UWPX_UI_Context.Classes.DataContext.Controls
 
         public event OnErrorEventHandler OnError;
 
-        private MessageResponseHelper<IQMessage> updateBookmarksHelper;
-
         #endregion
         //--------------------------------------------------------Constructor:----------------------------------------------------------------\\
         #region --Constructors--
