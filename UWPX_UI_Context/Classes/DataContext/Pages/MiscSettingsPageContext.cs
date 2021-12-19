@@ -4,6 +4,7 @@ using Logging;
 using Manager.Classes;
 using UWPX_UI_Context.Classes.DataContext.Dialogs;
 using UWPX_UI_Context.Classes.DataTemplates.Pages;
+using Windows.Foundation;
 using Windows.Storage;
 
 namespace UWPX_UI_Context.Classes.DataContext.Pages
@@ -27,42 +28,42 @@ namespace UWPX_UI_Context.Classes.DataContext.Pages
         #endregion
         //--------------------------------------------------------Misc Methods:---------------------------------------------------------------\\
         #region --Misc Methods (Public)--
-        public Task ShowAnalyticsCrashesMoreInformationAsync()
+        public IAsyncOperation<bool> ShowAnalyticsCrashesMoreInformationAsync()
         {
             return UiUtils.LaunchUriAsync(new Uri(Localisation.GetLocalizedString("PrivacyPolicyCrashReportingUrl")));
         }
 
-        public Task ShowLicenceAsync()
+        public IAsyncOperation<bool> ShowLicenceAsync()
         {
             return UiUtils.LaunchUriAsync(new Uri(Localisation.GetLocalizedString("LicenceUrl")));
         }
 
-        public Task ShowPrivacyPolicy()
+        public IAsyncOperation<bool> ShowPrivacyPolicy()
         {
             return UiUtils.LaunchUriAsync(new Uri(Localisation.GetLocalizedString("PrivacyPolicyUrl")));
         }
 
-        public Task ViewOnGithubAsync()
+        public IAsyncOperation<bool> ViewOnGithubAsync()
         {
             return UiUtils.LaunchUriAsync(new Uri(Localisation.GetLocalizedString("GitHubUrl")));
         }
 
-        public Task ViewCreditsAsync()
+        public IAsyncOperation<bool> ViewCreditsAsync()
         {
             return UiUtils.LaunchUriAsync(new Uri(Localisation.GetLocalizedString("CreditsUrl")));
         }
 
-        public Task ReportBugAsync()
+        public IAsyncOperation<bool> ReportBugAsync()
         {
             return UiUtils.LaunchUriAsync(new Uri(Localisation.GetLocalizedString("BugReportUrl")));
         }
 
-        public Task GiveFeedbackAsync()
+        public IAsyncOperation<bool> GiveFeedbackAsync()
         {
             return UiUtils.LaunchUriAsync(new Uri(Localisation.GetLocalizedString("FeedbackUrl")));
         }
 
-        public Task OpenAppDataFolderAsync()
+        public IAsyncOperation<bool> OpenAppDataFolderAsync()
         {
             StorageFolder folder = ApplicationData.Current.LocalFolder;
             return Windows.System.Launcher.LaunchFolderAsync(folder);

@@ -1,7 +1,7 @@
-﻿using Shared.Classes;
-using UWPX_UI_Context.Classes.DataContext.Dialogs;
+﻿using UWPX_UI_Context.Classes.DataContext.Dialogs;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
+using System;
 
 namespace UWPX_UI.Dialogs
 {
@@ -79,7 +79,7 @@ namespace UWPX_UI.Dialogs
 
         private async void Text_mrkdwn_LinkClicked(object sender, Microsoft.Toolkit.Uwp.UI.Controls.LinkClickedEventArgs e)
         {
-            await VIEW_MODEL.OnLinkClickedAsync(e.Link).ConfAwaitFalse();
+            await VIEW_MODEL.OnLinkClickedAsync(e.Link);
         }
 
         #endregion

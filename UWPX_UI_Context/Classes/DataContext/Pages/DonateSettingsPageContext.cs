@@ -1,6 +1,6 @@
 ﻿using System;
-using System.Threading.Tasks;
 using UWPX_UI_Context.Classes.DataTemplates.Pages;
+using Windows.Foundation;
 
 namespace UWPX_UI_Context.Classes.DataContext.Pages
 {
@@ -23,17 +23,17 @@ namespace UWPX_UI_Context.Classes.DataContext.Pages
         #endregion
         //--------------------------------------------------------Misc Methods:---------------------------------------------------------------\\
         #region --Misc Methods (Public)--
-        public Task DonateViaLiberapayAsync()
+        public IAsyncOperation<bool> DonateViaLiberapayAsync()
         {
             return UiUtils.LaunchUriAsync(new Uri("http://liberapay.uwpx.org"));
         }
 
-        public Task DonateViaPayPalAsync()
+        public IAsyncOperation<bool> DonateViaPayPalAsync()
         {
             return UiUtils.LaunchUriAsync(new Uri("http://paypal.uwpx.org"));
         }
 
-        public Task SendBankDetailsMailAsync()
+        public IAsyncOperation<bool> SendBankDetailsMailAsync()
         {
             return UiUtils.LaunchUriAsync(new Uri("mailto:support@uwpx.org?subject=[Donation]%20Bank%20details"));
         }

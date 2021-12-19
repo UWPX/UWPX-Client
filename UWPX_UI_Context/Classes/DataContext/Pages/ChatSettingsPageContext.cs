@@ -1,6 +1,6 @@
 ﻿using System;
-using System.Threading.Tasks;
 using UWPX_UI_Context.Classes.DataTemplates.Pages;
+using Windows.Foundation;
 
 namespace UWPX_UI_Context.Classes.DataContext.Pages
 {
@@ -23,7 +23,7 @@ namespace UWPX_UI_Context.Classes.DataContext.Pages
         #endregion
         //--------------------------------------------------------Misc Methods:---------------------------------------------------------------\\
         #region --Misc Methods (Public)--
-        public Task OnWhatIsOmemoClickedAsync()
+        public IAsyncOperation<bool> OnWhatIsOmemoClickedAsync()
         {
             return UiUtils.LaunchUriAsync(new Uri("https://conversations.im/omemo/"));
         }

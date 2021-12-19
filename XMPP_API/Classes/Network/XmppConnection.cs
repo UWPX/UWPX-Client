@@ -117,9 +117,9 @@ namespace XMPP_API.Classes.Network
         #endregion
         //--------------------------------------------------------Misc Methods:---------------------------------------------------------------\\
         #region --Misc Methods (Public)--
-        public Task Dispose()
+        public async void Dispose()
         {
-            return DisconnectAsync();
+            await DisconnectAsync();
         }
 
         public Task<bool> SendAsync(AbstractMessage msg)

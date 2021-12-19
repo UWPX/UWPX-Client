@@ -8,6 +8,7 @@ using NLog;
 using NLog.Config;
 using NLog.Targets;
 using Windows.ApplicationModel;
+using Windows.Foundation;
 using Windows.Storage;
 using Windows.Storage.Pickers;
 using Windows.Storage.Search;
@@ -41,7 +42,7 @@ namespace Logging
         /// Opens a FileSavePicker and lets the user pick the destination.
         /// </summary>
         /// <returns>Returns the selected path.</returns>
-        private static Task<StorageFile> GetTargetPathAsync()
+        private static IAsyncOperation<StorageFile> GetTargetPathAsync()
         {
             FileSavePicker savePicker = new FileSavePicker
             {
@@ -71,7 +72,7 @@ namespace Logging
         /// Returns the "Logs" folder and creates it, if it does not exist.
         /// </summary>
         /// <returns>Returns the "Logs" folder.</returns>
-        public static Task<StorageFolder> GetLogFolderAsync()
+        public static IAsyncOperation<StorageFolder> GetLogFolderAsync()
         {
             return ApplicationData.Current.LocalFolder.CreateFolderAsync("Logs", CreationCollisionOption.OpenIfExists);
         }
@@ -168,7 +169,7 @@ namespace Logging
         /// Opens the log folder.
         /// </summary>
         /// <returns>An async Task.</returns>
-        public static Task OpenLogFolderAsync()
+        public static IAsyncOperation<bool> OpenLogFolderAsync()
         {
             StorageFolder folder = ApplicationData.Current.LocalFolder;
             return Windows.System.Launcher.LaunchFolderAsync(folder);
@@ -204,7 +205,7 @@ namespace Logging
         public static async Task ExportLogsAsync()
         {
             // Get the target path/file:
-            StorageFile targetFile = await GetTargetPathAsync().ConfigureAwait(false);
+            StorageFile targetFile = await GetTargetPathAsync();
             if (targetFile is null)
             {
                 Info("Exporting logs canceled.");
@@ -219,7 +220,7 @@ namespace Logging
                 await zipItem.DeleteAsync(StorageDeleteOption.PermanentDelete);
             }
 
-            StorageFolder logsFolder = await GetLogFolderAsync().ConfigureAwait(false);
+            StorageFolder logsFolder = await GetLogFolderAsync();
             ZipFile.CreateFromDirectory(logsFolder.Path, GetExportedLogsPath(), CompressionLevel.Fastest, true);
 
             try

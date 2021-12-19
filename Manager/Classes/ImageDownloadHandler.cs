@@ -8,6 +8,7 @@ using Shared.Classes.Network;
 using Storage.Classes;
 using Storage.Classes.Contexts;
 using Storage.Classes.Models.Chat;
+using Windows.Foundation;
 using Windows.Storage;
 
 namespace Manager.Classes
@@ -31,7 +32,7 @@ namespace Manager.Classes
         #endregion
         //--------------------------------------------------------Set-, Get- Methods:---------------------------------------------------------\\
         #region --Set-, Get- Methods--
-        public Task<StorageFolder> GetCacheFolderAsync()
+        public IAsyncOperation<StorageFolder> GetCacheFolderAsync()
         {
             if (Settings.GetSettingBoolean(SettingsConsts.DISABLE_DOWNLOAD_IMAGES_TO_LIBARY))
             {

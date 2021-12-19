@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Threading.Tasks;
 using UWPX_UI_Context.Classes.DataTemplates.Controls;
+using Windows.Foundation;
 
 namespace UWPX_UI_Context.Classes.DataContext.Controls
 {
@@ -23,7 +24,7 @@ namespace UWPX_UI_Context.Classes.DataContext.Controls
         #endregion
         //--------------------------------------------------------Misc Methods:---------------------------------------------------------------\\
         #region --Misc Methods (Public)--
-        public Task OnReadOnOmemoClickedAsync()
+        public IAsyncOperation<bool> OnReadOnOmemoClickedAsync()
         {
             return UiUtils.LaunchUriAsync(new Uri("https://conversations.im/omemo/"));
         }

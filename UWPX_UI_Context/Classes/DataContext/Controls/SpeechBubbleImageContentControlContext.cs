@@ -10,6 +10,7 @@ using Shared.Classes;
 using Shared.Classes.Network;
 using Storage.Classes.Models.Chat;
 using UWPX_UI_Context.Classes.DataTemplates.Controls;
+using Windows.Foundation;
 using Windows.Storage;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Media.Imaging;
@@ -94,7 +95,7 @@ namespace UWPX_UI_Context.Classes.DataContext.Controls
         /// Tries to open the current image URL with the default web browser.
         /// </summary>
         /// <returns>Returns true on success.</returns>
-        public Task<bool> OpenImageUrlWithDefaultBrowserAsync(SpeechBubbleContentControlContext speechBubbleContentViewModel)
+        public IAsyncOperation<bool> OpenImageUrlWithDefaultBrowserAsync(SpeechBubbleContentControlContext speechBubbleContentViewModel)
         {
             return UiUtils.LaunchUriAsync(new Uri(speechBubbleContentViewModel.MODEL.Message.Message.message));
         }
@@ -222,7 +223,7 @@ namespace UWPX_UI_Context.Classes.DataContext.Controls
         private void OnImagePropertyChanged(object sender, PropertyChangedEventArgs e)
         {
             ChatMessageImageModel img = SpeechBubbleViewModel.MODEL.Message.Message.image;
-            if(img is null)
+            if (img is null)
             {
                 return;
             }

@@ -7,6 +7,7 @@ using System.Threading.Tasks;
 using Logging;
 using Windows.ApplicationModel.Core;
 using Windows.ApplicationModel.DataTransfer;
+using Windows.Foundation;
 using Windows.Foundation.Metadata;
 using Windows.System;
 using Windows.UI;
@@ -215,7 +216,7 @@ namespace UWPX_UI_Context.Classes
         /// </summary>
         /// <param name="url">The <see cref="Uri"/> that defines the application that should get launched.</param>
         /// <returns>Returns true on success.</returns>
-        public static Task<bool> LaunchUriAsync(Uri url)
+        public static IAsyncOperation<bool> LaunchUriAsync(Uri url)
         {
             return Launcher.LaunchUriAsync(url);
         }

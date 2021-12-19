@@ -281,9 +281,9 @@ namespace UWPX_UI.Pages
         #endregion
         //--------------------------------------------------------Events:---------------------------------------------------------------------\\
         #region --Events--
-        private Task SPLASH_SCREEN_Dismissed(SplashScreen sender, object args)
+        private async void SPLASH_SCREEN_Dismissed(SplashScreen sender, object args)
         {
-            return SharedUtils.CallDispatcherAsync(async () => await LoadAppAsync());
+            await SharedUtils.CallDispatcherAsync(async () => await LoadAppAsync());
         }
 
         private void Current_SizeChanged(object sender, Windows.UI.Core.WindowSizeChangedEventArgs e)

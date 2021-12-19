@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Threading.Tasks;
 using Logging;
+using Windows.Foundation;
 using Windows.Storage;
 using Windows.Storage.Pickers;
 
@@ -119,7 +120,7 @@ namespace Shared.Classes.SQLite
         /// Opens a FileSavePicker and lets the user pick the destination.
         /// </summary>
         /// <returns>Returns the selected path.</returns>
-        private static Task<StorageFile> GetTargetSavePathAsync()
+        private static IAsyncOperation<StorageFile> GetTargetSavePathAsync()
         {
             FileSavePicker savePicker = new FileSavePicker
             {
@@ -134,7 +135,7 @@ namespace Shared.Classes.SQLite
         /// Opens a FileSavePicker and lets the user pick the destination.
         /// </summary>
         /// <returns>Returns the selected path.</returns>
-        private static Task<StorageFile> GetTargetOpenPathAsync()
+        private static IAsyncOperation<StorageFile> GetTargetOpenPathAsync()
         {
             FileOpenPicker openPicker = new FileOpenPicker
             {

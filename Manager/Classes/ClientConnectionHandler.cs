@@ -64,10 +64,10 @@ namespace Manager.Classes
         #endregion
         //--------------------------------------------------------Misc Methods:---------------------------------------------------------------\\
         #region --Misc Methods (Public)--
-        public ValueTask DisposeAsync()
+        public async ValueTask DisposeAsync()
         {
             UnsubscribeFromEvents();
-            return DisconnectAsync();
+            await DisconnectAsync();
         }
 
         /// <summary>

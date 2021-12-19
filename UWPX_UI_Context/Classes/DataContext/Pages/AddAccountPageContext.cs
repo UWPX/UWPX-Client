@@ -6,6 +6,7 @@ using Storage.Classes;
 using Storage.Classes.Models.Account;
 using UWPX_UI_Context.Classes.DataTemplates.Dialogs;
 using UWPX_UI_Context.Classes.DataTemplates.Pages;
+using Windows.Foundation;
 using XMPP_API.Classes.Network;
 
 namespace UWPX_UI_Context.Classes.DataContext.Pages
@@ -42,8 +43,8 @@ namespace UWPX_UI_Context.Classes.DataContext.Pages
                  AccountModel account = new AccountModel(jid, UiUtils.GenRandomHexColor());
                  account.omemoInfo.GenerateOmemoKeys();
 
-                // Look up the DNS SRV record:
-                SRVLookupResult result = await XMPPAccount.dnsSrvLookupAsync(jid.domainPart);
+                 // Look up the DNS SRV record:
+                 SRVLookupResult result = await XMPPAccount.dnsSrvLookupAsync(jid.domainPart);
                  if (result.SUCCESS)
                  {
                      account.server.address = result.SERVER_ADDRESS;
@@ -57,25 +58,25 @@ namespace UWPX_UI_Context.Classes.DataContext.Pages
         {
             return Task.Run(async () =>
              {
-                // Update the password:
-                XMPPAccount account = MODEL.Account.ToXMPPAccount();
+                 // Update the password:
+                 XMPPAccount account = MODEL.Account.ToXMPPAccount();
                  account.user.password = MODEL.Password;
                  Vault.StorePassword(account);
 
-                // Push:
-                MODEL.Account.push.state = Settings.GetSettingBoolean(SettingsConsts.PUSH_ENABLED) ? PushState.ENABLING : PushState.DISABLED;
+                 // Push:
+                 MODEL.Account.push.state = Settings.GetSettingBoolean(SettingsConsts.PUSH_ENABLED) ? PushState.ENABLING : PushState.DISABLED;
 
-                // New account add it to the DB:
-                if (MODEL.OldAccount is null)
+                 // New account add it to the DB:
+                 if (MODEL.OldAccount is null)
                  {
                      MODEL.Account.Add();
                      ConnectionHandler.INSTANCE.AddAccount(MODEL.Account);
 
-                    // Initialize Push:
-                    PushManager.INSTANCE.Init();
+                     // Initialize Push:
+                     PushManager.INSTANCE.Init();
                  }
-                // Update the old account:
-                else
+                 // Update the old account:
+                 else
                  {
                      MODEL.Account.Update();
                      await ConnectionHandler.INSTANCE.UpdateAccountAsync(MODEL.Account);
@@ -121,7 +122,7 @@ namespace UWPX_UI_Context.Classes.DataContext.Pages
             }
         }
 
-        public Task OnWhatIsAJidAsync()
+        public IAsyncOperation<bool> OnWhatIsAJidAsync()
         {
             return UiUtils.LaunchUriAsync(new System.Uri("https://uwpx.org/support/"));
         }

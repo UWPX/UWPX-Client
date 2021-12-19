@@ -1,6 +1,6 @@
 ﻿using System;
-using System.Threading.Tasks;
 using UWPX_UI_Context.Classes.DataTemplates.Dialogs;
+using Windows.Foundation;
 
 namespace UWPX_UI_Context.Classes.DataContext.Dialogs
 {
@@ -33,7 +33,7 @@ namespace UWPX_UI_Context.Classes.DataContext.Dialogs
             MODEL.Confirmed = false;
         }
 
-        public Task OnLinkClickedAsync(string link)
+        public IAsyncOperation<bool> OnLinkClickedAsync(string link)
         {
             return UiUtils.LaunchUriAsync(new Uri(link));
         }

@@ -1,4 +1,5 @@
-﻿using Microsoft.UI.Xaml.Controls;
+﻿using System;
+using Microsoft.UI.Xaml.Controls;
 using UWPX_UI.Extensions;
 using UWPX_UI_Context.Classes;
 using UWPX_UI_Context.Classes.DataContext.Pages;
