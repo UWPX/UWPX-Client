@@ -10,7 +10,6 @@ using UWPX_UI_Context.Classes.DataTemplates.Controls;
 using UWPX_UI_Context.Classes.DataTemplates.Dialogs;
 using UWPX_UI_Context.Classes.Events;
 using Windows.UI.Xaml;
-using XMPP_API.Classes.Network.XML.Messages;
 
 namespace UWPX_UI_Context.Classes.DataContext.Controls
 {
