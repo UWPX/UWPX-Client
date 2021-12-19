@@ -102,9 +102,8 @@ namespace UWPX_UI_Context.Classes.DataContext.Controls.Chat.MUC
         #region --Misc Methods (Private)--
         private void OnMucChanged(MucInfoModel muc)
         {
-            if (muc is not null && MODEL.chat is not null && muc.state == MucState.ENTERD)
+            if (muc is not null && MODEL.chat is not null && muc.state == MucState.ENTERD && muc.affiliation == MUCAffiliation.OWNER)
             {
-                MODEL.IsReadOnly = muc.affiliation != MUCAffiliation.OWNER;
                 MODEL.IsAvailable = true;
                 RequestConfiguartion(MODEL.chat);
                 return;
