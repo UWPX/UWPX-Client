@@ -1,0 +1,147 @@
+﻿using System;
+using Manager.Classes;
+using Shared.Classes;
+using Windows.UI.Xaml.Media;
+using Windows.UI.Xaml.Media.Imaging;
+using XMPP_API.Classes;
+using XMPP_API.Classes.Network;
+using XMPP_API.Classes.Network.Events;
+
+namespace UWPX_UI_Context.Classes.DataTemplates.Dialogs
+{
+    public class EditProfileDialogDataTemplate: AbstractDataTemplate
+    {
+        //--------------------------------------------------------Attributes:-----------------------------------------------------------------\\
+        #region --Attributes--
+        private bool _IsSaving;
+        public bool IsSaving
+        {
+            get => _IsSaving;
+            set => SetIsSavingProperty(value);
+        }
+
+        private bool _IsSaveEnabled;
+        public bool IsSaveEnabled
+        {
+            get => _IsSaveEnabled;
+            set => SetProperty(ref _IsSaveEnabled, value);
+        }
+
+        private bool _Error;
+        public bool Error
+        {
+            get => _Error;
+            set => SetProperty(ref _Error, value);
+        }
+
+        private string _ErrorText;
+        public string ErrorText
+        {
+            get => _ErrorText;
+            set => SetProperty(ref _ErrorText, value);
+        }
+
+        private bool _IsLoading;
+        public bool IsLoading
+        {
+            get => _IsLoading;
+            set => SetProperty(ref _IsLoading, value);
+        }
+
+        private Client _Client;
+        public Client Client
+        {
+            get => _Client;
+            set => SetClientProperty(value);
+        }
+
+        private string _BareJid;
+        public string BareJid
+        {
+            get => _BareJid;
+            set => SetProperty(ref _BareJid, value);
+        }
+
+        private ImageSource _Image;
+        public ImageSource Image
+        {
+            get => _Image;
+            set => SetProperty(ref _Image, value);
+        }
+
+        #endregion
+        //--------------------------------------------------------Constructor:----------------------------------------------------------------\\
+        #region --Constructors--
+
+
+        #endregion
+        //--------------------------------------------------------Set-, Get- Methods:---------------------------------------------------------\\
+        #region --Set-, Get- Methods--
+        private void SetIsSavingProperty(bool value)
+        {
+            if (SetProperty(ref _IsSaving, value, nameof(IsSaving)))
+            {
+                IsSaveEnabled = !value;
+            }
+        }
+
+        private void SetClientProperty(Client value)
+        {
+            Client old = Client;
+            if (SetProperty(ref _Client, value, nameof(Client)))
+            {
+                if (old is not null)
+                {
+                    old.xmppClient.ConnectionStateChanged -= OnClientConnectionStateChanged;
+                }
+                if (value is not null)
+                {
+                    value.xmppClient.ConnectionStateChanged += OnClientConnectionStateChanged;
+                    BareJid = value.dbAccount.bareJid;
+                }
+                CheckForErrors();
+            }
+        }
+
+        #endregion
+        //--------------------------------------------------------Misc Methods:---------------------------------------------------------------\\
+        #region --Misc Methods (Public)--
+
+
+        #endregion
+
+        #region --Misc Methods (Private)--
+        private void CheckForErrors()
+        {
+            if (Client is null)
+            {
+                ErrorText = "No valid account selected!";
+            }
+            else if (Client.xmppClient.getConnetionState() != ConnectionState.CONNECTED)
+            {
+                ErrorText = "Account not connected!";
+            }
+            else
+            {
+                IsSaveEnabled = true;
+                return;
+            }
+            IsSaveEnabled = false;
+        }
+
+        #endregion
+
+        #region --Misc Methods (Protected)--
+
+
+        #endregion
+        //--------------------------------------------------------Events:---------------------------------------------------------------------\\
+        #region --Events--
+        private void OnClientConnectionStateChanged(XMPPClient client, ConnectionStateChangedEventArgs args)
+        {
+            CheckForErrors();
+        }
+
+        #endregion
+    }
+}

@@ -395,6 +395,9 @@
     <Compile Include="Dialogs\CertificateRequirementsDialog.xaml.cs">
       <DependentUpon>CertificateRequirementsDialog.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Dialogs\EditProfileDialog.xaml.cs">
+      <DependentUpon>EditProfileDialog.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Dialogs\ChangeNicknameDialog.xaml.cs">
       <DependentUpon>ChangeNicknameDialog.xaml</DependentUpon>
     </Compile>
@@ -994,6 +997,10 @@
       <SubType>Designer</SubType>
     </Page>
     <Page Include="Dialogs\CertificateRequirementsDialog.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Dialogs\EditProfileDialog.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

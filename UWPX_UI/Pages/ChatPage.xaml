@@ -361,6 +361,13 @@
                                           Glyph="&#xEDAF;"/>
                             </AppBarButton.Icon>
                         </AppBarButton>
+                        <AppBarButton x:Name="editProfile_abb"
+                                      Click="EditProfile_abb_Click"
+                                      Label="Edit profile">
+                            <AppBarButton.Icon>
+                                <FontIcon Glyph="&#xEF58;"/>
+                            </AppBarButton.Icon>
+                        </AppBarButton>
                     </CommandBar.SecondaryCommands>
                 </CommandBar>
             </controls1:ListDetailsView.ListCommandBar>

@@ -2,7 +2,7 @@
 using UWPX_UI_Context.Classes.DataContext.Controls;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
-using Windows.UI.Xaml.Media.Imaging;
+using Windows.UI.Xaml.Media;
 using XMPP_API.Classes;
 
 namespace UWPX_UI.Controls
@@ -18,12 +18,12 @@ namespace UWPX_UI.Controls
         }
         public static readonly DependencyProperty PresencePropProperty = DependencyProperty.Register(nameof(PresenceProp), typeof(Presence), typeof(AccountImagePresenceControl), new PropertyMetadata(Presence.Unavailable));
 
-        public BitmapImage Image
+        public ImageSource Image
         {
-            get => (BitmapImage)GetValue(ImageProperty);
+            get => (ImageSource)GetValue(ImageProperty);
             set => SetValue(ImageProperty, value);
         }
-        public static readonly DependencyProperty ImageProperty = DependencyProperty.Register(nameof(Image), typeof(BitmapImage), typeof(AccountImagePresenceControl), new PropertyMetadata(null));
+        public static readonly DependencyProperty ImageProperty = DependencyProperty.Register(nameof(Image), typeof(ImageSource), typeof(AccountImagePresenceControl), new PropertyMetadata(null));
 
         public string BareJid
         {

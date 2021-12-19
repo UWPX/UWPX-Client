@@ -126,6 +126,12 @@ namespace UWPX_UI.Pages
                 this.detailsControl = detailsControl;
             }
         }
+
+        private async void EditProfile_abb_Click(object sender, RoutedEventArgs e)
+        {
+            EditProfileDialog dialog = new EditProfileDialog();
+            await UiUtils.ShowDialogAsync(dialog);
+        }
         #endregion
     }
 }

@@ -23,6 +23,7 @@
                    Grid.Column="1"
                    Margin="5,0,0,3"
                    VerticalAlignment="Center"
+                   FontFamily="{ThemeResource ContentControlThemeFontFamily}"
                    Foreground="{x:Bind Foreground, Mode=OneWay}"
                    Style="{x:Bind TextBlockStyle, Mode=OneWay}"
                    Text="{x:Bind Text, Mode=OneWay}"
