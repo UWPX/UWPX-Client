@@ -87,9 +87,9 @@ namespace UWPX_UI_Context.Classes.DataContext.Controls.Chat.MUC
             chat.Chat.muc.Update();
         }
 
-        public void ToggleChatBookmarked(ChatDataTemplate chat)
+        public Task ToggleChatBookmarkedAsync(ChatDataTemplate chat)
         {
-            SetChatBookmarked(chat, !chat.Chat.inRoster);
+            return SetChatBookmarkedAsync(chat, !chat.Chat.inRoster);
         }
 
         public Task LeaveMucAsync(ChatDataTemplate chat)
@@ -127,7 +127,7 @@ namespace UWPX_UI_Context.Classes.DataContext.Controls.Chat.MUC
             }
         }
 
-        private void SetChatBookmarked(ChatDataTemplate chat, bool bookmarked)
+        private Task SetChatBookmarkedAsync(ChatDataTemplate chat, bool bookmarked)
         {
             if (chat.Chat.inRoster != bookmarked)
             {
@@ -135,22 +135,7 @@ namespace UWPX_UI_Context.Classes.DataContext.Controls.Chat.MUC
                 UpdateView(chat.Chat);
                 chat.Chat.Update();
             }
-            UpdateBookmarks(chat);
-        }
-
-        private void UpdateBookmarks(ChatDataTemplate chat)
-        {
-            List<ConferenceItem> conferences;
-            using (MainDbContext ctx = new MainDbContext())
-            {
-                conferences = ctx.GetXEP0048ConferenceItemsForAccount(chat.Client.dbAccount.bareJid);
-            }
-            if (updateBookmarksHelper != null)
-            {
-                updateBookmarksHelper.Dispose();
-            }
-            // TODO: Register callbacks for once an error occurred and show a notification to the user
-            updateBookmarksHelper = chat.Client.xmppClient.PUB_SUB_COMMAND_HELPER.setBookmars_xep_0048(conferences, null, null);
+            return chat.Client.PublishBookmarksAsync();
         }
 
         #endregion

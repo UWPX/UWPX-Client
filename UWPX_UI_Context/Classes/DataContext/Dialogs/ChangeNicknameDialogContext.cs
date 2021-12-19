@@ -60,7 +60,7 @@ namespace UWPX_UI_Context.Classes.DataContext.Dialogs
                 chat.Chat.muc.Update();
 
                 // Update bookmarks:
-                return chat.Chat.inRoster ? await UpdateBookmarksAsync(chat) : true;
+                return chat.Chat.inRoster ? await chat.Client.PublishBookmarksAsync() : true;
             });
             MODEL.IsSaving = false;
             MODEL.Error = !success;
@@ -78,29 +78,6 @@ namespace UWPX_UI_Context.Classes.DataContext.Dialogs
         #endregion
 
         #region --Misc Methods (Private)--
-        private async Task<bool> UpdateBookmarksAsync(ChatDataTemplate chat)
-        {
-            List<ConferenceItem> conferences;
-            using (MainDbContext ctx = new MainDbContext())
-            {
-                conferences = ctx.GetXEP0048ConferenceItemsForAccount(chat.Chat.accountBareJid);
-            }
-            MessageResponseHelperResult<IQMessage> result = await chat.Client.xmppClient.PUB_SUB_COMMAND_HELPER.setBookmars_xep_0048Async(conferences);
-            if (string.Equals(result.RESULT.TYPE, IQMessage.RESULT))
-            {
-                return true;
-            }
-            if (result.RESULT is IQErrorMessage errorMessage)
-            {
-                Logger.Warn("Failed to update XEP-0048 Bookmarks: " + errorMessage.ERROR_OBJ.ToString());
-            }
-            else
-            {
-                Logger.Warn("Failed to update XEP-0048 Bookmarks: " + result.RESULT.TYPE);
-            }
-            return false;
-        }
-
         private async Task<bool> UpdateNicknameAsync(ChatDataTemplate chat)
         {
             MessageResponseHelperResult<MUCMemberPresenceMessage> result = await chat.Client.xmppClient.MUC_COMMAND_HELPER.changeNicknameAsync(chat.Chat.bareJid, chat.Chat.muc.nickname);

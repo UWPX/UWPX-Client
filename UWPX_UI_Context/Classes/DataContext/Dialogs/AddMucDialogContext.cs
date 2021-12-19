@@ -86,23 +86,7 @@ namespace UWPX_UI_Context.Classes.DataContext.Dialogs
 
             if (bookmark)
             {
-                List<ConferenceItem> conferenceItems;
-                using (MainDbContext ctx = new MainDbContext())
-                {
-                    conferenceItems = ctx.GetXEP0048ConferenceItemsForAccount(client.dbAccount.bareJid);
-                }
-                MessageResponseHelperResult<IQMessage> result = await client.xmppClient.PUB_SUB_COMMAND_HELPER.setBookmars_xep_0048Async(conferenceItems);
-                if (result.STATE == MessageResponseHelperResultState.SUCCESS)
-                {
-                    if (result.RESULT is IQErrorMessage errMsg)
-                    {
-                        Logger.Warn("Failed to set bookmarks: " + errMsg.ToString());
-                    }
-                }
-                else
-                {
-                    Logger.Warn("Failed to set bookmarks: " + result.STATE);
-                }
+                await client.PublishBookmarksAsync();
             }
         }
 

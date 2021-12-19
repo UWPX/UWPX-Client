@@ -1,20 +1,16 @@
-﻿using System.Collections.Generic;
-using System.ComponentModel;
+﻿using System.ComponentModel;
 using System.Threading.Tasks;
 using Logging;
 using Manager.Classes;
 using Manager.Classes.Chat;
 using Microsoft.Toolkit.Uwp.UI.Helpers;
 using Storage.Classes;
-using Storage.Classes.Contexts;
 using Storage.Classes.Models.Chat;
 using UWPX_UI_Context.Classes.DataTemplates.Controls;
 using UWPX_UI_Context.Classes.DataTemplates.Dialogs;
 using UWPX_UI_Context.Classes.Events;
 using Windows.UI.Xaml;
-using XMPP_API.Classes;
 using XMPP_API.Classes.Network.XML.Messages;
-using XMPP_API.Classes.Network.XML.Messages.XEP_0048;
 
 namespace UWPX_UI_Context.Classes.DataContext.Controls
 {
@@ -63,7 +59,7 @@ namespace UWPX_UI_Context.Classes.DataContext.Controls
             }
         }
 
-        private void SetChatBookmarked(ChatDataTemplate chat, bool bookmarked)
+        private Task SetChatBookmarkedAsync(ChatDataTemplate chat, bool bookmarked)
         {
             if (chat.Chat.inRoster != bookmarked)
             {
@@ -71,7 +67,7 @@ namespace UWPX_UI_Context.Classes.DataContext.Controls
                 UpdateView(chat);
                 chat.Chat.Update();
             }
-            UpdateBookmarks(chat.Client.xmppClient);
+            return chat.Client.PublishBookmarksAsync();
         }
 
         public void SetChatMuted(ChatDataTemplate chat, bool muted)
@@ -126,9 +122,9 @@ namespace UWPX_UI_Context.Classes.DataContext.Controls
             return SetChatInRosterAsync(chat, !chat.Chat.inRoster);
         }
 
-        public void ToggleChatBookmarked(ChatDataTemplate chat)
+        public Task ToggleChatBookmarkedAsync(ChatDataTemplate chat)
         {
-            SetChatBookmarked(chat, !chat.Chat.inRoster);
+            return SetChatBookmarkedAsync(chat, !chat.Chat.inRoster);
         }
 
         public async Task DeleteChatAsync(DeleteChatConfirmDialogDataTemplate confirmDialogModel, ChatDataTemplate chat)
@@ -139,7 +135,7 @@ namespace UWPX_UI_Context.Classes.DataContext.Controls
                 {
                     if (chat.Chat.chatType == ChatType.MUC)
                     {
-                        SetChatBookmarked(chat, false);
+                        await SetChatBookmarkedAsync(chat, false);
                     }
                     else
                     {
@@ -230,20 +226,6 @@ namespace UWPX_UI_Context.Classes.DataContext.Controls
                     MODEL.UpdateView(chatTemplate.Chat?.muc);
                 }
             }
-        }
-
-        private void UpdateBookmarks(XMPPClient client)
-        {
-            List<ConferenceItem> conferences;
-            using (MainDbContext ctx = new MainDbContext())
-            {
-                conferences = ctx.GetXEP0048ConferenceItemsForAccount(client.getXMPPAccount().getBareJid());
-            }
-            if (updateBookmarksHelper != null)
-            {
-                updateBookmarksHelper.Dispose();
-            }
-            updateBookmarksHelper = client.PUB_SUB_COMMAND_HELPER.setBookmars_xep_0048(conferences, OnUpdateBookmarksMessage, OnUpdateBookmarksTimeout);
         }
 
         private void InvokeOnError(string titel, string message)

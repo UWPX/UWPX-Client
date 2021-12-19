@@ -78,9 +78,9 @@ namespace UWPX_UI.Controls.Chat.MUC
             await VIEW_MODEL.LeaveMucAsync(Chat).ConfAwaitFalse();
         }
 
-        private void Bookmark_mfo_Click(object sender, RoutedEventArgs e)
+        private async void Bookmark_mfo_Click(object sender, RoutedEventArgs e)
         {
-            VIEW_MODEL.ToggleChatBookmarked(Chat);
+            await VIEW_MODEL.ToggleChatBookmarkedAsync(Chat);
         }
 
         private void AutoJoin_tmfo_Click(object sender, RoutedEventArgs e)

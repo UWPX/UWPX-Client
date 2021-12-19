@@ -135,6 +135,7 @@ namespace Manager.Classes
 
                                 string name = await RequestMucIdentityAsync(roomJId);
 
+                                bool updateBookmarks = false;
                                 using (SemaLock semaLock = INFO.NewSemaLock())
                                 {
                                     // Update MUC info:
@@ -143,13 +144,20 @@ namespace Manager.Classes
                                     INFO.role = args.mucMemberPresenceMessage.ROLE;
                                     if (!(name is null))
                                     {
-                                        if (string.Equals(name, INFO.name))
+                                        if (!string.Equals(name, INFO.name))
                                         {
                                             Logger.Debug($"New MUC name ({name}) found for '{roomJId}'.");
+                                            INFO.name = name;
+                                            updateBookmarks = true;
                                         }
-                                        INFO.name = name;
                                     }
                                     INFO.Update();
+                                }
+
+                                // Update bookmarks in case the name changed:
+                                if (updateBookmarks)
+                                {
+                                    await ConnectionHandler.INSTANCE.GetClient(CLIENT.getXMPPAccount().getBareJid()).client.PublishBookmarksAsync();
                                 }
 
                                 Logger.Info($"Entered MUC room '{roomJId}' as '{INFO.nickname}' with role '{INFO.role}' and affiliation '{INFO.affiliation}'");

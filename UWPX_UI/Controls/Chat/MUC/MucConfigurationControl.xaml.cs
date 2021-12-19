@@ -172,7 +172,7 @@ namespace UWPX_UI.Controls.Chat.MUC
             }
         }
 
-        private async void UserControl_Loaded(object sender, RoutedEventArgs e)
+        private async void OnLoaded(object sender, RoutedEventArgs e)
         {
             UpdateReloadButton();
             UpdateSaveButton();

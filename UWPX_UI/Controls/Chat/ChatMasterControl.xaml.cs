@@ -139,9 +139,9 @@ namespace UWPX_UI.Controls.Chat
             await VIEW_MODEL.LeaveMucAsync(Chat);
         }
 
-        private void Bookmark_tmfo_Click(object sender, RoutedEventArgs e)
+        private async void Bookmark_tmfo_Click(object sender, RoutedEventArgs e)
         {
-            VIEW_MODEL.ToggleChatBookmarked(Chat);
+            await VIEW_MODEL.ToggleChatBookmarkedAsync(Chat);
         }
 
         private void MuteMUC_tmfo_Click(object sender, RoutedEventArgs e)
@@ -203,7 +203,7 @@ namespace UWPX_UI.Controls.Chat
         {
             if (Chat.Chat.chatType == ChatType.MUC)
             {
-                VIEW_MODEL.ToggleChatBookmarked(Chat);
+                await VIEW_MODEL.ToggleChatBookmarkedAsync(Chat);
             }
             else
             {

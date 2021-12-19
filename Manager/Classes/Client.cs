@@ -1,11 +1,18 @@
-﻿using System.ComponentModel;
+﻿using System.Collections.Generic;
+using System.ComponentModel;
+using System.Threading.Tasks;
 using Logging;
 using Manager.Classes.Push;
 using Shared.Classes;
 using Storage.Classes;
+using Storage.Classes.Contexts;
 using Storage.Classes.Models.Account;
+using Storage.Classes.Models.Chat;
 using XMPP_API.Classes;
 using XMPP_API.Classes.Network;
+using XMPP_API.Classes.Network.XML.Messages;
+using XMPP_API.Classes.Network.XML.Messages.Helper;
+using XMPP_API.Classes.Network.XML.Messages.XEP_0048;
 
 namespace Manager.Classes
 {
@@ -80,6 +87,33 @@ namespace Manager.Classes
                 // Ensure we update the push configuration on the XMPP server if needed:
                 PUSH_MANAGER.TryUpdateClientPush();
             }
+        }
+
+        /// <summary>
+        /// Publishes the current XEP-0048 bookmarks to the server.
+        /// </summary>
+        /// <returns>True on success.</returns>
+        public async Task<bool> PublishBookmarksAsync()
+        {
+            List<ConferenceItem> conferences;
+            using (MainDbContext ctx = new MainDbContext())
+            {
+                conferences = ctx.GetXEP0048ConferenceItemsForAccount(xmppClient.getXMPPAccount().getBareJid());
+            }
+            MessageResponseHelperResult<IQMessage> result = await xmppClient.PUB_SUB_COMMAND_HELPER.setBookmars_xep_0048Async(conferences);
+            if (string.Equals(result.RESULT.TYPE, IQMessage.RESULT))
+            {
+                return true;
+            }
+            if (result.RESULT is IQErrorMessage errorMessage)
+            {
+                Logger.Warn($"Failed to update XEP-0048 Bookmarks: {errorMessage.ERROR_OBJ}");
+            }
+            else
+            {
+                Logger.Warn($"Failed to update XEP-0048 Bookmarks: {result.RESULT.TYPE}");
+            }
+            return false;
         }
 
         #endregion
