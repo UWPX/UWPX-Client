@@ -48,9 +48,12 @@ namespace UWPX_UI.Dialogs
             Hide();
         }
 
-        private void OnSaveClicked(IconProgressButtonControl sender, RoutedEventArgs args)
+        private async void OnSaveClicked(IconProgressButtonControl sender, RoutedEventArgs args)
         {
-            Hide();
+            if(await VIEW_MODEL.SaveAsync())
+            {
+                Hide();
+            }
         }
 
         private async void OnEditAvatarClicked(object sender, RoutedEventArgs e)
@@ -63,9 +66,9 @@ namespace UWPX_UI.Dialogs
             await VIEW_MODEL.ChangeAvatarAsync();
         }
 
-        private void OnRemoveAvatarClicked(object sender, RoutedEventArgs e)
+        private async void OnRemoveAvatarClicked(object sender, RoutedEventArgs e)
         {
-            VIEW_MODEL.RemoveAvatar();
+            await VIEW_MODEL.RemoveAvatarAsync();
         }
 
         private void OnAddAccountClicked(AccountSelectionControl sender, System.ComponentModel.CancelEventArgs args)

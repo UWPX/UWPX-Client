@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Threading.Tasks;
 using Manager.Classes;
 using Shared.Classes;
 using Windows.Graphics.Imaging;
@@ -70,6 +71,8 @@ namespace UWPX_UI_Context.Classes.DataTemplates.Dialogs
             set => SetProperty(ref _Image, value);
         }
 
+        private SoftwareBitmap rawImage;
+
         #endregion
         //--------------------------------------------------------Constructor:----------------------------------------------------------------\\
         #region --Constructors--
@@ -84,6 +87,11 @@ namespace UWPX_UI_Context.Classes.DataTemplates.Dialogs
             {
                 IsSaveEnabled = !value;
             }
+        }
+
+        public SoftwareBitmap GetRawImage()
+        {
+            return rawImage;
         }
 
         private async void SetClientProperty(Client value)
@@ -101,12 +109,11 @@ namespace UWPX_UI_Context.Classes.DataTemplates.Dialogs
                     BareJid = value.dbAccount.bareJid;
                     if(value.dbAccount.contactInfo.avatar is null)
                     {
-                        Image = null;
+                        await SetImageAsync(null);
                     }
                     else
                     {
-                        Image = new SoftwareBitmapSource();
-                        await Image.SetBitmapAsync(await value.dbAccount.contactInfo.avatar?.GetSoftwareBitmapAsync());
+                        await SetImageAsync(await value.dbAccount.contactInfo.avatar.GetSoftwareBitmapAsync());
                     }
                 }
                 CheckForErrors();
@@ -116,7 +123,20 @@ namespace UWPX_UI_Context.Classes.DataTemplates.Dialogs
         #endregion
         //--------------------------------------------------------Misc Methods:---------------------------------------------------------------\\
         #region --Misc Methods (Public)--
-
+        public async Task SetImageAsync(SoftwareBitmap img)
+        {
+            if (img is null)
+            {
+                Image = null;
+                rawImage = null;
+            }
+            else
+            {
+                rawImage = img;
+                Image = new SoftwareBitmapSource();
+                await Image.SetBitmapAsync(rawImage);
+            }
+        }
 
         #endregion
 

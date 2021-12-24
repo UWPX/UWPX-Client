@@ -2,6 +2,8 @@
 using System.Threading.Tasks;
 using Logging;
 using Shared.Classes.Image;
+using Storage.Classes.Contexts;
+using Storage.Classes.Models.Account;
 using UWPX_UI_Context.Classes.DataTemplates.Dialogs;
 using Windows.Graphics.Imaging;
 using Windows.Storage;
@@ -58,13 +60,50 @@ namespace UWPX_UI_Context.Classes.DataContext.Dialogs
             MODEL.IsLoading = false;
         }
 
-        public void RemoveAvatar()
+        public async Task RemoveAvatarAsync()
         {
             if(MODEL.Image is not null)
             {
-                MODEL.Image = null;
+                await MODEL.SetImageAsync(null);
                 MODEL.IsSaveEnabled = MODEL.Client.dbAccount.contactInfo.avatar is not null;
             }
+        }
+
+        public async Task<bool> SaveAsync()
+        {
+            ContactInfoModel contactInfo = MODEL.Client.dbAccount.contactInfo;
+            // Remove image:
+            if(MODEL.Image is null)
+            {
+                using (MainDbContext ctx = new MainDbContext())
+                {
+                    contactInfo.avatar.Remove(ctx, true);
+                    contactInfo.avatar = null;
+                    ctx.Update(contactInfo);
+                }
+            }
+            // Add image
+            else
+            {
+                if(contactInfo.avatar is null)
+                {
+                    contactInfo.avatar = new ImageModel();
+                    await contactInfo.avatar.SetImageAsync(MODEL.GetRawImage());
+                    using (MainDbContext ctx = new MainDbContext())
+                    {
+                        ctx.Add(contactInfo.avatar);
+                        ctx.Update(contactInfo);
+                    }
+                    contactInfo.Update();
+                }
+                else
+                {
+                    await contactInfo.avatar.SetImageAsync(MODEL.GetRawImage());
+                    contactInfo.Update();
+                }
+            }
+            
+            return true;
         }
 
         #endregion
@@ -77,7 +116,7 @@ namespace UWPX_UI_Context.Classes.DataContext.Dialogs
             {
                 SoftwareBitmapSource src = new SoftwareBitmapSource();
                 await src.SetBitmapAsync(img);
-                MODEL.Image = src;
+                await MODEL.SetImageAsync(img);
                 MODEL.IsSaveEnabled = true;
             }
         }
