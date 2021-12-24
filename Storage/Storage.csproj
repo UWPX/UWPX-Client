@@ -125,6 +125,7 @@
     <Compile Include="Classes\JsonObjectSerializer.cs" />
     <Compile Include="Classes\Models\AbstractModel.cs" />
     <Compile Include="Classes\Models\Account\AccountModel.cs" />
+    <Compile Include="Classes\Models\Account\ContactInfoModel.cs" />
     <Compile Include="Classes\Models\Account\JidModel.cs" />
     <Compile Include="Classes\Models\Account\MamRequestModel.cs" />
     <Compile Include="Classes\Models\Account\PushAccountModel.cs" />
@@ -141,6 +142,7 @@
     <Compile Include="Classes\Models\Chat\MucOccupantModel.cs" />
     <Compile Include="Classes\Models\Chat\MucState.cs" />
     <Compile Include="Classes\Models\Chat\SpamMessageModel.cs" />
+    <Compile Include="Classes\Models\Account\ImageModel.cs" />
     <Compile Include="Classes\Models\Omemo\OmemoAccountInformationModel.cs" />
     <Compile Include="Classes\Models\Omemo\OmemoChatInformationModel.cs" />
     <Compile Include="Classes\Models\Omemo\OmemoDeviceModel.cs" />

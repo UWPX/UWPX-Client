@@ -1,4 +1,5 @@
-﻿using System.ComponentModel;
+﻿using System;
+using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using Storage.Classes.Contexts;
@@ -144,6 +145,18 @@ namespace Storage.Classes.Models.Account
         [NotMapped]
         private MamRequestModel _mamRequest;
 
+        /// <summary>
+        /// Contact information containing for example the user avatar.
+        /// </summary>
+        [Required]
+        public ContactInfoModel contactInfo
+        {
+            get => _contactInfo;
+            set => SetContactInfoProperty(value);
+        }
+        [NotMapped]
+        private ContactInfoModel _contactInfo;
+
         #endregion
         //--------------------------------------------------------Constructor:----------------------------------------------------------------\\
         #region --Constructors--
@@ -151,6 +164,7 @@ namespace Storage.Classes.Models.Account
         {
             omemoInfo = new OmemoAccountInformationModel();
             mamRequest = new MamRequestModel();
+            contactInfo = new ContactInfoModel();
         }
 
         public AccountModel(JidModel fullJid, string color) : this()
@@ -248,6 +262,22 @@ namespace Storage.Classes.Models.Account
             }
         }
 
+        private void SetContactInfoProperty(ContactInfoModel value)
+        {
+            ContactInfoModel old = _contactInfo;
+            if (SetProperty(ref _contactInfo, value, nameof(contactInfo)))
+            {
+                if (!(old is null))
+                {
+                    old.PropertyChanged -= OnContactInfoPropertyChanged;
+                }
+                if (!(value is null))
+                {
+                    value.PropertyChanged += OnContactInfoPropertyChanged;
+                }
+            }
+        }
+
         #endregion
         //--------------------------------------------------------Misc Methods:---------------------------------------------------------------\\
         #region --Misc Methods (Public)--
@@ -322,6 +352,11 @@ namespace Storage.Classes.Models.Account
         private void OnFullJidPropertyChanged(object sender, PropertyChangedEventArgs e)
         {
             base.OnPropertyChanged(nameof(fullJid) + '.' + e.PropertyName);
+        }
+
+        private void OnContactInfoPropertyChanged(object sender, PropertyChangedEventArgs e)
+        {
+            base.OnPropertyChanged(nameof(contactInfo) + '.' + e.PropertyName);
         }
 
         #endregion

@@ -138,6 +138,7 @@
     <Compile Include="Classes\Collections\TimedListEntry.cs" />
     <Compile Include="Classes\Collections\TSTimedList.cs" />
     <Compile Include="Classes\DeviceFamilyHelper.cs" />
+    <Compile Include="Classes\Image\ImageUtils.cs" />
     <Compile Include="Classes\Network\AbstractDownloadableObject.cs" />
     <Compile Include="Classes\Network\DownloadError.cs" />
     <Compile Include="Classes\Network\DownloadHandler.cs" />

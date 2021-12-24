@@ -63,9 +63,9 @@ namespace UWPX_UI.Dialogs
             await VIEW_MODEL.ChangeAvatarAsync();
         }
 
-        private async void OnRemoveAvatarClicked(object sender, RoutedEventArgs e)
+        private void OnRemoveAvatarClicked(object sender, RoutedEventArgs e)
         {
-            await VIEW_MODEL.RemoveAvatarAsync();
+            VIEW_MODEL.RemoveAvatar();
         }
 
         private void OnAddAccountClicked(AccountSelectionControl sender, System.ComponentModel.CancelEventArgs args)

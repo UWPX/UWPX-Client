@@ -1,6 +1,7 @@
 ﻿using System;
 using Manager.Classes;
 using Shared.Classes;
+using Windows.Graphics.Imaging;
 using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Media.Imaging;
 using XMPP_API.Classes;
@@ -62,8 +63,8 @@ namespace UWPX_UI_Context.Classes.DataTemplates.Dialogs
             set => SetProperty(ref _BareJid, value);
         }
 
-        private ImageSource _Image;
-        public ImageSource Image
+        private SoftwareBitmapSource _Image;
+        public SoftwareBitmapSource Image
         {
             get => _Image;
             set => SetProperty(ref _Image, value);
@@ -85,7 +86,7 @@ namespace UWPX_UI_Context.Classes.DataTemplates.Dialogs
             }
         }
 
-        private void SetClientProperty(Client value)
+        private async void SetClientProperty(Client value)
         {
             Client old = Client;
             if (SetProperty(ref _Client, value, nameof(Client)))
@@ -98,6 +99,15 @@ namespace UWPX_UI_Context.Classes.DataTemplates.Dialogs
                 {
                     value.xmppClient.ConnectionStateChanged += OnClientConnectionStateChanged;
                     BareJid = value.dbAccount.bareJid;
+                    if(value.dbAccount.contactInfo.avatar is null)
+                    {
+                        Image = null;
+                    }
+                    else
+                    {
+                        Image = new SoftwareBitmapSource();
+                        await Image.SetBitmapAsync(await value.dbAccount.contactInfo.avatar?.GetSoftwareBitmapAsync());
+                    }
                 }
                 CheckForErrors();
             }
@@ -116,17 +126,13 @@ namespace UWPX_UI_Context.Classes.DataTemplates.Dialogs
             if (Client is null)
             {
                 ErrorText = "No valid account selected!";
+                IsSaveEnabled = false;
             }
             else if (Client.xmppClient.getConnetionState() != ConnectionState.CONNECTED)
             {
                 ErrorText = "Account not connected!";
+                IsSaveEnabled = false;
             }
-            else
-            {
-                IsSaveEnabled = true;
-                return;
-            }
-            IsSaveEnabled = false;
         }
 
         #endregion

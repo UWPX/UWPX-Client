@@ -106,6 +106,26 @@ namespace UWPX_UI_Context.Classes
                             Logger.Error("Error during updating DB to version 0.38.0.0", e);
                         }
                     }
+
+                    if (versionLastStart.Major <= 0 && versionLastStart.Minor < 39)
+                    {
+                        try
+                        {
+                            Logger.Info("Started updating DB to version 0.39.0.0.");
+                            Logger.Info("Resetting the DB...");
+                            using (MainDbContext ctx = new MainDbContext())
+                            {
+                                await ctx.Database.EnsureDeletedAsync();
+                                await ctx.Database.EnsureCreatedAsync();
+                            }
+                            Logger.Info("DB reset.");
+                            Logger.Info("Finished updating DB to version 0.39.0.0.");
+                        }
+                        catch (Exception e)
+                        {
+                            Logger.Error("Error during updating DB to version 0.39.0.0", e);
+                        }
+                    }
                 }
             }
             SetVersion(GetPackageVersion());
