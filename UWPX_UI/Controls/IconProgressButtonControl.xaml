@@ -34,6 +34,8 @@
             <muxc:ProgressRing Grid.Column="2"
                                Margin="10,0,0,0"
                                IsActive="True"
+                               Height="10"
+                               Width="10"
                                Visibility="{x:Bind ProgressRingVisibility, Mode=OneWay}"/>
         </Grid>
     </Button>
