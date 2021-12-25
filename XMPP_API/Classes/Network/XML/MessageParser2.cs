@@ -14,6 +14,7 @@ using XMPP_API.Classes.Network.XML.Messages.XEP_0045;
 using XMPP_API.Classes.Network.XML.Messages.XEP_0045.Configuration;
 using XMPP_API.Classes.Network.XML.Messages.XEP_0060;
 using XMPP_API.Classes.Network.XML.Messages.XEP_0085;
+using XMPP_API.Classes.Network.XML.Messages.XEP_0084;
 using XMPP_API.Classes.Network.XML.Messages.XEP_0184;
 using XMPP_API.Classes.Network.XML.Messages.XEP_0198;
 using XMPP_API.Classes.Network.XML.Messages.XEP_0199;
@@ -335,6 +336,18 @@ namespace XMPP_API.Classes.Network.XML
                                                         else if (nodeAttr.Equals(Consts.XML_XEP_0402_NAMESPACE))
                                                         {
                                                             messages.Add(new BookmarksResultMessage(n));
+                                                            fondNode = true;
+                                                        }
+                                                        // XEP-0084 (User Avatar) avatar metadata response:
+                                                        else if (nodeAttr.Equals(Consts.XML_XEP_0084_METADATA_NAMESPACE))
+                                                        {
+                                                            messages.Add(new AvatarMetadataResponseMessage(n));
+                                                            fondNode = true;
+                                                        }
+                                                        // XEP-0084 (User Avatar) avatar response:
+                                                        else if (nodeAttr.Equals(Consts.XML_XEP_0084_DATA_NAMESPACE))
+                                                        {
+                                                            messages.Add(new AvatarResponseMessage(n));
                                                             fondNode = true;
                                                         }
                                                         // XEP-IoT:

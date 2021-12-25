@@ -213,6 +213,7 @@ namespace XMPP_API.Classes
         {
             return connection.EnableOmemo(omemoStore);
         }
+
         #endregion
 
         #region --Misc Methods (Private)--

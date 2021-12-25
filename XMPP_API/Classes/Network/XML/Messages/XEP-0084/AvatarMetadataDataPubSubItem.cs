@@ -7,7 +7,6 @@ namespace XMPP_API.Classes.Network.XML.Messages.XEP_0084
     {
         //--------------------------------------------------------Attributes:-----------------------------------------------------------------\\
         #region --Attributes--
-        private readonly string AVATAR_BASE64;
         private readonly AvatarInfo INFO;
 
         #endregion
@@ -40,7 +39,7 @@ namespace XMPP_API.Classes.Network.XML.Messages.XEP_0084
         protected override XElement getContent(XNamespace ns)
         {
             XNamespace xepNs = Consts.XML_XEP_0084_METADATA_NAMESPACE;
-            XElement metadataNode = new XElement(xepNs + "metadata", AVATAR_BASE64);
+            XElement metadataNode = new XElement(xepNs + "metadata");
             metadataNode.Add(INFO.toXElement(xepNs));
             return metadataNode;
         }

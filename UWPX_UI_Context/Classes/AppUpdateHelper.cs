@@ -3,7 +3,6 @@ using System.Threading.Tasks;
 using Logging;
 using Storage.Classes;
 using Storage.Classes.Contexts;
-using Storage.Classes.Models.Omemo;
 using Windows.ApplicationModel;
 using Windows.Storage;
 
@@ -107,7 +106,7 @@ namespace UWPX_UI_Context.Classes
                         }
                     }
 
-                    if (true || (versionLastStart.Major <= 0 && versionLastStart.Minor < 39))
+                    if (false || (versionLastStart.Major <= 0 && versionLastStart.Minor < 39))
                     {
                         try
                         {

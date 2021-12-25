@@ -5,9 +5,11 @@ using System.Linq;
 using System.Threading.Tasks;
 using Logging;
 using Manager.Classes.Chat;
+using Shared.Classes.Image;
 using Shared.Classes.Threading;
 using Storage.Classes;
 using Storage.Classes.Contexts;
+using Storage.Classes.Models.Account;
 using Storage.Classes.Models.Chat;
 using XMPP_API.Classes;
 using XMPP_API.Classes.Network;
@@ -15,6 +17,7 @@ using XMPP_API.Classes.Network.Events;
 using XMPP_API.Classes.Network.XML.Messages;
 using XMPP_API.Classes.Network.XML.Messages.Helper;
 using XMPP_API.Classes.Network.XML.Messages.XEP_0059;
+using XMPP_API.Classes.Network.XML.Messages.XEP_0084;
 using XMPP_API.Classes.Network.XML.Messages.XEP_0313;
 using XMPP_API.Classes.Network.XML.Messages.XEP_0384;
 
@@ -29,6 +32,7 @@ namespace Manager.Classes
         REQUESTING_ROSTER,
         REQUESTING_MAM,
         INITIALISING_OMEMO_KEYS,
+        UPDATING_AVATAR,
         DONE,
         CANCELED
     }
@@ -97,6 +101,11 @@ namespace Manager.Classes
                     break;
 
                 case SetupState.REQUESTING_MAM:
+                    state = SetupState.UPDATING_AVATAR;
+                    _ = UpdateAvatarAsync();
+                    break;
+
+                case SetupState.UPDATING_AVATAR:
                     state = SetupState.DONE;
                     Continue();
                     break;
@@ -306,6 +315,112 @@ namespace Manager.Classes
             else
             {
                 Logger.Warn("Failed to initialize OMEMO handler since it is null.");
+            }
+            Continue();
+        }
+
+        private async Task<ImageModel> RequestAvatarAsync(string avatarHash, string type)
+        {
+            MessageResponseHelperResult<IQMessage> result = await ccHandler.client.xmppClient.PUB_SUB_COMMAND_HELPER.requestAvatarAsync(null, avatarHash);
+            if (result.STATE == MessageResponseHelperResultState.SUCCESS)
+            {
+                if (result.RESULT is AvatarResponseMessage avatar)
+                {
+                    try
+                    {
+                        return new ImageModel
+                        {
+                            hash = avatar.HASH,
+                            lastUpdate = DateTime.Now,
+                            data = Convert.FromBase64String(avatar.AVATAR_BASE_64),
+                            type = type
+                        };
+
+                    }
+                    catch (Exception e)
+                    {
+                        Logger.Error($"Failed to requets the avatar with hash '{avatarHash}' for '{ccHandler.client.dbAccount.bareJid}' to an image.", e);
+                    }
+                }
+                else if (result.RESULT is IQErrorMessage errorMsg)
+                {
+                    Logger.Error($"Failed to requets the avatar with hash '{avatarHash}' for '{ccHandler.client.dbAccount.bareJid}' with: {errorMsg.ERROR_OBJ}");
+                }
+            }
+            else
+            {
+                Logger.Error($"Failed to requets the avatar with hash '{avatarHash}' for '{ccHandler.client.dbAccount.bareJid}' with: {result.STATE}");
+            }
+            return null;
+        }
+
+        private async Task UpdateAvatarAsync()
+        {
+            state = SetupState.UPDATING_AVATAR;
+            MessageResponseHelperResult<IQMessage> result = await ccHandler.client.xmppClient.PUB_SUB_COMMAND_HELPER.requestAvatarMetadataAsync(null);
+            if (result.STATE == MessageResponseHelperResultState.SUCCESS)
+            {
+                if (result.RESULT is AvatarMetadataResponseMessage metadataResponseMsg)
+                {
+                    if (ccHandler.client.dbAccount.contactInfo.avatar is null)
+                    {
+                        if (metadataResponseMsg.HASH is null)
+                        {
+                            Logger.Info($"No need to update (null) avatar for '{ccHandler.client.dbAccount.bareJid}'.");
+                        }
+                        else if (metadataResponseMsg.INFOS.Count <= 0)
+                        {
+                            Logger.Warn($"Received avatar withount valid metadata from '{ccHandler.client.dbAccount.bareJid}'.");
+                        }
+                        else {
+                            // New avatar:
+                            ImageModel avatar = await RequestAvatarAsync(metadataResponseMsg.HASH, metadataResponseMsg.INFOS[0].TYPE);
+                            using (MainDbContext ctx = new MainDbContext())
+                            {
+                                ctx.Add(avatar);
+                                ccHandler.client.dbAccount.contactInfo.avatar = avatar;
+                                ctx.Update(ccHandler.client.dbAccount.contactInfo);
+                            }
+                        }
+                    }
+                    else
+                    {
+                        // Avatar got removed:
+                        if (metadataResponseMsg.HASH is null)
+                        {
+                            using (MainDbContext ctx = new MainDbContext())
+                            {
+                                ctx.Remove(ccHandler.client.dbAccount.contactInfo.avatar);
+                                ccHandler.client.dbAccount.contactInfo.avatar = null;
+                                ctx.Update(ccHandler.client.dbAccount.contactInfo);
+                            }
+                        }
+                        else if (metadataResponseMsg.INFOS.Count <= 0)
+                        {
+                            Logger.Warn($"Received avatar withount valid metadata from '{ccHandler.client.dbAccount.bareJid}'.");
+                        }
+                        else if (string.Equals(metadataResponseMsg.HASH, ccHandler.client.dbAccount.contactInfo.avatar.hash))
+                        {
+
+                            Logger.Info($"No need to update (same hash) avatar for '{ccHandler.client.dbAccount.bareJid}'.");
+                        }
+                        // Avatar got updated:
+                        else
+                        {
+                            ImageModel avatar = await RequestAvatarAsync(metadataResponseMsg.HASH, metadataResponseMsg.INFOS[0].TYPE);
+                            if (!(avatar is null))
+                            {
+                                using (MainDbContext ctx = new MainDbContext())
+                                {
+                                    ctx.Remove(ccHandler.client.dbAccount.contactInfo.avatar);
+                                    ctx.Add(avatar);
+                                    ccHandler.client.dbAccount.contactInfo.avatar = avatar;
+                                    ctx.Update(ccHandler.client.dbAccount.contactInfo);
+                                }
+                            }
+                        }
+                    }
+                }
             }
             Continue();
         }

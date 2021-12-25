@@ -1,48 +1,27 @@
-﻿using System.Xml.Linq;
+﻿using XMPP_API.Classes.Network.XML.Messages.XEP_0060;
 
-namespace XMPP_API.Classes.Network.XML.Messages.XEP_0060
+namespace XMPP_API.Classes.Network.XML.Messages.XEP_0084
 {
-    public abstract class AbstractPubSubItem: IXElementable
+    public class RequestAvatarMetadataMessage: PubSubRequestNodeMessage
     {
         //--------------------------------------------------------Attributes:-----------------------------------------------------------------\\
         #region --Attributes--
-        public string id;
+
 
         #endregion
         //--------------------------------------------------------Constructor:----------------------------------------------------------------\\
         #region --Constructors--
-        /// <summary>
-        /// Basic Constructor
-        /// </summary>
-        /// <history>
-        /// 15/07/2018 Created [Fabian Sauter]
-        /// </history>
-        protected AbstractPubSubItem()
-        {
-        }
+        public RequestAvatarMetadataMessage(string from, string to) : base(from, to, Consts.XML_XEP_0084_METADATA_NAMESPACE, 1) { }
 
         #endregion
         //--------------------------------------------------------Set-, Get- Methods:---------------------------------------------------------\\
         #region --Set-, Get- Methods--
-        protected abstract XElement getContent(XNamespace ns);
+
 
         #endregion
         //--------------------------------------------------------Misc Methods:---------------------------------------------------------------\\
         #region --Misc Methods (Public)--
-        public XElement toXElement(XNamespace ns)
-        {
-            XElement item = new XElement(ns + "item");
-            if (id is not null)
-            {
-                item.Add(new XAttribute("id", id));
-            }
-            XElement cont = getContent(ns);
-            if (cont is not null)
-            {
-                item.Add(cont);
-            }
-            return item;
-        }
+
 
         #endregion
 

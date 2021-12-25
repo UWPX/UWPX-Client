@@ -185,8 +185,7 @@ namespace UWPX_UI_Context.Classes.DataContext.Dialogs
             }
 
             byte[] imgData = await ImageUtils.ToByteArrayAsync(img, string.Equals(MODEL.Image.type, ImageUtils.IANA_MEDIA_TYPE_GIF));
-            byte[] imgHash = ImageUtils.HashImage(imgData);
-            string imgHashBase16 = CryptoUtils.byteArrayToHexString(imgHash);
+            string imgHashBase16 = ImageUtils.HashImage(imgData);
             AvatarMetadataDataPubSubItem metadata = new AvatarMetadataDataPubSubItem(imgHashBase16, new AvatarInfo((uint)imgData.Length, (ushort)img.PixelHeight, (ushort)img.PixelWidth, imgHashBase16, "image/png"));
 
             if(!await PublishMetadataAsync(metadata))

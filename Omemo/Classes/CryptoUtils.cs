@@ -8,6 +8,7 @@ using Omemo.Classes.Keys;
 using Org.BouncyCastle.Crypto.Digests;
 using Org.BouncyCastle.Crypto.Generators;
 using Org.BouncyCastle.Crypto.Parameters;
+using Shared.Classes;
 using Windows.Security.Cryptography;
 using X25519;
 
@@ -279,13 +280,7 @@ namespace Omemo.Classes
         /// </summary>
         public static string ToHexString(byte[] data)
         {
-            StringBuilder hex = new StringBuilder(data.Length * 2);
-            foreach (byte b in data)
-            {
-                hex.AppendFormat("{0:x2}", b);
-            }
-
-            return hex.ToString();
+            return SharedUtils.ToHexString(data);
         }
 
         #endregion

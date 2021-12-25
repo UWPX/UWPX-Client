@@ -246,6 +246,20 @@ namespace Shared.Classes
             return result;
         }
 
+        /// <summary>
+        /// Converts the given byte array to a hex-string and returns it.
+        /// </summary>
+        public static string ToHexString(byte[] data)
+        {
+            StringBuilder hex = new StringBuilder(data.Length * 2);
+            foreach (byte b in data)
+            {
+                hex.AppendFormat("{0:x2}", b);
+            }
+
+            return hex.ToString();
+        }
+
         #endregion
 
         #region --Misc Methods (Protected)--

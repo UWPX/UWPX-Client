@@ -17,6 +17,8 @@ namespace Shared.Classes.Image
         #region --Attributes--
         public const string IANA_MEDIA_TYPE_GIF = "image/gif";
         public const string IANA_MEDIA_TYPE_PNG = "image/png";
+        public const string IANA_MEDIA_TYPE_JPG = "image/jpg";
+        public const string IANA_MEDIA_TYPE_JPEG = "image/jpeg";
 
         #endregion
         //--------------------------------------------------------Constructor:----------------------------------------------------------------\\
@@ -122,13 +124,13 @@ namespace Shared.Classes.Image
         }
 
         /// <summary>
-        /// Computes a SHA1 hash of the given image and returns the result.
+        /// Computes a SHA1 hash of the given image and returns the result as a hex string.
         /// </summary>
-        public static byte[] HashImage(byte[] img)
+        public static string HashImage(byte[] img)
         {
             using (System.Security.Cryptography.SHA1CryptoServiceProvider sha = new System.Security.Cryptography.SHA1CryptoServiceProvider())
             {
-                return sha.ComputeHash(img);
+                return SharedUtils.ToHexString(sha.ComputeHash(img));
             }
         }
 

@@ -35,10 +35,7 @@ namespace XMPP_API.Classes
         #endregion
         //--------------------------------------------------------Set-, Get- Methods:---------------------------------------------------------\\
         #region --Set-, Get- Methods--
-        public string getPubSubServer()
-        {
-            throw new NotImplementedException();
-        }
+
 
         #endregion
         //--------------------------------------------------------Misc Methods:---------------------------------------------------------------\\
@@ -323,6 +320,33 @@ namespace XMPP_API.Classes
         {
             AsyncMessageResponseHelper<IQMessage> helper = new AsyncMessageResponseHelper<IQMessage>(CONNECTION);
             PublishAvatarMetadataMessage msg = new PublishAvatarMetadataMessage(CONNECTION.account.getFullJid(), metadata);
+            return helper.startAsync(msg);
+        }
+
+        /// <summary>
+        /// Sends a <see cref="RequestAvatarMetadataMessage"/> to request the avatar metadata.
+        /// https://xmpp.org/extensions/xep-0084.html#process-pubmeta
+        /// </summary>
+        /// <param name="to">The target e.g. 'witches@conference.jabber.org' or null in case it should be send to our own PEP provider.</param>
+        /// <returns>Returns a <see cref="MessageResponseHelper{IQMessage}"/> listening for <see cref="RequestAvatarMetadataMessage"/> answers.</returns>
+        public Task<MessageResponseHelperResult<IQMessage>> requestAvatarMetadataAsync(string to)
+        {
+            AsyncMessageResponseHelper<IQMessage> helper = new AsyncMessageResponseHelper<IQMessage>(CONNECTION);
+            RequestAvatarMetadataMessage msg = new RequestAvatarMetadataMessage(CONNECTION.account.getFullJid(), to);
+            return helper.startAsync(msg);
+        }
+
+        /// <summary>
+        /// Sends a <see cref="RequestAvatarMessage"/> to request the avatar metadata.
+        /// https://xmpp.org/extensions/xep-0084.html#process-pubmeta
+        /// </summary>
+        /// <param name="to">The target e.g. 'witches@conference.jabber.org' or null in case it should be send to our own PEP provider.</param>
+        /// <param name="avatarHash">The hexadecimal version of the avatar hash you would like to request.</param>
+        /// <returns>Returns a <see cref="MessageResponseHelper{IQMessage}"/> listening for <see cref="RequestAvatarMessage"/> answers.</returns>
+        public Task<MessageResponseHelperResult<IQMessage>> requestAvatarAsync(string to, string avatarHash)
+        {
+            AsyncMessageResponseHelper<IQMessage> helper = new AsyncMessageResponseHelper<IQMessage>(CONNECTION);
+            RequestAvatarMessage msg = new RequestAvatarMessage(CONNECTION.account.getFullJid(), to, avatarHash);
             return helper.startAsync(msg);
         }
 

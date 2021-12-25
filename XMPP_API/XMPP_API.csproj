@@ -299,8 +299,12 @@
     <Compile Include="Classes\Network\XML\Messages\XEP-0084\AvatarInfo.cs" />
     <Compile Include="Classes\Network\XML\Messages\XEP-0084\AvatarMetadataDataPubSubItem.cs" />
     <Compile Include="Classes\Network\XML\Messages\XEP-0084\AvatarDataPubSubItem.cs" />
+    <Compile Include="Classes\Network\XML\Messages\XEP-0084\AvatarResponseMessage.cs" />
+    <Compile Include="Classes\Network\XML\Messages\XEP-0084\AvatarMetadataResponseMessage.cs" />
     <Compile Include="Classes\Network\XML\Messages\XEP-0084\PublishAvatarMessage.cs" />
     <Compile Include="Classes\Network\XML\Messages\XEP-0084\PublishAvatarMetadataMessage.cs" />
+    <Compile Include="Classes\Network\XML\Messages\XEP-0084\RequestAvatarMessage.cs" />
+    <Compile Include="Classes\Network\XML\Messages\XEP-0084\RequestAvatarMetadataMessage.cs" />
     <Compile Include="Classes\Network\XML\Messages\XEP-0085\ChatState.cs" />
     <Compile Include="Classes\Network\XML\Messages\XEP-0085\ChatStateMessage.cs" />
     <Compile Include="Classes\Network\XML\Messages\XEP-0184\DeliveryReceiptMessage.cs" />

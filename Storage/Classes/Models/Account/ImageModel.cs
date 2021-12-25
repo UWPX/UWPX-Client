@@ -36,16 +36,16 @@ namespace Storage.Classes.Models.Account
         private byte[] _data;
 
         /// <summary>
-        /// SHA-1 hash of the <see cref="data"/>.
+        /// SHA-1 hash of the <see cref="data"/> in hex.
         /// </summary>
         [Required]
-        public byte[] hash
+        public string hash
         {
             get => _hash;
             set => SetProperty(ref _hash, value);
         }
         [NotMapped]
-        private byte[] _hash;
+        private string _hash;
 
         /// <summary>
         /// When was the last time the image got updated.

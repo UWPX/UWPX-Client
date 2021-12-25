@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Xml;
 using System.Xml.Linq;
 
 namespace XMPP_API.Classes.Network.XML.Messages.XEP_0084
@@ -24,6 +25,33 @@ namespace XMPP_API.Classes.Network.XML.Messages.XEP_0084
             WEIGHT = weight;
             ID = id;
             TYPE = type;
+        }
+
+        public AvatarInfo(XmlNode node)
+        {
+            // Required attributes:
+            ID = node.Attributes["id"].Value;
+            TYPE = node.Attributes["type"].Value;
+            BYTES = uint.Parse(node.Attributes["bytes"].Value);
+
+            // Optional attributes:
+            XmlAttribute urlAttribute = XMLUtils.getAttribute(node, "url");
+            if (urlAttribute is not null)
+            {
+                URL = new Uri(urlAttribute.Value);
+            }
+
+            XmlAttribute heightAttribute = XMLUtils.getAttribute(node, "height");
+            if (heightAttribute is not null)
+            {
+                HEIGHT = ushort.Parse(heightAttribute.Value);
+            }
+
+            XmlAttribute weightAttribute = XMLUtils.getAttribute(node, "weight");
+            if (weightAttribute is not null)
+            {
+                WEIGHT = ushort.Parse(weightAttribute.Value);
+            }
         }
 
         #endregion
