@@ -43,6 +43,7 @@
                                                        Grid.Row="0"
                                                        Width="100"
                                                        Height="100"
+                                                       Image="{x:Bind Chat.Chat.contactInfo.avatar, Mode=OneWay}"
                                                        BareJid="{x:Bind Chat.Chat.bareJid, Mode=OneWay}"
                                                        ChatType="MUC"
                                                        PresenceVisibility="Collapsed"/>

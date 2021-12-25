@@ -118,7 +118,7 @@ namespace UWPX_UI_Context.Classes.DataTemplates.Controls
             // Info:
             MuteGlyph = chat.muted ? "\uE74F" : "\uE767";
             MuteTooltip = chat.muted ? "Unmute" : "Mute";
-            ChatName = string.IsNullOrEmpty(chat.customName) ? chat.bareJid : chat.customName;
+            ChatName = string.IsNullOrEmpty(chat.contactInfo.name) ? chat.bareJid : chat.contactInfo.name;
         }
 
         #endregion

@@ -169,7 +169,7 @@ namespace UWPX_UI_Context.Classes.DataTemplates.Controls
 
                 if (chat.chatType != ChatType.MUC)
                 {
-                    NameText = string.IsNullOrEmpty(chat.customName) ? chat.bareJid : chat.customName;
+                    NameText = string.IsNullOrEmpty(chat.contactInfo.name) ? chat.bareJid : chat.contactInfo.name;
                     EnterMucVisibility = Visibility.Collapsed;
                     LeaveMucVisibility = Visibility.Collapsed;
                     OmemoVisibility = Visibility.Visible;

@@ -234,6 +234,7 @@
                                                       Margin="5,0,0,0"
                                                       BareJid="{x:Bind Chat.Chat.bareJid, Mode=OneWay}"
                                                       ChatType="{x:Bind Chat.Chat.chatType, Mode=OneWay}"
+                                                      Image="{x:Bind Chat.Chat.contactInfo.avatar, Mode=OneWay}"
                                                       PresenceProp="{x:Bind VIEW_MODEL.MODEL.ChatPresence, Mode=OneWay}"/>
 
                 <Grid Grid.Column="2"

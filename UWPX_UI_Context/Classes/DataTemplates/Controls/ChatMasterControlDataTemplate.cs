@@ -160,7 +160,7 @@ namespace UWPX_UI_Context.Classes.DataTemplates.Controls
                 if (chat.chatType != ChatType.MUC)
                 {
                     // Chat info:
-                    NameText = string.IsNullOrEmpty(chat.customName) ? chat.bareJid : chat.customName;
+                    NameText = string.IsNullOrEmpty(chat.contactInfo.name) ? chat.bareJid : chat.contactInfo.name;
 
                     // Subscription state:
                     ProbePresenceVisibility = Visibility.Collapsed;

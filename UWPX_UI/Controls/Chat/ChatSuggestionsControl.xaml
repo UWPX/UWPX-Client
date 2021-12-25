@@ -19,9 +19,10 @@
                 </Grid.ColumnDefinitions>
 
                 <controls:AccountImagePresenceControl Grid.Column="0"
-                                                      BareJid="{x:Bind Chat.bareJid}"
+                                                      BareJid="{x:Bind Chat.bareJid, Mode=OneWay}"
                                                       ChatType="CHAT"
-                                                      PresenceProp="{x:Bind Chat.presence}"/>
+                                                      Image="{x:Bind Chat.contactInfo.avatar, Mode=OneWay}"
+                                                      PresenceProp="{x:Bind Chat.presence, Mode=OneWay}"/>
                 <TextBlock x:Name="name_tblck"
                            Grid.Column="1"
                            Margin="10,0,0,0"

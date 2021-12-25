@@ -17,6 +17,7 @@
                 </Grid.ColumnDefinitions>
 
                 <controls:AccountImagePresenceControl Grid.Column="0"
+                                                      Image="{x:Bind Chat.contactInfo.avatar, Mode=OneWay}"
                                                       BareJid="{x:Bind Chat.bareJid}"
                                                       ChatType="CHAT"
                                                       PresenceProp="{x:Bind Chat.presence}"/>

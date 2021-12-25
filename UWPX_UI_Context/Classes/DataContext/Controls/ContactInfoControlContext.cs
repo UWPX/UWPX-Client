@@ -166,13 +166,13 @@ namespace UWPX_UI_Context.Classes.DataContext.Controls
         {
             if (string.IsNullOrEmpty(chatName) || string.Equals(chatName, chat.bareJid))
             {
-                chat.customName = null;
+                chat.contactInfo.name = null;
             }
             else
             {
-                chat.customName = chatName;
+                chat.contactInfo.name = chatName;
             }
-            chat.Update();
+            chat.contactInfo.Update();
         }
 
         #endregion

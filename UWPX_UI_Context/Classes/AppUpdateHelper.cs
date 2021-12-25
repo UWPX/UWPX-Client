@@ -71,9 +71,9 @@ namespace UWPX_UI_Context.Classes
             PackageVersion versionLastStart = GetLastStartedVersion();
 
             // Check if version != 0.0.0.0 => first ever start of the App:
-            if (!(versionLastStart.Major == 0 && versionLastStart.Major == versionLastStart.Minor && versionLastStart.Minor == versionLastStart.Revision && versionLastStart.Revision == versionLastStart.Build) || Settings.GetSettingBoolean(SettingsConsts.INITIALLY_STARTED))
+            if (true || !(versionLastStart.Major == 0 && versionLastStart.Major == versionLastStart.Minor && versionLastStart.Minor == versionLastStart.Revision && versionLastStart.Revision == versionLastStart.Build) || Settings.GetSettingBoolean(SettingsConsts.INITIALLY_STARTED))
             {
-                if (!Compare(versionLastStart, GetPackageVersion()))
+                if (true || !Compare(versionLastStart, GetPackageVersion()))
                 {
                     if (versionLastStart.Major <= 0 && versionLastStart.Minor < 31)
                     {
@@ -107,7 +107,7 @@ namespace UWPX_UI_Context.Classes
                         }
                     }
 
-                    if (versionLastStart.Major <= 0 && versionLastStart.Minor < 39)
+                    if (true || (versionLastStart.Major <= 0 && versionLastStart.Minor < 39))
                     {
                         try
                         {

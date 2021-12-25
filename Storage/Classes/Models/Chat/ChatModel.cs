@@ -48,17 +48,6 @@ namespace Storage.Classes.Models.Chat
         private string _accountBareJid;
 
         /// <summary>
-        /// A custom name for the chat. Has to be null in case it's the same like the <see cref="bareJid"/>.
-        /// </summary>
-        public string customName
-        {
-            get => _customName;
-            set => SetProperty(ref _customName, value);
-        }
-        [NotMapped]
-        private string _customName;
-
-        /// <summary>
         /// Whether there are chat messages for the chat available/the chat has been started.
         /// </summary>
         public bool isChatActive
@@ -199,6 +188,18 @@ namespace Storage.Classes.Models.Chat
         [NotMapped]
         private OmemoChatInformationModel _omemoInfo;
 
+        /// <summary>
+        /// Contact information containing for example the user avatar.
+        /// </summary>
+        [Required]
+        public ContactInfoModel contactInfo
+        {
+            get => _contactInfo;
+            set => SetContactInfoProperty(value);
+        }
+        [NotMapped]
+        private ContactInfoModel _contactInfo;
+
 
         /// <summary>
         /// The optional MUC information in case <see cref="chatType"/> == <seealso cref="ChatType.MUC"/>.
@@ -218,9 +219,10 @@ namespace Storage.Classes.Models.Chat
         public ChatModel()
         {
             lastChatStateUpdate = DateTime.MinValue;
+            contactInfo = new ContactInfoModel();
         }
 
-        public ChatModel(string chatBareJid, AccountModel account)
+        public ChatModel(string chatBareJid, AccountModel account) : this()
         {
             bareJid = chatBareJid;
             accountBareJid = account.bareJid;
@@ -235,7 +237,6 @@ namespace Storage.Classes.Models.Chat
             chatType = ChatType.CHAT;
             omemoInfo = new OmemoChatInformationModel(chatBareJid);
             chatState = ChatState.UNKNOWN;
-            lastChatStateUpdate = DateTime.MinValue;
 
         }
 
@@ -274,6 +275,22 @@ namespace Storage.Classes.Models.Chat
             }
         }
 
+        private void SetContactInfoProperty(ContactInfoModel value)
+        {
+            ContactInfoModel old = _contactInfo;
+            if (SetProperty(ref _contactInfo, value, nameof(contactInfo)))
+            {
+                if (!(old is null))
+                {
+                    old.PropertyChanged -= OnContactInfoPropertyChanged;
+                }
+                if (!(value is null))
+                {
+                    value.PropertyChanged += OnContactInfoPropertyChanged;
+                }
+            }
+        }
+
         #endregion
         //--------------------------------------------------------Misc Methods:---------------------------------------------------------------\\
         #region --Misc Methods (Public)--
@@ -287,6 +304,7 @@ namespace Storage.Classes.Models.Chat
             if (recursive)
             {
                 omemoInfo?.Remove(ctx, recursive);
+                contactInfo?.Remove(ctx, recursive);
                 if (removeMuc)
                 {
                     muc?.Remove(ctx, true, false);
@@ -325,6 +343,11 @@ namespace Storage.Classes.Models.Chat
             {
                 base.OnPropertyChanged(nameof(muc) + '.' + e.PropertyName);
             }
+        }
+
+        private void OnContactInfoPropertyChanged(object sender, PropertyChangedEventArgs e)
+        {
+            base.OnPropertyChanged(nameof(contactInfo) + '.' + e.PropertyName);
         }
 
         #endregion

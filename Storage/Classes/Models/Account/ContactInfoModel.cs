@@ -29,6 +29,17 @@ namespace Storage.Classes.Models.Account
         [NotMapped]
         private ImageModel _avatar;
 
+        /// <summary>
+        /// A custom name for the chat/account.
+        /// </summary>
+        public string name
+        {
+            get => _name;
+            set => SetProperty(ref _name, value);
+        }
+        [NotMapped]
+        private string _name;
+
         #endregion
         //--------------------------------------------------------Constructor:----------------------------------------------------------------\\
         #region --Constructors--

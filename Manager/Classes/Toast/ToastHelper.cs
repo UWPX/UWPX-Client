@@ -162,7 +162,7 @@ namespace Manager.Classes.Toast
                         {
                             new AdaptiveText()
                             {
-                                Text = string.IsNullOrEmpty(chat.customName) ? chat.bareJid : chat.customName,
+                                Text = string.IsNullOrEmpty(chat.contactInfo.name) ? chat.bareJid : chat.contactInfo.name,
                                 HintMaxLines = 1
                             },
                             new AdaptiveText()
@@ -232,7 +232,7 @@ namespace Manager.Classes.Toast
                         {
                             new AdaptiveText()
                             {
-                                Text = string.IsNullOrEmpty(chat.customName) ? chat.bareJid : chat.customName,
+                                Text = string.IsNullOrEmpty(chat.contactInfo.name) ? chat.bareJid : chat.contactInfo.name,
                                 HintMaxLines = 1
                             },
                             new AdaptiveText()
@@ -267,7 +267,7 @@ namespace Manager.Classes.Toast
                         {
                             new AdaptiveText
                             {
-                                Text = string.IsNullOrEmpty(chat.customName) ? chat.bareJid : chat.customName,
+                                Text = string.IsNullOrEmpty(chat.contactInfo.name) ? chat.bareJid : chat.contactInfo.name,
                                 HintMaxLines = 1
                             },
                             new AdaptiveText

@@ -29,6 +29,7 @@
                                                       Width="30"
                                                       Height="30"
                                                       Margin="5,0,0,0"
+                                                      Image="{x:Bind Client.dbAccount.contactInfo.avatar, Mode=OneWay}"
                                                       BareJid="{x:Bind Client.dbAccount.bareJid, Mode=OneWay}"
                                                       ChatType="CHAT"
                                                       PresenceProp="{x:Bind ConnectionState, Mode=OneWay, Converter={StaticResource ConnectionStatePresenceValueConverter}}"/>
