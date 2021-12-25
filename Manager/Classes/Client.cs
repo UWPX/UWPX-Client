@@ -7,7 +7,6 @@ using Shared.Classes;
 using Storage.Classes;
 using Storage.Classes.Contexts;
 using Storage.Classes.Models.Account;
-using Storage.Classes.Models.Chat;
 using XMPP_API.Classes;
 using XMPP_API.Classes.Network;
 using XMPP_API.Classes.Network.XML.Messages;

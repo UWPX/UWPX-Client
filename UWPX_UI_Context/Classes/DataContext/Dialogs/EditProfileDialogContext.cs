@@ -67,7 +67,7 @@ namespace UWPX_UI_Context.Classes.DataContext.Dialogs
         {
             if (MODEL.Image is not null)
             {
-                await MODEL.SetImageAsync(null);
+                await MODEL.SetImageAsync(null, false);
                 MODEL.IsSaveEnabled = MODEL.Client.dbAccount.contactInfo.avatar is not null;
             }
         }
@@ -101,7 +101,7 @@ namespace UWPX_UI_Context.Classes.DataContext.Dialogs
                 {
                     SoftwareBitmapSource src = new SoftwareBitmapSource();
                     await src.SetBitmapAsync(img);
-                    await MODEL.SetImageAsync(img);
+                    await MODEL.SetImageAsync(img, string.Equals(file.ContentType, "image/gif"));
                     MODEL.IsSaveEnabled = true;
                 }
             }
@@ -184,7 +184,7 @@ namespace UWPX_UI_Context.Classes.DataContext.Dialogs
                 return await PublishMetadataAsync(null);
             }
 
-            byte[] imgData = await ImageUtils.ToByteArrayAsync(img);
+            byte[] imgData = await ImageUtils.ToByteArrayAsync(img, string.Equals(MODEL.Image.type, ImageUtils.IANA_MEDIA_TYPE_GIF));
             byte[] imgHash = ImageUtils.HashImage(imgData);
             string imgHashBase16 = CryptoUtils.byteArrayToHexString(imgHash);
             AvatarMetadataDataPubSubItem metadata = new AvatarMetadataDataPubSubItem(imgHashBase16, new AvatarInfo((uint)imgData.Length, (ushort)img.PixelHeight, (ushort)img.PixelWidth, imgHashBase16, "image/png"));

@@ -2,10 +2,9 @@
 using System.Threading.Tasks;
 using Manager.Classes;
 using Shared.Classes;
+using Shared.Classes.Image;
 using Storage.Classes.Models.Account;
 using Windows.Graphics.Imaging;
-using Windows.UI.Xaml.Media;
-using Windows.UI.Xaml.Media.Imaging;
 using XMPP_API.Classes;
 using XMPP_API.Classes.Network;
 using XMPP_API.Classes.Network.Events;
@@ -110,7 +109,7 @@ namespace UWPX_UI_Context.Classes.DataTemplates.Dialogs
         #endregion
         //--------------------------------------------------------Misc Methods:---------------------------------------------------------------\\
         #region --Misc Methods (Public)--
-        public async Task SetImageAsync(SoftwareBitmap img)
+        public async Task SetImageAsync(SoftwareBitmap img, bool isAnimated)
         {
             if (img is null)
             {
@@ -119,7 +118,10 @@ namespace UWPX_UI_Context.Classes.DataTemplates.Dialogs
             else
             {
                 Image = new ImageModel();
-                await Image.SetImageAsync(img);
+                await Image.SetImageAsync(img, isAnimated);
+                Image.lastUpdate = DateTime.Now;
+                // Store animated images as GIF and everything else ans PNG:
+                Image.type = isAnimated ? ImageUtils.IANA_MEDIA_TYPE_GIF : ImageUtils.IANA_MEDIA_TYPE_PNG;
             }
         }
 

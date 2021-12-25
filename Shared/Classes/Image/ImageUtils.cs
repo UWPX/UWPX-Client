@@ -15,7 +15,8 @@ namespace Shared.Classes.Image
     {
         //--------------------------------------------------------Attributes:-----------------------------------------------------------------\\
         #region --Attributes--
-
+        public const string IANA_MEDIA_TYPE_GIF = "image/gif";
+        public const string IANA_MEDIA_TYPE_PNG = "image/png";
 
         #endregion
         //--------------------------------------------------------Constructor:----------------------------------------------------------------\\
@@ -107,25 +108,17 @@ namespace Shared.Classes.Image
         /// <summary>
         /// Converts the given <see cref="SoftwareBitmap"/> to a byte array and returns it.
         /// </summary>
-        public static async Task<byte[]> ToByteArrayAsync(SoftwareBitmap img)
+        public static async Task<byte[]> ToByteArrayAsync(SoftwareBitmap img, bool isAnimated)
         {
             using (InMemoryRandomAccessStream stream = new InMemoryRandomAccessStream())
             {
-                BitmapEncoder encoder = await BitmapEncoder.CreateAsync(BitmapEncoder.PngEncoderId, stream);
+                BitmapEncoder encoder = await BitmapEncoder.CreateAsync(isAnimated ? BitmapEncoder.GifEncoderId : BitmapEncoder.PngEncoderId, stream);
                 encoder.SetSoftwareBitmap(img);
                 await encoder.FlushAsync();
                 Windows.Storage.Streams.Buffer buffer = new Windows.Storage.Streams.Buffer((uint)stream.Size);
                 await stream.ReadAsync(buffer, (uint)stream.Size, InputStreamOptions.None);
                 return buffer.ToArray();
             }
-        }
-
-        /// <summary>
-        /// Converts the given <see cref="SoftwareBitmap"/> to a Base64 string and returns it.
-        /// </summary>
-        public static async Task<string> ToBase64Async(SoftwareBitmap img)
-        {
-            return Convert.ToBase64String(await ToByteArrayAsync(img));
         }
 
         /// <summary>
