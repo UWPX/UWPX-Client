@@ -7,6 +7,7 @@ using XMPP_API.Classes.Network.XML.Messages.Helper;
 using XMPP_API.Classes.Network.XML.Messages.XEP_0004;
 using XMPP_API.Classes.Network.XML.Messages.XEP_0030;
 using XMPP_API.Classes.Network.XML.Messages.XEP_0060;
+using XMPP_API.Classes.Network.XML.Messages.XEP_0084;
 using XMPP_API.Classes.Network.XML.Messages.XEP_0402;
 
 namespace XMPP_API.Classes
@@ -296,6 +297,32 @@ namespace XMPP_API.Classes
         {
             AsyncMessageResponseHelper<IQMessage> helper = new AsyncMessageResponseHelper<IQMessage>(CONNECTION);
             PubSubRequestNodeMessage msg = new PubSubRequestNodeMessage(CONNECTION.account.getFullJid(), to, nodeName, maxItems);
+            return helper.startAsync(msg);
+        }
+
+        /// <summary>
+        /// Sends a <see cref="PublishAvatarMessage"/> to publish the given avatar.
+        /// https://xmpp.org/extensions/xep-0084.html#process-pubdata
+        /// </summary>
+        /// <param name="avatar">The avatar to publish.</param>
+        /// <returns>Returns a <see cref="MessageResponseHelper{IQMessage}"/> listening for <see cref="PublishAvatarMessage"/> answers.</returns>
+        public Task<MessageResponseHelperResult<IQMessage>> publishAvatarAsync(AvatarDataPubSubItem avatar)
+        {
+            AsyncMessageResponseHelper<IQMessage> helper = new AsyncMessageResponseHelper<IQMessage>(CONNECTION);
+            PublishAvatarMessage msg = new PublishAvatarMessage(CONNECTION.account.getFullJid(), avatar);
+            return helper.startAsync(msg);
+        }
+
+        /// <summary>
+        /// Sends a <see cref="PublishAvatarMetadataMessage"/> to publish the given avatar metadata.
+        /// https://xmpp.org/extensions/xep-0084.html#process-pubmeta
+        /// </summary>
+        /// <param name="metadata">The avatar metadata to publish.</param>
+        /// <returns>Returns a <see cref="MessageResponseHelper{IQMessage}"/> listening for <see cref="PublishAvatarMetadataMessage"/> answers.</returns>
+        public Task<MessageResponseHelperResult<IQMessage>> publishAvatarMetadataAsync(AvatarMetadataDataPubSubItem metadata)
+        {
+            AsyncMessageResponseHelper<IQMessage> helper = new AsyncMessageResponseHelper<IQMessage>(CONNECTION);
+            PublishAvatarMetadataMessage msg = new PublishAvatarMetadataMessage(CONNECTION.account.getFullJid(), metadata);
             return helper.startAsync(msg);
         }
 

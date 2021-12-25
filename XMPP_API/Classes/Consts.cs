@@ -100,6 +100,9 @@ namespace XMPP_API.Classes
         public const string XML_XEP_0059_NAMESPACE = "http://jabber.org/protocol/rsm";
         // XEP-0420 (Stanza Content Encryption)
         public const string XML_XEP_0420_NAMESPACE = "urn:xmpp:sce:1";
+        // XEP-0084 (User Avatar)
+        public const string XML_XEP_0084_DATA_NAMESPACE = "urn:xmpp:avatar:data";
+        public const string XML_XEP_0084_METADATA_NAMESPACE = "urn:xmpp:avatar:metadata";
 
     }
 }

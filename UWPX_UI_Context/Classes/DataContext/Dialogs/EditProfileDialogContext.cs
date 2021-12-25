@@ -9,6 +9,10 @@ using Windows.Graphics.Imaging;
 using Windows.Storage;
 using Windows.Storage.Pickers;
 using Windows.UI.Xaml.Media.Imaging;
+using XMPP_API.Classes.Crypto;
+using XMPP_API.Classes.Network.XML.Messages;
+using XMPP_API.Classes.Network.XML.Messages.Helper;
+using XMPP_API.Classes.Network.XML.Messages.XEP_0084;
 
 namespace UWPX_UI_Context.Classes.DataContext.Dialogs
 {
@@ -50,7 +54,6 @@ namespace UWPX_UI_Context.Classes.DataContext.Dialogs
             if (file is not null)
             {
                 Logger.Debug($"New avatar: " + file.DisplayName);
-                // MODEL.Image = new BitmapImage(new Uri(file.Path));
                 await LoadImageAsync(file);
             }
             else
@@ -62,7 +65,7 @@ namespace UWPX_UI_Context.Classes.DataContext.Dialogs
 
         public async Task RemoveAvatarAsync()
         {
-            if(MODEL.Image is not null)
+            if (MODEL.Image is not null)
             {
                 await MODEL.SetImageAsync(null);
                 MODEL.IsSaveEnabled = MODEL.Client.dbAccount.contactInfo.avatar is not null;
@@ -71,9 +74,48 @@ namespace UWPX_UI_Context.Classes.DataContext.Dialogs
 
         public async Task<bool> SaveAsync()
         {
+            if (!await PublishAvatarAsync())
+            {
+                MODEL.Error = true;
+                MODEL.ErrorText = "Failed to publish avatar.";
+                return false;
+            }
+            if(!await UpdateDBAsync())
+            {
+                MODEL.Error = true;
+                MODEL.ErrorText = "Failed to save avatar to DB.";
+                return false;
+            }
+            return true;
+        }
+
+        #endregion
+
+        #region --Misc Methods (Private)--
+        private async Task LoadImageAsync(StorageFile file)
+        {
+            try
+            {
+                SoftwareBitmap img = await ImageUtils.LoadImageAsync(file, 512, 512);
+                if (img is not null)
+                {
+                    SoftwareBitmapSource src = new SoftwareBitmapSource();
+                    await src.SetBitmapAsync(img);
+                    await MODEL.SetImageAsync(img);
+                    MODEL.IsSaveEnabled = true;
+                }
+            }
+            catch (Exception e)
+            {
+                Logger.Error($"Failed to load image from '{file.Path}'.", e);
+            }
+        }
+
+        private async Task<bool> UpdateDBAsync()
+        {
             ContactInfoModel contactInfo = MODEL.Client.dbAccount.contactInfo;
             // Remove image:
-            if(MODEL.Image is null)
+            if (MODEL.Image is null)
             {
                 using (MainDbContext ctx = new MainDbContext())
                 {
@@ -85,7 +127,7 @@ namespace UWPX_UI_Context.Classes.DataContext.Dialogs
             // Add image
             else
             {
-                if(contactInfo.avatar is null)
+                if (contactInfo.avatar is null)
                 {
                     contactInfo.avatar = new ImageModel();
                     await contactInfo.avatar.SetImageAsync(MODEL.GetRawImage());
@@ -102,23 +144,64 @@ namespace UWPX_UI_Context.Classes.DataContext.Dialogs
                     contactInfo.Update();
                 }
             }
-            
+
             return true;
         }
 
-        #endregion
-
-        #region --Misc Methods (Private)--
-        private async Task LoadImageAsync(StorageFile file)
+        private async Task<bool> PublishMetadataAsync(AvatarMetadataDataPubSubItem metadata)
         {
-            SoftwareBitmap img = await ImageUtils.LoadImageAsync(file, 720, 720);
-            if(img is not null)
+            MessageResponseHelperResult<IQMessage> result = await MODEL.Client.xmppClient.PUB_SUB_COMMAND_HELPER.publishAvatarMetadataAsync(metadata);
+            if (result.STATE == MessageResponseHelperResultState.SUCCESS)
             {
-                SoftwareBitmapSource src = new SoftwareBitmapSource();
-                await src.SetBitmapAsync(img);
-                await MODEL.SetImageAsync(img);
-                MODEL.IsSaveEnabled = true;
+                if (result.RESULT is IQErrorMessage errorMsg)
+                {
+                    Logger.Error($"Failed to publish avatar metadata: {errorMsg.ERROR_OBJ}");
+                    return false;
+                }
+                Logger.Info("Successfully published avatar metadata.");
+                return true;
             }
+            Logger.Error($"Failed to publish avatar metadata: {result.STATE}");
+            return false;
+        }
+
+        private async Task<bool> PublishAvatarAsync(AvatarDataPubSubItem avatar)
+        {
+            MessageResponseHelperResult<IQMessage> result = await MODEL.Client.xmppClient.PUB_SUB_COMMAND_HELPER.publishAvatarAsync(avatar);
+            if (result.STATE == MessageResponseHelperResultState.SUCCESS)
+            {
+                if (result.RESULT is IQErrorMessage errorMsg)
+                {
+                    Logger.Error($"Failed to publish avatar: {errorMsg.ERROR_OBJ}");
+                    return false;
+                }
+                Logger.Info("Successfully published avatar.");
+                return true;
+            }
+            Logger.Error($"Failed to publish avatar: {result.STATE}");
+            return false;
+        }
+
+        private async Task<bool> PublishAvatarAsync()
+        {
+            SoftwareBitmap img = MODEL.GetRawImage();
+            if (img is null)
+            {
+                return await PublishMetadataAsync(null);
+            }
+
+            byte[] imgData = await ImageUtils.ToByteArrayAsync(img);
+            byte[] imgHash = ImageUtils.HashImage(imgData);
+            string imgHashBase16 = CryptoUtils.byteArrayToHexString(imgHash);
+            AvatarMetadataDataPubSubItem metadata = new AvatarMetadataDataPubSubItem(imgHashBase16, new AvatarInfo((uint)imgData.Length, (ushort)img.PixelHeight, (ushort)img.PixelWidth, imgHashBase16, "image/png"));
+
+            if(!await PublishMetadataAsync(metadata))
+            {
+                return false;
+            }
+
+            AvatarDataPubSubItem avatar = new AvatarDataPubSubItem(Convert.ToBase64String(imgData), imgHashBase16);
+            return await PublishAvatarAsync(avatar);
         }
 
         #endregion

@@ -296,6 +296,11 @@
     <Compile Include="Classes\Network\XML\Messages\XEP-0060\PubSubSubscriptionsResultMessage.cs" />
     <Compile Include="Classes\Network\XML\Messages\XEP-0060\PubSubSubscriptionState.cs" />
     <Compile Include="Classes\Network\XML\Messages\XEP-0082\DateTimeHelper.cs" />
+    <Compile Include="Classes\Network\XML\Messages\XEP-0084\AvatarInfo.cs" />
+    <Compile Include="Classes\Network\XML\Messages\XEP-0084\AvatarMetadataDataPubSubItem.cs" />
+    <Compile Include="Classes\Network\XML\Messages\XEP-0084\AvatarDataPubSubItem.cs" />
+    <Compile Include="Classes\Network\XML\Messages\XEP-0084\PublishAvatarMessage.cs" />
+    <Compile Include="Classes\Network\XML\Messages\XEP-0084\PublishAvatarMetadataMessage.cs" />
     <Compile Include="Classes\Network\XML\Messages\XEP-0085\ChatState.cs" />
     <Compile Include="Classes\Network\XML\Messages\XEP-0085\ChatStateMessage.cs" />
     <Compile Include="Classes\Network\XML\Messages\XEP-0184\DeliveryReceiptMessage.cs" />
