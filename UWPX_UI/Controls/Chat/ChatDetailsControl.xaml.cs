@@ -98,7 +98,7 @@ namespace UWPX_UI.Controls.Chat
                 omemoInfo = new OmemoAccountInformationModel()
 
             });
-            Chat = new ChatDataTemplate(tmp, client, null);
+            Chat = new ChatDataTemplate(tmp, client);
             VIEW_MODEL.LoadDummyContent(Chat.Chat);
         }
 

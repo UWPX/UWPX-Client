@@ -80,7 +80,7 @@ namespace UWPX_UI_Context.Classes.DataContext.Dialogs
                 MODEL.ErrorText = "Failed to publish avatar.";
                 return false;
             }
-            if(!await UpdateDBAsync())
+            if(!UpdateDB())
             {
                 MODEL.Error = true;
                 MODEL.ErrorText = "Failed to save avatar to DB.";
@@ -111,7 +111,7 @@ namespace UWPX_UI_Context.Classes.DataContext.Dialogs
             }
         }
 
-        private async Task<bool> UpdateDBAsync()
+        private bool UpdateDB()
         {
             ContactInfoModel contactInfo = MODEL.Client.dbAccount.contactInfo;
             // Remove image:
@@ -127,21 +127,15 @@ namespace UWPX_UI_Context.Classes.DataContext.Dialogs
             // Add image
             else
             {
-                if (contactInfo.avatar is null)
+                using (MainDbContext ctx = new MainDbContext())
                 {
-                    contactInfo.avatar = new ImageModel();
-                    await contactInfo.avatar.SetImageAsync(MODEL.GetRawImage());
-                    using (MainDbContext ctx = new MainDbContext())
+                    if(contactInfo.avatar is not null)
                     {
-                        ctx.Add(contactInfo.avatar);
-                        ctx.Update(contactInfo);
+                        ctx.Remove(contactInfo.avatar);
                     }
-                    contactInfo.Update();
-                }
-                else
-                {
-                    await contactInfo.avatar.SetImageAsync(MODEL.GetRawImage());
-                    contactInfo.Update();
+                    contactInfo.avatar = MODEL.Image;
+                    ctx.Add(contactInfo.avatar);
+                    ctx.Update(contactInfo);
                 }
             }
 
@@ -184,7 +178,7 @@ namespace UWPX_UI_Context.Classes.DataContext.Dialogs
 
         private async Task<bool> PublishAvatarAsync()
         {
-            SoftwareBitmap img = MODEL.GetRawImage();
+            SoftwareBitmap img = await MODEL.Image.GetSoftwareBitmapAsync();
             if (img is null)
             {
                 return await PublishMetadataAsync(null);

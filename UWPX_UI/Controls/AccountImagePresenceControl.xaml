@@ -40,7 +40,7 @@
                             Background="{x:Bind BareJid, Mode=OneWay, Converter={StaticResource StringBrushValueConverter}}"
                             FontFamily="{x:Bind ChatType, Mode=OneWay, Converter={StaticResource ChatTypeFontFamilyConverter}}"
                             Initials="{x:Bind VIEW_MODEL.MODEL.Initials, Mode=OneWay}"
-                            ProfilePicture="{x:Bind Image, Mode=OneWay}"
+                            ProfilePicture="{x:Bind VIEW_MODEL.MODEL.Image, Mode=OneWay}"
                             Style="{StaticResource ChatPersonPictureStyle}"/>
 
         <Border x:Name="InfoBadgeShadowTarget"

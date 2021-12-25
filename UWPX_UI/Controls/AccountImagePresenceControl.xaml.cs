@@ -1,4 +1,7 @@
-﻿using Storage.Classes.Models.Chat;
+﻿using System;
+using System.Threading.Tasks;
+using Storage.Classes.Models.Account;
+using Storage.Classes.Models.Chat;
 using UWPX_UI_Context.Classes.DataContext.Controls;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
@@ -18,12 +21,12 @@ namespace UWPX_UI.Controls
         }
         public static readonly DependencyProperty PresencePropProperty = DependencyProperty.Register(nameof(PresenceProp), typeof(Presence), typeof(AccountImagePresenceControl), new PropertyMetadata(Presence.Unavailable));
 
-        public ImageSource Image
+        public ImageModel Image
         {
-            get => (ImageSource)GetValue(ImageProperty);
+            get => (ImageModel)GetValue(ImageProperty);
             set => SetValue(ImageProperty, value);
         }
-        public static readonly DependencyProperty ImageProperty = DependencyProperty.Register(nameof(Image), typeof(ImageSource), typeof(AccountImagePresenceControl), new PropertyMetadata(null));
+        public static readonly DependencyProperty ImageProperty = DependencyProperty.Register(nameof(Image), typeof(ImageModel), typeof(AccountImagePresenceControl), new PropertyMetadata(null, OnImageChanged));
 
         public string BareJid
         {
@@ -69,9 +72,9 @@ namespace UWPX_UI.Controls
         #endregion
 
         #region --Misc Methods (Private)--
-        private void UpdateView()
+        private Task UpdateViewAsync()
         {
-            VIEW_MODEL.UpdateView(ChatType, BareJid);
+            return VIEW_MODEL.UpdateViewAsync(ChatType, BareJid, Image);
         }
 
         #endregion
@@ -82,19 +85,27 @@ namespace UWPX_UI.Controls
         #endregion
         //--------------------------------------------------------Events:---------------------------------------------------------------------\\
         #region --Events--
-        private static void OnBareJidChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
+        private static async void OnBareJidChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
             if (d is AccountImagePresenceControl control)
             {
-                control.UpdateView();
+                await control.UpdateViewAsync();
             }
         }
 
-        private static void OnChatTypeChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
+        private static async void OnChatTypeChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
             if (d is AccountImagePresenceControl control)
             {
-                control.UpdateView();
+                await control.UpdateViewAsync();
+            }
+        }
+
+        private static async void OnImageChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
+        {
+            if (d is AccountImagePresenceControl control)
+            {
+                await control.UpdateViewAsync();
             }
         }
 

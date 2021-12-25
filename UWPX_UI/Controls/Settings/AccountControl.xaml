@@ -53,6 +53,7 @@
                                                   Height="40"
                                                   BareJid="{x:Bind Account.Client.dbAccount.bareJid, Mode=OneWay}"
                                                   ChatType="CHAT"
+                                                  Image="{x:Bind Account.Client.dbAccount.contactInfo.avatar, Mode=OneWay}"
                                                   PresenceProp="{x:Bind Account.State, Mode=OneWay, Converter={StaticResource ConnectionStatePresenceValueConverter}}"/>
             <Button x:Name="info_btn"
                     Grid.Column="3"

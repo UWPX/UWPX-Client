@@ -451,7 +451,7 @@ namespace Manager.Classes.Chat
             // Update the cache:
             if (initialized)
             {
-                CHATS.Add(new ChatDataTemplate(chat, client, null));
+                CHATS.Add(new ChatDataTemplate(chat, client));
             }
         }
 
@@ -521,7 +521,7 @@ namespace Manager.Classes.Chat
         private static ChatDataTemplate LoadChat(ChatModel chat, MainDbContext ctx)
         {
             Client client = ConnectionHandler.INSTANCE.GetClient(chat.accountBareJid).client;
-            ChatDataTemplate chatDataTemplate = new ChatDataTemplate(chat, client, null);
+            ChatDataTemplate chatDataTemplate = new ChatDataTemplate(chat, client);
             chatDataTemplate.LoadLastMsg(ctx);
             return chatDataTemplate;
         }

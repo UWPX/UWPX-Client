@@ -1,10 +1,12 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using System;
+using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Diagnostics;
 using System.Threading.Tasks;
 using Shared.Classes.Image;
 using Storage.Classes.Contexts;
 using Windows.Graphics.Imaging;
+using Windows.UI.Xaml.Media.Imaging;
 
 namespace Storage.Classes.Models.Account
 {
@@ -47,6 +49,8 @@ namespace Storage.Classes.Models.Account
 
         [NotMapped]
         private SoftwareBitmap img;
+        [NotMapped]
+        private SoftwareBitmapSource imgSrc;
 
         #endregion
         //--------------------------------------------------------Constructor:----------------------------------------------------------------\\
@@ -58,11 +62,27 @@ namespace Storage.Classes.Models.Account
         #region --Set-, Get- Methods--
         public async Task<SoftwareBitmap> GetSoftwareBitmapAsync()
         {
-            if(img is null)
+            if (img is null)
             {
                 img = await ImageUtils.ToBitmapImageAsync(data);
+                imgSrc = new SoftwareBitmapSource();
+                await imgSrc.SetBitmapAsync(img);
             }
             return img;
+        }
+
+        public async Task<SoftwareBitmapSource> GetSoftwareBitmapSourceAsync()
+        {
+            if (imgSrc is null)
+            {
+                if(img is null)
+                {
+                    _ = await GetSoftwareBitmapAsync();
+                }
+                imgSrc = new SoftwareBitmapSource();
+                await imgSrc.SetBitmapAsync(img);
+            }
+            return imgSrc;
         }
 
         private void SetDataProperty(byte[] value)
@@ -70,6 +90,7 @@ namespace Storage.Classes.Models.Account
             if(SetProperty(ref _data, value))
             {
                 img = null;
+                imgSrc = null;
             }
         }
 
@@ -78,6 +99,9 @@ namespace Storage.Classes.Models.Account
             Debug.Assert(!(img is null));
             data = await ImageUtils.ToByteArrayAsync(img);
             hash = ImageUtils.HashImage(data);
+            this.img = img;
+            imgSrc = new SoftwareBitmapSource();
+            await imgSrc.SetBitmapAsync(img);
         }
 
         #endregion

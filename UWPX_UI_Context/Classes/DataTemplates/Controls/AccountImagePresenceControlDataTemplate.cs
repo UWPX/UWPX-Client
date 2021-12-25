@@ -1,5 +1,8 @@
-﻿using Shared.Classes;
+﻿using System.Threading.Tasks;
+using Shared.Classes;
+using Storage.Classes.Models.Account;
 using Storage.Classes.Models.Chat;
+using Windows.UI.Xaml.Media.Imaging;
 
 namespace UWPX_UI_Context.Classes.DataTemplates.Controls
 {
@@ -12,6 +15,13 @@ namespace UWPX_UI_Context.Classes.DataTemplates.Controls
         {
             get => _Initials;
             set => SetProperty(ref _Initials, value);
+        }
+
+        private SoftwareBitmapSource _Image;
+        public SoftwareBitmapSource Image
+        {
+            get => _Image;
+            set => SetProperty(ref _Image, value);
         }
 
         #endregion
@@ -27,27 +37,7 @@ namespace UWPX_UI_Context.Classes.DataTemplates.Controls
         #endregion
         //--------------------------------------------------------Misc Methods:---------------------------------------------------------------\\
         #region --Misc Methods (Public)--
-        public void UpdateView(ChatType chatType, string bareJid)
-        {
-            switch (chatType)
-            {
-                case ChatType.CHAT:
-                    Initials = string.IsNullOrEmpty(bareJid) ? "" : bareJid[0].ToString().ToUpperInvariant();
-                    break;
 
-                case ChatType.MUC:
-                    Initials = "\uE902";
-                    break;
-
-                case ChatType.IOT_DEVICE:
-                    Initials = "\uE957";
-                    break;
-
-                case ChatType.IOT_HUB:
-                    Initials = "\uF22C";
-                    break;
-            }
-        }
 
         #endregion
 

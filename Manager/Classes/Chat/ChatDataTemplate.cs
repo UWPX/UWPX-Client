@@ -13,12 +13,6 @@ namespace Manager.Classes.Chat
     {
         //--------------------------------------------------------Attributes:-----------------------------------------------------------------\\
         #region --Attributes--
-        private BitmapImage _Image;
-        public BitmapImage Image
-        {
-            get => _Image;
-            set => SetProperty(ref _Image, value);
-        }
         private ChatModel _Chat;
         public ChatModel Chat
         {
@@ -54,11 +48,10 @@ namespace Manager.Classes.Chat
         #endregion
         //--------------------------------------------------------Constructor:----------------------------------------------------------------\\
         #region --Constructors--
-        public ChatDataTemplate(ChatModel chat, Client client, BitmapImage image)
+        public ChatDataTemplate(ChatModel chat, Client client)
         {
             Chat = chat;
             Client = client;
-            Image = image;
             CHAT_STATE_HELPER = new ChatStateHelper(chat, client);
             UpdateUnreadCount();
         }

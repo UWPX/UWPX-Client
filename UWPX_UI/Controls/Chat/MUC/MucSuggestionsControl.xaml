@@ -19,7 +19,6 @@
                 <controls:AccountImagePresenceControl Grid.Column="0"
                                                       BareJid="{x:Bind Chat.bareJid}"
                                                       ChatType="CHAT"
-                                                      Image="{x:Bind Image}"
                                                       PresenceProp="{x:Bind Chat.presence}"/>
                 <TextBlock x:Name="name_tblck"
                            Grid.Column="1"
