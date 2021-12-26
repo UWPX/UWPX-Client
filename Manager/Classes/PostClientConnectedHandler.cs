@@ -29,7 +29,8 @@ namespace Manager.Classes
         REQUESTING_ROSTER,
         REQUESTING_MAM,
         INITIALISING_OMEMO_KEYS,
-        UPDATING_AVATAR,
+        UPDATING_ACCOUNT_AVATAR,
+        UPDATING_CHAT_AVATARS,
         DONE,
         CANCELED
     }
@@ -98,11 +99,14 @@ namespace Manager.Classes
                     break;
 
                 case SetupState.REQUESTING_MAM:
-                    state = SetupState.UPDATING_AVATAR;
-                    _ = UpdateAvatarAsync();
+                    _ = UpdateAccountAvatarAsync();
                     break;
 
-                case SetupState.UPDATING_AVATAR:
+                case SetupState.UPDATING_ACCOUNT_AVATAR:
+                    _ = UpdateChatAvatarsAsync();
+                    break;
+
+                case SetupState.UPDATING_CHAT_AVATARS:
                     state = SetupState.DONE;
                     Continue();
                     break;
@@ -317,13 +321,55 @@ namespace Manager.Classes
             Continue();
         }
 
-        private async Task UpdateAvatarAsync()
+        private async Task UpdateAccountAvatarAsync()
         {
-            state = SetupState.UPDATING_AVATAR;
+            state = SetupState.UPDATING_ACCOUNT_AVATAR;
             if (ccHandler.client.dbAccount.contactInfo.avatar is null || ccHandler.client.dbAccount.contactInfo.avatar.ShouldCheckSubscription())
             {
                 await ccHandler.client.CheckForAvatarUpdatesAsync(ccHandler.client.dbAccount.contactInfo, null, ccHandler.client.dbAccount.bareJid);
             }
+            Continue();
+        }
+
+        private async Task UpdateChatAvatarsAsync()
+        {
+            state = SetupState.UPDATING_CHAT_AVATARS;
+            List<string> chatBareJids;
+            using (SemaLock semaLock = DataCache.INSTANCE.NewChatSemaLock())
+            {
+                chatBareJids = DataCache.INSTANCE.GetChats(ccHandler.client.dbAccount.bareJid, semaLock).Where(c => c.chatType == ChatType.CHAT).Select((c) => c.bareJid).ToList();
+            }
+            foreach (string chatBareJid in chatBareJids)
+            {
+                if (state != SetupState.UPDATING_CHAT_AVATARS)
+                {
+                    Logger.Warn($"Updating chat avatars for '{ccHandler.client.dbAccount.bareJid}' got canceled with: {state}");
+                    break;
+                }
+
+                ChatModel chat;
+                using (SemaLock semaLock = DataCache.INSTANCE.NewChatSemaLock())
+                {
+                    chat = DataCache.INSTANCE.GetChat(ccHandler.client.dbAccount.bareJid, chatBareJid, semaLock);
+                }
+
+                if (chat is null)
+                {
+                    Logger.Warn($"Updating chat avatar for '{chatBareJid}' failed since the chat got removed.");
+                    continue;
+                }
+
+                if (chat.contactInfo.avatar is null || chat.contactInfo.avatar.ShouldCheckSubscription())
+                {
+                    await ccHandler.client.CheckForAvatarUpdatesAsync(chat.contactInfo, chat.bareJid, chat.bareJid);
+                    Logger.Info($"Avatar for '{chatBareJid}' updated.");
+                }
+                else
+                {
+                    Logger.Info($"No need to update avatar for '{chatBareJid}'.");
+                }
+            }
+
             Continue();
         }
 

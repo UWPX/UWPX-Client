@@ -117,11 +117,12 @@ namespace UWPX_UI_Context.Classes.DataTemplates.Dialogs
             }
             else
             {
-                Image = new ImageModel();
-                await Image.SetImageAsync(img, isAnimated);
-                Image.lastUpdate = DateTime.Now;
+                ImageModel imgModel = new ImageModel();
+                await imgModel.SetImageAsync(img, isAnimated);
+                imgModel.lastUpdate = DateTime.Now;
                 // Store animated images as GIF and everything else ans PNG:
-                Image.type = isAnimated ? ImageUtils.IANA_MEDIA_TYPE_GIF : ImageUtils.IANA_MEDIA_TYPE_PNG;
+                imgModel.type = isAnimated ? ImageUtils.IANA_MEDIA_TYPE_GIF : ImageUtils.IANA_MEDIA_TYPE_JPEG;
+                Image = imgModel;
             }
         }
 

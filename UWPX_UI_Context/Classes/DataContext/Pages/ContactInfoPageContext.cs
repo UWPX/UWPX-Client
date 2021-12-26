@@ -1,4 +1,6 @@
-﻿using UWPX_UI_Context.Classes.DataTemplates.Pages;
+﻿using System.Threading.Tasks;
+using Manager.Classes.Chat;
+using UWPX_UI_Context.Classes.DataTemplates.Pages;
 
 namespace UWPX_UI_Context.Classes.DataContext.Pages
 {
@@ -21,7 +23,13 @@ namespace UWPX_UI_Context.Classes.DataContext.Pages
         #endregion
         //--------------------------------------------------------Misc Methods:---------------------------------------------------------------\\
         #region --Misc Methods (Public)--
-
+        public async Task OnChatChanged(ChatDataTemplate chat)
+        {
+            if (chat is not null)
+            {
+                await chat.Client.CheckForAvatarUpdatesAsync(chat.Chat.contactInfo, chat.Chat.bareJid, chat.Chat.bareJid);
+            }
+        }
 
         #endregion
 

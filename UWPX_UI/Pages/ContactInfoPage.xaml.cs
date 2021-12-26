@@ -1,4 +1,5 @@
-﻿using Manager.Classes.Chat;
+﻿using System;
+using Manager.Classes.Chat;
 using UWPX_UI_Context.Classes.DataContext.Pages;
 using UWPX_UI_Context.Classes.Events;
 using Windows.UI.Xaml;
@@ -19,7 +20,7 @@ namespace UWPX_UI.Pages
             get => (ChatDataTemplate)GetValue(ChatProperty);
             set => SetValue(ChatProperty, value);
         }
-        public static readonly DependencyProperty ChatProperty = DependencyProperty.Register(nameof(Chat), typeof(ChatDataTemplate), typeof(ContactInfoPage), new PropertyMetadata(null));
+        public static readonly DependencyProperty ChatProperty = DependencyProperty.Register(nameof(Chat), typeof(ChatDataTemplate), typeof(ContactInfoPage), new PropertyMetadata(null, OnChatChanged));
 
         public XMPPClient Client
         {
@@ -71,6 +72,14 @@ namespace UWPX_UI.Pages
         protected override void OnNavigatedFrom(NavigationEventArgs e)
         {
             titleBar.OnPageNavigatedFrom();
+        }
+
+        private static async void OnChatChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
+        {
+            if (d is ContactInfoPage page && e.NewValue is ChatDataTemplate chat)
+            {
+                await page.VIEW_MODEL.OnChatChanged(chat);
+            }
         }
 
         #endregion

@@ -5,7 +5,6 @@ using System.Threading.Tasks;
 using Shared.Classes;
 using Storage.Classes.Contexts;
 using Storage.Classes.Models.Chat;
-using Windows.UI.Xaml.Media.Imaging;
 
 namespace Manager.Classes.Chat
 {

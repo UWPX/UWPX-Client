@@ -162,6 +162,11 @@ namespace Storage.Classes.Models.Account
             return subscriptionState == AvatarMetadataSubscriptionState.UNKNOWN || (DateTime.Now - lastUpdate).TotalDays > 30;
         }
 
+        public override bool Equals(object obj)
+        {
+            return obj is ImageModel img && string.Equals(hash, img.hash);
+        }
+
         #endregion
 
         #region --Misc Methods (Private)--

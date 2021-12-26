@@ -513,14 +513,20 @@ namespace Manager.Classes.Chat
             using (MainDbContext ctx = new MainDbContext())
             {
                 IEnumerable<ChatModel> chats = ctx.Chats.Include(ctx.GetIncludePaths(typeof(ChatModel)));
-                CHATS.AddRange(chats.Select(c => LoadChat(c, ctx)), true);
+                CHATS.AddRange(chats.Select(c => LoadChat(c, ctx)).Where(c => !(c is null)), true);
             }
             CHATS_SEMA.Release();
         }
 
         private static ChatDataTemplate LoadChat(ChatModel chat, MainDbContext ctx)
         {
-            Client client = ConnectionHandler.INSTANCE.GetClient(chat.accountBareJid).client;
+            ClientConnectionHandler ccHandler = ConnectionHandler.INSTANCE.GetClient(chat.accountBareJid);
+            // Catch the case an account got removed but the chats still exits:
+            if (ccHandler is null)
+            {
+                return null;
+            }
+            Client client = ccHandler.client;
             ChatDataTemplate chatDataTemplate = new ChatDataTemplate(chat, client);
             chatDataTemplate.LoadLastMsg(ctx);
             return chatDataTemplate;

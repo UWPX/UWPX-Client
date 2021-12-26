@@ -193,8 +193,7 @@ namespace UWPX_UI.Controls.Chat
         {
             if (!IsDummy)
             {
-                MessageResponseHelperResult<IQMessage> result = await Chat.Client.xmppClient.PUB_SUB_COMMAND_HELPER.requestAvatarMetadataAsync(Chat.Chat.bareJid);
-                result = await Chat.Client.xmppClient.PUB_SUB_COMMAND_HELPER.requestAvatarMetadataAsync(null);
+                await Chat.Client.CheckForAvatarUpdatesAsync(Chat.Chat.contactInfo, Chat.Chat.bareJid, Chat.Chat.bareJid);
             }
         }
 

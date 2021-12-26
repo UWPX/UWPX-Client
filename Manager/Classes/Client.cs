@@ -164,6 +164,12 @@ namespace Manager.Classes
             {
                 if (result.RESULT is AvatarResponseMessage avatar)
                 {
+                    if (string.IsNullOrEmpty(avatar.AVATAR_BASE_64))
+                    {
+                        Logger.Error($"Failed to convert the avatar with hash '{avatarHash}' for '{logBareJid}' to an image. Data node is empty.");
+                        return null;
+                    }
+
                     try
                     {
                         return new ImageModel
@@ -177,7 +183,7 @@ namespace Manager.Classes
                     }
                     catch (Exception e)
                     {
-                        Logger.Error($"Failed to requets the avatar with hash '{avatarHash}' for '{logBareJid}' to an image.", e);
+                        Logger.Error($"Failed to convert the avatar with hash '{avatarHash}' for '{logBareJid}' to an image.", e);
                     }
                 }
                 else if (result.RESULT is IQErrorMessage errorMsg)
@@ -231,7 +237,7 @@ namespace Manager.Classes
         {
             ImageModel avatar = await RequestAvatarAsync(metadata.HASH, metadata.INFOS[0].TYPE, bareJid, logBareJid);
             // Did the avatar actually change:
-            if (contactInfo.avatar != avatar && (avatar is null || (!(contactInfo.avatar is null) && string.Equals(avatar.hash, contactInfo.avatar.hash))))
+            if (contactInfo.avatar != avatar && (avatar is null || !avatar.Equals(contactInfo.avatar)))
             {
                 using (MainDbContext ctx = new MainDbContext())
                 {
@@ -246,6 +252,7 @@ namespace Manager.Classes
                     contactInfo.avatar = avatar;
                     ctx.Update(contactInfo);
                 }
+                Logger.Info($"Updated avatar for '{logBareJid}'.");
                 return true;
             }
             return false;
@@ -267,7 +274,7 @@ namespace Manager.Classes
                         }
                         else if (metadata.INFOS.Count <= 0)
                         {
-                            Logger.Warn($"Received avatar withount valid metadata from '{logBareJid}'.");
+                            Logger.Warn($"Received avatar without valid metadata from '{logBareJid}'.");
                         }
                         else
                         {
@@ -292,9 +299,9 @@ namespace Manager.Classes
                         }
                         else if (metadata.INFOS.Count <= 0)
                         {
-                            Logger.Warn($"Received avatar withount valid metadata from '{logBareJid}'.");
+                            Logger.Warn($"Received avatar without valid metadata from '{logBareJid}'.");
                         }
-                        else if (string.Equals(metadata.HASH, dbAccount.contactInfo.avatar.hash))
+                        else if (string.Equals(metadata.HASH, contactInfo.avatar.hash))
                         {
 
                             Logger.Info($"No need to update (same hash) avatar for '{logBareJid}'.");

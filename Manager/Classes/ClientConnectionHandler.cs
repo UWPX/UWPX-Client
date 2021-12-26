@@ -181,6 +181,20 @@ namespace Manager.Classes
                     isChatActive = false // Mark chat as inactive until we can be sure, it's a valid message
                 };
                 DataCache.INSTANCE.AddChatUnsafe(chat, client);
+
+                // Request the chat avatar:
+                if (chat.chatType == ChatType.CHAT)
+                {
+                    if (chat.contactInfo.avatar is null || chat.contactInfo.avatar.ShouldCheckSubscription())
+                    {
+                        await client.CheckForAvatarUpdatesAsync(chat.contactInfo, chat.bareJid, chat.bareJid);
+                        Logger.Info($"Avatar for '{chatBareJid}' updated.");
+                    }
+                    else
+                    {
+                        Logger.Info($"No need to update avatar for '{chatBareJid}'.");
+                    }
+                }
             }
             else
             {
@@ -801,8 +815,9 @@ namespace Manager.Classes
                     return;
                 }
 
-
                 // Chat avatar metadata changed:
+                Logger.Info($"Received avatar metadata update from '{args.MSG.getFrom()}'. Updating avatar...");
+                await client.UpdateAvatarAsync(client.dbAccount.contactInfo, avatarMetadataEvent.METADATA, from, client.dbAccount.bareJid);
             }
         }
 
