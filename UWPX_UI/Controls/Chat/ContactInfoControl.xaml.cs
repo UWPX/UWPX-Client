@@ -65,6 +65,7 @@ namespace UWPX_UI.Controls.Chat
             if (editingName)
             {
                 editName_tbx.Text = VIEW_MODEL.MODEL.ChatName;
+                editName_tbx.Focus(FocusState.Programmatic);
                 UpdateViewState(EditNameState.Name);
                 ToolTipService.SetToolTip(editName_btn, new ToolTip { Content = "Save" });
             }
