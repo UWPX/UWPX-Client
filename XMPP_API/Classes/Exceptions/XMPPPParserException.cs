@@ -1,19 +1,15 @@
-﻿using System.Xml;
-using XMPP_API.Classes.Exceptions;
-using XMPP_API.Classes.Network.XML.Messages.XEP_0060;
-
-namespace XMPP_API.Classes.Network.XML.Messages.XEP_0084
+﻿namespace XMPP_API.Classes.Exceptions
 {
-    public class AvatarMetadataResponseMessage: AbstractPubSubResultMessage
+    public class XMPPPParserException: XMPPGeneralException
     {
         //--------------------------------------------------------Attributes:-----------------------------------------------------------------\\
         #region --Attributes--
-        public readonly AvatarMetadata METADATA = new AvatarMetadata();
+
 
         #endregion
         //--------------------------------------------------------Constructor:----------------------------------------------------------------\\
         #region --Constructors--
-        public AvatarMetadataResponseMessage(XmlNode node) : base(node) { }
+        public XMPPPParserException(string message) : base(message) { }
 
         #endregion
         //--------------------------------------------------------Set-, Get- Methods:---------------------------------------------------------\\
@@ -33,14 +29,7 @@ namespace XMPP_API.Classes.Network.XML.Messages.XEP_0084
         #endregion
 
         #region --Misc Methods (Protected)--
-        protected override void loadContent(XmlNodeList content)
-        {
-            METADATA.Load(content);
-            if (string.IsNullOrEmpty(METADATA.HASH))
-            {
-                throw new XMPPPParserException($"{nameof(AvatarMetadataEventMessage)} requires a hash inside the metadata.");
-            }
-        }
+
 
         #endregion
         //--------------------------------------------------------Events:---------------------------------------------------------------------\\

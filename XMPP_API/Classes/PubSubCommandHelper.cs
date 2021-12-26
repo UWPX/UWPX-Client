@@ -350,6 +350,19 @@ namespace XMPP_API.Classes
             return helper.startAsync(msg);
         }
 
+
+        /// <summary>
+        /// Sends a <see cref="AvatarMetadataSubcribeMessage"/> to subscribe to the avatar metadata node.
+        /// </summary>
+        /// <param name="to">The target e.g. 'witches@conference.jabber.org' or null in case it should be send to our own PEP provider.</param>
+        /// <returns>Returns a <see cref="MessageResponseHelper{IQMessage}"/> listening for <see cref="AvatarMetadataSubcribeMessage"/> answers.</returns>
+        public Task<MessageResponseHelperResult<IQMessage>> requestAvatarMetadataSubscriptionAsync(string to)
+        {
+            AsyncMessageResponseHelper<IQMessage> helper = new AsyncMessageResponseHelper<IQMessage>(CONNECTION);
+            AvatarMetadataSubcribeMessage msg = new AvatarMetadataSubcribeMessage(CONNECTION.account.getFullJid(), CONNECTION.account.getBareJid(), to);
+            return helper.startAsync(msg);
+        }
+
         #endregion
 
         #region --Misc Methods (Private)--

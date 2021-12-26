@@ -624,6 +624,11 @@ namespace XMPP_API.Classes.Network.XML
                          **/
                         // messages.Add(new OmemoDeviceListEventMessage(n));
                     }
+                    // XEP-0084 (User Avatar) avatar metadata:
+                    if (XMLUtils.getChildNode(eventNode, "items", "node", Consts.XML_XEP_0084_METADATA_NAMESPACE) != null)
+                    {
+                        messages.Add(new AvatarMetadataEventMessage(n));
+                    }
                     // XEP-IoT sensor changed:
                     else if (XMLUtils.getChildNode(eventNode, "items", "node", IoTConsts.NODE_NAME_SENSORS) != null)
                     {

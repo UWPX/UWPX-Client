@@ -20,6 +20,7 @@ using XMPP_API.Classes.Network.XML;
 using XMPP_API.Classes.Network.XML.Messages;
 using XMPP_API.Classes.Network.XML.Messages.XEP_0045;
 using XMPP_API.Classes.Network.XML.Messages.XEP_0048;
+using XMPP_API.Classes.Network.XML.Messages.XEP_0084;
 using XMPP_API.Classes.Network.XML.Messages.XEP_0184;
 using XMPP_API.Classes.Network.XML.Messages.XEP_0249;
 using XMPP_API.Classes.Network.XML.Messages.XEP_0384;
@@ -439,6 +440,7 @@ namespace Manager.Classes
             client.xmppClient.NewBookmarksResultMessage -= OnNewBookmarksResultMessage;
             client.xmppClient.NewDeliveryReceipt -= OnNewDeliveryReceipt;
             client.xmppClient.OmemoSessionBuildError -= OnOmemoSessionBuildError;
+            client.xmppClient.NewPubSubEvent -= OnPubSubEvent;
         }
 
         /// <summary>
@@ -455,7 +457,7 @@ namespace Manager.Classes
             client.xmppClient.NewBookmarksResultMessage += OnNewBookmarksResultMessage;
             client.xmppClient.NewDeliveryReceipt += OnNewDeliveryReceipt;
             client.xmppClient.OmemoSessionBuildError += OnOmemoSessionBuildError;
-            ;
+            client.xmppClient.NewPubSubEvent += OnPubSubEvent;
         }
 
         #endregion
@@ -773,6 +775,35 @@ namespace Manager.Classes
             }
             chat.chatState = args.STATE;
             chat.lastChatStateUpdate = DateTime.Now;
+        }
+
+        private async void OnPubSubEvent(XMPPClient xmppClient, NewPubSubEventEventArgs args)
+        {
+            if (args.MSG is AvatarMetadataEventMessage avatarMetadataEvent)
+            {
+                string from = Utils.getBareJidFromFullJid(avatarMetadataEvent.getFrom());
+
+                // Own avatar metadata changed:
+                if (string.Equals(from, xmppClient.getXMPPAccount().getBareJid()))
+                {
+                    await client.UpdateAvatarAsync(client.dbAccount.contactInfo, avatarMetadataEvent.METADATA, null, client.dbAccount.bareJid);
+                    return;
+                }
+
+                ChatModel chat;
+                using (SemaLock semaLock = DataCache.INSTANCE.NewChatSemaLock())
+                {
+                    chat = DataCache.INSTANCE.GetChat(xmppClient.getXMPPAccount().getBareJid(), from, semaLock);
+                }
+                if (chat is null)
+                {
+                    Logger.Warn($"Received an avatar metadata event for an unknown chat from '{args.MSG.getFrom()}' to ''{args.MSG.getTo()}''.");
+                    return;
+                }
+
+
+                // Chat avatar metadata changed:
+            }
         }
 
         #endregion

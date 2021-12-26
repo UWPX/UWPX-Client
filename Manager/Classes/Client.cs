@@ -1,5 +1,7 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.ComponentModel;
+using System.Diagnostics;
 using System.Threading.Tasks;
 using Logging;
 using Manager.Classes.Push;
@@ -12,6 +14,8 @@ using XMPP_API.Classes.Network;
 using XMPP_API.Classes.Network.XML.Messages;
 using XMPP_API.Classes.Network.XML.Messages.Helper;
 using XMPP_API.Classes.Network.XML.Messages.XEP_0048;
+using XMPP_API.Classes.Network.XML.Messages.XEP_0060;
+using XMPP_API.Classes.Network.XML.Messages.XEP_0084;
 
 namespace Manager.Classes
 {
@@ -151,6 +155,159 @@ namespace Manager.Classes
             xmppAccount.OMEMO_PRE_KEYS.AddRange(account.omemoInfo.preKeys);
             xmppAccount.omemoBundleInfoAnnounced = account.omemoInfo.bundleInfoAnnounced;
             client.enableOmemo(new OmemoStorage(account));
+        }
+
+        private async Task<ImageModel> RequestAvatarAsync(string avatarHash, string type, string bareJid, string logBareJid)
+        {
+            MessageResponseHelperResult<IQMessage> result = await xmppClient.PUB_SUB_COMMAND_HELPER.requestAvatarAsync(bareJid, avatarHash);
+            if (result.STATE == MessageResponseHelperResultState.SUCCESS)
+            {
+                if (result.RESULT is AvatarResponseMessage avatar)
+                {
+                    try
+                    {
+                        return new ImageModel
+                        {
+                            hash = avatar.HASH,
+                            lastUpdate = DateTime.Now,
+                            data = Convert.FromBase64String(avatar.AVATAR_BASE_64),
+                            type = type
+                        };
+
+                    }
+                    catch (Exception e)
+                    {
+                        Logger.Error($"Failed to requets the avatar with hash '{avatarHash}' for '{logBareJid}' to an image.", e);
+                    }
+                }
+                else if (result.RESULT is IQErrorMessage errorMsg)
+                {
+                    Logger.Error($"Failed to requets the avatar with hash '{avatarHash}' for '{logBareJid}' with: {errorMsg.ERROR_OBJ}");
+                }
+            }
+            else
+            {
+                Logger.Error($"Failed to requets the avatar with hash '{avatarHash}' for '{logBareJid}' with: {result.STATE}");
+            }
+            return null;
+        }
+
+        private async Task CheckAvatarSubscriptionAsync(ImageModel avatar, string bareJid, string logBareJid)
+        {
+            if (!avatar.ShouldCheckSubscription())
+            {
+                Logger.Debug($"No need to check subscription state for avatar metadata node for '{logBareJid}'.");
+                return;
+            }
+
+            MessageResponseHelperResult<IQMessage> result = await xmppClient.PUB_SUB_COMMAND_HELPER.requestAvatarMetadataSubscriptionAsync(bareJid);
+            if (result.STATE == MessageResponseHelperResultState.SUCCESS)
+            {
+                if (result.RESULT is IQErrorMessage errorMsg)
+                {
+                    Logger.Error($"Failed to requets avatar metadata subscription for '{logBareJid}' with: {errorMsg.ERROR_OBJ}");
+                    avatar.subscriptionState = AvatarMetadataSubscriptionState.UNKNOWN;
+                }
+                else if (result.RESULT is PubSubSubscriptionMessage subMsg)
+                {
+                    avatar.lastUpdate = DateTime.Now;
+                    avatar.subscriptionState = subMsg.SUBSCRIPTION == PubSubSubscriptionState.SUBSCRIBED ? AvatarMetadataSubscriptionState.SUBSCRIBED : AvatarMetadataSubscriptionState.UNKNOWN;
+                    Logger.Info($"Subscribed to avatar metadata node for '{logBareJid}'.");
+                }
+                else
+                {
+                    // Should not happen:
+                    Debug.Assert(false);
+                }
+                avatar.Update();
+            }
+            else
+            {
+                Logger.Error($"Failed to requets avatar metadata subscription for '{logBareJid}' with: {result.STATE}");
+            }
+        }
+
+        public async Task<bool> UpdateAvatarAsync(ContactInfoModel contactInfo, AvatarMetadata metadata, string bareJid, string logBareJid)
+        {
+            ImageModel avatar = await RequestAvatarAsync(metadata.HASH, metadata.INFOS[0].TYPE, bareJid, logBareJid);
+            // Did the avatar actually change:
+            if (contactInfo.avatar != avatar && (avatar is null || (!(contactInfo.avatar is null) && string.Equals(avatar.hash, contactInfo.avatar.hash))))
+            {
+                using (MainDbContext ctx = new MainDbContext())
+                {
+                    if (!(contactInfo.avatar is null))
+                    {
+                        ctx.Remove(contactInfo.avatar);
+                    }
+                    if (!(avatar is null))
+                    {
+                        ctx.Add(avatar);
+                    }
+                    contactInfo.avatar = avatar;
+                    ctx.Update(contactInfo);
+                }
+                return true;
+            }
+            return false;
+        }
+
+        public async Task CheckForAvatarUpdatesAsync(ContactInfoModel contactInfo, string bareJid, string logBareJid)
+        {
+            MessageResponseHelperResult<IQMessage> result = await xmppClient.PUB_SUB_COMMAND_HELPER.requestAvatarMetadataAsync(bareJid);
+            if (result.STATE == MessageResponseHelperResultState.SUCCESS)
+            {
+                if (result.RESULT is AvatarMetadataResponseMessage metadataResponseMsg)
+                {
+                    AvatarMetadata metadata = metadataResponseMsg.METADATA;
+                    if (contactInfo.avatar is null)
+                    {
+                        if (metadata.HASH is null)
+                        {
+                            Logger.Info($"No need to update (null) avatar for '{logBareJid}'.");
+                        }
+                        else if (metadata.INFOS.Count <= 0)
+                        {
+                            Logger.Warn($"Received avatar withount valid metadata from '{logBareJid}'.");
+                        }
+                        else
+                        {
+                            // New avatar:
+                            if (await UpdateAvatarAsync(contactInfo, metadata, bareJid, logBareJid))
+                            {
+                                await CheckAvatarSubscriptionAsync(contactInfo.avatar, bareJid, logBareJid);
+                            }
+                        }
+                    }
+                    else
+                    {
+                        // Avatar got removed:
+                        if (metadata.HASH is null)
+                        {
+                            using (MainDbContext ctx = new MainDbContext())
+                            {
+                                ctx.Remove(contactInfo.avatar);
+                                contactInfo.avatar = null;
+                                ctx.Update(contactInfo);
+                            }
+                        }
+                        else if (metadata.INFOS.Count <= 0)
+                        {
+                            Logger.Warn($"Received avatar withount valid metadata from '{logBareJid}'.");
+                        }
+                        else if (string.Equals(metadata.HASH, dbAccount.contactInfo.avatar.hash))
+                        {
+
+                            Logger.Info($"No need to update (same hash) avatar for '{logBareJid}'.");
+                        }
+                        // Avatar got updated:
+                        else if (await UpdateAvatarAsync(contactInfo, metadata, bareJid, logBareJid))
+                        {
+                            await CheckAvatarSubscriptionAsync(contactInfo.avatar, bareJid, logBareJid);
+                        }
+
+                    }
+                }
+            }
         }
 
         #endregion

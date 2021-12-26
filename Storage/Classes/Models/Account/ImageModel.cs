@@ -73,6 +73,18 @@ namespace Storage.Classes.Models.Account
         [NotMapped]
         private string _type;
 
+        /// <summary>
+        /// The state of the subscription to the metadata PEP node.
+        /// </summary>
+        [Required]
+        public AvatarMetadataSubscriptionState subscriptionState
+        {
+            get => _subscriptionState;
+            set => SetProperty(ref _subscriptionState, value);
+        }
+        [NotMapped]
+        private AvatarMetadataSubscriptionState _subscriptionState;
+
         [NotMapped]
         private SoftwareBitmap img;
         [NotMapped]
@@ -84,6 +96,7 @@ namespace Storage.Classes.Models.Account
         public ImageModel()
         {
             lastUpdate = DateTime.MinValue;
+            subscriptionState = AvatarMetadataSubscriptionState.UNKNOWN;
         }
 
         #endregion
@@ -104,7 +117,7 @@ namespace Storage.Classes.Models.Account
         {
             if (imgSrc is null)
             {
-                if(img is null)
+                if (img is null)
                 {
                     _ = await GetSoftwareBitmapAsync();
                 }
@@ -116,7 +129,7 @@ namespace Storage.Classes.Models.Account
 
         private void SetDataProperty(byte[] value)
         {
-            if(SetProperty(ref _data, value))
+            if (SetProperty(ref _data, value))
             {
                 img = null;
                 imgSrc = null;
@@ -139,6 +152,14 @@ namespace Storage.Classes.Models.Account
         public override void Remove(MainDbContext ctx, bool recursive)
         {
             ctx.Remove(this);
+        }
+
+        /// <summary>
+        /// Returns true in case the <see cref="subscriptionState"/> is set to <see cref="AvatarMetadataSubscriptionState.UNKNOWN"/> or the subscription is 30 days old.
+        /// </summary>
+        public bool ShouldCheckSubscription()
+        {
+            return subscriptionState == AvatarMetadataSubscriptionState.UNKNOWN || (DateTime.Now - lastUpdate).TotalDays > 30;
         }
 
         #endregion

@@ -4,7 +4,7 @@ using XMPP_API.Classes.Network.XML.Messages.XEP_0060;
 
 namespace XMPP_API.Classes.Network.XML.Messages.XEP_0084
 {
-    public class AvatarMetadataResponseMessage: AbstractPubSubResultMessage
+    public class AvatarMetadataEventMessage: AbstractPubSubEventMessage
     {
         //--------------------------------------------------------Attributes:-----------------------------------------------------------------\\
         #region --Attributes--
@@ -13,7 +13,18 @@ namespace XMPP_API.Classes.Network.XML.Messages.XEP_0084
         #endregion
         //--------------------------------------------------------Constructor:----------------------------------------------------------------\\
         #region --Constructors--
-        public AvatarMetadataResponseMessage(XmlNode node) : base(node) { }
+        public AvatarMetadataEventMessage(XmlNode node) : base(node)
+        {
+            XmlNode eventNode = XMLUtils.getChildNode(node, "event", Consts.XML_XMLNS, Consts.XML_XEP_0060_NAMESPACE_EVENT);
+            if (eventNode != null)
+            {
+                METADATA.Load(eventNode.ChildNodes);
+                if (string.IsNullOrEmpty(METADATA.HASH))
+                {
+                    throw new XMPPPParserException($"{nameof(AvatarMetadataEventMessage)} requires a hash inside the metadata.");
+                }
+            }
+        }
 
         #endregion
         //--------------------------------------------------------Set-, Get- Methods:---------------------------------------------------------\\
@@ -33,14 +44,7 @@ namespace XMPP_API.Classes.Network.XML.Messages.XEP_0084
         #endregion
 
         #region --Misc Methods (Protected)--
-        protected override void loadContent(XmlNodeList content)
-        {
-            METADATA.Load(content);
-            if (string.IsNullOrEmpty(METADATA.HASH))
-            {
-                throw new XMPPPParserException($"{nameof(AvatarMetadataEventMessage)} requires a hash inside the metadata.");
-            }
-        }
+
 
         #endregion
         //--------------------------------------------------------Events:---------------------------------------------------------------------\\

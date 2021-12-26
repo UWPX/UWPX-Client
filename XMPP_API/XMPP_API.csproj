@@ -136,6 +136,7 @@
     <Compile Include="Classes\Events\NewPresenceMessageEventArgs.cs" />
     <Compile Include="Classes\Events\OmemoSessionBuildErrorEventArgs.cs" />
     <Compile Include="Classes\Exceptions\XMPPGeneralException.cs" />
+    <Compile Include="Classes\Exceptions\XMPPPParserException.cs" />
     <Compile Include="Classes\GeneralCommandHelper.cs" />
     <Compile Include="Classes\MUCCommandHelper.cs" />
     <Compile Include="Classes\MyBackgroundTaskHelper.cs" />
@@ -297,8 +298,11 @@
     <Compile Include="Classes\Network\XML\Messages\XEP-0060\PubSubSubscriptionState.cs" />
     <Compile Include="Classes\Network\XML\Messages\XEP-0082\DateTimeHelper.cs" />
     <Compile Include="Classes\Network\XML\Messages\XEP-0084\AvatarInfo.cs" />
+    <Compile Include="Classes\Network\XML\Messages\XEP-0084\AvatarMetadata.cs" />
     <Compile Include="Classes\Network\XML\Messages\XEP-0084\AvatarMetadataDataPubSubItem.cs" />
     <Compile Include="Classes\Network\XML\Messages\XEP-0084\AvatarDataPubSubItem.cs" />
+    <Compile Include="Classes\Network\XML\Messages\XEP-0084\AvatarMetadataEventMessage.cs" />
+    <Compile Include="Classes\Network\XML\Messages\XEP-0084\AvatarMetadataSubcribeMessage.cs" />
     <Compile Include="Classes\Network\XML\Messages\XEP-0084\AvatarResponseMessage.cs" />
     <Compile Include="Classes\Network\XML\Messages\XEP-0084\AvatarMetadataResponseMessage.cs" />
     <Compile Include="Classes\Network\XML\Messages\XEP-0084\PublishAvatarMessage.cs" />

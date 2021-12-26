@@ -2,7 +2,7 @@
 
 namespace XMPP_API.Classes.Exceptions
 {
-    internal class XMPPGeneralException: Exception
+    public class XMPPGeneralException: Exception
     {
         //--------------------------------------------------------Attributes:-----------------------------------------------------------------\\
         #region --Attributes--
@@ -11,16 +11,7 @@ namespace XMPP_API.Classes.Exceptions
         #endregion
         //--------------------------------------------------------Constructor:----------------------------------------------------------------\\
         #region --Constructors--
-        /// <summary>
-        /// Basic Constructor
-        /// </summary>
-        /// <history>
-        /// 25/08/2017 Created [Fabian Sauter]
-        /// </history>
-        public XMPPGeneralException(string message) : base(message)
-        {
-
-        }
+        public XMPPGeneralException(string message) : base(message) { }
 
         #endregion
         //--------------------------------------------------------Set-, Get- Methods:---------------------------------------------------------\\
