@@ -69,7 +69,7 @@ namespace Storage.Classes.Models.Account
         #region --Misc Methods (Public)--
         public override void Remove(MainDbContext ctx, bool recursive)
         {
-            if(recursive)
+            if (recursive)
             {
                 avatar?.Remove(ctx, recursive);
             }
