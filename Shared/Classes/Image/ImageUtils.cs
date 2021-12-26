@@ -1,9 +1,11 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
 using System.Runtime.InteropServices.WindowsRuntime;
 using System.Threading.Tasks;
 using Logging;
+using Windows.Foundation;
 using Windows.Graphics.Imaging;
 using Windows.Storage;
 using Windows.Storage.Streams;
@@ -114,7 +116,13 @@ namespace Shared.Classes.Image
         {
             using (InMemoryRandomAccessStream stream = new InMemoryRandomAccessStream())
             {
-                BitmapEncoder encoder = await BitmapEncoder.CreateAsync(isAnimated ? BitmapEncoder.GifEncoderId : BitmapEncoder.PngEncoderId, stream);
+                List<KeyValuePair<string, BitmapTypedValue>> encodingOptions = new List<KeyValuePair<string, BitmapTypedValue>>();
+                if (!isAnimated)
+                {
+                    // Reduce quality for JPEGs a bit:
+                    encodingOptions.Add(new KeyValuePair<string, BitmapTypedValue>("ImageQuality", new BitmapTypedValue(0.8, PropertyType.Single)));
+                }
+                BitmapEncoder encoder = await BitmapEncoder.CreateAsync(isAnimated ? BitmapEncoder.GifEncoderId : BitmapEncoder.JpegEncoderId, stream, encodingOptions);
                 encoder.SetSoftwareBitmap(img);
                 await encoder.FlushAsync();
                 Windows.Storage.Streams.Buffer buffer = new Windows.Storage.Streams.Buffer((uint)stream.Size);

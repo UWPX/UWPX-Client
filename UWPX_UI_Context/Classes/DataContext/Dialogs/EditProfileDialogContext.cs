@@ -7,6 +7,7 @@ using Storage.Classes.Models.Account;
 using UWPX_UI_Context.Classes.DataTemplates.Dialogs;
 using Windows.Graphics.Imaging;
 using Windows.Storage;
+using Windows.Storage.FileProperties;
 using Windows.Storage.Pickers;
 using Windows.UI.Xaml.Media.Imaging;
 using XMPP_API.Classes.Crypto;
@@ -21,6 +22,7 @@ namespace UWPX_UI_Context.Classes.DataContext.Dialogs
         //--------------------------------------------------------Attributes:-----------------------------------------------------------------\\
         #region --Attributes--
         public readonly EditProfileDialogDataTemplate MODEL = new EditProfileDialogDataTemplate();
+        private const ulong ONE_MEGABYTE = 1 * 1024 * 1024;
 
         #endregion
         //--------------------------------------------------------Constructor:----------------------------------------------------------------\\
@@ -38,6 +40,7 @@ namespace UWPX_UI_Context.Classes.DataContext.Dialogs
         public async Task ChangeAvatarAsync()
         {
             MODEL.IsLoading = true;
+            MODEL.Error = false;
             FileOpenPicker picker = new FileOpenPicker
             {
                 ViewMode = PickerViewMode.Thumbnail,
@@ -70,6 +73,7 @@ namespace UWPX_UI_Context.Classes.DataContext.Dialogs
                 await MODEL.SetImageAsync(null, false);
                 MODEL.IsSaveEnabled = MODEL.Client.dbAccount.contactInfo.avatar is not null;
             }
+            MODEL.Error = false;
         }
 
         public async Task<bool> SaveAsync()
@@ -80,7 +84,7 @@ namespace UWPX_UI_Context.Classes.DataContext.Dialogs
                 MODEL.ErrorText = "Failed to publish avatar.";
                 return false;
             }
-            if(!UpdateDB())
+            if (!UpdateDB())
             {
                 MODEL.Error = true;
                 MODEL.ErrorText = "Failed to save avatar to DB.";
@@ -94,6 +98,14 @@ namespace UWPX_UI_Context.Classes.DataContext.Dialogs
         #region --Misc Methods (Private)--
         private async Task LoadImageAsync(StorageFile file)
         {
+            BasicProperties properties = await file.GetBasicPropertiesAsync();
+            if (properties.Size > ONE_MEGABYTE)
+            {
+                MODEL.Error = true;
+                MODEL.ErrorText = "Image to larg! It has to be less than 1 MiB.";
+                return;
+            }
+
             try
             {
                 SoftwareBitmap img = await ImageUtils.LoadImageAsync(file, 512, 512);
@@ -107,6 +119,8 @@ namespace UWPX_UI_Context.Classes.DataContext.Dialogs
             }
             catch (Exception e)
             {
+                MODEL.Error = true;
+                MODEL.ErrorText = "Failed to open image.";
                 Logger.Error($"Failed to load image from '{file.Path}'.", e);
             }
         }
@@ -129,7 +143,7 @@ namespace UWPX_UI_Context.Classes.DataContext.Dialogs
             {
                 using (MainDbContext ctx = new MainDbContext())
                 {
-                    if(contactInfo.avatar is not null)
+                    if (contactInfo.avatar is not null)
                     {
                         ctx.Remove(contactInfo.avatar);
                     }
@@ -188,7 +202,7 @@ namespace UWPX_UI_Context.Classes.DataContext.Dialogs
             string imgHashBase16 = ImageUtils.HashImage(imgData);
             AvatarMetadataDataPubSubItem metadata = new AvatarMetadataDataPubSubItem(imgHashBase16, new AvatarInfo((uint)imgData.Length, (ushort)img.PixelHeight, (ushort)img.PixelWidth, imgHashBase16, "image/png"));
 
-            if(!await PublishMetadataAsync(metadata))
+            if (!await PublishMetadataAsync(metadata))
             {
                 return false;
             }
