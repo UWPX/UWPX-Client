@@ -160,6 +160,7 @@ namespace Push.Classes
 
                     await dataWriter.StoreAsync();
                     await dataWriter.FlushAsync();
+                    Logger.Trace("[TO PUSH SERVER]: " + msg);
                 }
                 catch (Exception e) { return e; }
                 return null;
@@ -210,7 +211,9 @@ namespace Push.Classes
                 }
                 catch (OperationCanceledException) { }
             }
-            return new TcpReadResult(TcpReadState.SUCCESS, data.ToString());
+            string msg = data.ToString();
+            Logger.Trace("[FROM PUSH SERVER]: " + msg);
+            return new TcpReadResult(TcpReadState.SUCCESS, msg);
         }
 
         public void Dispose()

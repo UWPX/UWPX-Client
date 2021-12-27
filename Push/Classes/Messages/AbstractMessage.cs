@@ -14,7 +14,7 @@ namespace Push.Classes.Messages
         #region --Constructors--
         public AbstractMessage(string action)
         {
-            version = 1;
+            version = 2;
             this.action = action;
         }
 
@@ -35,7 +35,7 @@ namespace Push.Classes.Messages
         {
             return new JObject
             {
-                ["version"] = 1,
+                ["version"] = version,
                 ["action"] = action
             };
         }
