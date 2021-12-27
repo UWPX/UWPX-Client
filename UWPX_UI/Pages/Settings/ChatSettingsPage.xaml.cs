@@ -66,6 +66,10 @@ namespace UWPX_UI.Pages.Settings
                     case "OMEMO":
                         ScrollViewerExtensions.ScrollIntoViewVertically(main_scv, omemo_scp, false);
                         break;
+
+                    case "MAM":
+                        ScrollViewerExtensions.ScrollIntoViewVertically(main_scv, mam_scp, false);
+                        break;
                 }
             }
         }
