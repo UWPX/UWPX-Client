@@ -56,7 +56,7 @@
                           HorizontalScrollMode="Disabled"
                           VerticalScrollBarVisibility="Hidden"
                           VerticalScrollMode="Auto">
-                <StackPanel>
+                <StackPanel Margin="0,0,0,10">
                     <!--  Manage:  -->
                     <settings:SettingsContentControl x:Name="manage_scp"
                                                      Header="Manage:">

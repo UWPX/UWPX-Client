@@ -37,7 +37,7 @@
                           HorizontalScrollMode="Disabled"
                           VerticalScrollBarVisibility="Hidden"
                           VerticalScrollMode="Auto">
-                <StackPanel>
+                <StackPanel Margin="0,0,0,10">
                     <!--  Data:  -->
                     <settings:SettingsContentControl x:Name="data_scp"
                                                      Header="Data:">
