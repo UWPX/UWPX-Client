@@ -1,4 +1,5 @@
-﻿using UWPX_UI_Context.Classes.DataTemplates.Controls;
+﻿using Storage.Classes;
+using UWPX_UI_Context.Classes.DataTemplates.Controls;
 using Windows.UI.Xaml;
 
 namespace UWPX_UI_Context.Classes.DataContext.Controls
@@ -12,7 +13,10 @@ namespace UWPX_UI_Context.Classes.DataContext.Controls
         #endregion
         //--------------------------------------------------------Constructor:----------------------------------------------------------------\\
         #region --Constructors--
-
+        public AccountInfoGeneralControlContext()
+        {
+            LoadSettings();
+        }
 
         #endregion
         //--------------------------------------------------------Set-, Get- Methods:---------------------------------------------------------\\
@@ -30,7 +34,10 @@ namespace UWPX_UI_Context.Classes.DataContext.Controls
         #endregion
 
         #region --Misc Methods (Private)--
-
+        private void LoadSettings()
+        {
+            MODEL.DebugSettingsEnabled = Settings.GetSettingBoolean(SettingsConsts.DEBUG_SETTINGS_ENABLED);
+        }
 
         #endregion
 

@@ -43,6 +43,13 @@ namespace UWPX_UI_Context.Classes.DataTemplates.Controls
             set => SetProperty(ref _SocketInfo, value);
         }
 
+        private bool _DebugSettingsEnabled;
+        public bool DebugSettingsEnabled
+        {
+            get => _DebugSettingsEnabled;
+            set => SetProperty(ref _DebugSettingsEnabled, value);
+        }
+
         #endregion
         //--------------------------------------------------------Constructor:----------------------------------------------------------------\\
         #region --Constructors--
