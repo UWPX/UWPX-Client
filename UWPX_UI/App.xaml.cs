@@ -25,7 +25,6 @@ using Windows.UI.Notifications;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Navigation;
-using XMPP_API.Classes.Network;
 using XMPP_API.Classes.Network.XML.Messages;
 using XMPP_API.Classes.Network.XML.Messages.XEP_0384;
 
@@ -414,16 +413,11 @@ namespace UWPX_UI
                         response.Add("response", isRunning && UiUtils.IsWindowActivated ? "true" : "false");
                         break;
 
-                    case "is_connecting":
+                    case "is_connected":
                         string bareJid = msg["bare_jid"] as string;
                         Client client = ConnectionHandler.INSTANCE.GetClient(bareJid)?.client;
-                        bool connecting = false;
-                        if (client is not null)
-                        {
-                            ConnectionState state = client.xmppClient.getConnetionState();
-                            connecting = state == ConnectionState.CONNECTING || state == ConnectionState.CONNECTED;
-                        }
-                        response.Add("response", connecting ? "true" : "false");
+                        bool connected = client is not null && client.xmppClient.isConnected();
+                        response.Add("response", connected ? "true" : "false");
                         break;
 
                     default:

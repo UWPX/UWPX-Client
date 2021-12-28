@@ -64,9 +64,9 @@ namespace Push_BackgroundTask.Classes
             return false;
         }
 
-        private async Task<bool> IsAccountConnectingAsync(string bareJid)
+        private async Task<bool> IsAccountConnectedAsync(string bareJid)
         {
-            ValueSet request = new ValueSet { { "request", "is_connecting" }, { "bare_jid", bareJid } };
+            ValueSet request = new ValueSet { { "request", "is_connected" }, { "bare_jid", bareJid } };
             AppServiceResponse response = await appServiceConnection.SendMessageAsync(request);
             if (response.Status == AppServiceResponseStatus.Success)
             {
@@ -214,11 +214,12 @@ namespace Push_BackgroundTask.Classes
             bool appRunning = await IsAppRunningAsync();
             if (appRunning)
             {
-                bool accountConnected = await IsAccountConnectingAsync(account.bareJid);
+                // Only check for connected here since everything else can be handled later like replacing the placeholder message.
+                bool accountConnected = await IsAccountConnectedAsync(account.bareJid);
                 UpdateProgress(progressToast, statusText, $"App is running. Account connected: {accountConnected}");
                 if (accountConnected)
                 {
-                    Logger.Info("No need to toast push. Account already connecting/connected.");
+                    Logger.Info("No need to toast push. Account already connected.");
                     return;
                 }
             }
