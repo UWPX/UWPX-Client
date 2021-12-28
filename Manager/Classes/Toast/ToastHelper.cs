@@ -347,6 +347,11 @@ namespace Manager.Classes.Toast
                             new AdaptiveText
                             {
                                 Text = text
+                            },
+                            new AdaptiveText
+                            {
+                                Text = accountBareJid,
+                                HintStyle = AdaptiveTextStyle.CaptionSubtle
                             }
                         }
                     }
