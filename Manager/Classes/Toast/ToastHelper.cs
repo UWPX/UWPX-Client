@@ -21,6 +21,7 @@ namespace Manager.Classes.Toast
         public const string TEXT_BOX_ID = "msg_tbx";
         public const string WILL_BE_SEND_LATER_TOAST_GROUP = "will_be_send_later";
         public const string CHAT_GROUP_PREFIX = "CHAT_";
+        private const string ACCOUNT_GROUP_PREFIX = "ACCOUNT_";
 
         private static readonly TimeSpan VIBRATE_TS = TimeSpan.FromMilliseconds(150);
         private static readonly TimeSpan VIBRATE_TIMEOUT_TS = TimeSpan.FromSeconds(3);
@@ -106,6 +107,23 @@ namespace Manager.Classes.Toast
         public static void RemoveToastGroup(string group)
         {
             ToastNotificationManager.History.RemoveGroup(group);
+        }
+
+        public static void RemoveAccountNotifications(string accountBareJid)
+        {
+            HashSet<string> groups = new HashSet<string>();
+            foreach (ToastNotification toast in ToastNotificationManager.History.GetHistory())
+            {
+                if (toast.Group.StartsWith(ACCOUNT_GROUP_PREFIX))
+                {
+                    groups.Add(toast.Group);
+                }
+            }
+
+            foreach (string group in groups)
+            {
+                RemoveToastGroup(group);
+            }
         }
 
         public static void RemoveChatToastGroups()
@@ -316,15 +334,51 @@ namespace Manager.Classes.Toast
             PopToast(toastContent);
         }
 
+        public static void ShowAccountMessageToast(string text, string accountBareJid, string tag)
+        {
+            ToastContent toastContent = new ToastContent
+            {
+                Visual = new ToastVisual
+                {
+                    BindingGeneric = new ToastBindingGeneric
+                    {
+                        Children =
+                        {
+                            new AdaptiveText
+                            {
+                                Text = text
+                            }
+                        }
+                    }
+                },
+            };
+
+            ToastNotification toast = new ToastNotification(toastContent.GetXml())
+            {
+                Group = ACCOUNT_GROUP_PREFIX + accountBareJid,
+                Tag = tag
+            };
+
+            OnChatMessageToastEventArgs args = new OnChatMessageToastEventArgs(toast, null);
+            OnChatMessageToast?.Invoke(args);
+
+            ToastNotificationManager.History.Remove(tag, ACCOUNT_GROUP_PREFIX + accountBareJid);
+            PopToast(toast, args);
+        }
+
         #endregion
 
         #region --Misc Methods (Private)--
-        private static void PopToast(ToastContent content)
+        private static ToastNotification PopToast(ToastContent content)
         {
-            ToastNotification toast = new ToastNotification(content.GetXml());
+            ToastNotification toast = new ToastNotification(content.GetXml())
+            {
+                Data = new NotificationData()
+            };
             OnChatMessageToastEventArgs args = new OnChatMessageToastEventArgs(toast, null);
             OnChatMessageToast?.Invoke(args);
             PopToast(toast, args);
+            return toast;
         }
 
         private static void PopToast(ToastContent content, ChatModel chat)
@@ -351,10 +405,11 @@ namespace Manager.Classes.Toast
             {
                 case ChatMessageToasterType.FULL:
                     // Make sure we only send actual on screen popups every 5 seconds:
-                    toast.SuppressPopup = DateTime.Now.Subtract(lastPopToast).CompareTo(POP_TOAST_TIMEOUT_TS) < 0;
+                    toast.SuppressPopup = (DateTime.Now.Subtract(lastPopToast) - POP_TOAST_TIMEOUT_TS).TotalSeconds < 0;
                     lastPopToast = DateTime.Now;
 
                     ToastNotificationManager.CreateToastNotifier().Show(toast);
+
                     Logger.Debug("Toast for group: " + toast.Group + " toasted with toaster type: " + args.toasterTypeOverride.ToString());
                     break;
 

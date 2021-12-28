@@ -3,8 +3,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Logging;
-using Manager.Classes;
 using Manager.Classes.Toast;
+using Microsoft.Toolkit.Uwp.Notifications;
 using Push.Classes.Messages;
 using Storage.Classes;
 using Storage.Classes.Contexts;
@@ -13,6 +13,7 @@ using Windows.ApplicationModel.AppService;
 using Windows.ApplicationModel.Background;
 using Windows.Foundation.Collections;
 using Windows.Networking.PushNotifications;
+using Windows.UI.Notifications;
 
 namespace Push_BackgroundTask.Classes
 {
@@ -63,9 +64,9 @@ namespace Push_BackgroundTask.Classes
             return false;
         }
 
-        private async Task<bool> IsAccountConnectedAsync(string bareJid)
+        private async Task<bool> IsAccountConnectingAsync(string bareJid)
         {
-            ValueSet request = new ValueSet { { "request", "is_connected" }, { "bare_jid", bareJid } };
+            ValueSet request = new ValueSet { { "request", "is_connecting" }, { "bare_jid", bareJid } };
             AppServiceResponse response = await appServiceConnection.SendMessageAsync(request);
             if (response.Status == AppServiceResponseStatus.Success)
             {
@@ -84,16 +85,19 @@ namespace Push_BackgroundTask.Classes
             {
                 if (Settings.GetSettingBoolean(SettingsConsts.PUSH_ENABLED))
                 {
-                    ToastHelper.ShowSimpleToast("Started processing push message...");
+                    // ToastHelper.ShowSimpleToast("Processing started.");
+                    BindableString statusText = new BindableString("status_text");
+                    ToastNotification progressToast = PopProgressiveToast(statusText);
                     try
                     {
-                        await ParseAndShowNotificationAsync(notification.Content);
+                        await ParseAndShowNotificationAsync(notification.Content, progressToast, statusText);
                     }
                     catch (Exception e)
                     {
                         Logger.Error("Failed to process push notification.", e);
                     }
-                    ToastHelper.ShowSimpleToast("Processing finished.");
+                    ToastNotificationManager.History.Remove(progressToast.Tag);
+                    // ToastHelper.ShowSimpleToast("Processing finished.");
                 }
                 else
                 {
@@ -106,8 +110,50 @@ namespace Push_BackgroundTask.Classes
         #endregion
 
         #region --Misc Methods (Private)--
-        private async Task ParseAndShowNotificationAsync(string s)
+        private void UpdateProgress(ToastNotification toast, BindableString title, string value)
         {
+            NotificationData data = new NotificationData
+            {
+                SequenceNumber = 0
+            };
+            data.Values[title.BindingName] = value;
+            ToastNotificationManager.CreateToastNotifier().Update(data, toast.Tag);
+        }
+
+        private ToastNotification PopProgressiveToast(BindableString title)
+        {
+            ToastContent toastContent = new ToastContent
+            {
+                Visual = new ToastVisual
+                {
+                    BindingGeneric = new ToastBindingGeneric
+                    {
+                        Children =
+                        {
+                            new AdaptiveProgressBar
+                            {
+                                Value = AdaptiveProgressBarValue.Indeterminate,
+                                Title = title,
+                                Status = ""
+                            }
+                        }
+                    }
+                },
+            };
+
+            ToastNotification toast = new ToastNotification(toastContent.GetXml())
+            {
+                Data = new NotificationData(),
+                Tag = "toast_progress_tag"
+            };
+            toast.Data.Values["status_text"] = "Started";
+            // ToastNotificationManager.CreateToastNotifier().Show(toast);
+            return toast;
+        }
+
+        private async Task ParseAndShowNotificationAsync(string s, ToastNotification progressToast, BindableString statusText)
+        {
+            UpdateProgress(progressToast, statusText, "Started");
             if (string.IsNullOrEmpty(s))
             {
                 Logger.Warn("Received an empty push notification...");
@@ -121,6 +167,7 @@ namespace Push_BackgroundTask.Classes
                 Logger.Warn("Invalid push message received: " + s);
                 return;
             }
+            UpdateProgress(progressToast, statusText, "Parsed");
 
             if (msg is TestPushMessage)
             {
@@ -130,7 +177,7 @@ namespace Push_BackgroundTask.Classes
             }
             else if (msg is PushMessage pushMsg)
             {
-                await HandelPushMessageAsync(pushMsg);
+                await HandelPushMessageAsync(pushMsg, progressToast, statusText);
             }
             else
             {
@@ -139,9 +186,10 @@ namespace Push_BackgroundTask.Classes
             }
         }
 
-        private async Task HandelPushMessageAsync(PushMessage pushMsg)
+        private async Task HandelPushMessageAsync(PushMessage pushMsg, ToastNotification progressToast, BindableString statusText)
         {
             // Get account:
+            UpdateProgress(progressToast, statusText, "Getting account...");
             AccountModel account = GetAccount(pushMsg.accountId);
             if (account is null)
             {
@@ -162,23 +210,39 @@ namespace Push_BackgroundTask.Classes
                 PackageFamilyName = Windows.ApplicationModel.Package.Current.Id.FamilyName
             };
 
+            UpdateProgress(progressToast, statusText, "Checking if the app is running...");
             bool appRunning = await IsAppRunningAsync();
             if (appRunning)
             {
-                bool accountConnected = await IsAccountConnectedAsync(account.bareJid);
+                bool accountConnected = await IsAccountConnectingAsync(account.bareJid);
+                UpdateProgress(progressToast, statusText, $"App is running. Account connected: {accountConnected}");
                 if (accountConnected)
                 {
-                    Logger.Info("No need to toast push. Account already connected.");
+                    Logger.Info("No need to toast push. Account already connecting/connected.");
                     return;
                 }
             }
 
+            if (pushMsg.pendingSubscriptionCount > 0)
+            {
+                ToastHelper.ShowAccountMessageToast($"You might have received new subscription requests while you were away.", account.bareJid, "subscription");
+            }
+            else
+            {
+                ToastHelper.ShowAccountMessageToast($"📨 You might have received new messages while you were away.", account.bareJid, "message");
+            }
+
+            /*UpdateProgress(progressToast, statusText, $"Getting client for: {account.bareJid}");
             ClientConnectionHandler client = ConnectionHandler.INSTANCE.GetClient(account.bareJid);
+            UpdateProgress(progressToast, statusText, $"Connecting client '{account.bareJid}'...");
             Logger.Info($"Connecting '{account.bareJid}'...");
             await client.ConnectAsync();
-            await Task.Delay(10 * 1000);
+            UpdateProgress(progressToast, statusText, $"Client '{account.bareJid}' connected. Waiting 10 seconds...");
+            await Task.Delay(TimeSpan.FromSeconds(5));
+            UpdateProgress(progressToast, statusText, $"Disconnecting client '{account.bareJid}'...");
             await client.DisconnectAsync();
-            Logger.Info($"'{account.bareJid}' disconnected.");
+            UpdateProgress(progressToast, statusText, $"Client '{account.bareJid}' disconnected.");
+            Logger.Info($"'{account.bareJid}' disconnected.");*/
         }
 
         #endregion

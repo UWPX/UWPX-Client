@@ -306,6 +306,9 @@ namespace Manager.Classes
                             case MessageMessage.TYPE_CHAT:
                                 if (!message.isCC)
                                 {
+                                    // Remove general toast messages:
+                                    ToastHelper.RemoveAccountNotifications(client.dbAccount.bareJid);
+
                                     // Create toast:
                                     if (message.isImage)
                                     {
@@ -403,6 +406,10 @@ namespace Manager.Classes
         /// </summary>
         private void OnConnected()
         {
+            // Remove all outstanding account notifications:
+            ToastHelper.RemoveAccountNotifications(client.dbAccount.bareJid);
+
+            // Continue connecting:
             MucHandler.INSTANCE.OnClientConnected(client.xmppClient);
             ClientConnected?.Invoke(this, new ClientConnectedEventArgs(client));
         }
