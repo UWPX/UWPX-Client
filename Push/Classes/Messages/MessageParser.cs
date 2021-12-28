@@ -75,6 +75,12 @@ namespace Push.Classes.Messages
                             throw new Exception("Unknown message status.");
                     }
 
+                case TestPushMessage.ACTION_CONST:
+                    return new TestPushMessage(json);
+
+                case PushMessage.ACTION_CONST:
+                    return new PushMessage(json);
+
                 default:
                     throw new Exception("Unknown message action.");
             }

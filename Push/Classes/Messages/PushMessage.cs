@@ -1,29 +1,27 @@
-﻿using System;
-using Newtonsoft.Json.Linq;
+﻿using Newtonsoft.Json.Linq;
 
 namespace Push.Classes.Messages
 {
-    public abstract class AbstractMessage
+    public class PushMessage: AbstractMessage
     {
         //--------------------------------------------------------Attributes:-----------------------------------------------------------------\\
         #region --Attributes--
-        public const int VERSION = 2;
+        public const string ACTION_CONST = "push";
 
-        public uint version;
-        public string action;
+        public string accountId;
+        public int messageCount;
+        public int pendingSubscriptionCount;
 
         #endregion
         //--------------------------------------------------------Constructor:----------------------------------------------------------------\\
         #region --Constructors--
-        public AbstractMessage(string action)
-        {
-            version = VERSION;
-            this.action = action;
-        }
+        public PushMessage(JObject json) : base(json) { }
 
-        public AbstractMessage(JObject json)
+        public PushMessage(string accountId, int messageCount, int pendingSubscriptionCount) : base(ACTION_CONST)
         {
-            FromJson(json);
+            this.accountId = accountId;
+            this.messageCount = messageCount;
+            this.pendingSubscriptionCount = pendingSubscriptionCount;
         }
 
         #endregion
@@ -34,21 +32,13 @@ namespace Push.Classes.Messages
         #endregion
         //--------------------------------------------------------Misc Methods:---------------------------------------------------------------\\
         #region --Misc Methods (Public)--
-        public virtual JObject ToJson()
+        public override JObject ToJson()
         {
-            return new JObject
-            {
-                ["version"] = version,
-                ["action"] = action
-            };
-        }
-
-        /// <summary>
-        /// Returns the JSON representation of this message as a string.
-        /// </summary>
-        public override string ToString()
-        {
-            return ToJson().ToString();
+            JObject json = base.ToJson();
+            json["account_id"] = accountId;
+            json["message_count"] = messageCount;
+            json["pending_subscription_count"] = pendingSubscriptionCount;
+            return json;
         }
 
         #endregion
@@ -59,14 +49,12 @@ namespace Push.Classes.Messages
         #endregion
 
         #region --Misc Methods (Protected)--
-        protected virtual void FromJson(JObject json)
+        protected override void FromJson(JObject json)
         {
-            version = json.Value<uint>("version");
-            if (version != VERSION)
-            {
-                throw new InvalidOperationException($"Invalid message version. Expected {VERSION} but received {version}");
-            }
-            action = json.Value<string>("action");
+            base.FromJson(json);
+            accountId = json.Value<string>("account_id");
+            messageCount = json.Value<int>("message_count");
+            pendingSubscriptionCount = json.Value<int>("pending_subscription_count");
         }
 
         #endregion

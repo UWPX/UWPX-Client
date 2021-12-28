@@ -2,22 +2,24 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using System.Xml.Linq;
 using Logging;
+using Manager.Classes;
 using Manager.Classes.Toast;
+using Push.Classes.Messages;
 using Storage.Classes;
 using Storage.Classes.Contexts;
 using Storage.Classes.Models.Account;
-using Storage.Classes.Models.Chat;
 using Windows.ApplicationModel.AppService;
 using Windows.ApplicationModel.Background;
 using Windows.Foundation.Collections;
 using Windows.Networking.PushNotifications;
-using XMPP_API.Classes;
-using XMPP_API.Classes.Network.XML;
 
 namespace Push_BackgroundTask.Classes
 {
+    /// <summary>
+    /// Background tasks are limited to 30 seconds.
+    /// Source: https://docs.microsoft.com/en-us/windows/uwp/launch-resume/guidelines-for-background-tasks#background-task-guidance
+    /// </summary>
     public sealed class PushBackgroundTask: IBackgroundTask
     {
         //--------------------------------------------------------Attributes:-----------------------------------------------------------------\\
@@ -43,55 +45,8 @@ namespace Push_BackgroundTask.Classes
             return accounts.Where(a => string.Equals(Push.Classes.Utils.ToAccountId(a.bareJid), accountId)).FirstOrDefault();
         }
 
-        private ChatModel GetChat(string accountBareJid, string chatBareJid)
-        {
-            using (MainDbContext ctx = new MainDbContext())
-            {
-                return ctx.GetChat(accountBareJid, chatBareJid);
-            }
-        }
-
-        private string GetAccountId(XElement node)
-        {
-            XElement accountNode = XMLUtils.getNodeFromXElement(node, "account");
-            if (!(accountNode is null))
-            {
-                XAttribute idAttribute = accountNode.Attribute("id");
-                if (!(idAttribute is null) && !string.IsNullOrEmpty(idAttribute.Value))
-                {
-                    return idAttribute.Value;
-                }
-            }
-            return null;
-        }
-
-        private string GetValue(XElement node, string var)
-        {
-            XElement xNode = XMLUtils.getNodeFromXElement(node, "x");
-            if (!(xNode is null))
-            {
-                foreach (XElement n in xNode.Elements())
-                {
-                    if (string.Equals(n.Name.LocalName, "field"))
-                    {
-                        XAttribute attribute = n.Attribute("var");
-                        if (!(attribute is null) && string.Equals(attribute.Value, var))
-                        {
-                            XElement valueNode = XMLUtils.getNodeFromXElement(n, "value");
-                            if (!(valueNode is null))
-                            {
-                                return valueNode.Value;
-                            }
-                        }
-                    }
-                }
-            }
-            return null;
-        }
-
         private async Task<bool> IsAppRunningAsync()
         {
-
             AppServiceConnectionStatus result = await appServiceConnection.OpenAsync();
             if (result == AppServiceConnectionStatus.Success)
             {
@@ -110,11 +65,7 @@ namespace Push_BackgroundTask.Classes
 
         private async Task<bool> IsAccountConnectedAsync(string bareJid)
         {
-            ValueSet request = new ValueSet
-                {
-                    { "request", "is_connected" },
-                    {"bare_jid", bareJid }
-};
+            ValueSet request = new ValueSet { { "request", "is_connected" }, { "bare_jid", bareJid } };
             AppServiceResponse response = await appServiceConnection.SendMessageAsync(request);
             if (response.Status == AppServiceResponseStatus.Success)
             {
@@ -133,7 +84,16 @@ namespace Push_BackgroundTask.Classes
             {
                 if (Settings.GetSettingBoolean(SettingsConsts.PUSH_ENABLED))
                 {
-                    await ParseAndShowNotificationAsync(notification.Content);
+                    ToastHelper.ShowSimpleToast("Started processing push message...");
+                    try
+                    {
+                        await ParseAndShowNotificationAsync(notification.Content);
+                    }
+                    catch (Exception e)
+                    {
+                        Logger.Error("Failed to process push notification.", e);
+                    }
+                    ToastHelper.ShowSimpleToast("Processing finished.");
                 }
                 else
                 {
@@ -153,38 +113,39 @@ namespace Push_BackgroundTask.Classes
                 Logger.Warn("Received an empty push notification...");
                 return;
             }
-            Logger.Debug(s);
+            Logger.Trace(s);
 
-            XDocument doc;
-            try
+            AbstractMessage msg = MessageParser.Parse(s);
+            if (msg is null)
             {
-                doc = XDocument.Parse(s);
-            }
-            catch (Exception e)
-            {
-                Logger.Error("Failed to parse push notification.", e);
+                Logger.Warn("Invalid push message received: " + s);
                 return;
             }
 
-            // Test push:
-            if (string.Equals(doc.Root.Name.LocalName, "test"))
+            if (msg is TestPushMessage)
             {
                 ToastHelper.ShowSimpleToast("Here is your test push message. It got successfully received from the push server!🎉");
                 Logger.Info("Test push message received.");
                 return;
             }
-
-            // Validate account:
-            string accountId = GetAccountId(doc.Root);
-            if (accountId is null)
+            else if (msg is PushMessage pushMsg)
             {
-                Logger.Warn("Received a push notification without a valid account ID. Dropping it.");
+                await HandelPushMessageAsync(pushMsg);
+            }
+            else
+            {
+                Logger.Warn("Invalid push message action received: " + msg.action);
                 return;
             }
-            AccountModel account = GetAccount(accountId);
+        }
+
+        private async Task HandelPushMessageAsync(PushMessage pushMsg)
+        {
+            // Get account:
+            AccountModel account = GetAccount(pushMsg.accountId);
             if (account is null)
             {
-                Logger.Warn($"Received a push notification for an unknown account ID '{accountId}'. Dropping it.");
+                Logger.Warn($"Received a push notification for an unknown account ID '{pushMsg.accountId}'. Dropping it.");
                 return;
             }
 
@@ -192,36 +153,6 @@ namespace Push_BackgroundTask.Classes
             if (!account.enabled)
             {
                 Logger.Info($"Received a push notification for a deactivated account ('{account.bareJid}'). Dropping it.");
-            }
-
-            // Validate sender:
-            string from = GetValue(doc.Root, "last-message-sender");
-            if (from is null)
-            {
-                Logger.Warn("Received a push notification without the 'last-message-sender' property. Dropping it.");
-                return;
-            }
-            string chatBareJid = null;
-            if (Utils.isBareJid(from))
-            {
-                chatBareJid = from;
-            }
-            else if (Utils.isFullJid(from))
-            {
-                chatBareJid = Utils.getBareJidFromFullJid(from);
-            }
-
-            if (chatBareJid is null)
-            {
-                Logger.Warn($"Received a push notification with a invalid 'last-message-sender' property ('{from}'). Dropping it.");
-                return;
-            }
-
-            // Body:
-            string body = GetValue(doc.Root, "last-message-body");
-            if (string.IsNullOrEmpty(body))
-            {
-                body = "You received a new message ✉.";
             }
 
             // Init the app service connection:
@@ -242,28 +173,12 @@ namespace Push_BackgroundTask.Classes
                 }
             }
 
-            // Get chat:
-            ChatModel chat = GetChat(account.bareJid, chatBareJid);
-            if (chat is null)
-            {
-                ToastHelper.ShowPushChatTextToast(body, chatBareJid);
-                if (!appRunning)
-                {
-                    ToastHelper.IncBadgeCount();
-                }
-            }
-            else if (!chat.muted)
-            {
-                ToastHelper.ShowPushChatTextToast(body, chat);
-                if (!appRunning)
-                {
-                    ToastHelper.IncBadgeCount();
-                }
-            }
-            else
-            {
-                Logger.Debug("Muted chat. Discarding push.");
-            }
+            ClientConnectionHandler client = ConnectionHandler.INSTANCE.GetClient(account.bareJid);
+            Logger.Info($"Connecting '{account.bareJid}'...");
+            await client.ConnectAsync();
+            await Task.Delay(10 * 1000);
+            await client.DisconnectAsync();
+            Logger.Info($"'{account.bareJid}' disconnected.");
         }
 
         #endregion

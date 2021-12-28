@@ -125,6 +125,8 @@
     <Compile Include="Classes\Messages\AbstractMessage.cs" />
     <Compile Include="Classes\Messages\AbstractResponseMessage.cs" />
     <Compile Include="Classes\Messages\MessageParser.cs" />
+    <Compile Include="Classes\Messages\TestPushMessage.cs" />
+    <Compile Include="Classes\Messages\PushMessage.cs" />
     <Compile Include="Classes\Messages\RegisterPushMessage.cs" />
     <Compile Include="Classes\Messages\RequestTestPushMessage.cs" />
     <Compile Include="Classes\Messages\SetChannelUriMessage.cs" />
