@@ -5,6 +5,7 @@ using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 using Logging;
+using Manager.Classes.Toast;
 using Microsoft.EntityFrameworkCore;
 using Shared.Classes;
 using Shared.Classes.AppCenter;
@@ -264,6 +265,9 @@ namespace Manager.Classes.Chat
                     ctx.Update(msg);
                 }
             }
+
+            // Update notifications:
+            ToastHelper.RemoveToastGroup(ToastHelper.GetChatToastGroup(chatId.ToString()));
         }
 
         public void MarkChatMessageAsRead(int chatId, int msgId)

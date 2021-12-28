@@ -127,7 +127,7 @@ namespace UWPX_UI_Context.Classes.DataContext.Pages
         #region --Events--
         private void ToastHelper_OnChatMessageToast(OnChatMessageToastEventArgs args)
         {
-            if (!args.Cancel && args.toasterTypeOverride == ChatMessageToasterType.FULL && UiUtils.IsWindowActivated && false)
+            if (!args.Cancel && args.toasterTypeOverride == ChatMessageToasterType.FULL && UiUtils.IsWindowActivated)
             {
                 args.toasterTypeOverride = ChatMessageToasterType.REDUCED;
             }
