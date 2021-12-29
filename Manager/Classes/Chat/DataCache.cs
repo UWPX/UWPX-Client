@@ -147,12 +147,12 @@ namespace Manager.Classes.Chat
             }
         }
 
-        public IEnumerable<MucInfoModel> GetMucs(string accountBareJid)
+        public List<MucInfoModel> GetMucs(string accountBareJid)
         {
             if (initialized)
             {
                 CHATS_SEMA.Wait();
-                IEnumerable<MucInfoModel> mucs = CHATS.Where(c => c.Chat.chatType == ChatType.MUC && string.Equals(c.Chat.accountBareJid, accountBareJid)).Select(c => c.Chat.muc).ToList();
+                List<MucInfoModel> mucs = CHATS.Where(c => c.Chat.chatType == ChatType.MUC && string.Equals(c.Chat.accountBareJid, accountBareJid)).Select(c => c.Chat.muc).ToList();
                 CHATS_SEMA.Release();
 
                 int countNull = mucs.Where(m => m is null).Count();
@@ -160,7 +160,7 @@ namespace Manager.Classes.Chat
                 {
                     Dictionary<string, string> payload = new Dictionary<string, string> { { "Count_NULL", countNull.ToString() } };
                     AppCenterCrashHelper.INSTANCE.TrackError(new ArgumentNullException(), "DataCache.INSTANCE.GetMucs() has MUCs which are null!\nIn theory the DB should prevent something like this...", payload);
-                    return mucs.Where(m => !(m is null));
+                    return mucs.Where(m => !(m is null)).ToList();
                 }
                 return mucs;
             }
@@ -171,37 +171,42 @@ namespace Manager.Classes.Chat
             }
         }
 
-        public IEnumerable<ChatModel> GetChats(string accountBareJid, SemaLock semaLock)
+        public List<ChatModel> GetChats(string accountBareJid, SemaLock semaLock)
         {
             semaLock.Wait();
             if (initialized)
             {
-                IEnumerable<ChatModel> chats = CHATS.Where(c => string.Equals(c.Chat.accountBareJid, accountBareJid)).Select(c => c.Chat);
-                return chats;
+                List<ChatModel> chats = CHATS.Where(c => string.Equals(c.Chat.accountBareJid, accountBareJid)).Select(c => c.Chat).ToList();
+                if (chats.Count() > 0)
+                {
+                    return chats;
+                }
             }
 
+            // Fallback in case the chat has not been loaded or the cache is not initialized yet:
             using (MainDbContext ctx = new MainDbContext())
             {
-                return ctx.Chats.Where(c => c.chatType == ChatType.MUC && string.Equals(c.accountBareJid, accountBareJid)).Include(ctx.GetIncludePaths(typeof(ChatModel)));
+                return ctx.Chats.Where(c => c.chatType == ChatType.MUC && string.Equals(c.accountBareJid, accountBareJid)).Include(ctx.GetIncludePaths(typeof(ChatModel))).ToList();
             }
         }
 
         public ChatModel GetChat(string accountBareJid, string chatBareJid, SemaLock semaLock)
         {
-            ChatModel chat = null;
             semaLock.Wait();
             if (initialized)
             {
-                chat = CHATS.Where(c => string.Equals(c.Chat.accountBareJid, accountBareJid) && string.Equals(c.Chat.bareJid, chatBareJid)).FirstOrDefault()?.Chat;
-            }
-            else
-            {
-                using (MainDbContext ctx = new MainDbContext())
+                ChatModel chat = CHATS.Where(c => string.Equals(c.Chat.accountBareJid, accountBareJid) && string.Equals(c.Chat.bareJid, chatBareJid)).FirstOrDefault()?.Chat;
+                if (!(chat is null))
                 {
-                    chat = ctx.Chats.Where(c => string.Equals(c.accountBareJid, accountBareJid) && string.Equals(c.bareJid, chatBareJid)).Include(ctx.GetIncludePaths(typeof(ChatModel))).FirstOrDefault();
+                    return chat;
                 }
             }
-            return chat;
+
+            // Fallback in case the chat has not been loaded or the cache is not initialized yet:
+            using (MainDbContext ctx = new MainDbContext())
+            {
+                return ctx.Chats.Where(c => string.Equals(c.accountBareJid, accountBareJid) && string.Equals(c.bareJid, chatBareJid)).Include(ctx.GetIncludePaths(typeof(ChatModel))).FirstOrDefault();
+            }
         }
 
         public ChatModel GetChat(int chatId, SemaLock semaLock)
@@ -516,8 +521,8 @@ namespace Manager.Classes.Chat
             SelectedChat = null;
             using (MainDbContext ctx = new MainDbContext())
             {
-                IEnumerable<ChatModel> chats = ctx.Chats.Include(ctx.GetIncludePaths(typeof(ChatModel)));
-                CHATS.AddRange(chats.Select(c => LoadChat(c, ctx)).Where(c => !(c is null)), true);
+                IEnumerable<ChatModel> chats = ctx.Accounts.Join(ctx.Chats, account => account.bareJid, chat => chat.accountBareJid, (account, chat) => chat).Include(ctx.GetIncludePaths(typeof(ChatModel)));
+                CHATS.AddRange(chats.Select(c => LoadChat(c, ctx)), true);
             }
             CHATS_SEMA.Release();
         }
@@ -525,11 +530,6 @@ namespace Manager.Classes.Chat
         private static ChatDataTemplate LoadChat(ChatModel chat, MainDbContext ctx)
         {
             ClientConnectionHandler ccHandler = ConnectionHandler.INSTANCE.GetClient(chat.accountBareJid);
-            // Catch the case an account got removed but the chats still exits:
-            if (ccHandler is null)
-            {
-                return null;
-            }
             Client client = ccHandler.client;
             ChatDataTemplate chatDataTemplate = new ChatDataTemplate(chat, client);
             chatDataTemplate.LoadLastMsg(ctx);

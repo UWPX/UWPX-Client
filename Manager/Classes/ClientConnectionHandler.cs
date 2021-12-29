@@ -377,7 +377,7 @@ namespace Manager.Classes
         /// </summary>
         private void OnDisconnectedOrError()
         {
-            IEnumerable<ChatModel> chats;
+            List<ChatModel> chats;
             using (SemaLock semaLock = DataCache.INSTANCE.NewChatSemaLock())
             {
                 chats = DataCache.INSTANCE.GetChats(client.dbAccount.bareJid, semaLock);
@@ -599,7 +599,7 @@ namespace Manager.Classes
                 }
 
                 SemaLock semaLock = DataCache.INSTANCE.NewChatSemaLock();
-                IEnumerable<ChatModel> chats = DataCache.INSTANCE.GetChats(client.dbAccount.bareJid, semaLock);
+                List<ChatModel> chats = DataCache.INSTANCE.GetChats(client.dbAccount.bareJid, semaLock);
 
                 // TYPE == SET is being send by the server when the roster changes from outside:
                 if (string.Equals(type, IQMessage.RESULT))

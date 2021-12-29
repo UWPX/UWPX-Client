@@ -64,7 +64,7 @@ namespace Manager.Classes
 
         private void ResetMucState(string accountBareJid)
         {
-            IEnumerable<MucInfoModel> mucs = DataCache.INSTANCE.GetMucs(accountBareJid);
+            List<MucInfoModel> mucs = DataCache.INSTANCE.GetMucs(accountBareJid);
             List<SemaLock> semaLocks = new List<SemaLock>(); // Lock all changing models
             using (MainDbContext ctx = new MainDbContext())
             {
@@ -214,7 +214,7 @@ namespace Manager.Classes
                     return;
                 }
 
-                IEnumerable<MucInfoModel> mucs = DataCache.INSTANCE.GetMucs(client.getXMPPAccount().getBareJid());
+                List<MucInfoModel> mucs = DataCache.INSTANCE.GetMucs(client.getXMPPAccount().getBareJid());
                 foreach (MucInfoModel muc in mucs)
                 {
                     await EnterMucAsync(client, muc);
