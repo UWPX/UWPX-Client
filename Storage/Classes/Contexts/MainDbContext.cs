@@ -102,30 +102,34 @@ namespace Storage.Classes.Contexts
         #region --Misc Methods (Public)--
         public override void Dispose()
         {
-            bool saved = false;
-            while (!saved)
+            try
             {
-                try
+                SaveChanges();
+            }
+            catch (DbUpdateConcurrencyException ex)
+            {
+                Logger.Error("DB inconsistency found: ", ex);
+                foreach (EntityEntry entry in ex.Entries)
                 {
-                    SaveChanges();
-                    saved = true;
-                }
-                catch (DbUpdateConcurrencyException ex)
-                {
-                    Logger.Error("DB inconsistency found: ", ex);
-                    foreach (EntityEntry entry in ex.Entries)
+                    try
                     {
+                        entry.OriginalValues.SetValues(entry.GetDatabaseValues());
+                    }
+                    catch (Exception e)
+                    {
+                        Logger.Error($"DB inconsistency fix failed for '{entry.Entity.GetType()}'. Trying the other way around.", e);
                         try
                         {
                             entry.OriginalValues.SetValues(entry.GetDatabaseValues());
                         }
-                        catch (Exception e)
+                        catch (Exception exc)
                         {
-                            Logger.Error($"DB inconsistency fix failed for: {entry.Entity.GetType()}", e);
-                            if (Debugger.IsAttached)
-                            {
-                                Debugger.Break();
-                            }
+                            Logger.Error($"Second DB inconsistency fix failed for '{entry.Entity.GetType()}'.", exc);
+                            break;
+                        }
+                        if (Debugger.IsAttached)
+                        {
+                            Debugger.Break();
                         }
                     }
                 }
