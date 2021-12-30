@@ -1,5 +1,4 @@
-﻿using System.Threading.Tasks;
-using Storage.Classes.Models.Account;
+﻿using Storage.Classes.Models.Account;
 using Storage.Classes.Models.Chat;
 using UWPX_UI_Context.Classes.DataContext.Controls;
 using Windows.UI.Xaml;
@@ -70,10 +69,7 @@ namespace UWPX_UI.Controls
         #endregion
 
         #region --Misc Methods (Private)--
-        private Task UpdateViewAsync()
-        {
-            return VIEW_MODEL.UpdateViewAsync(ChatType, BareJid, Image);
-        }
+
 
         #endregion
 
@@ -83,19 +79,20 @@ namespace UWPX_UI.Controls
         #endregion
         //--------------------------------------------------------Events:---------------------------------------------------------------------\\
         #region --Events--
-        private static async void OnBareJidChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
+        private static void OnBareJidChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
             if (d is AccountImagePresenceControl control)
             {
-                await control.UpdateViewAsync();
+                control.VIEW_MODEL.UpdateBareJid(control.BareJid);
+                control.VIEW_MODEL.UpdateChatType(control.ChatType, control.BareJid);
             }
         }
 
-        private static async void OnChatTypeChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
+        private static void OnChatTypeChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
             if (d is AccountImagePresenceControl control)
             {
-                await control.UpdateViewAsync();
+                control.VIEW_MODEL.UpdateChatType(control.ChatType, control.BareJid);
             }
         }
 
@@ -103,7 +100,8 @@ namespace UWPX_UI.Controls
         {
             if (d is AccountImagePresenceControl control)
             {
-                await control.UpdateViewAsync();
+                await control.VIEW_MODEL.UpdateImageAsync(control.Image, control.BareJid);
+                control.VIEW_MODEL.UpdateBareJid(control.BareJid);
             }
         }
 

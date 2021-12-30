@@ -27,7 +27,18 @@ namespace UWPX_UI_Context.Classes.DataContext.Controls
         #endregion
         //--------------------------------------------------------Misc Methods:---------------------------------------------------------------\\
         #region --Misc Methods (Public)--
-        public async Task UpdateViewAsync(ChatType chatType, string bareJid, ImageModel image)
+        public async Task UpdateImageAsync(ImageModel image, string bareJid)
+        {
+            MODEL.Image = image is null ? null : await image.GetSoftwareBitmapSourceAsync();
+        }
+
+        public void UpdateBareJid(string bareJid)
+        {
+            Color color = MODEL.Image is null ? ConsistentColorGenerator.GenForegroundColor(bareJid ?? "", false, false) : Colors.Transparent;
+            MODEL.Background = new SolidColorBrush(color);
+        }
+
+        public void UpdateChatType(ChatType chatType, string bareJid)
         {
             switch (chatType)
             {
@@ -48,18 +59,7 @@ namespace UWPX_UI_Context.Classes.DataContext.Controls
                     break;
             }
 
-            Color color;
-            if (image is null)
-            {
-                color = ConsistentColorGenerator.GenForegroundColor(bareJid ?? "", false, false);
-                MODEL.Image = null;
-            }
-            else
-            {
-                MODEL.Image = await image.GetSoftwareBitmapSourceAsync();
-                color = Colors.Transparent;
-            }
-            MODEL.Background = new SolidColorBrush(color);
+
         }
 
         #endregion
