@@ -188,12 +188,12 @@ namespace Manager.Classes
                 }
                 else if (result.RESULT is IQErrorMessage errorMsg)
                 {
-                    Logger.Error($"Failed to requets the avatar with hash '{avatarHash}' for '{logBareJid}' with: {errorMsg.ERROR_OBJ}");
+                    Logger.Error($"Failed to request the avatar with hash '{avatarHash}' for '{logBareJid}' with: {errorMsg.ERROR_OBJ}");
                 }
             }
             else
             {
-                Logger.Error($"Failed to requets the avatar with hash '{avatarHash}' for '{logBareJid}' with: {result.STATE}");
+                Logger.Error($"Failed to request the avatar with hash '{avatarHash}' for '{logBareJid}' with: {result.STATE}");
             }
             return null;
         }
@@ -211,7 +211,7 @@ namespace Manager.Classes
             {
                 if (result.RESULT is IQErrorMessage errorMsg)
                 {
-                    Logger.Error($"Failed to requets avatar metadata subscription for '{logBareJid}' with: {errorMsg.ERROR_OBJ}");
+                    Logger.Error($"Failed to request avatar metadata subscription for '{logBareJid}' with: {errorMsg.ERROR_OBJ}");
                     avatar.subscriptionState = AvatarMetadataSubscriptionState.UNKNOWN;
                 }
                 else if (result.RESULT is PubSubSubscriptionMessage subMsg)
@@ -229,12 +229,18 @@ namespace Manager.Classes
             }
             else
             {
-                Logger.Error($"Failed to requets avatar metadata subscription for '{logBareJid}' with: {result.STATE}");
+                Logger.Error($"Failed to request avatar metadata subscription for '{logBareJid}' with: {result.STATE}");
             }
         }
 
         public async Task<bool> UpdateAvatarAsync(ContactInfoModel contactInfo, AvatarMetadata metadata, string bareJid, string logBareJid)
         {
+            if (!(contactInfo.avatar is null) && string.Equals(contactInfo.avatar.hash, metadata.HASH))
+            {
+                Logger.Info("No need to update the avatar. It has the same hash.");
+                return true;
+            }
+
             ImageModel avatar = await RequestAvatarAsync(metadata.HASH, metadata.INFOS[0].TYPE, bareJid, logBareJid);
             // Did the avatar actually change:
             if (contactInfo.avatar != avatar && (avatar is null || !avatar.Equals(contactInfo.avatar)))
