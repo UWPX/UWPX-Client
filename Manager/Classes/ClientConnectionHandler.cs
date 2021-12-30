@@ -185,7 +185,7 @@ namespace Manager.Classes
                 // Request the chat avatar:
                 if (chat.chatType == ChatType.CHAT)
                 {
-                    if (chat.contactInfo.avatar is null || chat.contactInfo.avatar.ShouldCheckSubscription())
+                    if (chat.contactInfo.ShouldCheckAvatarSubscription())
                     {
                         await client.CheckForAvatarUpdatesAsync(chat.contactInfo, chat.bareJid, chat.bareJid);
                         Logger.Info($"Avatar for '{chatBareJid}' updated.");

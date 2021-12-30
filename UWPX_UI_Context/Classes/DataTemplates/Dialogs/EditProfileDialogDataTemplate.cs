@@ -1,5 +1,4 @@
-﻿using System;
-using System.Threading.Tasks;
+﻿using System.Threading.Tasks;
 using Manager.Classes;
 using Shared.Classes;
 using Shared.Classes.Image;
@@ -119,7 +118,6 @@ namespace UWPX_UI_Context.Classes.DataTemplates.Dialogs
             {
                 ImageModel imgModel = new ImageModel();
                 await imgModel.SetImageAsync(img, isAnimated);
-                imgModel.lastUpdate = DateTime.Now;
                 // Store animated images as GIF and everything else ans PNG:
                 imgModel.type = isAnimated ? ImageUtils.IANA_MEDIA_TYPE_GIF : ImageUtils.IANA_MEDIA_TYPE_JPEG;
                 Image = imgModel;

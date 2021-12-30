@@ -48,18 +48,6 @@ namespace Storage.Classes.Models.Account
         private string _hash;
 
         /// <summary>
-        /// When was the last time the image got updated.
-        /// </summary>
-        [Required]
-        public DateTime lastUpdate
-        {
-            get => _lastUpdate;
-            set => SetProperty(ref _lastUpdate, value);
-        }
-        [NotMapped]
-        private DateTime _lastUpdate;
-
-        /// <summary>
         /// The IANA media type of the image.
         /// https://www.iana.org/assignments/media-types/media-types.xhtml#image
         /// https://developer.mozilla.org/en-US/docs/Web/HTTP/Basics_of_HTTP/MIME_types
@@ -73,18 +61,6 @@ namespace Storage.Classes.Models.Account
         [NotMapped]
         private string _type;
 
-        /// <summary>
-        /// The state of the subscription to the metadata PEP node.
-        /// </summary>
-        [Required]
-        public AvatarMetadataSubscriptionState subscriptionState
-        {
-            get => _subscriptionState;
-            set => SetProperty(ref _subscriptionState, value);
-        }
-        [NotMapped]
-        private AvatarMetadataSubscriptionState _subscriptionState;
-
         [NotMapped]
         private SoftwareBitmap img;
         [NotMapped]
@@ -93,11 +69,7 @@ namespace Storage.Classes.Models.Account
         #endregion
         //--------------------------------------------------------Constructor:----------------------------------------------------------------\\
         #region --Constructors--
-        public ImageModel()
-        {
-            lastUpdate = DateTime.MinValue;
-            subscriptionState = AvatarMetadataSubscriptionState.UNKNOWN;
-        }
+
 
         #endregion
         //--------------------------------------------------------Set-, Get- Methods:---------------------------------------------------------\\
@@ -152,14 +124,6 @@ namespace Storage.Classes.Models.Account
         public override void Remove(MainDbContext ctx, bool recursive)
         {
             ctx.Remove(this);
-        }
-
-        /// <summary>
-        /// Returns true in case the <see cref="subscriptionState"/> is set to <see cref="AvatarMetadataSubscriptionState.UNKNOWN"/> or the subscription is 30 days old.
-        /// </summary>
-        public bool ShouldCheckSubscription()
-        {
-            return subscriptionState == AvatarMetadataSubscriptionState.UNKNOWN || (DateTime.Now - lastUpdate).TotalDays > 30;
         }
 
         public override bool Equals(object obj)

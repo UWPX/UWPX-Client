@@ -175,7 +175,6 @@ namespace Manager.Classes
                         return new ImageModel
                         {
                             hash = avatar.HASH,
-                            lastUpdate = DateTime.Now,
                             data = Convert.FromBase64String(avatar.AVATAR_BASE_64),
                             type = type
                         };
@@ -198,9 +197,9 @@ namespace Manager.Classes
             return null;
         }
 
-        private async Task CheckAvatarSubscriptionAsync(ImageModel avatar, string bareJid, string logBareJid)
+        private async Task CheckAvatarSubscriptionAsync(ContactInfoModel contactInfo, string bareJid, string logBareJid)
         {
-            if (!avatar.ShouldCheckSubscription())
+            if (!contactInfo.ShouldCheckAvatarSubscription())
             {
                 Logger.Debug($"No need to check subscription state for avatar metadata node for '{logBareJid}'.");
                 return;
@@ -212,12 +211,14 @@ namespace Manager.Classes
                 if (result.RESULT is IQErrorMessage errorMsg)
                 {
                     Logger.Error($"Failed to request avatar metadata subscription for '{logBareJid}' with: {errorMsg.ERROR_OBJ}");
-                    avatar.subscriptionState = AvatarMetadataSubscriptionState.UNKNOWN;
+                    contactInfo.avatarSubscriptionState = AvatarMetadataSubscriptionState.UNKNOWN;
+                    contactInfo.Update();
                 }
                 else if (result.RESULT is PubSubSubscriptionMessage subMsg)
                 {
-                    avatar.lastUpdate = DateTime.Now;
-                    avatar.subscriptionState = subMsg.SUBSCRIPTION == PubSubSubscriptionState.SUBSCRIBED ? AvatarMetadataSubscriptionState.SUBSCRIBED : AvatarMetadataSubscriptionState.UNKNOWN;
+                    contactInfo.lastAvatarUpdate = DateTime.Now;
+                    contactInfo.avatarSubscriptionState = subMsg.SUBSCRIPTION == PubSubSubscriptionState.SUBSCRIBED ? AvatarMetadataSubscriptionState.SUBSCRIBED : AvatarMetadataSubscriptionState.UNKNOWN;
+                    contactInfo.Update();
                     Logger.Info($"Subscribed to avatar metadata node for '{logBareJid}'.");
                 }
                 else
@@ -225,7 +226,6 @@ namespace Manager.Classes
                     // Should not happen:
                     Debug.Assert(false);
                 }
-                avatar.Update();
             }
             else
             {
@@ -256,6 +256,7 @@ namespace Manager.Classes
                         ctx.Add(avatar);
                     }
                     contactInfo.avatar = avatar;
+                    contactInfo.lastAvatarUpdate = DateTime.Now;
                     ctx.Update(contactInfo);
                 }
                 Logger.Info($"Updated avatar for '{logBareJid}'.");
@@ -287,7 +288,7 @@ namespace Manager.Classes
                             // New avatar:
                             if (await UpdateAvatarAsync(contactInfo, metadata, bareJid, logBareJid))
                             {
-                                await CheckAvatarSubscriptionAsync(contactInfo.avatar, bareJid, logBareJid);
+                                await CheckAvatarSubscriptionAsync(contactInfo, bareJid, logBareJid);
                             }
                         }
                     }
@@ -300,6 +301,7 @@ namespace Manager.Classes
                             {
                                 ctx.Remove(contactInfo.avatar);
                                 contactInfo.avatar = null;
+                                contactInfo.lastAvatarUpdate = DateTime.Now;
                                 ctx.Update(contactInfo);
                             }
                         }
@@ -315,7 +317,7 @@ namespace Manager.Classes
                         // Avatar got updated:
                         else if (await UpdateAvatarAsync(contactInfo, metadata, bareJid, logBareJid))
                         {
-                            await CheckAvatarSubscriptionAsync(contactInfo.avatar, bareJid, logBareJid);
+                            await CheckAvatarSubscriptionAsync(contactInfo, bareJid, logBareJid);
                         }
 
                     }

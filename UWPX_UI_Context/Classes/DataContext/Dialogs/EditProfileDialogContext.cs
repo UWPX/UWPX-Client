@@ -49,7 +49,6 @@ namespace UWPX_UI_Context.Classes.DataContext.Dialogs
             picker.FileTypeFilter.Add(".jpeg");
             picker.FileTypeFilter.Add(".png");
             picker.FileTypeFilter.Add(".gif");
-            picker.FileTypeFilter.Add(".svg");
             picker.SuggestedStartLocation = PickerLocationId.PicturesLibrary;
 
             StorageFile file = await picker.PickSingleFileAsync();
@@ -77,6 +76,7 @@ namespace UWPX_UI_Context.Classes.DataContext.Dialogs
 
         public async Task<bool> SaveAsync()
         {
+            DateTime oldAvatarLastUpdate = MODEL.Client.dbAccount.contactInfo.lastAvatarUpdate;
             ImageModel oldAvatar = UpdateDB();
 
             if (!await PublishAvatarAsync())
@@ -98,6 +98,7 @@ namespace UWPX_UI_Context.Classes.DataContext.Dialogs
                             ctx.Add(oldAvatar);
                         }
                         contactInfo.avatar = oldAvatar;
+                        contactInfo.lastAvatarUpdate = oldAvatarLastUpdate;
                         ctx.Update(contactInfo);
                     }
                 }
@@ -115,7 +116,7 @@ namespace UWPX_UI_Context.Classes.DataContext.Dialogs
             if (properties.Size > ONE_MEGABYTE)
             {
                 MODEL.Error = true;
-                MODEL.ErrorText = "Image to larg! It has to be less than 1 MiB.";
+                MODEL.ErrorText = "Image to large! It has to be less than 1 MiB.";
                 return;
             }
 
@@ -126,7 +127,7 @@ namespace UWPX_UI_Context.Classes.DataContext.Dialogs
                 {
                     SoftwareBitmapSource src = new SoftwareBitmapSource();
                     await src.SetBitmapAsync(img);
-                    await MODEL.SetImageAsync(img, string.Equals(file.ContentType, "image/gif"));
+                    await MODEL.SetImageAsync(img, string.Equals(file.ContentType, ImageUtils.IANA_MEDIA_TYPE_GIF));
                     MODEL.IsSaveEnabled = true;
                 }
             }
@@ -150,12 +151,25 @@ namespace UWPX_UI_Context.Classes.DataContext.Dialogs
                     {
                         ctx.Remove(oldAvatar);
                     }
-                    if (MODEL.Image is not null)
-                    {
-                        ctx.Add(MODEL.Image);
-                    }
-                    contactInfo.avatar = MODEL.Image;
+                    contactInfo.avatar = null;
+                    contactInfo.lastAvatarUpdate = DateTime.Now;
                     ctx.Update(contactInfo);
+                }
+
+                if (MODEL.Image is not null)
+                {
+                    ImageModel img = new ImageModel
+                    {
+                        data = MODEL.Image.data,
+                        hash = MODEL.Image.hash,
+                        type = MODEL.Image.type
+                    };
+                    using (MainDbContext ctx = new MainDbContext())
+                    {
+                        ctx.Add(img);
+                        contactInfo.avatar = img;
+                        ctx.Update(contactInfo);
+                    }
                 }
             }
 

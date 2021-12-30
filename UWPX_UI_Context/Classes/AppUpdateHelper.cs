@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Linq;
 using System.Threading.Tasks;
 using Logging;
 using Storage.Classes;
@@ -67,11 +68,14 @@ namespace UWPX_UI_Context.Classes
         /// </summary>
         public static async Task OnAppStartAsync()
         {
-            /*using (MainDbContext ctx = new MainDbContext())
+            using (MainDbContext ctx = new MainDbContext())
             {
-                await ctx.Database.EnsureDeletedAsync();
-                await ctx.Database.EnsureCreatedAsync();
-            }*/
+                if (ctx.Accounts.Count() <= 0)
+                {
+                    await ctx.Database.EnsureDeletedAsync();
+                    await ctx.Database.EnsureCreatedAsync();
+                }
+            }
             PackageVersion versionLastStart = GetLastStartedVersion();
 
             // Check if version != 0.0.0.0 => first ever start of the App:

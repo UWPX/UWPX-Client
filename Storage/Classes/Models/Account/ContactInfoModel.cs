@@ -1,4 +1,5 @@
-﻿using System.ComponentModel;
+﻿using System;
+using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using Storage.Classes.Contexts;
@@ -30,6 +31,30 @@ namespace Storage.Classes.Models.Account
         private ImageModel _avatar;
 
         /// <summary>
+        /// When was the last time the avatar got updated.
+        /// </summary>
+        [Required]
+        public DateTime lastAvatarUpdate
+        {
+            get => _lastAvatarUpdate;
+            set => SetProperty(ref _lastAvatarUpdate, value);
+        }
+        [NotMapped]
+        private DateTime _lastAvatarUpdate;
+
+        /// <summary>
+        /// The state of the subscription to the avatar metadata PEP node.
+        /// </summary>
+        [Required]
+        public AvatarMetadataSubscriptionState avatarSubscriptionState
+        {
+            get => _avatarSubscriptionState;
+            set => SetProperty(ref _avatarSubscriptionState, value);
+        }
+        [NotMapped]
+        private AvatarMetadataSubscriptionState _avatarSubscriptionState;
+
+        /// <summary>
         /// A custom name for the chat/account.
         /// </summary>
         public string name
@@ -43,7 +68,11 @@ namespace Storage.Classes.Models.Account
         #endregion
         //--------------------------------------------------------Constructor:----------------------------------------------------------------\\
         #region --Constructors--
-
+        public ContactInfoModel()
+        {
+            lastAvatarUpdate = DateTime.MinValue;
+            avatarSubscriptionState = AvatarMetadataSubscriptionState.UNKNOWN;
+        }
 
         #endregion
         //--------------------------------------------------------Set-, Get- Methods:---------------------------------------------------------\\
@@ -74,6 +103,14 @@ namespace Storage.Classes.Models.Account
                 avatar?.Remove(ctx, recursive);
             }
             ctx.Remove(this);
+        }
+
+        /// <summary>
+        /// Returns true in case the <see cref="avatarSubscriptionState"/> is set to <see cref="AvatarMetadataSubscriptionState.UNKNOWN"/> or the subscription is 30 days old.
+        /// </summary>
+        public bool ShouldCheckAvatarSubscription()
+        {
+            return avatarSubscriptionState == AvatarMetadataSubscriptionState.UNKNOWN || (DateTime.Now - lastAvatarUpdate).TotalDays > 30;
         }
 
         #endregion

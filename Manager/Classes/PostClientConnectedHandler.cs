@@ -324,7 +324,7 @@ namespace Manager.Classes
         private async Task UpdateAccountAvatarAsync()
         {
             state = SetupState.UPDATING_ACCOUNT_AVATAR;
-            if (ccHandler.client.dbAccount.contactInfo.avatar is null || ccHandler.client.dbAccount.contactInfo.avatar.ShouldCheckSubscription())
+            if (ccHandler.client.dbAccount.contactInfo.ShouldCheckAvatarSubscription())
             {
                 await ccHandler.client.CheckForAvatarUpdatesAsync(ccHandler.client.dbAccount.contactInfo, null, ccHandler.client.dbAccount.bareJid);
             }
@@ -359,7 +359,7 @@ namespace Manager.Classes
                     continue;
                 }
 
-                if (chat.contactInfo.avatar is null || chat.contactInfo.avatar.ShouldCheckSubscription())
+                if (chat.contactInfo.ShouldCheckAvatarSubscription())
                 {
                     await ccHandler.client.CheckForAvatarUpdatesAsync(chat.contactInfo, chat.bareJid, chat.bareJid);
                     Logger.Info($"Avatar for '{chatBareJid}' updated.");
