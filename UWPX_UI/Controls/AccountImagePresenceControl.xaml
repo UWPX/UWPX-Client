@@ -17,7 +17,6 @@
                 <ResourceDictionary Source="ms-appx:///Resources/Styles/ChatPersonPictureStyle.xaml"/>
             </ResourceDictionary.MergedDictionaries>
 
-            <valueconverter:StringBrushValueConverter x:Key="StringBrushValueConverter"/>
             <valueconverter:ChatTypeFontFamilyConverter x:Key="ChatTypeFontFamilyConverter"/>
 
             <ui:AttachedDropShadow x:Key="InfoBadgeShadow"
@@ -37,7 +36,7 @@
                             Grid.Row="0"
                             Width="{x:Bind Width, Mode=OneWay}"
                             Height="{x:Bind Height, Mode=OneWay}"
-                            Background="{x:Bind BareJid, Mode=OneWay, Converter={StaticResource StringBrushValueConverter}}"
+                            Background="{x:Bind VIEW_MODEL.MODEL.Background, Mode=OneWay}"
                             FontFamily="{x:Bind ChatType, Mode=OneWay, Converter={StaticResource ChatTypeFontFamilyConverter}}"
                             Initials="{x:Bind VIEW_MODEL.MODEL.Initials, Mode=OneWay}"
                             ProfilePicture="{x:Bind VIEW_MODEL.MODEL.Image, Mode=OneWay}"

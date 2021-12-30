@@ -2,6 +2,9 @@
 using Storage.Classes.Models.Account;
 using Storage.Classes.Models.Chat;
 using UWPX_UI_Context.Classes.DataTemplates.Controls;
+using Windows.UI;
+using Windows.UI.Xaml.Media;
+using XMPP_API.Classes.Network.XML.Messages.XEP_0392;
 
 namespace UWPX_UI_Context.Classes.DataContext.Controls
 {
@@ -44,7 +47,19 @@ namespace UWPX_UI_Context.Classes.DataContext.Controls
                     MODEL.Initials = "\uF22C";
                     break;
             }
-            MODEL.Image = image is null ? null : await image.GetSoftwareBitmapSourceAsync();
+
+            Color color;
+            if (image is null)
+            {
+                color = ConsistentColorGenerator.GenForegroundColor(bareJid ?? "", false, false);
+                MODEL.Image = null;
+            }
+            else
+            {
+                MODEL.Image = await image.GetSoftwareBitmapSourceAsync();
+                color = Colors.Transparent;
+            }
+            MODEL.Background = new SolidColorBrush(color);
         }
 
         #endregion

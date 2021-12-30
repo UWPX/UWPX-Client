@@ -1,7 +1,5 @@
-﻿using System.Threading.Tasks;
-using Shared.Classes;
-using Storage.Classes.Models.Account;
-using Storage.Classes.Models.Chat;
+﻿using Shared.Classes;
+using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Media.Imaging;
 
 namespace UWPX_UI_Context.Classes.DataTemplates.Controls
@@ -22,6 +20,13 @@ namespace UWPX_UI_Context.Classes.DataTemplates.Controls
         {
             get => _Image;
             set => SetProperty(ref _Image, value);
+        }
+
+        private SolidColorBrush _Background;
+        public SolidColorBrush Background
+        {
+            get => _Background;
+            set => SetProperty(ref _Background, value);
         }
 
         #endregion
