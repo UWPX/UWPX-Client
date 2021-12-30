@@ -185,13 +185,11 @@ namespace Storage.Classes.Contexts
             modelBuilder.Entity<ServerModel>().Property(p => p.ignoredCertificateErrors).HasConversion(v => string.Join(',', v.Select(i => (int)i)), v => new CustomObservableCollection<ChainValidationResult>(v.Split(',', StringSplitOptions.RemoveEmptyEntries).Select(i => (ChainValidationResult)int.Parse(i)), true));
             IEnumerable<IMutableForeignKey> x = modelBuilder.Model.GetEntityTypes().SelectMany(e => e.GetForeignKeys());
 
-            // Ensure we perform cascade deletion when ever possible:
+            // Disable cascade deletion since we handle it by our own:
             foreach (IMutableForeignKey foreignKey in modelBuilder.Model.GetEntityTypes().SelectMany(e => e.GetForeignKeys()))
             {
-                foreignKey.DeleteBehavior = DeleteBehavior.Cascade;
+                foreignKey.DeleteBehavior = DeleteBehavior.Restrict;
             }
-            // Except for this one since else we would get a recursive loop:
-            modelBuilder.Entity<MucInfoModel>().HasOne(m => m.chat).WithOne(c => c.muc).OnDelete(DeleteBehavior.Restrict);
         }
 
         #endregion
