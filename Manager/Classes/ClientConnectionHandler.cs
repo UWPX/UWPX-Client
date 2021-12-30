@@ -824,7 +824,7 @@ namespace Manager.Classes
 
                 // Chat avatar metadata changed:
                 Logger.Info($"Received avatar metadata update from '{args.MSG.getFrom()}'. Updating avatar...");
-                await client.UpdateAvatarAsync(client.dbAccount.contactInfo, avatarMetadataEvent.METADATA, from, client.dbAccount.bareJid);
+                await client.UpdateAvatarAsync(client.dbAccount.contactInfo, avatarMetadataEvent.METADATA, from, from);
             }
         }
 

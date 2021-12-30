@@ -26,6 +26,8 @@ namespace Storage.Classes.Contexts
         public DbSet<ServerModel> Servers { get; set; }
         public DbSet<PushAccountModel> PushAccounts { get; set; }
         public DbSet<MamRequestModel> MamRequests { get; set; }
+        public DbSet<ContactInfoModel> ContactInfos { get; set; }
+        public DbSet<ImageModel> Images { get; set; }
 
         public DbSet<ChatModel> Chats { get; set; }
         public DbSet<MucInfoModel> MucInfos { get; set; }
@@ -109,18 +111,21 @@ namespace Storage.Classes.Contexts
             catch (DbUpdateConcurrencyException ex)
             {
                 Logger.Error("DB inconsistency found: ", ex);
+                Logger.Error($"TRACE:\n{Environment.StackTrace}");
                 foreach (EntityEntry entry in ex.Entries)
                 {
                     try
                     {
                         entry.OriginalValues.SetValues(entry.GetDatabaseValues());
+                        SaveChanges();
                     }
                     catch (Exception e)
                     {
                         Logger.Error($"DB inconsistency fix failed for '{entry.Entity.GetType()}'. Trying the other way around.", e);
                         try
                         {
-                            entry.OriginalValues.SetValues(entry.GetDatabaseValues());
+                            entry.OriginalValues.SetValues(entry.CurrentValues);
+                            SaveChanges();
                         }
                         catch (Exception exc)
                         {

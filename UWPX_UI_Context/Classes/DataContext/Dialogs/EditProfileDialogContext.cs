@@ -10,7 +10,6 @@ using Windows.Storage;
 using Windows.Storage.FileProperties;
 using Windows.Storage.Pickers;
 using Windows.UI.Xaml.Media.Imaging;
-using XMPP_API.Classes.Crypto;
 using XMPP_API.Classes.Network.XML.Messages;
 using XMPP_API.Classes.Network.XML.Messages.Helper;
 using XMPP_API.Classes.Network.XML.Messages.XEP_0084;
@@ -78,16 +77,30 @@ namespace UWPX_UI_Context.Classes.DataContext.Dialogs
 
         public async Task<bool> SaveAsync()
         {
+            ImageModel oldAvatar = UpdateDB();
+
             if (!await PublishAvatarAsync())
             {
                 MODEL.Error = true;
-                MODEL.ErrorText = "Failed to publish avatar.";
-                return false;
-            }
-            if (!UpdateDB())
-            {
-                MODEL.Error = true;
-                MODEL.ErrorText = "Failed to save avatar to DB.";
+                MODEL.ErrorText = "Failed to publish avatar. Reverting DB...";
+
+                ContactInfoModel contactInfo = MODEL.Client.dbAccount.contactInfo;
+                if (oldAvatar != contactInfo.avatar)
+                {
+                    using (MainDbContext ctx = new MainDbContext())
+                    {
+                        if (contactInfo.avatar is not null)
+                        {
+                            contactInfo.avatar.Remove(ctx, true);
+                        }
+                        if (oldAvatar is not null)
+                        {
+                            ctx.Add(oldAvatar);
+                        }
+                        contactInfo.avatar = oldAvatar;
+                        ctx.Update(contactInfo);
+                    }
+                }
                 return false;
             }
             return true;
@@ -125,35 +138,28 @@ namespace UWPX_UI_Context.Classes.DataContext.Dialogs
             }
         }
 
-        private bool UpdateDB()
+        private ImageModel UpdateDB()
         {
             ContactInfoModel contactInfo = MODEL.Client.dbAccount.contactInfo;
-            // Remove image:
-            if (MODEL.Image is null)
+            ImageModel oldAvatar = contactInfo.avatar;
+            if (contactInfo.avatar != MODEL.Image)
             {
                 using (MainDbContext ctx = new MainDbContext())
                 {
-                    contactInfo.avatar.Remove(ctx, true);
-                    contactInfo.avatar = null;
-                    ctx.Update(contactInfo);
-                }
-            }
-            // Add image
-            else
-            {
-                using (MainDbContext ctx = new MainDbContext())
-                {
-                    if (contactInfo.avatar is not null)
+                    if (oldAvatar is not null)
                     {
-                        ctx.Remove(contactInfo.avatar);
+                        ctx.Remove(oldAvatar);
+                    }
+                    if (MODEL.Image is not null)
+                    {
+                        ctx.Add(MODEL.Image);
                     }
                     contactInfo.avatar = MODEL.Image;
-                    ctx.Add(contactInfo.avatar);
                     ctx.Update(contactInfo);
                 }
             }
 
-            return true;
+            return oldAvatar;
         }
 
         private async Task<bool> PublishMetadataAsync(AvatarMetadataDataPubSubItem metadata)
@@ -200,15 +206,15 @@ namespace UWPX_UI_Context.Classes.DataContext.Dialogs
 
             byte[] imgData = await ImageUtils.ToByteArrayAsync(img, string.Equals(MODEL.Image.type, ImageUtils.IANA_MEDIA_TYPE_GIF));
             string imgHashBase16 = ImageUtils.HashImage(imgData);
-            AvatarMetadataDataPubSubItem metadata = new AvatarMetadataDataPubSubItem(imgHashBase16, new AvatarInfo((uint)imgData.Length, (ushort)img.PixelHeight, (ushort)img.PixelWidth, imgHashBase16, "image/png"));
 
-            if (!await PublishMetadataAsync(metadata))
+            AvatarDataPubSubItem avatar = new AvatarDataPubSubItem(Convert.ToBase64String(imgData), imgHashBase16);
+            if (!await PublishAvatarAsync(avatar))
             {
                 return false;
             }
 
-            AvatarDataPubSubItem avatar = new AvatarDataPubSubItem(Convert.ToBase64String(imgData), imgHashBase16);
-            return await PublishAvatarAsync(avatar);
+            AvatarMetadataDataPubSubItem metadata = new AvatarMetadataDataPubSubItem(imgHashBase16, new AvatarInfo((uint)imgData.Length, (ushort)img.PixelHeight, (ushort)img.PixelWidth, imgHashBase16, "image/png"));
+            return await PublishMetadataAsync(metadata);
         }
 
         #endregion
