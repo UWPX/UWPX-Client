@@ -86,7 +86,7 @@ namespace UWPX_UI_Context.Classes.DataTemplates.Dialogs
             }
         }
 
-        private async void SetClientProperty(Client value)
+        private void SetClientProperty(Client value)
         {
             Client old = Client;
             if (SetProperty(ref _Client, value, nameof(Client)))

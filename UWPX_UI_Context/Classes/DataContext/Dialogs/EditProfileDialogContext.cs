@@ -87,12 +87,9 @@ namespace UWPX_UI_Context.Classes.DataContext.Dialogs
                 ContactInfoModel contactInfo = MODEL.Client.dbAccount.contactInfo;
                 if (oldAvatar != contactInfo.avatar)
                 {
+                    ImageModel newAvatar = contactInfo.avatar;
                     using (MainDbContext ctx = new MainDbContext())
                     {
-                        if (contactInfo.avatar is not null)
-                        {
-                            contactInfo.avatar.Remove(ctx, true);
-                        }
                         if (oldAvatar is not null)
                         {
                             ctx.Add(oldAvatar);
@@ -100,6 +97,14 @@ namespace UWPX_UI_Context.Classes.DataContext.Dialogs
                         contactInfo.avatar = oldAvatar;
                         contactInfo.lastAvatarUpdate = oldAvatarLastUpdate;
                         ctx.Update(contactInfo);
+                        ctx.SaveChanges(); // To prevent a FOREIGEN KEY constraint exception this order is required
+
+                        if (newAvatar is not null)
+                        {
+
+                            ctx.SaveChanges();
+                            ctx.Remove(newAvatar);
+                        }
                     }
                 }
                 return false;
@@ -147,28 +152,20 @@ namespace UWPX_UI_Context.Classes.DataContext.Dialogs
             {
                 using (MainDbContext ctx = new MainDbContext())
                 {
-                    if (oldAvatar is not null)
+                    if (MODEL.Image is not null)
                     {
-                        ctx.Remove(oldAvatar);
+                        ctx.Add(MODEL.Image);
                     }
-                    contactInfo.avatar = null;
+                    contactInfo.avatar = MODEL.Image;
                     contactInfo.lastAvatarUpdate = DateTime.Now;
                     ctx.Update(contactInfo);
-                }
+                    ctx.SaveChanges(); // To prevent a FOREIGEN KEY constraint exception this order is required
 
-                if (MODEL.Image is not null)
-                {
-                    ImageModel img = new ImageModel
+                    if (oldAvatar is not null)
                     {
-                        data = MODEL.Image.data,
-                        hash = MODEL.Image.hash,
-                        type = MODEL.Image.type
-                    };
-                    using (MainDbContext ctx = new MainDbContext())
-                    {
-                        ctx.Add(img);
-                        contactInfo.avatar = img;
-                        ctx.Update(contactInfo);
+
+                        ctx.SaveChanges();
+                        ctx.Remove(oldAvatar);
                     }
                 }
             }

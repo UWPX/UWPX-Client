@@ -247,10 +247,6 @@ namespace Manager.Classes
             {
                 using (MainDbContext ctx = new MainDbContext())
                 {
-                    if (!(contactInfo.avatar is null))
-                    {
-                        ctx.Remove(contactInfo.avatar);
-                    }
                     if (!(avatar is null))
                     {
                         ctx.Add(avatar);
@@ -258,6 +254,14 @@ namespace Manager.Classes
                     contactInfo.avatar = avatar;
                     contactInfo.lastAvatarUpdate = DateTime.Now;
                     ctx.Update(contactInfo);
+                    ctx.SaveChanges(); // To prevent a FOREIGEN KEY constraint exception this order is required
+
+                    if (!(contactInfo.avatar is null))
+                    {
+
+                        ctx.SaveChanges();
+                        ctx.Remove(contactInfo.avatar);
+                    }
                 }
                 Logger.Info($"Updated avatar for '{logBareJid}'.");
                 return true;
@@ -299,10 +303,11 @@ namespace Manager.Classes
                         {
                             using (MainDbContext ctx = new MainDbContext())
                             {
-                                ctx.Remove(contactInfo.avatar);
                                 contactInfo.avatar = null;
                                 contactInfo.lastAvatarUpdate = DateTime.Now;
                                 ctx.Update(contactInfo);
+                                ctx.SaveChanges(); // To prevent a FOREIGEN KEY constraint exception this order is required
+                                ctx.Remove(contactInfo.avatar);
                             }
                         }
                         else if (metadata.INFOS.Count <= 0)
