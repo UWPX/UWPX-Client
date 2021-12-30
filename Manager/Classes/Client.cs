@@ -245,6 +245,7 @@ namespace Manager.Classes
             // Did the avatar actually change:
             if (contactInfo.avatar != avatar && (avatar is null || !avatar.Equals(contactInfo.avatar)))
             {
+                ImageModel oldAvatar = contactInfo.avatar;
                 using (MainDbContext ctx = new MainDbContext())
                 {
                     if (!(avatar is null))
@@ -256,11 +257,11 @@ namespace Manager.Classes
                     ctx.Update(contactInfo);
                     ctx.SaveChanges(); // To prevent a FOREIGEN KEY constraint exception this order is required
 
-                    if (!(contactInfo.avatar is null))
+                    if (!(oldAvatar is null))
                     {
 
                         ctx.SaveChanges();
-                        ctx.Remove(contactInfo.avatar);
+                        ctx.Remove(oldAvatar);
                     }
                 }
                 Logger.Info($"Updated avatar for '{logBareJid}'.");
