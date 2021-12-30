@@ -129,6 +129,11 @@ namespace Manager.Classes.Chat
             LastMsg = ctx.ChatMessages.Where(m => m.chatId == Chat.id).OrderByDescending(m => m.date).FirstOrDefault();
         }
 
+        public override string ToString()
+        {
+            return Chat is null ? "null" : Chat.ToString();
+        }
+
         #endregion
 
         #region --Misc Methods (Private)--

@@ -318,6 +318,11 @@ namespace Storage.Classes.Models.Chat
             Remove(ctx, recursive, recursive);
         }
 
+        public override string ToString()
+        {
+            return '[' + accountBareJid + "]:" + bareJid;
+        }
+
         #endregion
 
         #region --Misc Methods (Private)--

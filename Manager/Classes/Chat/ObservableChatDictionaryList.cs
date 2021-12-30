@@ -112,7 +112,7 @@ namespace Manager.Classes.Chat
         {
             foreach (ChatDataTemplate item in LIST)
             {
-                array.SetValue(item, arrayIndex);
+                array[arrayIndex] = item;
             }
         }
 
@@ -153,10 +153,7 @@ namespace Manager.Classes.Chat
 
         public bool Contains(int id)
         {
-            lock (SyncRoot)
-            {
-                return DICTIONARY.ContainsKey(id);
-            }
+            return DICTIONARY.ContainsKey(id);
         }
 
         public int IndexOf(ChatDataTemplate value)

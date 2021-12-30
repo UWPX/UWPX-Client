@@ -127,6 +127,7 @@
     <SDKReference Include="TestPlatform.Universal, Version=$(UnitTestPlatformVersion)" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Classes\Collections\Test_SaveObservableChatDictionaryList.cs" />
     <Compile Include="Classes\Crypto\Omemo\InMemmoryOmemoStorage.cs" />
     <Compile Include="Classes\Crypto\Omemo\Test_Omemo.cs" />
     <Compile Include="Classes\Crypto\Test_CryptoUtils.cs" />
@@ -184,6 +185,10 @@
       <Project>{0c1fb090-4492-441d-b182-c999df71f917}</Project>
       <Name>Logging</Name>
     </ProjectReference>
+    <ProjectReference Include="..\Manager\Manager.csproj">
+      <Project>{E06E9CCA-7196-497E-A129-8FFB4A30A3F8}</Project>
+      <Name>Manager</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Omemo\Omemo.csproj">
       <Project>{e8d1b7b3-548a-4f0f-a703-48ab327b9340}</Project>
       <Name>Omemo</Name>
@@ -191,6 +196,10 @@
     <ProjectReference Include="..\Shared\Shared.csproj">
       <Project>{c4af94da-11cf-4147-b5b7-4b2dc7c624a0}</Project>
       <Name>Shared</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Storage\Storage.csproj">
+      <Project>{9F088DAC-A37A-469C-AFBC-12BE2EBFDD2D}</Project>
+      <Name>Storage</Name>
     </ProjectReference>
     <ProjectReference Include="..\XMPP_API\XMPP_API.csproj">
       <Project>{64b9a47f-d404-4d0b-a34a-bec280c5ff6b}</Project>
