@@ -82,7 +82,7 @@ namespace UWPX_UI_Context.Classes.DataContext.Dialogs
             if (!await PublishAvatarAsync())
             {
                 MODEL.Error = true;
-                MODEL.ErrorText = "Failed to publish avatar. Reverting DB...";
+                MODEL.ErrorText = "Failed to publish avatar.";
 
                 ContactInfoModel contactInfo = MODEL.Client.dbAccount.contactInfo;
                 if (oldAvatar != contactInfo.avatar)
@@ -97,12 +97,10 @@ namespace UWPX_UI_Context.Classes.DataContext.Dialogs
                         contactInfo.avatar = oldAvatar;
                         contactInfo.lastAvatarUpdate = oldAvatarLastUpdate;
                         ctx.Update(contactInfo);
-                        ctx.SaveChanges(); // To prevent a FOREIGEN KEY constraint exception this order is required
 
                         if (newAvatar is not null)
                         {
-
-                            ctx.SaveChanges();
+                            ctx.SaveChanges(); // To prevent a FOREIGEN KEY constraint exception this order is required
                             ctx.Remove(newAvatar);
                         }
                     }
