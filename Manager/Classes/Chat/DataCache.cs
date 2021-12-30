@@ -176,17 +176,12 @@ namespace Manager.Classes.Chat
             semaLock.Wait();
             if (initialized)
             {
-                List<ChatModel> chats = CHATS.Where(c => string.Equals(c.Chat.accountBareJid, accountBareJid)).Select(c => c.Chat).ToList();
-                if (chats.Count() > 0)
-                {
-                    return chats;
-                }
+                return CHATS.Where(c => string.Equals(c.Chat.accountBareJid, accountBareJid)).Select(c => c.Chat).ToList();
             }
 
-            // Fallback in case the chat has not been loaded or the cache is not initialized yet:
             using (MainDbContext ctx = new MainDbContext())
             {
-                return ctx.Chats.Where(c => c.chatType == ChatType.MUC && string.Equals(c.accountBareJid, accountBareJid)).Include(ctx.GetIncludePaths(typeof(ChatModel))).ToList();
+                return ctx.Chats.Where(c => string.Equals(c.accountBareJid, accountBareJid)).Include(ctx.GetIncludePaths(typeof(ChatModel))).ToList();
             }
         }
 
@@ -195,14 +190,9 @@ namespace Manager.Classes.Chat
             semaLock.Wait();
             if (initialized)
             {
-                ChatModel chat = CHATS.Where(c => string.Equals(c.Chat.accountBareJid, accountBareJid) && string.Equals(c.Chat.bareJid, chatBareJid)).FirstOrDefault()?.Chat;
-                if (!(chat is null))
-                {
-                    return chat;
-                }
+                return CHATS.Where(c => string.Equals(c.Chat.accountBareJid, accountBareJid) && string.Equals(c.Chat.bareJid, chatBareJid)).FirstOrDefault()?.Chat;
             }
 
-            // Fallback in case the chat has not been loaded or the cache is not initialized yet:
             using (MainDbContext ctx = new MainDbContext())
             {
                 return ctx.Chats.Where(c => string.Equals(c.accountBareJid, accountBareJid) && string.Equals(c.bareJid, chatBareJid)).Include(ctx.GetIncludePaths(typeof(ChatModel))).FirstOrDefault();
