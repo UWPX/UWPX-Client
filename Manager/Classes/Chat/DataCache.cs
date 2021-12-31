@@ -357,7 +357,7 @@ namespace Manager.Classes.Chat
             }
         }
 
-        public void DeleteChatUnsafe(ChatModel chat, bool keepChatMessages, bool removeFromRoster, bool forceDelete)
+        public void DeleteChatUnsafe(ChatModel chat, bool removeFromRoster, bool forceDelete)
         {
             // Update the cache:
             if (initialized)
@@ -372,14 +372,11 @@ namespace Manager.Classes.Chat
             using (MainDbContext ctx = new MainDbContext())
             {
                 // Update the DB:
-                if (!keepChatMessages)
+                foreach (ChatMessageModel msg in ctx.ChatMessages.Where(msg => msg.chatId == chat.id))
                 {
-                    foreach (ChatMessageModel msg in ctx.ChatMessages.Where(msg => msg.chatId == chat.id))
-                    {
-                        msg.Remove(ctx, true);
-                    }
-                    Logger.Info("Deleted chat messages for: " + chat.bareJid);
+                    msg.Remove(ctx, true);
                 }
+                Logger.Info("Deleted chat messages for: " + chat.bareJid);
 
 
                 if (removeFromRoster || forceDelete)
@@ -397,10 +394,10 @@ namespace Manager.Classes.Chat
 
         }
 
-        public void DeleteChat(ChatModel chat, bool keepChatMessages, bool removeFromRoster)
+        public void DeleteChat(ChatModel chat, bool removeFromRoster)
         {
             CHATS_SEMA.Wait();
-            DeleteChatUnsafe(chat, keepChatMessages, removeFromRoster, false);
+            DeleteChatUnsafe(chat, removeFromRoster, false);
             CHATS_SEMA.Release();
         }
 
@@ -484,7 +481,7 @@ namespace Manager.Classes.Chat
                      }
                      foreach (ChatModel chat in chats)
                      {
-                         DeleteChatUnsafe(chat, false, false, true);
+                         DeleteChatUnsafe(chat, false, true);
                      }
 
                      Logger.Info($"Chats and chat messages for '{account.bareJid}' deleted.");
@@ -512,7 +509,7 @@ namespace Manager.Classes.Chat
             using (MainDbContext ctx = new MainDbContext())
             {
                 IEnumerable<ChatModel> chats = ctx.Accounts.Join(ctx.Chats, account => account.bareJid, chat => chat.accountBareJid, (account, chat) => chat).Include(ctx.GetIncludePaths(typeof(ChatModel)));
-                CHATS.AddRange(chats.Select(c => LoadChat(c, ctx)), true);
+                CHATS.AddRange(chats.Select(c => LoadChat(c, ctx)).Where(c => !(c is null)), true);
             }
             CHATS_SEMA.Release();
         }
@@ -520,6 +517,10 @@ namespace Manager.Classes.Chat
         private static ChatDataTemplate LoadChat(ChatModel chat, MainDbContext ctx)
         {
             ClientConnectionHandler ccHandler = ConnectionHandler.INSTANCE.GetClient(chat.accountBareJid);
+            if (ccHandler is null)
+            {
+                return null;
+            }
             Client client = ccHandler.client;
             ChatDataTemplate chatDataTemplate = new ChatDataTemplate(chat, client);
             chatDataTemplate.LoadLastMsg(ctx);

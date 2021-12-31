@@ -219,7 +219,7 @@ namespace Manager.Classes
                     if (newChat)
                     {
                         // We failed to decrypt, so this chat could be spam. Delete it again...
-                        DataCache.INSTANCE.DeleteChat(chat, false, false);
+                        DataCache.INSTANCE.DeleteChat(chat, false);
                         Logger.Debug($"Deleting chat '{chat.bareJid}' again, since decrypting the initial OMEMO message failed.");
                     }
                     return;

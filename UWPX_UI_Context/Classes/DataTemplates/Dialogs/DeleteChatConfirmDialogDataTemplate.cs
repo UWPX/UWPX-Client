@@ -7,12 +7,6 @@ namespace UWPX_UI_Context.Classes.DataTemplates.Dialogs
     {
         //--------------------------------------------------------Attributes:-----------------------------------------------------------------\\
         #region --Attributes--
-        private bool _KeepChatMessages;
-        public bool KeepChatMessages
-        {
-            get => _KeepChatMessages;
-            set => SetProperty(ref _KeepChatMessages, value);
-        }
         private bool _RemoveFromRoster;
         public bool RemoveFromRoster
         {
@@ -37,7 +31,6 @@ namespace UWPX_UI_Context.Classes.DataTemplates.Dialogs
         #region --Constructors--
         public DeleteChatConfirmDialogDataTemplate(ChatModel chat)
         {
-            KeepChatMessages = false;
             Confirmed = false;
             RemoveFromRoster = chat.chatType == ChatType.CHAT;
             RemoveFromRosterVisible = RemoveFromRoster && chat.inRoster;

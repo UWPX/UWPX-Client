@@ -142,7 +142,7 @@ namespace UWPX_UI_Context.Classes.DataContext.Controls
                         }
                     }
 
-                    DataCache.INSTANCE.DeleteChat(chat.Chat, confirmDialogModel.KeepChatMessages, confirmDialogModel.RemoveFromRoster);
+                    DataCache.INSTANCE.DeleteChat(chat.Chat, confirmDialogModel.RemoveFromRoster);
                 });
             }
         }
