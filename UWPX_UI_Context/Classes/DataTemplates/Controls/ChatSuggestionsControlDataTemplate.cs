@@ -109,11 +109,11 @@ namespace UWPX_UI_Context.Classes.DataTemplates.Controls
                     SUGGESTIONS.Clear();
                     return;
                 }
-                IEnumerable<ChatDataTemplate> chats;
+                List<ChatDataTemplate> chats;
                 using (SemaLock semaLock = DataCache.INSTANCE.NewChatSemaLock())
                 {
                     semaLock.Wait();
-                    chats = DataCache.INSTANCE.CHATS.Where(c => !c.Chat.isChatActive && string.Equals(c.Client.dbAccount.bareJid, client.dbAccount.bareJid));
+                    chats = DataCache.INSTANCE.CHATS.Where(c => !c.Chat.isChatActive && string.Equals(c.Client.dbAccount.bareJid, client.dbAccount.bareJid)).ToList();
                 }
                 SUGGESTIONS.Clear();
                 SUGGESTIONS.AddRange(chats);
