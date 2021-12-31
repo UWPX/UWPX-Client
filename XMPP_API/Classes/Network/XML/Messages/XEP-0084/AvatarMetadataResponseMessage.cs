@@ -1,5 +1,4 @@
 ﻿using System.Xml;
-using XMPP_API.Classes.Exceptions;
 using XMPP_API.Classes.Network.XML.Messages.XEP_0060;
 
 namespace XMPP_API.Classes.Network.XML.Messages.XEP_0084
@@ -36,10 +35,6 @@ namespace XMPP_API.Classes.Network.XML.Messages.XEP_0084
         protected override void loadContent(XmlNodeList content)
         {
             METADATA.Load(content);
-            if (string.IsNullOrEmpty(METADATA.HASH))
-            {
-                throw new XMPPPParserException($"{nameof(AvatarMetadataEventMessage)} requires a hash inside the metadata.");
-            }
         }
 
         #endregion

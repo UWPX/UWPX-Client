@@ -19,9 +19,11 @@ namespace Storage.Classes.Models.Account
         [NotMapped]
         private int _id;
 
+
         /// <summary>
         /// The <see cref="ImageModel"/> representing the contact's XEP-0084 avatar.
         /// </summary>
+        [ForeignKey(nameof(avatarId))]
         public ImageModel avatar
         {
             get => _avatar;
@@ -29,6 +31,7 @@ namespace Storage.Classes.Models.Account
         }
         [NotMapped]
         private ImageModel _avatar;
+        public int? avatarId { get; set; }
 
         /// <summary>
         /// When was the last time the avatar got updated.

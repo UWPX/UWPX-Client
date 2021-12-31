@@ -241,7 +241,7 @@ namespace Manager.Classes
                 return true;
             }
 
-            ImageModel avatar = await RequestAvatarAsync(metadata.HASH, metadata.INFOS[0].TYPE, bareJid, logBareJid);
+            ImageModel avatar = string.IsNullOrEmpty(metadata.HASH) ? null : await RequestAvatarAsync(metadata.HASH, metadata.INFOS[0].TYPE, bareJid, logBareJid);
             // Did the avatar actually change:
             if (contactInfo.avatar != avatar && (avatar is null || !avatar.Equals(contactInfo.avatar)))
             {
@@ -255,12 +255,10 @@ namespace Manager.Classes
                     contactInfo.avatar = avatar;
                     contactInfo.lastAvatarUpdate = DateTime.Now;
                     ctx.Update(contactInfo);
-                    ctx.SaveChanges(); // To prevent a FOREIGEN KEY constraint exception this order is required
 
                     if (!(oldAvatar is null))
                     {
-
-                        ctx.SaveChanges();
+                        ctx.SaveChanges(); // To prevent a FOREIGEN KEY constraint exception this order is required
                         ctx.Remove(oldAvatar);
                     }
                 }

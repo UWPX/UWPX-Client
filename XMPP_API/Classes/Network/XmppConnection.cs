@@ -443,14 +443,14 @@ namespace XMPP_API.Classes.Network
         private async Task ParseMessageAsync(string data)
         {
             // Parse message:
-            List<AbstractMessage> messages = null;
+            List<AbstractMessage> messages;
             try
             {
                 messages = PARSER.parseMessages(ref data);
             }
             catch (Exception e)
             {
-                Logger.Error("[XMPPConnection2]: Error during message parsing." + e);
+                Logger.Error("[XMPPConnection2]: Error during message parsing.", e);
                 return;
             }
 

@@ -188,7 +188,7 @@ namespace Storage.Classes.Contexts
             // Disable cascade deletion since we handle it by our own:
             foreach (IMutableForeignKey foreignKey in modelBuilder.Model.GetEntityTypes().SelectMany(e => e.GetForeignKeys()))
             {
-                foreignKey.DeleteBehavior = DeleteBehavior.Restrict;
+                foreignKey.DeleteBehavior = DeleteBehavior.NoAction;
             }
         }
 
