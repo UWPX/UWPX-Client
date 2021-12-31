@@ -207,7 +207,11 @@ namespace UWPX_UI_Context.Classes.DataContext.Dialogs
 
         private async Task<bool> PublishAvatarAsync()
         {
-            SoftwareBitmap img = await MODEL.Image.GetSoftwareBitmapAsync();
+            SoftwareBitmap img = null;
+            if (MODEL.Image is not null)
+            {
+                img = await MODEL.Image?.GetSoftwareBitmapAsync();
+            }
             if (img is null)
             {
                 return await PublishMetadataAsync(null);
