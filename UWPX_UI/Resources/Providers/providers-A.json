@@ -1,131 +1,303 @@
-﻿[
-  {
-    "jid": "chapril.org",
-    "website": {
-      "fr": "https://chapril.org/xmpp"
-    },
-    "company": false,
-    "passwordReset": {},
-    "inBandRegistration": true,
-    "registrationWebPage": {},
-    "ratingXmppComplianceTester": 100,
-    "ratingImObservatoryClientToServer": "A",
-    "ratingImObservatoryServerToServer": "A",
-    "maximumHttpFileUploadFileSize": 250,
-    "maximumHttpFileUploadTotalSize": 500,
-    "maximumHttpFileUploadStorageTime": 380,
-    "maximumMessageArchiveManagementStorageTime": 0,
-    "professionalHosting": true,
-    "freeOfCharge": true,
-    "legalNotice": {
-      "fr": "https://chapril.org/cgu"
-    },
-    "serverLocations": [
-      "de"
-    ],
-    "groupChatSupport": {
-      "fr": [
-        "chapril@muc.chapril.org"
-      ]
-    },
-    "chatSupport": {},
-    "emailSupport": {
-      "fr": [
-        "xmpp-support@chapril.org"
-      ]
-    },
-    "onlineSince": "2020-03-08"
-  },
-  {
-    "jid": "lightwitch.org",
-    "website": {
-      "en": "https://lightwitch.org"
-    },
-    "company": false,
-    "passwordReset": {
-      "en": "https://lightwitch.org/xmpp/password"
-    },
-    "inBandRegistration": true,
-    "registrationWebPage": {
-      "en": "https://lightwitch.org/xmpp/register"
-    },
-    "ratingXmppComplianceTester": 100,
-    "ratingImObservatoryClientToServer": "A",
-    "ratingImObservatoryServerToServer": "A",
-    "maximumHttpFileUploadFileSize": 1024,
-    "maximumHttpFileUploadTotalSize": 0,
-    "maximumHttpFileUploadStorageTime": 7,
-    "maximumMessageArchiveManagementStorageTime": 30,
-    "professionalHosting": true,
-    "freeOfCharge": true,
-    "legalNotice": {
-      "en": "https://lightwitch.org/im-service/tos"
-    },
-    "serverLocations": [
-      "it",
-      "us"
-    ],
-    "groupChatSupport": {
-      "en": [
-        "support@conference.lightwitch.org"
-      ]
-    },
-    "chatSupport": {},
-    "emailSupport": {},
-    "onlineSince": "2017-11-03"
-  },
-  {
-    "jid": "magicbroccoli.de",
-    "website": {
-      "en": "https://magicbroccoli.de"
-    },
-    "company": false,
-    "passwordReset": {
-      "en": "https://magicbroccoli.de/register/"
-    },
-    "inBandRegistration": true,
-    "registrationWebPage": {
-      "en": "https://magicbroccoli.de/register/"
-    },
-    "ratingXmppComplianceTester": 100,
-    "ratingImObservatoryClientToServer": "A",
-    "ratingImObservatoryServerToServer": "A",
-    "maximumHttpFileUploadFileSize": 30,
-    "maximumHttpFileUploadTotalSize": 0,
-    "maximumHttpFileUploadStorageTime": 30,
-    "maximumMessageArchiveManagementStorageTime": 90,
-    "professionalHosting": true,
-    "freeOfCharge": true,
-    "legalNotice": {
-      "de": "https://magicbroccoli.de/datenschutz/"
-    },
-    "serverLocations": [
-      "de"
-    ],
-    "groupChatSupport": {
-      "de": [
-        "lobby@conference.magicbroccoli.de"
-      ],
-      "en": [
-        "lobby@conference.magicbroccoli.de"
-      ]
-    },
-    "chatSupport": {
-      "de": [
-        "broccoli@magicbroccoli.de"
-      ],
-      "en": [
-        "broccoli@magicbroccoli.de"
-      ]
-    },
-    "emailSupport": {
-      "de": [
-        "nico@magicbroccoli.de"
-      ],
-      "en": [
-        "nico@magicbroccoli.de"
-      ]
-    },
-    "onlineSince": "2017-06-20"
-  }
+[
+	{
+		"jid": "chapril.org",
+		"website": {
+			"fr": "https://chapril.org/xmpp"
+		},
+		"busFactor": -1,
+		"company": false,
+		"passwordReset": {},
+		"inBandRegistration": true,
+		"registrationWebPage": {},
+		"ratingXmppComplianceTester": 100,
+		"ratingImObservatoryClientToServer": "A",
+		"ratingImObservatoryServerToServer": "A",
+		"maximumHttpFileUploadFileSize": 250,
+		"maximumHttpFileUploadTotalSize": 500,
+		"maximumHttpFileUploadStorageTime": 380,
+		"maximumMessageArchiveManagementStorageTime": 0,
+		"professionalHosting": true,
+		"freeOfCharge": true,
+		"legalNotice": {
+			"fr": "https://chapril.org/cgu"
+		},
+		"serverLocations": [
+			"de"
+		],
+		"groupChatSupport": {
+			"fr": [
+				"chapril@muc.chapril.org"
+			]
+		},
+		"chatSupport": {},
+		"emailSupport": {
+			"fr": [
+				"xmpp-support@chapril.org"
+			]
+		},
+		"onlineSince": "2020-03-08"
+	},
+	{
+		"jid": "hookipa.net",
+		"website": {
+			"de": "https://hookipa.net",
+			"en": "https://hookipa.net/en/front-page/"
+		},
+		"busFactor": 1,
+		"company": false,
+		"passwordReset": {},
+		"inBandRegistration": true,
+		"registrationWebPage": {
+			"en": "https://hookipa.net/register/new"
+		},
+		"ratingXmppComplianceTester": 100,
+		"ratingImObservatoryClientToServer": "A",
+		"ratingImObservatoryServerToServer": "A",
+		"maximumHttpFileUploadFileSize": 100,
+		"maximumHttpFileUploadTotalSize": 0,
+		"maximumHttpFileUploadStorageTime": 30,
+		"maximumMessageArchiveManagementStorageTime": 365,
+		"professionalHosting": true,
+		"freeOfCharge": true,
+		"legalNotice": {
+			"de": "https://hookipa.net/impressum/"
+		},
+		"serverLocations": [
+			"de"
+		],
+		"groupChatSupport": {
+			"de": [
+				"support@chat.hookipa.net"
+			],
+			"en": [
+				"support@chat.hookipa.net"
+			]
+		},
+		"chatSupport": {},
+		"emailSupport": {},
+		"onlineSince": "2008-05-28"
+	},
+	{
+		"jid": "jabbers.one",
+		"website": {
+			"de": "https://jabbers.one/de/",
+			"en": "https://jabbers.one/en/"
+		},
+		"busFactor": -1,
+		"company": false,
+		"passwordReset": {},
+		"inBandRegistration": true,
+		"registrationWebPage": {
+			"de": "https://jabbers.one/de/registrieren.php",
+			"en": "https://jabbers.one/en/register.php"
+		},
+		"ratingXmppComplianceTester": 100,
+		"ratingImObservatoryClientToServer": "A",
+		"ratingImObservatoryServerToServer": "A",
+		"maximumHttpFileUploadFileSize": 50,
+		"maximumHttpFileUploadTotalSize": 200,
+		"maximumHttpFileUploadStorageTime": 10,
+		"maximumMessageArchiveManagementStorageTime": 30,
+		"professionalHosting": true,
+		"freeOfCharge": true,
+		"legalNotice": {
+			"de": "https://www.jabbers.one/de/impressum.php",
+			"en": "https://www.jabbers.one/en/site_notice.php"
+		},
+		"serverLocations": [
+			"de"
+		],
+		"groupChatSupport": {
+			"de": [
+				"support@conference.jabbers.one"
+			],
+			"en": [
+				"support@conference.jabbers.one"
+			]
+		},
+		"chatSupport": {},
+		"emailSupport": {
+			"de": [
+				"info@jabbers.one"
+			],
+			"en": [
+				"info@jabbers.one"
+			]
+		},
+		"onlineSince": "2014-04-28"
+	},
+	{
+		"jid": "lightwitch.org",
+		"website": {
+			"en": "https://lightwitch.org"
+		},
+		"busFactor": -1,
+		"company": false,
+		"passwordReset": {
+			"en": "https://lightwitch.org/xmpp/password"
+		},
+		"inBandRegistration": true,
+		"registrationWebPage": {
+			"en": "https://lightwitch.org/xmpp/register"
+		},
+		"ratingXmppComplianceTester": 100,
+		"ratingImObservatoryClientToServer": "A",
+		"ratingImObservatoryServerToServer": "A",
+		"maximumHttpFileUploadFileSize": 1024,
+		"maximumHttpFileUploadTotalSize": 0,
+		"maximumHttpFileUploadStorageTime": 7,
+		"maximumMessageArchiveManagementStorageTime": 30,
+		"professionalHosting": true,
+		"freeOfCharge": true,
+		"legalNotice": {
+			"en": "https://lightwitch.org/im-service/tos"
+		},
+		"serverLocations": [
+			"it",
+			"us"
+		],
+		"groupChatSupport": {
+			"en": [
+				"support@conference.lightwitch.org"
+			]
+		},
+		"chatSupport": {},
+		"emailSupport": {},
+		"onlineSince": "2017-11-03"
+	},
+	{
+		"jid": "magicbroccoli.de",
+		"website": {
+			"en": "https://magicbroccoli.de"
+		},
+		"busFactor": -1,
+		"company": false,
+		"passwordReset": {
+			"en": "https://magicbroccoli.de/register/"
+		},
+		"inBandRegistration": true,
+		"registrationWebPage": {
+			"en": "https://magicbroccoli.de/register/"
+		},
+		"ratingXmppComplianceTester": 100,
+		"ratingImObservatoryClientToServer": "A",
+		"ratingImObservatoryServerToServer": "A",
+		"maximumHttpFileUploadFileSize": 30,
+		"maximumHttpFileUploadTotalSize": 0,
+		"maximumHttpFileUploadStorageTime": 30,
+		"maximumMessageArchiveManagementStorageTime": 90,
+		"professionalHosting": true,
+		"freeOfCharge": true,
+		"legalNotice": {
+			"de": "https://magicbroccoli.de/datenschutz/"
+		},
+		"serverLocations": [
+			"de"
+		],
+		"groupChatSupport": {
+			"de": [
+				"lobby@conference.magicbroccoli.de"
+			],
+			"en": [
+				"lobby@conference.magicbroccoli.de"
+			]
+		},
+		"chatSupport": {
+			"de": [
+				"broccoli@magicbroccoli.de"
+			],
+			"en": [
+				"broccoli@magicbroccoli.de"
+			]
+		},
+		"emailSupport": {
+			"de": [
+				"nico@magicbroccoli.de"
+			],
+			"en": [
+				"nico@magicbroccoli.de"
+			]
+		},
+		"onlineSince": "2017-06-20"
+	},
+	{
+		"jid": "nixnet.services",
+		"website": {
+			"en": "https://docs.nixnet.services/XMPP"
+		},
+		"busFactor": 4,
+		"company": false,
+		"passwordReset": {},
+		"inBandRegistration": true,
+		"registrationWebPage": {
+			"en": "https://xmpp.nixnet.services/new/"
+		},
+		"ratingXmppComplianceTester": 100,
+		"ratingImObservatoryClientToServer": "A",
+		"ratingImObservatoryServerToServer": "A",
+		"maximumHttpFileUploadFileSize": 100,
+		"maximumHttpFileUploadTotalSize": 1000,
+		"maximumHttpFileUploadStorageTime": 14,
+		"maximumMessageArchiveManagementStorageTime": 0,
+		"professionalHosting": true,
+		"freeOfCharge": true,
+		"legalNotice": {
+			"en": "https://docs.nixnet.services/XMPP/Terms"
+		},
+		"serverLocations": [
+			"fi"
+		],
+		"groupChatSupport": {
+			"en": [
+				"nixnet@muc.nixnet.services"
+			]
+		},
+		"chatSupport": {
+			"en": [
+				"support@nixnet.services"
+			]
+		},
+		"emailSupport": {
+			"en": [
+				"support@nixnet.services",
+				"amolith@nixnet.services"
+			]
+		},
+		"onlineSince": "2019-01-08"
+	},
+	{
+		"jid": "sure.im",
+		"website": {
+			"en": "https://sure.im"
+		},
+		"company": true,
+		"passwordReset": {
+			"en": "https://sure.im/rest/user/resetPassword"
+		},
+		"inBandRegistration": true,
+		"registrationWebPage": {},
+		"ratingXmppComplianceTester": 100,
+		"ratingImObservatoryClientToServer": "A",
+		"ratingImObservatoryServerToServer": "A",
+		"maximumHttpFileUploadFileSize": 20,
+		"maximumHttpFileUploadTotalSize": 0,
+		"maximumHttpFileUploadStorageTime": 365,
+		"maximumMessageArchiveManagementStorageTime": 365,
+		"professionalHosting": true,
+		"freeOfCharge": true,
+		"legalNotice": {
+			"en": "https://sure.im/terms.txt"
+		},
+		"serverLocations": [
+			"us"
+		],
+		"groupChatSupport": {
+			"en": [
+				"tigase@muc.tigase.org"
+			]
+		},
+		"chatSupport": {},
+		"emailSupport": {},
+		"onlineSince": "2009-12-31"
+	}
 ]

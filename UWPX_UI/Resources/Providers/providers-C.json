@@ -1,591 +1,894 @@
-﻿[
-  {
-    "jid": "anoxinon.me",
-    "website": {
-      "de": "https://anoxinon.de/dienste/anoxinonmessenger/"
-    },
-    "company": false,
-    "passwordReset": {},
-    "inBandRegistration": false,
-    "registrationWebPage": {
-      "en": "https://xmpp.anoxinon.me/register/new"
-    },
-    "ratingXmppComplianceTester": 100,
-    "ratingImObservatoryClientToServer": "A",
-    "ratingImObservatoryServerToServer": "A",
-    "maximumHttpFileUploadFileSize": 25,
-    "maximumHttpFileUploadTotalSize": -1,
-    "maximumHttpFileUploadStorageTime": 14,
-    "maximumMessageArchiveManagementStorageTime": 14,
-    "professionalHosting": true,
-    "freeOfCharge": true,
-    "legalNotice": {
-      "de": "https://anoxinon.de/impressum/index.html"
-    },
-    "serverLocations": [
-      "de"
-    ],
-    "groupChatSupport": {
-      "de": [
-        "anoxinon@conference.anoxinon.me"
-      ]
-    },
-    "chatSupport": {},
-    "emailSupport": {
-      "de": [
-        "postfach@anoxinon.de"
-      ]
-    },
-    "onlineSince": "2018-10-04"
-  },
-  {
-    "jid": "chapril.org",
-    "website": {
-      "fr": "https://chapril.org/xmpp"
-    },
-    "company": false,
-    "passwordReset": {},
-    "inBandRegistration": true,
-    "registrationWebPage": {},
-    "ratingXmppComplianceTester": 100,
-    "ratingImObservatoryClientToServer": "A",
-    "ratingImObservatoryServerToServer": "A",
-    "maximumHttpFileUploadFileSize": 250,
-    "maximumHttpFileUploadTotalSize": 500,
-    "maximumHttpFileUploadStorageTime": 380,
-    "maximumMessageArchiveManagementStorageTime": 0,
-    "professionalHosting": true,
-    "freeOfCharge": true,
-    "legalNotice": {
-      "fr": "https://chapril.org/cgu"
-    },
-    "serverLocations": [
-      "de"
-    ],
-    "groupChatSupport": {
-      "fr": [
-        "chapril@muc.chapril.org"
-      ]
-    },
-    "chatSupport": {},
-    "emailSupport": {
-      "fr": [
-        "xmpp-support@chapril.org"
-      ]
-    },
-    "onlineSince": "2020-03-08"
-  },
-  {
-    "jid": "conversations.im",
-    "website": {
-      "en": "https://account.conversations.im"
-    },
-    "company": true,
-    "passwordReset": {
-      "en": "https://account.conversations.im/password-recovery"
-    },
-    "inBandRegistration": true,
-    "registrationWebPage": {},
-    "ratingXmppComplianceTester": 100,
-    "ratingImObservatoryClientToServer": "A",
-    "ratingImObservatoryServerToServer": "A",
-    "maximumHttpFileUploadFileSize": -1,
-    "maximumHttpFileUploadTotalSize": -1,
-    "maximumHttpFileUploadStorageTime": 90,
-    "maximumMessageArchiveManagementStorageTime": 90,
-    "professionalHosting": true,
-    "freeOfCharge": false,
-    "legalNotice": {
-      "en": "https://account.conversations.im/privacy"
-    },
-    "serverLocations": [],
-    "groupChatSupport": {
-      "en": [
-        "conversations@conference.siacs.eu"
-      ]
-    },
-    "chatSupport": {},
-    "emailSupport": {
-      "en": [
-        "support@conversations.im"
-      ]
-    },
-    "onlineSince": "2014-12-31"
-  },
-  {
-    "jid": "dismail.de",
-    "website": {
-      "en": "https://dismail.de"
-    },
-    "company": false,
-    "passwordReset": {},
-    "inBandRegistration": false,
-    "registrationWebPage": {
-      "en": "https://dismail.de/register.html"
-    },
-    "ratingXmppComplianceTester": 100,
-    "ratingImObservatoryClientToServer": "A",
-    "ratingImObservatoryServerToServer": "A",
-    "maximumHttpFileUploadFileSize": 50,
-    "maximumHttpFileUploadTotalSize": -1,
-    "maximumHttpFileUploadStorageTime": 31,
-    "maximumMessageArchiveManagementStorageTime": 7,
-    "professionalHosting": true,
-    "freeOfCharge": true,
-    "legalNotice": {
-      "de": "https://dismail.de/impressum.html"
-    },
-    "serverLocations": [
-      "de"
-    ],
-    "groupChatSupport": {
-      "en": [
-        "support@rooms.dismail.de"
-      ]
-    },
-    "chatSupport": {
-      "en": [
-        "support@dismail.de"
-      ]
-    },
-    "emailSupport": {
-      "en": [
-        "support@dismail.de"
-      ]
-    },
-    "onlineSince": "2015-12-31"
-  },
-  {
-    "jid": "jabber.de",
-    "website": {
-      "de": "https://www.jabber.de"
-    },
-    "company": false,
-    "passwordReset": {
-      "de": "https://www.jabber.de/support/"
-    },
-    "inBandRegistration": true,
-    "registrationWebPage": {
-      "de": "https://www.jabber.de/anmeldung/"
-    },
-    "ratingXmppComplianceTester": 100,
-    "ratingImObservatoryClientToServer": "A",
-    "ratingImObservatoryServerToServer": "A",
-    "maximumHttpFileUploadFileSize": 10,
-    "maximumHttpFileUploadTotalSize": -1,
-    "maximumHttpFileUploadStorageTime": 7,
-    "maximumMessageArchiveManagementStorageTime": 14,
-    "professionalHosting": true,
-    "freeOfCharge": true,
-    "legalNotice": {
-      "de": "https://www.jabber.de/impressum/"
-    },
-    "serverLocations": [
-      "de"
-    ],
-    "groupChatSupport": {
-      "de": [
-        "support@conference.jabber.de"
-      ]
-    },
-    "chatSupport": {},
-    "emailSupport": {
-      "de": [
-        "webmaster@jabber.de"
-      ]
-    },
-    "onlineSince": "2012-02-16"
-  },
-  {
-    "jid": "jabber.fr",
-    "website": {
-      "fr": "https://jabberfr.org"
-    },
-    "company": false,
-    "passwordReset": {},
-    "inBandRegistration": true,
-    "registrationWebPage": {},
-    "ratingXmppComplianceTester": 95,
-    "ratingImObservatoryClientToServer": "A",
-    "ratingImObservatoryServerToServer": "A",
-    "maximumHttpFileUploadFileSize": 10,
-    "maximumHttpFileUploadTotalSize": 0,
-    "maximumHttpFileUploadStorageTime": 0,
-    "maximumMessageArchiveManagementStorageTime": 14,
-    "professionalHosting": true,
-    "freeOfCharge": true,
-    "legalNotice": {
-      "fr": "https://wiki.jabberfr.org/CGU"
-    },
-    "serverLocations": [
-      "fr"
-    ],
-    "groupChatSupport": {
-      "fr": [
-        "jabberfr@chat.jabberfr.org"
-      ]
-    },
-    "chatSupport": {
-      "fr": [
-        "linkmauve@linkmauve.fr",
-        "mathieui@mathieui.net"
-      ]
-    },
-    "emailSupport": {
-      "fr": [
-        "admins@jabberfr.org"
-      ]
-    },
-    "onlineSince": "2003-10-08"
-  },
-  {
-    "jid": "jabber.hot-chilli.net",
-    "website": {
-      "de": "https://jabber.hot-chilli.net/de/",
-      "en": "https://jabber.hot-chilli.net"
-    },
-    "company": true,
-    "passwordReset": {
-      "en": "https://jabber.hot-chilli.net/forms/resetpw/"
-    },
-    "inBandRegistration": false,
-    "registrationWebPage": {
-      "en": "https://jabber.hot-chilli.net/forms/create/"
-    },
-    "ratingXmppComplianceTester": 100,
-    "ratingImObservatoryClientToServer": "A",
-    "ratingImObservatoryServerToServer": "A",
-    "maximumHttpFileUploadFileSize": 512,
-    "maximumHttpFileUploadTotalSize": 1000,
-    "maximumHttpFileUploadStorageTime": 31,
-    "maximumMessageArchiveManagementStorageTime": 31,
-    "professionalHosting": true,
-    "freeOfCharge": true,
-    "legalNotice": {
-      "de": "https://jabber.hot-chilli.net/de/impressum/",
-      "en": "https://jabber.hot-chilli.net/legal/"
-    },
-    "serverLocations": [
-      "de"
-    ],
-    "groupChatSupport": {
-      "de": [
-        "support@conference.jabber.hot-chilli.net"
-      ],
-      "en": [
-        "support@conference.jabber.hot-chilli.net"
-      ]
-    },
-    "chatSupport": {
-      "de": [
-        "roi@jabber.hot-chilli.net",
-        "beorn@jabber.hot-chilli.net"
-      ],
-      "en": [
-        "roi@jabber.hot-chilli.net",
-        "beorn@jabber.hot-chilli.net"
-      ]
-    },
-    "emailSupport": {},
-    "onlineSince": "2005-03-19"
-  },
-  {
-    "jid": "jabbers.one",
-    "website": {
-      "de": "https://jabbers.one/de/",
-      "en": "https://jabbers.one/en/"
-    },
-    "company": false,
-    "passwordReset": {},
-    "inBandRegistration": false,
-    "registrationWebPage": {
-      "de": "https://jabbers.one/de/registrieren.php",
-      "en": "https://jabbers.one/en/register.php"
-    },
-    "ratingXmppComplianceTester": 100,
-    "ratingImObservatoryClientToServer": "A",
-    "ratingImObservatoryServerToServer": "A",
-    "maximumHttpFileUploadFileSize": 50,
-    "maximumHttpFileUploadTotalSize": 200,
-    "maximumHttpFileUploadStorageTime": 10,
-    "maximumMessageArchiveManagementStorageTime": 30,
-    "professionalHosting": true,
-    "freeOfCharge": true,
-    "legalNotice": {
-      "de": "https://www.jabbers.one/de/impressum.php",
-      "en": "https://www.jabbers.one/en/site_notice.php"
-    },
-    "serverLocations": [
-      "de"
-    ],
-    "groupChatSupport": {
-      "de": [
-        "support@conference.jabbers.one"
-      ],
-      "en": [
-        "support@conference.jabbers.one"
-      ]
-    },
-    "chatSupport": {},
-    "emailSupport": {
-      "de": [
-        "info@jabbers.one"
-      ],
-      "en": [
-        "info@jabbers.one"
-      ]
-    },
-    "onlineSince": "2014-04-28"
-  },
-  {
-    "jid": "lightwitch.org",
-    "website": {
-      "en": "https://lightwitch.org"
-    },
-    "company": false,
-    "passwordReset": {
-      "en": "https://lightwitch.org/xmpp/password"
-    },
-    "inBandRegistration": true,
-    "registrationWebPage": {
-      "en": "https://lightwitch.org/xmpp/register"
-    },
-    "ratingXmppComplianceTester": 100,
-    "ratingImObservatoryClientToServer": "A",
-    "ratingImObservatoryServerToServer": "A",
-    "maximumHttpFileUploadFileSize": 1024,
-    "maximumHttpFileUploadTotalSize": 0,
-    "maximumHttpFileUploadStorageTime": 7,
-    "maximumMessageArchiveManagementStorageTime": 30,
-    "professionalHosting": true,
-    "freeOfCharge": true,
-    "legalNotice": {
-      "en": "https://lightwitch.org/im-service/tos"
-    },
-    "serverLocations": [
-      "it",
-      "us"
-    ],
-    "groupChatSupport": {
-      "en": [
-        "support@conference.lightwitch.org"
-      ]
-    },
-    "chatSupport": {},
-    "emailSupport": {},
-    "onlineSince": "2017-11-03"
-  },
-  {
-    "jid": "macaw.me",
-    "website": {
-      "en": "https://macaw.me"
-    },
-    "company": false,
-    "passwordReset": {},
-    "inBandRegistration": true,
-    "registrationWebPage": {},
-    "ratingXmppComplianceTester": 100,
-    "ratingImObservatoryClientToServer": "A",
-    "ratingImObservatoryServerToServer": "A",
-    "maximumHttpFileUploadFileSize": 100,
-    "maximumHttpFileUploadTotalSize": -1,
-    "maximumHttpFileUploadStorageTime": -1,
-    "maximumMessageArchiveManagementStorageTime": 31,
-    "professionalHosting": true,
-    "freeOfCharge": true,
-    "legalNotice": {},
-    "serverLocations": [
-      "us"
-    ],
-    "groupChatSupport": {},
-    "chatSupport": {},
-    "emailSupport": {},
-    "onlineSince": "2019-12-31"
-  },
-  {
-    "jid": "magicbroccoli.de",
-    "website": {
-      "en": "https://magicbroccoli.de"
-    },
-    "company": false,
-    "passwordReset": {
-      "en": "https://magicbroccoli.de/register/"
-    },
-    "inBandRegistration": true,
-    "registrationWebPage": {
-      "en": "https://magicbroccoli.de/register/"
-    },
-    "ratingXmppComplianceTester": 100,
-    "ratingImObservatoryClientToServer": "A",
-    "ratingImObservatoryServerToServer": "A",
-    "maximumHttpFileUploadFileSize": 30,
-    "maximumHttpFileUploadTotalSize": 0,
-    "maximumHttpFileUploadStorageTime": 30,
-    "maximumMessageArchiveManagementStorageTime": 90,
-    "professionalHosting": true,
-    "freeOfCharge": true,
-    "legalNotice": {
-      "de": "https://magicbroccoli.de/datenschutz/"
-    },
-    "serverLocations": [
-      "de"
-    ],
-    "groupChatSupport": {
-      "de": [
-        "lobby@conference.magicbroccoli.de"
-      ],
-      "en": [
-        "lobby@conference.magicbroccoli.de"
-      ]
-    },
-    "chatSupport": {
-      "de": [
-        "broccoli@magicbroccoli.de"
-      ],
-      "en": [
-        "broccoli@magicbroccoli.de"
-      ]
-    },
-    "emailSupport": {
-      "de": [
-        "nico@magicbroccoli.de"
-      ],
-      "en": [
-        "nico@magicbroccoli.de"
-      ]
-    },
-    "onlineSince": "2017-06-20"
-  },
-  {
-    "jid": "openim.de",
-    "website": {
-      "de": "https://openim.de"
-    },
-    "company": false,
-    "passwordReset": {},
-    "inBandRegistration": true,
-    "registrationWebPage": {
-      "de": "https://openim.de/register.html"
-    },
-    "ratingXmppComplianceTester": 95,
-    "ratingImObservatoryClientToServer": "A",
-    "ratingImObservatoryServerToServer": "A",
-    "maximumHttpFileUploadFileSize": -1,
-    "maximumHttpFileUploadTotalSize": -1,
-    "maximumHttpFileUploadStorageTime": 7,
-    "maximumMessageArchiveManagementStorageTime": 28,
-    "professionalHosting": true,
-    "freeOfCharge": true,
-    "legalNotice": {
-      "de": "https://www.openim.de/datenschutz.html"
-    },
-    "serverLocations": [
-      "de"
-    ],
-    "groupChatSupport": {
-      "de": [
-        "support@conference.jabber.de"
-      ]
-    },
-    "chatSupport": {
-      "de": [
-        "sven@openim.de"
-      ]
-    },
-    "emailSupport": {
-      "de": [
-        "support@openim.de"
-      ]
-    },
-    "onlineSince": "2018-12-11"
-  },
-  {
-    "jid": "trashserver.net",
-    "website": {
-      "de": "https://trashserver.net",
-      "en": "https://trashserver.net/en"
-    },
-    "company": false,
-    "passwordReset": {},
-    "inBandRegistration": true,
-    "registrationWebPage": {
-      "de": "https://trashserver.net/registrieren",
-      "en": "https://trashserver.net/en/register"
-    },
-    "ratingXmppComplianceTester": 100,
-    "ratingImObservatoryClientToServer": "A",
-    "ratingImObservatoryServerToServer": "A",
-    "maximumHttpFileUploadFileSize": 100,
-    "maximumHttpFileUploadTotalSize": -1,
-    "maximumHttpFileUploadStorageTime": 28,
-    "maximumMessageArchiveManagementStorageTime": 28,
-    "professionalHosting": true,
-    "freeOfCharge": true,
-    "legalNotice": {
-      "de": "https://trashserver.net/datenschutz",
-      "en": "https://trashserver.net/en/privacy"
-    },
-    "serverLocations": [
-      "de"
-    ],
-    "groupChatSupport": {},
-    "chatSupport": {
-      "de": [
-        "admin@trashserver.net"
-      ],
-      "en": [
-        "admin@trashserver.net"
-      ]
-    },
-    "emailSupport": {
-      "de": [
-        "xmpp@trashserver.net"
-      ],
-      "en": [
-        "xmpp@trashserver.net"
-      ]
-    },
-    "onlineSince": "2012-12-31"
-  },
-  {
-    "jid": "yax.im",
-    "website": {
-      "en": "https://yaxim.org/yax.im/"
-    },
-    "company": false,
-    "passwordReset": {},
-    "inBandRegistration": true,
-    "registrationWebPage": {},
-    "ratingXmppComplianceTester": 85,
-    "ratingImObservatoryClientToServer": "A",
-    "ratingImObservatoryServerToServer": "A",
-    "maximumHttpFileUploadFileSize": 75,
-    "maximumHttpFileUploadTotalSize": 0,
-    "maximumHttpFileUploadStorageTime": 30,
-    "maximumMessageArchiveManagementStorageTime": 14,
-    "professionalHosting": false,
-    "freeOfCharge": true,
-    "legalNotice": {
-      "en": "https://yaxim.org/yax.im/tos/"
-    },
-    "serverLocations": [
-      "de"
-    ],
-    "groupChatSupport": {
-      "en": [
-        "yaxim@chat.yax.im"
-      ]
-    },
-    "chatSupport": {
-      "en": [
-        "georg@yax.im"
-      ]
-    },
-    "emailSupport": {
-      "en": [
-        "georg@yax.im"
-      ]
-    },
-    "onlineSince": "2013-12-27"
-  }
+[
+	{
+		"jid": "anoxinon.me",
+		"website": {
+			"de": "https://anoxinon.de/dienste/anoxinonmessenger/"
+		},
+		"busFactor": -1,
+		"company": false,
+		"passwordReset": {},
+		"inBandRegistration": false,
+		"registrationWebPage": {
+			"en": "https://xmpp.anoxinon.me/register/new"
+		},
+		"ratingXmppComplianceTester": 100,
+		"ratingImObservatoryClientToServer": "A",
+		"ratingImObservatoryServerToServer": "A",
+		"maximumHttpFileUploadFileSize": 25,
+		"maximumHttpFileUploadTotalSize": -1,
+		"maximumHttpFileUploadStorageTime": 14,
+		"maximumMessageArchiveManagementStorageTime": 14,
+		"professionalHosting": true,
+		"freeOfCharge": true,
+		"legalNotice": {
+			"de": "https://anoxinon.de/impressum/index.html"
+		},
+		"serverLocations": [
+			"de"
+		],
+		"groupChatSupport": {
+			"de": [
+				"anoxinon@conference.anoxinon.me"
+			]
+		},
+		"chatSupport": {},
+		"emailSupport": {
+			"de": [
+				"postfach@anoxinon.de"
+			]
+		},
+		"onlineSince": "2018-10-04"
+	},
+	{
+		"jid": "chapril.org",
+		"website": {
+			"fr": "https://chapril.org/xmpp"
+		},
+		"busFactor": -1,
+		"company": false,
+		"passwordReset": {},
+		"inBandRegistration": true,
+		"registrationWebPage": {},
+		"ratingXmppComplianceTester": 100,
+		"ratingImObservatoryClientToServer": "A",
+		"ratingImObservatoryServerToServer": "A",
+		"maximumHttpFileUploadFileSize": 250,
+		"maximumHttpFileUploadTotalSize": 500,
+		"maximumHttpFileUploadStorageTime": 380,
+		"maximumMessageArchiveManagementStorageTime": 0,
+		"professionalHosting": true,
+		"freeOfCharge": true,
+		"legalNotice": {
+			"fr": "https://chapril.org/cgu"
+		},
+		"serverLocations": [
+			"de"
+		],
+		"groupChatSupport": {
+			"fr": [
+				"chapril@muc.chapril.org"
+			]
+		},
+		"chatSupport": {},
+		"emailSupport": {
+			"fr": [
+				"xmpp-support@chapril.org"
+			]
+		},
+		"onlineSince": "2020-03-08"
+	},
+	{
+		"jid": "conversations.im",
+		"website": {
+			"en": "https://account.conversations.im"
+		},
+		"busFactor": -1,
+		"company": true,
+		"passwordReset": {
+			"en": "https://account.conversations.im/password-recovery"
+		},
+		"inBandRegistration": true,
+		"registrationWebPage": {},
+		"ratingXmppComplianceTester": 100,
+		"ratingImObservatoryClientToServer": "A",
+		"ratingImObservatoryServerToServer": "A",
+		"maximumHttpFileUploadFileSize": -1,
+		"maximumHttpFileUploadTotalSize": -1,
+		"maximumHttpFileUploadStorageTime": 90,
+		"maximumMessageArchiveManagementStorageTime": 90,
+		"professionalHosting": true,
+		"freeOfCharge": false,
+		"legalNotice": {
+			"en": "https://account.conversations.im/privacy"
+		},
+		"serverLocations": [],
+		"groupChatSupport": {
+			"en": [
+				"conversations@conference.siacs.eu"
+			]
+		},
+		"chatSupport": {},
+		"emailSupport": {
+			"en": [
+				"support@conversations.im"
+			]
+		},
+		"onlineSince": "2014-12-31"
+	},
+	{
+		"jid": "dismail.de",
+		"website": {
+			"en": "https://dismail.de"
+		},
+		"busFactor": 1,
+		"company": false,
+		"passwordReset": {},
+		"inBandRegistration": false,
+		"registrationWebPage": {},
+		"ratingXmppComplianceTester": 100,
+		"ratingImObservatoryClientToServer": "A",
+		"ratingImObservatoryServerToServer": "A",
+		"maximumHttpFileUploadFileSize": 100,
+		"maximumHttpFileUploadTotalSize": -1,
+		"maximumHttpFileUploadStorageTime": 31,
+		"maximumMessageArchiveManagementStorageTime": 7,
+		"professionalHosting": true,
+		"freeOfCharge": true,
+		"legalNotice": {
+			"de": "https://dismail.de/impressum.html"
+		},
+		"serverLocations": [
+			"de"
+		],
+		"groupChatSupport": {
+			"en": [
+				"support@rooms.dismail.de"
+			]
+		},
+		"chatSupport": {
+			"en": [
+				"support@dismail.de"
+			]
+		},
+		"emailSupport": {
+			"en": [
+				"support@dismail.de"
+			]
+		},
+		"onlineSince": "2015-10-29"
+	},
+	{
+		"jid": "disroot.org",
+		"website": {
+			"de": "https://disroot.org/de/services/xmpp",
+			"en": "https://disroot.org/en/services/xmpp",
+			"es": "https://disroot.org/es/services/xmpp",
+			"fr": "https://disroot.org/fr/services/xmpp",
+			"it": "https://disroot.org/it/services/xmpp"
+		},
+		"busFactor": -1,
+		"company": false,
+		"passwordReset": {
+			"en": "https://user.disroot.org/pwm/public/forgottenpassword"
+		},
+		"inBandRegistration": false,
+		"registrationWebPage": {
+			"en": "https://user.disroot.org/pwm/public/newuser"
+		},
+		"ratingXmppComplianceTester": 95,
+		"ratingImObservatoryClientToServer": "A",
+		"ratingImObservatoryServerToServer": "A",
+		"maximumHttpFileUploadFileSize": 10,
+		"maximumHttpFileUploadTotalSize": -1,
+		"maximumHttpFileUploadStorageTime": 90,
+		"maximumMessageArchiveManagementStorageTime": -1,
+		"professionalHosting": true,
+		"freeOfCharge": true,
+		"legalNotice": {
+			"en": "https://disroot.org/en/tos"
+		},
+		"serverLocations": [
+			"nl"
+		],
+		"groupChatSupport": {
+			"de": [
+				"disroot@chat.disroot.org"
+			],
+			"en": [
+				"disroot@chat.disroot.org"
+			],
+			"es": [
+				"disroot@chat.disroot.org"
+			],
+			"fr": [
+				"disroot@chat.disroot.org"
+			],
+			"it": [
+				"disroot@chat.disroot.org"
+			],
+			"ru": [
+				"disroot@chat.disroot.org"
+			]
+		},
+		"chatSupport": {},
+		"emailSupport": {
+			"de": [
+				"support@disroot.org"
+			],
+			"en": [
+				"support@disroot.org"
+			],
+			"es": [
+				"support@disroot.org"
+			],
+			"fr": [
+				"support@disroot.org"
+			],
+			"it": [
+				"support@disroot.org"
+			],
+			"ru": [
+				"support@disroot.org"
+			]
+		},
+		"onlineSince": "2015-04-08"
+	},
+	{
+		"jid": "draugr.de",
+		"website": {
+			"en": "https://www.draugr.de"
+		},
+		"busFactor": -1,
+		"company": false,
+		"passwordReset": {},
+		"inBandRegistration": false,
+		"registrationWebPage": {},
+		"ratingXmppComplianceTester": 100,
+		"ratingImObservatoryClientToServer": "A",
+		"ratingImObservatoryServerToServer": "A",
+		"maximumHttpFileUploadFileSize": -1,
+		"maximumHttpFileUploadTotalSize": -1,
+		"maximumHttpFileUploadStorageTime": -1,
+		"maximumMessageArchiveManagementStorageTime": 21,
+		"professionalHosting": false,
+		"freeOfCharge": true,
+		"legalNotice": {
+			"de": "https://www.draugr.de/nutzungsbedingungen"
+		},
+		"serverLocations": [
+			"de"
+		],
+		"groupChatSupport": {},
+		"chatSupport": {},
+		"emailSupport": {},
+		"onlineSince": "2005-11-21"
+	},
+	{
+		"jid": "hookipa.net",
+		"website": {
+			"de": "https://hookipa.net",
+			"en": "https://hookipa.net/en/front-page/"
+		},
+		"busFactor": 1,
+		"company": false,
+		"passwordReset": {},
+		"inBandRegistration": true,
+		"registrationWebPage": {
+			"en": "https://hookipa.net/register/new"
+		},
+		"ratingXmppComplianceTester": 100,
+		"ratingImObservatoryClientToServer": "A",
+		"ratingImObservatoryServerToServer": "A",
+		"maximumHttpFileUploadFileSize": 100,
+		"maximumHttpFileUploadTotalSize": 0,
+		"maximumHttpFileUploadStorageTime": 30,
+		"maximumMessageArchiveManagementStorageTime": 365,
+		"professionalHosting": true,
+		"freeOfCharge": true,
+		"legalNotice": {
+			"de": "https://hookipa.net/impressum/"
+		},
+		"serverLocations": [
+			"de"
+		],
+		"groupChatSupport": {
+			"de": [
+				"support@chat.hookipa.net"
+			],
+			"en": [
+				"support@chat.hookipa.net"
+			]
+		},
+		"chatSupport": {},
+		"emailSupport": {},
+		"onlineSince": "2008-05-28"
+	},
+	{
+		"jid": "jabber.de",
+		"website": {
+			"de": "https://www.jabber.de"
+		},
+		"busFactor": -1,
+		"company": false,
+		"passwordReset": {
+			"de": "https://www.jabber.de/support/"
+		},
+		"inBandRegistration": true,
+		"registrationWebPage": {
+			"de": "https://www.jabber.de/anmeldung/"
+		},
+		"ratingXmppComplianceTester": 100,
+		"ratingImObservatoryClientToServer": "A",
+		"ratingImObservatoryServerToServer": "A",
+		"maximumHttpFileUploadFileSize": 10,
+		"maximumHttpFileUploadTotalSize": 2000,
+		"maximumHttpFileUploadStorageTime": 7,
+		"maximumMessageArchiveManagementStorageTime": 14,
+		"professionalHosting": true,
+		"freeOfCharge": true,
+		"legalNotice": {
+			"de": "https://www.jabber.de/impressum/"
+		},
+		"serverLocations": [
+			"de"
+		],
+		"groupChatSupport": {
+			"de": [
+				"support@conference.jabber.de"
+			]
+		},
+		"chatSupport": {},
+		"emailSupport": {
+			"de": [
+				"webmaster@jabber.de"
+			]
+		},
+		"onlineSince": "2012-02-16"
+	},
+	{
+		"jid": "jabber.fr",
+		"website": {
+			"fr": "https://jabberfr.org"
+		},
+		"busFactor": -1,
+		"company": false,
+		"passwordReset": {},
+		"inBandRegistration": true,
+		"registrationWebPage": {},
+		"ratingXmppComplianceTester": 95,
+		"ratingImObservatoryClientToServer": "A",
+		"ratingImObservatoryServerToServer": "A",
+		"maximumHttpFileUploadFileSize": 10,
+		"maximumHttpFileUploadTotalSize": 0,
+		"maximumHttpFileUploadStorageTime": 0,
+		"maximumMessageArchiveManagementStorageTime": 14,
+		"professionalHosting": true,
+		"freeOfCharge": true,
+		"legalNotice": {
+			"fr": "https://wiki.jabberfr.org/CGU"
+		},
+		"serverLocations": [
+			"fr"
+		],
+		"groupChatSupport": {
+			"fr": [
+				"jabberfr@chat.jabberfr.org"
+			]
+		},
+		"chatSupport": {
+			"fr": [
+				"linkmauve@linkmauve.fr",
+				"mathieui@mathieui.net"
+			]
+		},
+		"emailSupport": {
+			"fr": [
+				"admins@jabberfr.org"
+			]
+		},
+		"onlineSince": "2003-10-08"
+	},
+	{
+		"jid": "jabber.hot-chilli.net",
+		"website": {
+			"de": "https://jabber.hot-chilli.net/de/",
+			"en": "https://jabber.hot-chilli.net"
+		},
+		"busFactor": -1,
+		"company": true,
+		"passwordReset": {
+			"en": "https://jabber.hot-chilli.net/forms/resetpw/"
+		},
+		"inBandRegistration": false,
+		"registrationWebPage": {
+			"en": "https://jabber.hot-chilli.net/forms/create/"
+		},
+		"ratingXmppComplianceTester": 100,
+		"ratingImObservatoryClientToServer": "A",
+		"ratingImObservatoryServerToServer": "A",
+		"maximumHttpFileUploadFileSize": 512,
+		"maximumHttpFileUploadTotalSize": 1000,
+		"maximumHttpFileUploadStorageTime": 31,
+		"maximumMessageArchiveManagementStorageTime": 31,
+		"professionalHosting": true,
+		"freeOfCharge": true,
+		"legalNotice": {
+			"de": "https://jabber.hot-chilli.net/de/impressum/",
+			"en": "https://jabber.hot-chilli.net/legal/"
+		},
+		"serverLocations": [
+			"de"
+		],
+		"groupChatSupport": {
+			"de": [
+				"support@conference.jabber.hot-chilli.net"
+			],
+			"en": [
+				"support@conference.jabber.hot-chilli.net"
+			]
+		},
+		"chatSupport": {
+			"de": [
+				"roi@jabber.hot-chilli.net",
+				"beorn@jabber.hot-chilli.net"
+			],
+			"en": [
+				"roi@jabber.hot-chilli.net",
+				"beorn@jabber.hot-chilli.net"
+			]
+		},
+		"emailSupport": {},
+		"onlineSince": "2005-03-19"
+	},
+	{
+		"jid": "jabbers.one",
+		"website": {
+			"de": "https://jabbers.one/de/",
+			"en": "https://jabbers.one/en/"
+		},
+		"busFactor": -1,
+		"company": false,
+		"passwordReset": {},
+		"inBandRegistration": true,
+		"registrationWebPage": {
+			"de": "https://jabbers.one/de/registrieren.php",
+			"en": "https://jabbers.one/en/register.php"
+		},
+		"ratingXmppComplianceTester": 100,
+		"ratingImObservatoryClientToServer": "A",
+		"ratingImObservatoryServerToServer": "A",
+		"maximumHttpFileUploadFileSize": 50,
+		"maximumHttpFileUploadTotalSize": 200,
+		"maximumHttpFileUploadStorageTime": 10,
+		"maximumMessageArchiveManagementStorageTime": 30,
+		"professionalHosting": true,
+		"freeOfCharge": true,
+		"legalNotice": {
+			"de": "https://www.jabbers.one/de/impressum.php",
+			"en": "https://www.jabbers.one/en/site_notice.php"
+		},
+		"serverLocations": [
+			"de"
+		],
+		"groupChatSupport": {
+			"de": [
+				"support@conference.jabbers.one"
+			],
+			"en": [
+				"support@conference.jabbers.one"
+			]
+		},
+		"chatSupport": {},
+		"emailSupport": {
+			"de": [
+				"info@jabbers.one"
+			],
+			"en": [
+				"info@jabbers.one"
+			]
+		},
+		"onlineSince": "2014-04-28"
+	},
+	{
+		"jid": "lightwitch.org",
+		"website": {
+			"en": "https://lightwitch.org"
+		},
+		"busFactor": -1,
+		"company": false,
+		"passwordReset": {
+			"en": "https://lightwitch.org/xmpp/password"
+		},
+		"inBandRegistration": true,
+		"registrationWebPage": {
+			"en": "https://lightwitch.org/xmpp/register"
+		},
+		"ratingXmppComplianceTester": 100,
+		"ratingImObservatoryClientToServer": "A",
+		"ratingImObservatoryServerToServer": "A",
+		"maximumHttpFileUploadFileSize": 1024,
+		"maximumHttpFileUploadTotalSize": 0,
+		"maximumHttpFileUploadStorageTime": 7,
+		"maximumMessageArchiveManagementStorageTime": 30,
+		"professionalHosting": true,
+		"freeOfCharge": true,
+		"legalNotice": {
+			"en": "https://lightwitch.org/im-service/tos"
+		},
+		"serverLocations": [
+			"it",
+			"us"
+		],
+		"groupChatSupport": {
+			"en": [
+				"support@conference.lightwitch.org"
+			]
+		},
+		"chatSupport": {},
+		"emailSupport": {},
+		"onlineSince": "2017-11-03"
+	},
+	{
+		"jid": "macaw.me",
+		"website": {
+			"en": "https://macaw.me"
+		},
+		"busFactor": -1,
+		"company": false,
+		"passwordReset": {
+			"en": "https://macaw.me/services/xmpp.html"
+		},
+		"inBandRegistration": true,
+		"registrationWebPage": {},
+		"ratingXmppComplianceTester": 100,
+		"ratingImObservatoryClientToServer": "A",
+		"ratingImObservatoryServerToServer": "A",
+		"maximumHttpFileUploadFileSize": 100,
+		"maximumHttpFileUploadTotalSize": 0,
+		"maximumHttpFileUploadStorageTime": 31,
+		"maximumMessageArchiveManagementStorageTime": 31,
+		"professionalHosting": true,
+		"freeOfCharge": true,
+		"legalNotice": {},
+		"serverLocations": [
+			"us"
+		],
+		"groupChatSupport": {
+			"ru": [
+				"support@conference.macaw.me"
+			],
+			"en": [
+				"support@conference.macaw.me"
+			]
+		},
+		"chatSupport": {
+			"ru": [
+				"administrator@macaw.me"
+			],
+			"en": [
+				"administrator@macaw.me"
+			]
+		},
+		"emailSupport": {
+			"ru": [
+				"administrator@macaw.me"
+			],
+			"en": [
+				"administrator@macaw.me"
+			]
+		},
+		"onlineSince": "2019-03-14"
+	},
+	{
+		"jid": "magicbroccoli.de",
+		"website": {
+			"en": "https://magicbroccoli.de"
+		},
+		"busFactor": -1,
+		"company": false,
+		"passwordReset": {
+			"en": "https://magicbroccoli.de/register/"
+		},
+		"inBandRegistration": true,
+		"registrationWebPage": {
+			"en": "https://magicbroccoli.de/register/"
+		},
+		"ratingXmppComplianceTester": 100,
+		"ratingImObservatoryClientToServer": "A",
+		"ratingImObservatoryServerToServer": "A",
+		"maximumHttpFileUploadFileSize": 30,
+		"maximumHttpFileUploadTotalSize": 0,
+		"maximumHttpFileUploadStorageTime": 30,
+		"maximumMessageArchiveManagementStorageTime": 90,
+		"professionalHosting": true,
+		"freeOfCharge": true,
+		"legalNotice": {
+			"de": "https://magicbroccoli.de/datenschutz/"
+		},
+		"serverLocations": [
+			"de"
+		],
+		"groupChatSupport": {
+			"de": [
+				"lobby@conference.magicbroccoli.de"
+			],
+			"en": [
+				"lobby@conference.magicbroccoli.de"
+			]
+		},
+		"chatSupport": {
+			"de": [
+				"broccoli@magicbroccoli.de"
+			],
+			"en": [
+				"broccoli@magicbroccoli.de"
+			]
+		},
+		"emailSupport": {
+			"de": [
+				"nico@magicbroccoli.de"
+			],
+			"en": [
+				"nico@magicbroccoli.de"
+			]
+		},
+		"onlineSince": "2017-06-20"
+	},
+	{
+		"jid": "nixnet.services",
+		"website": {
+			"en": "https://docs.nixnet.services/XMPP"
+		},
+		"busFactor": 4,
+		"company": false,
+		"passwordReset": {},
+		"inBandRegistration": true,
+		"registrationWebPage": {
+			"en": "https://xmpp.nixnet.services/new/"
+		},
+		"ratingXmppComplianceTester": 100,
+		"ratingImObservatoryClientToServer": "A",
+		"ratingImObservatoryServerToServer": "A",
+		"maximumHttpFileUploadFileSize": 100,
+		"maximumHttpFileUploadTotalSize": 1000,
+		"maximumHttpFileUploadStorageTime": 14,
+		"maximumMessageArchiveManagementStorageTime": 0,
+		"professionalHosting": true,
+		"freeOfCharge": true,
+		"legalNotice": {
+			"en": "https://docs.nixnet.services/XMPP/Terms"
+		},
+		"serverLocations": [
+			"fi"
+		],
+		"groupChatSupport": {
+			"en": [
+				"nixnet@muc.nixnet.services"
+			]
+		},
+		"chatSupport": {
+			"en": [
+				"support@nixnet.services"
+			]
+		},
+		"emailSupport": {
+			"en": [
+				"support@nixnet.services",
+				"amolith@nixnet.services"
+			]
+		},
+		"onlineSince": "2019-01-08"
+	},
+	{
+		"jid": "openim.de",
+		"website": {
+			"de": "https://openim.de"
+		},
+		"busFactor": -1,
+		"company": false,
+		"passwordReset": {},
+		"inBandRegistration": true,
+		"registrationWebPage": {
+			"de": "https://openim.de/register.html"
+		},
+		"ratingXmppComplianceTester": 95,
+		"ratingImObservatoryClientToServer": "A",
+		"ratingImObservatoryServerToServer": "A",
+		"maximumHttpFileUploadFileSize": -1,
+		"maximumHttpFileUploadTotalSize": -1,
+		"maximumHttpFileUploadStorageTime": 7,
+		"maximumMessageArchiveManagementStorageTime": 28,
+		"professionalHosting": true,
+		"freeOfCharge": true,
+		"legalNotice": {
+			"de": "https://www.openim.de/datenschutz.html"
+		},
+		"serverLocations": [
+			"de"
+		],
+		"groupChatSupport": {
+			"de": [
+				"support@conference.jabber.de"
+			]
+		},
+		"chatSupport": {
+			"de": [
+				"sven@openim.de"
+			]
+		},
+		"emailSupport": {
+			"de": [
+				"support@openim.de"
+			]
+		},
+		"onlineSince": "2018-12-11"
+	},
+	{
+		"jid": "pimux.de",
+		"website": {
+			"de": "https://www.pimux.de"
+		},
+		"busFactor": 1,
+		"company": false,
+		"passwordReset": {
+			"de": "https://www.pimux.de/entry/passwort-vergessen-testphase"
+		},
+		"inBandRegistration": false,
+		"registrationWebPage": {
+			"de": "https://www.pimux.de/page/registrierung"
+		},
+		"ratingXmppComplianceTester": 100,
+		"ratingImObservatoryClientToServer": "A",
+		"ratingImObservatoryServerToServer": "A",
+		"maximumHttpFileUploadFileSize": 1000,
+		"maximumHttpFileUploadTotalSize": 0,
+		"maximumHttpFileUploadStorageTime": 30,
+		"maximumMessageArchiveManagementStorageTime": 30,
+		"professionalHosting": true,
+		"freeOfCharge": true,
+		"legalNotice": {
+			"en": "https://www.pimux.de/page/datenschutz"
+		},
+		"serverLocations": [
+			"de"
+		],
+		"groupChatSupport": {},
+		"chatSupport": {
+			"de": [
+				"finn@pimux.de"
+			]
+		},
+		"emailSupport": {
+			"de": [
+				"finn@pimux.de"
+			]
+		},
+		"onlineSince": "2016-09-11"
+	},
+	{
+		"jid": "sure.im",
+		"website": {
+			"en": "https://sure.im"
+		},
+		"company": true,
+		"passwordReset": {
+			"en": "https://sure.im/rest/user/resetPassword"
+		},
+		"inBandRegistration": true,
+		"registrationWebPage": {},
+		"ratingXmppComplianceTester": 100,
+		"ratingImObservatoryClientToServer": "A",
+		"ratingImObservatoryServerToServer": "A",
+		"maximumHttpFileUploadFileSize": 20,
+		"maximumHttpFileUploadTotalSize": 0,
+		"maximumHttpFileUploadStorageTime": 365,
+		"maximumMessageArchiveManagementStorageTime": 365,
+		"professionalHosting": true,
+		"freeOfCharge": true,
+		"legalNotice": {
+			"en": "https://sure.im/terms.txt"
+		},
+		"serverLocations": [
+			"us"
+		],
+		"groupChatSupport": {
+			"en": [
+				"tigase@muc.tigase.org"
+			]
+		},
+		"chatSupport": {},
+		"emailSupport": {},
+		"onlineSince": "2009-12-31"
+	},
+	{
+		"jid": "trashserver.net",
+		"website": {
+			"de": "https://trashserver.net",
+			"en": "https://trashserver.net/en"
+		},
+		"busFactor": -1,
+		"company": false,
+		"passwordReset": {},
+		"inBandRegistration": true,
+		"registrationWebPage": {
+			"de": "https://trashserver.net/registrieren",
+			"en": "https://trashserver.net/en/register"
+		},
+		"ratingXmppComplianceTester": 100,
+		"ratingImObservatoryClientToServer": "A",
+		"ratingImObservatoryServerToServer": "A",
+		"maximumHttpFileUploadFileSize": 100,
+		"maximumHttpFileUploadTotalSize": -1,
+		"maximumHttpFileUploadStorageTime": 28,
+		"maximumMessageArchiveManagementStorageTime": 28,
+		"professionalHosting": true,
+		"freeOfCharge": true,
+		"legalNotice": {
+			"de": "https://trashserver.net/datenschutz",
+			"en": "https://trashserver.net/en/privacy"
+		},
+		"serverLocations": [
+			"de"
+		],
+		"groupChatSupport": {},
+		"chatSupport": {
+			"de": [
+				"admin@trashserver.net"
+			],
+			"en": [
+				"admin@trashserver.net"
+			]
+		},
+		"emailSupport": {
+			"de": [
+				"xmpp@trashserver.net"
+			],
+			"en": [
+				"xmpp@trashserver.net"
+			]
+		},
+		"onlineSince": "2012-12-31"
+	},
+	{
+		"jid": "yax.im",
+		"website": {
+			"en": "https://yaxim.org/yax.im/"
+		},
+		"busFactor": -1,
+		"company": false,
+		"passwordReset": {},
+		"inBandRegistration": true,
+		"registrationWebPage": {},
+		"ratingXmppComplianceTester": 85,
+		"ratingImObservatoryClientToServer": "A",
+		"ratingImObservatoryServerToServer": "A",
+		"maximumHttpFileUploadFileSize": 75,
+		"maximumHttpFileUploadTotalSize": 0,
+		"maximumHttpFileUploadStorageTime": 30,
+		"maximumMessageArchiveManagementStorageTime": 14,
+		"professionalHosting": false,
+		"freeOfCharge": true,
+		"legalNotice": {
+			"en": "https://yaxim.org/yax.im/tos/"
+		},
+		"serverLocations": [
+			"de"
+		],
+		"groupChatSupport": {
+			"en": [
+				"yaxim@chat.yax.im"
+			]
+		},
+		"chatSupport": {
+			"en": [
+				"georg@yax.im"
+			]
+		},
+		"emailSupport": {
+			"en": [
+				"georg@yax.im"
+			]
+		},
+		"onlineSince": "2013-12-27"
+	}
 ]
