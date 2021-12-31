@@ -222,7 +222,7 @@ namespace UWPX_UI_Context.Classes.DataContext.Dialogs
                 return false;
             }
 
-            AvatarMetadataDataPubSubItem metadata = new AvatarMetadataDataPubSubItem(imgHashBase16, new AvatarInfo((uint)imgData.Length, (ushort)img.PixelHeight, (ushort)img.PixelWidth, imgHashBase16, "image/png"));
+            AvatarMetadataDataPubSubItem metadata = new AvatarMetadataDataPubSubItem(imgHashBase16, new AvatarInfo((uint)imgData.Length, (ushort)img.PixelHeight, (ushort)img.PixelWidth, imgHashBase16, MODEL.Image.type));
             return await PublishMetadataAsync(metadata);
         }
 
