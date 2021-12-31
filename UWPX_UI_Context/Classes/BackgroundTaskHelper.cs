@@ -3,6 +3,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using Logging;
 using Windows.ApplicationModel.Background;
+using Windows.Foundation.Metadata;
 
 namespace UWPX_UI_Context.Classes
 {
@@ -37,6 +38,12 @@ namespace UWPX_UI_Context.Classes
         #region --Misc Methods (Private)--
         private async static Task RegisterToastBackgroundTaskAsync()
         {
+            if (!ApiInformation.IsTypePresent("Windows.ApplicationModel.Background.ToastNotificationActionTrigger"))
+            {
+                Logger.Warn("Failed to register toast notification background task. API not present.");
+                return;
+            }
+
             // If background task is already registered, do nothing:
             if (BackgroundTaskRegistration.AllTasks.Any(i => i.Value.Name.Equals(TOAST_BACKGROUND_TASK_NAME)))
             {
