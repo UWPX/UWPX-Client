@@ -411,35 +411,43 @@ For more providers have a look at:
 You can disable this again by changing `Settings` -&gt; `Misc` -&gt; `Automatic extended crash reports` to false.</value>
   </data>
   <data name="WhatsNewDialog_markdown.Text" xml:space="preserve">
-    <value># [December 2021] OMEMO and Windows 11
-With this release I increased the target platform target version from `10.0.19041.0` to `10.0.22000.0` (Windows 11) and the target platform minimum version from `10.0.17763.0` to `10.0.18362.0`. This means UWPX now officially targets Windows 11 and drops support for all versions of Windows 10 before the May 2019 update.  
-Besides that, this release includes a bunch of OMEMO related bug fixes and adds support for OMEMO [0.8.1 (2021-10-07)](https://xmpp.org/extensions/xep-0384.html). With this change, I decided to reset the database again, so you have to login to your accounts again.
+    <value># [January 2022] Avatars and Push v2
+How hard could it be to add user avatars? How much time do I have to spend on it to get it working? Turns out a lot 😂. Initially my goal was to implement [XEP-0084 User Avatar](https://xmpp.org/extensions/xep-0084.html) in two days (less than 16 hours over Christmas). The result was I spend 6 days (roughly 60 hours) on it.
+There were a couple of issues I had to tackle since I wanted to have a robust and fully featured implementation of it. So first of all I had to find a way to scale images to a fixed size (500x500) and store them in a compressed format in the DB. After that I noticed images will fail to upload when they are too large , so I introduced a maximum size of one MiB per image. With all of that sorted out I had to make sure I always have the most recent image of a contact. Therefore I had to subscribe to the PEP node of the contact. Then there were a bunch of different edge cases I had to fix. But now UWPX supports user avatars 🎉.
+
+Besides that I also updated to the latest [Push Server protocol](https://github.com/UWPX/UWPX-Push-Server). This should result in a more reliable push message delivery. There are still a bunch of edge cases I have to sort out, for example what happens if a push message arrives, when the client is shutting down?
 
 **Please report bugs [here](https://github.com/UWPX/UWPX-Client/issues)!**
 
 #### Want more up to date news?
 Follow [@UWPX_APP](https://twitter.com/UWPX_APP) on ![Twitter](http://i.imgur.com/wWzX9uB.png).
 
+### XMPP Office Hours
+As a part of [XMPP Office Hours](https://wiki.xmpp.org/web/XMPP_Office_Hours) I gave a talk about how UWPX was build and what it took me to do so.  
+The Video can be found on YouTube: https://youtu.be/fkq8Nvlw3LA
+
+[![https://youtu.be/fkq8Nvlw3LA](https://user-images.githubusercontent.com/11741404/147821851-d7c7e633-4a86-4c94-b0fa-1f0ecaa59780.png)](https://youtu.be/fkq8Nvlw3LA) 
+
 ### Known bugs
 * MUC subject changing leads to an account disconnect [#34](https://github.com/UWPX/UWPX-Client/issues/34)
-* Removing a chat does not perform cascade deletion [#151](https://github.com/UWPX/UWPX-Client/issues/151)
 * ListDetailsView looses selection on reorder [#166](https://github.com/UWPX/UWPX-Client/issues/166)
 
 ### Changes
-* Added an option to reset OMEMO sessions (might require an app restart to work currently)
-* Added an OMEMO session status indicator
-* Increased target platform minimum version from `10.0.17763.0` to `10.0.18362.0`
-* Increased target platform target version from `10.0.19041.0` to `10.0.22000.0`
-* Updated OMEMO to [0.8.1 (2021-10-07)](https://xmpp.org/extensions/xep-0384.html)
-* Better contrast for nicknames in group chats
-* Updated to Visual Studio 2022
-* Fixed OMEMO Double Ratchet initialization
-* Replaced `DropShadowPanel` with `AttachedCardShadow`
-* Hand mouse cursor for images
-* Fixed null pointer when decrypting OMEMO messages
-* Fixed not loading OMEMO sessions for pure key exchange (kex) messages
-* Fixed not keeping track of the OMEMO session state
+* Added XEP-0084 User Avatar support
+* Updated the push implementation to the latest [Push Server protocol](https://github.com/UWPX/UWPX-Push-Server)
+* Displaying the Group chat (MUC) name when available
+* Improved and refactored push message handling in the background task
+* More reliable push message handling
+* Improved the chat message hyperlink color
+* Updated progress bar and rings to WinUI 2.8
+* Moved the chat unread badge from the presence badge to the preview text line
+* Simplified Group chat MUC bookmarks management
+* Fixed chat settings MAM button
+* Fixed collection changed crash for MUC members
+* Fixed missing MUC affiliation check for configuration
+* Fixed removing a chat does not perform cascade deletion #151
+* Various fixes related to image inline downloads
 
-**Continue reading on [GitHub](https://github.com/UWPX/UWPX-Client/releases/tag/v.0.38.0.0).**</value>
+**Continue reading on [GitHub](https://github.com/UWPX/UWPX-Client/releases/tag/v.0.39.0.0).**</value>
   </data>
 </root>
