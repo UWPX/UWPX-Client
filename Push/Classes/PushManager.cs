@@ -181,6 +181,7 @@ namespace Push.Classes
                 await SetStateAsync(PushManagerState.REQUESTING_CHANNEL);
                 if (!await RequestChannelAsync())
                 {
+                    await SetStateAsync(PushManagerState.ERROR);
                     INIT_SEMA.Release();
                     return;
                 }
@@ -190,14 +191,15 @@ namespace Push.Classes
                 {
                     Logger.Info(Consts.LOGGER_TAG + "No need to send an update channel URI to the push server. Already up to date.");
                     await SetStateAsync(PushManagerState.INITIALIZED);
+                    INIT_SEMA.Release();
+                    return;
                 }
 
                 await SetStateAsync(PushManagerState.SENDING_UPDATED_CHANNEL_URI_TO_PUSH_SERVER);
                 if (await SendUpdatedChannelUriToPushServerAsync())
                 {
                     await SetStateAsync(PushManagerState.INITIALIZED);
-                    INIT_SEMA.Release();
-                    return;
+
                 }
                 await SetStateAsync(PushManagerState.ERROR);
                 INIT_SEMA.Release();
