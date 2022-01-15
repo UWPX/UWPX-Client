@@ -21,8 +21,9 @@
 
     <Border Height="60"
             VerticalAlignment="Stretch">
-        <Grid Background="{ThemeResource AppBackgroundAcrylicElementBrush}"
-              CornerRadius="{ThemeResource ControlCornerRadius}">
+        <Grid Background="{ThemeResource LayerFillColorDefaultBrush}"
+              BorderBrush="{ThemeResource CardStrokeColorDefaultBrush}"
+              CornerRadius="{ThemeResource OverlayCornerRadius}">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="Auto"/>
                 <ColumnDefinition Width="Auto"/>
