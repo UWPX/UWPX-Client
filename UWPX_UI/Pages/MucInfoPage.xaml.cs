@@ -1,4 +1,5 @@
 ﻿using Manager.Classes.Chat;
+using UWPX_UI_Context.Classes;
 using UWPX_UI_Context.Classes.DataContext.Pages;
 using UWPX_UI_Context.Classes.Events;
 using Windows.UI.Xaml;
@@ -26,6 +27,7 @@ namespace UWPX_UI.Pages
         public MucInfoPage()
         {
             InitializeComponent();
+            UiUtils.ApplyBackground(this);
         }
 
         #endregion

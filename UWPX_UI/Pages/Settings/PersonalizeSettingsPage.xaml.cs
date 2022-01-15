@@ -1,4 +1,5 @@
 ﻿using UWPX_UI.Extensions;
+using UWPX_UI_Context.Classes;
 using UWPX_UI_Context.Classes.DataContext.Pages;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
@@ -18,6 +19,7 @@ namespace UWPX_UI.Pages.Settings
         public PersonalizeSettingsPage()
         {
             InitializeComponent();
+            UiUtils.ApplyBackground(this);
         }
 
         #endregion

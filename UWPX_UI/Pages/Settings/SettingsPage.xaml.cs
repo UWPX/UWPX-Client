@@ -4,6 +4,7 @@ using System.Text;
 using Microsoft.Toolkit.Uwp.UI.Animations;
 using Shared.Classes;
 using UWPX_UI.Controls.Settings;
+using UWPX_UI_Context.Classes;
 using UWPX_UI_Context.Classes.DataContext.Pages;
 using UWPX_UI_Context.Classes.DataTemplates;
 using UWPX_UI_Context.Classes.DataTemplates.Pages;
@@ -42,6 +43,7 @@ namespace UWPX_UI.Pages.Settings
         public SettingsPage()
         {
             InitializeComponent();
+            UiUtils.ApplyBackground(this);
             LoadAppVersion();
             VIEW_MODEL.MODEL.PropertyChanged += MODEL_PropertyChanged;
 

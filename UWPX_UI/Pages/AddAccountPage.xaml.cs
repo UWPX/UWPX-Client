@@ -30,6 +30,7 @@ namespace UWPX_UI.Pages
         public AddAccountPage()
         {
             InitializeComponent();
+            UiUtils.ApplyBackground(this);
         }
 
         #endregion

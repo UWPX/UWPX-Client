@@ -1,5 +1,6 @@
 ﻿using System;
 using UWPX_UI.Extensions;
+using UWPX_UI_Context.Classes;
 using UWPX_UI_Context.Classes.DataContext.Pages;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Navigation;
@@ -18,6 +19,7 @@ namespace UWPX_UI.Pages.Settings
         public DonateSettingsPage()
         {
             InitializeComponent();
+            UiUtils.ApplyBackground(this);
         }
 
         #endregion

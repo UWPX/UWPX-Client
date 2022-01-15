@@ -9,7 +9,6 @@
       xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
       xmlns:settings="using:UWPX_UI.Controls.Settings"
       xmlns:ui="using:Microsoft.Toolkit.Uwp.UI"
-      Background="{ThemeResource AppBackgroundAcrylicWindowBrush}"
       mc:Ignorable="d">
 
     <Page.Resources>

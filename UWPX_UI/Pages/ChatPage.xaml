@@ -10,7 +10,6 @@
       xmlns:iot="using:UWPX_UI.Controls.IoT"
       xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
       xmlns:selectors="using:UWPX_UI_Context.Classes.DataTemplates.Selectors"
-      Background="{ThemeResource AppBackgroundAcrylicWindowBrush}"
       mc:Ignorable="d">
 
     <Page.Resources>
@@ -76,7 +75,8 @@
                     </Grid.RowDefinitions>
                     <Border HorizontalAlignment="Center"
                             VerticalAlignment="Center"
-                            Background="{ThemeResource AppBackgroundAcrylicElementLightBrush}"
+                            Background="{ThemeResource LayerFillColorDefaultBrush}"
+                            BorderBrush="{ThemeResource CardStrokeColorDefaultBrush}"
                             CornerRadius="{ThemeResource OverlayCornerRadius}">
                         <StackPanel Grid.Row="0"
                                     Padding="10">

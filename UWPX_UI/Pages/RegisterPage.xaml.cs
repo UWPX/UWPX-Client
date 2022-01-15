@@ -35,6 +35,7 @@ namespace UWPX_UI.Pages
         public RegisterPage()
         {
             InitializeComponent();
+            UiUtils.ApplyBackground(this);
         }
 
         #endregion

@@ -25,6 +25,7 @@ namespace UWPX_UI.Pages.Settings
         public MiscSettingsPage()
         {
             InitializeComponent();
+            UiUtils.ApplyBackground(this);
         }
 
         #endregion

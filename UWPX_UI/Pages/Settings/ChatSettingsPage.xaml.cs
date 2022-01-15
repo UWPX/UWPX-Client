@@ -20,6 +20,7 @@ namespace UWPX_UI.Pages.Settings
         public ChatSettingsPage()
         {
             InitializeComponent();
+            UiUtils.ApplyBackground(this);
         }
 
         #endregion

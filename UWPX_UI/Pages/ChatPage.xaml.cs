@@ -23,6 +23,7 @@ namespace UWPX_UI.Pages
         public ChatPage()
         {
             InitializeComponent();
+            UiUtils.ApplyBackground(this);
             NavigationCacheMode = NavigationCacheMode.Required;
         }
 

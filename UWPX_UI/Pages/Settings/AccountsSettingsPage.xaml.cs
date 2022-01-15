@@ -23,6 +23,7 @@ namespace UWPX_UI.Pages.Settings
         public AccountsSettingsPage()
         {
             InitializeComponent();
+            UiUtils.ApplyBackground(this);
         }
 
         #endregion

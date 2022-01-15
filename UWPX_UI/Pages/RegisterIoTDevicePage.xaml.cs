@@ -43,6 +43,7 @@ namespace UWPX_UI.Pages
         public RegisterIoTDevicePage()
         {
             InitializeComponent();
+            UiUtils.ApplyBackground(this);
             UpdateViewState(State_0.Name);
         }
 

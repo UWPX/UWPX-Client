@@ -18,6 +18,7 @@ namespace UWPX_UI.Pages.Settings
         public CreditsPage()
         {
             InitializeComponent();
+            UiUtils.ApplyBackground(this);
         }
 
         #endregion
