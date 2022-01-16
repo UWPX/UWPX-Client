@@ -44,7 +44,6 @@
 
         <!--  Result:  -->
         <StackPanel x:Name="result_stckp">
-
             <TextBlock HorizontalAlignment="Center"
                        Style="{ThemeResource HeaderTextBlockStyle}"
                        Text="{x:Bind VIEW_MODEL.MODEL.DeviceName, Mode=OneWay}"

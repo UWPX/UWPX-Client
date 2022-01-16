@@ -271,7 +271,6 @@
                                                          Duration="{StaticResource TranslationAnimationDuration}"/>
                     </animations:Implicit.HideAnimations>
                     <Border HorizontalAlignment="Stretch"
-                            Background="{ThemeResource LayerFillColorDefaultBrush}"
                             BorderBrush="{ThemeResource CardStrokeColorDefaultBrush}"
                             CornerRadius="{ThemeResource OverlayCornerRadius}">
                         <controls1:Expander HorizontalContentAlignment="Stretch"

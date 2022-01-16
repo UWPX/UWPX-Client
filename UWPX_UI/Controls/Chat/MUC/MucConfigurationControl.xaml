@@ -21,9 +21,7 @@
     </UserControl.Resources>
 
     <Border>
-        <Grid Background="{ThemeResource LayerFillColorDefaultBrush}"
-              BorderBrush="{ThemeResource CardStrokeColorDefaultBrush}"
-              CornerRadius="{ThemeResource OverlayCornerRadius}">
+        <Grid CornerRadius="{ThemeResource OverlayCornerRadius}">
             <Grid.RowDefinitions>
                 <RowDefinition Height="Auto"/>
                 <RowDefinition Height="Auto"/>

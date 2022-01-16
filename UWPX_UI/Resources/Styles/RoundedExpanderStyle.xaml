@@ -12,7 +12,8 @@
         <Setter Property="BorderThickness" Value="0"/>
         <Setter Property="Padding" Value="2,0,0,0"/>
         <Setter Property="Height" Value="40"/>
-        <Setter Property="CornerRadius" Value="4"/>
+        <Setter Property="CornerRadius" Value="{ThemeResource OverlayCornerRadius}"/>
+        <Setter Property="BorderBrush" Value="{ThemeResource CardStrokeColorDefaultBrush}"/>
         <Setter Property="HorizontalAlignment" Value="Stretch"/>
         <Setter Property="HorizontalContentAlignment" Value="Stretch"/>
         <Setter Property="VerticalAlignment" Value="Stretch"/>
@@ -97,7 +98,7 @@
                                                          Duration="0:0:0.1"/>
                                     </Storyboard>
                                     <VisualState.Setters>
-                                        <Setter Target="RootGrid.CornerRadius" Value="4,4,4,4"/>
+                                        <Setter Target="RootGrid.CornerRadius" Value="{ThemeResource OverlayCornerRadius}"/>
                                     </VisualState.Setters>
                                 </VisualState>
                                 <VisualState x:Name="Pressed">
@@ -333,7 +334,7 @@
         <Setter Property="Header" Value="Header"/>
         <Setter Property="HeaderStyle" Value="{StaticResource RoundedExpanderHeaderStyle}"/>
         <Setter Property="IsTabStop" Value="False"/>
-        <Setter Property="Background" Value="{ThemeResource SystemControlPageBackgroundChromeLowBrush}"/>
+        <Setter Property="Background" Value="{ThemeResource LayerFillColorDefaultBrush}"/>
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="controls:Expander">
