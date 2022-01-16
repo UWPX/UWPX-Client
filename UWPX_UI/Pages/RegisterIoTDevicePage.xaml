@@ -96,10 +96,10 @@
                                                          Duration="{StaticResource TranslationAnimationDuration}"/>
                     </animations:Implicit.HideAnimations>
                     <Border HorizontalAlignment="Stretch"
-                            Background="{ThemeResource AppBackgroundAcrylicWindowBrush}"
+                            Background="{ThemeResource LayerFillColorDefaultBrush}"
+                            BorderBrush="{ThemeResource CardStrokeColorDefaultBrush}"
                             CornerRadius="{ThemeResource OverlayCornerRadius}">
-                        <Grid Padding="10"
-                              Background="{ThemeResource AppBackgroundAcrylicElementBrush}">
+                        <Grid Padding="10">
                             <Grid.RowDefinitions>
                                 <RowDefinition Height="Auto"/>
                                 <RowDefinition Height="Auto"/>
@@ -197,10 +197,10 @@
                                                          Duration="{StaticResource TranslationAnimationDuration}"/>
                     </animations:Implicit.HideAnimations>
                     <Border HorizontalAlignment="Stretch"
-                            Background="{ThemeResource AppBackgroundAcrylicWindowBrush}"
+                            Background="{ThemeResource LayerFillColorDefaultBrush}"
+                            BorderBrush="{ThemeResource CardStrokeColorDefaultBrush}"
                             CornerRadius="{ThemeResource OverlayCornerRadius}">
-                        <StackPanel Padding="10"
-                                    Background="{ThemeResource AppBackgroundAcrylicElementBrush}">
+                        <StackPanel Padding="10">
                             <TextBlock Text="Scan a QR Code to continue"/>
                             <controls:QrCodeScannerControl x:Name="qrCodeScanner"
                                                            x:Uid="RegisterIoTDevicePage_qr_code_scanner"
@@ -262,10 +262,10 @@
                                                          Duration="{StaticResource TranslationAnimationDuration}"/>
                     </animations:Implicit.HideAnimations>
                     <Border HorizontalAlignment="Stretch"
-                            Background="{ThemeResource AppBackgroundAcrylicWindowBrush}"
+                            Background="{ThemeResource LayerFillColorDefaultBrush}"
+                            BorderBrush="{ThemeResource CardStrokeColorDefaultBrush}"
                             CornerRadius="{ThemeResource OverlayCornerRadius}">
-                        <StackPanel Padding="10"
-                                    Background="{ThemeResource AppBackgroundAcrylicElementBrush}">
+                        <StackPanel Padding="10">
                             <iot:BluetoothScannerControl x:Name="btScanner_btsc"
                                                          DeviceChanged="BtScanner_btsc_DeviceChanged"
                                                          RegisterIoTUriAction="{x:Bind VIEW_MODEL.MODEL.RegisterIoTUriAction, Mode=OneWay}"/>
@@ -322,10 +322,10 @@
                                                          Duration="{StaticResource TranslationAnimationDuration}"/>
                     </animations:Implicit.HideAnimations>
                     <Border HorizontalAlignment="Stretch"
-                            Background="{ThemeResource AppBackgroundAcrylicWindowBrush}"
+                            Background="{ThemeResource LayerFillColorDefaultBrush}"
+                            BorderBrush="{ThemeResource CardStrokeColorDefaultBrush}"
                             CornerRadius="{ThemeResource OverlayCornerRadius}">
-                        <StackPanel Padding="10"
-                                    Background="{ThemeResource AppBackgroundAcrylicElementBrush}">
+                        <StackPanel Padding="10">
                             <iot:BluetoothDeviceInfoControl x:Name="btDeviceInfo_btdic"
                                                             Device="{x:Bind btScanner_btsc.Device, Mode=OneWay}"/>
                             <Grid Margin="0,10,0,0">
@@ -389,10 +389,10 @@
                                                          Duration="{StaticResource TranslationAnimationDuration}"/>
                     </animations:Implicit.HideAnimations>
                     <Border HorizontalAlignment="Stretch"
-                            Background="{ThemeResource AppBackgroundAcrylicWindowBrush}"
+                            Background="{ThemeResource LayerFillColorDefaultBrush}"
+                            BorderBrush="{ThemeResource CardStrokeColorDefaultBrush}"
                             CornerRadius="{ThemeResource OverlayCornerRadius}">
-                        <StackPanel Padding="10"
-                                    Background="{ThemeResource AppBackgroundAcrylicElementBrush}">
+                        <StackPanel Padding="10">
                             <controls1:Loading x:Name="loading_grid"
                                                IsLoading="True">
                                 <controls:LoadingContentControl Text="Sending information..."/>
@@ -430,10 +430,10 @@
                                                          Duration="{StaticResource TranslationAnimationDuration}"/>
                     </animations:Implicit.HideAnimations>
                     <Border HorizontalAlignment="Stretch"
-                            Background="{ThemeResource AppBackgroundAcrylicWindowBrush}"
+                            Background="{ThemeResource LayerFillColorDefaultBrush}"
+                            BorderBrush="{ThemeResource CardStrokeColorDefaultBrush}"
                             CornerRadius="{ThemeResource OverlayCornerRadius}">
-                        <StackPanel Padding="10"
-                                    Background="{ThemeResource AppBackgroundAcrylicElementBrush}">
+                        <StackPanel Padding="10">
                             <controls1:Loading IsLoading="True">
                                 <controls:LoadingContentControl Text="Waiting for confirmation..."/>
                             </controls1:Loading>
@@ -470,10 +470,10 @@
                                                          Duration="{StaticResource TranslationAnimationDuration}"/>
                     </animations:Implicit.HideAnimations>
                     <Border HorizontalAlignment="Stretch"
-                            Background="{ThemeResource AppBackgroundAcrylicWindowBrush}"
+                            Background="{ThemeResource LayerFillColorDefaultBrush}"
+                            BorderBrush="{ThemeResource CardStrokeColorDefaultBrush}"
                             CornerRadius="{ThemeResource OverlayCornerRadius}">
-                        <StackPanel Padding="10"
-                                    Background="{ThemeResource AppBackgroundAcrylicElementBrush}">
+                        <StackPanel Padding="10">
                             <Grid Margin="0,10,0,0"
                                   Padding="20"
                                   HorizontalAlignment="Center"

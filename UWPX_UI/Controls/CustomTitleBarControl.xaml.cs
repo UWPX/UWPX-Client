@@ -56,6 +56,7 @@ namespace UWPX_UI.Controls
         public CustomTitleBarControl()
         {
             InitializeComponent();
+            UiUtils.ApplyBackground(this);
             if (!DeviceFamilyHelper.IsRunningOnDesktopDevice())
             {
                 Visibility = Visibility.Collapsed;

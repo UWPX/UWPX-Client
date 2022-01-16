@@ -3,7 +3,7 @@
       xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
       xmlns:controls="using:UWPX_UI.Controls"
       xmlns:controls1="using:Microsoft.Toolkit.Uwp.UI.Controls"
-      xmlns:controlsComp="using:Microsoft.UI.Xaml.Controls"
+      xmlns:muxc="using:Microsoft.UI.Xaml.Controls"
       xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
       xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
       xmlns:settings="using:UWPX_UI.Controls.Settings"
@@ -34,28 +34,28 @@
         </Grid.RowDefinitions>
 
         <!--  Content:  -->
-        <controlsComp:NavigationView x:Name="main_nview"
+        <muxc:NavigationView x:Name="main_nview"
                                      Grid.Row="1"
                                      Loaded="Main_nview_Loaded"
                                      SelectionChanged="Main_nview_SelectionChanged"
                                      Style="{StaticResource SettingsNavigationViewStyle}">
-            <controlsComp:NavigationView.MenuItems>
-                <controlsComp:NavigationViewItem Content="Logs"
+            <muxc:NavigationView.MenuItems>
+                <muxc:NavigationViewItem Content="Logs"
                                                  Icon="List"
                                                  Tag="Logs"/>
-                <controlsComp:NavigationViewItem Content="Cache"
+                <muxc:NavigationViewItem Content="Cache"
                                                  Icon="Save"
                                                  Tag="Cache"/>
-                <controlsComp:NavigationViewItem Content="Analytics and crash reporting"
+                <muxc:NavigationViewItem Content="Analytics and crash reporting"
                                                  Icon="Admin"
                                                  Tag="Analytics"/>
-                <controlsComp:NavigationViewItem Content="Misc"
+                <muxc:NavigationViewItem Content="Misc"
                                                  Icon="Setting"
                                                  Tag="Misc"/>
-                <controlsComp:NavigationViewItem Content="About and links"
+                <muxc:NavigationViewItem Content="About and links"
                                                  Icon="Emoji2"
                                                  Tag="About"/>
-            </controlsComp:NavigationView.MenuItems>
+            </muxc:NavigationView.MenuItems>
             <ScrollViewer x:Name="main_scv"
                           HorizontalScrollMode="Disabled"
                           VerticalScrollBarVisibility="Hidden"
@@ -232,7 +232,7 @@
                     </settings:SettingsContentControl>
                 </StackPanel>
             </ScrollViewer>
-        </controlsComp:NavigationView>
+        </muxc:NavigationView>
 
         <!--  Header:  -->
         <!--  Has to be bellow content to correctly draw the drop shadow.  -->

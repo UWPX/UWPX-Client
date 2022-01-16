@@ -21,7 +21,8 @@
     </UserControl.Resources>
 
     <Border>
-        <Grid Background="{ThemeResource AppBackgroundAcrylicWindowBrush}"
+        <Grid Background="{ThemeResource LayerFillColorDefaultBrush}"
+              BorderBrush="{ThemeResource CardStrokeColorDefaultBrush}"
               CornerRadius="{ThemeResource OverlayCornerRadius}">
             <Grid.RowDefinitions>
                 <RowDefinition Height="Auto"/>
@@ -33,7 +34,6 @@
             <controls:Expander x:Name="expander"
                                Grid.Row="1"
                                HorizontalContentAlignment="Stretch"
-                               Background="{ThemeResource AppBackgroundAcrylicElementBrush}"
                                Header="Configuration">
                 <Grid Margin="0,5,0,5">
                     <dataforms:DataFormsControl Form="{x:Bind VIEW_MODEL.MODEL.Form, Mode=TwoWay}"

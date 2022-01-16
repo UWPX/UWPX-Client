@@ -202,16 +202,16 @@ namespace UWPX_UI_Context.Classes
         /// <summary>
         /// Applies the Mica background effect in case it's available. Else it will fall back to the "AppBackgroundAcrylicWindowBrush" brush.
         /// </summary>
-        /// <param name="page">The <see cref="Page"/> the background should be set.</param>
-        public static void ApplyBackground(Page page)
+        /// <param name="control">The <see cref="Control"/> the background should be set.</param>
+        public static void ApplyBackground(Control control)
         {
             if (IsMicaSupported())
             {
-                Microsoft.UI.Xaml.Controls.BackdropMaterial.SetApplyToRootOrPageBackground(page, true);
+                Microsoft.UI.Xaml.Controls.BackdropMaterial.SetApplyToRootOrPageBackground(control, true);
             }
             else
             {
-                page.Background = ThemeUtils.GetThemeResource<Brush>("AppBackgroundAcrylicWindowBrush");
+                control.Background = ThemeUtils.GetThemeResource<Brush>("AppBackgroundAcrylicWindowBrush");
             }
         }
 

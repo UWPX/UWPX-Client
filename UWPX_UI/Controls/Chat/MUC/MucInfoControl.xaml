@@ -27,7 +27,8 @@
     <Border>
         <Grid x:Name="main_grid"
               Padding="30"
-              Background="{ThemeResource AppBackgroundAcrylicElementBrush}"
+              Background="{ThemeResource LayerFillColorDefaultBrush}"
+              BorderBrush="{ThemeResource CardStrokeColorDefaultBrush}"
               CornerRadius="{ThemeResource OverlayCornerRadius}">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="Auto"/>
@@ -43,9 +44,9 @@
                                                        Grid.Row="0"
                                                        Width="100"
                                                        Height="100"
-                                                       Image="{x:Bind Chat.Chat.contactInfo.avatar, Mode=OneWay}"
                                                        BareJid="{x:Bind Chat.Chat.bareJid, Mode=OneWay}"
                                                        ChatType="MUC"
+                                                       Image="{x:Bind Chat.Chat.contactInfo.avatar, Mode=OneWay}"
                                                        PresenceVisibility="Collapsed"/>
                 <Border Grid.Row="1"
                         Margin="0,10,0,0"

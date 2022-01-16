@@ -11,8 +11,10 @@
             VerticalAlignment="Stretch"
             HorizontalContentAlignment="Left"
             ui:Effects.Shadow="{StaticResource DefaultAttachedCardShadowControl}"
-            Background="{ThemeResource AppBackgroundAcrylicElementBrush}"
-            Click="OnButtonClicked">
+            Background="{ThemeResource LayerFillColorDefaultBrush}"
+            BorderBrush="{ThemeResource CardStrokeColorDefaultBrush}"
+            Click="OnButtonClicked"
+            CornerRadius="{ThemeResource OverlayCornerRadius}">
         <Grid Margin="0">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="Auto"/>

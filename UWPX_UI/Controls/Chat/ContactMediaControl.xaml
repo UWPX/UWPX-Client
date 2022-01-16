@@ -10,7 +10,8 @@
              mc:Ignorable="d">
 
     <Border>
-        <Grid Background="{ThemeResource AppBackgroundAcrylicElementBrush}"
+        <Grid Background="{ThemeResource LayerFillColorDefaultBrush}"
+              BorderBrush="{ThemeResource CardStrokeColorDefaultBrush}"
               CornerRadius="{ThemeResource OverlayCornerRadius}">
             <TextBlock Text="Media"/>
         </Grid>

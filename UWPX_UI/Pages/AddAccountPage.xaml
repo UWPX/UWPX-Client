@@ -86,10 +86,10 @@
                                                          Duration="{StaticResource TranslationAnimationDuration}"/>
                     </animations:Implicit.HideAnimations>
                     <Border HorizontalAlignment="Stretch"
-                            Background="{ThemeResource AppBackgroundAcrylicWindowBrush}"
+                            Background="{ThemeResource LayerFillColorDefaultBrush}"
+                            BorderBrush="{ThemeResource CardStrokeColorDefaultBrush}"
                             CornerRadius="{ThemeResource OverlayCornerRadius}">
-                        <StackPanel Padding="10"
-                                    Background="{ThemeResource AppBackgroundAcrylicElementBrush}">
+                        <StackPanel Padding="10">
                             <controls:BareJidInputControl x:Name="jid1_tbx"
                                                           Header="Jabber ID"
                                                           IsValid="{x:Bind VIEW_MODEL.MODEL.IsValidBareJid, Mode=TwoWay}"
@@ -160,10 +160,10 @@
                                                          Duration="{StaticResource TranslationAnimationDuration}"/>
                     </animations:Implicit.HideAnimations>
                     <Border HorizontalAlignment="Stretch"
-                            Background="{ThemeResource AppBackgroundAcrylicWindowBrush}"
+                            Background="{ThemeResource LayerFillColorDefaultBrush}"
+                            BorderBrush="{ThemeResource CardStrokeColorDefaultBrush}"
                             CornerRadius="{ThemeResource OverlayCornerRadius}">
-                        <StackPanel Padding="10"
-                                    Background="{ThemeResource AppBackgroundAcrylicElementBrush}">
+                        <StackPanel Padding="10">
                             <TextBox x:Name="jid2_tbx"
                                      Header="Jabber ID"
                                      InputScope="EmailNameOrAddress"
@@ -271,10 +271,10 @@
                                                          Duration="{StaticResource TranslationAnimationDuration}"/>
                     </animations:Implicit.HideAnimations>
                     <Border HorizontalAlignment="Stretch"
-                            Background="{ThemeResource AppBackgroundAcrylicWindowBrush}"
+                            Background="{ThemeResource LayerFillColorDefaultBrush}"
+                            BorderBrush="{ThemeResource CardStrokeColorDefaultBrush}"
                             CornerRadius="{ThemeResource OverlayCornerRadius}">
                         <controls1:Expander HorizontalContentAlignment="Stretch"
-                                            Background="{ThemeResource AppBackgroundAcrylicElementBrush}"
                                             Header="Advanced">
                             <Grid Padding="10">
                                 <Grid.ColumnDefinitions>

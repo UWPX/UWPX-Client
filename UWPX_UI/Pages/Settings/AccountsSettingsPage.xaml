@@ -3,9 +3,9 @@
       xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
       xmlns:controls="using:UWPX_UI.Controls"
       xmlns:controls1="using:Microsoft.Toolkit.Uwp.UI.Controls"
-      xmlns:controlsComp="using:Microsoft.UI.Xaml.Controls"
       xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
       xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+      xmlns:muxc="using:Microsoft.UI.Xaml.Controls"
       xmlns:settings="using:UWPX_UI.Controls.Settings"
       Loaded="Page_Loaded"
       Unloaded="Page_Unloaded"
@@ -31,26 +31,26 @@
         </Grid.RowDefinitions>
 
         <!--  Content:  -->
-        <controlsComp:NavigationView x:Name="main_nview"
-                                     Grid.Row="1"
-                                     Loaded="Main_nview_Loaded"
-                                     SelectionChanged="Main_nview_SelectionChanged"
-                                     Style="{StaticResource SettingsNavigationViewStyle}">
-            <controlsComp:NavigationView.MenuItems>
-                <controlsComp:NavigationViewItem Content="Manage"
-                                                 Icon="Manage"
-                                                 Tag="Manage"/>
-                <controlsComp:NavigationViewItem Content="Accounts"
-                                                 Icon="Contact"
-                                                 Tag="Accounts"/>
+        <muxc:NavigationView x:Name="main_nview"
+                             Grid.Row="1"
+                             Loaded="Main_nview_Loaded"
+                             SelectionChanged="Main_nview_SelectionChanged"
+                             Style="{StaticResource SettingsNavigationViewStyle}">
+            <muxc:NavigationView.MenuItems>
+                <muxc:NavigationViewItem Content="Manage"
+                                         Icon="Manage"
+                                         Tag="Manage"/>
+                <muxc:NavigationViewItem Content="Accounts"
+                                         Icon="Contact"
+                                         Tag="Accounts"/>
 
-                <controlsComp:NavigationViewItem Content="Push"
-                                                 Tag="Push">
-                    <controlsComp:NavigationViewItem.Icon>
+                <muxc:NavigationViewItem Content="Push"
+                                         Tag="Push">
+                    <muxc:NavigationViewItem.Icon>
                         <FontIcon Glyph="&#xE753;"/>
-                    </controlsComp:NavigationViewItem.Icon>
-                </controlsComp:NavigationViewItem>
-            </controlsComp:NavigationView.MenuItems>
+                    </muxc:NavigationViewItem.Icon>
+                </muxc:NavigationViewItem>
+            </muxc:NavigationView.MenuItems>
             <ScrollViewer x:Name="main_scv"
                           HorizontalScrollMode="Disabled"
                           VerticalScrollBarVisibility="Hidden"
@@ -162,7 +162,7 @@
                     </settings:SettingsContentControl>
                 </StackPanel>
             </ScrollViewer>
-        </controlsComp:NavigationView>
+        </muxc:NavigationView>
 
         <!--  Header:  -->
         <!--  Has to be bellow content to correctly draw the drop shadow.  -->

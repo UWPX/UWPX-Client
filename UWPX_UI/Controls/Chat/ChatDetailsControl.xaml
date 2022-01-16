@@ -237,7 +237,7 @@
             <!--  Input:  -->
             <Grid Grid.Row="3"
                   Margin="5,0,5,5"
-                  Background="{ThemeResource LayerFillColorDefaultBrush}"
+                  Background="{ThemeResource AppBackgroundAcrylicElementBrush}"
                   BorderBrush="{ThemeResource CardStrokeColorDefaultBrush}"
                   CornerRadius="{ThemeResource OverlayCornerRadius}">
                 <Grid.ColumnDefinitions>

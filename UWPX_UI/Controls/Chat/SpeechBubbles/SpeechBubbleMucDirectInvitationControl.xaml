@@ -15,7 +15,9 @@
     </UserControl.Resources>
 
     <controls:Expander HorizontalContentAlignment="Stretch"
-                       Background="{ThemeResource AppBackgroundAcrylicElementBrush}">
+                       Background="{ThemeResource LayerFillColorDefaultBrush}"
+                       BorderBrush="{ThemeResource CardStrokeColorDefaultBrush}"
+                       CornerRadius="{ThemeResource OverlayCornerRadius}">
         <controls:Expander.Header>
             <Grid>
                 <Grid.ColumnDefinitions>

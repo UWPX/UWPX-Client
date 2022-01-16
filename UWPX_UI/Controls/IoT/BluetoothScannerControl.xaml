@@ -22,8 +22,9 @@
               Padding="20"
               HorizontalAlignment="Center"
               VerticalAlignment="Center"
-              Background="{ThemeResource AppBackgroundAcrylicElementBrush}"
-              CornerRadius="5"
+              Background="{ThemeResource LayerFillColorDefaultBrush}"
+              BorderBrush="{ThemeResource CardStrokeColorDefaultBrush}"
+              CornerRadius="{ThemeResource OverlayCornerRadius}"
               Visibility="Collapsed">
             <Grid.RowDefinitions>
                 <RowDefinition Height="Auto"/>
@@ -48,8 +49,9 @@
               Padding="20"
               HorizontalAlignment="Center"
               VerticalAlignment="Center"
-              Background="{ThemeResource AppBackgroundAcrylicElementBrush}"
-              CornerRadius="5"
+              Background="{ThemeResource LayerFillColorDefaultBrush}"
+              BorderBrush="{ThemeResource CardStrokeColorDefaultBrush}"
+              CornerRadius="{ThemeResource OverlayCornerRadius}"
               Visibility="Collapsed">
             <Grid.RowDefinitions>
                 <RowDefinition Height="Auto"/>

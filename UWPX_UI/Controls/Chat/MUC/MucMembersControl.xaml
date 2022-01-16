@@ -26,7 +26,9 @@
     </UserControl.Resources>
 
     <Border>
-        <Grid CornerRadius="{ThemeResource OverlayCornerRadius}">
+        <Grid Background="{ThemeResource LayerFillColorDefaultBrush}"
+              BorderBrush="{ThemeResource CardStrokeColorDefaultBrush}"
+              CornerRadius="{ThemeResource OverlayCornerRadius}">
             <Grid.RowDefinitions>
                 <RowDefinition Height="Auto"/>
                 <RowDefinition Height="Auto"/>
@@ -37,7 +39,6 @@
             <controls:Expander x:Name="expander"
                                Grid.Row="1"
                                HorizontalContentAlignment="Stretch"
-                               Background="{ThemeResource AppBackgroundAcrylicElementBrush}"
                                IsEnabled="{x:Bind VIEW_MODEL.MODEL.MembersFound, Mode=OneWay}">
                 <controls:Expander.Header>
                     <Grid>

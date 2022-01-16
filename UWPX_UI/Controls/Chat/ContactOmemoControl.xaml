@@ -30,7 +30,8 @@
     <Border>
         <Grid x:Name="main_grid"
               Padding="30,20,30,30"
-              Background="{ThemeResource AppBackgroundAcrylicElementBrush}"
+              Background="{ThemeResource LayerFillColorDefaultBrush}"
+              BorderBrush="{ThemeResource CardStrokeColorDefaultBrush}"
               CornerRadius="{ThemeResource OverlayCornerRadius}">
             <Grid.RowDefinitions>
                 <RowDefinition Height="Auto"/>

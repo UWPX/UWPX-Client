@@ -3,9 +3,9 @@
       xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
       xmlns:controls="using:UWPX_UI.Controls"
       xmlns:controls1="using:Microsoft.Toolkit.Uwp.UI.Controls"
-      xmlns:controlsComp="using:Microsoft.UI.Xaml.Controls"
       xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
       xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+      xmlns:muxc="using:Microsoft.UI.Xaml.Controls"
       xmlns:settings="using:UWPX_UI.Controls.Settings"
       mc:Ignorable="d">
     <Page.Resources>
@@ -28,32 +28,32 @@
         </Grid.RowDefinitions>
 
         <!--  Content:  -->
-        <controlsComp:NavigationView x:Name="main_nview"
-                                     Grid.Row="1"
-                                     Loaded="Main_nview_Loaded"
-                                     SelectionChanged="Main_nview_SelectionChanged"
-                                     Style="{StaticResource SettingsNavigationViewStyle}">
-            <controlsComp:NavigationView.MenuItems>
-                <controlsComp:NavigationViewItem Content="General"
-                                                 Icon="Message"
-                                                 Tag="General"/>
-                <controlsComp:NavigationViewItem Content="Group Chat (MUC)"
-                                                 Icon="People"
-                                                 Tag="MUC"/>
-                <controlsComp:NavigationViewItem Content="Media"
-                                                 Icon="Pictures"
-                                                 Tag="Media"/>
-                <controlsComp:NavigationViewItem Content="OMEMO"
-                                                 Icon="Permissions"
-                                                 Tag="OMEMO"/>
-                <controlsComp:NavigationViewItem Content="Message Archive Management (MAM)"
-                                                 Tag="MAM">
-                    <controlsComp:NavigationViewItem.Icon>
+        <muxc:NavigationView x:Name="main_nview"
+                             Grid.Row="1"
+                             Loaded="Main_nview_Loaded"
+                             SelectionChanged="Main_nview_SelectionChanged"
+                             Style="{StaticResource SettingsNavigationViewStyle}">
+            <muxc:NavigationView.MenuItems>
+                <muxc:NavigationViewItem Content="General"
+                                         Icon="Message"
+                                         Tag="General"/>
+                <muxc:NavigationViewItem Content="Group Chat (MUC)"
+                                         Icon="People"
+                                         Tag="MUC"/>
+                <muxc:NavigationViewItem Content="Media"
+                                         Icon="Pictures"
+                                         Tag="Media"/>
+                <muxc:NavigationViewItem Content="OMEMO"
+                                         Icon="Permissions"
+                                         Tag="OMEMO"/>
+                <muxc:NavigationViewItem Content="Message Archive Management (MAM)"
+                                         Tag="MAM">
+                    <muxc:NavigationViewItem.Icon>
                         <FontIcon FontFamily="Segoe MDL2 Assets"
                                   Glyph="&#xE96A;"/>
-                    </controlsComp:NavigationViewItem.Icon>
-                </controlsComp:NavigationViewItem>
-            </controlsComp:NavigationView.MenuItems>
+                    </muxc:NavigationViewItem.Icon>
+                </muxc:NavigationViewItem>
+            </muxc:NavigationView.MenuItems>
             <ScrollViewer x:Name="main_scv"
                           HorizontalScrollMode="Disabled"
                           VerticalScrollBarVisibility="Hidden"
@@ -270,15 +270,15 @@
                                     </Button>
                                 </StackPanel>
                                 <StackPanel Orientation="Horizontal">
-                                    <controlsComp:NumberBox HorizontalAlignment="Left"
-                                                            Header="Request for the last n days:"
-                                                            IsEnabled="{x:Bind VIEW_MODEL.MODEL.EnableMam, Mode=OneWay}"
-                                                            LargeChange="10"
-                                                            PlaceholderText="30"
-                                                            SmallChange="1"
-                                                            SpinButtonPlacementMode="Inline"
-                                                            ValueChanged="MamDaysNumberBox_ValueChanged"
-                                                            Value="{x:Bind VIEW_MODEL.MODEL.MamRequestDays, Mode=TwoWay}"/>
+                                    <muxc:NumberBox HorizontalAlignment="Left"
+                                                    Header="Request for the last n days:"
+                                                    IsEnabled="{x:Bind VIEW_MODEL.MODEL.EnableMam, Mode=OneWay}"
+                                                    LargeChange="10"
+                                                    PlaceholderText="30"
+                                                    SmallChange="1"
+                                                    SpinButtonPlacementMode="Inline"
+                                                    ValueChanged="MamDaysNumberBox_ValueChanged"
+                                                    Value="{x:Bind VIEW_MODEL.MODEL.MamRequestDays, Mode=TwoWay}"/>
                                     <Button Margin="10,0,0,0"
                                             VerticalAlignment="Bottom"
                                             IsEnabled="{x:Bind VIEW_MODEL.MODEL.EnableMam, Mode=OneWay}"
@@ -297,7 +297,7 @@
                     </settings:SettingsContentControl>
                 </StackPanel>
             </ScrollViewer>
-        </controlsComp:NavigationView>
+        </muxc:NavigationView>
 
         <!--  Header:  -->
         <!--  Has to be bellow content to correctly draw the drop shadow.  -->

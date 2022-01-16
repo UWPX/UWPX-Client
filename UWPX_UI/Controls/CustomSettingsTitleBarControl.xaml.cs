@@ -63,6 +63,7 @@ namespace UWPX_UI.Controls
         public CustomSettingsTitleBarControl()
         {
             InitializeComponent();
+            UiUtils.ApplyBackground(this);
             SetupTitleBar();
             SetupKeyboardAccelerators();
 
