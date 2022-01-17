@@ -4,6 +4,7 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              Background="{ThemeResource ButtonBackground}"
+             CornerRadius="{ThemeResource ControlCornerRadius}"
              Foreground="{ThemeResource ButtonForegroundThemeBrush}"
              mc:Ignorable="d">
 
@@ -12,7 +13,7 @@
             VerticalAlignment="{x:Bind VerticalAlignment, Mode=TwoWay}"
             Background="{x:Bind Background, Mode=OneWay}"
             Click="Button_Click"
-            CornerRadius="{ThemeResource ControlCornerRadius}"
+            CornerRadius="{x:Bind CornerRadius}"
             Foreground="{x:Bind Foreground, Mode=OneWay}">
         <Grid>
             <Grid.ColumnDefinitions>
