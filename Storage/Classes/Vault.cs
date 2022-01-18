@@ -33,9 +33,7 @@ namespace Storage.Classes
             {
                 return PASSWORD_VAULT.Retrieve(vaultName, account.user.localPart);
             }
-            catch (Exception)
-            {
-            }
+            catch (Exception) { }
 
             return null;
         }
