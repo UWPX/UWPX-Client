@@ -16,8 +16,9 @@ namespace XMPP_API.Classes.Network
         //--------------------------------------------------------Attributes:-----------------------------------------------------------------\\
         #region --Attributes--
         private readonly XmppConnection CONNECTION;
-        private delegate Task CheckDiscoFeaturesAsync(List<DiscoFeature> features, string discoTarget);
+        private delegate Task CheckDiscoResponseAsync(DiscoResponseMessage disco, string discoTarget);
         private readonly Dictionary<string, HashSet<string>> DISCO_INFO_RESULT = new Dictionary<string, HashSet<string>>();
+        private readonly Dictionary<string, List<DiscoItem>> DISCO_ITEM_RESULT = new Dictionary<string, List<DiscoItem>>();
 
         public delegate void DicoFeaturesDicoveredEventHandler(DiscoFeatureHelper sender, DicoFeaturesDicoveredEventArgs args);
         public event DicoFeaturesDicoveredEventHandler DicoFeaturesDicovered;
@@ -49,77 +50,116 @@ namespace XMPP_API.Classes.Network
             return DISCO_INFO_RESULT.ContainsKey(discoTarget) && DISCO_INFO_RESULT[discoTarget].Contains(feature);
         }
 
+        public List<DiscoItem> GetDiscoItems(string discoTarget)
+        {
+            return DISCO_ITEM_RESULT.ContainsKey(discoTarget) ? new List<DiscoItem>() : DISCO_ITEM_RESULT[discoTarget];
+        }
+
         #endregion
 
         #region --Misc Methods (Private)--
-        private Task DiscoDomainPartAsync()
+        private async Task DiscoDomainPartAsync()
         {
-            return DiscoAsync(CONNECTION.account.user.domainPart, CheckDiscoFeaturesDomainPartAsync);
-        }
-
-        private Task DiscoBareJidAsync()
-        {
-            return DiscoAsync(CONNECTION.account.user.getBareJid(), CheckDiscoFeaturesBareJidAsync);
-        }
-
-        private async Task DiscoAsync(string discoTarget, CheckDiscoFeaturesAsync action)
-        {
-            MessageResponseHelperResult<IQMessage> result = await CONNECTION.GENERAL_COMMAND_HELPER.discoAsync(discoTarget, DiscoType.INFO);
-            if (result.STATE != MessageResponseHelperResultState.SUCCESS)
+            bool result = await DiscoAsync(CONNECTION.account.user.domainPart, CheckDiscoFeaturesDomainPartAsync, DiscoType.INFO);
+            if (result)
             {
-                Logger.Error("Failed to perform server DISCO for '" + CONNECTION.account.getBareJid() + "' - " + result.STATE);
+                result = await DiscoAsync(CONNECTION.account.user.domainPart, CheckDiscoItemsAsync, DiscoType.ITEMS);
+                if (result)
+                {
+                    return;
+                }
             }
-            else if (result.RESULT is IQErrorMessage errorMessage)
-            {
-                Logger.Error("Failed to perform server DISCO for '" + CONNECTION.account.getBareJid() + "' - " + errorMessage.ERROR_OBJ.ToString());
-            }
-            // Success:
-            else if (result.RESULT is DiscoResponseMessage disco)
-            {
-                await OnDiscoResponseMessage(disco, action, discoTarget);
-                return;
-            }
-            else
-            {
-                Logger.Error("Failed to perform server DISCO for '" + CONNECTION.account.getBareJid() + "' - invalid response.");
-            }
-
             CONNECTION.account.CONNECTION_INFO.msgCarbonsState = MessageCarbonsState.ERROR;
         }
 
-        private async Task OnDiscoResponseMessage(DiscoResponseMessage disco, CheckDiscoFeaturesAsync action, string discoTarget)
+        private async Task DiscoBareJidAsync()
+        {
+            bool result = await DiscoAsync(CONNECTION.account.user.getBareJid(), CheckDiscoFeaturesBareJidAsync, DiscoType.INFO);
+            if (result)
+            {
+                await DiscoAsync(CONNECTION.account.user.getBareJid(), CheckDiscoItemsAsync, DiscoType.ITEMS);
+            }
+        }
+
+        private async Task<bool> DiscoAsync(string discoTarget, CheckDiscoResponseAsync action, DiscoType discoType)
+        {
+            MessageResponseHelperResult<IQMessage> result = await CONNECTION.GENERAL_COMMAND_HELPER.discoAsync(discoTarget, discoType);
+            if (result.STATE != MessageResponseHelperResultState.SUCCESS)
+            {
+                Logger.Error($"Failed to perform server DISCO#{discoType} for '{CONNECTION.account.getBareJid()}' - {result.STATE}");
+                return false;
+            }
+
+            if (result.RESULT is IQErrorMessage errorMessage)
+            {
+                Logger.Error($"Failed to perform server DISCO#{discoType} for '{CONNECTION.account.getBareJid()}' - {errorMessage.ERROR_OBJ}");
+                return false;
+            }
+
+            // Success:
+            if (result.RESULT is DiscoResponseMessage disco)
+            {
+                await OnDiscoResponseMessage(disco, action, discoTarget);
+                return true;
+            }
+
+            Logger.Error($"Failed to perform server DISCO#{discoType} for '{CONNECTION.account.getBareJid()}' - invalid response.");
+            return false;
+        }
+
+        private async Task OnDiscoResponseMessage(DiscoResponseMessage disco, CheckDiscoResponseAsync action, string discoTarget)
         {
             // Print a list of all supported features:
             if (Logger.logLevel >= LogLevel.DEBUG)
             {
-                StringBuilder sb = new StringBuilder("The server for '");
+                StringBuilder sb = new StringBuilder("Disco#");
+                sb.Append(disco.DISCO_TYPE);
+                sb.Append(" for '");
                 sb.Append(CONNECTION.account.getBareJid());
-                sb.Append("' supports the following features:\n");
-                foreach (string s in disco.FEATURES.Select(x => x.VAR))
+                if (disco.DISCO_TYPE == DiscoType.INFO)
                 {
-                    sb.Append(s);
-                    sb.Append("\n");
+                    sb.Append("' reported the following features:\n");
+                    foreach (string s in disco.FEATURES.Select(x => x.VAR))
+                    {
+                        sb.Append(s);
+                        sb.Append("\n");
+                    }
+                }
+                else
+                {
+                    sb.Append("' reported the following items:\n");
+                    foreach (DiscoItem i in disco.ITEMS)
+                    {
+                        sb.Append(i.JID);
+                        if (!string.IsNullOrEmpty(i.NODE))
+                        {
+                            sb.Append(" -> ");
+                            sb.Append(i.NODE);
+                        }
+                        if (!string.IsNullOrEmpty(i.NAME))
+                        {
+                            sb.Append($" ({i.NAME})");
+                        }
+                        sb.Append("\n");
+                    }
                 }
                 Logger.Debug(sb.ToString());
             }
 
-            switch (disco.DISCO_TYPE)
-            {
-                case DiscoType.ITEMS:
-                    break;
-
-                case DiscoType.INFO:
-                    await action(disco.FEATURES, discoTarget);
-                    break;
-
-                default:
-                    break;
-            }
+            await action(disco, discoTarget);
         }
 
-        private async Task CheckDiscoFeaturesDomainPartAsync(List<DiscoFeature> features, string discoTarget)
+#pragma warning disable CS1998 // Async method lacks 'await' operators and will run synchronously
+        private async Task CheckDiscoItemsAsync(DiscoResponseMessage disco, string discoTarget)
+#pragma warning restore CS1998 // Async method lacks 'await' operators and will run synchronously
         {
-            AddFeaturesForTarget(features, discoTarget);
+            DISCO_ITEM_RESULT[discoTarget] = disco.ITEMS;
+            Logger.Info($"Disco items for '{discoTarget}' updated.");
+        }
+
+        private async Task CheckDiscoFeaturesDomainPartAsync(DiscoResponseMessage disco, string discoTarget)
+        {
+            AddFeaturesForTarget(disco.FEATURES, discoTarget);
             DicoFeaturesDicovered?.Invoke(this, new DicoFeaturesDicoveredEventArgs(DISCO_INFO_RESULT[discoTarget], discoTarget));
 
             if (CONNECTION.account.connectionConfiguration.disableMessageCarbons)
@@ -150,14 +190,14 @@ namespace XMPP_API.Classes.Network
                 featureSet.Add(f.VAR);
             }
             DISCO_INFO_RESULT[discoTarget] = featureSet;
-            Logger.Info("Features for " + discoTarget + " updated.");
+            Logger.Info($"Disco features for '{discoTarget}' updated.");
         }
 
 #pragma warning disable CS1998 // Async method lacks 'await' operators and will run synchronously
-        private async Task CheckDiscoFeaturesBareJidAsync(List<DiscoFeature> features, string discoTarget)
+        private async Task CheckDiscoFeaturesBareJidAsync(DiscoResponseMessage disco, string discoTarget)
 #pragma warning restore CS1998 // Async method lacks 'await' operators and will run synchronously
         {
-            AddFeaturesForTarget(features, discoTarget);
+            AddFeaturesForTarget(disco.FEATURES, discoTarget);
             DicoFeaturesDicovered?.Invoke(this, new DicoFeaturesDicoveredEventArgs(DISCO_INFO_RESULT[discoTarget], discoTarget));
         }
 
