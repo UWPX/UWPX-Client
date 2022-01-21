@@ -4,10 +4,13 @@ using System.Threading.Tasks;
 using Logging;
 using Manager.Classes;
 using Manager.Classes.Chat;
+using Shared.Classes.Image;
 using Storage.Classes;
 using Storage.Classes.Models.Account;
 using Storage.Classes.Models.Chat;
 using UWPX_UI_Context.Classes.DataTemplates.Controls;
+using Windows.Graphics.Imaging;
+using Windows.Storage;
 using Windows.System;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Input;
@@ -97,6 +100,74 @@ namespace UWPX_UI_Context.Classes.DataContext.Controls
             }
         }
 
+        public void OnEnterKeyDown(KeyRoutedEventArgs args, ChatDataTemplate chat)
+        {
+            if (Settings.GetSettingBoolean(SettingsConsts.ENTER_TO_SEND_MESSAGES))
+            {
+                if (UiUtils.IsVirtualKeyDown(VirtualKey.Shift))
+                {
+                    Logger.Info("Enter + Shift down.");
+                    return;
+                }
+                Logger.Info("Enter down.");
+
+                args.Handled = true;
+                if (!string.IsNullOrWhiteSpace(MODEL.MessageText))
+                {
+                    SendChatMessage(chat);
+                }
+            }
+        }
+
+        public async Task LeaveMucAsync(ChatDataTemplate chatTemplate)
+        {
+            if (!MODEL.isDummy)
+            {
+                await MucHandler.INSTANCE.LeaveRoomAsync(chatTemplate.Client.xmppClient, chatTemplate.Chat.muc);
+            }
+        }
+
+        public async Task EnterMucAsync(ChatDataTemplate chatTemplate)
+        {
+            if (!MODEL.isDummy)
+            {
+                await MucHandler.INSTANCE.EnterMucAsync(chatTemplate.Client.xmppClient, chatTemplate.Chat.muc);
+            }
+        }
+
+        public void MarkAsIotDevice(ChatModel chat)
+        {
+            chat.chatType = ChatType.IOT_DEVICE;
+            chat.Update();
+        }
+
+        public async Task SendImageFromLibraryAsync()
+        {
+            StorageFile file = await ImageUtils.PickImageAsync();
+            if (file is null)
+            {
+                Logger.Info("Sending image from library canceled.");
+                return;
+            }
+            SoftwareBitmap img = await ImageUtils.LoadImageAsync(file);
+        }
+
+        #endregion
+
+        #region --Misc Methods (Private)--
+        private void UpdateView(ChatDataTemplate chatTemplate)
+        {
+            if (chatTemplate is not null)
+            {
+                MODEL.UpdateView(chatTemplate.Client.dbAccount);
+                MODEL.UpdateView(chatTemplate.Chat);
+                if (chatTemplate.Chat.chatType == ChatType.MUC)
+                {
+                    MODEL.UpdateView(chatTemplate.Chat?.muc);
+                }
+            }
+        }
+
         private async Task SendChatMessageAsync(ChatDataTemplate chat, string message)
         {
             MessageMessage toSendMsg;
@@ -149,63 +220,6 @@ namespace UWPX_UI_Context.Classes.DataContext.Controls
             else
             {
                 await chat.Client.xmppClient.SendAsync(toSendMsg);
-            }
-        }
-
-        public void OnEnterKeyDown(KeyRoutedEventArgs args, ChatDataTemplate chat)
-        {
-            if (Settings.GetSettingBoolean(SettingsConsts.ENTER_TO_SEND_MESSAGES))
-            {
-                if (UiUtils.IsVirtualKeyDown(VirtualKey.Shift))
-                {
-                    Logger.Info("Enter + Shift down.");
-                    return;
-                }
-                Logger.Info("Enter down.");
-
-                args.Handled = true;
-                if (!string.IsNullOrWhiteSpace(MODEL.MessageText))
-                {
-                    SendChatMessage(chat);
-                }
-            }
-        }
-
-        public async Task LeaveMucAsync(ChatDataTemplate chatTemplate)
-        {
-            if (!MODEL.isDummy)
-            {
-                await MucHandler.INSTANCE.LeaveRoomAsync(chatTemplate.Client.xmppClient, chatTemplate.Chat.muc);
-            }
-        }
-
-        public async Task EnterMucAsync(ChatDataTemplate chatTemplate)
-        {
-            if (!MODEL.isDummy)
-            {
-                await MucHandler.INSTANCE.EnterMucAsync(chatTemplate.Client.xmppClient, chatTemplate.Chat.muc);
-            }
-        }
-
-        public void MarkAsIotDevice(ChatModel chat)
-        {
-            chat.chatType = ChatType.IOT_DEVICE;
-            chat.Update();
-        }
-
-        #endregion
-
-        #region --Misc Methods (Private)--
-        private void UpdateView(ChatDataTemplate chatTemplate)
-        {
-            if (chatTemplate is not null)
-            {
-                MODEL.UpdateView(chatTemplate.Client.dbAccount);
-                MODEL.UpdateView(chatTemplate.Chat);
-                if (chatTemplate.Chat.chatType == ChatType.MUC)
-                {
-                    MODEL.UpdateView(chatTemplate.Chat?.muc);
-                }
             }
         }
 

@@ -8,6 +8,7 @@ using Logging;
 using Windows.Foundation;
 using Windows.Graphics.Imaging;
 using Windows.Storage;
+using Windows.Storage.Pickers;
 using Windows.Storage.Streams;
 using Windows.UI.Xaml.Media.Imaging;
 
@@ -36,18 +37,18 @@ namespace Shared.Classes.Image
         //--------------------------------------------------------Misc Methods:---------------------------------------------------------------\\
         #region --Misc Methods (Public)--
         /// <summary>
-        /// Loads the given image asynchronously and scales it arcordingly in case <paramref name="maxHeight"/> and <paramref name="maxWidth"/> are set to values greater than 0.
+        /// Loads the given image asynchronously and scales it accordingly in case <paramref name="maxHeight"/> and <paramref name="maxWidth"/> are set to values greater than 0.
         /// </summary>
         /// <param name="file">The <see cref="StorageFile"/> where we should load the image from.</param>
         /// <param name="maxWidth">The maximum width in pixel for the image. -1 to keep the original width.</param>
         /// <param name="maxHeight">The maximum height in pixel for the image. -1 to keep the original height.</param>
-        /// <returns>Returns the loaded and scaled image on success. Null else.</returns>
+        /// <returns>Returns the loaded and scaled image on success. Null else. Does not throw an exception.</returns>
         public static async Task<SoftwareBitmap> LoadImageAsync(StorageFile file, double maxWidth = -1, double maxHeight = -1)
         {
             Debug.Assert(file is not null);
             try
             {
-                Logger.Info($"Lading imge '{file.Path}'...");
+                Logger.Info($"Lading image '{file.Path}'...");
                 using (IRandomAccessStream stream = await file.OpenReadAsync())
                 {
                     BitmapDecoder decoder = await BitmapDecoder.CreateAsync(stream);
@@ -140,6 +141,26 @@ namespace Shared.Classes.Image
             {
                 return SharedUtils.ToHexString(sha.ComputeHash(img));
             }
+        }
+
+        /// <summary>
+        /// Opens a new <see cref="FileOpenPicker"/> which allows the user to select an image (.jpg, .jpeg, .png).
+        /// </summary>
+        /// <returns>On success the storage file representing the image.</returns>
+        public static async Task<StorageFile> PickImageAsync()
+        {
+            FileOpenPicker picker = new FileOpenPicker
+            {
+                ViewMode = PickerViewMode.Thumbnail,
+                SuggestedStartLocation = PickerLocationId.PicturesLibrary
+            };
+            picker.FileTypeFilter.Add(".jpg");
+            picker.FileTypeFilter.Add(".jpeg");
+            picker.FileTypeFilter.Add(".png");
+            // picker.FileTypeFilter.Add(".gif"); Not supported currently since we are using SoftwareBitmap which would show only the first frame
+            picker.SuggestedStartLocation = PickerLocationId.PicturesLibrary;
+
+            return await picker.PickSingleFileAsync();
         }
 
         #endregion

@@ -153,6 +153,7 @@
     <Compile Include="Classes\DataContext\Controls\ChatMessageListControlContext.cs" />
     <Compile Include="Classes\DataContext\Controls\ChatSuggestionsControlContext.cs" />
     <Compile Include="Classes\DataContext\Controls\Chat\ContactOmemoControlContext.cs" />
+    <Compile Include="Classes\DataContext\Controls\Chat\EditImageControlContext.cs" />
     <Compile Include="Classes\DataContext\Controls\Chat\MUC\MucAffiliationControlContext.cs" />
     <Compile Include="Classes\DataContext\Controls\Chat\MUC\MucConfigurationControlContext.cs" />
     <Compile Include="Classes\DataContext\Controls\Chat\MUC\MucInfoControlContext.cs" />
@@ -240,6 +241,7 @@
     <Compile Include="Classes\DataTemplates\Controls\ChatMessageListControlDataTemplate.cs" />
     <Compile Include="Classes\DataTemplates\Controls\ChatSuggestionsControlDataTemplate.cs" />
     <Compile Include="Classes\DataTemplates\Controls\Chat\ContactOmemoControlDataTemplate.cs" />
+    <Compile Include="Classes\DataTemplates\Controls\Chat\EditImageControlDataTemplate.cs" />
     <Compile Include="Classes\DataTemplates\Controls\Chat\MUC\MucAffiliationControlDataTemplate.cs" />
     <Compile Include="Classes\DataTemplates\Controls\Chat\MUC\MucConfigurationrControlDataTemplate.cs" />
     <Compile Include="Classes\DataTemplates\Controls\Chat\MUC\MucInfoControlDataTemplate.cs" />

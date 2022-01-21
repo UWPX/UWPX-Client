@@ -15,8 +15,6 @@ using UWPX_UI_Context.Classes.Events;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Input;
-using XMPP_API.Classes.Network.XML.Messages;
-using XMPP_API.Classes.Network.XML.Messages.Helper;
 
 namespace UWPX_UI.Controls.Chat
 {
@@ -197,26 +195,6 @@ namespace UWPX_UI.Controls.Chat
             }
         }
 
-        private void ClipImgLib_btn_Click(object sender, RoutedEventArgs e)
-        {
-
-        }
-
-        private void ClipImgCam_btn_Click(object sender, RoutedEventArgs e)
-        {
-
-        }
-
-        private void ClipDraw_btn_Click(object sender, RoutedEventArgs e)
-        {
-
-        }
-
-        private void ClipFile_btn_Click(object sender, RoutedEventArgs e)
-        {
-
-        }
-
         private void Send_btn_Click(object sender, RoutedEventArgs e)
         {
             VIEW_MODEL.SendChatMessage(Chat);
@@ -308,6 +286,11 @@ namespace UWPX_UI.Controls.Chat
         private void OnHeaderTapped(object sender, TappedRoutedEventArgs e)
         {
             NavigateToChatInfoPage();
+        }
+
+        private async void OnSendImageFromLibraryClicked(IconButtonControl sender, RoutedEventArgs args)
+        {
+            await VIEW_MODEL.SendImageFromLibraryAsync();
         }
         #endregion
     }

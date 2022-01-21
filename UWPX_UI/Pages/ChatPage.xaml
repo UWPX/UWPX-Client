@@ -378,5 +378,7 @@
                                         Grid.Row="0"
                                         Frame="{x:Bind Frame, Mode=OneWay}"
                                         ListDetailsView="{x:Bind chats_mdv}"/>
+
+        <chat:EditImageControl Grid.Row="1"/>
     </Grid>
 </Page>

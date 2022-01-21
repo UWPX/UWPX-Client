@@ -180,6 +180,9 @@
     <Compile Include="Controls\Chat\ContactOmemoControl.xaml.cs">
       <DependentUpon>ContactOmemoControl.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Controls\Chat\EditImageControl.xaml.cs">
+      <DependentUpon>EditImageControl.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Controls\Chat\EmojiPickerControl.xaml.cs">
       <DependentUpon>EmojiPickerControl.xaml</DependentUpon>
     </Compile>
@@ -713,6 +716,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Controls\Chat\ContactOmemoControl.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Controls\Chat\EditImageControl.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

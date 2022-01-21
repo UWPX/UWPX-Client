@@ -40,18 +40,7 @@ namespace UWPX_UI_Context.Classes.DataContext.Dialogs
         {
             MODEL.IsLoading = true;
             MODEL.Error = false;
-            FileOpenPicker picker = new FileOpenPicker
-            {
-                ViewMode = PickerViewMode.Thumbnail,
-                SuggestedStartLocation = PickerLocationId.PicturesLibrary
-            };
-            picker.FileTypeFilter.Add(".jpg");
-            picker.FileTypeFilter.Add(".jpeg");
-            picker.FileTypeFilter.Add(".png");
-            // picker.FileTypeFilter.Add(".gif"); Not supported currently since we are using SoftwareBitmap which would show only the first frame
-            picker.SuggestedStartLocation = PickerLocationId.PicturesLibrary;
-
-            StorageFile file = await picker.PickSingleFileAsync();
+            StorageFile file = await ImageUtils.PickImageAsync();
             if (file is not null)
             {
                 Logger.Debug($"New avatar: " + file.DisplayName);
