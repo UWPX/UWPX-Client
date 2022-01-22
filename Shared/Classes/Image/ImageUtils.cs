@@ -48,7 +48,7 @@ namespace Shared.Classes.Image
             Debug.Assert(file is not null);
             try
             {
-                Logger.Info($"Lading image '{file.Path}'...");
+                Logger.Info($"Loading image '{file.Path}'...");
                 using (IRandomAccessStream stream = await file.OpenReadAsync())
                 {
                     BitmapDecoder decoder = await BitmapDecoder.CreateAsync(stream);
@@ -84,6 +84,18 @@ namespace Shared.Classes.Image
                 Logger.Error($"Failed to load image '{file.Path}'.", e);
                 return null;
             }
+        }
+
+        /// <summary>
+        /// Converts the given <see cref="SoftwareBitmap"/> to a <see cref="WriteableBitmap"/> and returns it.
+        /// </summary>
+        /// <param name="img">The <see cref="SoftwareBitmap"/> to convert.</param>
+        public static WriteableBitmap ToWritableBitmap(SoftwareBitmap img)
+        {
+            WriteableBitmap wImg = new WriteableBitmap(img.PixelWidth, img.PixelHeight);
+            img.CopyToBuffer(wImg.PixelBuffer);
+            wImg.Invalidate();
+            return wImg;
         }
 
         /// <summary>

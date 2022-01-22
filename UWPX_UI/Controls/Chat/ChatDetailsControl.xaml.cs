@@ -2,6 +2,7 @@
 using Logging;
 using Manager.Classes;
 using Manager.Classes.Chat;
+using Shared.Classes.Image;
 using Storage.Classes;
 using Storage.Classes.Models.Account;
 using Storage.Classes.Models.Chat;
@@ -12,9 +13,12 @@ using UWPX_UI.Pages.Settings;
 using UWPX_UI_Context.Classes;
 using UWPX_UI_Context.Classes.DataContext.Controls;
 using UWPX_UI_Context.Classes.Events;
+using Windows.Graphics.Imaging;
+using Windows.Storage;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Input;
+using Windows.UI.Xaml.Media;
 
 namespace UWPX_UI.Controls.Chat
 {
@@ -288,9 +292,32 @@ namespace UWPX_UI.Controls.Chat
             NavigateToChatInfoPage();
         }
 
+        private static T FindParent<T>(DependencyObject dependencyObject) where T : DependencyObject
+        {
+            DependencyObject parent = VisualTreeHelper.GetParent(dependencyObject);
+            if (parent is null)
+            {
+                return null;
+            }
+            if (parent is T parentT)
+            {
+                return parentT;
+            }
+            return FindParent<T>(parent);
+        }
+
         private async void OnSendImageFromLibraryClicked(IconButtonControl sender, RoutedEventArgs args)
         {
-            await VIEW_MODEL.SendImageFromLibraryAsync();
+            ChatPage page = FindParent<ChatPage>(this);
+            StorageFile file = await ImageUtils.PickImageAsync();
+            if (file is null)
+            {
+                Logger.Info("Sending image from library canceled.");
+                return;
+            }
+            SoftwareBitmap img = await ImageUtils.LoadImageAsync(file);
+            page.GetEditImageControl().SetImage(img);
+            await page.GetEditImageControl().ShowAsync();
         }
         #endregion
     }

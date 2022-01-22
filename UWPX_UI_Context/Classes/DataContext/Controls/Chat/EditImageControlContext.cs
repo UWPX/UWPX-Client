@@ -1,4 +1,6 @@
-﻿using UWPX_UI_Context.Classes.DataTemplates.Controls.Chat;
+﻿using Shared.Classes.Image;
+using UWPX_UI_Context.Classes.DataTemplates.Controls.Chat;
+using Windows.Graphics.Imaging;
 
 namespace UWPX_UI_Context.Classes.DataContext.Controls.Chat
 {
@@ -21,7 +23,11 @@ namespace UWPX_UI_Context.Classes.DataContext.Controls.Chat
         #endregion
         //--------------------------------------------------------Misc Methods:---------------------------------------------------------------\\
         #region --Misc Methods (Public)--
-
+        public void SetImage(SoftwareBitmap img)
+        {
+            MODEL.OriginalImage = img;
+            MODEL.WritableImage = ImageUtils.ToWritableBitmap(img);
+        }
 
         #endregion
 

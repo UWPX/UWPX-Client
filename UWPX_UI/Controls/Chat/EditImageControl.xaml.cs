@@ -1,6 +1,10 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Numerics;
+using System.Threading.Tasks;
+using Logging;
+using Microsoft.Toolkit.Uwp.UI.Animations;
 using UWPX_UI_Context.Classes.DataContext.Controls.Chat;
 using Windows.Graphics.Imaging;
 using Windows.UI.Core;
@@ -8,6 +12,7 @@ using Windows.UI.Input.Inking;
 using Windows.UI.ViewManagement;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
+using Windows.UI.Xaml.Media.Animation;
 
 namespace UWPX_UI.Controls.Chat
 {
@@ -17,6 +22,7 @@ namespace UWPX_UI.Controls.Chat
         #region --Attributes--
         public readonly EditImageControlContext VIEW_MODEL = new EditImageControlContext();
         private readonly Stack<InkStroke> STROKE_STACK = new Stack<InkStroke>();
+        private double contentHeight = 0;
 
         #endregion
         //--------------------------------------------------------Constructor:----------------------------------------------------------------\\
@@ -30,23 +36,32 @@ namespace UWPX_UI.Controls.Chat
         #endregion
         //--------------------------------------------------------Set-, Get- Methods:---------------------------------------------------------\\
         #region --Set-, Get- Methods--
-
+        public void SetContentHeight(double contentHeight)
+        {
+            this.contentHeight = contentHeight;
+        }
 
         #endregion
         //--------------------------------------------------------Misc Methods:---------------------------------------------------------------\\
         #region --Misc Methods (Public)--
-        public void SetImageAsync(SoftwareBitmap img)
+        public void SetImage(SoftwareBitmap img)
         {
-
+            VIEW_MODEL.SetImage(img);
+            STROKE_STACK.Clear();
+            inkCanvas.InkPresenter.StrokeContainer.Clear();
         }
 
-        public void Show()
+        public async Task ShowAsync()
         {
             Visibility = Visibility.Visible;
+            Logger.Debug($"ContentHeight: {contentHeight}");
+            await AnimationBuilder.Create().Translation(Axis.Y, 0, contentHeight, TimeSpan.FromMilliseconds(500), easingMode: EasingMode.EaseInOut).StartAsync(this);
         }
 
-        public void Hide()
+        public async Task HideAsync()
         {
+            Logger.Debug($"ContentHeight: {contentHeight}");
+            await AnimationBuilder.Create().Translation(Axis.Y, contentHeight, 0, TimeSpan.FromMilliseconds(500), easingMode: EasingMode.EaseInOut).StartAsync(this);
             Visibility = Visibility.Collapsed;
         }
 
@@ -79,6 +94,7 @@ namespace UWPX_UI.Controls.Chat
         {
             STROKE_STACK.Clear();
             inkCanvas.InkPresenter.StrokeContainer.Clear();
+            VIEW_MODEL.SetImage(VIEW_MODEL.MODEL.OriginalImage);
         }
 
         private void OnUndoClicked(object sender, RoutedEventArgs e)
@@ -106,14 +122,14 @@ namespace UWPX_UI.Controls.Chat
             }
         }
 
-        private void OnCancelClicked(object sender, RoutedEventArgs e)
+        private async void OnCancelClicked(object sender, RoutedEventArgs e)
         {
-            Hide();
+            await HideAsync();
         }
 
-        private void OnSendClicked(object sender, RoutedEventArgs e)
+        private async void OnSendClicked(object sender, RoutedEventArgs e)
         {
-            Hide();
+            await HideAsync();
         }
 
         #endregion

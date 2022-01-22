@@ -30,7 +30,10 @@ namespace UWPX_UI.Pages
         #endregion
         //--------------------------------------------------------Set-, Get- Methods:---------------------------------------------------------\\
         #region --Set-, Get- Methods--
-
+        public EditImageControl GetEditImageControl()
+        {
+            return editImageControl;
+        }
 
         #endregion
         //--------------------------------------------------------Misc Methods:---------------------------------------------------------------\\
@@ -132,6 +135,11 @@ namespace UWPX_UI.Pages
         {
             EditProfileDialog dialog = new EditProfileDialog();
             await UiUtils.ShowDialogAsync(dialog);
+        }
+
+        private void OnChatsMdvSizeChanged(object sender, SizeChangedEventArgs e)
+        {
+            editImageControl.SetContentHeight(e.NewSize.Height);
         }
         #endregion
     }
