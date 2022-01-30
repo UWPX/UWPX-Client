@@ -7,11 +7,13 @@ using Logging;
 using Microsoft.Toolkit.Uwp.UI.Animations;
 using UWPX_UI_Context.Classes.DataContext.Controls.Chat;
 using Windows.Graphics.Imaging;
+using Windows.System;
 using Windows.UI.Core;
 using Windows.UI.Input.Inking;
 using Windows.UI.ViewManagement;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
+using Windows.UI.Xaml.Input;
 using Windows.UI.Xaml.Media.Animation;
 
 namespace UWPX_UI.Controls.Chat
@@ -54,13 +56,11 @@ namespace UWPX_UI.Controls.Chat
         public async Task ShowAsync()
         {
             Visibility = Visibility.Visible;
-            Logger.Debug($"ContentHeight: {contentHeight}");
             await AnimationBuilder.Create().Translation(Axis.Y, 0, contentHeight, TimeSpan.FromMilliseconds(500), easingMode: EasingMode.EaseInOut).StartAsync(this);
         }
 
         public async Task HideAsync()
         {
-            Logger.Debug($"ContentHeight: {contentHeight}");
             await AnimationBuilder.Create().Translation(Axis.Y, contentHeight, 0, TimeSpan.FromMilliseconds(500), easingMode: EasingMode.EaseInOut).StartAsync(this);
             Visibility = Visibility.Collapsed;
         }
@@ -130,6 +130,14 @@ namespace UWPX_UI.Controls.Chat
         private async void OnSendClicked(object sender, RoutedEventArgs e)
         {
             await HideAsync();
+        }
+
+        private async void OnKeyUp(object sender, KeyRoutedEventArgs e)
+        {
+            if (e.Key == VirtualKey.Escape)
+            {
+                await HideAsync();
+            }
         }
 
         #endregion

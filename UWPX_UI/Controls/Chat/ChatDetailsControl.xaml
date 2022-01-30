@@ -19,6 +19,7 @@
                 <ResourceDictionary Source="ms-appx:///Resources/Styles/MessageTextBoxStyle.xaml"/>
                 <ResourceDictionary Source="ms-appx:///Resources/Styles/Button/TransparentThemeButtonStyle.xaml"/>
                 <ResourceDictionary Source="ms-appx:///Resources/Styles/Button/TransparentIconButtonStyle.xaml"/>
+                <ResourceDictionary Source="ms-appx:///Resources/Styles/Button/TransparentThemeToggleButtonStyle.xaml"/>
             </ResourceDictionary.MergedDictionaries>
 
             <valueconverter:StringEmptyOrWhitespaceEnabledBoolValueConverter x:Key="StringEmptyOrWhitespaceEnabledBoolValueConverter"/>
@@ -236,111 +237,212 @@
 
             <!--  Input:  -->
             <Grid Grid.Row="3"
-                  Margin="5,0,5,5"
-                  Background="{ThemeResource AppBackgroundAcrylicElementBrush}"
-                  BorderBrush="{ThemeResource CardStrokeColorDefaultBrush}"
-                  CornerRadius="{ThemeResource OverlayCornerRadius}">
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="Auto"/>
-                    <ColumnDefinition Width="Auto"/>
-                    <ColumnDefinition Width="*"/>
-                    <ColumnDefinition Width="Auto"/>
-                </Grid.ColumnDefinitions>
-                <Button Grid.Column="0"
-                        Margin="-10,0,-10,0"
-                        VerticalAlignment="Bottom"
-                        Content="&#xE723;"
-                        FontFamily="{ThemeResource SymbolThemeFontFamily}"
-                        FontSize="27"
-                        Style="{ThemeResource TransparentThemeButtonStyle}"
-                        ToolTipService.ToolTip="Send images/files">
-                    <Button.Flyout>
-                        <Flyout>
+                  Margin="5,0,5,5">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                </Grid.RowDefinitions>
+                <Grid Grid.Row="0"
+                      Background="{ThemeResource AppBackgroundAcrylicElementBrush}"
+                      BorderBrush="{ThemeResource CardStrokeColorDefaultBrush}"
+                      CornerRadius="{ThemeResource OverlayCornerRadius}">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="Auto"/>
+                        <ColumnDefinition Width="Auto"/>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="Auto"/>
+                    </Grid.ColumnDefinitions>
+                    <ToggleButton x:Name="sendFile_tbtn"
+                                  Grid.Column="0"
+                                  Padding="0,5,0,5"
+                                  VerticalAlignment="Stretch"
+                                  Content="&#xE723;"
+                                  CornerRadius="4,0,0,4"
+                                  FontFamily="{ThemeResource SymbolThemeFontFamily}"
+                                  FontSize="27"
+                                  Style="{ThemeResource TransparentThemeToggleButtonStyle}"
+                                  ToolTipService.ToolTip="Send images/files"/>
+                    <Button x:Name="addEmoji_btn"
+                            Grid.Column="1"
+                            Margin="-5,0,-15,0"
+                            VerticalAlignment="Bottom"
+                            Content="&#xE76E;"
+                            FontFamily="{ThemeResource SymbolThemeFontFamily}"
+                            FontSize="25"
+                            Style="{ThemeResource TransparentThemeButtonStyle}"
+                            ToolTipService.ToolTip="Emoji"
+                            Visibility="{x:Bind VIEW_MODEL.MODEL.IsEmojiFlyoutEnabled, Mode=OneWay, Converter={StaticResource BoolVisibilityValueConverter}}">
+                        <Button.Flyout>
+                            <Flyout>
+                                <chat:EmojiPickerControl EmojiSelected="EmojiPickerControl_EmojiSelected"/>
+                            </Flyout>
+                        </Button.Flyout>
+                    </Button>
+                    <chat:EnterTextBox x:Name="message_tbx"
+                                       Grid.Column="2"
+                                       VerticalAlignment="Center"
+                                       EnterKeyDown="Message_tbx_EnterKeyDown"
+                                       GotFocus="OnMessageBoxGotFocus"
+                                       KeyDown="OnMessageBoxKeyDown"
+                                       LostFocus="OnMessageBoxLostFocus"
+                                       Style="{ThemeResource MessageTextBoxStyle}"
+                                       Text="{x:Bind VIEW_MODEL.MODEL.MessageText, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
+                    <Button x:Name="send_btn"
+                            Grid.Column="3"
+                            VerticalAlignment="Bottom"
+                            AllowFocusOnInteraction="False"
+                            Click="Send_btn_Click"
+                            FontSize="25"
+                            IsEnabled="{x:Bind message_tbx.Text, Converter={StaticResource StringEmptyOrWhitespaceEnabledBoolValueConverter}, Mode=OneWay}"
+                            Style="{ThemeResource TransparentThemeButtonStyle}"
+                            ToolTipService.ToolTip="Send message">
+                        <Grid>
+                            <TextBlock FontFamily="{ThemeResource SymbolThemeFontFamily}"
+                                       Text="&#xE122;"/>
+                            <TextBlock x:Name="omemoIndicator_tbx"
+                                       Margin="17,-2,0,0"
+                                       FontFamily="{ThemeResource SymbolThemeFontFamily}"
+                                       FontSize="10"
+                                       Text="&#xE72E;"
+                                       Visibility="{x:Bind Chat.Chat.omemoInfo.enabled, Mode=OneWay, Converter={StaticResource BoolVisibilityValueConverter}}"/>
+                        </Grid>
+                    </Button>
+                    <controls2:TeachingTip x:Name="enterToSend_tt"
+                                           Title="Did you know?"
+                                           Subtitle="By default enter to send is on."
+                                           Target="{x:Bind send_btn}">
+                        <controls2:TeachingTip.Content>
                             <StackPanel>
-                                <controls:IconButtonControl FontSize="20"
-                                                            Glyph="&#xE8F1;"
-                                                            Click="OnSendImageFromLibraryClicked"
-                                                            Text="Image from library"/>
-                                <controls:IconButtonControl Margin="0,5,0,0"
-                                                            FontSize="20"
-                                                            Glyph="&#xE929;"
-                                                            IsEnabled="False"
-                                                            Text="Image from camera"/>
-                                <controls:IconButtonControl Margin="0,5,0,0"
-                                                            FontSize="20"
-                                                            Glyph="&#xE8F1;"
-                                                            IsEnabled="False"
-                                                            Text="Drawing"/>
-                                <controls:IconButtonControl Margin="0,5,0,0"
-                                                            FontSize="20"
-                                                            Glyph="&#xEC50;"
-                                                            IsEnabled="False"
-                                                            Text="File"/>
+                                <ToggleSwitch x:Name="enterToSend_tgls"
+                                              IsOn="{x:Bind VIEW_MODEL.MODEL.EnterToSend, Mode=TwoWay}"/>
+                                <controls1:MarkdownTextBlock x:Uid="ChatSettingsPage_enter_to_send_tooltip"
+                                                             TextWrapping="Wrap"/>
+                                <HyperlinkButton x:Name="chatSettings_link"
+                                                 Click="ChatSettings_link_Click"
+                                                 Content="More chat settings..."/>
                             </StackPanel>
-                        </Flyout>
-                    </Button.Flyout>
-                </Button>
-                <Button x:Name="addEmoji_btn"
-                        Grid.Column="1"
-                        Margin="-5,0,-15,0"
-                        VerticalAlignment="Bottom"
-                        Content="&#xE76E;"
-                        FontFamily="{ThemeResource SymbolThemeFontFamily}"
-                        FontSize="25"
-                        Style="{ThemeResource TransparentThemeButtonStyle}"
-                        ToolTipService.ToolTip="Emoji"
-                        Visibility="{x:Bind VIEW_MODEL.MODEL.IsEmojiFlyoutEnabled, Mode=OneWay, Converter={StaticResource BoolVisibilityValueConverter}}">
-                    <Button.Flyout>
-                        <Flyout>
-                            <chat:EmojiPickerControl EmojiSelected="EmojiPickerControl_EmojiSelected"/>
-                        </Flyout>
-                    </Button.Flyout>
-                </Button>
-                <chat:EnterTextBox x:Name="message_tbx"
-                                   Grid.Column="2"
-                                   VerticalAlignment="Center"
-                                   EnterKeyDown="Message_tbx_EnterKeyDown"
-                                   GotFocus="OnMessageBoxGotFocus"
-                                   KeyDown="OnMessageBoxKeyDown"
-                                   LostFocus="OnMessageBoxLostFocus"
-                                   Style="{ThemeResource MessageTextBoxStyle}"
-                                   Text="{x:Bind VIEW_MODEL.MODEL.MessageText, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
-                <Button x:Name="send_btn"
-                        Grid.Column="3"
-                        VerticalAlignment="Bottom"
-                        AllowFocusOnInteraction="False"
-                        Click="Send_btn_Click"
-                        FontSize="25"
-                        IsEnabled="{x:Bind message_tbx.Text, Converter={StaticResource StringEmptyOrWhitespaceEnabledBoolValueConverter}, Mode=OneWay}"
-                        Style="{ThemeResource TransparentThemeButtonStyle}"
-                        ToolTipService.ToolTip="Send message">
-                    <Grid>
-                        <TextBlock FontFamily="{ThemeResource SymbolThemeFontFamily}"
-                                   Text="&#xE122;"/>
-                        <TextBlock x:Name="omemoIndicator_tbx"
-                                   Margin="17,-2,0,0"
-                                   FontFamily="{ThemeResource SymbolThemeFontFamily}"
-                                   FontSize="10"
-                                   Text="&#xE72E;"
-                                   Visibility="{x:Bind Chat.Chat.omemoInfo.enabled, Mode=OneWay, Converter={StaticResource BoolVisibilityValueConverter}}"/>
-                    </Grid>
-                </Button>
-                <controls2:TeachingTip x:Name="enterToSend_tt"
-                                       Title="Did you know?"
-                                       Subtitle="By default enter to send is on."
-                                       Target="{x:Bind send_btn}">
-                    <controls2:TeachingTip.Content>
-                        <StackPanel>
-                            <ToggleSwitch x:Name="enterToSend_tgls"
-                                          IsOn="{x:Bind VIEW_MODEL.MODEL.EnterToSend, Mode=TwoWay}"/>
-                            <controls1:MarkdownTextBlock x:Uid="ChatSettingsPage_enter_to_send_tooltip"
-                                                         TextWrapping="Wrap"/>
-                            <HyperlinkButton x:Name="chatSettings_link"
-                                             Click="ChatSettings_link_Click"
-                                             Content="More chat settings..."/>
-                        </StackPanel>
-                    </controls2:TeachingTip.Content>
-                </controls2:TeachingTip>
+                        </controls2:TeachingTip.Content>
+                    </controls2:TeachingTip>
+                </Grid>
+
+                <Grid Grid.Row="1"
+                      Margin="0,5,0,0"
+                      Visibility="{x:Bind sendFile_tbtn.IsChecked, Mode=OneWay, Converter={StaticResource BoolVisibilityValueConverter}}">
+                    <Grid.Resources>
+                        <Style BasedOn="{StaticResource DefaultButtonStyle}"
+                               TargetType="Button">
+                            <Setter Target="Background" Value="{ThemeResource AppBackgroundAcrylicElementBrush}"/>
+                            <Setter Target="Margin" Value="5,0,0,0"/>
+                            <Setter Target="FontSize" Value="20"/>
+                            <Setter Target="Padding" Value="1"/>
+                        </Style>
+                    </Grid.Resources>
+
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="Auto"/>
+                        <ColumnDefinition Width="Auto"/>
+                        <ColumnDefinition Width="Auto"/>
+                        <ColumnDefinition Width="Auto"/>
+                    </Grid.ColumnDefinitions>
+
+                    <Button Grid.Column="0"
+                            Click="OnSendImageFromLibraryClicked"
+                            Content="🖼"
+                            ToolTipService.ToolTip="Image from picture library">
+                        <animations:Implicit.ShowAnimations>
+                            <animations:OpacityAnimation From="0"
+                                                         To="1"
+                                                         Duration="0:0:0.5"/>
+                            <animations:TranslationAnimation From="0,40,0"
+                                                             To="0,0,0"
+                                                             Duration="0:0:0.5"/>
+                        </animations:Implicit.ShowAnimations>
+
+                        <animations:Implicit.HideAnimations>
+                            <animations:OpacityAnimation From="1"
+                                                         To="0"
+                                                         Duration="0:0:0.5"/>
+                            <animations:TranslationAnimation From="0,0,0"
+                                                             To="0,40,0"
+                                                             Duration="0:0:0.5"/>
+                        </animations:Implicit.HideAnimations>
+                    </Button>
+                    <Button Grid.Column="1"
+                            Content="📷"
+                            ToolTipService.ToolTip="Image from camera">
+                        <animations:Implicit.ShowAnimations>
+                            <animations:OpacityAnimation Delay="0:0:0.05"
+                                                         From="0"
+                                                         To="1"
+                                                         Duration="0:0:0.5"/>
+                            <animations:TranslationAnimation Delay="0:0:0.05"
+                                                             From="0,40,0"
+                                                             To="0,0,0"
+                                                             Duration="0:0:0.5"/>
+                        </animations:Implicit.ShowAnimations>
+
+                        <animations:Implicit.HideAnimations>
+                            <animations:OpacityAnimation Delay="0:0:0.05"
+                                                         From="1"
+                                                         To="0"
+                                                         Duration="0:0:0.5"/>
+                            <animations:TranslationAnimation Delay="0:0:0.05"
+                                                             From="0,0,0"
+                                                             To="0,40,0"
+                                                             Duration="0:0:0.5"/>
+                        </animations:Implicit.HideAnimations>
+                    </Button>
+                    <Button Grid.Column="2"
+                            Content="🖌"
+                            ToolTipService.ToolTip="Drawing">
+                        <animations:Implicit.ShowAnimations>
+                            <animations:OpacityAnimation Delay="0:0:0.1"
+                                                         From="0"
+                                                         To="1"
+                                                         Duration="0:0:0.5"/>
+                            <animations:TranslationAnimation Delay="0:0:0.1"
+                                                             From="0,40,0"
+                                                             To="0,0,0"
+                                                             Duration="0:0:0.5"/>
+                        </animations:Implicit.ShowAnimations>
+
+                        <animations:Implicit.HideAnimations>
+                            <animations:OpacityAnimation Delay="0:0:0.1"
+                                                         From="1"
+                                                         To="0"
+                                                         Duration="0:0:0.5"/>
+                            <animations:TranslationAnimation Delay="0:0:0.1"
+                                                             From="0,0,0"
+                                                             To="0,40,0"
+                                                             Duration="0:0:0.5"/>
+                        </animations:Implicit.HideAnimations>
+                    </Button>
+                    <Button Grid.Column="3"
+                            Content="📂"
+                            ToolTipService.ToolTip="File">
+                        <animations:Implicit.ShowAnimations>
+                            <animations:OpacityAnimation Delay="0:0:0.15"
+                                                         From="0"
+                                                         To="1"
+                                                         Duration="0:0:0.5"/>
+                            <animations:TranslationAnimation Delay="0:0:0.15"
+                                                             From="0,40,0"
+                                                             To="0,0,0"
+                                                             Duration="0:0:0.5"/>
+                        </animations:Implicit.ShowAnimations>
+
+                        <animations:Implicit.HideAnimations>
+                            <animations:OpacityAnimation Delay="0:0:0.15"
+                                                         From="1"
+                                                         To="0"
+                                                         Duration="0:0:0.5"/>
+                            <animations:TranslationAnimation Delay="0:0:0.15"
+                                                             From="0,0,0"
+                                                             To="0,40,0"
+                                                             Duration="0:0:0.5"/>
+                        </animations:Implicit.HideAnimations>
+                    </Button>
+                </Grid>
             </Grid>
         </Grid>
     </Grid>

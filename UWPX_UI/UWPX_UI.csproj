@@ -141,6 +141,7 @@
     </Compile>
     <Compile Include="Classes\Events\AccountSelectionChangedEventArgs.cs" />
     <Compile Include="Classes\Events\EmojiSelectedEventArgs.cs" />
+    <Compile Include="Classes\Events\GoBackRequestEventArgs.cs" />
     <Compile Include="Classes\Events\MultiSelectChangedEventArgs.cs" />
     <Compile Include="Classes\SaveDisplayRequest.cs" />
     <Compile Include="Classes\SplashScreenImageScale.cs" />
@@ -1154,6 +1155,10 @@
     <Page Include="Resources\MyValueConverters.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Resources\Styles\Button\TransparentThemeToggleButtonStyle.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Resources\Styles\ChatPersonPictureStyle.xaml">
       <SubType>Designer</SubType>

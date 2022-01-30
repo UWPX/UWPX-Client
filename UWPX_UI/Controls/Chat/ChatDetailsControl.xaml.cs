@@ -306,7 +306,7 @@ namespace UWPX_UI.Controls.Chat
             return FindParent<T>(parent);
         }
 
-        private async void OnSendImageFromLibraryClicked(IconButtonControl sender, RoutedEventArgs args)
+        private async void OnSendImageFromLibraryClicked(object sender, RoutedEventArgs e)
         {
             ChatPage page = FindParent<ChatPage>(this);
             StorageFile file = await ImageUtils.PickImageAsync();

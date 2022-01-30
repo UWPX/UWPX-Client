@@ -375,13 +375,13 @@
             </controls1:ListDetailsView.ListCommandBar>
         </controls1:ListDetailsView>
 
+        <chat:EditImageControl x:Name="editImageControl"
+                               Grid.Row="1"/>
+
         <!--  Header:  -->
         <controls:CustomTitleBarControl x:Name="titleBar"
                                         Grid.Row="0"
                                         Frame="{x:Bind Frame, Mode=OneWay}"
-                                        ListDetailsView="{x:Bind chats_mdv}"/>
-
-        <chat:EditImageControl x:Name="editImageControl"
-                               Grid.Row="1"/>
+                                        GoBackRequest="OnGoBackRequest"/>
     </Grid>
 </Page>

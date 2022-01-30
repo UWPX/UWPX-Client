@@ -1,4 +1,7 @@
 ﻿using Manager.Classes;
+using Microsoft.Toolkit.Uwp.UI.Controls;
+using UWPX_UI.Classes.Events;
+using UWPX_UI.Controls;
 using UWPX_UI.Controls.Chat;
 using UWPX_UI.Dialogs;
 using UWPX_UI.Pages.Settings;
@@ -140,6 +143,22 @@ namespace UWPX_UI.Pages
         private void OnChatsMdvSizeChanged(object sender, SizeChangedEventArgs e)
         {
             editImageControl.SetContentHeight(e.NewSize.Height);
+        }
+
+        private async void OnGoBackRequest(CustomTitleBarControl sender, GoBackRequestEventArgs args)
+        {
+            if (editImageControl.Visibility == Visibility.Visible)
+            {
+                await editImageControl.HideAsync();
+                args.handled = true;
+                return;
+            }
+
+            if (chats_mdv.ViewState == ListDetailsViewState.Details)
+            {
+                chats_mdv.ClearSelectedItem();
+                args.handled = true;
+            }
         }
         #endregion
     }

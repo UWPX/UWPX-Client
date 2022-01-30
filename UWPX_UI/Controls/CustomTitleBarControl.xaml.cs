@@ -1,6 +1,7 @@
 ﻿using System;
 using Microsoft.Toolkit.Uwp.UI.Controls;
 using Shared.Classes;
+using UWPX_UI.Classes.Events;
 using UWPX_UI.Pages;
 using UWPX_UI_Context.Classes;
 using Windows.ApplicationModel.Core;
@@ -22,13 +23,6 @@ namespace UWPX_UI.Controls
         }
         public static readonly DependencyProperty FrameProperty = DependencyProperty.Register(nameof(Frame), typeof(Frame), typeof(CustomTitleBarControl), new PropertyMetadata(null, OnFrameChanged));
 
-        public ListDetailsView ListDetailsView
-        {
-            get => (ListDetailsView)GetValue(ListDetailsViewProperty);
-            set => SetValue(ListDetailsViewProperty, value);
-        }
-        public static readonly DependencyProperty ListDetailsViewProperty = DependencyProperty.Register(nameof(ListDetailsView), typeof(ListDetailsView), typeof(CustomTitleBarControl), new PropertyMetadata(null));
-
         public Visibility BackRequestButtonVisibility
         {
             get => (Visibility)GetValue(BackRequestButtonVisibilityProperty);
@@ -49,6 +43,9 @@ namespace UWPX_UI.Controls
             set => SetValue(IsActiveProperty, value);
         }
         public static readonly DependencyProperty IsActiveProperty = DependencyProperty.Register(nameof(IsActive), typeof(bool), typeof(CustomTitleBarControl), new PropertyMetadata(false, OnIsActiveChanged));
+
+        public delegate void GoBackRequestHandler(CustomTitleBarControl sender, GoBackRequestEventArgs args);
+        public event GoBackRequestHandler GoBackRequest;
 
         #endregion
         //--------------------------------------------------------Constructor:----------------------------------------------------------------\\
@@ -92,9 +89,10 @@ namespace UWPX_UI.Controls
                 return false;
             }
 
-            if (!(ListDetailsView is null) && ListDetailsView.ViewState == ListDetailsViewState.Details)
+            GoBackRequestEventArgs args = new GoBackRequestEventArgs();
+            GoBackRequest?.Invoke(this, args);
+            if (args.handled)
             {
-                ListDetailsView.ClearSelectedItem();
                 return true;
             }
 
