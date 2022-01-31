@@ -41,6 +41,11 @@
             <Task Type="pushNotification"/>
           </BackgroundTasks>
         </Extension>
+        <Extension Category="windows.backgroundTasks" EntryPoint="PushChannel_BackgroundTask.Classes.PushChannelBackgroundTask">
+          <BackgroundTasks>
+			  <Task Type="timer" />
+          </BackgroundTasks>
+        </Extension>
       </Extensions>
     </Application>
   </Applications>

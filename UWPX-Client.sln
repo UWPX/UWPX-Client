@@ -36,6 +36,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Storage", "Storage\Storage.
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Omemo", "Omemo\Omemo.csproj", "{E8D1B7B3-548A-4F0F-A703-48AB327B9340}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PushChannel_BackgroundTask", "PushChannel_BackgroundTask\PushChannel_BackgroundTask.csproj", "{7068E519-918D-46E4-B114-8480572DE5FF}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -342,6 +344,26 @@ Global
 		{E8D1B7B3-548A-4F0F-A703-48AB327B9340}.Release|x64.Build.0 = Release|x64
 		{E8D1B7B3-548A-4F0F-A703-48AB327B9340}.Release|x86.ActiveCfg = Release|x86
 		{E8D1B7B3-548A-4F0F-A703-48AB327B9340}.Release|x86.Build.0 = Release|x86
+		{7068E519-918D-46E4-B114-8480572DE5FF}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{7068E519-918D-46E4-B114-8480572DE5FF}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{7068E519-918D-46E4-B114-8480572DE5FF}.Debug|ARM.ActiveCfg = Debug|ARM
+		{7068E519-918D-46E4-B114-8480572DE5FF}.Debug|ARM.Build.0 = Debug|ARM
+		{7068E519-918D-46E4-B114-8480572DE5FF}.Debug|ARM64.ActiveCfg = Debug|ARM64
+		{7068E519-918D-46E4-B114-8480572DE5FF}.Debug|ARM64.Build.0 = Debug|ARM64
+		{7068E519-918D-46E4-B114-8480572DE5FF}.Debug|x64.ActiveCfg = Debug|x64
+		{7068E519-918D-46E4-B114-8480572DE5FF}.Debug|x64.Build.0 = Debug|x64
+		{7068E519-918D-46E4-B114-8480572DE5FF}.Debug|x86.ActiveCfg = Debug|x86
+		{7068E519-918D-46E4-B114-8480572DE5FF}.Debug|x86.Build.0 = Debug|x86
+		{7068E519-918D-46E4-B114-8480572DE5FF}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{7068E519-918D-46E4-B114-8480572DE5FF}.Release|Any CPU.Build.0 = Release|Any CPU
+		{7068E519-918D-46E4-B114-8480572DE5FF}.Release|ARM.ActiveCfg = Release|ARM
+		{7068E519-918D-46E4-B114-8480572DE5FF}.Release|ARM.Build.0 = Release|ARM
+		{7068E519-918D-46E4-B114-8480572DE5FF}.Release|ARM64.ActiveCfg = Release|ARM64
+		{7068E519-918D-46E4-B114-8480572DE5FF}.Release|ARM64.Build.0 = Release|ARM64
+		{7068E519-918D-46E4-B114-8480572DE5FF}.Release|x64.ActiveCfg = Release|x64
+		{7068E519-918D-46E4-B114-8480572DE5FF}.Release|x64.Build.0 = Release|x64
+		{7068E519-918D-46E4-B114-8480572DE5FF}.Release|x86.ActiveCfg = Release|x86
+		{7068E519-918D-46E4-B114-8480572DE5FF}.Release|x86.Build.0 = Release|x86
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

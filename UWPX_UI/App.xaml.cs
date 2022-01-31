@@ -420,6 +420,11 @@ namespace UWPX_UI
                         response.Add("response", connected ? "true" : "false");
                         break;
 
+                    case "init_push":
+                        PushManager.INSTANCE.Init();
+                        response.Add("response", "true");
+                        break;
+
                     default:
                         Logger.Warn($"Unknown app service request '{request}' received!");
                         validRequest = false;

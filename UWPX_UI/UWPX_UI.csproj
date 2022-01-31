@@ -1209,6 +1209,10 @@
       <Project>{e8d1b7b3-548a-4f0f-a703-48ab327b9340}</Project>
       <Name>Omemo</Name>
     </ProjectReference>
+    <ProjectReference Include="..\PushChannel_BackgroundTask\PushChannel_BackgroundTask.csproj">
+      <Project>{7068e519-918d-46e4-b114-8480572de5ff}</Project>
+      <Name>PushChannel_BackgroundTask</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Push\Push.csproj">
       <Project>{e15572a6-ad1a-4ecc-8920-4070dd779516}</Project>
       <Name>Push</Name>
