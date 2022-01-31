@@ -135,6 +135,8 @@
                                     <Run Text="{x:Bind VIEW_MODEL.MODEL.ChannelCreatedDate, Mode=OneWay}"/>
                                 </TextBlock>
                                 <Button x:Name="initPush_btn"
+                                        Style="{ThemeResource DefaultButtonStyle}"
+                                        Margin="0,10,0,0"
                                         Click="InitPush_btn_Click"
                                         Content="Init push"
                                         Visibility="{x:Bind VIEW_MODEL.MODEL.DebugSettingsEnabled, Mode=OneWay, Converter={StaticResource BoolVisibilityValueConverter}}"/>
