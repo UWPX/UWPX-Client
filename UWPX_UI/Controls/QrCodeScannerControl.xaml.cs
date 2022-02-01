@@ -51,10 +51,10 @@ namespace UWPX_UI.Controls
             QR_CODE_READER = new BarcodeReader()
             {
                 AutoRotate = true,
-                TryInverted = true,
                 Options = new ZXing.Common.DecodingOptions()
                 {
-                    PossibleFormats = new List<BarcodeFormat>() { BarcodeFormat.QR_CODE }
+                    PossibleFormats = new List<BarcodeFormat>() { BarcodeFormat.QR_CODE },
+                    TryInverted = true
                 }
             };
             QR_CODE_READER.Options.PossibleFormats.Clear();
