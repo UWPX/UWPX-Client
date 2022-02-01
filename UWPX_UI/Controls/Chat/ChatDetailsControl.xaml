@@ -261,7 +261,8 @@
                                   FontFamily="{ThemeResource SymbolThemeFontFamily}"
                                   FontSize="27"
                                   Style="{ThemeResource TransparentThemeToggleButtonStyle}"
-                                  ToolTipService.ToolTip="Send images/files"/>
+                                  ToolTipService.ToolTip="Send images/files"
+                                  Visibility="{x:Bind VIEW_MODEL.MODEL.DebugSettingsEnabled, Mode=OneWay, Converter={StaticResource BoolVisibilityValueConverter}}"/>
                     <Button x:Name="addEmoji_btn"
                             Grid.Column="1"
                             Margin="-5,0,-15,0"

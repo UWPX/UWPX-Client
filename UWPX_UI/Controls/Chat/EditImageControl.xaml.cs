@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Numerics;
 using System.Threading.Tasks;
-using Logging;
 using Microsoft.Toolkit.Uwp.UI.Animations;
 using UWPX_UI_Context.Classes.DataContext.Controls.Chat;
 using Windows.Graphics.Imaging;
