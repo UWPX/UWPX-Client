@@ -1,5 +1,47 @@
 [
 	{
+		"jid": "anoxinon.me",
+		"website": {
+			"de": "https://anoxinon.de/dienste/anoxinonmessenger/"
+		},
+		"busFactor": -1,
+		"company": false,
+		"passwordReset": {
+			"de": "https://anoxinon.de/faq/"
+		},
+		"inBandRegistration": false,
+		"registrationWebPage": {
+			"en": "https://xmpp.anoxinon.me/register/new"
+		},
+		"ratingXmppComplianceTester": 100,
+		"ratingImObservatoryClientToServer": "A",
+		"ratingImObservatoryServerToServer": "A",
+		"maximumHttpFileUploadFileSize": 25,
+		"maximumHttpFileUploadTotalSize": 50,
+		"maximumHttpFileUploadStorageTime": 14,
+		"maximumMessageArchiveManagementStorageTime": 14,
+		"professionalHosting": true,
+		"freeOfCharge": true,
+		"legalNotice": {
+			"de": "https://anoxinon.de/datenschutzerklaerung_xmpp/"
+		},
+		"serverLocations": [
+			"de"
+		],
+		"groupChatSupport": {
+			"de": [
+				"anoxinon@conference.anoxinon.me"
+			]
+		},
+		"chatSupport": {},
+		"emailSupport": {
+			"de": [
+				"postfach@anoxinon.de"
+			]
+		},
+		"onlineSince": "2018-10-04"
+	},
+	{
 		"jid": "chapril.org",
 		"website": {
 			"fr": "https://chapril.org/xmpp"
@@ -76,6 +118,56 @@
 		"chatSupport": {},
 		"emailSupport": {},
 		"onlineSince": "2008-05-28"
+	},
+	{
+		"jid": "jabber-germany.de",
+		"website": {
+			"de": "https://jabber-germany.de/index-de.html",
+			"en": "https://jabber-germany.de"
+		},
+		"busFactor": 1,
+		"company": false,
+		"passwordReset": {
+			"de": "https://jabber-germany.de/index-de.html",
+			"en": "https://jabber-germany.de"
+		},
+		"inBandRegistration": false,
+		"registrationWebPage": {
+			"en": "https://jabber-germany.de/register.html"
+		},
+		"ratingXmppComplianceTester": 100,
+		"ratingImObservatoryClientToServer": "A",
+		"ratingImObservatoryServerToServer": "A",
+		"maximumHttpFileUploadFileSize": 20,
+		"maximumHttpFileUploadTotalSize": 100,
+		"maximumHttpFileUploadStorageTime": 14,
+		"maximumMessageArchiveManagementStorageTime": 14,
+		"professionalHosting": true,
+		"freeOfCharge": true,
+		"legalNotice": {
+			"en": "https://jabber-germany.de"
+		},
+		"serverLocations": [
+			"de"
+		],
+		"groupChatSupport": {},
+		"chatSupport": {
+			"de": [
+				"admin@jabber-germany.de"
+			],
+			"en": [
+				"admin@jabber-germany.de"
+			]
+		},
+		"emailSupport": {
+			"de": [
+				"admin@jabber-germany.de"
+			],
+			"en": [
+				"admin@jabber-germany.de"
+			]
+		},
+		"onlineSince": "2017-06-20"
 	},
 	{
 		"jid": "jabber.de",
@@ -307,7 +399,7 @@
 		"website": {
 			"en": "https://macaw.me"
 		},
-		"busFactor": -1,
+		"busFactor": 1,
 		"company": false,
 		"passwordReset": {
 			"en": "https://macaw.me/services/xmpp.html"
@@ -323,7 +415,9 @@
 		"maximumMessageArchiveManagementStorageTime": 31,
 		"professionalHosting": true,
 		"freeOfCharge": true,
-		"legalNotice": {},
+		"legalNotice": {
+			"en": "https://macaw.me/tos.html"
+		},
 		"serverLocations": [
 			"us"
 		],
@@ -407,6 +501,94 @@
 			]
 		},
 		"onlineSince": "2017-06-20"
+	},
+	{
+		"jid": "monocles.de",
+		"website": {
+			"en": "https://monocles.de"
+		},
+		"busFactor": 4,
+		"company": false,
+		"passwordReset": {
+			"en": "https://ocean.monocles.de/login"
+		},
+		"inBandRegistration": false,
+		"registrationWebPage": {
+			"en": "https://ocean.monocles.de/apps/registration/"
+		},
+		"ratingXmppComplianceTester": 100,
+		"ratingImObservatoryClientToServer": "A",
+		"ratingImObservatoryServerToServer": "A",
+		"maximumHttpFileUploadFileSize": 100,
+		"maximumHttpFileUploadTotalSize": 0,
+		"maximumHttpFileUploadStorageTime": 60,
+		"maximumMessageArchiveManagementStorageTime": 60,
+		"professionalHosting": true,
+		"freeOfCharge": false,
+		"legalNotice": {
+			"de": "https://monocles.de/impressum/de.html",
+			"en": "https://monocles.de/impressum/"
+		},
+		"serverLocations": [
+			"de"
+		],
+		"groupChatSupport": {},
+		"chatSupport": {
+			"de": [
+				"support@monocles.de"
+			],
+			"en": [
+				"support@monocles.de"
+			]
+		},
+		"emailSupport": {
+			"de": [
+				"support@monocles.de"
+			],
+			"en": [
+				"support@monocles.de"
+			]
+		},
+		"onlineSince": "2018-02-28"
+	},
+	{
+		"jid": "movim.eu",
+		"website": {
+			"en": "https://movim.eu"
+		},
+		"busFactor": 1,
+		"company": false,
+		"passwordReset": {
+			"en": "https://api.movim.eu"
+		},
+		"inBandRegistration": false,
+		"registrationWebPage": {
+			"en": "https://api.movim.eu/register"
+		},
+		"ratingXmppComplianceTester": 100,
+		"ratingImObservatoryClientToServer": "A",
+		"ratingImObservatoryServerToServer": "A",
+		"maximumHttpFileUploadFileSize": 10,
+		"maximumHttpFileUploadTotalSize": 0,
+		"maximumHttpFileUploadStorageTime": 0,
+		"maximumMessageArchiveManagementStorageTime": 0,
+		"professionalHosting": true,
+		"freeOfCharge": true,
+		"legalNotice": {
+			"en": "https://api.movim.eu/legals"
+		},
+		"serverLocations": [
+			"de",
+			"fr"
+		],
+		"groupChatSupport": {
+			"en": [
+				"movim@conference.movim.eu"
+			]
+		},
+		"chatSupport": {},
+		"emailSupport": {},
+		"onlineSince": "2017-08-16"
 	},
 	{
 		"jid": "nixnet.services",

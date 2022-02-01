@@ -166,6 +166,59 @@
 		"onlineSince": "2017-11-03"
 	},
 	{
+		"jid": "macaw.me",
+		"website": {
+			"en": "https://macaw.me"
+		},
+		"busFactor": 1,
+		"company": false,
+		"passwordReset": {
+			"en": "https://macaw.me/services/xmpp.html"
+		},
+		"inBandRegistration": true,
+		"registrationWebPage": {},
+		"ratingXmppComplianceTester": 100,
+		"ratingImObservatoryClientToServer": "A",
+		"ratingImObservatoryServerToServer": "A",
+		"maximumHttpFileUploadFileSize": 100,
+		"maximumHttpFileUploadTotalSize": 0,
+		"maximumHttpFileUploadStorageTime": 31,
+		"maximumMessageArchiveManagementStorageTime": 31,
+		"professionalHosting": true,
+		"freeOfCharge": true,
+		"legalNotice": {
+			"en": "https://macaw.me/tos.html"
+		},
+		"serverLocations": [
+			"us"
+		],
+		"groupChatSupport": {
+			"ru": [
+				"support@conference.macaw.me"
+			],
+			"en": [
+				"support@conference.macaw.me"
+			]
+		},
+		"chatSupport": {
+			"ru": [
+				"administrator@macaw.me"
+			],
+			"en": [
+				"administrator@macaw.me"
+			]
+		},
+		"emailSupport": {
+			"ru": [
+				"administrator@macaw.me"
+			],
+			"en": [
+				"administrator@macaw.me"
+			]
+		},
+		"onlineSince": "2019-03-14"
+	},
+	{
 		"jid": "magicbroccoli.de",
 		"website": {
 			"en": "https://magicbroccoli.de"
