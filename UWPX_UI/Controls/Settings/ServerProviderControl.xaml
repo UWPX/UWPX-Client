@@ -26,20 +26,20 @@
                 <TextBlock Grid.Column="0"
                            Margin="0,0,10,0"
                            VerticalAlignment="Center">
-                    <Run Text="{x:Bind jid, Mode=OneWay}"/>
+                    <Run Text="{x:Bind jid}"/>
                 </TextBlock>
                 <settings:ImObservatoryBadgeControl Grid.Column="1"
                                                     Margin="0,0,10,0"
-                                                    Domain="{x:Bind jid, Mode=OneWay}"
-                                                    Rating="{x:Bind ratingImObservatoryCtS, Mode=OneWay}"/>
+                                                    Domain="{x:Bind jid}"
+                                                    Rating="{x:Bind ratingImObservatoryCtS}"/>
                 <settings:ComplianceTesterBadgeControl Grid.Column="2"
                                                        Margin="0,0,10,0"
-                                                       Domain="{x:Bind jid, Mode=OneWay}"
-                                                       Rating="{x:Bind ratingComplianceTester, Mode=OneWay}"/>
+                                                       Domain="{x:Bind jid}"
+                                                       Rating="{x:Bind ratingComplianceTester}"/>
                 <controls1:IconButtonControl Grid.Column="3"
                                              Click="OnRegisterClicked"
                                              Glyph="&#xE8FA;"
-                                             Tag="{x:Bind registrationWebPage, Mode=OneWay}"
+                                             Tag="{x:Bind registrationWebPage}"
                                              Text="Register"
                                              ToolTipService.ToolTip="Register a new account at this provider."/>
             </Grid>
