@@ -131,6 +131,11 @@ namespace Storage.Classes.Models.Account
             return obj is ImageModel img && string.Equals(hash, img.hash);
         }
 
+        public override int GetHashCode()
+        {
+            return base.GetHashCode();
+        }
+
         #endregion
 
         #region --Misc Methods (Private)--

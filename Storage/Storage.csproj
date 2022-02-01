@@ -122,7 +122,6 @@
   <ItemGroup>
     <Compile Include="Classes\Contexts\AbstractDbContext.cs" />
     <Compile Include="Classes\Contexts\MainDbContext.cs" />
-    <Compile Include="Classes\JsonObjectSerializer.cs" />
     <Compile Include="Classes\Models\AbstractModel.cs" />
     <Compile Include="Classes\Models\Account\AccountModel.cs" />
     <Compile Include="Classes\Models\Account\AvatarMetadataSubscriptionState.cs" />
