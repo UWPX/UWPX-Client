@@ -198,10 +198,14 @@ namespace Push.Classes
                 await SetStateAsync(PushManagerState.SENDING_UPDATED_CHANNEL_URI_TO_PUSH_SERVER);
                 if (await SendUpdatedChannelUriToPushServerAsync())
                 {
+                    Logger.Info(Consts.LOGGER_TAG + "Push initialized.");
                     await SetStateAsync(PushManagerState.INITIALIZED);
 
                 }
-                await SetStateAsync(PushManagerState.ERROR);
+                else
+                {
+                    await SetStateAsync(PushManagerState.ERROR);
+                }
                 INIT_SEMA.Release();
             });
         }
