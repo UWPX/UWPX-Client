@@ -139,7 +139,6 @@
     <Compile Include="Classes\Exceptions\XMPPPParserException.cs" />
     <Compile Include="Classes\GeneralCommandHelper.cs" />
     <Compile Include="Classes\MUCCommandHelper.cs" />
-    <Compile Include="Classes\MyBackgroundTaskHelper.cs" />
     <Compile Include="Classes\Network\AbstractConnection.cs" />
     <Compile Include="Classes\Network\AbstractConnectionHandler.cs" />
     <Compile Include="Classes\Network\ConnectionConfiguration.cs" />
