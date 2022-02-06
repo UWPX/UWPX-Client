@@ -433,6 +433,7 @@ Follow [@UWPX_APP](https://twitter.com/UWPX_APP) on ![Twitter](http://i.imgur.co
 * Windows 11 card style settings
 * Using the new [Mica](https://docs.microsoft.com/en-us/windows/apps/design/style/mica) effect when available
 * Started adding support for sending images
+* Updated to [Unicode 14.0](https://unicode.org/Public/emoji/14.0/emoji-sequences.txt)
 * Updated the [XMPP Providers](https://invent.kde.org/melvo/xmpp-providers/-/tree/master) list
 * Fixed always sending the channel URI on startup even if it did not change
 * Disco also requesting and storing #items on startup
