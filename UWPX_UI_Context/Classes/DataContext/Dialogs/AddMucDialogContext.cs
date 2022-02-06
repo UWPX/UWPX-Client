@@ -1,15 +1,9 @@
-﻿using System.Collections.Generic;
-using System.Threading.Tasks;
-using Logging;
+﻿using System.Threading.Tasks;
 using Manager.Classes;
 using Manager.Classes.Chat;
 using Shared.Classes.Threading;
-using Storage.Classes.Contexts;
 using Storage.Classes.Models.Chat;
 using UWPX_UI_Context.Classes.DataTemplates.Dialogs;
-using XMPP_API.Classes.Network.XML.Messages;
-using XMPP_API.Classes.Network.XML.Messages.Helper;
-using XMPP_API.Classes.Network.XML.Messages.XEP_0048;
 
 namespace UWPX_UI_Context.Classes.DataContext.Dialogs
 {
