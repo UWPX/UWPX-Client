@@ -13,7 +13,7 @@ namespace NeoSmart.Unicode
             eNumber: 1.0,
             group: Group.SMILEYS_AND_EMOTION,
             subgroup: Subgroups.FACE_SMILING,
-            hasGlyph: true,
+            hasGlyph: false,
             sortOrder: 0
         );
 
@@ -26,7 +26,7 @@ namespace NeoSmart.Unicode
             eNumber: 0.6,
             group: Group.SMILEYS_AND_EMOTION,
             subgroup: Subgroups.FACE_SMILING,
-            hasGlyph: true,
+            hasGlyph: false,
             sortOrder: 1
         );
 
@@ -52,7 +52,7 @@ namespace NeoSmart.Unicode
             eNumber: 0.6,
             group: Group.SMILEYS_AND_EMOTION,
             subgroup: Subgroups.FACE_SMILING,
-            hasGlyph: true,
+            hasGlyph: false,
             sortOrder: 3
         );
 
@@ -299,7 +299,7 @@ namespace NeoSmart.Unicode
             eNumber: 13.0,
             group: Group.SMILEYS_AND_EMOTION,
             subgroup: Subgroups.FACE_AFFECTION,
-            hasGlyph: false,
+            hasGlyph: true,
             sortOrder: 23
         );
 
@@ -559,7 +559,7 @@ namespace NeoSmart.Unicode
             eNumber: 13.1,
             group: Group.SMILEYS_AND_EMOTION,
             subgroup: Subgroups.FACE_NEUTRAL_SKEPTICAL,
-            hasGlyph: false,
+            hasGlyph: true,
             sortOrder: 43
         );
 
@@ -624,7 +624,7 @@ namespace NeoSmart.Unicode
             eNumber: 13.1,
             group: Group.SMILEYS_AND_EMOTION,
             subgroup: Subgroups.FACE_NEUTRAL_SKEPTICAL,
-            hasGlyph: false,
+            hasGlyph: true,
             sortOrder: 49
         );
 
@@ -845,7 +845,7 @@ namespace NeoSmart.Unicode
             eNumber: 13.1,
             group: Group.SMILEYS_AND_EMOTION,
             subgroup: Subgroups.FACE_UNWELL,
-            hasGlyph: false,
+            hasGlyph: true,
             sortOrder: 66
         );
 
@@ -897,7 +897,7 @@ namespace NeoSmart.Unicode
             eNumber: 13.0,
             group: Group.SMILEYS_AND_EMOTION,
             subgroup: Subgroups.FACE_HAT,
-            hasGlyph: false,
+            hasGlyph: true,
             sortOrder: 70
         );
 
@@ -1807,7 +1807,7 @@ namespace NeoSmart.Unicode
             eNumber: 13.1,
             group: Group.SMILEYS_AND_EMOTION,
             subgroup: Subgroups.EMOTION,
-            hasGlyph: false,
+            hasGlyph: true,
             sortOrder: 143
         );
 
@@ -1820,7 +1820,7 @@ namespace NeoSmart.Unicode
             eNumber: 13.1,
             group: Group.SMILEYS_AND_EMOTION,
             subgroup: Subgroups.EMOTION,
-            hasGlyph: false,
+            hasGlyph: true,
             sortOrder: 145
         );
 
@@ -2912,7 +2912,7 @@ namespace NeoSmart.Unicode
             eNumber: 13.0,
             group: Group.PEOPLE_AND_BODY,
             subgroup: Subgroups.HAND_FINGERS_PARTIAL,
-            hasGlyph: false,
+            hasGlyph: true,
             sortOrder: 238
         );
 
@@ -2925,7 +2925,7 @@ namespace NeoSmart.Unicode
             eNumber: 13.0,
             group: Group.PEOPLE_AND_BODY,
             subgroup: Subgroups.HAND_FINGERS_PARTIAL,
-            hasGlyph: false,
+            hasGlyph: true,
             sortOrder: 239
         );
 
@@ -2938,7 +2938,7 @@ namespace NeoSmart.Unicode
             eNumber: 13.0,
             group: Group.PEOPLE_AND_BODY,
             subgroup: Subgroups.HAND_FINGERS_PARTIAL,
-            hasGlyph: false,
+            hasGlyph: true,
             sortOrder: 240
         );
 
@@ -2951,7 +2951,7 @@ namespace NeoSmart.Unicode
             eNumber: 13.0,
             group: Group.PEOPLE_AND_BODY,
             subgroup: Subgroups.HAND_FINGERS_PARTIAL,
-            hasGlyph: false,
+            hasGlyph: true,
             sortOrder: 241
         );
 
@@ -2964,7 +2964,7 @@ namespace NeoSmart.Unicode
             eNumber: 13.0,
             group: Group.PEOPLE_AND_BODY,
             subgroup: Subgroups.HAND_FINGERS_PARTIAL,
-            hasGlyph: false,
+            hasGlyph: true,
             sortOrder: 242
         );
 
@@ -2977,7 +2977,7 @@ namespace NeoSmart.Unicode
             eNumber: 13.0,
             group: Group.PEOPLE_AND_BODY,
             subgroup: Subgroups.HAND_FINGERS_PARTIAL,
-            hasGlyph: false,
+            hasGlyph: true,
             sortOrder: 243
         );
 
@@ -6097,7 +6097,7 @@ namespace NeoSmart.Unicode
             eNumber: 13.0,
             group: Group.PEOPLE_AND_BODY,
             subgroup: Subgroups.BODY_PARTS,
-            hasGlyph: false,
+            hasGlyph: true,
             sortOrder: 486
         );
 
@@ -6110,7 +6110,7 @@ namespace NeoSmart.Unicode
             eNumber: 13.0,
             group: Group.PEOPLE_AND_BODY,
             subgroup: Subgroups.BODY_PARTS,
-            hasGlyph: false,
+            hasGlyph: true,
             sortOrder: 487
         );
 
@@ -6409,7 +6409,7 @@ namespace NeoSmart.Unicode
             eNumber: 1.0,
             group: Group.PEOPLE_AND_BODY,
             subgroup: Subgroups.PERSON,
-            hasGlyph: false,
+            hasGlyph: true,
             sortOrder: 511
         );
 
@@ -6838,7 +6838,7 @@ namespace NeoSmart.Unicode
             eNumber: 13.1,
             group: Group.PEOPLE_AND_BODY,
             subgroup: Subgroups.PERSON,
-            hasGlyph: false,
+            hasGlyph: true,
             sortOrder: 544
         );
 
@@ -6851,7 +6851,7 @@ namespace NeoSmart.Unicode
             eNumber: 13.1,
             group: Group.PEOPLE_AND_BODY,
             subgroup: Subgroups.PERSON,
-            hasGlyph: false,
+            hasGlyph: true,
             sortOrder: 546
         );
 
@@ -6864,7 +6864,7 @@ namespace NeoSmart.Unicode
             eNumber: 13.1,
             group: Group.PEOPLE_AND_BODY,
             subgroup: Subgroups.PERSON,
-            hasGlyph: false,
+            hasGlyph: true,
             sortOrder: 548
         );
 
@@ -6877,7 +6877,7 @@ namespace NeoSmart.Unicode
             eNumber: 13.1,
             group: Group.PEOPLE_AND_BODY,
             subgroup: Subgroups.PERSON,
-            hasGlyph: false,
+            hasGlyph: true,
             sortOrder: 550
         );
 
@@ -6890,7 +6890,7 @@ namespace NeoSmart.Unicode
             eNumber: 13.1,
             group: Group.PEOPLE_AND_BODY,
             subgroup: Subgroups.PERSON,
-            hasGlyph: false,
+            hasGlyph: true,
             sortOrder: 552
         );
 
@@ -6903,7 +6903,7 @@ namespace NeoSmart.Unicode
             eNumber: 13.1,
             group: Group.PEOPLE_AND_BODY,
             subgroup: Subgroups.PERSON,
-            hasGlyph: false,
+            hasGlyph: true,
             sortOrder: 554
         );
 
@@ -6916,7 +6916,7 @@ namespace NeoSmart.Unicode
             eNumber: 13.1,
             group: Group.PEOPLE_AND_BODY,
             subgroup: Subgroups.PERSON,
-            hasGlyph: false,
+            hasGlyph: true,
             sortOrder: 556
         );
 
@@ -6929,7 +6929,7 @@ namespace NeoSmart.Unicode
             eNumber: 13.1,
             group: Group.PEOPLE_AND_BODY,
             subgroup: Subgroups.PERSON,
-            hasGlyph: false,
+            hasGlyph: true,
             sortOrder: 558
         );
 
@@ -6942,7 +6942,7 @@ namespace NeoSmart.Unicode
             eNumber: 13.1,
             group: Group.PEOPLE_AND_BODY,
             subgroup: Subgroups.PERSON,
-            hasGlyph: false,
+            hasGlyph: true,
             sortOrder: 560
         );
 
@@ -6955,7 +6955,7 @@ namespace NeoSmart.Unicode
             eNumber: 13.1,
             group: Group.PEOPLE_AND_BODY,
             subgroup: Subgroups.PERSON,
-            hasGlyph: false,
+            hasGlyph: true,
             sortOrder: 562
         );
 
@@ -6968,7 +6968,7 @@ namespace NeoSmart.Unicode
             eNumber: 13.1,
             group: Group.PEOPLE_AND_BODY,
             subgroup: Subgroups.PERSON,
-            hasGlyph: false,
+            hasGlyph: true,
             sortOrder: 564
         );
 
@@ -6981,7 +6981,7 @@ namespace NeoSmart.Unicode
             eNumber: 13.1,
             group: Group.PEOPLE_AND_BODY,
             subgroup: Subgroups.PERSON,
-            hasGlyph: false,
+            hasGlyph: true,
             sortOrder: 566
         );
 
@@ -7462,7 +7462,7 @@ namespace NeoSmart.Unicode
             eNumber: 12.1,
             group: Group.PEOPLE_AND_BODY,
             subgroup: Subgroups.PERSON,
-            hasGlyph: false,
+            hasGlyph: true,
             sortOrder: 604
         );
 
@@ -7475,7 +7475,7 @@ namespace NeoSmart.Unicode
             eNumber: 12.1,
             group: Group.PEOPLE_AND_BODY,
             subgroup: Subgroups.PERSON,
-            hasGlyph: false,
+            hasGlyph: true,
             sortOrder: 605
         );
 
@@ -7488,7 +7488,7 @@ namespace NeoSmart.Unicode
             eNumber: 12.1,
             group: Group.PEOPLE_AND_BODY,
             subgroup: Subgroups.PERSON,
-            hasGlyph: false,
+            hasGlyph: true,
             sortOrder: 606
         );
 
@@ -7501,7 +7501,7 @@ namespace NeoSmart.Unicode
             eNumber: 12.1,
             group: Group.PEOPLE_AND_BODY,
             subgroup: Subgroups.PERSON,
-            hasGlyph: false,
+            hasGlyph: true,
             sortOrder: 607
         );
 
@@ -7514,7 +7514,7 @@ namespace NeoSmart.Unicode
             eNumber: 12.1,
             group: Group.PEOPLE_AND_BODY,
             subgroup: Subgroups.PERSON,
-            hasGlyph: false,
+            hasGlyph: true,
             sortOrder: 608
         );
 
@@ -7527,7 +7527,7 @@ namespace NeoSmart.Unicode
             eNumber: 12.1,
             group: Group.PEOPLE_AND_BODY,
             subgroup: Subgroups.PERSON,
-            hasGlyph: false,
+            hasGlyph: true,
             sortOrder: 609
         );
 
@@ -7618,7 +7618,7 @@ namespace NeoSmart.Unicode
             eNumber: 12.1,
             group: Group.PEOPLE_AND_BODY,
             subgroup: Subgroups.PERSON,
-            hasGlyph: false,
+            hasGlyph: true,
             sortOrder: 616
         );
 
@@ -7631,7 +7631,7 @@ namespace NeoSmart.Unicode
             eNumber: 12.1,
             group: Group.PEOPLE_AND_BODY,
             subgroup: Subgroups.PERSON,
-            hasGlyph: false,
+            hasGlyph: true,
             sortOrder: 617
         );
 
@@ -7644,7 +7644,7 @@ namespace NeoSmart.Unicode
             eNumber: 12.1,
             group: Group.PEOPLE_AND_BODY,
             subgroup: Subgroups.PERSON,
-            hasGlyph: false,
+            hasGlyph: true,
             sortOrder: 618
         );
 
@@ -7657,7 +7657,7 @@ namespace NeoSmart.Unicode
             eNumber: 12.1,
             group: Group.PEOPLE_AND_BODY,
             subgroup: Subgroups.PERSON,
-            hasGlyph: false,
+            hasGlyph: true,
             sortOrder: 619
         );
 
@@ -7670,7 +7670,7 @@ namespace NeoSmart.Unicode
             eNumber: 12.1,
             group: Group.PEOPLE_AND_BODY,
             subgroup: Subgroups.PERSON,
-            hasGlyph: false,
+            hasGlyph: true,
             sortOrder: 620
         );
 
@@ -7683,7 +7683,7 @@ namespace NeoSmart.Unicode
             eNumber: 12.1,
             group: Group.PEOPLE_AND_BODY,
             subgroup: Subgroups.PERSON,
-            hasGlyph: false,
+            hasGlyph: true,
             sortOrder: 621
         );
 
@@ -7774,7 +7774,7 @@ namespace NeoSmart.Unicode
             eNumber: 12.1,
             group: Group.PEOPLE_AND_BODY,
             subgroup: Subgroups.PERSON,
-            hasGlyph: false,
+            hasGlyph: true,
             sortOrder: 628
         );
 
@@ -7787,7 +7787,7 @@ namespace NeoSmart.Unicode
             eNumber: 12.1,
             group: Group.PEOPLE_AND_BODY,
             subgroup: Subgroups.PERSON,
-            hasGlyph: false,
+            hasGlyph: true,
             sortOrder: 629
         );
 
@@ -7800,7 +7800,7 @@ namespace NeoSmart.Unicode
             eNumber: 12.1,
             group: Group.PEOPLE_AND_BODY,
             subgroup: Subgroups.PERSON,
-            hasGlyph: false,
+            hasGlyph: true,
             sortOrder: 630
         );
 
@@ -7813,7 +7813,7 @@ namespace NeoSmart.Unicode
             eNumber: 12.1,
             group: Group.PEOPLE_AND_BODY,
             subgroup: Subgroups.PERSON,
-            hasGlyph: false,
+            hasGlyph: true,
             sortOrder: 631
         );
 
@@ -7826,7 +7826,7 @@ namespace NeoSmart.Unicode
             eNumber: 12.1,
             group: Group.PEOPLE_AND_BODY,
             subgroup: Subgroups.PERSON,
-            hasGlyph: false,
+            hasGlyph: true,
             sortOrder: 632
         );
 
@@ -7839,7 +7839,7 @@ namespace NeoSmart.Unicode
             eNumber: 12.1,
             group: Group.PEOPLE_AND_BODY,
             subgroup: Subgroups.PERSON,
-            hasGlyph: false,
+            hasGlyph: true,
             sortOrder: 633
         );
 
@@ -7930,7 +7930,7 @@ namespace NeoSmart.Unicode
             eNumber: 12.1,
             group: Group.PEOPLE_AND_BODY,
             subgroup: Subgroups.PERSON,
-            hasGlyph: false,
+            hasGlyph: true,
             sortOrder: 640
         );
 
@@ -7943,7 +7943,7 @@ namespace NeoSmart.Unicode
             eNumber: 12.1,
             group: Group.PEOPLE_AND_BODY,
             subgroup: Subgroups.PERSON,
-            hasGlyph: false,
+            hasGlyph: true,
             sortOrder: 641
         );
 
@@ -7956,7 +7956,7 @@ namespace NeoSmart.Unicode
             eNumber: 12.1,
             group: Group.PEOPLE_AND_BODY,
             subgroup: Subgroups.PERSON,
-            hasGlyph: false,
+            hasGlyph: true,
             sortOrder: 642
         );
 
@@ -7969,7 +7969,7 @@ namespace NeoSmart.Unicode
             eNumber: 12.1,
             group: Group.PEOPLE_AND_BODY,
             subgroup: Subgroups.PERSON,
-            hasGlyph: false,
+            hasGlyph: true,
             sortOrder: 643
         );
 
@@ -7982,7 +7982,7 @@ namespace NeoSmart.Unicode
             eNumber: 12.1,
             group: Group.PEOPLE_AND_BODY,
             subgroup: Subgroups.PERSON,
-            hasGlyph: false,
+            hasGlyph: true,
             sortOrder: 644
         );
 
@@ -7995,7 +7995,7 @@ namespace NeoSmart.Unicode
             eNumber: 12.1,
             group: Group.PEOPLE_AND_BODY,
             subgroup: Subgroups.PERSON,
-            hasGlyph: false,
+            hasGlyph: true,
             sortOrder: 645
         );
 
@@ -10738,7 +10738,7 @@ namespace NeoSmart.Unicode
             eNumber: 12.1,
             group: Group.PEOPLE_AND_BODY,
             subgroup: Subgroups.PERSON_ROLE,
-            hasGlyph: false,
+            hasGlyph: true,
             sortOrder: 988
         );
 
@@ -10751,7 +10751,7 @@ namespace NeoSmart.Unicode
             eNumber: 12.1,
             group: Group.PEOPLE_AND_BODY,
             subgroup: Subgroups.PERSON_ROLE,
-            hasGlyph: false,
+            hasGlyph: true,
             sortOrder: 990
         );
 
@@ -10764,7 +10764,7 @@ namespace NeoSmart.Unicode
             eNumber: 12.1,
             group: Group.PEOPLE_AND_BODY,
             subgroup: Subgroups.PERSON_ROLE,
-            hasGlyph: false,
+            hasGlyph: true,
             sortOrder: 992
         );
 
@@ -10777,7 +10777,7 @@ namespace NeoSmart.Unicode
             eNumber: 12.1,
             group: Group.PEOPLE_AND_BODY,
             subgroup: Subgroups.PERSON_ROLE,
-            hasGlyph: false,
+            hasGlyph: true,
             sortOrder: 994
         );
 
@@ -10790,7 +10790,7 @@ namespace NeoSmart.Unicode
             eNumber: 12.1,
             group: Group.PEOPLE_AND_BODY,
             subgroup: Subgroups.PERSON_ROLE,
-            hasGlyph: false,
+            hasGlyph: true,
             sortOrder: 996
         );
 
@@ -10803,7 +10803,7 @@ namespace NeoSmart.Unicode
             eNumber: 12.1,
             group: Group.PEOPLE_AND_BODY,
             subgroup: Subgroups.PERSON_ROLE,
-            hasGlyph: false,
+            hasGlyph: true,
             sortOrder: 998
         );
 
@@ -10972,7 +10972,7 @@ namespace NeoSmart.Unicode
             eNumber: 12.1,
             group: Group.PEOPLE_AND_BODY,
             subgroup: Subgroups.PERSON_ROLE,
-            hasGlyph: false,
+            hasGlyph: true,
             sortOrder: 1024
         );
 
@@ -10985,7 +10985,7 @@ namespace NeoSmart.Unicode
             eNumber: 12.1,
             group: Group.PEOPLE_AND_BODY,
             subgroup: Subgroups.PERSON_ROLE,
-            hasGlyph: false,
+            hasGlyph: true,
             sortOrder: 1025
         );
 
@@ -10998,7 +10998,7 @@ namespace NeoSmart.Unicode
             eNumber: 12.1,
             group: Group.PEOPLE_AND_BODY,
             subgroup: Subgroups.PERSON_ROLE,
-            hasGlyph: false,
+            hasGlyph: true,
             sortOrder: 1026
         );
 
@@ -11011,7 +11011,7 @@ namespace NeoSmart.Unicode
             eNumber: 12.1,
             group: Group.PEOPLE_AND_BODY,
             subgroup: Subgroups.PERSON_ROLE,
-            hasGlyph: false,
+            hasGlyph: true,
             sortOrder: 1027
         );
 
@@ -11024,7 +11024,7 @@ namespace NeoSmart.Unicode
             eNumber: 12.1,
             group: Group.PEOPLE_AND_BODY,
             subgroup: Subgroups.PERSON_ROLE,
-            hasGlyph: false,
+            hasGlyph: true,
             sortOrder: 1028
         );
 
@@ -11037,7 +11037,7 @@ namespace NeoSmart.Unicode
             eNumber: 12.1,
             group: Group.PEOPLE_AND_BODY,
             subgroup: Subgroups.PERSON_ROLE,
-            hasGlyph: false,
+            hasGlyph: true,
             sortOrder: 1029
         );
 
@@ -11206,7 +11206,7 @@ namespace NeoSmart.Unicode
             eNumber: 12.1,
             group: Group.PEOPLE_AND_BODY,
             subgroup: Subgroups.PERSON_ROLE,
-            hasGlyph: false,
+            hasGlyph: true,
             sortOrder: 1042
         );
 
@@ -11219,7 +11219,7 @@ namespace NeoSmart.Unicode
             eNumber: 12.1,
             group: Group.PEOPLE_AND_BODY,
             subgroup: Subgroups.PERSON_ROLE,
-            hasGlyph: false,
+            hasGlyph: true,
             sortOrder: 1043
         );
 
@@ -11232,7 +11232,7 @@ namespace NeoSmart.Unicode
             eNumber: 12.1,
             group: Group.PEOPLE_AND_BODY,
             subgroup: Subgroups.PERSON_ROLE,
-            hasGlyph: false,
+            hasGlyph: true,
             sortOrder: 1044
         );
 
@@ -11245,7 +11245,7 @@ namespace NeoSmart.Unicode
             eNumber: 12.1,
             group: Group.PEOPLE_AND_BODY,
             subgroup: Subgroups.PERSON_ROLE,
-            hasGlyph: false,
+            hasGlyph: true,
             sortOrder: 1045
         );
 
@@ -11258,7 +11258,7 @@ namespace NeoSmart.Unicode
             eNumber: 12.1,
             group: Group.PEOPLE_AND_BODY,
             subgroup: Subgroups.PERSON_ROLE,
-            hasGlyph: false,
+            hasGlyph: true,
             sortOrder: 1046
         );
 
@@ -11271,7 +11271,7 @@ namespace NeoSmart.Unicode
             eNumber: 12.1,
             group: Group.PEOPLE_AND_BODY,
             subgroup: Subgroups.PERSON_ROLE,
-            hasGlyph: false,
+            hasGlyph: true,
             sortOrder: 1047
         );
 
@@ -11440,7 +11440,7 @@ namespace NeoSmart.Unicode
             eNumber: 12.1,
             group: Group.PEOPLE_AND_BODY,
             subgroup: Subgroups.PERSON_ROLE,
-            hasGlyph: false,
+            hasGlyph: true,
             sortOrder: 1060
         );
 
@@ -11453,7 +11453,7 @@ namespace NeoSmart.Unicode
             eNumber: 12.1,
             group: Group.PEOPLE_AND_BODY,
             subgroup: Subgroups.PERSON_ROLE,
-            hasGlyph: false,
+            hasGlyph: true,
             sortOrder: 1062
         );
 
@@ -11466,7 +11466,7 @@ namespace NeoSmart.Unicode
             eNumber: 12.1,
             group: Group.PEOPLE_AND_BODY,
             subgroup: Subgroups.PERSON_ROLE,
-            hasGlyph: false,
+            hasGlyph: true,
             sortOrder: 1064
         );
 
@@ -11479,7 +11479,7 @@ namespace NeoSmart.Unicode
             eNumber: 12.1,
             group: Group.PEOPLE_AND_BODY,
             subgroup: Subgroups.PERSON_ROLE,
-            hasGlyph: false,
+            hasGlyph: true,
             sortOrder: 1066
         );
 
@@ -11492,7 +11492,7 @@ namespace NeoSmart.Unicode
             eNumber: 12.1,
             group: Group.PEOPLE_AND_BODY,
             subgroup: Subgroups.PERSON_ROLE,
-            hasGlyph: false,
+            hasGlyph: true,
             sortOrder: 1068
         );
 
@@ -11505,7 +11505,7 @@ namespace NeoSmart.Unicode
             eNumber: 12.1,
             group: Group.PEOPLE_AND_BODY,
             subgroup: Subgroups.PERSON_ROLE,
-            hasGlyph: false,
+            hasGlyph: true,
             sortOrder: 1070
         );
 
@@ -11674,7 +11674,7 @@ namespace NeoSmart.Unicode
             eNumber: 12.1,
             group: Group.PEOPLE_AND_BODY,
             subgroup: Subgroups.PERSON_ROLE,
-            hasGlyph: false,
+            hasGlyph: true,
             sortOrder: 1096
         );
 
@@ -11687,7 +11687,7 @@ namespace NeoSmart.Unicode
             eNumber: 12.1,
             group: Group.PEOPLE_AND_BODY,
             subgroup: Subgroups.PERSON_ROLE,
-            hasGlyph: false,
+            hasGlyph: true,
             sortOrder: 1097
         );
 
@@ -11700,7 +11700,7 @@ namespace NeoSmart.Unicode
             eNumber: 12.1,
             group: Group.PEOPLE_AND_BODY,
             subgroup: Subgroups.PERSON_ROLE,
-            hasGlyph: false,
+            hasGlyph: true,
             sortOrder: 1098
         );
 
@@ -11713,7 +11713,7 @@ namespace NeoSmart.Unicode
             eNumber: 12.1,
             group: Group.PEOPLE_AND_BODY,
             subgroup: Subgroups.PERSON_ROLE,
-            hasGlyph: false,
+            hasGlyph: true,
             sortOrder: 1099
         );
 
@@ -11726,7 +11726,7 @@ namespace NeoSmart.Unicode
             eNumber: 12.1,
             group: Group.PEOPLE_AND_BODY,
             subgroup: Subgroups.PERSON_ROLE,
-            hasGlyph: false,
+            hasGlyph: true,
             sortOrder: 1100
         );
 
@@ -11739,7 +11739,7 @@ namespace NeoSmart.Unicode
             eNumber: 12.1,
             group: Group.PEOPLE_AND_BODY,
             subgroup: Subgroups.PERSON_ROLE,
-            hasGlyph: false,
+            hasGlyph: true,
             sortOrder: 1101
         );
 
@@ -11908,7 +11908,7 @@ namespace NeoSmart.Unicode
             eNumber: 12.1,
             group: Group.PEOPLE_AND_BODY,
             subgroup: Subgroups.PERSON_ROLE,
-            hasGlyph: false,
+            hasGlyph: true,
             sortOrder: 1114
         );
 
@@ -11921,7 +11921,7 @@ namespace NeoSmart.Unicode
             eNumber: 12.1,
             group: Group.PEOPLE_AND_BODY,
             subgroup: Subgroups.PERSON_ROLE,
-            hasGlyph: false,
+            hasGlyph: true,
             sortOrder: 1115
         );
 
@@ -11934,7 +11934,7 @@ namespace NeoSmart.Unicode
             eNumber: 12.1,
             group: Group.PEOPLE_AND_BODY,
             subgroup: Subgroups.PERSON_ROLE,
-            hasGlyph: false,
+            hasGlyph: true,
             sortOrder: 1116
         );
 
@@ -11947,7 +11947,7 @@ namespace NeoSmart.Unicode
             eNumber: 12.1,
             group: Group.PEOPLE_AND_BODY,
             subgroup: Subgroups.PERSON_ROLE,
-            hasGlyph: false,
+            hasGlyph: true,
             sortOrder: 1117
         );
 
@@ -11960,7 +11960,7 @@ namespace NeoSmart.Unicode
             eNumber: 12.1,
             group: Group.PEOPLE_AND_BODY,
             subgroup: Subgroups.PERSON_ROLE,
-            hasGlyph: false,
+            hasGlyph: true,
             sortOrder: 1118
         );
 
@@ -11973,7 +11973,7 @@ namespace NeoSmart.Unicode
             eNumber: 12.1,
             group: Group.PEOPLE_AND_BODY,
             subgroup: Subgroups.PERSON_ROLE,
-            hasGlyph: false,
+            hasGlyph: true,
             sortOrder: 1119
         );
 
@@ -12142,7 +12142,7 @@ namespace NeoSmart.Unicode
             eNumber: 12.1,
             group: Group.PEOPLE_AND_BODY,
             subgroup: Subgroups.PERSON_ROLE,
-            hasGlyph: false,
+            hasGlyph: true,
             sortOrder: 1132
         );
 
@@ -12155,7 +12155,7 @@ namespace NeoSmart.Unicode
             eNumber: 12.1,
             group: Group.PEOPLE_AND_BODY,
             subgroup: Subgroups.PERSON_ROLE,
-            hasGlyph: false,
+            hasGlyph: true,
             sortOrder: 1133
         );
 
@@ -12168,7 +12168,7 @@ namespace NeoSmart.Unicode
             eNumber: 12.1,
             group: Group.PEOPLE_AND_BODY,
             subgroup: Subgroups.PERSON_ROLE,
-            hasGlyph: false,
+            hasGlyph: true,
             sortOrder: 1134
         );
 
@@ -12181,7 +12181,7 @@ namespace NeoSmart.Unicode
             eNumber: 12.1,
             group: Group.PEOPLE_AND_BODY,
             subgroup: Subgroups.PERSON_ROLE,
-            hasGlyph: false,
+            hasGlyph: true,
             sortOrder: 1135
         );
 
@@ -12194,7 +12194,7 @@ namespace NeoSmart.Unicode
             eNumber: 12.1,
             group: Group.PEOPLE_AND_BODY,
             subgroup: Subgroups.PERSON_ROLE,
-            hasGlyph: false,
+            hasGlyph: true,
             sortOrder: 1136
         );
 
@@ -12207,7 +12207,7 @@ namespace NeoSmart.Unicode
             eNumber: 12.1,
             group: Group.PEOPLE_AND_BODY,
             subgroup: Subgroups.PERSON_ROLE,
-            hasGlyph: false,
+            hasGlyph: true,
             sortOrder: 1137
         );
 
@@ -12376,7 +12376,7 @@ namespace NeoSmart.Unicode
             eNumber: 12.1,
             group: Group.PEOPLE_AND_BODY,
             subgroup: Subgroups.PERSON_ROLE,
-            hasGlyph: false,
+            hasGlyph: true,
             sortOrder: 1150
         );
 
@@ -12389,7 +12389,7 @@ namespace NeoSmart.Unicode
             eNumber: 12.1,
             group: Group.PEOPLE_AND_BODY,
             subgroup: Subgroups.PERSON_ROLE,
-            hasGlyph: false,
+            hasGlyph: true,
             sortOrder: 1151
         );
 
@@ -12402,7 +12402,7 @@ namespace NeoSmart.Unicode
             eNumber: 12.1,
             group: Group.PEOPLE_AND_BODY,
             subgroup: Subgroups.PERSON_ROLE,
-            hasGlyph: false,
+            hasGlyph: true,
             sortOrder: 1152
         );
 
@@ -12415,7 +12415,7 @@ namespace NeoSmart.Unicode
             eNumber: 12.1,
             group: Group.PEOPLE_AND_BODY,
             subgroup: Subgroups.PERSON_ROLE,
-            hasGlyph: false,
+            hasGlyph: true,
             sortOrder: 1153
         );
 
@@ -12428,7 +12428,7 @@ namespace NeoSmart.Unicode
             eNumber: 12.1,
             group: Group.PEOPLE_AND_BODY,
             subgroup: Subgroups.PERSON_ROLE,
-            hasGlyph: false,
+            hasGlyph: true,
             sortOrder: 1154
         );
 
@@ -12441,7 +12441,7 @@ namespace NeoSmart.Unicode
             eNumber: 12.1,
             group: Group.PEOPLE_AND_BODY,
             subgroup: Subgroups.PERSON_ROLE,
-            hasGlyph: false,
+            hasGlyph: true,
             sortOrder: 1155
         );
 
@@ -12610,7 +12610,7 @@ namespace NeoSmart.Unicode
             eNumber: 12.1,
             group: Group.PEOPLE_AND_BODY,
             subgroup: Subgroups.PERSON_ROLE,
-            hasGlyph: false,
+            hasGlyph: true,
             sortOrder: 1168
         );
 
@@ -12623,7 +12623,7 @@ namespace NeoSmart.Unicode
             eNumber: 12.1,
             group: Group.PEOPLE_AND_BODY,
             subgroup: Subgroups.PERSON_ROLE,
-            hasGlyph: false,
+            hasGlyph: true,
             sortOrder: 1169
         );
 
@@ -12636,7 +12636,7 @@ namespace NeoSmart.Unicode
             eNumber: 12.1,
             group: Group.PEOPLE_AND_BODY,
             subgroup: Subgroups.PERSON_ROLE,
-            hasGlyph: false,
+            hasGlyph: true,
             sortOrder: 1170
         );
 
@@ -12649,7 +12649,7 @@ namespace NeoSmart.Unicode
             eNumber: 12.1,
             group: Group.PEOPLE_AND_BODY,
             subgroup: Subgroups.PERSON_ROLE,
-            hasGlyph: false,
+            hasGlyph: true,
             sortOrder: 1171
         );
 
@@ -12662,7 +12662,7 @@ namespace NeoSmart.Unicode
             eNumber: 12.1,
             group: Group.PEOPLE_AND_BODY,
             subgroup: Subgroups.PERSON_ROLE,
-            hasGlyph: false,
+            hasGlyph: true,
             sortOrder: 1172
         );
 
@@ -12675,7 +12675,7 @@ namespace NeoSmart.Unicode
             eNumber: 12.1,
             group: Group.PEOPLE_AND_BODY,
             subgroup: Subgroups.PERSON_ROLE,
-            hasGlyph: false,
+            hasGlyph: true,
             sortOrder: 1173
         );
 
@@ -12844,7 +12844,7 @@ namespace NeoSmart.Unicode
             eNumber: 12.1,
             group: Group.PEOPLE_AND_BODY,
             subgroup: Subgroups.PERSON_ROLE,
-            hasGlyph: false,
+            hasGlyph: true,
             sortOrder: 1186
         );
 
@@ -12857,7 +12857,7 @@ namespace NeoSmart.Unicode
             eNumber: 12.1,
             group: Group.PEOPLE_AND_BODY,
             subgroup: Subgroups.PERSON_ROLE,
-            hasGlyph: false,
+            hasGlyph: true,
             sortOrder: 1187
         );
 
@@ -12870,7 +12870,7 @@ namespace NeoSmart.Unicode
             eNumber: 12.1,
             group: Group.PEOPLE_AND_BODY,
             subgroup: Subgroups.PERSON_ROLE,
-            hasGlyph: false,
+            hasGlyph: true,
             sortOrder: 1188
         );
 
@@ -12883,7 +12883,7 @@ namespace NeoSmart.Unicode
             eNumber: 12.1,
             group: Group.PEOPLE_AND_BODY,
             subgroup: Subgroups.PERSON_ROLE,
-            hasGlyph: false,
+            hasGlyph: true,
             sortOrder: 1189
         );
 
@@ -12896,7 +12896,7 @@ namespace NeoSmart.Unicode
             eNumber: 12.1,
             group: Group.PEOPLE_AND_BODY,
             subgroup: Subgroups.PERSON_ROLE,
-            hasGlyph: false,
+            hasGlyph: true,
             sortOrder: 1190
         );
 
@@ -12909,7 +12909,7 @@ namespace NeoSmart.Unicode
             eNumber: 12.1,
             group: Group.PEOPLE_AND_BODY,
             subgroup: Subgroups.PERSON_ROLE,
-            hasGlyph: false,
+            hasGlyph: true,
             sortOrder: 1191
         );
 
@@ -13078,7 +13078,7 @@ namespace NeoSmart.Unicode
             eNumber: 12.1,
             group: Group.PEOPLE_AND_BODY,
             subgroup: Subgroups.PERSON_ROLE,
-            hasGlyph: false,
+            hasGlyph: true,
             sortOrder: 1204
         );
 
@@ -13091,7 +13091,7 @@ namespace NeoSmart.Unicode
             eNumber: 12.1,
             group: Group.PEOPLE_AND_BODY,
             subgroup: Subgroups.PERSON_ROLE,
-            hasGlyph: false,
+            hasGlyph: true,
             sortOrder: 1205
         );
 
@@ -13104,7 +13104,7 @@ namespace NeoSmart.Unicode
             eNumber: 12.1,
             group: Group.PEOPLE_AND_BODY,
             subgroup: Subgroups.PERSON_ROLE,
-            hasGlyph: false,
+            hasGlyph: true,
             sortOrder: 1206
         );
 
@@ -13117,7 +13117,7 @@ namespace NeoSmart.Unicode
             eNumber: 12.1,
             group: Group.PEOPLE_AND_BODY,
             subgroup: Subgroups.PERSON_ROLE,
-            hasGlyph: false,
+            hasGlyph: true,
             sortOrder: 1207
         );
 
@@ -13130,7 +13130,7 @@ namespace NeoSmart.Unicode
             eNumber: 12.1,
             group: Group.PEOPLE_AND_BODY,
             subgroup: Subgroups.PERSON_ROLE,
-            hasGlyph: false,
+            hasGlyph: true,
             sortOrder: 1208
         );
 
@@ -13143,7 +13143,7 @@ namespace NeoSmart.Unicode
             eNumber: 12.1,
             group: Group.PEOPLE_AND_BODY,
             subgroup: Subgroups.PERSON_ROLE,
-            hasGlyph: false,
+            hasGlyph: true,
             sortOrder: 1209
         );
 
@@ -13312,7 +13312,7 @@ namespace NeoSmart.Unicode
             eNumber: 12.1,
             group: Group.PEOPLE_AND_BODY,
             subgroup: Subgroups.PERSON_ROLE,
-            hasGlyph: false,
+            hasGlyph: true,
             sortOrder: 1222
         );
 
@@ -13325,7 +13325,7 @@ namespace NeoSmart.Unicode
             eNumber: 12.1,
             group: Group.PEOPLE_AND_BODY,
             subgroup: Subgroups.PERSON_ROLE,
-            hasGlyph: false,
+            hasGlyph: true,
             sortOrder: 1223
         );
 
@@ -13338,7 +13338,7 @@ namespace NeoSmart.Unicode
             eNumber: 12.1,
             group: Group.PEOPLE_AND_BODY,
             subgroup: Subgroups.PERSON_ROLE,
-            hasGlyph: false,
+            hasGlyph: true,
             sortOrder: 1224
         );
 
@@ -13351,7 +13351,7 @@ namespace NeoSmart.Unicode
             eNumber: 12.1,
             group: Group.PEOPLE_AND_BODY,
             subgroup: Subgroups.PERSON_ROLE,
-            hasGlyph: false,
+            hasGlyph: true,
             sortOrder: 1225
         );
 
@@ -13364,7 +13364,7 @@ namespace NeoSmart.Unicode
             eNumber: 12.1,
             group: Group.PEOPLE_AND_BODY,
             subgroup: Subgroups.PERSON_ROLE,
-            hasGlyph: false,
+            hasGlyph: true,
             sortOrder: 1226
         );
 
@@ -13377,7 +13377,7 @@ namespace NeoSmart.Unicode
             eNumber: 12.1,
             group: Group.PEOPLE_AND_BODY,
             subgroup: Subgroups.PERSON_ROLE,
-            hasGlyph: false,
+            hasGlyph: true,
             sortOrder: 1227
         );
 
@@ -13546,7 +13546,7 @@ namespace NeoSmart.Unicode
             eNumber: 12.1,
             group: Group.PEOPLE_AND_BODY,
             subgroup: Subgroups.PERSON_ROLE,
-            hasGlyph: false,
+            hasGlyph: true,
             sortOrder: 1240
         );
 
@@ -13559,7 +13559,7 @@ namespace NeoSmart.Unicode
             eNumber: 12.1,
             group: Group.PEOPLE_AND_BODY,
             subgroup: Subgroups.PERSON_ROLE,
-            hasGlyph: false,
+            hasGlyph: true,
             sortOrder: 1241
         );
 
@@ -13572,7 +13572,7 @@ namespace NeoSmart.Unicode
             eNumber: 12.1,
             group: Group.PEOPLE_AND_BODY,
             subgroup: Subgroups.PERSON_ROLE,
-            hasGlyph: false,
+            hasGlyph: true,
             sortOrder: 1242
         );
 
@@ -13585,7 +13585,7 @@ namespace NeoSmart.Unicode
             eNumber: 12.1,
             group: Group.PEOPLE_AND_BODY,
             subgroup: Subgroups.PERSON_ROLE,
-            hasGlyph: false,
+            hasGlyph: true,
             sortOrder: 1243
         );
 
@@ -13598,7 +13598,7 @@ namespace NeoSmart.Unicode
             eNumber: 12.1,
             group: Group.PEOPLE_AND_BODY,
             subgroup: Subgroups.PERSON_ROLE,
-            hasGlyph: false,
+            hasGlyph: true,
             sortOrder: 1244
         );
 
@@ -13611,7 +13611,7 @@ namespace NeoSmart.Unicode
             eNumber: 12.1,
             group: Group.PEOPLE_AND_BODY,
             subgroup: Subgroups.PERSON_ROLE,
-            hasGlyph: false,
+            hasGlyph: true,
             sortOrder: 1245
         );
 
@@ -13780,7 +13780,7 @@ namespace NeoSmart.Unicode
             eNumber: 12.1,
             group: Group.PEOPLE_AND_BODY,
             subgroup: Subgroups.PERSON_ROLE,
-            hasGlyph: false,
+            hasGlyph: true,
             sortOrder: 1258
         );
 
@@ -13793,7 +13793,7 @@ namespace NeoSmart.Unicode
             eNumber: 12.1,
             group: Group.PEOPLE_AND_BODY,
             subgroup: Subgroups.PERSON_ROLE,
-            hasGlyph: false,
+            hasGlyph: true,
             sortOrder: 1260
         );
 
@@ -13806,7 +13806,7 @@ namespace NeoSmart.Unicode
             eNumber: 12.1,
             group: Group.PEOPLE_AND_BODY,
             subgroup: Subgroups.PERSON_ROLE,
-            hasGlyph: false,
+            hasGlyph: true,
             sortOrder: 1262
         );
 
@@ -13819,7 +13819,7 @@ namespace NeoSmart.Unicode
             eNumber: 12.1,
             group: Group.PEOPLE_AND_BODY,
             subgroup: Subgroups.PERSON_ROLE,
-            hasGlyph: false,
+            hasGlyph: true,
             sortOrder: 1264
         );
 
@@ -13832,7 +13832,7 @@ namespace NeoSmart.Unicode
             eNumber: 12.1,
             group: Group.PEOPLE_AND_BODY,
             subgroup: Subgroups.PERSON_ROLE,
-            hasGlyph: false,
+            hasGlyph: true,
             sortOrder: 1266
         );
 
@@ -13845,7 +13845,7 @@ namespace NeoSmart.Unicode
             eNumber: 12.1,
             group: Group.PEOPLE_AND_BODY,
             subgroup: Subgroups.PERSON_ROLE,
-            hasGlyph: false,
+            hasGlyph: true,
             sortOrder: 1268
         );
 
@@ -14014,7 +14014,7 @@ namespace NeoSmart.Unicode
             eNumber: 12.1,
             group: Group.PEOPLE_AND_BODY,
             subgroup: Subgroups.PERSON_ROLE,
-            hasGlyph: false,
+            hasGlyph: true,
             sortOrder: 1294
         );
 
@@ -14027,7 +14027,7 @@ namespace NeoSmart.Unicode
             eNumber: 12.1,
             group: Group.PEOPLE_AND_BODY,
             subgroup: Subgroups.PERSON_ROLE,
-            hasGlyph: false,
+            hasGlyph: true,
             sortOrder: 1295
         );
 
@@ -14040,7 +14040,7 @@ namespace NeoSmart.Unicode
             eNumber: 12.1,
             group: Group.PEOPLE_AND_BODY,
             subgroup: Subgroups.PERSON_ROLE,
-            hasGlyph: false,
+            hasGlyph: true,
             sortOrder: 1296
         );
 
@@ -14053,7 +14053,7 @@ namespace NeoSmart.Unicode
             eNumber: 12.1,
             group: Group.PEOPLE_AND_BODY,
             subgroup: Subgroups.PERSON_ROLE,
-            hasGlyph: false,
+            hasGlyph: true,
             sortOrder: 1297
         );
 
@@ -14066,7 +14066,7 @@ namespace NeoSmart.Unicode
             eNumber: 12.1,
             group: Group.PEOPLE_AND_BODY,
             subgroup: Subgroups.PERSON_ROLE,
-            hasGlyph: false,
+            hasGlyph: true,
             sortOrder: 1298
         );
 
@@ -14079,7 +14079,7 @@ namespace NeoSmart.Unicode
             eNumber: 12.1,
             group: Group.PEOPLE_AND_BODY,
             subgroup: Subgroups.PERSON_ROLE,
-            hasGlyph: false,
+            hasGlyph: true,
             sortOrder: 1299
         );
 
@@ -14248,7 +14248,7 @@ namespace NeoSmart.Unicode
             eNumber: 12.1,
             group: Group.PEOPLE_AND_BODY,
             subgroup: Subgroups.PERSON_ROLE,
-            hasGlyph: false,
+            hasGlyph: true,
             sortOrder: 1312
         );
 
@@ -14261,7 +14261,7 @@ namespace NeoSmart.Unicode
             eNumber: 12.1,
             group: Group.PEOPLE_AND_BODY,
             subgroup: Subgroups.PERSON_ROLE,
-            hasGlyph: false,
+            hasGlyph: true,
             sortOrder: 1313
         );
 
@@ -14274,7 +14274,7 @@ namespace NeoSmart.Unicode
             eNumber: 12.1,
             group: Group.PEOPLE_AND_BODY,
             subgroup: Subgroups.PERSON_ROLE,
-            hasGlyph: false,
+            hasGlyph: true,
             sortOrder: 1314
         );
 
@@ -14287,7 +14287,7 @@ namespace NeoSmart.Unicode
             eNumber: 12.1,
             group: Group.PEOPLE_AND_BODY,
             subgroup: Subgroups.PERSON_ROLE,
-            hasGlyph: false,
+            hasGlyph: true,
             sortOrder: 1315
         );
 
@@ -14300,7 +14300,7 @@ namespace NeoSmart.Unicode
             eNumber: 12.1,
             group: Group.PEOPLE_AND_BODY,
             subgroup: Subgroups.PERSON_ROLE,
-            hasGlyph: false,
+            hasGlyph: true,
             sortOrder: 1316
         );
 
@@ -14313,7 +14313,7 @@ namespace NeoSmart.Unicode
             eNumber: 12.1,
             group: Group.PEOPLE_AND_BODY,
             subgroup: Subgroups.PERSON_ROLE,
-            hasGlyph: false,
+            hasGlyph: true,
             sortOrder: 1317
         );
 
@@ -15184,7 +15184,7 @@ namespace NeoSmart.Unicode
             eNumber: 13.0,
             group: Group.PEOPLE_AND_BODY,
             subgroup: Subgroups.PERSON_ROLE,
-            hasGlyph: false,
+            hasGlyph: true,
             sortOrder: 1425
         );
 
@@ -15197,7 +15197,7 @@ namespace NeoSmart.Unicode
             eNumber: 13.0,
             group: Group.PEOPLE_AND_BODY,
             subgroup: Subgroups.PERSON_ROLE,
-            hasGlyph: false,
+            hasGlyph: true,
             sortOrder: 1426
         );
 
@@ -15210,7 +15210,7 @@ namespace NeoSmart.Unicode
             eNumber: 13.0,
             group: Group.PEOPLE_AND_BODY,
             subgroup: Subgroups.PERSON_ROLE,
-            hasGlyph: false,
+            hasGlyph: true,
             sortOrder: 1427
         );
 
@@ -15223,7 +15223,7 @@ namespace NeoSmart.Unicode
             eNumber: 13.0,
             group: Group.PEOPLE_AND_BODY,
             subgroup: Subgroups.PERSON_ROLE,
-            hasGlyph: false,
+            hasGlyph: true,
             sortOrder: 1428
         );
 
@@ -15236,7 +15236,7 @@ namespace NeoSmart.Unicode
             eNumber: 13.0,
             group: Group.PEOPLE_AND_BODY,
             subgroup: Subgroups.PERSON_ROLE,
-            hasGlyph: false,
+            hasGlyph: true,
             sortOrder: 1429
         );
 
@@ -15249,7 +15249,7 @@ namespace NeoSmart.Unicode
             eNumber: 13.0,
             group: Group.PEOPLE_AND_BODY,
             subgroup: Subgroups.PERSON_ROLE,
-            hasGlyph: false,
+            hasGlyph: true,
             sortOrder: 1430
         );
 
@@ -16198,7 +16198,7 @@ namespace NeoSmart.Unicode
             eNumber: 13.0,
             group: Group.PEOPLE_AND_BODY,
             subgroup: Subgroups.PERSON_ROLE,
-            hasGlyph: false,
+            hasGlyph: true,
             sortOrder: 1527
         );
 
@@ -16211,7 +16211,7 @@ namespace NeoSmart.Unicode
             eNumber: 13.0,
             group: Group.PEOPLE_AND_BODY,
             subgroup: Subgroups.PERSON_ROLE,
-            hasGlyph: false,
+            hasGlyph: true,
             sortOrder: 1529
         );
 
@@ -16224,7 +16224,7 @@ namespace NeoSmart.Unicode
             eNumber: 13.0,
             group: Group.PEOPLE_AND_BODY,
             subgroup: Subgroups.PERSON_ROLE,
-            hasGlyph: false,
+            hasGlyph: true,
             sortOrder: 1531
         );
 
@@ -16237,7 +16237,7 @@ namespace NeoSmart.Unicode
             eNumber: 13.0,
             group: Group.PEOPLE_AND_BODY,
             subgroup: Subgroups.PERSON_ROLE,
-            hasGlyph: false,
+            hasGlyph: true,
             sortOrder: 1533
         );
 
@@ -16250,7 +16250,7 @@ namespace NeoSmart.Unicode
             eNumber: 13.0,
             group: Group.PEOPLE_AND_BODY,
             subgroup: Subgroups.PERSON_ROLE,
-            hasGlyph: false,
+            hasGlyph: true,
             sortOrder: 1535
         );
 
@@ -16263,7 +16263,7 @@ namespace NeoSmart.Unicode
             eNumber: 13.0,
             group: Group.PEOPLE_AND_BODY,
             subgroup: Subgroups.PERSON_ROLE,
-            hasGlyph: false,
+            hasGlyph: true,
             sortOrder: 1537
         );
 
@@ -16276,7 +16276,7 @@ namespace NeoSmart.Unicode
             eNumber: 13.0,
             group: Group.PEOPLE_AND_BODY,
             subgroup: Subgroups.PERSON_ROLE,
-            hasGlyph: false,
+            hasGlyph: true,
             sortOrder: 1539
         );
 
@@ -16289,7 +16289,7 @@ namespace NeoSmart.Unicode
             eNumber: 13.0,
             group: Group.PEOPLE_AND_BODY,
             subgroup: Subgroups.PERSON_ROLE,
-            hasGlyph: false,
+            hasGlyph: true,
             sortOrder: 1541
         );
 
@@ -16302,7 +16302,7 @@ namespace NeoSmart.Unicode
             eNumber: 13.0,
             group: Group.PEOPLE_AND_BODY,
             subgroup: Subgroups.PERSON_ROLE,
-            hasGlyph: false,
+            hasGlyph: true,
             sortOrder: 1543
         );
 
@@ -16315,7 +16315,7 @@ namespace NeoSmart.Unicode
             eNumber: 13.0,
             group: Group.PEOPLE_AND_BODY,
             subgroup: Subgroups.PERSON_ROLE,
-            hasGlyph: false,
+            hasGlyph: true,
             sortOrder: 1545
         );
 
@@ -16328,7 +16328,7 @@ namespace NeoSmart.Unicode
             eNumber: 13.0,
             group: Group.PEOPLE_AND_BODY,
             subgroup: Subgroups.PERSON_ROLE,
-            hasGlyph: false,
+            hasGlyph: true,
             sortOrder: 1547
         );
 
@@ -16341,7 +16341,7 @@ namespace NeoSmart.Unicode
             eNumber: 13.0,
             group: Group.PEOPLE_AND_BODY,
             subgroup: Subgroups.PERSON_ROLE,
-            hasGlyph: false,
+            hasGlyph: true,
             sortOrder: 1549
         );
 
@@ -16432,7 +16432,7 @@ namespace NeoSmart.Unicode
             eNumber: 13.0,
             group: Group.PEOPLE_AND_BODY,
             subgroup: Subgroups.PERSON_ROLE,
-            hasGlyph: false,
+            hasGlyph: true,
             sortOrder: 1557
         );
 
@@ -16445,7 +16445,7 @@ namespace NeoSmart.Unicode
             eNumber: 13.0,
             group: Group.PEOPLE_AND_BODY,
             subgroup: Subgroups.PERSON_ROLE,
-            hasGlyph: false,
+            hasGlyph: true,
             sortOrder: 1559
         );
 
@@ -16458,7 +16458,7 @@ namespace NeoSmart.Unicode
             eNumber: 13.0,
             group: Group.PEOPLE_AND_BODY,
             subgroup: Subgroups.PERSON_ROLE,
-            hasGlyph: false,
+            hasGlyph: true,
             sortOrder: 1561
         );
 
@@ -16471,7 +16471,7 @@ namespace NeoSmart.Unicode
             eNumber: 13.0,
             group: Group.PEOPLE_AND_BODY,
             subgroup: Subgroups.PERSON_ROLE,
-            hasGlyph: false,
+            hasGlyph: true,
             sortOrder: 1563
         );
 
@@ -16484,7 +16484,7 @@ namespace NeoSmart.Unicode
             eNumber: 13.0,
             group: Group.PEOPLE_AND_BODY,
             subgroup: Subgroups.PERSON_ROLE,
-            hasGlyph: false,
+            hasGlyph: true,
             sortOrder: 1565
         );
 
@@ -16497,7 +16497,7 @@ namespace NeoSmart.Unicode
             eNumber: 13.0,
             group: Group.PEOPLE_AND_BODY,
             subgroup: Subgroups.PERSON_ROLE,
-            hasGlyph: false,
+            hasGlyph: true,
             sortOrder: 1567
         );
 
@@ -16510,7 +16510,7 @@ namespace NeoSmart.Unicode
             eNumber: 13.0,
             group: Group.PEOPLE_AND_BODY,
             subgroup: Subgroups.PERSON_ROLE,
-            hasGlyph: false,
+            hasGlyph: true,
             sortOrder: 1569
         );
 
@@ -16523,7 +16523,7 @@ namespace NeoSmart.Unicode
             eNumber: 13.0,
             group: Group.PEOPLE_AND_BODY,
             subgroup: Subgroups.PERSON_ROLE,
-            hasGlyph: false,
+            hasGlyph: true,
             sortOrder: 1571
         );
 
@@ -16536,7 +16536,7 @@ namespace NeoSmart.Unicode
             eNumber: 13.0,
             group: Group.PEOPLE_AND_BODY,
             subgroup: Subgroups.PERSON_ROLE,
-            hasGlyph: false,
+            hasGlyph: true,
             sortOrder: 1573
         );
 
@@ -16549,7 +16549,7 @@ namespace NeoSmart.Unicode
             eNumber: 13.0,
             group: Group.PEOPLE_AND_BODY,
             subgroup: Subgroups.PERSON_ROLE,
-            hasGlyph: false,
+            hasGlyph: true,
             sortOrder: 1575
         );
 
@@ -16562,7 +16562,7 @@ namespace NeoSmart.Unicode
             eNumber: 13.0,
             group: Group.PEOPLE_AND_BODY,
             subgroup: Subgroups.PERSON_ROLE,
-            hasGlyph: false,
+            hasGlyph: true,
             sortOrder: 1577
         );
 
@@ -16575,7 +16575,7 @@ namespace NeoSmart.Unicode
             eNumber: 13.0,
             group: Group.PEOPLE_AND_BODY,
             subgroup: Subgroups.PERSON_ROLE,
-            hasGlyph: false,
+            hasGlyph: true,
             sortOrder: 1579
         );
 
@@ -16900,7 +16900,7 @@ namespace NeoSmart.Unicode
             eNumber: 13.0,
             group: Group.PEOPLE_AND_BODY,
             subgroup: Subgroups.PERSON_ROLE,
-            hasGlyph: false,
+            hasGlyph: true,
             sortOrder: 1605
         );
 
@@ -16913,7 +16913,7 @@ namespace NeoSmart.Unicode
             eNumber: 13.0,
             group: Group.PEOPLE_AND_BODY,
             subgroup: Subgroups.PERSON_ROLE,
-            hasGlyph: false,
+            hasGlyph: true,
             sortOrder: 1606
         );
 
@@ -16926,7 +16926,7 @@ namespace NeoSmart.Unicode
             eNumber: 13.0,
             group: Group.PEOPLE_AND_BODY,
             subgroup: Subgroups.PERSON_ROLE,
-            hasGlyph: false,
+            hasGlyph: true,
             sortOrder: 1607
         );
 
@@ -16939,7 +16939,7 @@ namespace NeoSmart.Unicode
             eNumber: 13.0,
             group: Group.PEOPLE_AND_BODY,
             subgroup: Subgroups.PERSON_ROLE,
-            hasGlyph: false,
+            hasGlyph: true,
             sortOrder: 1608
         );
 
@@ -16952,7 +16952,7 @@ namespace NeoSmart.Unicode
             eNumber: 13.0,
             group: Group.PEOPLE_AND_BODY,
             subgroup: Subgroups.PERSON_ROLE,
-            hasGlyph: false,
+            hasGlyph: true,
             sortOrder: 1609
         );
 
@@ -16965,7 +16965,7 @@ namespace NeoSmart.Unicode
             eNumber: 13.0,
             group: Group.PEOPLE_AND_BODY,
             subgroup: Subgroups.PERSON_ROLE,
-            hasGlyph: false,
+            hasGlyph: true,
             sortOrder: 1610
         );
 
@@ -16978,7 +16978,7 @@ namespace NeoSmart.Unicode
             eNumber: 13.0,
             group: Group.PEOPLE_AND_BODY,
             subgroup: Subgroups.PERSON_ROLE,
-            hasGlyph: false,
+            hasGlyph: true,
             sortOrder: 1611
         );
 
@@ -16991,7 +16991,7 @@ namespace NeoSmart.Unicode
             eNumber: 13.0,
             group: Group.PEOPLE_AND_BODY,
             subgroup: Subgroups.PERSON_ROLE,
-            hasGlyph: false,
+            hasGlyph: true,
             sortOrder: 1612
         );
 
@@ -17004,7 +17004,7 @@ namespace NeoSmart.Unicode
             eNumber: 13.0,
             group: Group.PEOPLE_AND_BODY,
             subgroup: Subgroups.PERSON_ROLE,
-            hasGlyph: false,
+            hasGlyph: true,
             sortOrder: 1613
         );
 
@@ -17017,7 +17017,7 @@ namespace NeoSmart.Unicode
             eNumber: 13.0,
             group: Group.PEOPLE_AND_BODY,
             subgroup: Subgroups.PERSON_ROLE,
-            hasGlyph: false,
+            hasGlyph: true,
             sortOrder: 1614
         );
 
@@ -17030,7 +17030,7 @@ namespace NeoSmart.Unicode
             eNumber: 13.0,
             group: Group.PEOPLE_AND_BODY,
             subgroup: Subgroups.PERSON_ROLE,
-            hasGlyph: false,
+            hasGlyph: true,
             sortOrder: 1615
         );
 
@@ -17043,7 +17043,7 @@ namespace NeoSmart.Unicode
             eNumber: 13.0,
             group: Group.PEOPLE_AND_BODY,
             subgroup: Subgroups.PERSON_ROLE,
-            hasGlyph: false,
+            hasGlyph: true,
             sortOrder: 1616
         );
 
@@ -17056,7 +17056,7 @@ namespace NeoSmart.Unicode
             eNumber: 13.0,
             group: Group.PEOPLE_AND_BODY,
             subgroup: Subgroups.PERSON_ROLE,
-            hasGlyph: false,
+            hasGlyph: true,
             sortOrder: 1617
         );
 
@@ -17069,7 +17069,7 @@ namespace NeoSmart.Unicode
             eNumber: 13.0,
             group: Group.PEOPLE_AND_BODY,
             subgroup: Subgroups.PERSON_ROLE,
-            hasGlyph: false,
+            hasGlyph: true,
             sortOrder: 1618
         );
 
@@ -17082,7 +17082,7 @@ namespace NeoSmart.Unicode
             eNumber: 13.0,
             group: Group.PEOPLE_AND_BODY,
             subgroup: Subgroups.PERSON_ROLE,
-            hasGlyph: false,
+            hasGlyph: true,
             sortOrder: 1619
         );
 
@@ -17095,7 +17095,7 @@ namespace NeoSmart.Unicode
             eNumber: 13.0,
             group: Group.PEOPLE_AND_BODY,
             subgroup: Subgroups.PERSON_ROLE,
-            hasGlyph: false,
+            hasGlyph: true,
             sortOrder: 1620
         );
 
@@ -17108,7 +17108,7 @@ namespace NeoSmart.Unicode
             eNumber: 13.0,
             group: Group.PEOPLE_AND_BODY,
             subgroup: Subgroups.PERSON_ROLE,
-            hasGlyph: false,
+            hasGlyph: true,
             sortOrder: 1621
         );
 
@@ -17121,7 +17121,7 @@ namespace NeoSmart.Unicode
             eNumber: 13.0,
             group: Group.PEOPLE_AND_BODY,
             subgroup: Subgroups.PERSON_ROLE,
-            hasGlyph: false,
+            hasGlyph: true,
             sortOrder: 1622
         );
 
@@ -17368,7 +17368,7 @@ namespace NeoSmart.Unicode
             eNumber: 13.0,
             group: Group.PEOPLE_AND_BODY,
             subgroup: Subgroups.PERSON_FANTASY,
-            hasGlyph: false,
+            hasGlyph: true,
             sortOrder: 1641
         );
 
@@ -17381,7 +17381,7 @@ namespace NeoSmart.Unicode
             eNumber: 13.0,
             group: Group.PEOPLE_AND_BODY,
             subgroup: Subgroups.PERSON_FANTASY,
-            hasGlyph: false,
+            hasGlyph: true,
             sortOrder: 1642
         );
 
@@ -17394,7 +17394,7 @@ namespace NeoSmart.Unicode
             eNumber: 13.0,
             group: Group.PEOPLE_AND_BODY,
             subgroup: Subgroups.PERSON_FANTASY,
-            hasGlyph: false,
+            hasGlyph: true,
             sortOrder: 1643
         );
 
@@ -17407,7 +17407,7 @@ namespace NeoSmart.Unicode
             eNumber: 13.0,
             group: Group.PEOPLE_AND_BODY,
             subgroup: Subgroups.PERSON_FANTASY,
-            hasGlyph: false,
+            hasGlyph: true,
             sortOrder: 1644
         );
 
@@ -17420,7 +17420,7 @@ namespace NeoSmart.Unicode
             eNumber: 13.0,
             group: Group.PEOPLE_AND_BODY,
             subgroup: Subgroups.PERSON_FANTASY,
-            hasGlyph: false,
+            hasGlyph: true,
             sortOrder: 1645
         );
 
@@ -17433,7 +17433,7 @@ namespace NeoSmart.Unicode
             eNumber: 13.0,
             group: Group.PEOPLE_AND_BODY,
             subgroup: Subgroups.PERSON_FANTASY,
-            hasGlyph: false,
+            hasGlyph: true,
             sortOrder: 1646
         );
 
@@ -20345,7 +20345,7 @@ namespace NeoSmart.Unicode
             eNumber: 12.1,
             group: Group.PEOPLE_AND_BODY,
             subgroup: Subgroups.PERSON_ACTIVITY,
-            hasGlyph: false,
+            hasGlyph: true,
             sortOrder: 2018
         );
 
@@ -20358,7 +20358,7 @@ namespace NeoSmart.Unicode
             eNumber: 12.1,
             group: Group.PEOPLE_AND_BODY,
             subgroup: Subgroups.PERSON_ACTIVITY,
-            hasGlyph: false,
+            hasGlyph: true,
             sortOrder: 2019
         );
 
@@ -20371,7 +20371,7 @@ namespace NeoSmart.Unicode
             eNumber: 12.1,
             group: Group.PEOPLE_AND_BODY,
             subgroup: Subgroups.PERSON_ACTIVITY,
-            hasGlyph: false,
+            hasGlyph: true,
             sortOrder: 2020
         );
 
@@ -20384,7 +20384,7 @@ namespace NeoSmart.Unicode
             eNumber: 12.1,
             group: Group.PEOPLE_AND_BODY,
             subgroup: Subgroups.PERSON_ACTIVITY,
-            hasGlyph: false,
+            hasGlyph: true,
             sortOrder: 2021
         );
 
@@ -20397,7 +20397,7 @@ namespace NeoSmart.Unicode
             eNumber: 12.1,
             group: Group.PEOPLE_AND_BODY,
             subgroup: Subgroups.PERSON_ACTIVITY,
-            hasGlyph: false,
+            hasGlyph: true,
             sortOrder: 2022
         );
 
@@ -20410,7 +20410,7 @@ namespace NeoSmart.Unicode
             eNumber: 12.1,
             group: Group.PEOPLE_AND_BODY,
             subgroup: Subgroups.PERSON_ACTIVITY,
-            hasGlyph: false,
+            hasGlyph: true,
             sortOrder: 2023
         );
 
@@ -20579,7 +20579,7 @@ namespace NeoSmart.Unicode
             eNumber: 12.1,
             group: Group.PEOPLE_AND_BODY,
             subgroup: Subgroups.PERSON_ACTIVITY,
-            hasGlyph: false,
+            hasGlyph: true,
             sortOrder: 2036
         );
 
@@ -20592,7 +20592,7 @@ namespace NeoSmart.Unicode
             eNumber: 12.1,
             group: Group.PEOPLE_AND_BODY,
             subgroup: Subgroups.PERSON_ACTIVITY,
-            hasGlyph: false,
+            hasGlyph: true,
             sortOrder: 2037
         );
 
@@ -20605,7 +20605,7 @@ namespace NeoSmart.Unicode
             eNumber: 12.1,
             group: Group.PEOPLE_AND_BODY,
             subgroup: Subgroups.PERSON_ACTIVITY,
-            hasGlyph: false,
+            hasGlyph: true,
             sortOrder: 2038
         );
 
@@ -20618,7 +20618,7 @@ namespace NeoSmart.Unicode
             eNumber: 12.1,
             group: Group.PEOPLE_AND_BODY,
             subgroup: Subgroups.PERSON_ACTIVITY,
-            hasGlyph: false,
+            hasGlyph: true,
             sortOrder: 2039
         );
 
@@ -20631,7 +20631,7 @@ namespace NeoSmart.Unicode
             eNumber: 12.1,
             group: Group.PEOPLE_AND_BODY,
             subgroup: Subgroups.PERSON_ACTIVITY,
-            hasGlyph: false,
+            hasGlyph: true,
             sortOrder: 2040
         );
 
@@ -20644,7 +20644,7 @@ namespace NeoSmart.Unicode
             eNumber: 12.1,
             group: Group.PEOPLE_AND_BODY,
             subgroup: Subgroups.PERSON_ACTIVITY,
-            hasGlyph: false,
+            hasGlyph: true,
             sortOrder: 2041
         );
 
@@ -20813,7 +20813,7 @@ namespace NeoSmart.Unicode
             eNumber: 12.1,
             group: Group.PEOPLE_AND_BODY,
             subgroup: Subgroups.PERSON_ACTIVITY,
-            hasGlyph: false,
+            hasGlyph: true,
             sortOrder: 2054
         );
 
@@ -20826,7 +20826,7 @@ namespace NeoSmart.Unicode
             eNumber: 12.1,
             group: Group.PEOPLE_AND_BODY,
             subgroup: Subgroups.PERSON_ACTIVITY,
-            hasGlyph: false,
+            hasGlyph: true,
             sortOrder: 2055
         );
 
@@ -20839,7 +20839,7 @@ namespace NeoSmart.Unicode
             eNumber: 12.1,
             group: Group.PEOPLE_AND_BODY,
             subgroup: Subgroups.PERSON_ACTIVITY,
-            hasGlyph: false,
+            hasGlyph: true,
             sortOrder: 2056
         );
 
@@ -20852,7 +20852,7 @@ namespace NeoSmart.Unicode
             eNumber: 12.1,
             group: Group.PEOPLE_AND_BODY,
             subgroup: Subgroups.PERSON_ACTIVITY,
-            hasGlyph: false,
+            hasGlyph: true,
             sortOrder: 2057
         );
 
@@ -20865,7 +20865,7 @@ namespace NeoSmart.Unicode
             eNumber: 12.1,
             group: Group.PEOPLE_AND_BODY,
             subgroup: Subgroups.PERSON_ACTIVITY,
-            hasGlyph: false,
+            hasGlyph: true,
             sortOrder: 2058
         );
 
@@ -20878,7 +20878,7 @@ namespace NeoSmart.Unicode
             eNumber: 12.1,
             group: Group.PEOPLE_AND_BODY,
             subgroup: Subgroups.PERSON_ACTIVITY,
-            hasGlyph: false,
+            hasGlyph: true,
             sortOrder: 2059
         );
 
@@ -26871,7 +26871,7 @@ namespace NeoSmart.Unicode
             eNumber: 13.1,
             group: Group.PEOPLE_AND_BODY,
             subgroup: Subgroups.FAMILY,
-            hasGlyph: false,
+            hasGlyph: true,
             sortOrder: 2733
         );
 
@@ -26884,7 +26884,7 @@ namespace NeoSmart.Unicode
             eNumber: 13.1,
             group: Group.PEOPLE_AND_BODY,
             subgroup: Subgroups.FAMILY,
-            hasGlyph: false,
+            hasGlyph: true,
             sortOrder: 2735
         );
 
@@ -26897,7 +26897,7 @@ namespace NeoSmart.Unicode
             eNumber: 13.1,
             group: Group.PEOPLE_AND_BODY,
             subgroup: Subgroups.FAMILY,
-            hasGlyph: false,
+            hasGlyph: true,
             sortOrder: 2737
         );
 
@@ -26910,7 +26910,7 @@ namespace NeoSmart.Unicode
             eNumber: 13.1,
             group: Group.PEOPLE_AND_BODY,
             subgroup: Subgroups.FAMILY,
-            hasGlyph: false,
+            hasGlyph: true,
             sortOrder: 2739
         );
 
@@ -26923,7 +26923,7 @@ namespace NeoSmart.Unicode
             eNumber: 13.1,
             group: Group.PEOPLE_AND_BODY,
             subgroup: Subgroups.FAMILY,
-            hasGlyph: false,
+            hasGlyph: true,
             sortOrder: 2741
         );
 
@@ -26936,7 +26936,7 @@ namespace NeoSmart.Unicode
             eNumber: 13.1,
             group: Group.PEOPLE_AND_BODY,
             subgroup: Subgroups.FAMILY,
-            hasGlyph: false,
+            hasGlyph: true,
             sortOrder: 2743
         );
 
@@ -26949,7 +26949,7 @@ namespace NeoSmart.Unicode
             eNumber: 13.1,
             group: Group.PEOPLE_AND_BODY,
             subgroup: Subgroups.FAMILY,
-            hasGlyph: false,
+            hasGlyph: true,
             sortOrder: 2745
         );
 
@@ -26962,7 +26962,7 @@ namespace NeoSmart.Unicode
             eNumber: 13.1,
             group: Group.PEOPLE_AND_BODY,
             subgroup: Subgroups.FAMILY,
-            hasGlyph: false,
+            hasGlyph: true,
             sortOrder: 2747
         );
 
@@ -26975,7 +26975,7 @@ namespace NeoSmart.Unicode
             eNumber: 13.1,
             group: Group.PEOPLE_AND_BODY,
             subgroup: Subgroups.FAMILY,
-            hasGlyph: false,
+            hasGlyph: true,
             sortOrder: 2749
         );
 
@@ -26988,7 +26988,7 @@ namespace NeoSmart.Unicode
             eNumber: 13.1,
             group: Group.PEOPLE_AND_BODY,
             subgroup: Subgroups.FAMILY,
-            hasGlyph: false,
+            hasGlyph: true,
             sortOrder: 2751
         );
 
@@ -27001,7 +27001,7 @@ namespace NeoSmart.Unicode
             eNumber: 13.1,
             group: Group.PEOPLE_AND_BODY,
             subgroup: Subgroups.FAMILY,
-            hasGlyph: false,
+            hasGlyph: true,
             sortOrder: 2753
         );
 
@@ -27014,7 +27014,7 @@ namespace NeoSmart.Unicode
             eNumber: 13.1,
             group: Group.PEOPLE_AND_BODY,
             subgroup: Subgroups.FAMILY,
-            hasGlyph: false,
+            hasGlyph: true,
             sortOrder: 2755
         );
 
@@ -27027,7 +27027,7 @@ namespace NeoSmart.Unicode
             eNumber: 13.1,
             group: Group.PEOPLE_AND_BODY,
             subgroup: Subgroups.FAMILY,
-            hasGlyph: false,
+            hasGlyph: true,
             sortOrder: 2757
         );
 
@@ -27040,7 +27040,7 @@ namespace NeoSmart.Unicode
             eNumber: 13.1,
             group: Group.PEOPLE_AND_BODY,
             subgroup: Subgroups.FAMILY,
-            hasGlyph: false,
+            hasGlyph: true,
             sortOrder: 2759
         );
 
@@ -27053,7 +27053,7 @@ namespace NeoSmart.Unicode
             eNumber: 13.1,
             group: Group.PEOPLE_AND_BODY,
             subgroup: Subgroups.FAMILY,
-            hasGlyph: false,
+            hasGlyph: true,
             sortOrder: 2761
         );
 
@@ -27066,7 +27066,7 @@ namespace NeoSmart.Unicode
             eNumber: 13.1,
             group: Group.PEOPLE_AND_BODY,
             subgroup: Subgroups.FAMILY,
-            hasGlyph: false,
+            hasGlyph: true,
             sortOrder: 2763
         );
 
@@ -27079,7 +27079,7 @@ namespace NeoSmart.Unicode
             eNumber: 13.1,
             group: Group.PEOPLE_AND_BODY,
             subgroup: Subgroups.FAMILY,
-            hasGlyph: false,
+            hasGlyph: true,
             sortOrder: 2765
         );
 
@@ -27092,7 +27092,7 @@ namespace NeoSmart.Unicode
             eNumber: 13.1,
             group: Group.PEOPLE_AND_BODY,
             subgroup: Subgroups.FAMILY,
-            hasGlyph: false,
+            hasGlyph: true,
             sortOrder: 2767
         );
 
@@ -27105,7 +27105,7 @@ namespace NeoSmart.Unicode
             eNumber: 13.1,
             group: Group.PEOPLE_AND_BODY,
             subgroup: Subgroups.FAMILY,
-            hasGlyph: false,
+            hasGlyph: true,
             sortOrder: 2769
         );
 
@@ -27118,7 +27118,7 @@ namespace NeoSmart.Unicode
             eNumber: 13.1,
             group: Group.PEOPLE_AND_BODY,
             subgroup: Subgroups.FAMILY,
-            hasGlyph: false,
+            hasGlyph: true,
             sortOrder: 2771
         );
 
@@ -27131,7 +27131,7 @@ namespace NeoSmart.Unicode
             eNumber: 2.0,
             group: Group.PEOPLE_AND_BODY,
             subgroup: Subgroups.FAMILY,
-            hasGlyph: false,
+            hasGlyph: true,
             sortOrder: 2773
         );
 
@@ -27144,7 +27144,7 @@ namespace NeoSmart.Unicode
             eNumber: 13.1,
             group: Group.PEOPLE_AND_BODY,
             subgroup: Subgroups.FAMILY,
-            hasGlyph: false,
+            hasGlyph: true,
             sortOrder: 2775
         );
 
@@ -27157,7 +27157,7 @@ namespace NeoSmart.Unicode
             eNumber: 13.1,
             group: Group.PEOPLE_AND_BODY,
             subgroup: Subgroups.FAMILY,
-            hasGlyph: false,
+            hasGlyph: true,
             sortOrder: 2777
         );
 
@@ -27170,7 +27170,7 @@ namespace NeoSmart.Unicode
             eNumber: 13.1,
             group: Group.PEOPLE_AND_BODY,
             subgroup: Subgroups.FAMILY,
-            hasGlyph: false,
+            hasGlyph: true,
             sortOrder: 2779
         );
 
@@ -27183,7 +27183,7 @@ namespace NeoSmart.Unicode
             eNumber: 13.1,
             group: Group.PEOPLE_AND_BODY,
             subgroup: Subgroups.FAMILY,
-            hasGlyph: false,
+            hasGlyph: true,
             sortOrder: 2781
         );
 
@@ -27196,7 +27196,7 @@ namespace NeoSmart.Unicode
             eNumber: 13.1,
             group: Group.PEOPLE_AND_BODY,
             subgroup: Subgroups.FAMILY,
-            hasGlyph: false,
+            hasGlyph: true,
             sortOrder: 2783
         );
 
@@ -27209,7 +27209,7 @@ namespace NeoSmart.Unicode
             eNumber: 13.1,
             group: Group.PEOPLE_AND_BODY,
             subgroup: Subgroups.FAMILY,
-            hasGlyph: false,
+            hasGlyph: true,
             sortOrder: 2785
         );
 
@@ -27222,7 +27222,7 @@ namespace NeoSmart.Unicode
             eNumber: 13.1,
             group: Group.PEOPLE_AND_BODY,
             subgroup: Subgroups.FAMILY,
-            hasGlyph: false,
+            hasGlyph: true,
             sortOrder: 2787
         );
 
@@ -27235,7 +27235,7 @@ namespace NeoSmart.Unicode
             eNumber: 13.1,
             group: Group.PEOPLE_AND_BODY,
             subgroup: Subgroups.FAMILY,
-            hasGlyph: false,
+            hasGlyph: true,
             sortOrder: 2789
         );
 
@@ -27248,7 +27248,7 @@ namespace NeoSmart.Unicode
             eNumber: 13.1,
             group: Group.PEOPLE_AND_BODY,
             subgroup: Subgroups.FAMILY,
-            hasGlyph: false,
+            hasGlyph: true,
             sortOrder: 2791
         );
 
@@ -27261,7 +27261,7 @@ namespace NeoSmart.Unicode
             eNumber: 13.1,
             group: Group.PEOPLE_AND_BODY,
             subgroup: Subgroups.FAMILY,
-            hasGlyph: false,
+            hasGlyph: true,
             sortOrder: 2793
         );
 
@@ -27274,7 +27274,7 @@ namespace NeoSmart.Unicode
             eNumber: 13.1,
             group: Group.PEOPLE_AND_BODY,
             subgroup: Subgroups.FAMILY,
-            hasGlyph: false,
+            hasGlyph: true,
             sortOrder: 2795
         );
 
@@ -27287,7 +27287,7 @@ namespace NeoSmart.Unicode
             eNumber: 13.1,
             group: Group.PEOPLE_AND_BODY,
             subgroup: Subgroups.FAMILY,
-            hasGlyph: false,
+            hasGlyph: true,
             sortOrder: 2797
         );
 
@@ -27300,7 +27300,7 @@ namespace NeoSmart.Unicode
             eNumber: 13.1,
             group: Group.PEOPLE_AND_BODY,
             subgroup: Subgroups.FAMILY,
-            hasGlyph: false,
+            hasGlyph: true,
             sortOrder: 2799
         );
 
@@ -27313,7 +27313,7 @@ namespace NeoSmart.Unicode
             eNumber: 13.1,
             group: Group.PEOPLE_AND_BODY,
             subgroup: Subgroups.FAMILY,
-            hasGlyph: false,
+            hasGlyph: true,
             sortOrder: 2801
         );
 
@@ -27326,7 +27326,7 @@ namespace NeoSmart.Unicode
             eNumber: 13.1,
             group: Group.PEOPLE_AND_BODY,
             subgroup: Subgroups.FAMILY,
-            hasGlyph: false,
+            hasGlyph: true,
             sortOrder: 2803
         );
 
@@ -27339,7 +27339,7 @@ namespace NeoSmart.Unicode
             eNumber: 13.1,
             group: Group.PEOPLE_AND_BODY,
             subgroup: Subgroups.FAMILY,
-            hasGlyph: false,
+            hasGlyph: true,
             sortOrder: 2805
         );
 
@@ -27352,7 +27352,7 @@ namespace NeoSmart.Unicode
             eNumber: 13.1,
             group: Group.PEOPLE_AND_BODY,
             subgroup: Subgroups.FAMILY,
-            hasGlyph: false,
+            hasGlyph: true,
             sortOrder: 2807
         );
 
@@ -27365,7 +27365,7 @@ namespace NeoSmart.Unicode
             eNumber: 13.1,
             group: Group.PEOPLE_AND_BODY,
             subgroup: Subgroups.FAMILY,
-            hasGlyph: false,
+            hasGlyph: true,
             sortOrder: 2809
         );
 
@@ -27378,7 +27378,7 @@ namespace NeoSmart.Unicode
             eNumber: 13.1,
             group: Group.PEOPLE_AND_BODY,
             subgroup: Subgroups.FAMILY,
-            hasGlyph: false,
+            hasGlyph: true,
             sortOrder: 2811
         );
 
@@ -27391,7 +27391,7 @@ namespace NeoSmart.Unicode
             eNumber: 13.1,
             group: Group.PEOPLE_AND_BODY,
             subgroup: Subgroups.FAMILY,
-            hasGlyph: false,
+            hasGlyph: true,
             sortOrder: 2813
         );
 
@@ -27404,7 +27404,7 @@ namespace NeoSmart.Unicode
             eNumber: 13.1,
             group: Group.PEOPLE_AND_BODY,
             subgroup: Subgroups.FAMILY,
-            hasGlyph: false,
+            hasGlyph: true,
             sortOrder: 2815
         );
 
@@ -27417,7 +27417,7 @@ namespace NeoSmart.Unicode
             eNumber: 13.1,
             group: Group.PEOPLE_AND_BODY,
             subgroup: Subgroups.FAMILY,
-            hasGlyph: false,
+            hasGlyph: true,
             sortOrder: 2817
         );
 
@@ -27430,7 +27430,7 @@ namespace NeoSmart.Unicode
             eNumber: 13.1,
             group: Group.PEOPLE_AND_BODY,
             subgroup: Subgroups.FAMILY,
-            hasGlyph: false,
+            hasGlyph: true,
             sortOrder: 2819
         );
 
@@ -27443,7 +27443,7 @@ namespace NeoSmart.Unicode
             eNumber: 13.1,
             group: Group.PEOPLE_AND_BODY,
             subgroup: Subgroups.FAMILY,
-            hasGlyph: false,
+            hasGlyph: true,
             sortOrder: 2821
         );
 
@@ -27456,7 +27456,7 @@ namespace NeoSmart.Unicode
             eNumber: 13.1,
             group: Group.PEOPLE_AND_BODY,
             subgroup: Subgroups.FAMILY,
-            hasGlyph: false,
+            hasGlyph: true,
             sortOrder: 2823
         );
 
@@ -27469,7 +27469,7 @@ namespace NeoSmart.Unicode
             eNumber: 2.0,
             group: Group.PEOPLE_AND_BODY,
             subgroup: Subgroups.FAMILY,
-            hasGlyph: false,
+            hasGlyph: true,
             sortOrder: 2825
         );
 
@@ -27482,7 +27482,7 @@ namespace NeoSmart.Unicode
             eNumber: 13.1,
             group: Group.PEOPLE_AND_BODY,
             subgroup: Subgroups.FAMILY,
-            hasGlyph: false,
+            hasGlyph: true,
             sortOrder: 2827
         );
 
@@ -27495,7 +27495,7 @@ namespace NeoSmart.Unicode
             eNumber: 13.1,
             group: Group.PEOPLE_AND_BODY,
             subgroup: Subgroups.FAMILY,
-            hasGlyph: false,
+            hasGlyph: true,
             sortOrder: 2829
         );
 
@@ -27508,7 +27508,7 @@ namespace NeoSmart.Unicode
             eNumber: 13.1,
             group: Group.PEOPLE_AND_BODY,
             subgroup: Subgroups.FAMILY,
-            hasGlyph: false,
+            hasGlyph: true,
             sortOrder: 2831
         );
 
@@ -27521,7 +27521,7 @@ namespace NeoSmart.Unicode
             eNumber: 13.1,
             group: Group.PEOPLE_AND_BODY,
             subgroup: Subgroups.FAMILY,
-            hasGlyph: false,
+            hasGlyph: true,
             sortOrder: 2833
         );
 
@@ -27534,7 +27534,7 @@ namespace NeoSmart.Unicode
             eNumber: 13.1,
             group: Group.PEOPLE_AND_BODY,
             subgroup: Subgroups.FAMILY,
-            hasGlyph: false,
+            hasGlyph: true,
             sortOrder: 2835
         );
 
@@ -27547,7 +27547,7 @@ namespace NeoSmart.Unicode
             eNumber: 13.1,
             group: Group.PEOPLE_AND_BODY,
             subgroup: Subgroups.FAMILY,
-            hasGlyph: false,
+            hasGlyph: true,
             sortOrder: 2837
         );
 
@@ -27560,7 +27560,7 @@ namespace NeoSmart.Unicode
             eNumber: 13.1,
             group: Group.PEOPLE_AND_BODY,
             subgroup: Subgroups.FAMILY,
-            hasGlyph: false,
+            hasGlyph: true,
             sortOrder: 2839
         );
 
@@ -27573,7 +27573,7 @@ namespace NeoSmart.Unicode
             eNumber: 13.1,
             group: Group.PEOPLE_AND_BODY,
             subgroup: Subgroups.FAMILY,
-            hasGlyph: false,
+            hasGlyph: true,
             sortOrder: 2841
         );
 
@@ -27586,7 +27586,7 @@ namespace NeoSmart.Unicode
             eNumber: 13.1,
             group: Group.PEOPLE_AND_BODY,
             subgroup: Subgroups.FAMILY,
-            hasGlyph: false,
+            hasGlyph: true,
             sortOrder: 2843
         );
 
@@ -27599,7 +27599,7 @@ namespace NeoSmart.Unicode
             eNumber: 13.1,
             group: Group.PEOPLE_AND_BODY,
             subgroup: Subgroups.FAMILY,
-            hasGlyph: false,
+            hasGlyph: true,
             sortOrder: 2845
         );
 
@@ -27612,7 +27612,7 @@ namespace NeoSmart.Unicode
             eNumber: 13.1,
             group: Group.PEOPLE_AND_BODY,
             subgroup: Subgroups.FAMILY,
-            hasGlyph: false,
+            hasGlyph: true,
             sortOrder: 2847
         );
 
@@ -27625,7 +27625,7 @@ namespace NeoSmart.Unicode
             eNumber: 13.1,
             group: Group.PEOPLE_AND_BODY,
             subgroup: Subgroups.FAMILY,
-            hasGlyph: false,
+            hasGlyph: true,
             sortOrder: 2849
         );
 
@@ -27638,7 +27638,7 @@ namespace NeoSmart.Unicode
             eNumber: 13.1,
             group: Group.PEOPLE_AND_BODY,
             subgroup: Subgroups.FAMILY,
-            hasGlyph: false,
+            hasGlyph: true,
             sortOrder: 2851
         );
 
@@ -27651,7 +27651,7 @@ namespace NeoSmart.Unicode
             eNumber: 13.1,
             group: Group.PEOPLE_AND_BODY,
             subgroup: Subgroups.FAMILY,
-            hasGlyph: false,
+            hasGlyph: true,
             sortOrder: 2853
         );
 
@@ -27664,7 +27664,7 @@ namespace NeoSmart.Unicode
             eNumber: 13.1,
             group: Group.PEOPLE_AND_BODY,
             subgroup: Subgroups.FAMILY,
-            hasGlyph: false,
+            hasGlyph: true,
             sortOrder: 2855
         );
 
@@ -27677,7 +27677,7 @@ namespace NeoSmart.Unicode
             eNumber: 13.1,
             group: Group.PEOPLE_AND_BODY,
             subgroup: Subgroups.FAMILY,
-            hasGlyph: false,
+            hasGlyph: true,
             sortOrder: 2857
         );
 
@@ -27690,7 +27690,7 @@ namespace NeoSmart.Unicode
             eNumber: 13.1,
             group: Group.PEOPLE_AND_BODY,
             subgroup: Subgroups.FAMILY,
-            hasGlyph: false,
+            hasGlyph: true,
             sortOrder: 2859
         );
 
@@ -27703,7 +27703,7 @@ namespace NeoSmart.Unicode
             eNumber: 13.1,
             group: Group.PEOPLE_AND_BODY,
             subgroup: Subgroups.FAMILY,
-            hasGlyph: false,
+            hasGlyph: true,
             sortOrder: 2861
         );
 
@@ -27716,7 +27716,7 @@ namespace NeoSmart.Unicode
             eNumber: 13.1,
             group: Group.PEOPLE_AND_BODY,
             subgroup: Subgroups.FAMILY,
-            hasGlyph: false,
+            hasGlyph: true,
             sortOrder: 2863
         );
 
@@ -27729,7 +27729,7 @@ namespace NeoSmart.Unicode
             eNumber: 13.1,
             group: Group.PEOPLE_AND_BODY,
             subgroup: Subgroups.FAMILY,
-            hasGlyph: false,
+            hasGlyph: true,
             sortOrder: 2865
         );
 
@@ -27742,7 +27742,7 @@ namespace NeoSmart.Unicode
             eNumber: 13.1,
             group: Group.PEOPLE_AND_BODY,
             subgroup: Subgroups.FAMILY,
-            hasGlyph: false,
+            hasGlyph: true,
             sortOrder: 2867
         );
 
@@ -27755,7 +27755,7 @@ namespace NeoSmart.Unicode
             eNumber: 13.1,
             group: Group.PEOPLE_AND_BODY,
             subgroup: Subgroups.FAMILY,
-            hasGlyph: false,
+            hasGlyph: true,
             sortOrder: 2869
         );
 
@@ -27768,7 +27768,7 @@ namespace NeoSmart.Unicode
             eNumber: 13.1,
             group: Group.PEOPLE_AND_BODY,
             subgroup: Subgroups.FAMILY,
-            hasGlyph: false,
+            hasGlyph: true,
             sortOrder: 2871
         );
 
@@ -27781,7 +27781,7 @@ namespace NeoSmart.Unicode
             eNumber: 13.1,
             group: Group.PEOPLE_AND_BODY,
             subgroup: Subgroups.FAMILY,
-            hasGlyph: false,
+            hasGlyph: true,
             sortOrder: 2873
         );
 
@@ -27794,7 +27794,7 @@ namespace NeoSmart.Unicode
             eNumber: 13.1,
             group: Group.PEOPLE_AND_BODY,
             subgroup: Subgroups.FAMILY,
-            hasGlyph: false,
+            hasGlyph: true,
             sortOrder: 2875
         );
 
@@ -27807,7 +27807,7 @@ namespace NeoSmart.Unicode
             eNumber: 2.0,
             group: Group.PEOPLE_AND_BODY,
             subgroup: Subgroups.FAMILY,
-            hasGlyph: false,
+            hasGlyph: true,
             sortOrder: 2877
         );
 
@@ -27820,7 +27820,7 @@ namespace NeoSmart.Unicode
             eNumber: 13.1,
             group: Group.PEOPLE_AND_BODY,
             subgroup: Subgroups.FAMILY,
-            hasGlyph: false,
+            hasGlyph: true,
             sortOrder: 2879
         );
 
@@ -27833,7 +27833,7 @@ namespace NeoSmart.Unicode
             eNumber: 13.1,
             group: Group.PEOPLE_AND_BODY,
             subgroup: Subgroups.FAMILY,
-            hasGlyph: false,
+            hasGlyph: true,
             sortOrder: 2881
         );
 
@@ -27846,7 +27846,7 @@ namespace NeoSmart.Unicode
             eNumber: 13.1,
             group: Group.PEOPLE_AND_BODY,
             subgroup: Subgroups.FAMILY,
-            hasGlyph: false,
+            hasGlyph: true,
             sortOrder: 2883
         );
 
@@ -27859,7 +27859,7 @@ namespace NeoSmart.Unicode
             eNumber: 13.1,
             group: Group.PEOPLE_AND_BODY,
             subgroup: Subgroups.FAMILY,
-            hasGlyph: false,
+            hasGlyph: true,
             sortOrder: 2885
         );
 
@@ -27872,7 +27872,7 @@ namespace NeoSmart.Unicode
             eNumber: 13.1,
             group: Group.PEOPLE_AND_BODY,
             subgroup: Subgroups.FAMILY,
-            hasGlyph: false,
+            hasGlyph: true,
             sortOrder: 2887
         );
 
@@ -27885,7 +27885,7 @@ namespace NeoSmart.Unicode
             eNumber: 13.1,
             group: Group.PEOPLE_AND_BODY,
             subgroup: Subgroups.FAMILY,
-            hasGlyph: false,
+            hasGlyph: true,
             sortOrder: 2889
         );
 
@@ -27898,7 +27898,7 @@ namespace NeoSmart.Unicode
             eNumber: 13.1,
             group: Group.PEOPLE_AND_BODY,
             subgroup: Subgroups.FAMILY,
-            hasGlyph: false,
+            hasGlyph: true,
             sortOrder: 2891
         );
 
@@ -27911,7 +27911,7 @@ namespace NeoSmart.Unicode
             eNumber: 13.1,
             group: Group.PEOPLE_AND_BODY,
             subgroup: Subgroups.FAMILY,
-            hasGlyph: false,
+            hasGlyph: true,
             sortOrder: 2893
         );
 
@@ -27924,7 +27924,7 @@ namespace NeoSmart.Unicode
             eNumber: 13.1,
             group: Group.PEOPLE_AND_BODY,
             subgroup: Subgroups.FAMILY,
-            hasGlyph: false,
+            hasGlyph: true,
             sortOrder: 2895
         );
 
@@ -27937,7 +27937,7 @@ namespace NeoSmart.Unicode
             eNumber: 13.1,
             group: Group.PEOPLE_AND_BODY,
             subgroup: Subgroups.FAMILY,
-            hasGlyph: false,
+            hasGlyph: true,
             sortOrder: 2897
         );
 
@@ -27950,7 +27950,7 @@ namespace NeoSmart.Unicode
             eNumber: 13.1,
             group: Group.PEOPLE_AND_BODY,
             subgroup: Subgroups.FAMILY,
-            hasGlyph: false,
+            hasGlyph: true,
             sortOrder: 2899
         );
 
@@ -27963,7 +27963,7 @@ namespace NeoSmart.Unicode
             eNumber: 13.1,
             group: Group.PEOPLE_AND_BODY,
             subgroup: Subgroups.FAMILY,
-            hasGlyph: false,
+            hasGlyph: true,
             sortOrder: 2901
         );
 
@@ -27976,7 +27976,7 @@ namespace NeoSmart.Unicode
             eNumber: 13.1,
             group: Group.PEOPLE_AND_BODY,
             subgroup: Subgroups.FAMILY,
-            hasGlyph: false,
+            hasGlyph: true,
             sortOrder: 2903
         );
 
@@ -27989,7 +27989,7 @@ namespace NeoSmart.Unicode
             eNumber: 13.1,
             group: Group.PEOPLE_AND_BODY,
             subgroup: Subgroups.FAMILY,
-            hasGlyph: false,
+            hasGlyph: true,
             sortOrder: 2905
         );
 
@@ -28002,7 +28002,7 @@ namespace NeoSmart.Unicode
             eNumber: 13.1,
             group: Group.PEOPLE_AND_BODY,
             subgroup: Subgroups.FAMILY,
-            hasGlyph: false,
+            hasGlyph: true,
             sortOrder: 2907
         );
 
@@ -28015,7 +28015,7 @@ namespace NeoSmart.Unicode
             eNumber: 13.1,
             group: Group.PEOPLE_AND_BODY,
             subgroup: Subgroups.FAMILY,
-            hasGlyph: false,
+            hasGlyph: true,
             sortOrder: 2909
         );
 
@@ -28028,7 +28028,7 @@ namespace NeoSmart.Unicode
             eNumber: 13.1,
             group: Group.PEOPLE_AND_BODY,
             subgroup: Subgroups.FAMILY,
-            hasGlyph: false,
+            hasGlyph: true,
             sortOrder: 2911
         );
 
@@ -28041,7 +28041,7 @@ namespace NeoSmart.Unicode
             eNumber: 13.1,
             group: Group.PEOPLE_AND_BODY,
             subgroup: Subgroups.FAMILY,
-            hasGlyph: false,
+            hasGlyph: true,
             sortOrder: 2913
         );
 
@@ -28054,7 +28054,7 @@ namespace NeoSmart.Unicode
             eNumber: 13.1,
             group: Group.PEOPLE_AND_BODY,
             subgroup: Subgroups.FAMILY,
-            hasGlyph: false,
+            hasGlyph: true,
             sortOrder: 2915
         );
 
@@ -28067,7 +28067,7 @@ namespace NeoSmart.Unicode
             eNumber: 13.1,
             group: Group.PEOPLE_AND_BODY,
             subgroup: Subgroups.FAMILY,
-            hasGlyph: false,
+            hasGlyph: true,
             sortOrder: 2917
         );
 
@@ -28080,7 +28080,7 @@ namespace NeoSmart.Unicode
             eNumber: 13.1,
             group: Group.PEOPLE_AND_BODY,
             subgroup: Subgroups.FAMILY,
-            hasGlyph: false,
+            hasGlyph: true,
             sortOrder: 2919
         );
 
@@ -28093,7 +28093,7 @@ namespace NeoSmart.Unicode
             eNumber: 13.1,
             group: Group.PEOPLE_AND_BODY,
             subgroup: Subgroups.FAMILY,
-            hasGlyph: false,
+            hasGlyph: true,
             sortOrder: 2921
         );
 
@@ -28106,7 +28106,7 @@ namespace NeoSmart.Unicode
             eNumber: 13.1,
             group: Group.PEOPLE_AND_BODY,
             subgroup: Subgroups.FAMILY,
-            hasGlyph: false,
+            hasGlyph: true,
             sortOrder: 2923
         );
 
@@ -28119,7 +28119,7 @@ namespace NeoSmart.Unicode
             eNumber: 13.1,
             group: Group.PEOPLE_AND_BODY,
             subgroup: Subgroups.FAMILY,
-            hasGlyph: false,
+            hasGlyph: true,
             sortOrder: 2925
         );
 
@@ -28132,7 +28132,7 @@ namespace NeoSmart.Unicode
             eNumber: 13.1,
             group: Group.PEOPLE_AND_BODY,
             subgroup: Subgroups.FAMILY,
-            hasGlyph: false,
+            hasGlyph: true,
             sortOrder: 2927
         );
 
@@ -28223,7 +28223,7 @@ namespace NeoSmart.Unicode
             eNumber: 13.1,
             group: Group.PEOPLE_AND_BODY,
             subgroup: Subgroups.FAMILY,
-            hasGlyph: false,
+            hasGlyph: true,
             sortOrder: 2935
         );
 
@@ -28236,7 +28236,7 @@ namespace NeoSmart.Unicode
             eNumber: 13.1,
             group: Group.PEOPLE_AND_BODY,
             subgroup: Subgroups.FAMILY,
-            hasGlyph: false,
+            hasGlyph: true,
             sortOrder: 2937
         );
 
@@ -28249,7 +28249,7 @@ namespace NeoSmart.Unicode
             eNumber: 13.1,
             group: Group.PEOPLE_AND_BODY,
             subgroup: Subgroups.FAMILY,
-            hasGlyph: false,
+            hasGlyph: true,
             sortOrder: 2939
         );
 
@@ -28262,7 +28262,7 @@ namespace NeoSmart.Unicode
             eNumber: 13.1,
             group: Group.PEOPLE_AND_BODY,
             subgroup: Subgroups.FAMILY,
-            hasGlyph: false,
+            hasGlyph: true,
             sortOrder: 2941
         );
 
@@ -28275,7 +28275,7 @@ namespace NeoSmart.Unicode
             eNumber: 13.1,
             group: Group.PEOPLE_AND_BODY,
             subgroup: Subgroups.FAMILY,
-            hasGlyph: false,
+            hasGlyph: true,
             sortOrder: 2943
         );
 
@@ -28288,7 +28288,7 @@ namespace NeoSmart.Unicode
             eNumber: 13.1,
             group: Group.PEOPLE_AND_BODY,
             subgroup: Subgroups.FAMILY,
-            hasGlyph: false,
+            hasGlyph: true,
             sortOrder: 2945
         );
 
@@ -28301,7 +28301,7 @@ namespace NeoSmart.Unicode
             eNumber: 13.1,
             group: Group.PEOPLE_AND_BODY,
             subgroup: Subgroups.FAMILY,
-            hasGlyph: false,
+            hasGlyph: true,
             sortOrder: 2947
         );
 
@@ -28314,7 +28314,7 @@ namespace NeoSmart.Unicode
             eNumber: 13.1,
             group: Group.PEOPLE_AND_BODY,
             subgroup: Subgroups.FAMILY,
-            hasGlyph: false,
+            hasGlyph: true,
             sortOrder: 2949
         );
 
@@ -28327,7 +28327,7 @@ namespace NeoSmart.Unicode
             eNumber: 13.1,
             group: Group.PEOPLE_AND_BODY,
             subgroup: Subgroups.FAMILY,
-            hasGlyph: false,
+            hasGlyph: true,
             sortOrder: 2951
         );
 
@@ -28340,7 +28340,7 @@ namespace NeoSmart.Unicode
             eNumber: 13.1,
             group: Group.PEOPLE_AND_BODY,
             subgroup: Subgroups.FAMILY,
-            hasGlyph: false,
+            hasGlyph: true,
             sortOrder: 2953
         );
 
@@ -28353,7 +28353,7 @@ namespace NeoSmart.Unicode
             eNumber: 13.1,
             group: Group.PEOPLE_AND_BODY,
             subgroup: Subgroups.FAMILY,
-            hasGlyph: false,
+            hasGlyph: true,
             sortOrder: 2955
         );
 
@@ -28366,7 +28366,7 @@ namespace NeoSmart.Unicode
             eNumber: 13.1,
             group: Group.PEOPLE_AND_BODY,
             subgroup: Subgroups.FAMILY,
-            hasGlyph: false,
+            hasGlyph: true,
             sortOrder: 2957
         );
 
@@ -28379,7 +28379,7 @@ namespace NeoSmart.Unicode
             eNumber: 13.1,
             group: Group.PEOPLE_AND_BODY,
             subgroup: Subgroups.FAMILY,
-            hasGlyph: false,
+            hasGlyph: true,
             sortOrder: 2959
         );
 
@@ -28392,7 +28392,7 @@ namespace NeoSmart.Unicode
             eNumber: 13.1,
             group: Group.PEOPLE_AND_BODY,
             subgroup: Subgroups.FAMILY,
-            hasGlyph: false,
+            hasGlyph: true,
             sortOrder: 2961
         );
 
@@ -28405,7 +28405,7 @@ namespace NeoSmart.Unicode
             eNumber: 13.1,
             group: Group.PEOPLE_AND_BODY,
             subgroup: Subgroups.FAMILY,
-            hasGlyph: false,
+            hasGlyph: true,
             sortOrder: 2963
         );
 
@@ -28418,7 +28418,7 @@ namespace NeoSmart.Unicode
             eNumber: 13.1,
             group: Group.PEOPLE_AND_BODY,
             subgroup: Subgroups.FAMILY,
-            hasGlyph: false,
+            hasGlyph: true,
             sortOrder: 2965
         );
 
@@ -28431,7 +28431,7 @@ namespace NeoSmart.Unicode
             eNumber: 13.1,
             group: Group.PEOPLE_AND_BODY,
             subgroup: Subgroups.FAMILY,
-            hasGlyph: false,
+            hasGlyph: true,
             sortOrder: 2967
         );
 
@@ -28444,7 +28444,7 @@ namespace NeoSmart.Unicode
             eNumber: 13.1,
             group: Group.PEOPLE_AND_BODY,
             subgroup: Subgroups.FAMILY,
-            hasGlyph: false,
+            hasGlyph: true,
             sortOrder: 2969
         );
 
@@ -28457,7 +28457,7 @@ namespace NeoSmart.Unicode
             eNumber: 13.1,
             group: Group.PEOPLE_AND_BODY,
             subgroup: Subgroups.FAMILY,
-            hasGlyph: false,
+            hasGlyph: true,
             sortOrder: 2971
         );
 
@@ -28470,7 +28470,7 @@ namespace NeoSmart.Unicode
             eNumber: 13.1,
             group: Group.PEOPLE_AND_BODY,
             subgroup: Subgroups.FAMILY,
-            hasGlyph: false,
+            hasGlyph: true,
             sortOrder: 2973
         );
 
@@ -28483,7 +28483,7 @@ namespace NeoSmart.Unicode
             eNumber: 2.0,
             group: Group.PEOPLE_AND_BODY,
             subgroup: Subgroups.FAMILY,
-            hasGlyph: false,
+            hasGlyph: true,
             sortOrder: 2975
         );
 
@@ -28496,7 +28496,7 @@ namespace NeoSmart.Unicode
             eNumber: 13.1,
             group: Group.PEOPLE_AND_BODY,
             subgroup: Subgroups.FAMILY,
-            hasGlyph: false,
+            hasGlyph: true,
             sortOrder: 2977
         );
 
@@ -28509,7 +28509,7 @@ namespace NeoSmart.Unicode
             eNumber: 13.1,
             group: Group.PEOPLE_AND_BODY,
             subgroup: Subgroups.FAMILY,
-            hasGlyph: false,
+            hasGlyph: true,
             sortOrder: 2979
         );
 
@@ -28522,7 +28522,7 @@ namespace NeoSmart.Unicode
             eNumber: 13.1,
             group: Group.PEOPLE_AND_BODY,
             subgroup: Subgroups.FAMILY,
-            hasGlyph: false,
+            hasGlyph: true,
             sortOrder: 2981
         );
 
@@ -28535,7 +28535,7 @@ namespace NeoSmart.Unicode
             eNumber: 13.1,
             group: Group.PEOPLE_AND_BODY,
             subgroup: Subgroups.FAMILY,
-            hasGlyph: false,
+            hasGlyph: true,
             sortOrder: 2983
         );
 
@@ -28548,7 +28548,7 @@ namespace NeoSmart.Unicode
             eNumber: 13.1,
             group: Group.PEOPLE_AND_BODY,
             subgroup: Subgroups.FAMILY,
-            hasGlyph: false,
+            hasGlyph: true,
             sortOrder: 2985
         );
 
@@ -28561,7 +28561,7 @@ namespace NeoSmart.Unicode
             eNumber: 13.1,
             group: Group.PEOPLE_AND_BODY,
             subgroup: Subgroups.FAMILY,
-            hasGlyph: false,
+            hasGlyph: true,
             sortOrder: 2987
         );
 
@@ -28574,7 +28574,7 @@ namespace NeoSmart.Unicode
             eNumber: 13.1,
             group: Group.PEOPLE_AND_BODY,
             subgroup: Subgroups.FAMILY,
-            hasGlyph: false,
+            hasGlyph: true,
             sortOrder: 2989
         );
 
@@ -28587,7 +28587,7 @@ namespace NeoSmart.Unicode
             eNumber: 13.1,
             group: Group.PEOPLE_AND_BODY,
             subgroup: Subgroups.FAMILY,
-            hasGlyph: false,
+            hasGlyph: true,
             sortOrder: 2991
         );
 
@@ -28600,7 +28600,7 @@ namespace NeoSmart.Unicode
             eNumber: 13.1,
             group: Group.PEOPLE_AND_BODY,
             subgroup: Subgroups.FAMILY,
-            hasGlyph: false,
+            hasGlyph: true,
             sortOrder: 2993
         );
 
@@ -28613,7 +28613,7 @@ namespace NeoSmart.Unicode
             eNumber: 13.1,
             group: Group.PEOPLE_AND_BODY,
             subgroup: Subgroups.FAMILY,
-            hasGlyph: false,
+            hasGlyph: true,
             sortOrder: 2995
         );
 
@@ -28626,7 +28626,7 @@ namespace NeoSmart.Unicode
             eNumber: 13.1,
             group: Group.PEOPLE_AND_BODY,
             subgroup: Subgroups.FAMILY,
-            hasGlyph: false,
+            hasGlyph: true,
             sortOrder: 2997
         );
 
@@ -28639,7 +28639,7 @@ namespace NeoSmart.Unicode
             eNumber: 13.1,
             group: Group.PEOPLE_AND_BODY,
             subgroup: Subgroups.FAMILY,
-            hasGlyph: false,
+            hasGlyph: true,
             sortOrder: 2999
         );
 
@@ -28652,7 +28652,7 @@ namespace NeoSmart.Unicode
             eNumber: 13.1,
             group: Group.PEOPLE_AND_BODY,
             subgroup: Subgroups.FAMILY,
-            hasGlyph: false,
+            hasGlyph: true,
             sortOrder: 3001
         );
 
@@ -28665,7 +28665,7 @@ namespace NeoSmart.Unicode
             eNumber: 13.1,
             group: Group.PEOPLE_AND_BODY,
             subgroup: Subgroups.FAMILY,
-            hasGlyph: false,
+            hasGlyph: true,
             sortOrder: 3003
         );
 
@@ -28678,7 +28678,7 @@ namespace NeoSmart.Unicode
             eNumber: 13.1,
             group: Group.PEOPLE_AND_BODY,
             subgroup: Subgroups.FAMILY,
-            hasGlyph: false,
+            hasGlyph: true,
             sortOrder: 3005
         );
 
@@ -28691,7 +28691,7 @@ namespace NeoSmart.Unicode
             eNumber: 13.1,
             group: Group.PEOPLE_AND_BODY,
             subgroup: Subgroups.FAMILY,
-            hasGlyph: false,
+            hasGlyph: true,
             sortOrder: 3007
         );
 
@@ -28704,7 +28704,7 @@ namespace NeoSmart.Unicode
             eNumber: 13.1,
             group: Group.PEOPLE_AND_BODY,
             subgroup: Subgroups.FAMILY,
-            hasGlyph: false,
+            hasGlyph: true,
             sortOrder: 3009
         );
 
@@ -28717,7 +28717,7 @@ namespace NeoSmart.Unicode
             eNumber: 13.1,
             group: Group.PEOPLE_AND_BODY,
             subgroup: Subgroups.FAMILY,
-            hasGlyph: false,
+            hasGlyph: true,
             sortOrder: 3011
         );
 
@@ -28730,7 +28730,7 @@ namespace NeoSmart.Unicode
             eNumber: 13.1,
             group: Group.PEOPLE_AND_BODY,
             subgroup: Subgroups.FAMILY,
-            hasGlyph: false,
+            hasGlyph: true,
             sortOrder: 3013
         );
 
@@ -28743,7 +28743,7 @@ namespace NeoSmart.Unicode
             eNumber: 13.1,
             group: Group.PEOPLE_AND_BODY,
             subgroup: Subgroups.FAMILY,
-            hasGlyph: false,
+            hasGlyph: true,
             sortOrder: 3015
         );
 
@@ -28756,7 +28756,7 @@ namespace NeoSmart.Unicode
             eNumber: 13.1,
             group: Group.PEOPLE_AND_BODY,
             subgroup: Subgroups.FAMILY,
-            hasGlyph: false,
+            hasGlyph: true,
             sortOrder: 3017
         );
 
@@ -28769,7 +28769,7 @@ namespace NeoSmart.Unicode
             eNumber: 13.1,
             group: Group.PEOPLE_AND_BODY,
             subgroup: Subgroups.FAMILY,
-            hasGlyph: false,
+            hasGlyph: true,
             sortOrder: 3019
         );
 
@@ -28782,7 +28782,7 @@ namespace NeoSmart.Unicode
             eNumber: 13.1,
             group: Group.PEOPLE_AND_BODY,
             subgroup: Subgroups.FAMILY,
-            hasGlyph: false,
+            hasGlyph: true,
             sortOrder: 3021
         );
 
@@ -28795,7 +28795,7 @@ namespace NeoSmart.Unicode
             eNumber: 13.1,
             group: Group.PEOPLE_AND_BODY,
             subgroup: Subgroups.FAMILY,
-            hasGlyph: false,
+            hasGlyph: true,
             sortOrder: 3023
         );
 
@@ -28808,7 +28808,7 @@ namespace NeoSmart.Unicode
             eNumber: 13.1,
             group: Group.PEOPLE_AND_BODY,
             subgroup: Subgroups.FAMILY,
-            hasGlyph: false,
+            hasGlyph: true,
             sortOrder: 3025
         );
 
@@ -28821,7 +28821,7 @@ namespace NeoSmart.Unicode
             eNumber: 2.0,
             group: Group.PEOPLE_AND_BODY,
             subgroup: Subgroups.FAMILY,
-            hasGlyph: false,
+            hasGlyph: true,
             sortOrder: 3027
         );
 
@@ -28834,7 +28834,7 @@ namespace NeoSmart.Unicode
             eNumber: 13.1,
             group: Group.PEOPLE_AND_BODY,
             subgroup: Subgroups.FAMILY,
-            hasGlyph: false,
+            hasGlyph: true,
             sortOrder: 3029
         );
 
@@ -28847,7 +28847,7 @@ namespace NeoSmart.Unicode
             eNumber: 13.1,
             group: Group.PEOPLE_AND_BODY,
             subgroup: Subgroups.FAMILY,
-            hasGlyph: false,
+            hasGlyph: true,
             sortOrder: 3031
         );
 
@@ -28860,7 +28860,7 @@ namespace NeoSmart.Unicode
             eNumber: 13.1,
             group: Group.PEOPLE_AND_BODY,
             subgroup: Subgroups.FAMILY,
-            hasGlyph: false,
+            hasGlyph: true,
             sortOrder: 3033
         );
 
@@ -28873,7 +28873,7 @@ namespace NeoSmart.Unicode
             eNumber: 13.1,
             group: Group.PEOPLE_AND_BODY,
             subgroup: Subgroups.FAMILY,
-            hasGlyph: false,
+            hasGlyph: true,
             sortOrder: 3035
         );
 
@@ -28886,7 +28886,7 @@ namespace NeoSmart.Unicode
             eNumber: 13.1,
             group: Group.PEOPLE_AND_BODY,
             subgroup: Subgroups.FAMILY,
-            hasGlyph: false,
+            hasGlyph: true,
             sortOrder: 3037
         );
 
@@ -28899,7 +28899,7 @@ namespace NeoSmart.Unicode
             eNumber: 13.1,
             group: Group.PEOPLE_AND_BODY,
             subgroup: Subgroups.FAMILY,
-            hasGlyph: false,
+            hasGlyph: true,
             sortOrder: 3039
         );
 
@@ -28912,7 +28912,7 @@ namespace NeoSmart.Unicode
             eNumber: 13.1,
             group: Group.PEOPLE_AND_BODY,
             subgroup: Subgroups.FAMILY,
-            hasGlyph: false,
+            hasGlyph: true,
             sortOrder: 3041
         );
 
@@ -28925,7 +28925,7 @@ namespace NeoSmart.Unicode
             eNumber: 13.1,
             group: Group.PEOPLE_AND_BODY,
             subgroup: Subgroups.FAMILY,
-            hasGlyph: false,
+            hasGlyph: true,
             sortOrder: 3043
         );
 
@@ -28938,7 +28938,7 @@ namespace NeoSmart.Unicode
             eNumber: 13.1,
             group: Group.PEOPLE_AND_BODY,
             subgroup: Subgroups.FAMILY,
-            hasGlyph: false,
+            hasGlyph: true,
             sortOrder: 3045
         );
 
@@ -28951,7 +28951,7 @@ namespace NeoSmart.Unicode
             eNumber: 13.1,
             group: Group.PEOPLE_AND_BODY,
             subgroup: Subgroups.FAMILY,
-            hasGlyph: false,
+            hasGlyph: true,
             sortOrder: 3047
         );
 
@@ -28964,7 +28964,7 @@ namespace NeoSmart.Unicode
             eNumber: 13.1,
             group: Group.PEOPLE_AND_BODY,
             subgroup: Subgroups.FAMILY,
-            hasGlyph: false,
+            hasGlyph: true,
             sortOrder: 3049
         );
 
@@ -28977,7 +28977,7 @@ namespace NeoSmart.Unicode
             eNumber: 13.1,
             group: Group.PEOPLE_AND_BODY,
             subgroup: Subgroups.FAMILY,
-            hasGlyph: false,
+            hasGlyph: true,
             sortOrder: 3051
         );
 
@@ -28990,7 +28990,7 @@ namespace NeoSmart.Unicode
             eNumber: 13.1,
             group: Group.PEOPLE_AND_BODY,
             subgroup: Subgroups.FAMILY,
-            hasGlyph: false,
+            hasGlyph: true,
             sortOrder: 3053
         );
 
@@ -29003,7 +29003,7 @@ namespace NeoSmart.Unicode
             eNumber: 13.1,
             group: Group.PEOPLE_AND_BODY,
             subgroup: Subgroups.FAMILY,
-            hasGlyph: false,
+            hasGlyph: true,
             sortOrder: 3055
         );
 
@@ -29016,7 +29016,7 @@ namespace NeoSmart.Unicode
             eNumber: 13.1,
             group: Group.PEOPLE_AND_BODY,
             subgroup: Subgroups.FAMILY,
-            hasGlyph: false,
+            hasGlyph: true,
             sortOrder: 3057
         );
 
@@ -29029,7 +29029,7 @@ namespace NeoSmart.Unicode
             eNumber: 13.1,
             group: Group.PEOPLE_AND_BODY,
             subgroup: Subgroups.FAMILY,
-            hasGlyph: false,
+            hasGlyph: true,
             sortOrder: 3059
         );
 
@@ -29042,7 +29042,7 @@ namespace NeoSmart.Unicode
             eNumber: 13.1,
             group: Group.PEOPLE_AND_BODY,
             subgroup: Subgroups.FAMILY,
-            hasGlyph: false,
+            hasGlyph: true,
             sortOrder: 3061
         );
 
@@ -29055,7 +29055,7 @@ namespace NeoSmart.Unicode
             eNumber: 13.1,
             group: Group.PEOPLE_AND_BODY,
             subgroup: Subgroups.FAMILY,
-            hasGlyph: false,
+            hasGlyph: true,
             sortOrder: 3063
         );
 
@@ -29068,7 +29068,7 @@ namespace NeoSmart.Unicode
             eNumber: 13.1,
             group: Group.PEOPLE_AND_BODY,
             subgroup: Subgroups.FAMILY,
-            hasGlyph: false,
+            hasGlyph: true,
             sortOrder: 3065
         );
 
@@ -29081,7 +29081,7 @@ namespace NeoSmart.Unicode
             eNumber: 13.1,
             group: Group.PEOPLE_AND_BODY,
             subgroup: Subgroups.FAMILY,
-            hasGlyph: false,
+            hasGlyph: true,
             sortOrder: 3067
         );
 
@@ -29094,7 +29094,7 @@ namespace NeoSmart.Unicode
             eNumber: 13.1,
             group: Group.PEOPLE_AND_BODY,
             subgroup: Subgroups.FAMILY,
-            hasGlyph: false,
+            hasGlyph: true,
             sortOrder: 3069
         );
 
@@ -29107,7 +29107,7 @@ namespace NeoSmart.Unicode
             eNumber: 13.1,
             group: Group.PEOPLE_AND_BODY,
             subgroup: Subgroups.FAMILY,
-            hasGlyph: false,
+            hasGlyph: true,
             sortOrder: 3071
         );
 
@@ -29120,7 +29120,7 @@ namespace NeoSmart.Unicode
             eNumber: 13.1,
             group: Group.PEOPLE_AND_BODY,
             subgroup: Subgroups.FAMILY,
-            hasGlyph: false,
+            hasGlyph: true,
             sortOrder: 3073
         );
 
@@ -29133,7 +29133,7 @@ namespace NeoSmart.Unicode
             eNumber: 13.1,
             group: Group.PEOPLE_AND_BODY,
             subgroup: Subgroups.FAMILY,
-            hasGlyph: false,
+            hasGlyph: true,
             sortOrder: 3075
         );
 
@@ -29146,7 +29146,7 @@ namespace NeoSmart.Unicode
             eNumber: 13.1,
             group: Group.PEOPLE_AND_BODY,
             subgroup: Subgroups.FAMILY,
-            hasGlyph: false,
+            hasGlyph: true,
             sortOrder: 3077
         );
 
@@ -29159,7 +29159,7 @@ namespace NeoSmart.Unicode
             eNumber: 2.0,
             group: Group.PEOPLE_AND_BODY,
             subgroup: Subgroups.FAMILY,
-            hasGlyph: false,
+            hasGlyph: true,
             sortOrder: 3079
         );
 
@@ -29172,7 +29172,7 @@ namespace NeoSmart.Unicode
             eNumber: 13.1,
             group: Group.PEOPLE_AND_BODY,
             subgroup: Subgroups.FAMILY,
-            hasGlyph: false,
+            hasGlyph: true,
             sortOrder: 3081
         );
 
@@ -29185,7 +29185,7 @@ namespace NeoSmart.Unicode
             eNumber: 13.1,
             group: Group.PEOPLE_AND_BODY,
             subgroup: Subgroups.FAMILY,
-            hasGlyph: false,
+            hasGlyph: true,
             sortOrder: 3083
         );
 
@@ -29198,7 +29198,7 @@ namespace NeoSmart.Unicode
             eNumber: 13.1,
             group: Group.PEOPLE_AND_BODY,
             subgroup: Subgroups.FAMILY,
-            hasGlyph: false,
+            hasGlyph: true,
             sortOrder: 3085
         );
 
@@ -29211,7 +29211,7 @@ namespace NeoSmart.Unicode
             eNumber: 13.1,
             group: Group.PEOPLE_AND_BODY,
             subgroup: Subgroups.FAMILY,
-            hasGlyph: false,
+            hasGlyph: true,
             sortOrder: 3087
         );
 
@@ -29224,7 +29224,7 @@ namespace NeoSmart.Unicode
             eNumber: 13.1,
             group: Group.PEOPLE_AND_BODY,
             subgroup: Subgroups.FAMILY,
-            hasGlyph: false,
+            hasGlyph: true,
             sortOrder: 3089
         );
 
@@ -29237,7 +29237,7 @@ namespace NeoSmart.Unicode
             eNumber: 13.1,
             group: Group.PEOPLE_AND_BODY,
             subgroup: Subgroups.FAMILY,
-            hasGlyph: false,
+            hasGlyph: true,
             sortOrder: 3091
         );
 
@@ -29250,7 +29250,7 @@ namespace NeoSmart.Unicode
             eNumber: 13.1,
             group: Group.PEOPLE_AND_BODY,
             subgroup: Subgroups.FAMILY,
-            hasGlyph: false,
+            hasGlyph: true,
             sortOrder: 3093
         );
 
@@ -29263,7 +29263,7 @@ namespace NeoSmart.Unicode
             eNumber: 13.1,
             group: Group.PEOPLE_AND_BODY,
             subgroup: Subgroups.FAMILY,
-            hasGlyph: false,
+            hasGlyph: true,
             sortOrder: 3095
         );
 
@@ -29276,7 +29276,7 @@ namespace NeoSmart.Unicode
             eNumber: 13.1,
             group: Group.PEOPLE_AND_BODY,
             subgroup: Subgroups.FAMILY,
-            hasGlyph: false,
+            hasGlyph: true,
             sortOrder: 3097
         );
 
@@ -29289,7 +29289,7 @@ namespace NeoSmart.Unicode
             eNumber: 13.1,
             group: Group.PEOPLE_AND_BODY,
             subgroup: Subgroups.FAMILY,
-            hasGlyph: false,
+            hasGlyph: true,
             sortOrder: 3099
         );
 
@@ -29302,7 +29302,7 @@ namespace NeoSmart.Unicode
             eNumber: 13.1,
             group: Group.PEOPLE_AND_BODY,
             subgroup: Subgroups.FAMILY,
-            hasGlyph: false,
+            hasGlyph: true,
             sortOrder: 3101
         );
 
@@ -29315,7 +29315,7 @@ namespace NeoSmart.Unicode
             eNumber: 13.1,
             group: Group.PEOPLE_AND_BODY,
             subgroup: Subgroups.FAMILY,
-            hasGlyph: false,
+            hasGlyph: true,
             sortOrder: 3103
         );
 
@@ -29328,7 +29328,7 @@ namespace NeoSmart.Unicode
             eNumber: 13.1,
             group: Group.PEOPLE_AND_BODY,
             subgroup: Subgroups.FAMILY,
-            hasGlyph: false,
+            hasGlyph: true,
             sortOrder: 3105
         );
 
@@ -29341,7 +29341,7 @@ namespace NeoSmart.Unicode
             eNumber: 13.1,
             group: Group.PEOPLE_AND_BODY,
             subgroup: Subgroups.FAMILY,
-            hasGlyph: false,
+            hasGlyph: true,
             sortOrder: 3107
         );
 
@@ -29354,7 +29354,7 @@ namespace NeoSmart.Unicode
             eNumber: 13.1,
             group: Group.PEOPLE_AND_BODY,
             subgroup: Subgroups.FAMILY,
-            hasGlyph: false,
+            hasGlyph: true,
             sortOrder: 3109
         );
 
@@ -29367,7 +29367,7 @@ namespace NeoSmart.Unicode
             eNumber: 13.1,
             group: Group.PEOPLE_AND_BODY,
             subgroup: Subgroups.FAMILY,
-            hasGlyph: false,
+            hasGlyph: true,
             sortOrder: 3111
         );
 
@@ -29380,7 +29380,7 @@ namespace NeoSmart.Unicode
             eNumber: 13.1,
             group: Group.PEOPLE_AND_BODY,
             subgroup: Subgroups.FAMILY,
-            hasGlyph: false,
+            hasGlyph: true,
             sortOrder: 3113
         );
 
@@ -29393,7 +29393,7 @@ namespace NeoSmart.Unicode
             eNumber: 13.1,
             group: Group.PEOPLE_AND_BODY,
             subgroup: Subgroups.FAMILY,
-            hasGlyph: false,
+            hasGlyph: true,
             sortOrder: 3115
         );
 
@@ -29406,7 +29406,7 @@ namespace NeoSmart.Unicode
             eNumber: 13.1,
             group: Group.PEOPLE_AND_BODY,
             subgroup: Subgroups.FAMILY,
-            hasGlyph: false,
+            hasGlyph: true,
             sortOrder: 3117
         );
 
@@ -29419,7 +29419,7 @@ namespace NeoSmart.Unicode
             eNumber: 13.1,
             group: Group.PEOPLE_AND_BODY,
             subgroup: Subgroups.FAMILY,
-            hasGlyph: false,
+            hasGlyph: true,
             sortOrder: 3119
         );
 
@@ -29432,7 +29432,7 @@ namespace NeoSmart.Unicode
             eNumber: 13.1,
             group: Group.PEOPLE_AND_BODY,
             subgroup: Subgroups.FAMILY,
-            hasGlyph: false,
+            hasGlyph: true,
             sortOrder: 3121
         );
 
@@ -29445,7 +29445,7 @@ namespace NeoSmart.Unicode
             eNumber: 13.1,
             group: Group.PEOPLE_AND_BODY,
             subgroup: Subgroups.FAMILY,
-            hasGlyph: false,
+            hasGlyph: true,
             sortOrder: 3123
         );
 
@@ -29458,7 +29458,7 @@ namespace NeoSmart.Unicode
             eNumber: 13.1,
             group: Group.PEOPLE_AND_BODY,
             subgroup: Subgroups.FAMILY,
-            hasGlyph: false,
+            hasGlyph: true,
             sortOrder: 3125
         );
 
@@ -29471,7 +29471,7 @@ namespace NeoSmart.Unicode
             eNumber: 13.1,
             group: Group.PEOPLE_AND_BODY,
             subgroup: Subgroups.FAMILY,
-            hasGlyph: false,
+            hasGlyph: true,
             sortOrder: 3127
         );
 
@@ -29484,7 +29484,7 @@ namespace NeoSmart.Unicode
             eNumber: 13.1,
             group: Group.PEOPLE_AND_BODY,
             subgroup: Subgroups.FAMILY,
-            hasGlyph: false,
+            hasGlyph: true,
             sortOrder: 3129
         );
 
@@ -29874,7 +29874,7 @@ namespace NeoSmart.Unicode
             eNumber: 13.0,
             group: Group.PEOPLE_AND_BODY,
             subgroup: Subgroups.PERSON_SYMBOL,
-            hasGlyph: false,
+            hasGlyph: true,
             sortOrder: 3161
         );
 
@@ -30017,7 +30017,7 @@ namespace NeoSmart.Unicode
             eNumber: 0.0,
             group: Group.ANIMALS_AND_NATURE,
             subgroup: Subgroups.WINDOWS_NINJA_CAT,
-            hasGlyph: true,
+            hasGlyph: false,
             sortOrder: 3172
         );
 
@@ -30030,7 +30030,7 @@ namespace NeoSmart.Unicode
             eNumber: 0.0,
             group: Group.ANIMALS_AND_NATURE,
             subgroup: Subgroups.WINDOWS_NINJA_CAT,
-            hasGlyph: true,
+            hasGlyph: false,
             sortOrder: 3173
         );
 
@@ -30043,7 +30043,7 @@ namespace NeoSmart.Unicode
             eNumber: 0.0,
             group: Group.ANIMALS_AND_NATURE,
             subgroup: Subgroups.WINDOWS_NINJA_CAT,
-            hasGlyph: true,
+            hasGlyph: false,
             sortOrder: 3174
         );
 
@@ -30056,7 +30056,7 @@ namespace NeoSmart.Unicode
             eNumber: 0.0,
             group: Group.ANIMALS_AND_NATURE,
             subgroup: Subgroups.WINDOWS_NINJA_CAT,
-            hasGlyph: true,
+            hasGlyph: false,
             sortOrder: 3175
         );
 
@@ -30069,7 +30069,7 @@ namespace NeoSmart.Unicode
             eNumber: 0.0,
             group: Group.ANIMALS_AND_NATURE,
             subgroup: Subgroups.WINDOWS_NINJA_CAT,
-            hasGlyph: true,
+            hasGlyph: false,
             sortOrder: 3176
         );
 
@@ -30082,7 +30082,7 @@ namespace NeoSmart.Unicode
             eNumber: 0.0,
             group: Group.ANIMALS_AND_NATURE,
             subgroup: Subgroups.WINDOWS_NINJA_CAT,
-            hasGlyph: true,
+            hasGlyph: false,
             sortOrder: 3177
         );
 
@@ -30277,7 +30277,7 @@ namespace NeoSmart.Unicode
             eNumber: 13.0,
             group: Group.ANIMALS_AND_NATURE,
             subgroup: Subgroups.ANIMAL_MAMMAL,
-            hasGlyph: false,
+            hasGlyph: true,
             sortOrder: 3192
         );
 
@@ -30407,7 +30407,7 @@ namespace NeoSmart.Unicode
             eNumber: 13.0,
             group: Group.ANIMALS_AND_NATURE,
             subgroup: Subgroups.ANIMAL_MAMMAL,
-            hasGlyph: false,
+            hasGlyph: true,
             sortOrder: 3202
         );
 
@@ -30628,7 +30628,7 @@ namespace NeoSmart.Unicode
             eNumber: 13.0,
             group: Group.ANIMALS_AND_NATURE,
             subgroup: Subgroups.ANIMAL_MAMMAL,
-            hasGlyph: false,
+            hasGlyph: true,
             sortOrder: 3219
         );
 
@@ -30758,7 +30758,7 @@ namespace NeoSmart.Unicode
             eNumber: 13.0,
             group: Group.ANIMALS_AND_NATURE,
             subgroup: Subgroups.ANIMAL_MAMMAL,
-            hasGlyph: false,
+            hasGlyph: true,
             sortOrder: 3230
         );
 
@@ -30810,7 +30810,7 @@ namespace NeoSmart.Unicode
             eNumber: 13.0,
             group: Group.ANIMALS_AND_NATURE,
             subgroup: Subgroups.ANIMAL_MAMMAL,
-            hasGlyph: false,
+            hasGlyph: true,
             sortOrder: 3234
         );
 
@@ -31096,7 +31096,7 @@ namespace NeoSmart.Unicode
             eNumber: 13.0,
             group: Group.ANIMALS_AND_NATURE,
             subgroup: Subgroups.ANIMAL_BIRD,
-            hasGlyph: false,
+            hasGlyph: true,
             sortOrder: 3258
         );
 
@@ -31109,7 +31109,7 @@ namespace NeoSmart.Unicode
             eNumber: 13.0,
             group: Group.ANIMALS_AND_NATURE,
             subgroup: Subgroups.ANIMAL_BIRD,
-            hasGlyph: false,
+            hasGlyph: true,
             sortOrder: 3259
         );
 
@@ -31317,7 +31317,7 @@ namespace NeoSmart.Unicode
             eNumber: 13.0,
             group: Group.ANIMALS_AND_NATURE,
             subgroup: Subgroups.ANIMAL_MARINE,
-            hasGlyph: false,
+            hasGlyph: true,
             sortOrder: 3275
         );
 
@@ -31486,7 +31486,7 @@ namespace NeoSmart.Unicode
             eNumber: 13.0,
             group: Group.ANIMALS_AND_NATURE,
             subgroup: Subgroups.ANIMAL_BUG,
-            hasGlyph: false,
+            hasGlyph: true,
             sortOrder: 3288
         );
 
@@ -31525,7 +31525,7 @@ namespace NeoSmart.Unicode
             eNumber: 13.0,
             group: Group.ANIMALS_AND_NATURE,
             subgroup: Subgroups.ANIMAL_BUG,
-            hasGlyph: false,
+            hasGlyph: true,
             sortOrder: 3291
         );
 
@@ -31590,7 +31590,7 @@ namespace NeoSmart.Unicode
             eNumber: 13.0,
             group: Group.ANIMALS_AND_NATURE,
             subgroup: Subgroups.ANIMAL_BUG,
-            hasGlyph: false,
+            hasGlyph: true,
             sortOrder: 3298
         );
 
@@ -31603,7 +31603,7 @@ namespace NeoSmart.Unicode
             eNumber: 13.0,
             group: Group.ANIMALS_AND_NATURE,
             subgroup: Subgroups.ANIMAL_BUG,
-            hasGlyph: false,
+            hasGlyph: true,
             sortOrder: 3299
         );
 
@@ -31785,7 +31785,7 @@ namespace NeoSmart.Unicode
             eNumber: 13.0,
             group: Group.ANIMALS_AND_NATURE,
             subgroup: Subgroups.PLANT_OTHER,
-            hasGlyph: false,
+            hasGlyph: true,
             sortOrder: 3314
         );
 
@@ -32149,7 +32149,7 @@ namespace NeoSmart.Unicode
             eNumber: 13.0,
             group: Group.FOOD_AND_DRINK,
             subgroup: Subgroups.FOOD_FRUIT,
-            hasGlyph: false,
+            hasGlyph: true,
             sortOrder: 3343
         );
 
@@ -32188,7 +32188,7 @@ namespace NeoSmart.Unicode
             eNumber: 13.0,
             group: Group.FOOD_AND_DRINK,
             subgroup: Subgroups.FOOD_FRUIT,
-            hasGlyph: false,
+            hasGlyph: true,
             sortOrder: 3346
         );
 
@@ -32292,7 +32292,7 @@ namespace NeoSmart.Unicode
             eNumber: 13.0,
             group: Group.FOOD_AND_DRINK,
             subgroup: Subgroups.FOOD_VEGETABLE,
-            hasGlyph: false,
+            hasGlyph: true,
             sortOrder: 3355
         );
 
@@ -32461,7 +32461,7 @@ namespace NeoSmart.Unicode
             eNumber: 13.0,
             group: Group.FOOD_AND_DRINK,
             subgroup: Subgroups.FOOD_PREPARED,
-            hasGlyph: false,
+            hasGlyph: true,
             sortOrder: 3368
         );
 
@@ -32682,7 +32682,7 @@ namespace NeoSmart.Unicode
             eNumber: 13.0,
             group: Group.FOOD_AND_DRINK,
             subgroup: Subgroups.FOOD_PREPARED,
-            hasGlyph: false,
+            hasGlyph: true,
             sortOrder: 3385
         );
 
@@ -32773,7 +32773,7 @@ namespace NeoSmart.Unicode
             eNumber: 13.0,
             group: Group.FOOD_AND_DRINK,
             subgroup: Subgroups.FOOD_PREPARED,
-            hasGlyph: false,
+            hasGlyph: true,
             sortOrder: 3392
         );
 
@@ -33371,7 +33371,7 @@ namespace NeoSmart.Unicode
             eNumber: 13.0,
             group: Group.FOOD_AND_DRINK,
             subgroup: Subgroups.DRINK,
-            hasGlyph: false,
+            hasGlyph: true,
             sortOrder: 3438
         );
 
@@ -33540,7 +33540,7 @@ namespace NeoSmart.Unicode
             eNumber: 13.0,
             group: Group.FOOD_AND_DRINK,
             subgroup: Subgroups.DRINK,
-            hasGlyph: false,
+            hasGlyph: true,
             sortOrder: 3451
         );
 
@@ -33943,7 +33943,7 @@ namespace NeoSmart.Unicode
             eNumber: 13.0,
             group: Group.TRAVEL_AND_PLACES,
             subgroup: Subgroups.PLACE_BUILDING,
-            hasGlyph: false,
+            hasGlyph: true,
             sortOrder: 3494
         );
 
@@ -33956,7 +33956,7 @@ namespace NeoSmart.Unicode
             eNumber: 13.0,
             group: Group.TRAVEL_AND_PLACES,
             subgroup: Subgroups.PLACE_BUILDING,
-            hasGlyph: false,
+            hasGlyph: true,
             sortOrder: 3495
         );
 
@@ -33969,7 +33969,7 @@ namespace NeoSmart.Unicode
             eNumber: 13.0,
             group: Group.TRAVEL_AND_PLACES,
             subgroup: Subgroups.PLACE_BUILDING,
-            hasGlyph: false,
+            hasGlyph: true,
             sortOrder: 3496
         );
 
@@ -34866,7 +34866,7 @@ namespace NeoSmart.Unicode
             eNumber: 13.0,
             group: Group.TRAVEL_AND_PLACES,
             subgroup: Subgroups.TRANSPORT_GROUND,
-            hasGlyph: false,
+            hasGlyph: true,
             sortOrder: 3570
         );
 
@@ -35035,7 +35035,7 @@ namespace NeoSmart.Unicode
             eNumber: 13.0,
             group: Group.TRAVEL_AND_PLACES,
             subgroup: Subgroups.TRANSPORT_GROUND,
-            hasGlyph: false,
+            hasGlyph: true,
             sortOrder: 3585
         );
 
@@ -37284,7 +37284,7 @@ namespace NeoSmart.Unicode
             eNumber: 13.0,
             group: Group.ACTIVITIES,
             subgroup: Subgroups.GAME,
-            hasGlyph: false,
+            hasGlyph: true,
             sortOrder: 3793
         );
 
@@ -37401,7 +37401,7 @@ namespace NeoSmart.Unicode
             eNumber: 13.0,
             group: Group.ACTIVITIES,
             subgroup: Subgroups.GAME,
-            hasGlyph: false,
+            hasGlyph: true,
             sortOrder: 3803
         );
 
@@ -37427,7 +37427,7 @@ namespace NeoSmart.Unicode
             eNumber: 13.0,
             group: Group.ACTIVITIES,
             subgroup: Subgroups.GAME,
-            hasGlyph: false,
+            hasGlyph: true,
             sortOrder: 3805
         );
 
@@ -37596,7 +37596,7 @@ namespace NeoSmart.Unicode
             eNumber: 13.0,
             group: Group.ACTIVITIES,
             subgroup: Subgroups.ARTS_CRAFTS,
-            hasGlyph: false,
+            hasGlyph: true,
             sortOrder: 3824
         );
 
@@ -37622,7 +37622,7 @@ namespace NeoSmart.Unicode
             eNumber: 13.0,
             group: Group.ACTIVITIES,
             subgroup: Subgroups.ARTS_CRAFTS,
-            hasGlyph: false,
+            hasGlyph: true,
             sortOrder: 3826
         );
 
@@ -37960,7 +37960,7 @@ namespace NeoSmart.Unicode
             eNumber: 13.0,
             group: Group.OBJECTS,
             subgroup: Subgroups.CLOTHING,
-            hasGlyph: false,
+            hasGlyph: true,
             sortOrder: 3854
         );
 
@@ -38142,7 +38142,7 @@ namespace NeoSmart.Unicode
             eNumber: 13.0,
             group: Group.OBJECTS,
             subgroup: Subgroups.CLOTHING,
-            hasGlyph: false,
+            hasGlyph: true,
             sortOrder: 3868
         );
 
@@ -38467,7 +38467,7 @@ namespace NeoSmart.Unicode
             eNumber: 13.0,
             group: Group.OBJECTS,
             subgroup: Subgroups.MUSICAL_INSTRUMENT,
-            hasGlyph: false,
+            hasGlyph: true,
             sortOrder: 3897
         );
 
@@ -38558,7 +38558,7 @@ namespace NeoSmart.Unicode
             eNumber: 13.0,
             group: Group.OBJECTS,
             subgroup: Subgroups.MUSICAL_INSTRUMENT,
-            hasGlyph: false,
+            hasGlyph: true,
             sortOrder: 3904
         );
 
@@ -39273,7 +39273,7 @@ namespace NeoSmart.Unicode
             eNumber: 13.0,
             group: Group.OBJECTS,
             subgroup: Subgroups.MONEY,
-            hasGlyph: false,
+            hasGlyph: true,
             sortOrder: 3970
         );
 
@@ -40131,7 +40131,7 @@ namespace NeoSmart.Unicode
             eNumber: 13.0,
             group: Group.OBJECTS,
             subgroup: Subgroups.TOOL,
-            hasGlyph: false,
+            hasGlyph: true,
             sortOrder: 4058
         );
 
@@ -40170,7 +40170,7 @@ namespace NeoSmart.Unicode
             eNumber: 13.0,
             group: Group.OBJECTS,
             subgroup: Subgroups.TOOL,
-            hasGlyph: false,
+            hasGlyph: true,
             sortOrder: 4062
         );
 
@@ -40196,7 +40196,7 @@ namespace NeoSmart.Unicode
             eNumber: 13.0,
             group: Group.OBJECTS,
             subgroup: Subgroups.TOOL,
-            hasGlyph: false,
+            hasGlyph: true,
             sortOrder: 4064
         );
 
@@ -40300,7 +40300,7 @@ namespace NeoSmart.Unicode
             eNumber: 13.0,
             group: Group.OBJECTS,
             subgroup: Subgroups.TOOL,
-            hasGlyph: false,
+            hasGlyph: true,
             sortOrder: 4076
         );
 
@@ -40339,7 +40339,7 @@ namespace NeoSmart.Unicode
             eNumber: 13.0,
             group: Group.OBJECTS,
             subgroup: Subgroups.TOOL,
-            hasGlyph: false,
+            hasGlyph: true,
             sortOrder: 4079
         );
 
@@ -40547,7 +40547,7 @@ namespace NeoSmart.Unicode
             eNumber: 13.0,
             group: Group.OBJECTS,
             subgroup: Subgroups.HOUSEHOLD,
-            hasGlyph: false,
+            hasGlyph: true,
             sortOrder: 4096
         );
 
@@ -40560,7 +40560,7 @@ namespace NeoSmart.Unicode
             eNumber: 13.0,
             group: Group.OBJECTS,
             subgroup: Subgroups.HOUSEHOLD,
-            hasGlyph: false,
+            hasGlyph: true,
             sortOrder: 4097
         );
 
@@ -40573,7 +40573,7 @@ namespace NeoSmart.Unicode
             eNumber: 13.0,
             group: Group.OBJECTS,
             subgroup: Subgroups.HOUSEHOLD,
-            hasGlyph: false,
+            hasGlyph: true,
             sortOrder: 4098
         );
 
@@ -40638,7 +40638,7 @@ namespace NeoSmart.Unicode
             eNumber: 13.0,
             group: Group.OBJECTS,
             subgroup: Subgroups.HOUSEHOLD,
-            hasGlyph: false,
+            hasGlyph: true,
             sortOrder: 4105
         );
 
@@ -40677,7 +40677,7 @@ namespace NeoSmart.Unicode
             eNumber: 13.0,
             group: Group.OBJECTS,
             subgroup: Subgroups.HOUSEHOLD,
-            hasGlyph: false,
+            hasGlyph: true,
             sortOrder: 4108
         );
 
@@ -40768,7 +40768,7 @@ namespace NeoSmart.Unicode
             eNumber: 13.0,
             group: Group.OBJECTS,
             subgroup: Subgroups.HOUSEHOLD,
-            hasGlyph: false,
+            hasGlyph: true,
             sortOrder: 4115
         );
 
@@ -40807,7 +40807,7 @@ namespace NeoSmart.Unicode
             eNumber: 13.0,
             group: Group.OBJECTS,
             subgroup: Subgroups.HOUSEHOLD,
-            hasGlyph: false,
+            hasGlyph: true,
             sortOrder: 4118
         );
 
@@ -40885,7 +40885,7 @@ namespace NeoSmart.Unicode
             eNumber: 13.0,
             group: Group.OBJECTS,
             subgroup: Subgroups.OTHER_OBJECT,
-            hasGlyph: false,
+            hasGlyph: true,
             sortOrder: 4125
         );
 
@@ -40924,7 +40924,7 @@ namespace NeoSmart.Unicode
             eNumber: 13.0,
             group: Group.OBJECTS,
             subgroup: Subgroups.OTHER_OBJECT,
-            hasGlyph: false,
+            hasGlyph: true,
             sortOrder: 4129
         );
 
@@ -43901,7 +43901,7 @@ namespace NeoSmart.Unicode
             eNumber: 13.0,
             group: Group.FLAGS,
             subgroup: Subgroups.FLAG,
-            hasGlyph: false,
+            hasGlyph: true,
             sortOrder: 4441
         );
 
