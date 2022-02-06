@@ -126,10 +126,10 @@ namespace Shared.Classes.Image
         /// </summary>
         /// <param name="base64">A valid <see cref="BitmapImage"/> in Base64 representation.</param>
         /// <returns>The resulting <see cref="BitmapImage"/> from the given <paramref name="base64"/>.</returns>
-        public static Task<SoftwareBitmap> ToBitmapImageAsync(string base64)
+        public static async Task<SoftwareBitmap> ToBitmapImageAsync(string base64)
         {
             Debug.Assert(base64 is not null);
-            return ToBitmapImageAsync(Convert.FromBase64String(base64));
+            return await ToBitmapImageAsync(Convert.FromBase64String(base64));
         }
 
         /// <summary>
