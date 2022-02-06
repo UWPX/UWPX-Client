@@ -41,7 +41,7 @@ namespace Shared.Classes.AppCenter
         {
             TrackErrorEventArgs args = new TrackErrorEventArgs(ex, descriptionMd, payload);
             Func<AppCenterCrashHelper, TrackErrorEventArgs, Task> handler = OnTrackError;
-            if (!(handler is null))
+            if (handler is not null)
             {
                 Delegate[] invocationList = handler.GetInvocationList();
                 Task[] handlerTasks = new Task[invocationList.Length];

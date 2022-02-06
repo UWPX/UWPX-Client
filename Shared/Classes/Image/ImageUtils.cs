@@ -106,9 +106,19 @@ namespace Shared.Classes.Image
         public static async Task<SoftwareBitmap> ToBitmapImageAsync(byte[] data)
         {
             Debug.Assert(data is not null);
-            IRandomAccessStream stream = data.AsBuffer().AsStream().AsRandomAccessStream();
-            BitmapDecoder decoder = await BitmapDecoder.CreateAsync(stream);
-            return await decoder.GetSoftwareBitmapAsync(BitmapPixelFormat.Bgra8, BitmapAlphaMode.Premultiplied);
+            try
+            {
+                IRandomAccessStream stream = data.AsBuffer().AsStream().AsRandomAccessStream();
+                BitmapDecoder decoder = await BitmapDecoder.CreateAsync(stream);
+                return await decoder.GetSoftwareBitmapAsync(BitmapPixelFormat.Bgra8, BitmapAlphaMode.Premultiplied);
+            }
+            catch (Exception e)
+            {
+                Logger.Error("Failed to convert binary to SoftwareBitmap.", e);
+                // Debug output for now while this leads to crashes:
+                AppCenter.AppCenterCrashHelper.INSTANCE.TrackError(e, nameof(ToBitmapImageAsync), new Dictionary<string, string> { { "null", (data is null).ToString() }, { "lenght", data is null ? "-1" : data.Length.ToString() } });
+            }
+            return null;
         }
 
         /// <summary>
