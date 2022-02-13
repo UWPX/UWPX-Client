@@ -528,9 +528,9 @@ namespace Manager.Classes.Chat
         }
 
         /// <summary>
-        /// Prepares the <see cref="ChatMessageImageModel"/> file name and folder path.
+        /// Prepares the <see cref="ChatMessageImageReceivedModel"/> file name and folder path.
         /// </summary>
-        private static async Task PrepareImageModelPathAndNameAsync(ChatMessageImageModel img)
+        private static async Task PrepareImageModelPathAndNameAsync(ChatMessageImageReceivedModel img)
         {
             img.targetFileName = ConnectionHandler.INSTANCE.IMAGE_DOWNLOAD_HANDLER.CreateUniqueFileName(img.sourceUrl);
             StorageFolder folder = await ConnectionHandler.INSTANCE.IMAGE_DOWNLOAD_HANDLER.GetCacheFolderAsync();

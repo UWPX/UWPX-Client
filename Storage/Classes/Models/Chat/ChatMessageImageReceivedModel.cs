@@ -1,29 +1,18 @@
-﻿using System.IO;
-using Microsoft.EntityFrameworkCore;
-using Storage.Classes.Migrations;
-using Windows.Storage;
+﻿using Shared.Classes.Network;
+using Storage.Classes.Contexts;
 
-namespace Storage.Classes.Contexts
+namespace Storage.Classes.Models.Chat
 {
-    public abstract class AbstractDbContext: DbContext
+    public class ChatMessageImageReceivedModel: AbstractDownloadableObject
     {
         //--------------------------------------------------------Attributes:-----------------------------------------------------------------\\
         #region --Attributes--
-        private static readonly string DB_PATH = Path.Combine(ApplicationData.Current.LocalFolder.Path, "uwpx.db");
-        private readonly AbstractSqlMigration MIGRATION;
+
 
         #endregion
         //--------------------------------------------------------Constructor:----------------------------------------------------------------\\
         #region --Constructors--
-        public AbstractDbContext()
-        {
-            Database.EnsureCreated();
-        }
-
-        protected AbstractDbContext(AbstractSqlMigration migration)
-        {
-            MIGRATION = migration;
-        }
+        public ChatMessageImageReceivedModel(string sourceUrl) : base(sourceUrl) { }
 
         #endregion
         //--------------------------------------------------------Set-, Get- Methods:---------------------------------------------------------\\
@@ -33,9 +22,26 @@ namespace Storage.Classes.Contexts
         #endregion
         //--------------------------------------------------------Misc Methods:---------------------------------------------------------------\\
         #region --Misc Methods (Public)--
-        public void ApplyMigration(AbstractSqlMigration migration)
+        /// <summary>
+        /// Updates the current model in the <see cref="MainDbContext"/>.
+        /// </summary>
+        public void Update()
         {
-            migration.ApplyMigration(Database);
+            using (MainDbContext ctx = new MainDbContext())
+            {
+                ctx.Update(this);
+            }
+        }
+
+        /// <summary>
+        /// Adds the current model to the <see cref="MainDbContext"/>.
+        /// </summary>
+        public void Add()
+        {
+            using (MainDbContext ctx = new MainDbContext())
+            {
+                ctx.Add(this);
+            }
         }
 
         #endregion
@@ -46,13 +52,7 @@ namespace Storage.Classes.Contexts
         #endregion
 
         #region --Misc Methods (Protected)--
-        protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
-        {
-            if (!optionsBuilder.IsConfigured)
-            {
-                optionsBuilder.UseSqlite("Data Source=" + DB_PATH);
-            }
-        }
+
 
         #endregion
         //--------------------------------------------------------Events:---------------------------------------------------------------------\\

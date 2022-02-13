@@ -165,13 +165,13 @@ namespace Storage.Classes.Models.Chat
         /// <summary>
         /// In case <see cref="isImage"/> is true, this holds the image model representing the download status and path to the image.
         /// </summary>
-        public ChatMessageImageModel image
+        public ChatMessageImageReceivedModel image
         {
             get => _image;
             set => SetImageProperty(value);
         }
         [NotMapped]
-        private ChatMessageImageModel _image;
+        private ChatMessageImageReceivedModel _image;
 
         /// <summary>
         /// True in case the message is a dummy message used for the personalize settings page chat preview.
@@ -204,7 +204,7 @@ namespace Storage.Classes.Models.Chat
             isImage = IsImageUrl(msg.MESSAGE);
             if (isImage)
             {
-                image = new ChatMessageImageModel(msg.MESSAGE);
+                image = new ChatMessageImageReceivedModel(msg.MESSAGE);
             }
             isCC = msg.CC_TYPE != CarbonCopyType.NONE;
             isEncrypted = msg is OmemoEncryptedMessage;
@@ -224,9 +224,9 @@ namespace Storage.Classes.Models.Chat
             return !(msg is null) && IMAGE_URL_REGEX.IsMatch(msg.ToLowerInvariant());
         }
 
-        private void SetImageProperty(ChatMessageImageModel value)
+        private void SetImageProperty(ChatMessageImageReceivedModel value)
         {
-            ChatMessageImageModel old = _image;
+            ChatMessageImageReceivedModel old = _image;
             if (SetProperty(ref _image, value, nameof(image)))
             {
                 if (!(old is null))

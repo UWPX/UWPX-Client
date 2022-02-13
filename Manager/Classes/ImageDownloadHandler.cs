@@ -44,7 +44,7 @@ namespace Manager.Classes
         #endregion
         //--------------------------------------------------------Misc Methods:---------------------------------------------------------------\\
         #region --Misc Methods (Public)--
-        public async Task StartDownloadAsync(ChatMessageImageModel image)
+        public async Task StartDownloadAsync(ChatMessageImageReceivedModel image)
         {
             await DOWNLOAD_SEMA.WaitAsync();
             if (image.state != DownloadState.DOWNLOADING && image.state != DownloadState.QUEUED)
@@ -54,12 +54,12 @@ namespace Manager.Classes
             DOWNLOAD_SEMA.Release();
         }
 
-        public Task RedownloadAsync(ChatMessageImageModel image)
+        public Task RedownloadAsync(ChatMessageImageReceivedModel image)
         {
             return DOWNLOAD_HANDLER.EnqueueDownloadAsync(image);
         }
 
-        public void CancelDownload(ChatMessageImageModel image)
+        public void CancelDownload(ChatMessageImageReceivedModel image)
         {
             DOWNLOAD_HANDLER.CancelDownload(image);
         }
@@ -76,12 +76,12 @@ namespace Manager.Classes
         {
             if (!Settings.GetSettingBoolean(SettingsConsts.DISABLE_IMAGE_AUTO_DOWNLOAD))
             {
-                IEnumerable<ChatMessageImageModel> images;
+                IEnumerable<ChatMessageImageReceivedModel> images;
                 using (MainDbContext ctx = new MainDbContext())
                 {
-                    images = ctx.ChatMessageImages.Where(i => i.state != DownloadState.DONE && i.state != DownloadState.ERROR && i.state != DownloadState.CANCELED).ToList();
+                    images = ctx.ChatMessageReceivedImages.Where(i => i.state != DownloadState.DONE && i.state != DownloadState.ERROR && i.state != DownloadState.CANCELED).ToList();
                 }
-                foreach (ChatMessageImageModel image in images)
+                foreach (ChatMessageImageReceivedModel image in images)
                 {
                     if (image.state == DownloadState.DOWNLOADING || image.state == DownloadState.QUEUED)
                     {
@@ -139,7 +139,7 @@ namespace Manager.Classes
         #region --Events--
         private void OnDownloadStateChanged(AbstractDownloadableObject o, DownloadStateChangedEventArgs args)
         {
-            if (o is ChatMessageImageModel image)
+            if (o is ChatMessageImageReceivedModel image)
             {
                 using (MainDbContext ctx = new MainDbContext())
                 {

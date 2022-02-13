@@ -118,7 +118,7 @@ namespace UWPX_UI_Context.Classes.DataContext.Controls
         #endregion
 
         #region --Misc Methods (Private)--
-        private void LoadImageProperties(ChatMessageImageModel image)
+        private void LoadImageProperties(ChatMessageImageReceivedModel image)
         {
             if (image is not null)
             {
@@ -130,7 +130,7 @@ namespace UWPX_UI_Context.Classes.DataContext.Controls
 
         private void TryLoadingImageFromPath()
         {
-            ChatMessageImageModel img = SpeechBubbleViewModel.MODEL.Message.Message.image;
+            ChatMessageImageReceivedModel img = SpeechBubbleViewModel.MODEL.Message.Message.image;
             if (img.state == DownloadState.DONE)
             {
                 if (loadImageCancellationSource is not null)
@@ -158,7 +158,7 @@ namespace UWPX_UI_Context.Classes.DataContext.Controls
         /// <param name="imgModel">The actual image the <paramref name="path"/> corresponds to.</param>
         /// <param name="path">The absolute path to the image.</param>
         /// <returns>The BitmapImage representation of the current path object.</returns>
-        private async Task<BitmapImage> GetBitmapImageAsync(ChatMessageImageModel imgModel, string path)
+        private async Task<BitmapImage> GetBitmapImageAsync(ChatMessageImageReceivedModel imgModel, string path)
         {
             if (path is null)
             {
@@ -222,23 +222,23 @@ namespace UWPX_UI_Context.Classes.DataContext.Controls
         #region --Events--
         private void OnImagePropertyChanged(object sender, PropertyChangedEventArgs e)
         {
-            ChatMessageImageModel img = SpeechBubbleViewModel.MODEL.Message.Message.image;
+            ChatMessageImageReceivedModel img = SpeechBubbleViewModel.MODEL.Message.Message.image;
             if (img is null)
             {
                 return;
             }
             switch (e.PropertyName)
             {
-                case nameof(ChatMessageImageModel.state):
-                case nameof(ChatMessageImageModel.targetFileName):
-                case nameof(ChatMessageImageModel.targetFolderPath):
+                case nameof(ChatMessageImageReceivedModel.state):
+                case nameof(ChatMessageImageReceivedModel.targetFileName):
+                case nameof(ChatMessageImageReceivedModel.targetFolderPath):
                     if (img.state == DownloadState.DONE)
                     {
                         MODEL.ImagePath = img.GetFullPath();
                     }
                     break;
 
-                case nameof(ChatMessageImageModel.error):
+                case nameof(ChatMessageImageReceivedModel.error):
                     MODEL.ErrorText = img.error.ToString();
                     break;
 

@@ -1,29 +1,18 @@
-﻿using System.IO;
-using Microsoft.EntityFrameworkCore;
-using Storage.Classes.Migrations;
-using Windows.Storage;
+﻿using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Infrastructure;
 
-namespace Storage.Classes.Contexts
+namespace Storage.Classes.Migrations
 {
-    public abstract class AbstractDbContext: DbContext
+    public class Migration_0_41_0_0: AbstractSqlMigration
     {
         //--------------------------------------------------------Attributes:-----------------------------------------------------------------\\
         #region --Attributes--
-        private static readonly string DB_PATH = Path.Combine(ApplicationData.Current.LocalFolder.Path, "uwpx.db");
-        private readonly AbstractSqlMigration MIGRATION;
+
 
         #endregion
         //--------------------------------------------------------Constructor:----------------------------------------------------------------\\
         #region --Constructors--
-        public AbstractDbContext()
-        {
-            Database.EnsureCreated();
-        }
 
-        protected AbstractDbContext(AbstractSqlMigration migration)
-        {
-            MIGRATION = migration;
-        }
 
         #endregion
         //--------------------------------------------------------Set-, Get- Methods:---------------------------------------------------------\\
@@ -33,9 +22,9 @@ namespace Storage.Classes.Contexts
         #endregion
         //--------------------------------------------------------Misc Methods:---------------------------------------------------------------\\
         #region --Misc Methods (Public)--
-        public void ApplyMigration(AbstractSqlMigration migration)
+        public override void ApplyMigration(DatabaseFacade db)
         {
-            migration.ApplyMigration(Database);
+            db.ExecuteSqlRaw("ALTER TABLE 'ChatMessageImages' RENAME TO 'ChatMessageReceivedImages';");
         }
 
         #endregion
@@ -46,13 +35,7 @@ namespace Storage.Classes.Contexts
         #endregion
 
         #region --Misc Methods (Protected)--
-        protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
-        {
-            if (!optionsBuilder.IsConfigured)
-            {
-                optionsBuilder.UseSqlite("Data Source=" + DB_PATH);
-            }
-        }
+
 
         #endregion
         //--------------------------------------------------------Events:---------------------------------------------------------------------\\

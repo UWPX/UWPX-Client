@@ -170,7 +170,7 @@ namespace Manager.Classes.Chat
                         AbstractDownloadableObject result = await ConnectionHandler.INSTANCE.IMAGE_DOWNLOAD_HANDLER.FindAsync((i) => i.id == msg.Message.image.id);
                         if (!(result is null))
                         {
-                            msg.Message.image = (ChatMessageImageModel)result;
+                            msg.Message.image = (ChatMessageImageReceivedModel)result;
                         }
                     }
                 }

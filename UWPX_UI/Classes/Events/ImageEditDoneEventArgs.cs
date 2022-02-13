@@ -1,28 +1,40 @@
-﻿using System.IO;
-using Microsoft.EntityFrameworkCore;
-using Storage.Classes.Migrations;
-using Windows.Storage;
+﻿using System;
+using Windows.Graphics.Imaging;
 
-namespace Storage.Classes.Contexts
+namespace UWPX_UI.Classes.Events
 {
-    public abstract class AbstractDbContext: DbContext
+    public class ImageEditDoneEventArgs: EventArgs
     {
         //--------------------------------------------------------Attributes:-----------------------------------------------------------------\\
         #region --Attributes--
-        private static readonly string DB_PATH = Path.Combine(ApplicationData.Current.LocalFolder.Path, "uwpx.db");
-        private readonly AbstractSqlMigration MIGRATION;
+        /// <summary>
+        /// True in case editing was successful.
+        /// </summary>
+        public readonly bool SUCCESS;
+        /// <summary>
+        /// Only valid in case <see cref="SUCCESS"/> is true.
+        /// </summary>
+        public readonly SoftwareBitmap IMAGE;
 
         #endregion
         //--------------------------------------------------------Constructor:----------------------------------------------------------------\\
         #region --Constructors--
-        public AbstractDbContext()
+        /// <summary>
+        /// Called when editing an image was successful.
+        /// </summary>
+        /// <param name="image">The resulting image.</param>
+        public ImageEditDoneEventArgs(SoftwareBitmap image)
         {
-            Database.EnsureCreated();
+            IMAGE = image;
+            SUCCESS = true;
         }
 
-        protected AbstractDbContext(AbstractSqlMigration migration)
+        /// <summary>
+        /// Called when editing an image got canceled or failed.
+        /// </summary>
+        public ImageEditDoneEventArgs()
         {
-            MIGRATION = migration;
+            SUCCESS = false;
         }
 
         #endregion
@@ -33,10 +45,7 @@ namespace Storage.Classes.Contexts
         #endregion
         //--------------------------------------------------------Misc Methods:---------------------------------------------------------------\\
         #region --Misc Methods (Public)--
-        public void ApplyMigration(AbstractSqlMigration migration)
-        {
-            migration.ApplyMigration(Database);
-        }
+
 
         #endregion
 
@@ -46,13 +55,7 @@ namespace Storage.Classes.Contexts
         #endregion
 
         #region --Misc Methods (Protected)--
-        protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
-        {
-            if (!optionsBuilder.IsConfigured)
-            {
-                optionsBuilder.UseSqlite("Data Source=" + DB_PATH);
-            }
-        }
+
 
         #endregion
         //--------------------------------------------------------Events:---------------------------------------------------------------------\\

@@ -3,6 +3,7 @@ using System.Threading.Tasks;
 using Logging;
 using Storage.Classes;
 using Storage.Classes.Contexts;
+using Storage.Classes.Migrations;
 using Windows.ApplicationModel;
 using Windows.Storage;
 
@@ -132,6 +133,25 @@ namespace UWPX_UI_Context.Classes
                         catch (Exception e)
                         {
                             Logger.Error("Error during updating DB to version 0.39.0.0", e);
+                        }
+                    }
+
+                    if (versionLastStart.Major <= 0 && versionLastStart.Minor < 41)
+                    {
+                        try
+                        {
+                            Logger.Info("Started updating DB to version 0.41.0.0.");
+                            Logger.Info("Resetting the DB...");
+                            using (MainDbContext ctx = new MainDbContext())
+                            {
+                                ctx.ApplyMigration(new Migration_0_41_0_0());
+                            }
+                            Logger.Info("DB reset.");
+                            Logger.Info("Finished updating DB to version 0.41.0.0.");
+                        }
+                        catch (Exception e)
+                        {
+                            Logger.Error("Error during updating DB to version 0.41.0.0", e);
                         }
                     }
                 }
