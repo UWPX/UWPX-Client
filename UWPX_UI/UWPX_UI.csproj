@@ -142,6 +142,7 @@
     <Compile Include="Classes\Events\AccountSelectionChangedEventArgs.cs" />
     <Compile Include="Classes\Events\EmojiSelectedEventArgs.cs" />
     <Compile Include="Classes\Events\GoBackRequestEventArgs.cs" />
+    <Compile Include="Classes\Events\ImageEditDoneEventArgs.cs" />
     <Compile Include="Classes\Events\MultiSelectChangedEventArgs.cs" />
     <Compile Include="Classes\SaveDisplayRequest.cs" />
     <Compile Include="Classes\SplashScreenImageScale.cs" />

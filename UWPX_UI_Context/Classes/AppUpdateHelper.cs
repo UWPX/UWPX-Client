@@ -124,8 +124,7 @@ namespace UWPX_UI_Context.Classes
                             Logger.Info("Resetting the DB...");
                             using (MainDbContext ctx = new MainDbContext())
                             {
-                                await ctx.Database.EnsureDeletedAsync();
-                                await ctx.Database.EnsureCreatedAsync();
+                                await ctx.RecreateDb();
                             }
                             Logger.Info("DB reset.");
                             Logger.Info("Finished updating DB to version 0.39.0.0.");
@@ -144,7 +143,13 @@ namespace UWPX_UI_Context.Classes
                             Logger.Info("Resetting the DB...");
                             using (MainDbContext ctx = new MainDbContext())
                             {
-                                ctx.ApplyMigration(new Migration_0_41_0_0());
+                                if (!ctx.ApplyMigration(new Migration_0_41_0_0()))
+                                {
+#if !DEBUG
+                                    Logger.Error("Since migration to the new DB failed for version 0.41.0.0, we are recreating the DB");
+                                    await ctx.RecreateDb();
+#endif
+                                }
                             }
                             Logger.Info("DB reset.");
                             Logger.Info("Finished updating DB to version 0.41.0.0.");

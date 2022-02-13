@@ -1,9 +1,8 @@
-﻿using Microsoft.EntityFrameworkCore;
-using Microsoft.EntityFrameworkCore.Infrastructure;
+﻿using Storage.Classes.Contexts;
 
-namespace Storage.Classes.Migrations
+namespace Storage.Classes.Models.Chat
 {
-    public class Migration_0_41_0_0: AbstractSqlMigration
+    public class ChatMessageImageSendModel: AbstractModel
     {
         //--------------------------------------------------------Attributes:-----------------------------------------------------------------\\
         #region --Attributes--
@@ -22,9 +21,9 @@ namespace Storage.Classes.Migrations
         #endregion
         //--------------------------------------------------------Misc Methods:---------------------------------------------------------------\\
         #region --Misc Methods (Public)--
-        public override void ApplyMigration(DatabaseFacade db)
+        public override void Remove(MainDbContext ctx, bool recursive)
         {
-            db.ExecuteSqlRaw("ALTER TABLE 'ChatMessageImages' RENAME TO 'ChatMessageImageReceivedModel';");
+            ctx.Remove(this);
         }
 
         #endregion

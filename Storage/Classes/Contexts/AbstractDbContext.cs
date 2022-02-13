@@ -1,4 +1,7 @@
-﻿using System.IO;
+﻿using System.Diagnostics;
+using System.IO;
+using System.Threading.Tasks;
+using Logging;
 using Microsoft.EntityFrameworkCore;
 using Storage.Classes.Migrations;
 using Windows.Storage;
@@ -10,7 +13,6 @@ namespace Storage.Classes.Contexts
         //--------------------------------------------------------Attributes:-----------------------------------------------------------------\\
         #region --Attributes--
         private static readonly string DB_PATH = Path.Combine(ApplicationData.Current.LocalFolder.Path, "uwpx.db");
-        private readonly AbstractSqlMigration MIGRATION;
 
         #endregion
         //--------------------------------------------------------Constructor:----------------------------------------------------------------\\
@@ -18,11 +20,6 @@ namespace Storage.Classes.Contexts
         public AbstractDbContext()
         {
             Database.EnsureCreated();
-        }
-
-        protected AbstractDbContext(AbstractSqlMigration migration)
-        {
-            MIGRATION = migration;
         }
 
         #endregion
@@ -33,9 +30,30 @@ namespace Storage.Classes.Contexts
         #endregion
         //--------------------------------------------------------Misc Methods:---------------------------------------------------------------\\
         #region --Misc Methods (Public)--
-        public void ApplyMigration(AbstractSqlMigration migration)
+        public bool ApplyMigration(AbstractSqlMigration migration)
         {
-            migration.ApplyMigration(Database);
+            try
+            {
+                migration.ApplyMigration(Database);
+                return true;
+            }
+            catch (System.Exception e)
+            {
+                Logger.Error("Failed to apply DB migration.", e);
+#if DEBUG
+                if (Debugger.IsAttached)
+                {
+                    Debugger.Break();
+                }
+#endif
+            }
+            return false;
+        }
+
+        public async Task RecreateDb()
+        {
+            await Database.EnsureDeletedAsync();
+            await Database.EnsureCreatedAsync();
         }
 
         #endregion

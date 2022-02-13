@@ -9,7 +9,6 @@ using Microsoft.EntityFrameworkCore.Metadata;
 using Omemo.Classes;
 using Omemo.Classes.Keys;
 using Shared.Classes.Collections;
-using Storage.Classes.Migrations;
 using Storage.Classes.Models.Account;
 using Storage.Classes.Models.Chat;
 using Storage.Classes.Models.Omemo;
@@ -34,7 +33,8 @@ namespace Storage.Classes.Contexts
         public DbSet<MucInfoModel> MucInfos { get; set; }
         public DbSet<MucOccupantModel> MucOccupants { get; set; }
         public DbSet<ChatMessageModel> ChatMessages { get; set; }
-        public DbSet<ChatMessageImageReceivedModel> ChatMessageReceivedImages { get; set; }
+        public DbSet<ChatMessageImageReceivedModel> ChatMessageImageReceivedModel { get; set; }
+        // public DbSet<ChatMessageImageSendModel> ChatMessageImageSendModel { get; set; }
         public DbSet<SpamMessageModel> SpamMessages { get; set; }
         public DbSet<MucDirectInvitationModel> MucDirectInvitations { get; set; }
 
@@ -58,8 +58,6 @@ namespace Storage.Classes.Contexts
         //--------------------------------------------------------Constructor:----------------------------------------------------------------\\
         #region --Constructors--
         public MainDbContext() { }
-
-        public MainDbContext(AbstractSqlMigration migration) : base(migration) { }
 
         #endregion
         //--------------------------------------------------------Set-, Get- Methods:---------------------------------------------------------\\
