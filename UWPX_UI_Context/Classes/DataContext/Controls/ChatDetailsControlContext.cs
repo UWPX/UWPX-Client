@@ -93,10 +93,19 @@ namespace UWPX_UI_Context.Classes.DataContext.Controls
                 }
                 else
                 {
-                    Logger.Debug("Sending message (encrypted=" + chat.Chat.omemoInfo.enabled + "): " + trimedMsg);
+                    Logger.Debug($"Sending message (encrypted={chat.Chat.omemoInfo.enabled}): {trimedMsg}");
                     Task.Run(async () => await SendChatMessageAsync(chat, trimedMsg));
                 }
                 MODEL.MessageText = string.Empty;
+            }
+        }
+
+        public void SendImageChatMessage(ChatDataTemplate chat, SoftwareBitmap image)
+        {
+            if (!MODEL.isDummy)
+            {
+                Logger.Debug($"Sending image (encrypted={chat.Chat.omemoInfo.enabled}).");
+                Task.Run(async () => await SendChatImageMessageAsync(chat, image));
             }
         }
 
@@ -221,6 +230,61 @@ namespace UWPX_UI_Context.Classes.DataContext.Controls
             {
                 await chat.Client.xmppClient.SendAsync(toSendMsg);
             }
+        }
+
+        private async Task SendChatImageMessageAsync(ChatDataTemplate chat, SoftwareBitmap image)
+        {
+            MessageMessage toSendMsg;
+
+            string from = chat.Client.dbAccount.fullJid.FullJid();
+            string to = chat.Chat.bareJid;
+            string chatType = chat.Chat.chatType == ChatType.CHAT ? MessageMessage.TYPE_CHAT : MessageMessage.TYPE_GROUPCHAT;
+            bool reciptRequested = true;
+
+            /* if (chat.Chat.omemoInfo.enabled)
+             {
+                 if (chat.Chat.chatType == ChatType.CHAT)
+                 {
+                     toSendMsg = new OmemoEncryptedMessage(from, to, message, chatType, reciptRequested);
+                 }
+                 else
+                 {
+                     // ToDo: Add MUC OMEMO support
+                     throw new NotImplementedException("Sending encrypted messages for MUC is not supported right now!");
+                 }
+             }
+             else
+             {
+                 toSendMsg = chat.Chat.chatType == ChatType.CHAT
+                     ? new MessageMessage(from, to, message, chatType, reciptRequested)
+                     : new MessageMessage(from, to, message, chatType, chat.Chat.muc.nickname, reciptRequested);
+             }
+
+            // Create a copy for the DB:
+            ChatMessageModel toSendMsgDB = new ChatMessageModel(toSendMsg, chat.Chat)
+            {
+                state = toSendMsg is OmemoEncryptedMessage ? MessageState.TO_ENCRYPT : MessageState.SENDING
+            };
+
+            // Update chat last active:
+            chat.Chat.lastActive = DateTime.Now;
+
+            // Update DB:
+            chat.Chat.Update();
+            await DataCache.INSTANCE.AddChatMessageAsync(toSendMsgDB, chat.Chat);
+
+            // Set the chat message id for later identification:
+            toSendMsg.chatMessageId = toSendMsgDB.id;
+
+            // Send the message:
+            if (toSendMsg is OmemoEncryptedMessage toSendOmemoMsg)
+            {
+                await chat.Client.xmppClient.sendOmemoMessageAsync(toSendOmemoMsg, chat.Chat.bareJid, chat.Client.dbAccount.bareJid, chat.Client.dbAccount.omemoInfo.trustedKeysOnly, chat.Chat.omemoInfo.trustedKeysOnly);
+            }
+            else
+            {
+                await chat.Client.xmppClient.SendAsync(toSendMsg);
+            }*/
         }
 
         #endregion

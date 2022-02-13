@@ -4,6 +4,7 @@ using System.Linq;
 using System.Numerics;
 using System.Threading.Tasks;
 using Microsoft.Toolkit.Uwp.UI.Animations;
+using UWPX_UI.Classes.Events;
 using UWPX_UI_Context.Classes.DataContext.Controls.Chat;
 using Windows.Graphics.Imaging;
 using Windows.System;
@@ -24,6 +25,9 @@ namespace UWPX_UI.Controls.Chat
         public readonly EditImageControlContext VIEW_MODEL = new EditImageControlContext();
         private readonly Stack<InkStroke> STROKE_STACK = new Stack<InkStroke>();
         private double contentHeight = 0;
+
+        public delegate void ImageEditDoneHandler(EditImageControl sender, ImageEditDoneEventArgs args);
+        public event ImageEditDoneHandler ImageEditDone;
 
         #endregion
         //--------------------------------------------------------Constructor:----------------------------------------------------------------\\
@@ -58,8 +62,16 @@ namespace UWPX_UI.Controls.Chat
             await AnimationBuilder.Create().Translation(Axis.Y, 0, contentHeight, TimeSpan.FromMilliseconds(500), easingMode: EasingMode.EaseInOut).StartAsync(this);
         }
 
-        public async Task HideAsync()
+        public async Task HideAsync(bool success)
         {
+            if (success)
+            {
+                ImageEditDone?.Invoke(this, new ImageEditDoneEventArgs(VIEW_MODEL.MODEL.OriginalImage));
+            }
+            else
+            {
+                ImageEditDone?.Invoke(this, new ImageEditDoneEventArgs());
+            }
             await AnimationBuilder.Create().Translation(Axis.Y, contentHeight, 0, TimeSpan.FromMilliseconds(500), easingMode: EasingMode.EaseInOut).StartAsync(this);
             Visibility = Visibility.Collapsed;
         }
@@ -123,19 +135,19 @@ namespace UWPX_UI.Controls.Chat
 
         private async void OnCancelClicked(object sender, RoutedEventArgs e)
         {
-            await HideAsync();
+            await HideAsync(false);
         }
 
         private async void OnSendClicked(object sender, RoutedEventArgs e)
         {
-            await HideAsync();
+            await HideAsync(true);
         }
 
         private async void OnKeyUp(object sender, KeyRoutedEventArgs e)
         {
             if (e.Key == VirtualKey.Escape)
             {
-                await HideAsync();
+                await HideAsync(false);
             }
         }
 

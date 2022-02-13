@@ -7,6 +7,7 @@ using Storage.Classes;
 using Storage.Classes.Models.Account;
 using Storage.Classes.Models.Chat;
 using Storage.Classes.Models.Omemo;
+using UWPX_UI.Classes.Events;
 using UWPX_UI.Controls.OMEMO;
 using UWPX_UI.Pages;
 using UWPX_UI.Pages.Settings;
@@ -135,6 +136,26 @@ namespace UWPX_UI.Controls.Chat
                     UiUtils.NavigateToPage(typeof(ContactInfoPage), new NavigatedToContactInfoPageEventArgs(Chat));
                 }
             }
+        }
+
+        private static T FindParent<T>(DependencyObject dependencyObject) where T : DependencyObject
+        {
+            DependencyObject parent = VisualTreeHelper.GetParent(dependencyObject);
+            if (parent is null)
+            {
+                return null;
+            }
+            if (parent is T parentT)
+            {
+                return parentT;
+            }
+            return FindParent<T>(parent);
+        }
+
+        private EditImageControl GetEditImageControl()
+        {
+            ChatPage page = FindParent<ChatPage>(this);
+            return page.GetEditImageControl();
         }
 
         #endregion
@@ -292,23 +313,13 @@ namespace UWPX_UI.Controls.Chat
             NavigateToChatInfoPage();
         }
 
-        private static T FindParent<T>(DependencyObject dependencyObject) where T : DependencyObject
-        {
-            DependencyObject parent = VisualTreeHelper.GetParent(dependencyObject);
-            if (parent is null)
-            {
-                return null;
-            }
-            if (parent is T parentT)
-            {
-                return parentT;
-            }
-            return FindParent<T>(parent);
-        }
-
         private async void OnSendImageFromLibraryClicked(object sender, RoutedEventArgs e)
         {
-            ChatPage page = FindParent<ChatPage>(this);
+            if (IsDummy)
+            {
+                return;
+            }
+
             StorageFile file = await ImageUtils.PickImageAsync();
             if (file is null)
             {
@@ -316,8 +327,25 @@ namespace UWPX_UI.Controls.Chat
                 return;
             }
             SoftwareBitmap img = await ImageUtils.LoadImageAsync(file);
-            page.GetEditImageControl().SetImage(img);
-            await page.GetEditImageControl().ShowAsync();
+
+            EditImageControl editImagecontrol = GetEditImageControl();
+            editImagecontrol.SetImage(img);
+            await editImagecontrol.ShowAsync();
+        }
+
+        private void OnImageEditDone(EditImageControl sender, ImageEditDoneEventArgs args)
+        {
+            if (args.SUCCESS)
+            {
+                sendFile_tbtn.IsChecked = false;
+                VIEW_MODEL.SendImageChatMessage(Chat, args.IMAGE);
+            }
+        }
+
+        private void OnLoaded(object sender, RoutedEventArgs e)
+        {
+            GetEditImageControl().ImageEditDone -= OnImageEditDone;
+            GetEditImageControl().ImageEditDone += OnImageEditDone;
         }
         #endregion
     }

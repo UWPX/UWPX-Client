@@ -10,9 +10,11 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              xmlns:omemoControls="using:UWPX_UI.Controls.OMEMO"
              xmlns:ui="using:Microsoft.Toolkit.Uwp.UI"
+             Loaded="OnLoaded"
              xmlns:valueconverter="using:UWPX_UI_Context.Classes.ValueConverter"
              IsEnabled="{x:Bind IsDummy, Mode=OneWay, Converter={StaticResource BoolInverterValueConverter}}"
              mc:Ignorable="d">
+
     <UserControl.Resources>
         <ResourceDictionary>
             <ResourceDictionary.MergedDictionaries>

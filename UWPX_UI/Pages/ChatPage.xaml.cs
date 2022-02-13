@@ -149,7 +149,7 @@ namespace UWPX_UI.Pages
         {
             if (editImageControl.Visibility == Visibility.Visible)
             {
-                await editImageControl.HideAsync();
+                await editImageControl.HideAsync(false);
                 args.handled = true;
                 return;
             }
