@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Xml.Linq;
+using Logging;
 using XMPP_API.Classes.Network.XML.Messages.XEP_0334;
 
 namespace XMPP_API.Classes.Network.XML.Messages
@@ -78,7 +79,11 @@ namespace XMPP_API.Classes.Network.XML.Messages
         #region --Misc Methods (Public)--
         public virtual string toXmlString()
         {
-            return toXElement().ToString();
+            if (Logger.logLevel >= LogLevel.DEBUG)
+            {
+                return toXElement().ToString(SaveOptions.None);
+            }
+            return toXElement().ToString(SaveOptions.DisableFormatting);
         }
 
         public abstract XElement toXElement();
