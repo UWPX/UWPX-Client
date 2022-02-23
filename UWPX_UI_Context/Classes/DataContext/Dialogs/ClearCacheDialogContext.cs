@@ -46,7 +46,7 @@ namespace UWPX_UI_Context.Classes.DataContext.Dialogs
                         }
                         if (MODEL.Images)
                         {
-                            ctx.RemoveRange(ctx.ChatMessageReceivedImages);
+                            ctx.RemoveRange(ctx.ChatMessageImageReceived);
                         }
                         if (MODEL.SpamMessages)
                         {

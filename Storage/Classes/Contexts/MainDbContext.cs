@@ -33,7 +33,7 @@ namespace Storage.Classes.Contexts
         public DbSet<MucInfoModel> MucInfos { get; set; }
         public DbSet<MucOccupantModel> MucOccupants { get; set; }
         public DbSet<ChatMessageModel> ChatMessages { get; set; }
-        public DbSet<ChatMessageImageReceivedModel> ChatMessageImageReceivedModel { get; set; }
+        public DbSet<ChatMessageImageReceivedModel> ChatMessageImageReceived { get; set; }
         // public DbSet<ChatMessageImageSendModel> ChatMessageImageSendModel { get; set; }
         public DbSet<SpamMessageModel> SpamMessages { get; set; }
         public DbSet<MucDirectInvitationModel> MucDirectInvitations { get; set; }

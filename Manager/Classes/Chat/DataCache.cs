@@ -299,7 +299,7 @@ namespace Manager.Classes.Chat
             // Prepare image:
             if (msg.isImage)
             {
-                await PrepareImageModelPathAndNameAsync(msg.image);
+                await PrepareImageModelPathAndNameAsync(msg.imageReceived);
             }
 
             // Update the DB:
@@ -353,7 +353,7 @@ namespace Manager.Classes.Chat
             // Start automatic image download in case it's enabled:
             if (msg.isImage && !Settings.GetSettingBoolean(SettingsConsts.DISABLE_IMAGE_AUTO_DOWNLOAD))
             {
-                await ConnectionHandler.INSTANCE.IMAGE_DOWNLOAD_HANDLER.StartDownloadAsync(msg.image);
+                await ConnectionHandler.INSTANCE.IMAGE_DOWNLOAD_HANDLER.StartDownloadAsync(msg.imageReceived);
             }
         }
 

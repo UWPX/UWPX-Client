@@ -45,16 +45,16 @@ namespace UWPX_UI_Context.Classes.DataContext.Controls
         {
             if (args.OldValue is SpeechBubbleContentControlContext oldValue)
             {
-                SpeechBubbleViewModel.MODEL.Message.Message.image.PropertyChanged -= OnImagePropertyChanged;
+                SpeechBubbleViewModel.MODEL.Message.Message.imageReceived.PropertyChanged -= OnImagePropertyChanged;
             }
 
             if (args.NewValue is SpeechBubbleContentControlContext newValue)
             {
                 Debug.Assert(newValue.MODEL.Message.Message.isImage);
-                Debug.Assert(newValue.MODEL.Message.Message.image is not null);
+                Debug.Assert(newValue.MODEL.Message.Message.imageReceived is not null);
                 SpeechBubbleViewModel = newValue;
-                SpeechBubbleViewModel.MODEL.Message.Message.image.PropertyChanged += OnImagePropertyChanged;
-                LoadImageProperties(SpeechBubbleViewModel.MODEL.Message.Message.image);
+                SpeechBubbleViewModel.MODEL.Message.Message.imageReceived.PropertyChanged += OnImagePropertyChanged;
+                LoadImageProperties(SpeechBubbleViewModel.MODEL.Message.Message.imageReceived);
             }
             else
             {
@@ -72,8 +72,8 @@ namespace UWPX_UI_Context.Classes.DataContext.Controls
             sb.Append(errMsg);
             MODEL.ErrorText = sb.ToString();
             Logger.Error(sb.ToString(), e);
-            SpeechBubbleViewModel.MODEL.Message.Message.image.state = DownloadState.ERROR;
-            SpeechBubbleViewModel.MODEL.Message.Message.image.Update();
+            SpeechBubbleViewModel.MODEL.Message.Message.imageReceived.state = DownloadState.ERROR;
+            SpeechBubbleViewModel.MODEL.Message.Message.imageReceived.Update();
         }
 
         public void OnImageExOpened()
@@ -102,17 +102,17 @@ namespace UWPX_UI_Context.Classes.DataContext.Controls
 
         public Task RedownloadImageAsync()
         {
-            return ConnectionHandler.INSTANCE.IMAGE_DOWNLOAD_HANDLER.RedownloadAsync(SpeechBubbleViewModel.MODEL.Message.Message.image);
+            return ConnectionHandler.INSTANCE.IMAGE_DOWNLOAD_HANDLER.RedownloadAsync(SpeechBubbleViewModel.MODEL.Message.Message.imageReceived);
         }
 
         public void CancelImageDownload()
         {
-            ConnectionHandler.INSTANCE.IMAGE_DOWNLOAD_HANDLER.CancelDownload(SpeechBubbleViewModel.MODEL.Message.Message.image);
+            ConnectionHandler.INSTANCE.IMAGE_DOWNLOAD_HANDLER.CancelDownload(SpeechBubbleViewModel.MODEL.Message.Message.imageReceived);
         }
 
         public Task StartImageDownloadAsync()
         {
-            return ConnectionHandler.INSTANCE.IMAGE_DOWNLOAD_HANDLER.StartDownloadAsync(SpeechBubbleViewModel.MODEL.Message.Message.image);
+            return ConnectionHandler.INSTANCE.IMAGE_DOWNLOAD_HANDLER.StartDownloadAsync(SpeechBubbleViewModel.MODEL.Message.Message.imageReceived);
         }
 
         #endregion
@@ -130,7 +130,7 @@ namespace UWPX_UI_Context.Classes.DataContext.Controls
 
         private void TryLoadingImageFromPath()
         {
-            ChatMessageImageReceivedModel img = SpeechBubbleViewModel.MODEL.Message.Message.image;
+            ChatMessageImageReceivedModel img = SpeechBubbleViewModel.MODEL.Message.Message.imageReceived;
             if (img.state == DownloadState.DONE)
             {
                 if (loadImageCancellationSource is not null)
@@ -222,7 +222,7 @@ namespace UWPX_UI_Context.Classes.DataContext.Controls
         #region --Events--
         private void OnImagePropertyChanged(object sender, PropertyChangedEventArgs e)
         {
-            ChatMessageImageReceivedModel img = SpeechBubbleViewModel.MODEL.Message.Message.image;
+            ChatMessageImageReceivedModel img = SpeechBubbleViewModel.MODEL.Message.Message.imageReceived;
             if (img is null)
             {
                 return;

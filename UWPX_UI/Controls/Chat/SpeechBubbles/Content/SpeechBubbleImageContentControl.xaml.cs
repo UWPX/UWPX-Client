@@ -188,7 +188,7 @@ namespace UWPX_UI.Controls.Chat.SpeechBubbles.Content
             startDownload_mfi.Visibility = Visibility.Collapsed;
             cancelDownload_mfi.Visibility = Visibility.Collapsed;
 
-            switch (SpeechBubbleContentViewModel.MODEL.Message.Message.image.state)
+            switch (SpeechBubbleContentViewModel.MODEL.Message.Message.imageReceived.state)
             {
                 case DownloadState.QUEUED:
                 case DownloadState.DOWNLOADING:

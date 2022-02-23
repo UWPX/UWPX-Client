@@ -73,8 +73,7 @@ namespace UWPX_UI_Context.Classes
             {
                 if (ctx.Accounts.Count() <= 0)
                 {
-                    await ctx.Database.EnsureDeletedAsync();
-                    await ctx.Database.EnsureCreatedAsync();
+                    await ctx.RecreateDb();
                 }
             }*/
             PackageVersion versionLastStart = GetLastStartedVersion();

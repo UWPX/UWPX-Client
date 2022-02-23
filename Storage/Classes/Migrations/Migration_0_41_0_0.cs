@@ -24,7 +24,9 @@ namespace Storage.Classes.Migrations
         #region --Misc Methods (Public)--
         public override void ApplyMigration(DatabaseFacade db)
         {
-            db.ExecuteSqlRaw("ALTER TABLE 'ChatMessageImages' RENAME TO 'ChatMessageImageReceivedModel';");
+            db.ExecuteSqlRaw("ALTER TABLE ChatMessageImages RENAME TO ChatMessageImageReceivedModel;");
+            db.ExecuteSqlRaw("ALTER TABLE ChatMessages RENAME COLUMN imageid TO imageReceivedid;");
+            db.ExecuteSqlRaw("ALTER TABLE ChatMessages RENAME TO ChatMessages_old;");
         }
 
         #endregion

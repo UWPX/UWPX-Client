@@ -251,7 +251,7 @@ namespace Manager.Classes
             await DataCache.INSTANCE.AddChatMessageAsync(message, chat);
             if (message.isImage && !Settings.GetSettingBoolean(SettingsConsts.DISABLE_IMAGE_AUTO_DOWNLOAD))
             {
-                await ConnectionHandler.INSTANCE.IMAGE_DOWNLOAD_HANDLER.StartDownloadAsync(message.image);
+                await ConnectionHandler.INSTANCE.IMAGE_DOWNLOAD_HANDLER.StartDownloadAsync(message.imageReceived);
             }
 
             // Handle MUC invite messages:

@@ -163,15 +163,28 @@ namespace Storage.Classes.Models.Chat
         private bool _isFavorite;
 
         /// <summary>
-        /// In case <see cref="isImage"/> is true, this holds the image model representing the download status and path to the image.
+        /// Holds the image model representing the download status and path to the image.
+        /// Valid in case <see cref="isImage"/> is true and the message got received.
         /// </summary>
-        public ChatMessageImageReceivedModel image
+        public ChatMessageImageReceivedModel imageReceived
         {
-            get => _image;
-            set => SetImageProperty(value);
+            get => _imageReceived;
+            set => SetImageReceivedProperty(value);
         }
         [NotMapped]
-        private ChatMessageImageReceivedModel _image;
+        private ChatMessageImageReceivedModel _imageReceived;
+
+        /// <summary>
+        /// Holds the image model representing the download status and path to the image.
+        /// Valid in case <see cref="isImage"/> is true and the message got send.
+        /// </summary>
+        public ChatMessageImageSendModel imageSend
+        {
+            get => _imageSend;
+            set => SetImageSendProperty(value);
+        }
+        [NotMapped]
+        private ChatMessageImageSendModel _imageSend;
 
         /// <summary>
         /// True in case the message is a dummy message used for the personalize settings page chat preview.
@@ -204,7 +217,7 @@ namespace Storage.Classes.Models.Chat
             isImage = IsImageUrl(msg.MESSAGE);
             if (isImage)
             {
-                image = new ChatMessageImageReceivedModel(msg.MESSAGE);
+                imageReceived = new ChatMessageImageReceivedModel(msg.MESSAGE);
             }
             isCC = msg.CC_TYPE != CarbonCopyType.NONE;
             isEncrypted = msg is OmemoEncryptedMessage;
@@ -224,18 +237,34 @@ namespace Storage.Classes.Models.Chat
             return !(msg is null) && IMAGE_URL_REGEX.IsMatch(msg.ToLowerInvariant());
         }
 
-        private void SetImageProperty(ChatMessageImageReceivedModel value)
+        private void SetImageSendProperty(ChatMessageImageSendModel value)
         {
-            ChatMessageImageReceivedModel old = _image;
-            if (SetProperty(ref _image, value, nameof(image)))
+            ChatMessageImageSendModel old = _imageSend;
+            if (SetProperty(ref _imageSend, value, nameof(imageSend)))
             {
                 if (!(old is null))
                 {
-                    old.PropertyChanged -= OnImagePropertyChanged;
+                    old.PropertyChanged -= OnImageSendPropertyChanged;
                 }
                 if (!(value is null))
                 {
-                    value.PropertyChanged += OnImagePropertyChanged;
+                    value.PropertyChanged += OnImageSendPropertyChanged;
+                }
+            }
+        }
+
+        private void SetImageReceivedProperty(ChatMessageImageReceivedModel value)
+        {
+            ChatMessageImageReceivedModel old = _imageReceived;
+            if (SetProperty(ref _imageReceived, value, nameof(imageReceived)))
+            {
+                if (!(old is null))
+                {
+                    old.PropertyChanged -= OnImageReceivedPropertyChanged;
+                }
+                if (!(value is null))
+                {
+                    value.PropertyChanged += OnImageReceivedPropertyChanged;
                 }
             }
         }
@@ -273,7 +302,7 @@ namespace Storage.Classes.Models.Chat
         {
             if (recursive)
             {
-                image?.Remove(ctx, recursive);
+                imageReceived?.Remove(ctx, recursive);
             }
             ctx.Remove(this);
         }
@@ -291,9 +320,14 @@ namespace Storage.Classes.Models.Chat
         #endregion
         //--------------------------------------------------------Events:---------------------------------------------------------------------\\
         #region --Events--
-        private void OnImagePropertyChanged(object sender, PropertyChangedEventArgs e)
+        private void OnImageSendPropertyChanged(object sender, PropertyChangedEventArgs e)
         {
-            base.OnPropertyChanged(nameof(image) + '.' + e.PropertyName);
+            base.OnPropertyChanged(nameof(imageSend) + '.' + e.PropertyName);
+        }
+
+        private void OnImageReceivedPropertyChanged(object sender, PropertyChangedEventArgs e)
+        {
+            base.OnPropertyChanged(nameof(imageReceived) + '.' + e.PropertyName);
         }
 
         #endregion

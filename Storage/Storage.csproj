@@ -147,6 +147,8 @@
     <Compile Include="Classes\Models\Chat\MucState.cs" />
     <Compile Include="Classes\Models\Chat\SpamMessageModel.cs" />
     <Compile Include="Classes\Models\Account\ImageModel.cs" />
+    <Compile Include="Classes\Models\Chat\UploadError.cs" />
+    <Compile Include="Classes\Models\Chat\UploadState.cs" />
     <Compile Include="Classes\Models\Omemo\OmemoAccountInformationModel.cs" />
     <Compile Include="Classes\Models\Omemo\OmemoChatInformationModel.cs" />
     <Compile Include="Classes\Models\Omemo\OmemoDeviceModel.cs" />

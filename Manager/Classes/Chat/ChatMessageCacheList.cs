@@ -167,10 +167,10 @@ namespace Manager.Classes.Chat
                 {
                     if (msg.Message.isImage)
                     {
-                        AbstractDownloadableObject result = await ConnectionHandler.INSTANCE.IMAGE_DOWNLOAD_HANDLER.FindAsync((i) => i.id == msg.Message.image.id);
+                        AbstractDownloadableObject result = await ConnectionHandler.INSTANCE.IMAGE_DOWNLOAD_HANDLER.FindAsync((i) => i.id == msg.Message.imageReceived.id);
                         if (!(result is null))
                         {
-                            msg.Message.image = (ChatMessageImageReceivedModel)result;
+                            msg.Message.imageReceived = (ChatMessageImageReceivedModel)result;
                         }
                     }
                 }
