@@ -190,6 +190,20 @@ namespace Manager.Classes
             }
             semaLock.Dispose();
 
+            ChatMessageModel message = null;
+            if (!newChat)
+            {
+                message = DataCache.INSTANCE.GetChatMessage(chat.id, msg.ID);
+            }
+
+            // Filter messages that already exist:
+            // ToDo: Allow MUC messages being edited and detect it
+            if (!(message is null))
+            {
+                Logger.Debug("Duplicate message received from '" + chatBareJid + "'. Dropping it...");
+                return;
+            }
+
             // Check if device id is valid and if, decrypt the OMEMO messages:
             if (msg is OmemoEncryptedMessage omemoMessage)
             {
@@ -234,19 +248,6 @@ namespace Manager.Classes
             chat.isChatActive = true;
             chatChanged = true;
 
-            ChatMessageModel message = null;
-            if (!newChat)
-            {
-                message = DataCache.INSTANCE.GetChatMessage(chat.id, msg.ID);
-            }
-
-            // Filter messages that already exist:
-            // ToDo: Allow MUC messages being edited and detect it
-            if (!(message is null))
-            {
-                Logger.Debug("Duplicate message received from '" + chatBareJid + "'. Dropping it...");
-                return;
-            }
             message = new ChatMessageModel(msg, chat);
             await DataCache.INSTANCE.AddChatMessageAsync(message, chat);
             if (message.isImage && !Settings.GetSettingBoolean(SettingsConsts.DISABLE_IMAGE_AUTO_DOWNLOAD))
