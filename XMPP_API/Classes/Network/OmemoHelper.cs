@@ -353,7 +353,10 @@ namespace XMPP_API.Classes.Network
                     Logger.Info("[OMEMO HELPER](" + CONNECTION.account.getBareJid() + ") Device list updated.");
                     if (tmpDeviceId != 0)
                     {
-                        CONNECTION.account.omemoDeviceId = tmpDeviceId;
+                        if (CONNECTION.account.omemoDeviceId != tmpDeviceId)
+                        {
+                            CONNECTION.account.omemoBundleInfoAnnounced = false;
+                        }
                     }
                     if (!CONNECTION.account.omemoBundleInfoAnnounced)
                     {
