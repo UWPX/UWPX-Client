@@ -355,6 +355,7 @@ namespace XMPP_API.Classes.Network
                     {
                         if (CONNECTION.account.omemoDeviceId != tmpDeviceId)
                         {
+                            CONNECTION.account.omemoDeviceId = tmpDeviceId;
                             CONNECTION.account.omemoBundleInfoAnnounced = false;
                         }
                     }
