@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Xml;
 using System.Xml.Linq;
 using XMPP_API.Classes.Network.XML.Messages.XEP_0336;
@@ -165,7 +166,7 @@ namespace XMPP_API.Classes.Network.XML.Messages.XEP_0004
             fieldNode.Add(new XAttribute("var", var));
             if (type != FieldType.NONE)
             {
-                fieldNode.Add(new XAttribute("type", type.ToString().ToLowerInvariant().Replace('_', '-')));
+                fieldNode.Add(new XAttribute("type", fieldTypeToString(type)));
             }
             switch (type)
             {
@@ -226,7 +227,37 @@ namespace XMPP_API.Classes.Network.XML.Messages.XEP_0004
         #endregion
 
         #region --Misc Methods (Private)--
-
+        private string fieldTypeToString(FieldType type)
+        {
+            switch (type)
+            {
+                case FieldType.HIDDEN:
+                    return "hidden";
+                case FieldType.TEXT_SINGLE:
+                    return "text-single";
+                case FieldType.TEXT_MULTI:
+                    return "text-multi";
+                case FieldType.TEXT_PRIVATE:
+                    return "text-private";
+                case FieldType.FIXED:
+                    return "fixed";
+                case FieldType.BOOLEAN:
+                    return "boolean";
+                case FieldType.LIST_SINGLE:
+                    return "list-single";
+                case FieldType.LIST_MULTI:
+                    return "list-multi";
+                case FieldType.HEADER: // XEP-IoT
+                    return "header";
+                case FieldType.BUTTON: // XEP-IoT
+                    return "button";
+                case FieldType.SLIDER: // XEP-IoT
+                    return "slider";
+                case FieldType.NONE:
+                default: // Should not happen
+                    throw new InvalidOperationException($"Invalid {nameof(FieldType)} for '{type}'.");
+            }
+        }
 
         #endregion
 

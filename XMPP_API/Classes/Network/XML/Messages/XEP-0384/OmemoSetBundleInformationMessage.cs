@@ -27,7 +27,7 @@ namespace XMPP_API.Classes.Network.XML.Messages.XEP_0384
             {
                 var = "pubsub#access_model",
                 value = "open",
-                type = FieldType.NONE
+                type = FieldType.LIST_SINGLE
             });
             /*options.OPTIONS.fields.Add(new Field()
             {

@@ -39,7 +39,7 @@ namespace XMPP_API.Classes.Network.XML.Messages.XEP_0402
             {
                 var = "pubsub#access_model",
                 value = "whitelist",
-                type = FieldType.NONE
+                type = FieldType.LIST_SINGLE
             });
 
             return options;
