@@ -181,20 +181,6 @@ namespace Manager.Classes
                     isChatActive = false // Mark chat as inactive until we can be sure, it's a valid message
                 };
                 DataCache.INSTANCE.AddChatUnsafe(chat, client);
-
-                // Request the chat avatar:
-                if (chat.chatType == ChatType.CHAT)
-                {
-                    if (chat.contactInfo.ShouldCheckAvatarSubscription())
-                    {
-                        await client.CheckForAvatarUpdatesAsync(chat.contactInfo, chat.bareJid, chat.bareJid);
-                        Logger.Info($"Avatar for '{chatBareJid}' updated.");
-                    }
-                    else
-                    {
-                        Logger.Info($"No need to update avatar for '{chatBareJid}'.");
-                    }
-                }
             }
             else
             {
@@ -227,6 +213,20 @@ namespace Manager.Classes
                 else if (omemoMessage.IS_PURE_KEY_EXCHANGE_MESSAGE)
                 {
                     return;
+                }
+            }
+
+            // Request the chat avatar after trying to decrypt OMEMO messages in case decrypting failed:
+            if (newChat && chat.chatType == ChatType.CHAT)
+            {
+                if (chat.contactInfo.ShouldCheckAvatarSubscription())
+                {
+                    await client.CheckForAvatarUpdatesAsync(chat.contactInfo, chat.bareJid, chat.bareJid);
+                    Logger.Info($"Avatar for '{chatBareJid}' updated.");
+                }
+                else
+                {
+                    Logger.Info($"No need to update avatar for '{chatBareJid}'.");
                 }
             }
 
