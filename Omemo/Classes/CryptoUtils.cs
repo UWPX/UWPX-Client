@@ -226,8 +226,12 @@ namespace Omemo.Classes
             uint id;
             for (int i = 0; i < 100; i++)
             {
-                id = CryptographicBuffer.GenerateRandomNumber();
-                if (!usedDeviceIds.Contains(id))
+                /**
+                 * OMEMO allows only device IDs between 1 and (2^31 - 1)
+                 * https://xmpp.org/extensions/xep-0384.html#usecases-setup
+                **/
+                id = CryptographicBuffer.GenerateRandomNumber() % 0x7FFFFFFF; // 2^31-1 
+                if (!usedDeviceIds.Contains(id) && id != 0)
                 {
                     return id;
                 }

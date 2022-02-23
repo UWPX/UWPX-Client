@@ -284,8 +284,13 @@ namespace XMPP_API.Classes.Network
             }
 
             bool updateDeviceList = false;
-            // Device id hasn't been set. Pick a random, unique one:
-            if (CONNECTION.account.omemoDeviceId == 0)
+            /**
+             * Device id hasn't been set or we have an invalid one. Pick a random, unique one.
+             * Versions of UWPX < v.0.41.0.0 had an invalid one.
+             * OMEMO allows only device IDs between 1 and (2^31 - 1)
+             * https://xmpp.org/extensions/xep-0384.html#usecases-setup
+             **/
+            if (CONNECTION.account.omemoDeviceId == 0 || CONNECTION.account.omemoDeviceId > 0x7FFFFFFF)
             {
                 tmpDeviceId = CryptoUtils.GenerateUniqueDeviceId(devicesRemote.DEVICES.Select(d => d.ID).ToList());
                 devicesRemote.DEVICES.Add(new OmemoXmlDevice(tmpDeviceId, CONNECTION.account.omemoDeviceLabel));
@@ -346,7 +351,7 @@ namespace XMPP_API.Classes.Network
                 else
                 {
                     Logger.Info("[OMEMO HELPER](" + CONNECTION.account.getBareJid() + ") Device list updated.");
-                    if (CONNECTION.account.omemoDeviceId == 0)
+                    if (tmpDeviceId != 0)
                     {
                         CONNECTION.account.omemoDeviceId = tmpDeviceId;
                     }
