@@ -214,7 +214,8 @@ namespace Storage.Classes.Models.Omemo
             deviceId = 0;
             bundleInfoAnnounced = false;
             identityKey = KeyHelper.GenerateIdentityKeyPair();
-            signedPreKey = KeyHelper.GenerateSignedPreKey(0, identityKey.privKey);
+            signedPreKey = KeyHelper.GenerateSignedPreKey(1, identityKey.privKey); // TODO: Rotate every week or so...
+            maxPreKeyId = 1;
             preKeys = KeyHelper.GeneratePreKeys(maxPreKeyId, 100);
             maxPreKeyId += 100;
         }
