@@ -53,6 +53,7 @@ namespace Omemo.Classes.Keys
                 if (data[0] == 0x05)
                 {
                     byte[] dataNew = new byte[KeyHelper.PUB_KEY_SIZE];
+                    Buffer.BlockCopy(data, 1, dataNew, 0, KeyHelper.PUB_KEY_SIZE);
                     return new ECPubKeyModel(dataNew);
                 }
                 else
