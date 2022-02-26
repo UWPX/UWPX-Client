@@ -24,8 +24,8 @@ namespace Component_Tests.Classes.Crypto.Omemo
         {
             // Generate Alices keys:
             IdentityKeyPairModel aliceIdentKey = KeyHelper.GenerateIdentityKeyPair();
-            List<PreKeyModel> alicePreKeys = KeyHelper.GeneratePreKeys(0, 1);
-            SignedPreKeyModel aliceSignedPreKey = KeyHelper.GenerateSignedPreKey(0, aliceIdentKey.privKey);
+            List<PreKeyModel> alicePreKeys = KeyHelper.GeneratePreKeys(1, 1);
+            SignedPreKeyModel aliceSignedPreKey = KeyHelper.GenerateSignedPreKey(1, aliceIdentKey.privKey);
             Bundle aliceBundle = new Bundle()
             {
                 identityKey = aliceIdentKey.pubKey,
@@ -39,8 +39,8 @@ namespace Component_Tests.Classes.Crypto.Omemo
 
             // Generate Bobs keys:
             IdentityKeyPairModel bobIdentKey = KeyHelper.GenerateIdentityKeyPair();
-            List<PreKeyModel> bobPreKeys = KeyHelper.GeneratePreKeys(0, 1);
-            SignedPreKeyModel bobSignedPreKey = KeyHelper.GenerateSignedPreKey(0, bobIdentKey.privKey);
+            List<PreKeyModel> bobPreKeys = KeyHelper.GeneratePreKeys(1, 1);
+            SignedPreKeyModel bobSignedPreKey = KeyHelper.GenerateSignedPreKey(1, bobIdentKey.privKey);
             Bundle bobBundle = new Bundle()
             {
                 identityKey = bobIdentKey.pubKey,
@@ -97,8 +97,8 @@ namespace Component_Tests.Classes.Crypto.Omemo
         {
             // Generate Alices keys:
             IdentityKeyPairModel aliceIdentKey = KeyHelper.GenerateIdentityKeyPair();
-            List<PreKeyModel> alicePreKeys = KeyHelper.GeneratePreKeys(0, 1);
-            SignedPreKeyModel aliceSignedPreKey = KeyHelper.GenerateSignedPreKey(0, aliceIdentKey.privKey);
+            List<PreKeyModel> alicePreKeys = KeyHelper.GeneratePreKeys(1, 1);
+            SignedPreKeyModel aliceSignedPreKey = KeyHelper.GenerateSignedPreKey(1, aliceIdentKey.privKey);
             Bundle aliceBundle = new Bundle()
             {
                 identityKey = aliceIdentKey.pubKey,
@@ -112,8 +112,8 @@ namespace Component_Tests.Classes.Crypto.Omemo
 
             // Generate Bobs keys:
             IdentityKeyPairModel bobIdentKey = KeyHelper.GenerateIdentityKeyPair();
-            List<PreKeyModel> bobPreKeys = KeyHelper.GeneratePreKeys(0, 1);
-            SignedPreKeyModel bobSignedPreKey = KeyHelper.GenerateSignedPreKey(0, bobIdentKey.privKey);
+            List<PreKeyModel> bobPreKeys = KeyHelper.GeneratePreKeys(1, 1);
+            SignedPreKeyModel bobSignedPreKey = KeyHelper.GenerateSignedPreKey(1, bobIdentKey.privKey);
             Bundle bobBundle = new Bundle()
             {
                 identityKey = bobIdentKey.pubKey,
@@ -184,8 +184,8 @@ namespace Component_Tests.Classes.Crypto.Omemo
         {
             // Generate Alices keys:
             IdentityKeyPairModel aliceIdentKey = KeyHelper.GenerateIdentityKeyPair();
-            List<PreKeyModel> alicePreKeys = KeyHelper.GeneratePreKeys(0, 1);
-            SignedPreKeyModel aliceSignedPreKey = KeyHelper.GenerateSignedPreKey(0, aliceIdentKey.privKey);
+            List<PreKeyModel> alicePreKeys = KeyHelper.GeneratePreKeys(1, 1);
+            SignedPreKeyModel aliceSignedPreKey = KeyHelper.GenerateSignedPreKey(1, aliceIdentKey.privKey);
             Bundle aliceBundle = new Bundle()
             {
                 identityKey = aliceIdentKey.pubKey,
@@ -199,8 +199,8 @@ namespace Component_Tests.Classes.Crypto.Omemo
 
             // Generate Bobs keys:
             IdentityKeyPairModel bobIdentKey = KeyHelper.GenerateIdentityKeyPair();
-            List<PreKeyModel> bobPreKeys = KeyHelper.GeneratePreKeys(0, 1);
-            SignedPreKeyModel bobSignedPreKey = KeyHelper.GenerateSignedPreKey(0, bobIdentKey.privKey);
+            List<PreKeyModel> bobPreKeys = KeyHelper.GeneratePreKeys(1, 1);
+            SignedPreKeyModel bobSignedPreKey = KeyHelper.GenerateSignedPreKey(1, bobIdentKey.privKey);
             Bundle bobBundle = new Bundle()
             {
                 identityKey = bobIdentKey.pubKey,
@@ -282,8 +282,8 @@ namespace Component_Tests.Classes.Crypto.Omemo
         {
             // Generate Alices keys:
             IdentityKeyPairModel aliceIdentKey = KeyHelper.GenerateIdentityKeyPair();
-            List<PreKeyModel> alicePreKeys = KeyHelper.GeneratePreKeys(0, 1);
-            SignedPreKeyModel aliceSignedPreKey = KeyHelper.GenerateSignedPreKey(0, aliceIdentKey.privKey);
+            List<PreKeyModel> alicePreKeys = KeyHelper.GeneratePreKeys(1, 1);
+            SignedPreKeyModel aliceSignedPreKey = KeyHelper.GenerateSignedPreKey(1, aliceIdentKey.privKey);
             Bundle aliceBundle = new Bundle()
             {
                 identityKey = aliceIdentKey.pubKey,
@@ -297,8 +297,8 @@ namespace Component_Tests.Classes.Crypto.Omemo
 
             // Generate Bobs keys:
             IdentityKeyPairModel bobIdentKey = KeyHelper.GenerateIdentityKeyPair();
-            List<PreKeyModel> bobPreKeys = KeyHelper.GeneratePreKeys(0, 1);
-            SignedPreKeyModel bobSignedPreKey = KeyHelper.GenerateSignedPreKey(0, bobIdentKey.privKey);
+            List<PreKeyModel> bobPreKeys = KeyHelper.GeneratePreKeys(1, 1);
+            SignedPreKeyModel bobSignedPreKey = KeyHelper.GenerateSignedPreKey(1, bobIdentKey.privKey);
             Bundle bobBundle = new Bundle()
             {
                 identityKey = bobIdentKey.pubKey,
@@ -399,8 +399,8 @@ namespace Component_Tests.Classes.Crypto.Omemo
         {
             // Generate Alices keys:
             IdentityKeyPairModel aliceIdentKey = KeyHelper.GenerateIdentityKeyPair();
-            List<PreKeyModel> alicePreKeys = KeyHelper.GeneratePreKeys(0, 1);
-            SignedPreKeyModel aliceSignedPreKey = KeyHelper.GenerateSignedPreKey(0, aliceIdentKey.privKey);
+            List<PreKeyModel> alicePreKeys = KeyHelper.GeneratePreKeys(1, 1);
+            SignedPreKeyModel aliceSignedPreKey = KeyHelper.GenerateSignedPreKey(1, aliceIdentKey.privKey);
             Bundle aliceBundle = new Bundle()
             {
                 identityKey = aliceIdentKey.pubKey,
@@ -414,8 +414,8 @@ namespace Component_Tests.Classes.Crypto.Omemo
 
             // Generate Bobs keys:
             IdentityKeyPairModel bobIdentKey = KeyHelper.GenerateIdentityKeyPair();
-            List<PreKeyModel> bobPreKeys = KeyHelper.GeneratePreKeys(0, 1);
-            SignedPreKeyModel bobSignedPreKey = KeyHelper.GenerateSignedPreKey(0, bobIdentKey.privKey);
+            List<PreKeyModel> bobPreKeys = KeyHelper.GeneratePreKeys(1, 1);
+            SignedPreKeyModel bobSignedPreKey = KeyHelper.GenerateSignedPreKey(1, bobIdentKey.privKey);
             Bundle bobBundle = new Bundle()
             {
                 identityKey = bobIdentKey.pubKey,
@@ -515,8 +515,8 @@ namespace Component_Tests.Classes.Crypto.Omemo
         {
             // Generate Alices keys:
             IdentityKeyPairModel aliceIdentKey = KeyHelper.GenerateIdentityKeyPair();
-            List<PreKeyModel> alicePreKeys = KeyHelper.GeneratePreKeys(0, 1);
-            SignedPreKeyModel aliceSignedPreKey = KeyHelper.GenerateSignedPreKey(0, aliceIdentKey.privKey);
+            List<PreKeyModel> alicePreKeys = KeyHelper.GeneratePreKeys(1, 1);
+            SignedPreKeyModel aliceSignedPreKey = KeyHelper.GenerateSignedPreKey(1, aliceIdentKey.privKey);
             Bundle aliceBundle = new Bundle()
             {
                 identityKey = aliceIdentKey.pubKey,
@@ -530,8 +530,8 @@ namespace Component_Tests.Classes.Crypto.Omemo
 
             // Generate Bobs keys:
             IdentityKeyPairModel bobIdentKey = KeyHelper.GenerateIdentityKeyPair();
-            List<PreKeyModel> bobPreKeys = KeyHelper.GeneratePreKeys(0, 1);
-            SignedPreKeyModel bobSignedPreKey = KeyHelper.GenerateSignedPreKey(0, bobIdentKey.privKey);
+            List<PreKeyModel> bobPreKeys = KeyHelper.GeneratePreKeys(1, 1);
+            SignedPreKeyModel bobSignedPreKey = KeyHelper.GenerateSignedPreKey(1, bobIdentKey.privKey);
             Bundle bobBundle = new Bundle()
             {
                 identityKey = bobIdentKey.pubKey,
@@ -637,8 +637,8 @@ namespace Component_Tests.Classes.Crypto.Omemo
         public void Test_OmemoBundleInformation()
         {
             IdentityKeyPairModel bobIdentKey = KeyHelper.GenerateIdentityKeyPair();
-            List<PreKeyModel> bobPreKeys = KeyHelper.GeneratePreKeys(0, 100);
-            SignedPreKeyModel bobSignedPreKey = KeyHelper.GenerateSignedPreKey(0, bobIdentKey.privKey);
+            List<PreKeyModel> bobPreKeys = KeyHelper.GeneratePreKeys(1, 100);
+            SignedPreKeyModel bobSignedPreKey = KeyHelper.GenerateSignedPreKey(1, bobIdentKey.privKey);
             Bundle bobBundle = new Bundle()
             {
                 identityKey = bobIdentKey.pubKey,
@@ -697,11 +697,11 @@ namespace Component_Tests.Classes.Crypto.Omemo
             rand.NextBytes(sessionKey);
 
             IdentityKeyPairModel identityKey = KeyHelper.GenerateIdentityKeyPair();
-            SignedPreKeyModel signedPreKey = KeyHelper.GenerateSignedPreKey(0, identityKey.privKey);
+            SignedPreKeyModel signedPreKey = KeyHelper.GenerateSignedPreKey(1, identityKey.privKey);
             OmemoSessionModel refOmemoSession = new OmemoSessionModel(new Bundle()
             {
                 identityKey = identityKey.pubKey,
-                preKeys = KeyHelper.GeneratePreKeys(0, 10),
+                preKeys = KeyHelper.GeneratePreKeys(1, 10),
                 preKeySignature = signedPreKey.signature,
                 signedPreKey = signedPreKey.preKey.pubKey,
                 signedPreKeyId = signedPreKey.preKey.keyId
@@ -730,11 +730,11 @@ namespace Component_Tests.Classes.Crypto.Omemo
             rand.NextBytes(sessionKey);
 
             IdentityKeyPairModel identityKey = KeyHelper.GenerateIdentityKeyPair();
-            SignedPreKeyModel signedPreKey = KeyHelper.GenerateSignedPreKey(0, identityKey.privKey);
+            SignedPreKeyModel signedPreKey = KeyHelper.GenerateSignedPreKey(1, identityKey.privKey);
             OmemoSessionModel refOmemoSession = new OmemoSessionModel(new Bundle()
             {
                 identityKey = identityKey.pubKey,
-                preKeys = KeyHelper.GeneratePreKeys(0, 10),
+                preKeys = KeyHelper.GeneratePreKeys(1, 10),
                 preKeySignature = signedPreKey.signature,
                 signedPreKey = signedPreKey.preKey.pubKey,
                 signedPreKeyId = signedPreKey.preKey.keyId
@@ -764,11 +764,11 @@ namespace Component_Tests.Classes.Crypto.Omemo
             rand.NextBytes(sessionKey);
 
             IdentityKeyPairModel identityKey = KeyHelper.GenerateIdentityKeyPair();
-            SignedPreKeyModel signedPreKey = KeyHelper.GenerateSignedPreKey(0, identityKey.privKey);
+            SignedPreKeyModel signedPreKey = KeyHelper.GenerateSignedPreKey(1, identityKey.privKey);
             OmemoSessionModel refOmemoSession = new OmemoSessionModel(new Bundle()
             {
                 identityKey = identityKey.pubKey,
-                preKeys = KeyHelper.GeneratePreKeys(0, 10),
+                preKeys = KeyHelper.GeneratePreKeys(1, 10),
                 preKeySignature = signedPreKey.signature,
                 signedPreKey = signedPreKey.preKey.pubKey,
                 signedPreKeyId = signedPreKey.preKey.keyId

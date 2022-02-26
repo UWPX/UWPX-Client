@@ -38,15 +38,28 @@ namespace Omemo.Classes
         /// Generates a list of <see cref="PreKeyModel"/>s and returns them.
         /// <para/>
         /// To keep the <see cref="PreKeyModel"/>-IDs unique ensure to set start to (start + count) of the last run.
+        /// Rolls over to one if ids grow larger than 0x7FFFFFFF (2^31-1).
         /// </summary>
         /// <param name="start">The start it of the new <see cref="PreKeyModel"/>.</param>
         /// <param name="count">How many <see cref="PreKeyModel"/>s should be generated.</param>
         public static List<PreKeyModel> GeneratePreKeys(uint start, uint count)
         {
+            const uint MIN_VALID_INDEX = 1;
+            const uint MAX_VALID_INDEX = 0x7FFFFFFF; // 2^31-1
+            uint keyId = start;
+
             List<PreKeyModel> preKeys = new List<PreKeyModel>();
-            for (uint i = start; i < (start + count); i++)
+            for (uint i = 0; i < count; i++)
             {
-                preKeys.Add(GeneratePreKey(i));
+                if (keyId > MAX_VALID_INDEX)
+                {
+                    keyId = MIN_VALID_INDEX;
+                }
+                else
+                {
+                    keyId++;
+                }
+                preKeys.Add(GeneratePreKey(keyId));
             }
             return preKeys;
         }

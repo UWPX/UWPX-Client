@@ -129,6 +129,7 @@
   <ItemGroup>
     <Compile Include="Classes\Collections\Test_SaveObservableChatDictionaryList.cs" />
     <Compile Include="Classes\Crypto\Omemo\InMemmoryOmemoStorage.cs" />
+    <Compile Include="Classes\Crypto\Omemo\Test_KeyHelper.cs" />
     <Compile Include="Classes\Crypto\Omemo\Test_Omemo.cs" />
     <Compile Include="Classes\Crypto\Test_CryptoUtils.cs" />
     <Compile Include="Classes\Misc\Test_DateTimeParserHelper.cs" />
