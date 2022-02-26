@@ -27,6 +27,7 @@
                       Grid.Column="0"
                       Margin="0,0,-30,0"
                       VerticalAlignment="Center"
+                      Header="{x:Bind Fingerprint.Label, Mode=OneWay}"
                       IsOn="{x:Bind Fingerprint.Fingerprint.trusted, Mode=TwoWay}"
                       OffContent="Untrusted"
                       OnContent="Trusted"

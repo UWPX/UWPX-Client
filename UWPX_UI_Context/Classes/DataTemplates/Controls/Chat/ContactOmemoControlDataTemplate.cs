@@ -1,9 +1,6 @@
-﻿using System;
-using Manager.Classes.Chat;
-using Omemo.Classes;
+﻿using Manager.Classes.Chat;
 using Shared.Classes;
 using Shared.Classes.Collections;
-using Storage.Classes.Models.Omemo;
 
 namespace UWPX_UI_Context.Classes.DataTemplates.Controls.Chat
 {

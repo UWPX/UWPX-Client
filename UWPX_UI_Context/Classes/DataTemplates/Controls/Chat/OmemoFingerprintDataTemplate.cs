@@ -22,6 +22,13 @@ namespace UWPX_UI_Context.Classes.DataTemplates.Controls.Chat
             set => SetProperty(ref _State, value);
         }
 
+        private string _Label;
+        public string Label
+        {
+            get => _Label;
+            set => SetProperty(ref _Label, value);
+        }
+
         #endregion
         //--------------------------------------------------------Constructor:----------------------------------------------------------------\\
         #region --Constructors--

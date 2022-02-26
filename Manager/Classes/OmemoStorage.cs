@@ -6,6 +6,7 @@ using Omemo.Classes;
 using Omemo.Classes.Keys;
 using Shared.Classes.Threading;
 using Storage.Classes.Contexts;
+using Storage.Classes.Models;
 using Storage.Classes.Models.Account;
 using Storage.Classes.Models.Chat;
 using Storage.Classes.Models.Omemo;
@@ -165,16 +166,13 @@ namespace Manager.Classes
         public void StoreDevices(List<Tuple<OmemoProtocolAddress, string>> devices, string bareJid)
         {
             IEnumerable<OmemoDeviceModel> newDevices = devices.Select(d => new OmemoDeviceModel(d.Item1) { deviceLabel = d.Item2 });
+
+            List<OmemoDeviceModel> oldDevices;
+            AbstractModel model;
             if (string.Equals(bareJid, dbAccount.bareJid))
             {
-                using (MainDbContext ctx = new MainDbContext())
-                {
-                    dbAccount.omemoInfo.devices.ForEach(d => d.Remove(ctx, true));
-                    dbAccount.omemoInfo.devices.Clear();
-                    ctx.Update(dbAccount.omemoInfo);
-                    dbAccount.omemoInfo.devices.AddRange(newDevices.Where(d => d.deviceId != dbAccount.omemoInfo.deviceId));
-                    ctx.Update(dbAccount.omemoInfo);
-                }
+                oldDevices = dbAccount.omemoInfo.devices;
+                model = dbAccount.omemoInfo;
             }
             else
             {
@@ -183,18 +181,44 @@ namespace Manager.Classes
                 {
                     omemoChatInfo = DataCache.INSTANCE.GetChat(dbAccount.bareJid, bareJid, semaLock)?.omemoInfo;
                 }
-                if (omemoChatInfo is null)
+                model = omemoChatInfo;
+                oldDevices = omemoChatInfo.devices;
+
+                if (model is null)
                 {
                     throw new InvalidOperationException("Failed to store devices. Chat '" + bareJid + "' does not exist.");
                 }
-                using (MainDbContext ctx = new MainDbContext())
+            }
+
+            using (MainDbContext ctx = new MainDbContext())
+            {
+                // Remove old:
+                for (int i = 0; i < oldDevices.Count; i++)
                 {
-                    omemoChatInfo.devices.ForEach(d => d.Remove(ctx, true));
-                    omemoChatInfo.devices.Clear();
-                    ctx.Update(omemoChatInfo);
-                    omemoChatInfo.devices.AddRange(newDevices);
-                    ctx.Update(omemoChatInfo);
+                    OmemoDeviceModel device = oldDevices[i];
+                    if (newDevices.Where(d => d.deviceId == device.deviceId).FirstOrDefault() is null)
+                    {
+                        ctx.Devices.Remove(device);
+                        oldDevices.RemoveAt(i);
+                    }
                 }
+
+                // Add/Update existing:
+                foreach (OmemoDeviceModel device in newDevices)
+                {
+                    OmemoDeviceModel dev = oldDevices.Where(d => d.deviceId == device.deviceId).FirstOrDefault();
+                    if (!(dev is null))
+                    {
+                        dev.deviceLabel = device.deviceLabel;
+                        ctx.Devices.Update(dev);
+                    }
+                    else
+                    {
+                        oldDevices.Add(device);
+                        ctx.Devices.Add(device);
+                    }
+                }
+                ctx.Update(model);
             }
         }
 

@@ -4,7 +4,6 @@ using System.Linq;
 using System.Threading.Tasks;
 using Logging;
 using Manager.Classes.Chat;
-using Omemo.Classes;
 using Storage.Classes.Contexts;
 using Storage.Classes.Models.Omemo;
 using UWPX_UI_Context.Classes.DataTemplates.Controls.Chat;
@@ -126,7 +125,7 @@ namespace UWPX_UI_Context.Classes.DataContext.Controls.Chat
             Task.Run(() =>
             {
                 MODEL.Loading = true;
-                List<OmemoFingerprintDataTemplate> fingerprints = MODEL.Chat.Chat.omemoInfo.devices.Where(d => d.session is not null && d.fingerprint is not null).Select(d => new OmemoFingerprintDataTemplate { State = d.session.state, Fingerprint = d.fingerprint }).ToList();
+                List<OmemoFingerprintDataTemplate> fingerprints = MODEL.Chat.Chat.omemoInfo.devices.Where(d => d.session is not null && d.fingerprint is not null).Select(d => new OmemoFingerprintDataTemplate { State = d.session.state, Fingerprint = d.fingerprint, Label = d.deviceLabel }).ToList();
                 // Sort based on the last seen date. If it's the same prefer trusted ones:
                 fingerprints.Sort((x, y) =>
                 {

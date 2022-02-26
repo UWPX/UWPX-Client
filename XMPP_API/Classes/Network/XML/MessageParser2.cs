@@ -13,8 +13,8 @@ using XMPP_API.Classes.Network.XML.Messages.XEP_0030;
 using XMPP_API.Classes.Network.XML.Messages.XEP_0045;
 using XMPP_API.Classes.Network.XML.Messages.XEP_0045.Configuration;
 using XMPP_API.Classes.Network.XML.Messages.XEP_0060;
-using XMPP_API.Classes.Network.XML.Messages.XEP_0085;
 using XMPP_API.Classes.Network.XML.Messages.XEP_0084;
+using XMPP_API.Classes.Network.XML.Messages.XEP_0085;
 using XMPP_API.Classes.Network.XML.Messages.XEP_0184;
 using XMPP_API.Classes.Network.XML.Messages.XEP_0198;
 using XMPP_API.Classes.Network.XML.Messages.XEP_0199;
@@ -618,11 +618,7 @@ namespace XMPP_API.Classes.Network.XML
                     // XEP-0384 (OMEMO Encryption) device list:
                     if (XMLUtils.getChildNode(eventNode, "items", "node", Consts.XML_XEP_0384_DEVICE_LIST_NODE) != null)
                     {
-                        /**
-                         * Disabled for now since we can not distinguish from whom they are coming from.
-                         * For example if the from='pubsub.example.com' and we have multiple chats with this server.
-                         **/
-                        // messages.Add(new OmemoDeviceListEventMessage(n));
+                        messages.Add(new OmemoDeviceListEventMessage(n));
                     }
                     // XEP-0084 (User Avatar) avatar metadata:
                     if (XMLUtils.getChildNode(eventNode, "items", "node", Consts.XML_XEP_0084_METADATA_NAMESPACE) != null)
