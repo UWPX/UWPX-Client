@@ -35,7 +35,7 @@ namespace XMPP_API.Classes.Network.XML.Messages.XEP_0384
 
             XElement sigPreKeyNode = new XElement(ns1 + "spk");
             sigPreKeyNode.Add(new XAttribute("id", bundle.signedPreKeyId));
-            sigPreKeyNode.Value = Convert.ToBase64String(bundle.signedPreKey.key);
+            sigPreKeyNode.Value = bundle.signedPreKey.ToBase64String();
             bundleNode.Add(sigPreKeyNode);
 
             XElement sigPreKeySigNode = new XElement(ns1 + "spks")
@@ -46,7 +46,7 @@ namespace XMPP_API.Classes.Network.XML.Messages.XEP_0384
 
             XElement identKeyNode = new XElement(ns1 + "ik")
             {
-                Value = Convert.ToBase64String(bundle.identityKey.key)
+                Value = bundle.identityKey.ToBase64String()
             };
             bundleNode.Add(identKeyNode);
 
@@ -56,7 +56,7 @@ namespace XMPP_API.Classes.Network.XML.Messages.XEP_0384
             {
                 preKeyNode = new XElement(ns1 + "pk")
                 {
-                    Value = Convert.ToBase64String(preKey.pubKey.key)
+                    Value = preKey.pubKey.ToBase64String()
                 };
                 preKeyNode.Add(new XAttribute("id", preKey.keyId));
                 preKeysNode.Add(preKeyNode);
@@ -88,8 +88,7 @@ namespace XMPP_API.Classes.Network.XML.Messages.XEP_0384
                             switch (n.Name)
                             {
                                 case "spk":
-                                    byte[] pubSignedPreKey = Convert.FromBase64String(n.InnerText);
-                                    bundle.signedPreKey = new ECPubKeyModel(pubSignedPreKey);
+                                    bundle.signedPreKey = ECPubKeyModel.FromBase64String(n.InnerText);
 
                                     uint.TryParse(n.Attributes["id"]?.Value, out uint sigId);
                                     bundle.signedPreKeyId = sigId;
@@ -100,8 +99,7 @@ namespace XMPP_API.Classes.Network.XML.Messages.XEP_0384
                                     break;
 
                                 case "ik":
-                                    byte[] identPubKey = Convert.FromBase64String(n.InnerText);
-                                    bundle.identityKey = new ECPubKeyModel(identPubKey);
+                                    bundle.identityKey = ECPubKeyModel.FromBase64String(n.InnerText);
                                     break;
 
                                 case "prekeys":
@@ -113,7 +111,7 @@ namespace XMPP_API.Classes.Network.XML.Messages.XEP_0384
                                                 if (uint.TryParse(n1.Attributes["id"]?.Value, out uint preKeyId))
                                                 {
                                                     byte[] pubPreKey = Convert.FromBase64String(n1.InnerText);
-                                                    bundle.preKeys.Add(new PreKeyModel(null, new ECPubKeyModel(pubPreKey), preKeyId));
+                                                    bundle.preKeys.Add(new PreKeyModel(null, ECPubKeyModel.FromBase64String(n1.InnerText), preKeyId));
                                                 }
                                                 else
                                                 {
