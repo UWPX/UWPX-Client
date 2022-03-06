@@ -61,7 +61,7 @@ namespace Component_Tests.Classes.Crypto.Omemo
             Assert.IsTrue(messages[0] is OmemoDeviceListResultMessage);
             OmemoDeviceListResultMessage devList = messages[0] as OmemoDeviceListResultMessage;
 
-            uint selectedBobDeviceId = devList.DEVICES.getRandomDeviceId();
+            uint selectedBobDeviceId = devList.DEVICES.pickRandomDeviceId();
             Assert.IsTrue(selectedBobDeviceId == BOB_ADDRESS.DEVICE_ID);
 
             // Alice builds a session to Bob:
@@ -134,7 +134,7 @@ namespace Component_Tests.Classes.Crypto.Omemo
             Assert.IsTrue(messages[0] is OmemoDeviceListResultMessage);
             OmemoDeviceListResultMessage devList = messages[0] as OmemoDeviceListResultMessage;
 
-            uint selectedBobDeviceId = devList.DEVICES.getRandomDeviceId();
+            uint selectedBobDeviceId = devList.DEVICES.pickRandomDeviceId();
             Assert.IsTrue(selectedBobDeviceId == BOB_ADDRESS.DEVICE_ID);
 
             // Alice builds a session to Bob:
@@ -221,7 +221,7 @@ namespace Component_Tests.Classes.Crypto.Omemo
             Assert.IsTrue(messages[0] is OmemoDeviceListResultMessage);
             OmemoDeviceListResultMessage devList = messages[0] as OmemoDeviceListResultMessage;
 
-            uint selectedBobDeviceId = devList.DEVICES.getRandomDeviceId();
+            uint selectedBobDeviceId = devList.DEVICES.pickRandomDeviceId();
             Assert.IsTrue(selectedBobDeviceId == BOB_ADDRESS.DEVICE_ID);
 
             // Alice builds a session to Bob:
@@ -319,7 +319,7 @@ namespace Component_Tests.Classes.Crypto.Omemo
             Assert.IsTrue(messages[0] is OmemoDeviceListResultMessage);
             OmemoDeviceListResultMessage devList = messages[0] as OmemoDeviceListResultMessage;
 
-            uint selectedBobDeviceId = devList.DEVICES.getRandomDeviceId();
+            uint selectedBobDeviceId = devList.DEVICES.pickRandomDeviceId();
             Assert.IsTrue(selectedBobDeviceId == BOB_ADDRESS.DEVICE_ID);
 
             // Alice builds a session to Bob:
@@ -436,7 +436,7 @@ namespace Component_Tests.Classes.Crypto.Omemo
             Assert.IsTrue(messages[0] is OmemoDeviceListResultMessage);
             OmemoDeviceListResultMessage devList = messages[0] as OmemoDeviceListResultMessage;
 
-            uint selectedBobDeviceId = devList.DEVICES.getRandomDeviceId();
+            uint selectedBobDeviceId = devList.DEVICES.pickRandomDeviceId();
             Assert.IsTrue(selectedBobDeviceId == BOB_ADDRESS.DEVICE_ID);
 
             // Alice builds a session to Bob:
@@ -552,7 +552,7 @@ namespace Component_Tests.Classes.Crypto.Omemo
             Assert.IsTrue(messages[0] is OmemoDeviceListResultMessage);
             OmemoDeviceListResultMessage devList = messages[0] as OmemoDeviceListResultMessage;
 
-            uint selectedBobDeviceId = devList.DEVICES.getRandomDeviceId();
+            uint selectedBobDeviceId = devList.DEVICES.pickRandomDeviceId();
             Assert.IsTrue(selectedBobDeviceId == BOB_ADDRESS.DEVICE_ID);
 
             // Alice builds a session to Bob:

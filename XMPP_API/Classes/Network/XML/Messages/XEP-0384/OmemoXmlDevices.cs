@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Xml;
 using System.Xml.Linq;
+using Logging;
 using Omemo.Classes;
 using XMPP_API.Classes.Network.XML.Messages.XEP_0060;
 
@@ -34,22 +35,16 @@ namespace XMPP_API.Classes.Network.XML.Messages.XEP_0384
             XElement devicesNode = new XElement(ns1 + "devices");
             foreach (OmemoXmlDevice d in DEVICES)
             {
-                devicesNode.Add(d.toXElement(ns1));
+                if (d.IS_VALID)
+                {
+                    devicesNode.Add(d.toXElement(ns1));
+                }
+                else
+                {
+                    Logger.Warn("Tried to send an invalid OMEMO device: " + d.ToString());
+                }
             }
             return devicesNode;
-        }
-
-        /// <summary>
-        /// Required for test only.
-        /// </summary>
-        public uint getRandomDeviceId()
-        {
-            if (DEVICES.Count <= 0)
-            {
-                throw new InvalidOperationException("Failed to get random device id! Device count = " + DEVICES.Count);
-            }
-            Random r = new Random();
-            return DEVICES.ToArray()[r.Next(0, DEVICES.Count)].ID;
         }
 
         /// <summary>
@@ -77,11 +72,19 @@ namespace XMPP_API.Classes.Network.XML.Messages.XEP_0384
                         XmlNode listNode = XMLUtils.getChildNode(itemNode, "devices", Consts.XML_XMLNS, Consts.XML_XEP_0384_NAMESPACE);
                         if (listNode != null)
                         {
-                            foreach (XmlNode device in listNode.ChildNodes)
+                            foreach (XmlNode deviceNode in listNode.ChildNodes)
                             {
-                                if (string.Equals(device.Name, "device") && device.Attributes["id"] != null)
+                                if (string.Equals(deviceNode.Name, "device") && deviceNode.Attributes["id"] != null)
                                 {
-                                    DEVICES.Add(new OmemoXmlDevice(device));
+                                    OmemoXmlDevice device = new OmemoXmlDevice(deviceNode);
+                                    if (device.IS_VALID)
+                                    {
+                                        DEVICES.Add(device);
+                                    }
+                                    else
+                                    {
+                                        Logger.Warn("Received an invalid OMEMO device: " + device.ToString());
+                                    }
                                 }
                             }
                         }
@@ -94,6 +97,19 @@ namespace XMPP_API.Classes.Network.XML.Messages.XEP_0384
         public List<Tuple<OmemoProtocolAddress, string>> toOmemoProtocolAddress(string bareJid)
         {
             return DEVICES.Select(d => new Tuple<OmemoProtocolAddress, string>(new OmemoProtocolAddress(bareJid, d.ID), d.label)).ToList();
+        }
+
+        /// <summary>
+        /// Required for test only.
+        /// </summary>
+        public uint pickRandomDeviceId()
+        {
+            if (DEVICES.Count <= 0)
+            {
+                throw new InvalidOperationException("Failed to get random device id! Device count = " + DEVICES.Count);
+            }
+            Random r = new Random();
+            return DEVICES.ToArray()[r.Next(0, DEVICES.Count)].ID;
         }
 
         #endregion

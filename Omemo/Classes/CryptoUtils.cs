@@ -240,6 +240,16 @@ namespace Omemo.Classes
         }
 
         /// <summary>
+        /// Returns true in case the given <paramref name="deviceId"/> is an element of [1, 2^31-1].
+        /// </summary>
+        /// <param name="deviceId">The OMEMO device ID to test if it's valid.</param>
+        /// <returns>True in case <paramref name="deviceId"/> is a valid device ID.</returns>
+        public static bool IsValidDeviceId(uint deviceId)
+        {
+            return deviceId > 0 && deviceId < 0x7FFFFFFF;
+        }
+
+        /// <summary>
         /// Generates the X3DH session key for the sender of a message.
         /// <para/>
         /// Documentation: https://www.signal.org/docs/specifications/x3dh/
