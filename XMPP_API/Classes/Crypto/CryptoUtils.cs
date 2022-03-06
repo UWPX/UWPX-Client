@@ -44,17 +44,6 @@ namespace XMPP_API.Classes.Crypto
             return output;
         }
 
-        /// <summary>
-        /// Converts the given hex-string to a byte array and returns it.
-        /// </summary>
-        public static byte[] hexStringToByteArray(string hex)
-        {
-            return Enumerable.Range(0, hex.Length)
-                             .Where(x => x % 2 == 0)
-                             .Select(x => Convert.ToByte(hex.Substring(x, 2), 16))
-                             .ToArray();
-        }
-
         public static string byteArrayToHexString(byte[] data)
         {
             StringBuilder hex = new StringBuilder(data.Length * 2);

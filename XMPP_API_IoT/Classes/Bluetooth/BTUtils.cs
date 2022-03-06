@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Linq;
 
 namespace XMPP_API_IoT.Classes.Bluetooth
 {
@@ -32,14 +31,6 @@ namespace XMPP_API_IoT.Classes.Bluetooth
         #endregion
         //--------------------------------------------------------Misc Methods:---------------------------------------------------------------\\
         #region --Misc Methods (Public)--
-        public static byte[] HexStringToByteArray(string hex)
-        {
-            return Enumerable.Range(0, hex.Length)
-                             .Where(x => x % 2 == 0)
-                             .Select(x => Convert.ToByte(hex.Substring(x, 2), 16))
-                             .ToArray();
-        }
-
         public static void ReverseByteOrderIfNeeded(byte[] data)
         {
             if (!(data is null) && BitConverter.IsLittleEndian)

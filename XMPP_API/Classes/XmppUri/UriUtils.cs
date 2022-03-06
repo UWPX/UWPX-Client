@@ -6,6 +6,7 @@ using System.Text;
 using Logging;
 using Omemo.Classes;
 using Omemo.Classes.Keys;
+using Shared.Classes;
 using Windows.Foundation;
 using XMPP_API.Classes.Network.XML.Messages.XEP_0384;
 
@@ -188,7 +189,7 @@ namespace XMPP_API.Classes.XmppUri
                             ECPubKeyModel pubKey = null;
                             try
                             {
-                                byte[] fingerprintBytes = Crypto.CryptoUtils.hexStringToByteArray(entry.Value);
+                                byte[] fingerprintBytes = SharedUtils.HexStringToByteArray(entry.Value);
                                 pubKey = new ECPubKeyModel(fingerprintBytes);
                             }
                             catch (Exception e)

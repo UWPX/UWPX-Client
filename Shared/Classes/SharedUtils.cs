@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Linq;
 using System.Runtime.InteropServices.WindowsRuntime;
 using System.Security.Cryptography;
 using System.Text;
@@ -258,6 +259,17 @@ namespace Shared.Classes
             }
 
             return hex.ToString();
+        }
+
+        /// <summary>
+        /// Converts the given hex-string to a byte array and returns it.
+        /// </summary>
+        public static byte[] HexStringToByteArray(string hex)
+        {
+            return Enumerable.Range(0, hex.Length)
+                             .Where(x => x % 2 == 0)
+                             .Select(x => Convert.ToByte(hex.Substring(x, 2), 16))
+                             .ToArray();
         }
 
         #endregion
