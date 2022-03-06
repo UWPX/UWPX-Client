@@ -136,13 +136,6 @@ namespace XMPP_API.Classes
         #endregion
         //--------------------------------------------------------Misc Methods:---------------------------------------------------------------\\
         #region --Misc Methods (Public)--
-#pragma warning disable CS1998 // Async method lacks 'await' operators and will run synchronously
-        public async Task transferSocketOwnershipAsync()
-#pragma warning restore CS1998 // Async method lacks 'await' operators and will run synchronously
-        {
-            //await connection?.transferSocketOwnershipAsync();
-        }
-
         public async Task connectAsync(bool holdConnection = true)
         {
             if (!(connectDisconnectTCS is null))

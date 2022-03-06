@@ -296,12 +296,8 @@ namespace UWPX_UI
         #region --Events--
         private async void OnSuspending(object sender, SuspendingEventArgs e)
         {
-            isRunning = false;
-
             SuspendingDeferral deferral = e.SuspendingOperation.GetDeferral();
-            // TODO re-implement transfer socket ownership:
-            //await ConnectionHandler.INSTANCE.transferSocketOwnershipAsync();
-
+            isRunning = false;
             // Disconnect all clients:
             await ConnectionHandler.INSTANCE.DisconnectAllAsync();
             deferral.Complete();
