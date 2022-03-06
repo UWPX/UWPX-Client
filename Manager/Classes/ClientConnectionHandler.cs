@@ -165,7 +165,7 @@ namespace Manager.Classes
             }
 
             // Detect invalid chat messages:
-            if (!string.Equals(msg.TYPE, MessageMessage.TYPE_CHAT) && !string.Equals(msg.TYPE, MessageMessage.TYPE_ERROR) && !string.Equals(msg.TYPE, MessageMessage.TYPE_GROUPCHAT))
+            if (!string.Equals(msg.TYPE, MessageMessage.TYPE_CHAT) && !string.Equals(msg.TYPE, MessageMessage.TYPE_ERROR) && !string.Equals(msg.TYPE, MessageMessage.TYPE_GROUPCHAT) && !string.Equals(msg.TYPE, DirectMUCInvitationMessage.TYPE_MUC_DIRECT_INVITATION))
             {
                 Logger.Warn($"Received an unknown message type ('{msg.TYPE}') form '{chatBareJid}'. Dropping it.");
                 return;
