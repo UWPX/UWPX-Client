@@ -264,10 +264,11 @@ namespace Manager.Classes
                     return;
                 }
                 // Ensure we add the message to the DB before we add the invite since the invite has the message as a foreign key:
-                using (MainDbContext ctx = new MainDbContext())
-                {
-                    ctx.Add(new MucDirectInvitationModel(inviteMessage, message));
-                }
+                MucDirectInvitationModel inviteModel = new MucDirectInvitationModel(inviteMessage, message);
+                inviteModel.Add();
+
+                // Pop a "You have been invited toast":
+                await Task.Run(() => ToastHelper.ShowMucInviteToast(inviteModel, message, chat));
             }
 
             bool isMUCMessage = string.Equals(MessageMessage.TYPE_GROUPCHAT, message.type);

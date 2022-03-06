@@ -168,6 +168,40 @@ namespace Manager.Classes.Toast
             PopToast(toastContent, chat, WILL_BE_SEND_LATER_TOAST_GROUP);
         }
 
+        public static void ShowMucInviteToast(MucDirectInvitationModel invite, ChatMessageModel msg, ChatModel chat)
+        {
+            ToastContent toastContent = new ToastContent
+            {
+                Visual = new ToastVisual
+                {
+                    BindingGeneric = new ToastBindingGeneric
+                    {
+                        Children =
+                        {
+                            new AdaptiveText()
+                            {
+                                Text = string.IsNullOrEmpty(chat.contactInfo.name) ? chat.bareJid : chat.contactInfo.name,
+                                HintMaxLines = 1
+                            },
+                            new AdaptiveText()
+                            {
+                                Text = string.IsNullOrEmpty(invite.reason) ? "You have been invited to join " + invite.roomJid : invite.reason
+                            }
+                        },
+                        AppLogoOverride = new ToastGenericAppLogo
+                        {
+                            Source = chat.chatType == ChatType.CHAT ? DEFAULT_USER_IMAGE_PATH : DEFAULT_MUC_IMAGE_PATH,
+                            HintCrop = ToastGenericAppLogoCrop.Circle
+                        }
+                    }
+                },
+                DisplayTimestamp = msg.date,
+                Launch = new ChatToastActivation(chat.id, msg.id).Generate()
+            };
+
+            PopToast(toastContent, chat);
+        }
+
         public static void ShowChatTextToast(ChatMessageModel msg, ChatModel chat)
         {
             ToastContent toastContent = new ToastContent
