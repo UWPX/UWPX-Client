@@ -1,7 +1,11 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
+using System.Text;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
+using NSec.Cryptography;
 using Omemo.Classes;
 using Omemo.Classes.Keys;
+using Shared.Classes;
 
 namespace Component_Tests.Classes.Crypto.Omemo
 {
@@ -38,6 +42,25 @@ namespace Component_Tests.Classes.Crypto.Omemo
             {
                 Assert.IsFalse(ids.Contains(keys2[i].keyId));
                 ids.Add(keys2[i].keyId);
+            }
+        }
+
+        [TestCategory("Crypto")]
+        [TestMethod]
+        public void Test_SignPreKey()
+        {
+            ECPrivKeyModel priv = new ECPrivKeyModel(SharedUtils.HexStringToByteArray("1498b5467a63dffa2dc9d9e069caf075d16fc33fdd4c3b01bfadae6433767d93"));
+            ECPubKeyModel pub = new ECPubKeyModel(SharedUtils.HexStringToByteArray("b7a3c12dc0c8c748ab07525b701122b88bd78f600c76342d27f25e5f92444cde"));
+            IdentityKeyPairModel identityKeyPair = new IdentityKeyPairModel(priv, pub);
+
+            for (uint id = 1; id < 250; id++)
+            {
+                byte[] data = Encoding.ASCII.GetBytes("Message for Ed25519 signing");
+                byte[] signature = SignatureAlgorithm.Ed25519.Sign(Key.Import(SignatureAlgorithm.Ed25519, identityKeyPair.privKey.key, KeyBlobFormat.RawPrivateKey), data);
+                byte[] sigRef = SharedUtils.HexStringToByteArray("6dd355667fae4eb43c6e0ab92e870edb2de0a88cae12dbd8591507f584fe4912babff497f1b8edf9567d2483d54ddc6459bea7855281b7a246a609e3001a4e08");
+                string sigRefBase64 = Convert.ToBase64String(sigRef);
+                string sigBase64 = Convert.ToBase64String(signature);
+                Assert.AreEqual(sigBase64, sigRefBase64);
             }
         }
     }
