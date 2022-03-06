@@ -397,11 +397,26 @@ namespace XMPP_API.Classes.Network
             string senderBareJid = Utils.getBareJidFromFullJid(msg.getFrom());
             if (string.Equals(senderBareJid, CONNECTION.account.getBareJid()))
             {
-                if (!msg.DEVICES.DEVICES.Any(d => d.ID == CONNECTION.account.omemoDeviceId))
+                uint deviceId = CONNECTION.account.omemoDeviceId == 0 ? tmpDeviceId : CONNECTION.account.omemoDeviceId;
+                if (deviceId != 0)
                 {
-                    msg.DEVICES.DEVICES.Add(new OmemoXmlDevice(CONNECTION.account.omemoDeviceId, CONNECTION.account.omemoDeviceLabel));
-                    OmemoSetDeviceListMessage setMsg = new OmemoSetDeviceListMessage(CONNECTION.account.getFullJid(), msg.DEVICES);
-                    await CONNECTION.SendAsync(setMsg, false);
+                    if (!msg.DEVICES.DEVICES.Any(d => d.ID == CONNECTION.account.omemoDeviceId))
+                    {
+                        if (CONNECTION.account.omemoDeviceId != 0 || tmpDeviceId != 0)
+                        {
+
+                        }
+
+                        msg.DEVICES.DEVICES.Add(new OmemoXmlDevice(CONNECTION.account.omemoDeviceId, CONNECTION.account.omemoDeviceLabel));
+                        OmemoSetDeviceListMessage setMsg = new OmemoSetDeviceListMessage(CONNECTION.account.getFullJid(), msg.DEVICES);
+                        await CONNECTION.SendAsync(setMsg, false);
+                    }
+                }
+                else
+                {
+                    // Currently investigating this case where we publish 0 as device ID in case the update arrives while we initially publish our device list and device ID:
+                    Logger.Warn("Cought a case where we would publish 0 as device ID.");
+                    Debugger.Break();
                 }
                 DEVICES = msg.DEVICES;
             }
