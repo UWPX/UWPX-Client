@@ -1,8 +1,10 @@
-﻿using System.Threading.Tasks;
+﻿using System.Linq;
+using System.Threading.Tasks;
 using Manager.Classes;
 using Manager.Classes.Chat;
 using Push.Classes;
 using Storage.Classes;
+using Storage.Classes.Contexts;
 using Storage.Classes.Models.Account;
 using UWPX_UI_Context.Classes.DataTemplates.Dialogs;
 using UWPX_UI_Context.Classes.DataTemplates.Pages;
@@ -58,6 +60,12 @@ namespace UWPX_UI_Context.Classes.DataContext.Pages
         {
             return Task.Run(async () =>
              {
+                 // Cleanup password vault:
+                 using (MainDbContext ctx = new MainDbContext())
+                 {
+                     Vault.CleanupVault(ctx.Accounts.Select(a => a.bareJid).ToList());
+                 }
+
                  // Update the password:
                  XMPPAccount account = MODEL.Account.ToXMPPAccount();
                  account.user.password = MODEL.Password;

@@ -127,6 +127,47 @@ namespace Storage.Classes
             }
         }
 
+        /// <summary>
+        /// Removes all old password credentials for accounts not contained in the <paramref name="bareJids"/> list.
+        /// </summary>
+        /// <param name="bareJids">The bare JIDs of accounts the credentials should still persist in the DB.</param>
+        public static void CleanupVault(List<string> bareJids)
+        {
+            IReadOnlyList<PasswordCredential> credentials = GetAll();
+            List<PasswordCredential> remove = new List<PasswordCredential>();
+
+            foreach (PasswordCredential cred in credentials)
+            {
+                bool keep = false;
+                foreach (string bareJid in bareJids)
+                {
+                    string vaultName = VAULT_NAME_PREFIX + bareJid;
+                    if (string.Equals(cred.Resource, vaultName))
+                    {
+                        keep = true;
+                    }
+                }
+
+                if (!keep)
+                {
+                    remove.Add(cred);
+                }
+            }
+
+            if (remove.Count > 0)
+            {
+                foreach (PasswordCredential cred in remove)
+                {
+                    DeletePassword(cred);
+                }
+                Logger.Info($"Found {remove.Count} old credentials during vault cleanup and removed them.");
+            }
+            else
+            {
+                Logger.Info("No old credentials found during vault cleanup.");
+            }
+        }
+
         #endregion
 
         #region --Misc Methods (Private)--

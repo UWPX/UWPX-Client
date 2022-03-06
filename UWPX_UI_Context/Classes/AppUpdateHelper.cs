@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Linq;
 using System.Threading.Tasks;
 using Logging;
 using Storage.Classes;
@@ -151,12 +152,19 @@ namespace UWPX_UI_Context.Classes
                                 }
                             }
                             Logger.Info("DB reset.");
-                            Logger.Info("Finished updating DB to version 0.41.0.0.");
                         }
                         catch (Exception e)
                         {
                             Logger.Error("Error during updating DB to version 0.41.0.0", e);
                         }
+
+                        Logger.Info("Cleaning up old password vault entries...");
+                        using (MainDbContext ctx = new MainDbContext())
+                        {
+                            Vault.CleanupVault(ctx.Accounts.Select(a => a.bareJid).ToList());
+                        }
+                        Logger.Info("Password vauled cleaned up.");
+                        Logger.Info("Finished updating DB to version 0.41.0.0.");
                     }
                 }
             }
