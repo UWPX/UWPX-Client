@@ -60,7 +60,7 @@ namespace Omemo.Classes.Keys
         /// <returns>True in case the signature is valid.</returns>
         public bool Verify()
         {
-            return KeyHelper.VerifySignature(signedPreKey, identityKey.key, preKeySignature);
+            return KeyHelper.VerifySignature(signedPreKey, identityKey, preKeySignature);
         }
 
         #endregion
