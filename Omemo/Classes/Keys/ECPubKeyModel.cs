@@ -1,5 +1,6 @@
 ﻿using System;
 using Logging;
+using Omemo.Classes.Exceptions;
 
 namespace Omemo.Classes.Keys
 {
@@ -15,9 +16,30 @@ namespace Omemo.Classes.Keys
         #endregion
         //--------------------------------------------------------Constructor:----------------------------------------------------------------\\
         #region --Constructors--
+        /// <summary>
+        /// DO NOT USE! Only required for the DB. Use the other constructor instead.
+        /// </summary>
         public ECPubKeyModel() { }
 
-        public ECPubKeyModel(byte[] pubKey) : base(pubKey) { }
+        public ECPubKeyModel(byte[] pubKey) : base(pubKey)
+        {
+            if (pubKey.Length == KeyHelper.PUB_KEY_SIZE)
+            {
+                return;
+            }
+
+            if (pubKey.Length == KeyHelper.PUB_KEY_SIZE + 1)
+            {
+                if (pubKey[0] == BASE_64_KEY_PREFIX)
+                {
+                    // Skip the prefix:
+                    Buffer.BlockCopy(pubKey, 1, key, 0, KeyHelper.PUB_KEY_SIZE);
+                    return;
+                }
+                throw new OmemoKeyException($"Invalid key prefix '{pubKey[0]}'. Expected: '{BASE_64_KEY_PREFIX}' at index 0 of the key for a {KeyHelper.PUB_KEY_SIZE + 1} byte long key.");
+            }
+            throw new OmemoKeyException($"Invalid key length {pubKey.Length} - expected {KeyHelper.PUB_KEY_SIZE} or {KeyHelper.PUB_KEY_SIZE + 1}.");
+        }
 
         #endregion
         //--------------------------------------------------------Set-, Get- Methods:---------------------------------------------------------\\

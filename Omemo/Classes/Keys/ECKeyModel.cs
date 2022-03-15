@@ -3,6 +3,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 using System.Diagnostics;
 using System.Linq;
 using Microsoft.EntityFrameworkCore;
+using Omemo.Classes.Exceptions;
 using Shared.Classes;
 
 namespace Omemo.Classes.Keys
@@ -32,11 +33,17 @@ namespace Omemo.Classes.Keys
         #endregion
         //--------------------------------------------------------Constructor:----------------------------------------------------------------\\
         #region --Constructors--
+        /// <summary>
+        /// DO NOT USE! Only required for the DB. Use the other constructor instead.
+        /// </summary>
         public ECKeyModel() { }
 
         public ECKeyModel(byte[] key)
         {
-            Debug.Assert(!(key is null));
+            if (key is null)
+            {
+                throw new OmemoKeyException("Expected non null key byte array!");
+            }
             this.key = key;
         }
 

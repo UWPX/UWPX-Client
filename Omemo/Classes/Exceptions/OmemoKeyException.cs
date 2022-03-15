@@ -1,8 +1,9 @@
-﻿using Omemo.Classes.Exceptions;
-
-namespace Omemo.Classes.Keys
+﻿namespace Omemo.Classes.Exceptions
 {
-    public class ECPrivKeyModel: ECKeyModel
+    /// <summary>
+    /// An exception that gets thrown in case something is wrong with an OMEMO public or private key.
+    /// </summary>
+    public class OmemoKeyException: OmemoException
     {
         //--------------------------------------------------------Attributes:-----------------------------------------------------------------\\
         #region --Attributes--
@@ -11,20 +12,7 @@ namespace Omemo.Classes.Keys
         #endregion
         //--------------------------------------------------------Constructor:----------------------------------------------------------------\\
         #region --Constructors--
-        /// <summary>
-        /// DO NOT USE! Only required for the DB. Use the other constructor instead.
-        /// </summary>
-        public ECPrivKeyModel() { }
-
-        public ECPrivKeyModel(byte[] pubKey) : base(pubKey)
-        {
-            if (pubKey.Length == KeyHelper.PUB_KEY_SIZE)
-            {
-                return;
-            }
-
-            throw new OmemoKeyException($"Invalid key length {pubKey.Length} - expected {KeyHelper.PRIV_KEY_SIZE}.");
-        }
+        public OmemoKeyException(string message) : base(message) { }
 
         #endregion
         //--------------------------------------------------------Set-, Get- Methods:---------------------------------------------------------\\
@@ -34,13 +22,7 @@ namespace Omemo.Classes.Keys
         #endregion
         //--------------------------------------------------------Misc Methods:---------------------------------------------------------------\\
         #region --Misc Methods (Public)--
-        /// <summary>
-        /// Creates a copy of the object, not including <see cref="id"/>.
-        /// </summary>
-        public new ECPrivKeyModel Clone()
-        {
-            return new ECPrivKeyModel(key);
-        }
+
 
         #endregion
 
