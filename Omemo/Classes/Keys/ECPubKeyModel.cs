@@ -33,6 +33,7 @@ namespace Omemo.Classes.Keys
                 if (pubKey[0] == BASE_64_KEY_PREFIX)
                 {
                     // Skip the prefix:
+                    key = new byte[KeyHelper.PUB_KEY_SIZE];
                     Buffer.BlockCopy(pubKey, 1, key, 0, KeyHelper.PUB_KEY_SIZE);
                     return;
                 }
@@ -91,10 +92,18 @@ namespace Omemo.Classes.Keys
         /// </summary>
         public string ToBase64String()
         {
-            byte[] data = new byte[KeyHelper.PUB_KEY_SIZE + 1];
-            data[0] = BASE_64_KEY_PREFIX;
-            key.CopyTo(data, 1);
-            return Convert.ToBase64String(data);
+            return Convert.ToBase64String(ToByteArrayWithPrefix());
+        }
+
+        /// <summary>
+        /// Prepends the <see cref="BASE_64_KEY_PREFIX"/> byte and then returns the result.
+        /// </summary>
+        public byte[] ToByteArrayWithPrefix()
+        {
+            byte[] pubKey = new byte[KeyHelper.PUB_KEY_SIZE + 1];
+            pubKey[0] = BASE_64_KEY_PREFIX;
+            key.CopyTo(pubKey, 1);
+            return pubKey;
         }
 
         #endregion
