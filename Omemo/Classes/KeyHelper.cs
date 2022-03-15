@@ -82,20 +82,33 @@ namespace Omemo.Classes
         public static SignedPreKeyModel GenerateSignedPreKey(uint id, ECPrivKeyModel identiyKey)
         {
             PreKeyModel preKey = GeneratePreKey(id);
-            byte[] signature = SignatureAlgorithm.Ed25519.Sign(Key.Import(SignatureAlgorithm.Ed25519, identiyKey.key, KeyBlobFormat.RawPrivateKey), preKey.pubKey.key);
+            byte[] signature = SignPreKey(preKey, identiyKey);
             return new SignedPreKeyModel(preKey, signature);
+        }
+
+        /// <summary>
+        /// Generates the signature of the given <paramref name="preKey"/> and returns it.
+        /// </summary>
+        /// <param name="preKey">The <see cref="PreKeyModel"/> that should be signed.</param>
+        /// <param name="identiyKey">The private Key used for signing the given <paramref name="preKey"/>.</param>
+        /// <returns>The signature of the given <paramref name="preKey"/>.</returns>
+        public static byte[] SignPreKey(PreKeyModel preKey, ECPrivKeyModel identiyKey)
+        {
+            byte[] pubKey = preKey.pubKey.ToByteArrayWithPrefix();
+            Key key = Key.Import(SignatureAlgorithm.Ed25519, identiyKey.key, KeyBlobFormat.RawPrivateKey);
+            return SignatureAlgorithm.Ed25519.Sign(key, pubKey);
         }
 
         /// <summary>
         /// Verifies the signature of the given data with the given <see cref="ECPubKeyModel"/>.
         /// </summary>
-        /// <param name="pubKey">The <see cref="ECPubKeyModel"/> used for validating the signature.</param>
-        /// <param name="data">The data the signature should be verified for.</param>
+        /// <param name="identityKey">The <see cref="ECPubKeyModel"/> of the IdentityKey used for validating the signature.</param>
+        /// <param name="preKey">The <see cref="ECPubKeyModel"/> of the PreKey, the signature should be verified for.</param>
         /// <param name="signature">The signature that should be verified.</param>
-        /// <returns></returns>
-        public static bool VerifySignature(ECPubKeyModel pubKey, byte[] data, byte[] signature)
+        /// <returns>True in case the signature is valid.</returns>
+        public static bool VerifySignature(ECPubKeyModel identityKey, ECPubKeyModel preKey, byte[] signature)
         {
-            return SignatureAlgorithm.Ed25519.Verify(PublicKey.Import(SignatureAlgorithm.Ed25519, pubKey.key, KeyBlobFormat.RawPublicKey), data, signature);
+            return SignatureAlgorithm.Ed25519.Verify(PublicKey.Import(SignatureAlgorithm.Ed25519, identityKey.key, KeyBlobFormat.RawPublicKey), preKey.ToByteArrayWithPrefix(), signature);
         }
 
         /// <summary>
