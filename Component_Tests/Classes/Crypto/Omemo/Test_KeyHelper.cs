@@ -87,8 +87,7 @@ namespace Component_Tests.Classes.Crypto.Omemo
             ECPubKeyModel identityPub = new ECPubKeyModel(SharedUtils.HexStringToByteArray("05b7a3c12dc0c8c748ab07525b701122b88bd78f600c76342d27f25e5f92444cde"));
             ECPubKeyModel prePub = new ECPubKeyModel(SharedUtils.HexStringToByteArray("05b30aad2471f7186bdb34951747cf81a67245144260e20ffe5bf7748202d6572c"));
             byte[][] sigs = {
-                SharedUtils.HexStringToByteArray("8de8513ec136ef909a594f6369c4a91dc7bd8a5a2e05b9ec6ceedb5c22316e105be4d22b855ce551fad31257ca0a22709b7ffd2d157afab0b9d01b4261c03b08"),
-                    SharedUtils.HexStringToByteArray("8b5944b2e3ec089c5864b4d4f503836117fde77235b4587c0dee69c73157251295e6831675a9bed67e5cd33c0c4d3278920efdc8fc7ada975506153f7acaf809")
+                SharedUtils.HexStringToByteArray("db0495131504b9acf87696613070088abff5310ad984f3b7623088af6310e2435381f2f726cfcc3edc754549d47e251d873d5b6777dd62a334b5d3fa8afb9f0a")
             };
 
             foreach (byte[] sig in sigs)
