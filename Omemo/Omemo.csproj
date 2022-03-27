@@ -130,7 +130,7 @@
     <Compile Include="Classes\KeyHelper.cs" />
     <Compile Include="Classes\Keys\Bundle.cs" />
     <Compile Include="Classes\Keys\ECKeyModel.cs" />
-    <Compile Include="Classes\Keys\AbstractECKeyPairModel.cs" />
+    <Compile Include="Classes\Keys\ECKeyPairModel.cs" />
     <Compile Include="Classes\Keys\ECPrivKeyModel.cs" />
     <Compile Include="Classes\Keys\ECPubKeyModel.cs" />
     <Compile Include="Classes\Keys\EphemeralKeyPairModel.cs" />
@@ -150,6 +150,8 @@
     <Compile Include="Classes\SkippedMessageKeyModel.cs" />
     <Compile Include="Classes\SkippedMessageKeyGroupModel.cs" />
     <Compile Include="Classes\SkippedMessageKeyGroupsModel.cs" />
+    <Compile Include="Classes\Xeddsa\ECPoint.cs" />
+    <Compile Include="Classes\Xeddsa\Xeddsa25519.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <EmbeddedResource Include="Properties\Omemo.rd.xml" />
   </ItemGroup>
@@ -182,6 +184,7 @@
       <Name>Visual C++ 2015-2019 UWP Desktop Runtime for native apps</Name>
     </SDKReference>
   </ItemGroup>
+  <ItemGroup />
   <PropertyGroup Condition=" '$(VisualStudioVersion)' == '' or '$(VisualStudioVersion)' &lt; '14.0' ">
     <VisualStudioVersion>14.0</VisualStudioVersion>
   </PropertyGroup>

@@ -6,7 +6,7 @@ using Shared.Classes;
 
 namespace Omemo.Classes.Keys
 {
-    public abstract class AbstractECKeyPairModel: AbstractDataTemplate
+    public class ECKeyPairModel: AbstractDataTemplate
     {
         //--------------------------------------------------------Attributes:-----------------------------------------------------------------\\
         #region --Attributes--
@@ -38,9 +38,9 @@ namespace Omemo.Classes.Keys
         #endregion
         //--------------------------------------------------------Constructor:----------------------------------------------------------------\\
         #region --Constructors--
-        public AbstractECKeyPairModel() { }
+        public ECKeyPairModel() { }
 
-        public AbstractECKeyPairModel(ECPrivKeyModel privKey, ECPubKeyModel pubKey)
+        public ECKeyPairModel(ECPrivKeyModel privKey, ECPubKeyModel pubKey)
         {
             this.privKey = privKey;
             this.pubKey = pubKey;
@@ -86,7 +86,7 @@ namespace Omemo.Classes.Keys
         #region --Misc Methods (Public)--
         public override bool Equals(object obj)
         {
-            return obj is AbstractECKeyPairModel pair && ((pair.privKey is null && privKey is null) || pair.privKey.Equals(privKey)) && ((pair.pubKey is null && pubKey is null) || pair.pubKey.Equals(pubKey));
+            return obj is ECKeyPairModel pair && ((pair.privKey is null && privKey is null) || pair.privKey.Equals(privKey)) && ((pair.pubKey is null && pubKey is null) || pair.pubKey.Equals(pubKey));
         }
 
         public override int GetHashCode()

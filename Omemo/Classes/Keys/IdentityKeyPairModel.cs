@@ -3,7 +3,7 @@
     /// <summary>
     /// Represents a Ed25519 key pair.
     /// </summary>
-    public class IdentityKeyPairModel: AbstractECKeyPairModel
+    public class IdentityKeyPairModel: ECKeyPairModel
     {
         //--------------------------------------------------------Attributes:-----------------------------------------------------------------\\
         #region --Attributes--

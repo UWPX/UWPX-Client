@@ -16,14 +16,14 @@ namespace Omemo.Classes.Keys
         /// </summary>
         public ECPrivKeyModel() { }
 
-        public ECPrivKeyModel(byte[] pubKey) : base(pubKey)
+        public ECPrivKeyModel(byte[] privKey) : base(privKey)
         {
-            if (pubKey.Length == KeyHelper.PUB_KEY_SIZE)
+            if (privKey.Length == KeyHelper.PUB_KEY_SIZE)
             {
                 return;
             }
 
-            throw new OmemoKeyException($"Invalid key length {pubKey.Length} - expected {KeyHelper.PRIV_KEY_SIZE}.");
+            throw new OmemoKeyException($"Invalid key length {privKey.Length} - expected {KeyHelper.PRIV_KEY_SIZE}.");
         }
 
         #endregion

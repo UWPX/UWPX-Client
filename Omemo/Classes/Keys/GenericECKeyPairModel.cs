@@ -3,7 +3,7 @@
     /// <summary>
     /// Represents a generic EC key pair holding a <see cref="ECPubKeyModel"/> and <see cref="ECPrivKeyModel"/>.
     /// </summary>
-    public class GenericECKeyPairModel: AbstractECKeyPairModel
+    public class GenericECKeyPairModel: ECKeyPairModel
     {
         //--------------------------------------------------------Attributes:-----------------------------------------------------------------\\
         #region --Attributes--
