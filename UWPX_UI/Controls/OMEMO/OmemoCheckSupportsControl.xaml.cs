@@ -1,6 +1,8 @@
 ﻿using System;
 using System.ComponentModel;
 using Manager.Classes.Chat;
+using Microsoft.Toolkit.Uwp.UI.Controls;
+using UWPX_UI_Context.Classes;
 using UWPX_UI_Context.Classes.DataContext.Controls.OMEMO;
 using UWPX_UI_Context.Classes.DataTemplates.Controls.OMEMO;
 using Windows.UI.Xaml;
@@ -100,6 +102,11 @@ namespace UWPX_UI.Controls.OMEMO
                         throw new InvalidOperationException($"Invalid {nameof(OmemoSupportedStatus)}: {VIEW_MODEL.MODEL.Status}");
                 }
             }
+        }
+
+        private async void OnMarkdownLinkClicked(object sender, LinkClickedEventArgs e)
+        {
+            await UiUtils.LaunchUriAsync(new Uri(e.Link));
         }
 
         #endregion

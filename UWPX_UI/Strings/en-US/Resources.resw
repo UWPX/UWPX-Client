@@ -384,6 +384,9 @@ Do not show the report "Something went wrong..." crash dialog, in case we cought
 **Off**  
 In case we cought a crash, you will receive a dialog informing you about the crash and what will be reported.</value>
   </data>
+  <data name="OmemoCheckSupportsControl_omemo_broken_markdown.Text" xml:space="preserve">
+    <value>⚠️ The OMEMO implementation in UWPX is currently incompatible to other implementations, like the one [Kaidan](https://www.kaidan.im/) is working on. For more information about this klick [here](https://github.com/UWPX/UWPX-Client/issues/172).</value>
+  </data>
   <data name="PersonalizeSettingsPage_change_theme_tooltip.Text" xml:space="preserve">
     <value>Requires an app restart to work properly once changed.</value>
   </data>
