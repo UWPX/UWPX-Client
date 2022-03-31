@@ -62,7 +62,8 @@ namespace Omemo.Classes.Xeddsa
         public static ECKeyPairModel ToTwistedEdwardsKeyPair(ECPrivKeyModel privKey)
         {
             byte[] A = new byte[Org.BouncyCastle.Math.EC.Rfc7748.X25519.PointSize];
-            // Org.BouncyCastle.Math.EC.Rfc7748.X25519.ScalarMultBase(privKey.key, 0, A, 0);
+            byte[] A2 = new byte[Org.BouncyCastle.Math.EC.Rfc7748.X25519.PointSize];
+            Org.BouncyCastle.Math.EC.Rfc7748.X25519.ScalarMultBase(privKey.key, 0, A2, 0);
             byte[] u = Shared.Classes.SharedUtils.HexStringToByteArray("5866666666666666666666666666666666666666666666666666666666666666");
             Org.BouncyCastle.Math.EC.Rfc7748.X25519.ScalarMult(privKey.key, 0, u, 0, A, 0);
 
