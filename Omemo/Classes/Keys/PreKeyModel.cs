@@ -3,7 +3,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace Omemo.Classes.Keys
 {
-    public class PreKeyModel: AbstractECKeyPairModel
+    public class PreKeyModel: ECKeyPairModel
     {
         //--------------------------------------------------------Attributes:-----------------------------------------------------------------\\
         #region --Attributes--

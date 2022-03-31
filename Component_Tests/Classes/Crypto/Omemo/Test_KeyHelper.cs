@@ -63,5 +63,37 @@ namespace Component_Tests.Classes.Crypto.Omemo
                 Assert.AreEqual(sigBase64, sigRefBase64);
             }
         }
+
+        [TestCategory("Crypto")]
+        [TestMethod]
+        public void Test_Signing()
+        {
+            ECPrivKeyModel identityPriv = new ECPrivKeyModel(SharedUtils.HexStringToByteArray("1498b5467a63dffa2dc9d9e069caf075d16fc33fdd4c3b01bfadae6433767d93"));
+            ECPubKeyModel identityPub = new ECPubKeyModel(SharedUtils.HexStringToByteArray("05b7a3c12dc0c8c748ab07525b701122b88bd78f600c76342d27f25e5f92444cde"));
+
+            ECPrivKeyModel prePriv = new ECPrivKeyModel(SharedUtils.HexStringToByteArray("181c0ed79c361f2d773f3aa8d5934569395a1c1b4a8514d140a7dcde92688579"));
+            ECPubKeyModel prePub = new ECPubKeyModel(SharedUtils.HexStringToByteArray("05b30aad2471f7186bdb34951747cf81a67245144260e20ffe5bf7748202d6572c"));
+            PreKeyModel preKey = new PreKeyModel(prePriv, prePub, 2);
+
+            byte[] sig = KeyHelper.SignPreKey(preKey, identityPriv);
+            string sig16 = SharedUtils.ToHexString(sig);
+            Assert.IsTrue(KeyHelper.VerifySignature(identityPub, prePub, sig));
+        }
+
+        [TestCategory("Crypto")]
+        [TestMethod]
+        public void Test_VerifySignature()
+        {
+            ECPubKeyModel identityPub = new ECPubKeyModel(SharedUtils.HexStringToByteArray("05b7a3c12dc0c8c748ab07525b701122b88bd78f600c76342d27f25e5f92444cde"));
+            ECPubKeyModel prePub = new ECPubKeyModel(SharedUtils.HexStringToByteArray("05b30aad2471f7186bdb34951747cf81a67245144260e20ffe5bf7748202d6572c"));
+            byte[][] sigs = {
+                SharedUtils.HexStringToByteArray("db0495131504b9acf87696613070088abff5310ad984f3b7623088af6310e2435381f2f726cfcc3edc754549d47e251d873d5b6777dd62a334b5d3fa8afb9f0a")
+            };
+
+            foreach (byte[] sig in sigs)
+            {
+                Assert.IsTrue(KeyHelper.VerifySignature(identityPub, prePub, sig));
+            }
+        }
     }
 }
