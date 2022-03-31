@@ -5,7 +5,7 @@ using Logging;
 using Microsoft.AppCenter.Analytics;
 using Microsoft.AppCenter.Crashes;
 using System.Text;
-#if !DEBUG || true
+#if !DEBUG
 using Microsoft.AppCenter;
 using Storage.Classes;
 #endif
@@ -16,7 +16,7 @@ namespace UWPX_UI_Context.Classes
     {
         //--------------------------------------------------------Attributes:-----------------------------------------------------------------\\
         #region --Attributes--
-#if !DEBUG || true
+#if !DEBUG
         private const string APP_CENTER_SECRET = "523e7039-f6cb-4bf1-9000-53277ed97c53";
 #endif
 
@@ -68,7 +68,7 @@ namespace UWPX_UI_Context.Classes
         {
             try
             {
-#if !DEBUG || true
+#if !DEBUG
                 AppCenter.Start(APP_CENTER_SECRET, typeof(Crashes));
                 if (Settings.GetSettingBoolean(SettingsConsts.DISABLE_CRASH_REPORTING))
                 {
