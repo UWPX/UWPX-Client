@@ -414,13 +414,11 @@ For more providers have a look at:
 You can disable this again by changing `Settings` -&gt; `Misc` -&gt; `Automatic extended crash reports` to false.</value>
   </data>
   <data name="WhatsNewDialog_markdown.Text" xml:space="preserve">
-    <value># [February 2022] Windows 11 and Push
-Since I finally was able to update my laptop to Windows 11, this release adds further support for it. Now the UI uses the new [Mica](https://docs.microsoft.com/en-us/windows/apps/design/style/mica) effect when available, and I updated the settings and all other cards to the new Windows 11 style.
-Besides that, I focused on fixing some issues related to push. Now it should run more reliable, even if you do not open the app every day at least once.
+    <value># [April 2022] OMEMO and Crashes
+This month is all about fixing OMEMO bugs and enhancing the tools I have for obtaining quality crash reports.
+While testing OMEMO interoperability between UWPX and [Kaidan](https://www.kaidan.im/) we discovered a bunch of OMEMO related bugs where UWPX does not meet the [OMEMO (signal) spec](https://xmpp.org/extensions/xep-0384.html), since I implemented the Signal [Double Ratchet Algorithm](https://signal.org/docs/specifications/doubleratchet/) by my own. So I have been hard at work fixing those and as it looks like there is "only" one left to fix. More about this one can be found [here](https://github.com/UWPX/UWPX-Client/issues/172).
 
-I also started working on adding [XEP-0363: HTTP File Upload](https://xmpp.org/extensions/xep-0363.html) support, by adding a first UI draft for selecting, editing and scaling images you would like to send. This feature far from done, but in case you want to play around with it, you can enable it by enabling debug settings. For this, on the settings page, you have to click at least 5 times on the version number until debug settings show up.
-
-I don't think there will be a release next month, since it's the time of the year again, where I have to write and hopefully pass exams again 🙃.
+Besides that I enhanced the crash reporting process. From now on (in case you do not have crash reports disabled) a new dialog will show up in case the app detects a crash in the last session. There you can give me additional information about the crash so I can quickly fix it!
 
 **Please report bugs [here](https://github.com/UWPX/UWPX-Client/issues)!**
 
@@ -430,17 +428,24 @@ Follow [@UWPX_APP](https://twitter.com/UWPX_APP) on ![Twitter](http://i.imgur.co
 ### Known bugs
 * MUC subject changing leads to an account disconnect [#34](https://github.com/UWPX/UWPX-Client/issues/34)
 * ListDetailsView looses selection on reorder [#166](https://github.com/UWPX/UWPX-Client/issues/166)
+* OMEMO Identity Key Signing does not match the Spec [#172](https://github.com/UWPX/UWPX-Client/issues/172)
 
 ### Changes
-* Added a background task, that refreshes the push channel once per day
-* Windows 11 card style settings
-* Using the new [Mica](https://docs.microsoft.com/en-us/windows/apps/design/style/mica) effect when available
-* Started adding support for sending images
-* Updated to [Unicode 14.0](https://unicode.org/Public/emoji/14.0/emoji-sequences.txt)
-* Updated the [XMPP Providers](https://invent.kde.org/melvo/xmpp-providers/-/tree/master) list
-* Fixed always sending the channel URI on startup even if it did not change
-* Disco also requesting and storing #items on startup
+* Preparations for sending images and files ([XEP-0363: HTTP File Upload](https://xmpp.org/extensions/xep-0363.html))
+* Added a temporary note regarding [#172](https://github.com/UWPX/UWPX-Client/issues/172) to the OMEMO supported by contact control
+* Added a crash report dialog when a crash was detected for the last time the app run
+* Requesting user avatars after validating the received messages for new contacts/chats
+* Fixed OMEMO device ID range
+* Fixed OMEMO device ID list updates publishing 0 as device ID in some cases
+* Fixed OMEMO pre key ID range
+* Checking if a message already exists, before trying to decrypt it
+* Showing the OMEMO device name for fingerprints
+* Perpending `0x05` to all OMEMO base 64 public keys
+* Fixed OMEMO pre key generation rollover
+* Fixed a crash for too many passwords in the vault
+* Fixed receiving MUC direct invites
+* Fixed MUC direct invites not showing up as toast push
 
-**Continue reading on [GitHub](https://github.com/UWPX/UWPX-Client/releases/tag/v.0.40.0.0).**</value>
+**Continue reading on [GitHub](https://github.com/UWPX/UWPX-Client/releases/tag/v.0.41.0.0).**</value>
   </data>
 </root>
