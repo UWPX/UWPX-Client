@@ -439,6 +439,9 @@
     <Compile Include="Dialogs\QrCodeScannerDialog.xaml.cs">
       <DependentUpon>QrCodeScannerDialog.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Dialogs\ReportLastCrashDialog.xaml.cs">
+      <DependentUpon>ReportLastCrashDialog.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Dialogs\ReportCrashDialog.xaml.cs">
       <DependentUpon>ReportCrashDialog.xaml</DependentUpon>
     </Compile>
@@ -1059,6 +1062,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Dialogs\QrCodeScannerDialog.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Dialogs\ReportLastCrashDialog.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

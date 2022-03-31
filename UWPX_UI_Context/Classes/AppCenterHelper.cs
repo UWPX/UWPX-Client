@@ -4,7 +4,8 @@ using System.Threading.Tasks;
 using Logging;
 using Microsoft.AppCenter.Analytics;
 using Microsoft.AppCenter.Crashes;
-#if !DEBUG
+using System.Text;
+#if !DEBUG || true
 using Microsoft.AppCenter;
 using Storage.Classes;
 #endif
@@ -15,7 +16,7 @@ namespace UWPX_UI_Context.Classes
     {
         //--------------------------------------------------------Attributes:-----------------------------------------------------------------\\
         #region --Attributes--
-#if !DEBUG
+#if !DEBUG || true
         private const string APP_CENTER_SECRET = "523e7039-f6cb-4bf1-9000-53277ed97c53";
 #endif
 
@@ -27,7 +28,7 @@ namespace UWPX_UI_Context.Classes
         #endregion
         //--------------------------------------------------------Set-, Get- Methods:---------------------------------------------------------\\
         #region --Set-, Get- Methods--
-        public static async Task SetCrashesEnabledAsync(bool enabled)
+        public static void SetCrashesEnabledAsync(bool enabled)
         {
             Crashes.Instance.InstanceEnabled = enabled;
 
@@ -38,10 +39,6 @@ namespace UWPX_UI_Context.Classes
             else
             {
                 Logger.Info("AppCenter crash reporting disabled.");
-            }
-            if (await Analytics.IsEnabledAsync())
-            {
-                Analytics.TrackEvent("crash_reporting", new Dictionary<string, string> { { "disabled", (!enabled).ToString() } });
             }
         }
 
@@ -71,7 +68,7 @@ namespace UWPX_UI_Context.Classes
         {
             try
             {
-#if !DEBUG
+#if !DEBUG || true
                 AppCenter.Start(APP_CENTER_SECRET, typeof(Crashes));
                 if (Settings.GetSettingBoolean(SettingsConsts.DISABLE_CRASH_REPORTING))
                 {
@@ -93,6 +90,43 @@ namespace UWPX_UI_Context.Classes
                 throw e;
             }
             Logger.Info("App Center crash reporting registered.");
+        }
+
+        public static string GenerateCrashReport(ErrorReport crashReport)
+        {
+            StringBuilder sb = new StringBuilder();
+            sb.AppendLine("--------------------UWPX-Crash-Report--------------------");
+            sb.Append("ID: ");
+            sb.AppendLine(crashReport.Id);
+            sb.Append("Time: ");
+            sb.AppendLine(crashReport.AppErrorTime.ToString("dd/MM/yyyy HH:mm:ss"));
+            sb.Append("App Build: ");
+            sb.AppendLine(crashReport.Device.AppBuild);
+            sb.Append("Device: ");
+            sb.Append(crashReport.Device.OemName);
+            sb.Append(" - ");
+            sb.AppendLine(crashReport.Device.Model);
+            sb.AppendLine(crashReport.StackTrace);
+            sb.AppendLine("---------------------------------------------------------");
+            return sb.ToString();
+        }
+
+        public static void ReportCrashDetails(string details, string report)
+        {
+            try
+            {
+                ErrorAttachmentLog[] attachmentLogs = new ErrorAttachmentLog[]
+                {
+                    ErrorAttachmentLog.AttachmentWithText(details, "details.txt"),
+                    ErrorAttachmentLog.AttachmentWithText(report, "report.txt")
+                };
+                Crashes.TrackError(new DummyAppCenterException(), new Dictionary<string, string> { { nameof(details), details }, { nameof(report), report } }, attachmentLogs);
+                Logger.Info($"Crash reported: {report}\n{details}");
+            }
+            catch (Exception e)
+            {
+                Logger.Error("Failed to report crash.", e);
+            }
         }
 
         #endregion

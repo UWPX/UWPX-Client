@@ -67,7 +67,7 @@ namespace UWPX_UI_Context.Classes.DataTemplates.Dialogs
             if (SetProperty(ref _CrashReports, value, nameof(CrashReports)))
             {
                 Settings.SetSetting(SettingsConsts.DISABLE_CRASH_REPORTING, !value);
-                Task.Run(async () => await AppCenterHelper.SetCrashesEnabledAsync(value));
+                AppCenterHelper.SetCrashesEnabledAsync(value);
             }
         }
 

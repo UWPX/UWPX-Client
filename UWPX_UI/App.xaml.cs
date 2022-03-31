@@ -20,6 +20,7 @@ using Windows.ApplicationModel;
 using Windows.ApplicationModel.Activation;
 using Windows.ApplicationModel.AppService;
 using Windows.ApplicationModel.Background;
+using Windows.ApplicationModel.Core;
 using Windows.Foundation.Collections;
 using Windows.UI.Notifications;
 using Windows.UI.Xaml;
@@ -211,6 +212,12 @@ namespace UWPX_UI
             }
         }
 
+        private async Task TryRestartAsync()
+        {
+            Logger.Info("Restarting app...");
+            await CoreApplication.RequestRestartAsync("");
+        }
+
         #endregion
 
         #region --Misc Methods (Protected)--
@@ -322,9 +329,8 @@ namespace UWPX_UI
             throw new Exception("Failed to load Page " + e.SourcePageType.FullName);
         }
 
-        private void App_UnhandledException(object sender, Windows.UI.Xaml.UnhandledExceptionEventArgs e)
+        private async void App_UnhandledException(object sender, Windows.UI.Xaml.UnhandledExceptionEventArgs e)
         {
-            e.Handled = true;
 #if DEBUG
             if (Debugger.IsAttached)
             {
@@ -332,6 +338,7 @@ namespace UWPX_UI
             }
 #endif
             Logger.Error("Unhanded exception: ", e.Exception);
+            await TryRestartAsync();
         }
 
         private async void PushManager_StateChanged(PushManager sender, PushManagerStateChangedEventArgs args)

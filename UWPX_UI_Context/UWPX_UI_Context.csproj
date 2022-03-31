@@ -203,6 +203,7 @@
     <Compile Include="Classes\DataContext\Dialogs\MucInviteDialogContext.cs" />
     <Compile Include="Classes\DataContext\Dialogs\OmemoOwnFingerprintDialogContext.cs" />
     <Compile Include="Classes\DataContext\Dialogs\QrCodeScannerDialogContext.cs" />
+    <Compile Include="Classes\DataContext\Dialogs\ReportLastCrashDialogContext.cs" />
     <Compile Include="Classes\DataContext\Dialogs\ReportCrashDialogContext.cs" />
     <Compile Include="Classes\DataContext\Dialogs\ResetOmemoSessionsDialogContext.cs" />
     <Compile Include="Classes\DataContext\Dialogs\WhatsNewDialogContext.cs" />
@@ -295,6 +296,7 @@
     <Compile Include="Classes\DataTemplates\Dialogs\MucSuggestionsControlDataTemplate.cs" />
     <Compile Include="Classes\DataTemplates\Dialogs\OmemoOwnFingerprintDialogDataTemplate.cs" />
     <Compile Include="Classes\DataTemplates\Dialogs\QrCodeScannerDialogDataTemplate.cs" />
+    <Compile Include="Classes\DataTemplates\Dialogs\ReportLastCrashDialogDataTemplate.cs" />
     <Compile Include="Classes\DataTemplates\Dialogs\ReportCrashDialogDataTemplate.cs" />
     <Compile Include="Classes\DataTemplates\Dialogs\ResetOmemoSessionsDialogDataTemplate.cs" />
     <Compile Include="Classes\DataTemplates\Dialogs\WhatsNewDialogDataTemplate.cs" />
@@ -323,6 +325,7 @@
     <Compile Include="Classes\DataTemplates\Selectors\SpeechBubbleDataTemplateSelector.cs" />
     <Compile Include="Classes\DataTemplates\SettingsPageButtonDataTemplate.cs" />
     <Compile Include="Classes\DataTemplates\ClientDataTemplate.cs" />
+    <Compile Include="Classes\DummyAppCenterException.cs" />
     <Compile Include="Classes\Events\FieldValueChangedByUserEventArgs.cs" />
     <Compile Include="Classes\Events\FrameArrivedEventArgs.cs" />
     <Compile Include="Classes\Events\NavigatedToMucInfoPageEventArgs.cs" />

@@ -4,6 +4,7 @@ using Logging;
 using Manager.Classes;
 using Manager.Classes.Chat;
 using Manager.Classes.Toast;
+using Microsoft.AppCenter.Crashes;
 using Push.Classes;
 using Shared.Classes;
 using Storage.Classes;
@@ -151,6 +152,7 @@ namespace UWPX_UI.Pages
 
             // Setup App Center crashes, push:
             AppCenterHelper.SetupAppCenter();
+            await ShowReportCrashIfNeeded();
 
             // Perform app update tasks if necessary:
             await AppUpdateHelper.OnAppStartAsync();
@@ -270,6 +272,17 @@ namespace UWPX_UI.Pages
 
                 // If we're currently not on a page, navigate to the main page
                 ROOT_FRAME.Navigate(typeof(ChatPage));
+            }
+        }
+
+        private async Task ShowReportCrashIfNeeded()
+        {
+            if (await Crashes.IsEnabledAsync() && await Crashes.HasCrashedInLastSessionAsync())
+            {
+                ErrorReport crashReport = await Crashes.GetLastSessionCrashReportAsync();
+                Logger.Error("Detected a crash in the last session: " + crashReport.StackTrace);
+                ReportLastCrashDialog dialog = new ReportLastCrashDialog(AppCenterHelper.GenerateCrashReport(crashReport));
+                await UiUtils.ShowDialogAsync(dialog);
             }
         }
 
