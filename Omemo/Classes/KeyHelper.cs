@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
-using NSec.Cryptography;
 using Omemo.Classes.Keys;
+using Org.BouncyCastle.Math.EC.Rfc8032;
 using X25519;
 
 namespace Omemo.Classes
@@ -9,8 +9,8 @@ namespace Omemo.Classes
     {
         //--------------------------------------------------------Attributes:-----------------------------------------------------------------\\
         #region --Attributes--
-        public static int PUB_KEY_SIZE = SignatureAlgorithm.Ed25519.PublicKeySize;
-        public static int PRIV_KEY_SIZE = SignatureAlgorithm.Ed25519.PrivateKeySize;
+        public static int PUB_KEY_SIZE = Ed25519.PublicKeySize;
+        public static int PRIV_KEY_SIZE = Ed25519.SecretKeySize;
 
         #endregion
         //--------------------------------------------------------Constructor:----------------------------------------------------------------\\
@@ -95,8 +95,9 @@ namespace Omemo.Classes
         public static byte[] SignPreKey(PreKeyModel preKey, ECPrivKeyModel identiyKey)
         {
             byte[] pubKey = preKey.pubKey.ToByteArrayWithPrefix();
-            Key key = Key.Import(SignatureAlgorithm.Ed25519, identiyKey.key, KeyBlobFormat.RawPrivateKey);
-            return SignatureAlgorithm.Ed25519.Sign(key, pubKey);
+            byte[] signature = new byte[Ed25519.SignatureSize];
+            Ed25519.Sign(identiyKey.key, 0, pubKey, 0, pubKey.Length, signature, 0);
+            return signature;
         }
 
         /// <summary>
@@ -108,7 +109,7 @@ namespace Omemo.Classes
         /// <returns>True in case the signature is valid.</returns>
         public static bool VerifySignature(ECPubKeyModel identityKey, ECPubKeyModel preKey, byte[] signature)
         {
-            return SignatureAlgorithm.Ed25519.Verify(PublicKey.Import(SignatureAlgorithm.Ed25519, identityKey.key, KeyBlobFormat.RawPublicKey), preKey.ToByteArrayWithPrefix(), signature);
+            return Ed25519.Verify(signature, 0, identityKey.key, 0, preKey.key, 0, preKey.key.Length);
         }
 
         /// <summary>

@@ -2,9 +2,9 @@
 using System.Collections.Generic;
 using System.Text;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
-using NSec.Cryptography;
 using Omemo.Classes;
 using Omemo.Classes.Keys;
+using Org.BouncyCastle.Math.EC.Rfc8032;
 using Shared.Classes;
 
 namespace Component_Tests.Classes.Crypto.Omemo
@@ -56,7 +56,9 @@ namespace Component_Tests.Classes.Crypto.Omemo
             for (uint id = 1; id < 250; id++)
             {
                 byte[] data = Encoding.ASCII.GetBytes("Message for Ed25519 signing");
-                byte[] signature = SignatureAlgorithm.Ed25519.Sign(Key.Import(SignatureAlgorithm.Ed25519, identityKeyPair.privKey.key, KeyBlobFormat.RawPrivateKey), data);
+
+                byte[] signature = new byte[Ed25519.SignatureSize];
+                Ed25519.Sign(identityKeyPair.privKey.key, 0, data, 0, data.Length, signature, 0);
                 byte[] sigRef = SharedUtils.HexStringToByteArray("6dd355667fae4eb43c6e0ab92e870edb2de0a88cae12dbd8591507f584fe4912babff497f1b8edf9567d2483d54ddc6459bea7855281b7a246a609e3001a4e08");
                 string sigRefBase64 = Convert.ToBase64String(sigRef);
                 string sigBase64 = Convert.ToBase64String(signature);
