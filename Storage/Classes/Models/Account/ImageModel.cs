@@ -78,9 +78,19 @@ namespace Storage.Classes.Models.Account
         {
             if (img is null)
             {
-                img = await ImageUtils.ToBitmapImageAsync(data);
-                imgSrc = new SoftwareBitmapSource();
-                await imgSrc.SetBitmapAsync(img);
+                if (!(data is null) && data.Length > 0)
+                {
+                    img = await ImageUtils.ToBitmapImageAsync(data);
+                }
+                if (!(img is null))
+                {
+                    imgSrc = new SoftwareBitmapSource();
+                    await imgSrc.SetBitmapAsync(img);
+                }
+                else
+                {
+                    imgSrc = null;
+                }
             }
             return img;
         }
@@ -93,8 +103,15 @@ namespace Storage.Classes.Models.Account
                 {
                     _ = await GetSoftwareBitmapAsync();
                 }
-                imgSrc = new SoftwareBitmapSource();
-                await imgSrc.SetBitmapAsync(img);
+                if (!(img is null) && !(imgSrc is null))
+                {
+                    imgSrc = new SoftwareBitmapSource();
+                    await imgSrc.SetBitmapAsync(img);
+                }
+                else
+                {
+                    imgSrc = null;
+                }
             }
             return imgSrc;
         }
