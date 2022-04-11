@@ -36,8 +36,9 @@ Follow [@UWPX_APP](https://twitter.com/UWPX_APP) on ![Twitter](http://i.imgur.co
 | MUC | [XEP-0045](https://xmpp.org/extensions/xep-0045.html "XEP-0045") | 1.32.0 (2019-05-15) |
 | Bookmarks | [XEP-0048](https://xmpp.org/extensions/xep-0048.html "XEP-0048") | 1.32.0 (2019-05-15) |
 | Publish-Subscribe | [XEP-0060](https://xmpp.org/extensions/xep-0060.html "XEP-0060") | 1.18.0 (2020-02-27) |
+| User Avatar | [XEP-0084](https://xmpp.org/extensions/xep-0084.html "XEP-0084") | 1.1.4 (2019-09-20) |
 | Chat State | [XEP-0085](https://xmpp.org/extensions/xep-0085.html "XEP-0085") | 2.1 (2009-09-23) |
-| Personal Eventing Protocol | [XEP-0163](https://xmpp.org/extensions/xep-0163.html "XEP-0163") | 1.2.1 (2018-03-18) |
+| Personal Eventing Protocol | [XEP-0163](https://xmpp.org/extensions/xep-0163.html) | 1.2.1 (2018-03-18) |
 | Message Delivery Receipts | [XEP-0184](https://xmpp.org/extensions/xep-0184.html "XEP-0184") | 1.4.0 (2018-08-02) |
 | XMPP Ping | [XEP-0199](https://xmpp.org/extensions/xep-0199.html "XEP-0199") | 2.0.1 (2019-03-26) |
 | Direct MUC Invitations | [XEP-0249](https://xmpp.org/extensions/xep-0249.html "XEP-0249") | 1.2 (2011-09-22) |
@@ -58,9 +59,7 @@ Follow [@UWPX_APP](https://twitter.com/UWPX_APP) on ![Twitter](http://i.imgur.co
 | Name | XEPs | Version |
 | ------------- | ------------- | ------------- |
 | vcard-temp | [XEP-0054](https://xmpp.org/extensions/xep-0054.html "XEP-0054") | 1.2 (2008-07-16) |
-| User Avatar [#130](https://github.com/UWPX/UWPX-Client/issues/130) | [XEP-0084](https://xmpp.org/extensions/xep-0084.html "XEP-0084") | 1.1.4 (2019-09-20) |
 | Instant Messaging Intelligence Quotient (IM IQ) | [XEP-0148](https://xmpp.org/extensions/xep-0148.html "XEP-0148") | 1.0 (2005-04-01) |
-| Personal Eventing Protocol | [XEP-0163](https://xmpp.org/extensions/xep-0163.html) | 1.2.1 (2018-03-18) |
 | Jingle | [XEP-0166](https://xmpp.org/extensions/xep-0166.html "XEP-0166") | 1.1.2 (2018-09-19) |
 | Jingle Encrypted Transports | [XEP-0391](https://xmpp.org/extensions/xep-0391.html) | 0.1.2 (2018-07-31) |
 | Stream Management | [XEP-0198](https://xmpp.org/extensions/xep-0198.html "XEP-0198") | 1.6 (2018-07-25) |
