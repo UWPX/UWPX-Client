@@ -345,6 +345,7 @@
     <Compile Include="Classes\ValueConverter\Bandwidth\OutboundBitsPerSecondInstabilityValueConverter.cs" />
     <Compile Include="Classes\ValueConverter\Bandwidth\OutboundBitsPerSecondValueConverter.cs" />
     <Compile Include="Classes\ValueConverter\BoolInvertedVisibilityValueConverter.cs" />
+    <Compile Include="Classes\ValueConverter\MinizeSpeechBubbleMarginValueConverter.cs" />
     <Compile Include="Classes\ValueConverter\ChatTypeFontFamilyConverter.cs" />
     <Compile Include="Classes\ValueConverter\DoubleGridLengthValueConverter.cs" />
     <Compile Include="Classes\ValueConverter\MessageStateStringValueConverter.cs" />

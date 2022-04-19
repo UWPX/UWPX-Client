@@ -191,6 +191,48 @@ namespace Manager.Classes.Chat
             IsLoading = false;
         }
 
+        public override void Insert(int index, ChatMessageDataTemplate item)
+        {
+            base.Insert(index, item);
+
+            // Update minimize message:
+            if (index > 0)
+            {
+                this[index - 1].SetMinimizeAndSameAuthor(item);
+            }
+            if (index < Count - 1)
+            {
+                item.SetMinimizeAndSameAuthor(this[index + 1]);
+            }
+            else
+            {
+                item.SetMinimizeAndSameAuthor(null);
+            }
+        }
+
+        public override void Add(ChatMessageDataTemplate item)
+        {
+            base.Add(item);
+
+            // Update minimize message:
+            if (Count > 1)
+            {
+                this[Count - 2].SetMinimizeAndSameAuthor(item);
+            }
+            item.SetMinimizeAndSameAuthor(null);
+        }
+
+        public override void RemoveAt(int index)
+        {
+            base.RemoveAt(index);
+
+            // Update minimize message:
+            if (Count >= 1)
+            {
+                this[Count - 2].SetMinimizeAndSameAuthor(null);
+            }
+        }
+
         private async Task<List<ChatMessageDataTemplate>> LoadMoreMessagesInTaskAsync()
         {
             List<ChatMessageDataTemplate> tmpMsgs;

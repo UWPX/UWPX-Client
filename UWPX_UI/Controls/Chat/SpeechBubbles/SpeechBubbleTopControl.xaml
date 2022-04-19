@@ -26,23 +26,21 @@
                                                           ImageTemplate="{StaticResource SpeechBubbleImageContentControlTemplate}"
                                                           TextTemplate="{StaticResource SpeechBubbleTextContentControlTemplate}"/>
         <converter:MessageStateUnreadVisibilityValueConverter x:Key="MessageStateUnreadVisibilityValueConverter"/>
+        <converter:MinizeSpeechBubbleMarginValueConverter x:Key="MinizeSpeechBubbleMarginValueConverter"
+                                                          DefaultMargin="0,0,40,0"
+                                                          MinimizeMargin="0,0,40,-3"/>
     </UserControl.Resources>
 
-    <Grid Margin="0,0,40,0">
-        <Grid.RowDefinitions>
-            <RowDefinition Height="Auto"/>
-        </Grid.RowDefinitions>
-
-        <Border Grid.Row="0"
-                MinWidth="100"
-                MinHeight="40"
-                Background="{ThemeResource SpeechBubbleBackgroundLightBrush}"
-                CornerRadius="{ThemeResource ControlCornerRadius}">
-            <ContentControl x:Name="content_cp"
-                            Margin="5"
-                            HorizontalContentAlignment="Stretch"
-                            VerticalContentAlignment="Stretch"
-                            ContentTemplateSelector="{StaticResource SpeechBubbleConentDataTemplateSelector}"/>
-        </Border>
-    </Grid>
+    <Border Grid.Row="0"
+            MinWidth="100"
+            MinHeight="20"
+            Margin="{x:Bind ChatMessage.SameAuthor, Mode=OneWay, Converter={StaticResource MinizeSpeechBubbleMarginValueConverter}}"
+            Background="{ThemeResource SpeechBubbleBackgroundLightBrush}"
+            CornerRadius="{ThemeResource ControlCornerRadius}">
+        <ContentControl x:Name="content_cp"
+                        Margin="5"
+                        HorizontalContentAlignment="Stretch"
+                        VerticalContentAlignment="Stretch"
+                        ContentTemplateSelector="{StaticResource SpeechBubbleConentDataTemplateSelector}"/>
+    </Border>
 </UserControl>

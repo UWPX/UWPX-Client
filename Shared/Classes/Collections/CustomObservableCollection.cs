@@ -117,7 +117,7 @@ namespace Shared.Classes.Collections
             OnCollectionChanged(new NotifyCollectionChangedEventArgs(NotifyCollectionChangedAction.Reset)); // Workaround
         }
 
-        public void Insert(int index, T item)
+        public virtual void Insert(int index, T item)
         {
             if (item is INotifyPropertyChanged i)
             {
@@ -127,7 +127,7 @@ namespace Shared.Classes.Collections
             OnCollectionChanged(new NotifyCollectionChangedEventArgs(NotifyCollectionChangedAction.Add, item, index));
         }
 
-        public void RemoveAt(int index)
+        public virtual void RemoveAt(int index)
         {
             if (this[index] is INotifyPropertyChanged i)
             {
@@ -138,7 +138,7 @@ namespace Shared.Classes.Collections
             OnCollectionChanged(new NotifyCollectionChangedEventArgs(NotifyCollectionChangedAction.Remove, oldItem, index));
         }
 
-        public void Add(T item)
+        public virtual void Add(T item)
         {
             if (item is INotifyPropertyChanged i)
             {

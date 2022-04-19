@@ -26,11 +26,14 @@
                                                           ImageTemplate="{StaticResource SpeechBubbleImageContentControlTemplate}"
                                                           TextTemplate="{StaticResource SpeechBubbleTextContentControlTemplate}"/>
         <converter:MessageStateUnreadVisibilityValueConverter x:Key="MessageStateUnreadVisibilityValueConverter"/>
+        <converter:MinizeSpeechBubbleMarginValueConverter x:Key="MinizeSpeechBubbleMarginValueConverter"
+                                                          DefaultMargin="40,0,0,0"
+                                                          MinimizeMargin="40,0,0,-3"/>
     </UserControl.Resources>
 
     <Border MinWidth="100"
-            MinHeight="40"
-            Margin="50,0,0,0"
+            MinHeight="20"
+            Margin="{x:Bind ChatMessage.SameAuthor, Mode=OneWay, Converter={StaticResource MinizeSpeechBubbleMarginValueConverter}}"
             Background="{ThemeResource SpeechBubbleBackgroundDarkBrush}"
             CornerRadius="{ThemeResource ControlCornerRadius}">
         <ContentControl x:Name="content_cp"
