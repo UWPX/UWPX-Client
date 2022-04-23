@@ -1,4 +1,5 @@
-﻿using System.Threading.Tasks;
+﻿using System.Linq;
+using System.Threading.Tasks;
 using Manager.Classes;
 using UWPX_UI_Context.Classes.DataTemplates.Controls;
 using XMPP_API.Classes.Network.XML.Messages.XEP_0384;
@@ -52,7 +53,7 @@ namespace UWPX_UI_Context.Classes.DataContext.Controls
             MODEL.DEVICES.Clear();
             if (client is not null)
             {
-                MODEL.DEVICES.AddRange(client.dbAccount.omemoInfo.devices);
+                MODEL.DEVICES.AddRange(client.dbAccount.omemoInfo.devices.Where(d => d.deviceId != client.dbAccount.omemoInfo.deviceId));
             }
         }
 
