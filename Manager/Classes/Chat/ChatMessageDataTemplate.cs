@@ -26,11 +26,11 @@ namespace Manager.Classes.Chat
             get => _Minimize;
             private set => SetProperty(ref _Minimize, value);
         }
-        private bool _SameAuthor;
-        public bool SameAuthor
+        private bool _HideAuthor;
+        public bool HideAuthor
         {
-            get => _SameAuthor;
-            private set => SetProperty(ref _SameAuthor, value);
+            get => _HideAuthor;
+            private set => SetProperty(ref _HideAuthor, value);
         }
 
         #endregion
@@ -41,7 +41,7 @@ namespace Manager.Classes.Chat
             _Message = message;
             _Chat = chat;
             _Minimize = false;
-            _SameAuthor = false;
+            _HideAuthor = false;
         }
 
         public int CompareTo(object obj)
@@ -52,16 +52,17 @@ namespace Manager.Classes.Chat
         #endregion
         //--------------------------------------------------------Set-, Get- Methods:---------------------------------------------------------\\
         #region --Set-, Get- Methods--
-        public void SetMinimizeAndSameAuthor(ChatMessageDataTemplate other)
+        public void SetMinimizeAndHideAuthor(ChatMessageDataTemplate other)
         {
             if (other is null)
             {
-                SameAuthor = string.IsNullOrEmpty(Message.fromNickname);
+                HideAuthor = string.IsNullOrEmpty(Message.fromNickname);
                 Minimize = false;
                 return;
             }
-            SameAuthor = string.IsNullOrEmpty(Message.fromNickname) || string.Equals(Message.fromNickname, other.Message.fromNickname);
-            Minimize = SameAuthor && (other.Message.date - Message.date).TotalMinutes <= 1;
+            bool sameAuthor = Chat.chatType == other.Chat.chatType && string.Equals(Message.fromNickname, other.Message.fromNickname) && string.Equals(Message.fromBareJid, other.Message.fromBareJid);
+            HideAuthor = string.IsNullOrEmpty(Message.fromNickname) || sameAuthor;
+            Minimize = sameAuthor && HideAuthor && (other.Message.date - Message.date).TotalMinutes <= 1;
         }
 
         #endregion

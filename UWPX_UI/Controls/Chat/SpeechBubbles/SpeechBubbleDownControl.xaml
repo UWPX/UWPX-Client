@@ -33,7 +33,7 @@
 
     <Border MinWidth="100"
             MinHeight="20"
-            Margin="{x:Bind ChatMessage.SameAuthor, Mode=OneWay, Converter={StaticResource MinizeSpeechBubbleMarginValueConverter}}"
+            Margin="{x:Bind ChatMessage.HideAuthor, Mode=OneWay, Converter={StaticResource MinizeSpeechBubbleMarginValueConverter}}"
             Background="{ThemeResource SpeechBubbleBackgroundDarkBrush}"
             CornerRadius="{ThemeResource ControlCornerRadius}">
         <ContentControl x:Name="content_cp"

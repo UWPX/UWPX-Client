@@ -214,15 +214,15 @@ namespace Manager.Classes.Chat
             // Update minimize message:
             if (index > 0)
             {
-                this[index - 1].SetMinimizeAndSameAuthor(item);
+                this[index - 1].SetMinimizeAndHideAuthor(item);
             }
             if (index < Count - 1)
             {
-                item.SetMinimizeAndSameAuthor(this[index + 1]);
+                item.SetMinimizeAndHideAuthor(this[index + 1]);
             }
             else
             {
-                item.SetMinimizeAndSameAuthor(null);
+                item.SetMinimizeAndHideAuthor(null);
             }
             MESSAGES_MUTEX.ReleaseMutex();
         }
@@ -235,9 +235,9 @@ namespace Manager.Classes.Chat
             // Update minimize message:
             if (Count > 1)
             {
-                this[Count - 2].SetMinimizeAndSameAuthor(item);
+                this[Count - 2].SetMinimizeAndHideAuthor(item);
             }
-            item.SetMinimizeAndSameAuthor(null);
+            item.SetMinimizeAndHideAuthor(null);
             MESSAGES_MUTEX.ReleaseMutex();
         }
 
@@ -249,7 +249,7 @@ namespace Manager.Classes.Chat
             // Update minimize message:
             if (Count >= 1)
             {
-                this[Count - 2].SetMinimizeAndSameAuthor(null);
+                this[Count - 2].SetMinimizeAndHideAuthor(null);
             }
             MESSAGES_MUTEX.ReleaseMutex();
         }
