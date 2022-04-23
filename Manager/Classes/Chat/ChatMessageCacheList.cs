@@ -1,14 +1,17 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 using Logging;
 using Manager.Classes.Toast;
+using Shared.Classes;
 using Shared.Classes.Collections;
 using Shared.Classes.Network;
 using Storage.Classes;
 using Storage.Classes.Contexts;
 using Storage.Classes.Models.Chat;
+using Windows.System.Threading;
 using XMPP_API.Classes;
 using XMPP_API.Classes.Network.XML.Messages;
 using XMPP_API.Classes.Network.XML.Messages.Helper;
@@ -17,7 +20,7 @@ using XMPP_API.Classes.Network.XML.Messages.XEP_0313;
 
 namespace Manager.Classes.Chat
 {
-    public class ChatMessageCacheList: CustomObservableCollection<ChatMessageDataTemplate>
+    public class ChatMessageCacheList: CustomObservableCollection<ChatMessageDataTemplate>, IDisposable
     {
         //--------------------------------------------------------Attributes:-----------------------------------------------------------------\\
         #region --Attributes--
@@ -44,12 +47,24 @@ namespace Manager.Classes.Chat
         private bool mamRequested = false;
         private bool loadedAllLocalMessages = false;
         private const int MAX_MESSAGES_PER_REQUEST = 15;
+
+        private ThreadPoolTimer messageDateUpdateTimer;
+        private readonly TimeSpan MESSAGE_DATE_UPDATE_TIMEOUT = TimeSpan.FromMinutes(1);
+
+        private readonly Mutex MESSAGES_MUTEX = new Mutex();
+
         #endregion
         //--------------------------------------------------------Constructor:----------------------------------------------------------------\\
         #region --Constructors--
         public ChatMessageCacheList() : base(false)
         {
             invokeInUiThread = true;
+            StartTimer();
+        }
+
+        public void Dispose()
+        {
+            CancelTimer();
         }
 
         #endregion
@@ -193,6 +208,7 @@ namespace Manager.Classes.Chat
 
         public override void Insert(int index, ChatMessageDataTemplate item)
         {
+            MESSAGES_MUTEX.WaitOne();
             base.Insert(index, item);
 
             // Update minimize message:
@@ -208,10 +224,12 @@ namespace Manager.Classes.Chat
             {
                 item.SetMinimizeAndSameAuthor(null);
             }
+            MESSAGES_MUTEX.ReleaseMutex();
         }
 
         public override void Add(ChatMessageDataTemplate item)
         {
+            MESSAGES_MUTEX.WaitOne();
             base.Add(item);
 
             // Update minimize message:
@@ -220,10 +238,12 @@ namespace Manager.Classes.Chat
                 this[Count - 2].SetMinimizeAndSameAuthor(item);
             }
             item.SetMinimizeAndSameAuthor(null);
+            MESSAGES_MUTEX.ReleaseMutex();
         }
 
         public override void RemoveAt(int index)
         {
+            MESSAGES_MUTEX.WaitOne();
             base.RemoveAt(index);
 
             // Update minimize message:
@@ -231,6 +251,7 @@ namespace Manager.Classes.Chat
             {
                 this[Count - 2].SetMinimizeAndSameAuthor(null);
             }
+            MESSAGES_MUTEX.ReleaseMutex();
         }
 
         private async Task<List<ChatMessageDataTemplate>> LoadMoreMessagesInTaskAsync()
@@ -344,6 +365,24 @@ namespace Manager.Classes.Chat
             return filter;
         }
 
+        private void CancelTimer()
+        {
+            if (!(messageDateUpdateTimer is null))
+            {
+                messageDateUpdateTimer.Cancel();
+                messageDateUpdateTimer = null;
+            }
+        }
+
+        private void StartTimer()
+        {
+            if (!(messageDateUpdateTimer is null))
+            {
+                CancelTimer();
+            }
+            messageDateUpdateTimer = ThreadPoolTimer.CreatePeriodicTimer(OnDateTimerTimeout, MESSAGE_DATE_UPDATE_TIMEOUT);
+        }
+
         #endregion
 
         #region --Misc Methods (Protected)--
@@ -352,7 +391,19 @@ namespace Manager.Classes.Chat
         #endregion
         //--------------------------------------------------------Events:---------------------------------------------------------------------\\
         #region --Events--
-
+        private async void OnDateTimerTimeout(ThreadPoolTimer timer)
+        {
+            // Ensure we call this in the UI thread to ensure not every message it self calls it:
+            await SharedUtils.CallDispatcherAsync(() =>
+            {
+                MESSAGES_MUTEX.WaitOne();
+                foreach (ChatMessageDataTemplate msg in this)
+                {
+                    msg.Message.TriggerDateChanged();
+                }
+                MESSAGES_MUTEX.ReleaseMutex();
+            });
+        }
 
         #endregion
     }

@@ -307,6 +307,11 @@ namespace Storage.Classes.Models.Chat
             ctx.Remove(this);
         }
 
+        public void TriggerDateChanged()
+        {
+            base.OnPropertyChanged(nameof(date));
+        }
+
         #endregion
 
         #region --Misc Methods (Private)--
