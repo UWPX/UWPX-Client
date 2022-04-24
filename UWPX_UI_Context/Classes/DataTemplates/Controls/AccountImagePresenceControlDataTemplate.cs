@@ -22,8 +22,8 @@ namespace UWPX_UI_Context.Classes.DataTemplates.Controls
             set => SetProperty(ref _Image, value);
         }
 
-        private SolidColorBrush _Background;
-        public SolidColorBrush Background
+        private LinearGradientBrush _Background;
+        public LinearGradientBrush Background
         {
             get => _Background;
             set => SetProperty(ref _Background, value);

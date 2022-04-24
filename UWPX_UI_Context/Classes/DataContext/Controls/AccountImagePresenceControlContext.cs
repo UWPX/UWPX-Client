@@ -35,7 +35,7 @@ namespace UWPX_UI_Context.Classes.DataContext.Controls
         public void UpdateBareJid(string bareJid)
         {
             Color color = MODEL.Image is null ? ConsistentColorGenerator.GenForegroundColor(bareJid ?? "", false, false) : Colors.Transparent;
-            MODEL.Background = new SolidColorBrush(color);
+            MODEL.Background = GenerateLinearGradientBrush(color);
         }
 
         public void UpdateChatType(ChatType chatType, string bareJid)
@@ -65,7 +65,56 @@ namespace UWPX_UI_Context.Classes.DataContext.Controls
         #endregion
 
         #region --Misc Methods (Private)--
+        private LinearGradientBrush GenerateLinearGradientBrush(Color color)
+        {
+            LinearGradientBrush brush = new LinearGradientBrush(new GradientStopCollection(), 90);
 
+            brush.GradientStops.Add(new GradientStop
+            {
+                Color = ChangeColorBrightness(color, 0.5),
+                Offset = 0
+            });
+
+            brush.GradientStops.Add(new GradientStop
+            {
+                Color = color,
+                Offset = 1
+            });
+            return brush;
+        }
+
+        /// <summary>
+        /// Creates color with corrected brightness.
+        /// Source: https://gist.github.com/zihotki/09fc41d52981fb6f93a81ebf20b35cd5
+        /// </summary>
+        /// <param name="color">Color to correct.</param>
+        /// <param name="correctionFactor">The brightness correction factor. Must be between -1 and 1. 
+        /// Negative values produce darker colors.</param>
+        /// <returns>
+        /// Corrected <see cref="Color"/> structure.
+        /// </returns>
+        public static Color ChangeColorBrightness(Color color, double correctionFactor)
+        {
+            double red = color.R;
+            double green = color.G;
+            double blue = color.B;
+
+            if (correctionFactor < 0)
+            {
+                correctionFactor = 1 + correctionFactor;
+                red *= correctionFactor;
+                green *= correctionFactor;
+                blue *= correctionFactor;
+            }
+            else
+            {
+                red = ((255 - red) * correctionFactor) + red;
+                green = ((255 - green) * correctionFactor) + green;
+                blue = ((255 - blue) * correctionFactor) + blue;
+            }
+
+            return Color.FromArgb(color.A, (byte)red, (byte)green, (byte)blue);
+        }
 
         #endregion
 
