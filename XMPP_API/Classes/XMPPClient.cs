@@ -207,11 +207,6 @@ namespace XMPP_API.Classes
             return connection.EnableOmemo(omemoStore);
         }
 
-        /*public async Task<string> uploadImageAsync()
-        {
-
-        }*/
-
         #endregion
 
         #region --Misc Methods (Private)--
