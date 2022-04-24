@@ -54,7 +54,7 @@ namespace XMPP_API.Classes.Network.XML.Messages.XEP_0392
             SHA1 sha1 = SHA1.Create();
             byte[] hash = sha1.ComputeHash(data);
 
-            return ((hash[0] | hash[1] << 8) / 65536.0) * 360.0;
+            return (hash[0] | (hash[1] << 8)) / 65536.0 * 360.0;
         }
 
         /// <summary>
@@ -70,7 +70,7 @@ namespace XMPP_API.Classes.Network.XML.Messages.XEP_0392
             // Correct Red/Green-blindness:
             if (redGreenCorrection)
             {
-                angle = (angle + 90) % 180 - 90;
+                angle = ((angle + 90) % 180) - 90;
                 angle %= 360;
             }
 
