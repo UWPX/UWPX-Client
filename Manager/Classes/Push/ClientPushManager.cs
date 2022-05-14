@@ -138,6 +138,12 @@ namespace Manager.Classes.Push
         {
             PushAccountModel push = CLIENT.dbAccount.push;
 
+            if (string.IsNullOrEmpty(push.bareJid) || string.IsNullOrEmpty(push.node))
+            {
+                Logger.Info($"Skipping push initialization for '{CLIENT.dbAccount.bareJid}' - server JID or node is empty.");
+                return;
+            }
+
             MessageResponseHelperResult<IQMessage> result = await CLIENT.xmppClient.GENERAL_COMMAND_HELPER.enablePushNotificationsAsync(push.bareJid, push.node, push.secret);
             if (result.STATE == MessageResponseHelperResultState.SUCCESS)
             {
