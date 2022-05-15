@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <?xml-stylesheet href="https://uwpx.org/files/doap-style.xsl" type="text/xsl"?>
-<rdf:RDF xmlns:rdf='http://www.w3.org/1999/02/22-rdf-syntax-ns#' xmlns='http://usefulinc.com/ns/doap#' xmlns:xmpp='https://linkmauve.fr/ns/xmpp-doap#' xmlns:schema='https://schema.org' xmlns:foaf="http://xmlns.com/foaf/0.1/">
+<rdf:RDF xmlns:rdf='http://www.w3.org/1999/02/22-rdf-syntax-ns#' xmlns='http://usefulinc.com/ns/doap#' xmlns:xmpp='https://linkmauve.fr/ns/xmpp-doap#' xmlns:schema='https://schema.org/' xmlns:foaf="http://xmlns.com/foaf/0.1/">
   <Project>
 
     <name>UWPX</name>
