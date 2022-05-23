@@ -3,217 +3,217 @@
 <rdf:RDF xmlns:rdf='http://www.w3.org/1999/02/22-rdf-syntax-ns#' xmlns='http://usefulinc.com/ns/doap#' xmlns:xmpp='https://linkmauve.fr/ns/xmpp-doap#' xmlns:schema='https://schema.org/' xmlns:foaf="http://xmlns.com/foaf/0.1/">
   <Project>
 
-    <name>UWPX</name>
-    <short-name>UWPX</short-name>
+		<name>UWPX</name>
+		<short-name>UWPX</short-name>
 
-    <created>2018-01-01</created>
+		<created>2018-01-01</created>
 
-    <shortdesc xml:lang="en">UWPX is a secure and open-source XMPP app for all your UWP (Windows 10 and 11) devices.</shortdesc>
-    <description xml:lang="en">
-      UWPX is an app for your UWP (Windows 10 and 11) devices. It implements the Extensible Messaging and Presence Protocol (XMPP). UWPX is a app for your UWP (Windows 10 and Windows 11) devices. It implements the Extensible Messaging and Presence Protocol (XMPP). At the moment UWPX is in BETA stage so expect unexpected behavior sometimes. If you encounter bugs or even crashes and somehow can reproduce them please report them over at GitHub. UWPX is completely Open Source. It's licensed under Mozilla Public License 2.0. Feel free to clone, change and submit features and bug fixes - there are always bugs waiting to be fixed. You are not limited to normal chats with only one recipient. UWPX supports XEP-0045: Multi-User Chat (MUC). Just click "Add Group Chat (MUC)", enter the room name and voila you created a new or joind an existing MUC.
-    </description>
+		<shortdesc xml:lang="en">UWPX is a secure and open-source XMPP app for all your UWP (Windows 10 and 11) devices.</shortdesc>
+		<description xml:lang="en">
+			UWPX is an app for your UWP (Windows 10 and 11) devices. It implements the Extensible Messaging and Presence Protocol (XMPP). UWPX is a app for your UWP (Windows 10 and Windows 11) devices. It implements the Extensible Messaging and Presence Protocol (XMPP). At the moment UWPX is in BETA stage so expect unexpected behavior sometimes. If you encounter bugs or even crashes and somehow can reproduce them please report them over at GitHub. UWPX is completely Open Source. It's licensed under Mozilla Public License 2.0. Feel free to clone, change and submit features and bug fixes - there are always bugs waiting to be fixed. You are not limited to normal chats with only one recipient. UWPX supports XEP-0045: Multi-User Chat (MUC). Just click "Add Group Chat (MUC)", enter the room name and voila you created a new or joind an existing MUC.
+		</description>
 
-    <homepage rdf:resource="https://uwpx.org/" />
-    <bug-database rdf:resource="https://github.com/UWPX/UWPX-Client/issues" />
-    <license rdf:resource="https://github.com/UWPX/UWPX-Client/blob/master/LICENSE" />
-    <schema:documentation rdf:resource="https://github.com/UWPX/UWPX-Client" />
+		<homepage rdf:resource="https://uwpx.org/" />
+		<bug-database rdf:resource="https://github.com/UWPX/UWPX-Client/issues" />
+		<license rdf:resource="https://github.com/UWPX/UWPX-Client/blob/master/LICENSE" />
+		<schema:documentation rdf:resource="https://github.com/UWPX/UWPX-Client" />
 
-    <!-- See https://github.com/ewilderj/doap/issues/49 -->
-    <language>en</language>
+		<!-- See https://github.com/ewilderj/doap/issues/49 -->
+		<language>en</language>
 
-    <programming-language>C#</programming-language>
-    <os>Windows</os>
-    <os>UWP</os>
+		<programming-language>C#</programming-language>
+		<os>Windows</os>
+		<os>UWP</os>
 
-    <schema:logo rdf:resource="https://raw.githubusercontent.com/UWPX/UWPX-Logos/master/Logo/v3/uwpx_logo.svg" />
-    <schema:screenshot rdf:resource='https://user-images.githubusercontent.com/11741404/132220103-2b4767e4-edff-418e-b97e-5b53b2e1ad11.png' />
-    <schema:screenshot rdf:resource='https://user-images.githubusercontent.com/11741404/132220142-ec03de28-089a-4fc8-b9a9-33ea6aca7421.png' />
-    <schema:screenshot rdf:resource='https://user-images.githubusercontent.com/11741404/132220121-c1c54f2c-a712-4089-889b-5968ea505c48.png' />
-    <schema:screenshot rdf:resource='https://user-images.githubusercontent.com/11741404/132220150-ff1c50cf-65e0-4311-837a-5c8c978dc43d.png' />
-    <schema:screenshot rdf:resource='https://user-images.githubusercontent.com/11741404/132220115-ea13e993-8da5-4708-8f32-5e558b9a7bb1.png' />
-    <schema:screenshot rdf:resource='https://user-images.githubusercontent.com/11741404/132220145-55ae61e1-ea47-4351-be78-bac41481347d.png' />
-    <schema:screenshot rdf:resource='https://user-images.githubusercontent.com/11741404/132220129-8e32c7f8-7d88-4a19-b89e-4cf6e2696875.png' />
-    <schema:screenshot rdf:resource='https://user-images.githubusercontent.com/11741404/132220166-325b0991-3c93-4020-ad3a-a4f906ba0f47.png' />
+		<schema:logo rdf:resource="https://raw.githubusercontent.com/UWPX/UWPX-Logos/master/Logo/v3/uwpx_logo.svg" />
+		<schema:screenshot rdf:resource='https://user-images.githubusercontent.com/11741404/132220103-2b4767e4-edff-418e-b97e-5b53b2e1ad11.png' />
+		<schema:screenshot rdf:resource='https://user-images.githubusercontent.com/11741404/132220142-ec03de28-089a-4fc8-b9a9-33ea6aca7421.png' />
+		<schema:screenshot rdf:resource='https://user-images.githubusercontent.com/11741404/132220121-c1c54f2c-a712-4089-889b-5968ea505c48.png' />
+		<schema:screenshot rdf:resource='https://user-images.githubusercontent.com/11741404/132220150-ff1c50cf-65e0-4311-837a-5c8c978dc43d.png' />
+		<schema:screenshot rdf:resource='https://user-images.githubusercontent.com/11741404/132220115-ea13e993-8da5-4708-8f32-5e558b9a7bb1.png' />
+		<schema:screenshot rdf:resource='https://user-images.githubusercontent.com/11741404/132220145-55ae61e1-ea47-4351-be78-bac41481347d.png' />
+		<schema:screenshot rdf:resource='https://user-images.githubusercontent.com/11741404/132220129-8e32c7f8-7d88-4a19-b89e-4cf6e2696875.png' />
+		<schema:screenshot rdf:resource='https://user-images.githubusercontent.com/11741404/132220166-325b0991-3c93-4020-ad3a-a4f906ba0f47.png' />
 
-    <category rdf:resource="https://linkmauve.fr/ns/xmpp-doap#category-xmpp" />
-    <category rdf:resource="https://linkmauve.fr/ns/xmpp-doap#category-jabber" />
-    <category rdf:resource="https://linkmauve.fr/ns/xmpp-doap#category-client" />
+		<category rdf:resource="https://linkmauve.fr/ns/xmpp-doap#category-xmpp" />
+		<category rdf:resource="https://linkmauve.fr/ns/xmpp-doap#category-jabber" />
+		<category rdf:resource="https://linkmauve.fr/ns/xmpp-doap#category-client" />
 
-    <repository>
-      <GitRepository>
-        <browse rdf:resource="https://github.com/UWPX/UWPX-Client" />
-        <location rdf:resource="https://github.com/UWPX/UWPX-Client.git" />
-      </GitRepository>
-    </repository>
+		<repository>
+			<GitRepository>
+				<browse rdf:resource="https://github.com/UWPX/UWPX-Client" />
+				<location rdf:resource="https://github.com/UWPX/UWPX-Client.git" />
+			</GitRepository>
+		</repository>
 
-    <implements rdf:resource="https://xmpp.org/rfcs/rfc6120.html" />
-    <implements rdf:resource="https://xmpp.org/rfcs/rfc6121.html" />
-    <implements rdf:resource="https://xmpp.org/rfcs/rfc6122.html" />
-    <implements rdf:resource="https://tools.ietf.org/html/rfc7395" />
-    <implements rdf:resource="https://tools.ietf.org/html/rfc7590" />
+		<implements rdf:resource="https://xmpp.org/rfcs/rfc6120.html" />
+		<implements rdf:resource="https://xmpp.org/rfcs/rfc6121.html" />
+		<implements rdf:resource="https://xmpp.org/rfcs/rfc6122.html" />
+		<implements rdf:resource="https://tools.ietf.org/html/rfc7395" />
+		<implements rdf:resource="https://tools.ietf.org/html/rfc7590" />
 
-    <implements>
-      <xmpp:SupportedXep>
-        <xmpp:xep rdf:resource="https://xmpp.org/extensions/xep-0004.html" />
-        <xmpp:status>complete</xmpp:status>
-        <xmpp:version>2.10.0</xmpp:version>
-      </xmpp:SupportedXep>
-    </implements>
-    <implements>
-      <xmpp:SupportedXep>
-        <xmpp:xep rdf:resource="https://xmpp.org/extensions/xep-0030.html" />
-        <xmpp:status>complete</xmpp:status>
-        <xmpp:version>2.5rc3</xmpp:version>
-      </xmpp:SupportedXep>
-    </implements>
-    <implements>
-      <xmpp:SupportedXep>
-        <xmpp:xep rdf:resource="https://xmpp.org/extensions/xep-0045.html" />
-        <xmpp:status>complete</xmpp:status>
-        <xmpp:version>1.32.0</xmpp:version>
-      </xmpp:SupportedXep>
-    </implements>
-    <implements>
-      <xmpp:SupportedXep>
-        <xmpp:xep rdf:resource="https://xmpp.org/extensions/xep-0048.html" />
-        <xmpp:status>complete</xmpp:status>
-        <xmpp:version>1.32.0</xmpp:version>
-      </xmpp:SupportedXep>
-    </implements>
-    <implements>
-      <xmpp:SupportedXep>
-        <xmpp:xep rdf:resource="https://xmpp.org/extensions/xep-0060.html" />
-        <xmpp:status>complete</xmpp:status>
-        <xmpp:version>1.18.0</xmpp:version>
-      </xmpp:SupportedXep>
-    </implements>
-    <implements>
-      <xmpp:SupportedXep>
-        <xmpp:xep rdf:resource="https://xmpp.org/extensions/xep-0085.html" />
-        <xmpp:status>complete</xmpp:status>
-        <xmpp:version>2.1</xmpp:version>
-      </xmpp:SupportedXep>
-    </implements>
-    <implements>
-      <xmpp:SupportedXep>
-        <xmpp:xep rdf:resource="https://xmpp.org/extensions/xep-0163.html" />
-        <xmpp:status>complete</xmpp:status>
-        <xmpp:version>1.2.1</xmpp:version>
-      </xmpp:SupportedXep>
-    </implements>
-    <implements>
-      <xmpp:SupportedXep>
-        <xmpp:xep rdf:resource="https://xmpp.org/extensions/xep-0184.html" />
-        <xmpp:status>complete</xmpp:status>
-        <xmpp:version>1.4.0</xmpp:version>
-      </xmpp:SupportedXep>
-    </implements>
-    <implements>
-      <xmpp:SupportedXep>
-        <xmpp:xep rdf:resource="https://xmpp.org/extensions/xep-0199.html" />
-        <xmpp:status>complete</xmpp:status>
-        <xmpp:version>2.0.1</xmpp:version>
-      </xmpp:SupportedXep>
-    </implements>
-    <implements>
-      <xmpp:SupportedXep>
-        <xmpp:xep rdf:resource="https://xmpp.org/extensions/xep-0249.html" />
-        <xmpp:status>complete</xmpp:status>
-        <xmpp:version>1.2</xmpp:version>
-      </xmpp:SupportedXep>
-    </implements>
-    <implements>
-      <xmpp:SupportedXep>
-        <xmpp:xep rdf:resource="https://xmpp.org/extensions/xep-0280.html" />
-        <xmpp:status>complete</xmpp:status>
-        <xmpp:version>0.13.2</xmpp:version>
-      </xmpp:SupportedXep>
-    </implements>
-    <implements>
-      <xmpp:SupportedXep>
-        <xmpp:xep rdf:resource="https://xmpp.org/extensions/xep-0313.html" />
-        <xmpp:status>experimental</xmpp:status>
-        <xmpp:version>0.7.2</xmpp:version>
-      </xmpp:SupportedXep>
-    </implements>
-    <implements>
-      <xmpp:SupportedXep>
-        <xmpp:xep rdf:resource="https://xmpp.org/extensions/xep-0333.html" />
-        <xmpp:status>complete</xmpp:status>
-        <xmpp:version>0.4</xmpp:version>
-      </xmpp:SupportedXep>
-    </implements>
-    <implements>
-      <xmpp:SupportedXep>
-        <xmpp:xep rdf:resource="https://xmpp.org/extensions/xep-0334.html" />
-        <xmpp:status>complete</xmpp:status>
-        <xmpp:version>0.3.0</xmpp:version>
-      </xmpp:SupportedXep>
-    </implements>
-    <implements>
-      <xmpp:SupportedXep>
-        <xmpp:xep rdf:resource="https://xmpp.org/extensions/xep-0336.html" />
-        <xmpp:status>complete</xmpp:status>
-        <xmpp:version>0.2</xmpp:version>
-      </xmpp:SupportedXep>
-    </implements>
-    <implements>
-      <xmpp:SupportedXep>
-        <xmpp:xep rdf:resource="https://xmpp.org/extensions/xep-0357.html" />
-        <xmpp:status>complete</xmpp:status>
-        <xmpp:version>0.4.1</xmpp:version>
-      </xmpp:SupportedXep>
-    </implements>
-    <implements>
-      <xmpp:SupportedXep>
-        <xmpp:xep rdf:resource="https://xmpp.org/extensions/xep-0359.html" />
-        <xmpp:status>complete</xmpp:status>
-        <xmpp:version>0.6.0</xmpp:version>
-      </xmpp:SupportedXep>
-    </implements>
-    <implements>
-      <xmpp:SupportedXep>
-        <xmpp:xep rdf:resource="https://xmpp.org/extensions/xep-0363.html" />
-        <xmpp:status>partial</xmpp:status>
-        <xmpp:version>1.0.0</xmpp:version>
-        <xmpp:note>Only the upload portion right now.</xmpp:note>
-      </xmpp:SupportedXep>
-    </implements>
-    <implements>
-      <xmpp:SupportedXep>
-        <xmpp:xep rdf:resource="https://xmpp.org/extensions/xep-0384.html" />
-        <xmpp:status>experimental</xmpp:status>
-        <xmpp:version>0.8.1</xmpp:version>
-      </xmpp:SupportedXep>
-    </implements>
-    <implements>
-      <xmpp:SupportedXep>
-        <xmpp:xep rdf:resource="https://xmpp.org/extensions/xep-0392.html" />
-        <xmpp:status>complete</xmpp:status>
-        <xmpp:version>0.5.0</xmpp:version>
-      </xmpp:SupportedXep>
-    </implements>
-    <implements>
-      <xmpp:SupportedXep>
-        <xmpp:xep rdf:resource="https://xmpp.org/extensions/xep-0420.html" />
-        <xmpp:status>complete</xmpp:status>
-        <xmpp:version>0.4.0</xmpp:version>
-      </xmpp:SupportedXep>
-    </implements>
+		<implements>
+			<xmpp:SupportedXep>
+				<xmpp:xep rdf:resource="https://xmpp.org/extensions/xep-0004.html" />
+				<xmpp:status>complete</xmpp:status>
+				<xmpp:version>2.10.0</xmpp:version>
+			</xmpp:SupportedXep>
+		</implements>
+		<implements>
+			<xmpp:SupportedXep>
+				<xmpp:xep rdf:resource="https://xmpp.org/extensions/xep-0030.html" />
+				<xmpp:status>complete</xmpp:status>
+				<xmpp:version>2.5rc3</xmpp:version>
+			</xmpp:SupportedXep>
+		</implements>
+		<implements>
+			<xmpp:SupportedXep>
+				<xmpp:xep rdf:resource="https://xmpp.org/extensions/xep-0045.html" />
+				<xmpp:status>complete</xmpp:status>
+				<xmpp:version>1.32.0</xmpp:version>
+			</xmpp:SupportedXep>
+		</implements>
+		<implements>
+			<xmpp:SupportedXep>
+				<xmpp:xep rdf:resource="https://xmpp.org/extensions/xep-0048.html" />
+				<xmpp:status>complete</xmpp:status>
+				<xmpp:version>1.32.0</xmpp:version>
+			</xmpp:SupportedXep>
+		</implements>
+		<implements>
+			<xmpp:SupportedXep>
+				<xmpp:xep rdf:resource="https://xmpp.org/extensions/xep-0060.html" />
+				<xmpp:status>complete</xmpp:status>
+				<xmpp:version>1.18.0</xmpp:version>
+			</xmpp:SupportedXep>
+		</implements>
+		<implements>
+			<xmpp:SupportedXep>
+				<xmpp:xep rdf:resource="https://xmpp.org/extensions/xep-0085.html" />
+				<xmpp:status>complete</xmpp:status>
+				<xmpp:version>2.1</xmpp:version>
+			</xmpp:SupportedXep>
+		</implements>
+		<implements>
+			<xmpp:SupportedXep>
+				<xmpp:xep rdf:resource="https://xmpp.org/extensions/xep-0163.html" />
+				<xmpp:status>complete</xmpp:status>
+				<xmpp:version>1.2.1</xmpp:version>
+			</xmpp:SupportedXep>
+		</implements>
+		<implements>
+			<xmpp:SupportedXep>
+				<xmpp:xep rdf:resource="https://xmpp.org/extensions/xep-0184.html" />
+				<xmpp:status>complete</xmpp:status>
+				<xmpp:version>1.4.0</xmpp:version>
+			</xmpp:SupportedXep>
+		</implements>
+		<implements>
+			<xmpp:SupportedXep>
+				<xmpp:xep rdf:resource="https://xmpp.org/extensions/xep-0199.html" />
+				<xmpp:status>complete</xmpp:status>
+				<xmpp:version>2.0.1</xmpp:version>
+			</xmpp:SupportedXep>
+		</implements>
+		<implements>
+			<xmpp:SupportedXep>
+				<xmpp:xep rdf:resource="https://xmpp.org/extensions/xep-0249.html" />
+				<xmpp:status>complete</xmpp:status>
+				<xmpp:version>1.2</xmpp:version>
+			</xmpp:SupportedXep>
+		</implements>
+		<implements>
+			<xmpp:SupportedXep>
+				<xmpp:xep rdf:resource="https://xmpp.org/extensions/xep-0280.html" />
+				<xmpp:status>complete</xmpp:status>
+				<xmpp:version>0.13.2</xmpp:version>
+			</xmpp:SupportedXep>
+		</implements>
+		<implements>
+			<xmpp:SupportedXep>
+				<xmpp:xep rdf:resource="https://xmpp.org/extensions/xep-0313.html" />
+				<xmpp:status>experimental</xmpp:status>
+				<xmpp:version>0.7.2</xmpp:version>
+			</xmpp:SupportedXep>
+		</implements>
+		<implements>
+			<xmpp:SupportedXep>
+				<xmpp:xep rdf:resource="https://xmpp.org/extensions/xep-0333.html" />
+				<xmpp:status>complete</xmpp:status>
+				<xmpp:version>0.4</xmpp:version>
+			</xmpp:SupportedXep>
+		</implements>
+		<implements>
+			<xmpp:SupportedXep>
+				<xmpp:xep rdf:resource="https://xmpp.org/extensions/xep-0334.html" />
+				<xmpp:status>complete</xmpp:status>
+				<xmpp:version>0.3.0</xmpp:version>
+			</xmpp:SupportedXep>
+		</implements>
+		<implements>
+			<xmpp:SupportedXep>
+				<xmpp:xep rdf:resource="https://xmpp.org/extensions/xep-0336.html" />
+				<xmpp:status>complete</xmpp:status>
+				<xmpp:version>0.2</xmpp:version>
+			</xmpp:SupportedXep>
+		</implements>
+		<implements>
+			<xmpp:SupportedXep>
+				<xmpp:xep rdf:resource="https://xmpp.org/extensions/xep-0357.html" />
+				<xmpp:status>complete</xmpp:status>
+				<xmpp:version>0.4.1</xmpp:version>
+			</xmpp:SupportedXep>
+		</implements>
+		<implements>
+			<xmpp:SupportedXep>
+				<xmpp:xep rdf:resource="https://xmpp.org/extensions/xep-0359.html" />
+				<xmpp:status>complete</xmpp:status>
+				<xmpp:version>0.6.0</xmpp:version>
+			</xmpp:SupportedXep>
+		</implements>
+		<implements>
+			<xmpp:SupportedXep>
+				<xmpp:xep rdf:resource="https://xmpp.org/extensions/xep-0363.html" />
+				<xmpp:status>partial</xmpp:status>
+				<xmpp:version>1.0.0</xmpp:version>
+				<xmpp:note>Only the upload portion right now.</xmpp:note>
+			</xmpp:SupportedXep>
+		</implements>
+		<implements>
+			<xmpp:SupportedXep>
+				<xmpp:xep rdf:resource="https://xmpp.org/extensions/xep-0384.html" />
+				<xmpp:status>experimental</xmpp:status>
+				<xmpp:version>0.8.1</xmpp:version>
+			</xmpp:SupportedXep>
+		</implements>
+		<implements>
+			<xmpp:SupportedXep>
+				<xmpp:xep rdf:resource="https://xmpp.org/extensions/xep-0392.html" />
+				<xmpp:status>complete</xmpp:status>
+				<xmpp:version>0.5.0</xmpp:version>
+			</xmpp:SupportedXep>
+		</implements>
+		<implements>
+			<xmpp:SupportedXep>
+				<xmpp:xep rdf:resource="https://xmpp.org/extensions/xep-0420.html" />
+				<xmpp:status>complete</xmpp:status>
+				<xmpp:version>0.4.0</xmpp:version>
+			</xmpp:SupportedXep>
+		</implements>
 
-    <maintainer>
-      <foaf:Person>
-        <foaf:name>Fabian Sauter</foaf:name>
-        <foaf:homepage rdf:resource="https://github.com/com8" />
-      </foaf:Person>
-    </maintainer>
+		<maintainer>
+			<foaf:Person>
+				<foaf:name>Fabian Sauter</foaf:name>
+				<foaf:homepage rdf:resource="https://github.com/com8" />
+			</foaf:Person>
+		</maintainer>
 
-    <release>
-      <Version>
-        <revision>v.0.40.1.0</revision>
-        <created>2022-02-06</created>
-        <file-release rdf:resource="https://github.com/UWPX/UWPX-Client/releases/download/v.0.40.1.0/UWPX-Installer.exe" />
-      </Version>
-    </release>
-  </Project>
+		<release>
+			<Version>
+				<revision>v.0.42.1.0</revision>
+				<created>2022-05-23</created>
+				<file-release rdf:resource="https://github.com/UWPX/UWPX-Client/releases/download/v.0.42.1.0/UWPX-Installer.exe" />
+			</Version>
+		</release>
+	</Project>
 </rdf:RDF>
