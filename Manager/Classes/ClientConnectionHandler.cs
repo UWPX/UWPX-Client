@@ -709,54 +709,82 @@ namespace Manager.Classes
 
         private void OnNewBookmarksResultMessage(XMPPClient xmppClient, NewBookmarksResultMessageEventArgs args)
         {
-            foreach (ConferenceItem ci in args.BOOKMARKS_MESSAGE.STORAGE.CONFERENCES)
+            try
             {
-                SemaLock semaLock = DataCache.INSTANCE.NewChatSemaLock();
-                ChatModel chat = DataCache.INSTANCE.GetChat(client.dbAccount.bareJid, ci.jid, semaLock);
-                bool newMuc = chat is null;
-                if (newMuc)
+                foreach (ConferenceItem ci in args.BOOKMARKS_MESSAGE.STORAGE.CONFERENCES)
                 {
-                    chat = new ChatModel(ci.jid, client.dbAccount)
+                    SemaLock semaLock = DataCache.INSTANCE.NewChatSemaLock();
+                    ChatModel chat = null;
+                    bool newMuc = false;
+                    try
                     {
-                        chatType = ChatType.MUC
-                    };
-                    chat.muc = new MucInfoModel(chat)
+                        chat = DataCache.INSTANCE.GetChat(client.dbAccount.bareJid, ci.jid, semaLock);
+                        newMuc = chat is null;
+                        if (newMuc)
+                        {
+                            chat = new ChatModel(ci.jid, client.dbAccount)
+                            {
+                                chatType = ChatType.MUC
+                            };
+                            chat.muc = new MucInfoModel(chat)
+                            {
+                                state = MucState.DISCONNECTED
+                            };
+                        }
+                        else
+                        {
+                            semaLock.Dispose();
+                        }
+                    }
+                    catch (Exception e)
                     {
-                        state = MucState.DISCONNECTED
-                    };
-                }
-                else
-                {
-                    semaLock.Dispose();
+                        Logger.Error("Failed to parse bookmarks with:", e);
+                        semaLock.Dispose();
+                        return;
+                    }
+
+
+                    try
+                    {
+                        // Update chat:
+                        chat.inRoster = true;
+                        chat.presence = Presence.Unavailable;
+                        chat.isChatActive = true;
+
+                        // Update MUC info:
+                        chat.muc.autoEnterRoom = ci.autoJoin;
+                        chat.muc.name = ci.name;
+                        chat.muc.nickname = ci.nick;
+                        chat.muc.password = ci.password;
+
+                        if (newMuc)
+                        {
+                            DataCache.INSTANCE.AddChatUnsafe(chat, client);
+                            semaLock.Dispose();
+                        }
+                        else
+                        {
+                            chat.Update();
+                        }
+
+                        // Enter MUC manually if the MUC is new for this client:
+                        if (newMuc && chat.muc.autoEnterRoom && !Settings.GetSettingBoolean(SettingsConsts.DISABLE_AUTO_JOIN_MUC))
+                        {
+                            Task.Run(() => MucHandler.INSTANCE.EnterMucAsync(xmppClient, chat.muc));
+                        }
+                    }
+                    catch (Exception e)
+                    {
+                        Logger.Error("Failed to properly store bookmarks with:", e);
+                    }
                 }
 
-                // Update chat:
-                chat.inRoster = true;
-                chat.presence = Presence.Unavailable;
-                chat.isChatActive = true;
-
-                // Update MUC info:
-                chat.muc.autoEnterRoom = ci.autoJoin;
-                chat.muc.name = ci.name;
-                chat.muc.nickname = ci.nick;
-                chat.muc.password = ci.password;
-
-                if (newMuc)
-                {
-                    DataCache.INSTANCE.AddChatUnsafe(chat, client);
-                    semaLock.Dispose();
-                }
-                else
-                {
-                    chat.Update();
-                }
-
-                // Enter MUC manually if the MUC is new for this client:
-                if (newMuc && chat.muc.autoEnterRoom && !Settings.GetSettingBoolean(SettingsConsts.DISABLE_AUTO_JOIN_MUC))
-                {
-                    Task.Run(() => MucHandler.INSTANCE.EnterMucAsync(xmppClient, chat.muc));
-                }
             }
+            catch (Exception e)
+            {
+                Logger.Error("Something went wrong processing received bookmarks:", e);
+            }
+
         }
 
         private void OnNewDeliveryReceipt(XMPPClient xmppClient, NewDeliveryReceiptEventArgs args)
