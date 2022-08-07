@@ -414,9 +414,23 @@ For more providers have a look at:
 You can disable this again by changing `Settings` -&gt; `Misc` -&gt; `Automatic extended crash reports` to false.</value>
   </data>
   <data name="WhatsNewDialog_markdown.Text" xml:space="preserve">
-    <value># [May 2022] Minor UI Improvements
+    <value># [August 2022] Final Update
 
-This release includes only a few minor changes, mostly related to the UI. The biggest one is that now messages from the same author, which arrive in quick succession will be grouped more closely to increase the overall message density in the chat window.
+With this update I will (for now?) step away from developing UWPX and move on. This has a couple of reasons, I'm trying to explain in the following:
+1. **I don't see a future in XMPP any more.** In my eyes the state of the protocol itself is "OK", but the state of clients is not. I started UWPX as a way to solve this but as a single developer I only have a limited amount of resources available. I decided to focus on the the Windows side of things and provide a modern looking and feeling **native** client for the whole Windows ecosystem. Back then, when Windows Phones were still a thing, this was a sensible decision in my eyes. But nowadays where we have de facto only iOS and Android phones, Windows Phones and apps written for those are not relevant any more. So I had to switch my phone and started using an iPhone. I always had problems with the clients there. So I thought about contributing to those, learning Swift and so on. **But** then the train hits you. You require a macOS device to develop for those platforms... Grrrrr... (No, I won't switch away from my Linux ThinkPad to a device, where I don't even can have a touch screen in 2022.)
+2. **Group Chats (MUC and MIX)** [MUC](https://xmpp.org/extensions/xep-0045.html) was never intended to support the needs of mobile devices in 2022. Push messages simply were no issues back then. Well, yes there are extensions for it and yes, there exists [MIX](https://xmpp.org/extensions/xep-0369.html) intended as a replacement for Multi-User Chat (MUC), but what would it change if I would implement support for it? Then my users would be abler to use it, but none of the mobile clients (Conversations, etc.) would support it? You see, there is the chicken and egg problem again 😁. I simply don't have the time and power for it any more!
+3. **The Windows side of things.** [UWP](https://docs.microsoft.com/en-us/windows/uwp/get-started/universal-application-platform-guide) (the Windows framework I'm using) is rather pleasant to use and provides really nice compatibility between PC, Xbox, HoloLens and so on. It was designed and marketed as the __last__ framework one would need for developing apps for Windows. Well now it is [officially deprecated](https://github.com/microsoft/WindowsAppSDK/discussions/1615) and will not receive any new features any more. Switching to the [Windows App SDK](https://docs.microsoft.com/en-us/windows/apps/windows-app-sdk/) would be possible, but requires rewriting large parts of the app (push, UI to WinUI3). Also I would not be able to publish UWPX for Xbox and HoloLens any more. I know small markets, but I like to use it there!
+4. **The state of libraries for UWP.** The fact that there are not really that many libraries for UWP lead to the fact that I had to implement most stuff by my self. Even crypto stuff for OMEMO which took me years to figure out completely! Yes, I know I'm not the smartest star on the sky in that regards, but I went through it, it was interesting but hard (for me at least). Also I had trouble finding a **good** DB package for UWP  [for years](https://github.com/UWPX/UWPX-Client/issues/55). Think about this, there was only one (buggy) package ([SQLite-net](https://github.com/praeclarum/sqlite-net)) available for creating DBs in UWP which sometimes even lost data (～￣▽￣)～. Finally MS stepped up and provided the [Entity Framework Core](https://docs.microsoft.com/en-us/ef/core/) for UWP. Which won't receive any more new features again since there was this whole deal with UWP being deprecated and so on...
+
+### And now?
+Well if **YOU** would like to continue maintain UWPX, please just send me a Mail (support@uwpx.org) or create an issue on [GitHub](https://github.com/UWPX/UWPX-Client/issues) so we can figure stuff out. In case no one wants to continue maintaining UWPX, I will archive the project on GitHub.
+
+I won't pull the app from the MS Store until there is some kind of breaking bug. This allows you to continue use it and redownload it.
+I will step away from UWPX and XMPP completely and who knows perhaps I will work on improving Signal in the future (Linux, C++ and GTK is my new ecosystem) 😁.
+
+### Thank You!
+Special thanks to all my supporters and donators over the years of development I spend on UWPX. Especially I would like to say thank you to @Echolon, who pushes the XMPP community to a better and brighter future!
+
 **Please report bugs [here](https://github.com/UWPX/UWPX-Client/issues)!**
 
 #### Want more up to date news?
@@ -428,10 +442,8 @@ Follow [@UWPX_APP](https://twitter.com/UWPX_APP) on ![Twitter](http://i.imgur.co
 * OMEMO Identity Key Signing does not match the Spec [#172](https://github.com/UWPX/UWPX-Client/issues/172)
 
 ### Changes
-* Increased message density for a lot of messages from the same author
-* Not showing your own OMEMO device in the OMEMO device list
-* Linear gradient form default account images
+* Updated NuGet dependencies
 
-**Continue reading on [GitHub](https://github.com/UWPX/UWPX-Client/releases/tag/v.0.42.0.0).**</value>
+**Continue reading on [GitHub](https://github.com/UWPX/UWPX-Client/releases/tag/v.0.43.0.0).**</value>
   </data>
 </root>
